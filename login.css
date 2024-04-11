@@ -1,0 +1,259 @@
+:root {
+    --primary: 237, 94%, 81%;
+    --background: 266, 16%, 92%;
+    --background-secondary: 256, 12%, 12%;
+    --background-secondary-dark: 256, 10%, 10%;
+    --background-secondary-light: 257, 11%, 16%;
+    --text-primary: 0, 0%, 0%;
+
+    /* misc */
+    --transition-main: .175, .685, .32;
+
+}
+
+/* ===============
+Global Styles
+=============== */
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+html {
+    margin: 0;
+    width: 100%;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+
+/* =======
+Forms
+======= */
+
+input {
+    font-size: var(--paragraph);
+    background-color: #dfe3ec;
+    border: 9px solid #bfc5d3;
+    outline: none;
+}
+
+input,
+textarea {
+    transition: all .2s ease-in-out;
+}
+
+input:hover,
+input:focus,
+textarea:hover,
+textarea:focus {
+    box-shadow:
+        0 0 0 2px #bfc5d3;
+    border: 2px solid transparent;
+}
+
+/* =========
+Flexbox
+========= */
+
+.flexbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexbox-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flexbox-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Columns */
+.flexbox-col {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flexbox-col-left {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.flexbox-col-left-ns {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.flexbox-col-right {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.flexbox-col-start-center {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Spacings */
+.flexbox-space-bet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* =========
+Classes
+========= */
+
+.view-width {
+    width: 70%;
+}
+
+/* =========
+Scrollbar
+========= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #0071B0;
+}
+
+/* ==============
+Main Button
+============== */
+
+.button-3 {
+    appearance: none;
+    background-color: #2ea44f;
+    border: 1px solid rgba(27, 31, 35, .15);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 6px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.button-3:focus:not(:focus-visible):not(.focus-visible) {
+    box-shadow: none;
+    outline: none;
+}
+
+.button-3:hover {
+    background-color: #2c974b;
+}
+
+.button-3:focus {
+    box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+    outline: none;
+}
+
+.button-3:disabled {
+    background-color: #94d3a2;
+    border-color: rgba(27, 31, 35, .1);
+    color: rgba(255, 255, 255, .8);
+    cursor: default;
+}
+
+.button-3:active {
+    background-color: #298e46;
+    box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.login-container {
+    background-color: rgb(243, 243, 243);
+    border-radius: 1.25rem;
+    /*20px/16px=1.25rem*/
+    padding: 2.5rem;
+    /*4rem/16px=2.5rem*/
+    box-shadow: 0.4375rem 0.4375rem rgba(0, 0, 0, 0.151);
+    /*7px/16px=0.4375rem*/
+}
+
+.max-w-sm {
+    max-width: 24rem;
+}
+
+.mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+.text-3xl {
+    font-family: Calibri, sans-serif;
+    font-size: 2.8125rem;
+    /* 45px / 16px = 2.8125rem */
+}
+
+.w-full {
+    width: 100%;
+}
+
+.px-3 {
+    padding-left: 0.75rem;
+    /* 12px / 16px = 0.75rem */
+    padding-right: 0.75rem;
+}
+
+    .py-2 {
+        padding-top: 0.5rem;
+        /* 8px / 16px = 0.5rem */
+        padding-bottom: 0.5rem;
+    }
+
+.border {
+    border-width: 1px;
+}
+
+.rounded-md {
+    border-radius: 10px;
+}
