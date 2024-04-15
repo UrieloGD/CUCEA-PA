@@ -8,6 +8,11 @@
     transition: width .35s cubic-bezier(var(--transition-main), 1);
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    -moz-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    -ms-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    -o-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    z-index: 1000;
 }
 
 #navbar:hover {
