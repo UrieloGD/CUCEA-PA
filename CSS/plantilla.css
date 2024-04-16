@@ -1,0 +1,369 @@
+* {
+    font-family: 'Dm Sans', sans-serif;
+}
+
+body {
+    margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
+    background-color: #E7E9F2;
+}
+
+/* Botón de descarga */
+.button-65 {
+    appearance: none;
+    backface-visibility: hidden;
+    background-color: #0071B0;
+    border-radius: 15px;
+    border-style: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 500;
+    height: 50px;
+    letter-spacing: normal;
+    line-height: 1;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+  
+  .button-65:hover {
+    background-color: #0e81be;
+    box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+  }
+  
+  .button-65:hover:after {
+    opacity: .5;
+  }
+  
+  .button-65:active {
+    box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
+    transform: translateY(2px);
+    transition-duration: .35s;
+  }
+  
+  .button-65:active:after {
+    opacity: 1;
+  }
+  
+  @media (min-width: 768px) {
+    .button-65 {
+      padding: 14px 22px;
+      width: 176px;
+    }
+  }
+
+  /* Botón de subida */
+
+  .button-66 {
+    appearance: none;
+    backface-visibility: hidden;
+    background-color: #B3D3EB;
+    border-radius: 20px;
+    border-style: none;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #0071B0;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 500;
+    height: 50px;
+    width: auto;
+    letter-spacing: normal;
+    line-height: 1;
+    outline: none;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transform: translate3d(0, 0, 0);
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+  
+  .button-66:hover {
+    background-color: #c5def1;
+    box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+    opacity: 1;
+    transform: translateY(0);
+    transition-duration: .35s;
+  }
+  
+  .button-66:hover:after {
+    opacity: .5;
+  }
+  
+  .button-66:active {
+    box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
+    transform: translateY(2px);
+    transition-duration: .35s;
+  }
+  
+  .button-66:active:after {
+    opacity: 1;
+  }
+  
+  @media (min-width: 768px) {
+    .button-66 {
+      padding: 14px 22px;
+      width: auto;
+    }
+  }
+
+/* CSS header */
+
+.container {
+    display: flex;
+    flex-direction: column; /* Apilamos los elementos verticalmente */
+    
+}
+
+.header {
+    display: flex;
+   /* border: solid 1px; */
+    background-color: white;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    border-radius: 0px 0px 10px 10px;
+    -webkit-border-radius: 0px 0px 10px 10px;
+    -moz-border-radius: 0px 0px 10px 10px;
+    -ms-border-radius: 0px 0px 10px 10px;
+    -o-border-radius: 0px 0px 10px 10px;
+}
+
+.titulo {
+    width: 40vw;
+    margin-left: 2vw;
+    /* background-color: aqua; */
+    /* border: solid 1px; */
+}
+
+.rol { 
+    margin-right: 2vw;
+    width: 45vw;
+    text-align: right;
+    /* background-color: aliceblue; */
+    /* border: solid 1px;*/
+}
+
+.icono-notificaciones {
+    display: flex;
+    /* border: solid 1px; */
+    align-items: center;
+    justify-content: center;
+}
+
+/* CSS del cuadro principal */
+
+.home {
+    /* border: solid 1px; */
+    background-color: white;
+    border-radius: 10px;
+    width: 89vw;
+    height: 120vh;
+   /*margin: 2vw;*/
+   margin-left: 6vw;
+   margin-right: 2vw;
+   margin-top: 2vh;
+    align-self: flex-end;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.bienvenida {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* border: solid 1px; */
+    height: 7vh;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.bienvenida p{
+    font-size: large;
+}
+
+.cuadros-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 10px;
+    border-radius: 1px;
+    /*border: solid 1px;
+    */border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -ms-border-radius: 1px;
+    -o-border-radius: 1px;
+}
+
+.cuadro-ind {
+    position: relative;
+    margin: 5px;
+    flex-grow: 1;
+    max-width: 100%; /* Ajustar al tamaño máximo del contenedor */
+    overflow: hidden; /* Asegura que la imagen no se desborde del contenedor */
+    display: flex; /* Alinea los elementos hijos horizontal y verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -ms-border-radius: 1px;
+    -o-border-radius: 1px;
+}
+
+.cuadro-ind img {
+    width: 100%;
+    max-height: 100%;
+    border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -ms-border-radius: 1px;
+    -o-border-radius: 1px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    background-color: rgba(92, 92, 92, 0.5);
+    z-index: 1;
+    border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -ms-border-radius: 1px;
+    -o-border-radius: 1px;
+}
+
+.overlay h4 {
+    margin: 0;
+    color: white; /* Cambiar color a blanco */
+    font-weight: bold; /* Hacer el texto en negrita */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Efecto de sombreado */
+}
+
+.overlay img {
+    max-width: 100%; /* Ajustar al tamaño máximo del contenedor */
+    max-height: 100%; /* Ajustar al tamaño máximo del contenedor */
+    object-fit: cover; /* Asegura que la imagen cubra completamente el contenedor */
+    z-index: -1; /* Envía la imagen detrás del overlay */
+    border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    -ms-border-radius: 1px;
+    -o-border-radius: 1px;
+}
+
+/* Contenedor de Progreso y Siguientes Eventos */
+.container-peso {
+    height: 7vh;
+    border: solid 1px;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: center; /* Centra los divs horizontalmente */
+    align-content: center;
+    align-items: center;
+    background-color: #0071B0;
+    color: #ffff;
+}
+
+.container-inf {
+    display: flex;
+    flex-direction: column; 
+    height: auto;
+    border: solid 1px; 
+    margin: 10px;
+    padding: 10px;
+    justify-content: center; /* Centra los divs horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+
+}
+
+.container-inf button {
+    margin-bottom: 15px; /* Agrega un margen inferior al botón */
+}
+
+.container-inf-int {
+    display: flex;
+    flex-direction: column; 
+    height: auto;
+    width: 80%;
+    border: dashed 2px;
+    margin: 40px;
+    padding: 30px;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+}
+
+.container-inf-int p {
+    margin-bottom: 10px; /* Agrega un margen inferior al texto */
+    font-size:x-large;
+}
+
+.container-inf-int button {
+    margin-top: 15px; /* Agrega un margen superior al botón */
+}
+
+.container-inf-dos {
+    display: flex;
+    flex-direction: column; 
+    height: auto;
+    /* border: solid 1px; */
+    margin: 10px;
+    padding: 10px;
+    justify-content: center; /* Centra los divs horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+
+}
+
+.container-inf-dos button {
+    margin-bottom: 15px; /* Agrega un margen inferior al botón */
+}
+
+.hr{
+    border-top: #00659B solid;
+    margin: 10px;
+    padding: 10px;
+}
