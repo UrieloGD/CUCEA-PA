@@ -4,7 +4,7 @@
     width: 5em;
     height: 100vh;
     position: fixed;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     transition: width .35s cubic-bezier(var(--transition-main), 1);
     overflow-y: auto;
     overflow-x: hidden;
@@ -13,33 +13,36 @@
     -ms-transition: width .35s cubic-bezier(var(--transition-main), 1);
     -o-transition: width .35s cubic-bezier(var(--transition-main), 1);
     z-index: 1000;
+    border-radius: 0px 20px 20px 0px;
+    -webkit-border-radius: 0px 20px 20px 0px;
+    -moz-border-radius: 0px 20px 20px 0px;
+    -ms-border-radius: 0px 20px 20px 0px;
+    -o-border-radius: 0px 20px 20px 0px;
 }
 
 #navbar:hover {
     width: 16em;
+    border: solid 5px #E7E9F2;
+    margin-left: -5px;
+    margin-top: -5px;
 }
 
 #navbar:hover .navbar-logo img {
-    content: url(../Img/LogoQCA.png);
-    width: 220px;
+    content: url(../Img/CUCEA-LOGO.png);
+    width: 250px;
     height: 60px;
 }
 
 .navbar-logo-container {
     width: 60px;
-    /* Ajusta este valor según el ancho de tu imagen */
     height: 80px;
-    /* Ajusta este valor según la altura de tu imagen */
     overflow: hidden;
     transition: all 0.3s ease;
-    /* Agrega una transición suave de 0.3 segundos */
 }
 
 #navbar:hover .navbar-logo-container {
     width: 200px;
-    /* Ajusta este valor según el ancho que deseas para la nueva imagen */
     height: 100px;
-    /* Ajusta este valor según la altura que deseas para la nueva imagen */
 }
 
 #navbar::-webkit-scrollbar-track {
@@ -66,7 +69,7 @@
     margin: 10 0 2em 0;
     width: 100%;
     height: 7em;
-    background: white;
+    background: rgb(255, 255, 255);
 }
 
 .navbar-logo>.navbar-item-inner {
@@ -88,14 +91,19 @@
     padding: 1em 0;
     width: 100%;
     position: relative;
-    color: white;
+    color: rgb(255, 255, 255);
     text-decoration: none;
     transition: all .2s cubic-bezier(var(--transition-main), 1);
 }
 
 .navbar-item-inner:hover {
     color: hsl(var(--white));
-    background: #012e91
+    background: #0071b0;
+    transform:scale(102%);
+    -webkit-transform:scale(102%);
+    -moz-transform:scale(102%);
+    -ms-transform:scale(102%);
+    -o-transform:scale(102%);
 }
 
 .navbar-item-inner-icon-wrapper {
@@ -116,7 +124,7 @@
     transition: all .35s cubic-bezier(var(--transition-main), 1);
     overflow: hidden;
     opacity: 0;
-    color: white;
+    color: #0071b0;
 }
 
 #navbar:hover .link-text {
@@ -124,17 +132,25 @@
     opacity: 1;
 }
 
+.icono-home{
+    content: url(../Icons/Home.png);
+    width: 220px;
+    height: 60px;
+}
+
 .navbar-profile-icon {
     width: 5rem;
-    /* 80px / 16px = 5rem */
-    height: 5rem;
+    /*80px/16px=5rem*/height: 5rem;
     border-radius: 50%;
     overflow: hidden;
     position: absolute;
     bottom: 5%;
-    /* Ajusta este valor según tus necesidades */
-    left: 50%;
+    /*Ajustaestevalorsegúntusnecesidades*/left: 50%;
     transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
 }
 
 .navbar-profile-icon img {
@@ -159,7 +175,7 @@
     width: 5.625rem;
     /* 90px / 16px = 5.625rem */
     height: 5.625rem;
-    bottom: 1%;
+    bottom: 5%;
     /* Ajusta este valor según tus necesidades */
 }
 
@@ -194,49 +210,6 @@
 
 }
 
-/* ===============
-Global Styles
-=============== */
-
-*,
-*::before,
-*::after {
-    box-sizing: inherit;
-}
-
-html {
-    margin: 0;
-    width: 100%;
-    scroll-behavior: smooth;
-    box-sizing: border-box;
-}
-
-
-/* =======
-Forms
-======= */
-
-input {
-    font-size: var(--paragraph);
-    background-color: #dfe3ec;
-    border: 9px solid #bfc5d3;
-    outline: none;
-}
-
-input,
-textarea {
-    transition: all .2s ease-in-out;
-}
-
-input:hover,
-input:focus,
-textarea:hover,
-textarea:focus {
-    box-shadow:
-        0 0 0 2px #bfc5d3;
-    border: 2px solid transparent;
-}
-
 /* =========
 Flexbox
 ========= */
@@ -259,56 +232,27 @@ Flexbox
     align-items: center;
 }
 
-/* Columns */
-.flexbox-col {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-}
-
-.flexbox-col-left {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.flexbox-col-left-ns {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.flexbox-col-right {
-    display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    align-items: flex-end;
-}
-
-.flexbox-col-start-center {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Spacings */
-.flexbox-space-bet {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.items-center {
-    align-items: center;
-}
-
 hr {
     margin-top: 0px; /* justa el margen superior del hr */
     border: none; /* Elimina el borde del hr */
-    border-top: 1px solid rgb(255, 255, 255); /* Agrega un borde superior de 1px sólido */
+    border-top: 2px solid #0071b0; /* Agrega un borde superior de 1px sólido */
     width: 90%; /* Ajusta el ancho al 100% */
+}
+
+/* Cambio de color en el texto y el icono al pasar el mouse sobre las opciones */
+.navbar-item-inner:hover .link-text,
+.navbar-item-inner:hover .navbar-item-inner-icon-wrapper img {
+    color: #fff; /* Cambia el color del texto a blanco */
+}
+
+.navbar-item-inner-icon-wrapper .hover-icon {
+    display: none; /* Oculta el icono de hover por defecto */
+}
+
+.navbar-item-inner:hover .original-icon {
+    display: none; /* Oculta el icono original cuando se activa el hover */
+}
+
+.navbar-item-inner:hover .hover-icon {
+    display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
 }
