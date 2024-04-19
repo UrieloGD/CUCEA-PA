@@ -256,3 +256,23 @@ hr {
 .navbar-item-inner:hover .hover-icon {
     display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
 }
+
+.logout-item {
+    margin-top: auto; /* Empuja el elemento hacia abajo */
+}
+
+.logout-button {
+    font-family: 'Kanit', sans-serif; /* Utiliza la misma fuente que el resto del navbar */
+    font-size: 16px; /* Ajusta el tamaño de fuente según tus preferencias */
+    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
+    background-color: #3b7acc; /* Establece un color de fondo rojo */
+    color: #fff; /* Establece el color del texto en blanco */
+    border: none; /* Elimina el borde del botón */
+    border-radius: 4px; /* Agrega un borde redondeado */
+    cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre el botón */
+    transition: background-color 0.3s ease; /* Agrega una transición suave al cambiar el color de fondo */
+}
+
+.logout-button:hover {
+    background-color: #1f4d91; /* Cambia el color de fondo cuando se pasa sobre el botón */
+}
