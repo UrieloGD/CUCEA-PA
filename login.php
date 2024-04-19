@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,13 +40,13 @@
               <br>
 
               <div class="space-y-2">
-                <label class="text-sm font-medium" for="nip">NIP</label>
-                <input class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200" id="nip" placeholder="•••••••••" required type="password" name="nip">
+                <label class="text-sm font-medium" for="pass">Contraseña</label>
+                <input class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-indigo-200" id="pass" placeholder="•••••••••" required type="password" name="pass">
               </div>
             </div>
             <br />
             <div class="text-center">
-              <a class="text-sm-nip text-blue-500 hover:underline" href="#">Recuperar NIP.</a>
+              <a class="text-sm-nip text-blue-500 hover:underline" href="#">Recuperar contraseña.</a>
             </div>
             <br />
             <div class="text-center">
