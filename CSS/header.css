@@ -1,0 +1,51 @@
+
+/* CSS header y background del body y generales*/
+
+* {
+    font-family: 'Dm Sans', sans-serif;
+}
+
+body {
+    margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
+    background-color: #E7E9F2;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Apilamos los elementos verticalmente */
+}
+
+.header {
+    display: flex;
+    /* border: solid 1px; */
+    background-color: white;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    border-radius: 0px 0px 10px 10px;
+    -webkit-border-radius: 0px 0px 10px 10px;
+    -moz-border-radius: 0px 0px 10px 10px;
+    -ms-border-radius: 0px 0px 10px 10px;
+    -o-border-radius: 0px 0px 10px 10px;
+}
+
+.titulo {
+    width: 40vw;
+    margin-left: 2vw;
+    /* background-color: aqua; */
+    /* border: solid 1px; */
+}
+
+.rol { 
+    margin-right: 2vw;
+    width: 45vw;
+    text-align: right;
+    /* background-color: aliceblue; */
+    /* border: solid 1px;*/
+}
+
+.icono-notificaciones {
+    display: flex;
+    /* border: solid 1px; */
+    align-items: center;
+    justify-content: center;
+}

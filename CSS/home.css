@@ -1,71 +1,20 @@
-* {
-    font-family: 'Dm Sans', sans-serif;
-}
-
-body {
-    margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
-    background-color: #E7E9F2;
-}
-
-/* CSS header */
-
-.container {
-    display: flex;
-    flex-direction: column; /* Apilamos los elementos verticalmente */
-}
-
-.header {
-    display: flex;
-    /* border: solid 1px; */
-    background-color: white;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    border-radius: 0px 0px 10px 10px;
-    -webkit-border-radius: 0px 0px 10px 10px;
-    -moz-border-radius: 0px 0px 10px 10px;
-    -ms-border-radius: 0px 0px 10px 10px;
-    -o-border-radius: 0px 0px 10px 10px;
-}
-
-.titulo {
-    width: 40vw;
-    margin-left: 2vw;
-    /* background-color: aqua; */
-    /* border: solid 1px; */
-}
-
-.rol { 
-    margin-right: 2vw;
-    width: 45vw;
-    text-align: right;
-    /* background-color: aliceblue; */
-    /* border: solid 1px;*/
-}
-
-.icono-notificaciones {
-    display: flex;
-    /* border: solid 1px; */
-    align-items: center;
-    justify-content: center;
-}
-
 /* CSS del cuadro principal */
 
 .home {
-    /*border: solid black 1px;*/
-    background-color: white;
-    border-radius: 10px;
+    /*border: solid black 1px;
+    */background-color: white;
     width: 92vw;
     height: 85vh;
-    /* margin: 2vw; */
-    margin-left: 6vw;
+    /*margin: 2vw;
+    */margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 2vh;
     align-self: flex-end;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
 .bienvenida {
@@ -73,13 +22,14 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    /*border: solid 1px;*/
     height: 10vh;
-    border-radius: 10px;
-    -webkit-border-radius: 10px 0px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    border-radius: 20px 20px 0px 0px;
+    background-color: #0071B0;
+    color: #fff;
+    -webkit-border-radius: 20px 20px 0px 0px;
+    -moz-border-radius: 20px 20px 0px 0px;
+    -ms-border-radius: 20px 20px 0px 0px;
+    -o-border-radius: 20px 20px 0px 0px;
 }
 
 .cuadros-nav {

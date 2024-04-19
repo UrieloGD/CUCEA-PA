@@ -4,7 +4,7 @@
     width: 5em;
     height: 100vh;
     position: fixed;
-    background-color: rgb(255, 255, 255);
+    background-color:  #0071B0;
     transition: width .35s cubic-bezier(var(--transition-main), 1);
     overflow-y: auto;
     overflow-x: hidden;
@@ -28,9 +28,9 @@
 }
 
 #navbar:hover .navbar-logo img {
-    content: url(../Img/CUCEA-LOGO.png);
-    width: 250px;
-    height: 60px;
+    content: url(../Img/LogoQCA.png);
+    width: 85%;
+    height: 55px;
 }
 
 .navbar-logo-container {
@@ -69,7 +69,7 @@
     margin: 10 0 2em 0;
     width: 100%;
     height: 7em;
-    background: rgb(255, 255, 255);
+    background:  #0071B0;
 }
 
 .navbar-logo>.navbar-item-inner {
@@ -91,14 +91,14 @@
     padding: 1em 0;
     width: 100%;
     position: relative;
-    color: rgb(255, 255, 255);
+    color:  #0071B0(255, 255, 255);
     text-decoration: none;
     transition: all .2s cubic-bezier(var(--transition-main), 1);
 }
 
 .navbar-item-inner:hover {
     color: hsl(var(--white));
-    background: #0071b0;
+    background: #fff;
     transform:scale(102%);
     -webkit-transform:scale(102%);
     -moz-transform:scale(102%);
@@ -124,7 +124,7 @@
     transition: all .35s cubic-bezier(var(--transition-main), 1);
     overflow: hidden;
     opacity: 0;
-    color: #0071b0;
+    color: #fff;
 }
 
 #navbar:hover .link-text {
@@ -182,7 +182,7 @@
 .profile-menu {
     display: none;
     position: absolute;
-    background-color: #ffff;
+    background-color:  #0071B0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 5px;
@@ -235,14 +235,14 @@ Flexbox
 hr {
     margin-top: 0px; /* justa el margen superior del hr */
     border: none; /* Elimina el borde del hr */
-    border-top: 2px solid #0071b0; /* Agrega un borde superior de 1px sólido */
+    border-top: 2px solid #fff; /* Agrega un borde superior de 1px sólido */
     width: 90%; /* Ajusta el ancho al 100% */
 }
 
 /* Cambio de color en el texto y el icono al pasar el mouse sobre las opciones */
 .navbar-item-inner:hover .link-text,
 .navbar-item-inner:hover .navbar-item-inner-icon-wrapper img {
-    color: #fff; /* Cambia el color del texto a blanco */
+    color: #0071B0; /* Cambia el color del texto a blanco */
 }
 
 .navbar-item-inner-icon-wrapper .hover-icon {

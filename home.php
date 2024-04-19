@@ -1,50 +1,14 @@
-<?php
-// Incluir el archivo de conexión a la base de datos
-require_once './config/db.php';
-
-// Obtener el correo electrónico del usuario loggeado desde la sesión
-session_start();
-
-$correo_usuario = $_SESSION['email'];
-
-// Consulta SQL para obtener el nombre del usuario loggeado
-$sql = "SELECT Nombre, rol FROM usuarios WHERE Correo = '$correo_usuario'";
-$result = $conexion->query($sql);
-
-// Verificar si se obtuvo un resultado
-if ($result->num_rows > 0) {
-  $row = $result->fetch_assoc();
-  $nombre = $row['Nombre'];
-  $rol = $row['rol'];
-} else {
-  $nombre = 'Nombre no disponible';
-  $rol = 'Rol no disponible';
-}
-?>
-
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home PA</title>
-  <link rel="stylesheet" href="./CSS/home.css" />
-  <link rel="stylesheet" href="./CSS/navbar.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-">
-  </link>
-</head>
-</head>
-
-<body>
-  <!-- navbar -->
-
-  <?php include './template/navbar.html'?>
-
   <!--header -->
 
-  <?php include './template/header.html'?>
+  <?php include './template/header.php'?>
+
+  <!-- navbar -->
+
+  <?php include './template/navbar.php'?>
+
+
+  <!-- css del home -->
+  <link rel="stylesheet" href="./CSS/home.css" />
 
     <!--Cuadro principal del home-->
     <div class="home">
@@ -148,7 +112,4 @@ if ($result->num_rows > 0) {
         </div>
       </div>
     </div>
-  </div>
-</body>
-
-</html>
+  <?php include './template/footer.php'?>
