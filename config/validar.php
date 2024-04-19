@@ -1,12 +1,12 @@
 <?php
 $email = $_POST['email'];
-$nip = $_POST['nip'];
+$pass = $_POST['pass'];
 session_start();
 $_SESSION['email'] = $email;
 
 $conexion = mysqli_connect("localhost", "root", "", "pa");
 
-$consulta = "SELECT*FROM usuarios where Correo='$email' and nip='$nip'";
+$consulta = "SELECT*FROM usuarios where Correo='$email' and pass='$pass'";
 $resultado = mysqli_query($conexion, $consulta);
 
 $filas = mysqli_num_rows($resultado);
@@ -16,7 +16,7 @@ if ($filas) {
 } else {
 ?>
     <?php
-    include("login-modular.php");
+    include("login.php");
     ?>
     <script>
         alert("Error de autenticación")

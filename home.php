@@ -1,16 +1,24 @@
-<?php // Incluir el archivo de conexión a la base de datos
-require_once './db.php';
+<?php
+// Incluir el archivo de conexión a la base de datos
+require_once './config/db.php';
 
-// Consulta SQL para obtener el correo
-$sql = "SELECT correo FROM usuarios LIMIT 1";
+// Obtener el correo electrónico del usuario loggeado desde la sesión
+session_start();
+
+$correo_usuario = $_SESSION['email'];
+
+// Consulta SQL para obtener el nombre del usuario loggeado
+$sql = "SELECT Nombre, rol FROM usuarios WHERE Correo = '$correo_usuario'";
 $result = $conexion->query($sql);
 
 // Verificar si se obtuvo un resultado
 if ($result->num_rows > 0) {
   $row = $result->fetch_assoc();
-  $correo = $row['correo'];
+  $nombre = $row['Nombre'];
+  $rol = $row['rol'];
 } else {
-  $correo = 'Correo no disponible';
+  $nombre = 'Nombre no disponible';
+  $rol = 'Rol no disponible';
 }
 ?>
 
@@ -30,103 +38,19 @@ if ($result->num_rows > 0) {
 </head>
 
 <body>
-  <!-- Ejemplo de navbar -->
+  <!-- navbar -->
 
-  <nav id="navbar">
-    <ul class="navbar-items flexbox-col">
-      <li class="navbar-logo flexbox-left">
-        <a class="navbar-item-inner flexbox" href="#">
-          <img src="./Img/UDG+.png" width="60" height="80" alt="Logo-UDG">
-        </a>
-      </li>
-      <hr>
-      <li class="navbar-item flexbox-left">
-        <a class="navbar-item-inner flexbox-left" href="#">
-          <div class="navbar-item-inner-icon-wrapper flexbox ">
-            <img src="./Icons/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="original-icon">
-            <img src="./Icons/iconos-blancos/icono-home-b.png" width="50%" height="50%" alt="icono-home-hover" class="hover-icon">
-          </div>
-          <span class="link-text">Inicio</span>
-        </a>
-      </li>
-      <li class="navbar-item flexbox-left">
-        <a class="navbar-item-inner flexbox-left" href="#">
-          <div class="navbar-item-inner-icon-wrapper flexbox">
-            <img src="./Icons/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="original-icon">
-            <img src="./Icons/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="hover-icon">
-          </div>
-          <span class="link-text">Registro</span>
-        </a>
-      </li>
-      <li class="navbar-item flexbox-left">
-        <a class="navbar-item-inner flexbox-left" href="#">
-          <div class="navbar-item-inner-icon-wrapper flexbox">
-            <img src="./Icons/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="original-icon">
-            <img src="./Icons/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="hover-icon">
-          </div>
-          <span class="link-text">Oferta</span>
-        </a>
-      </li>
-      <li class="navbar-item flexbox-left">
-        <a class="navbar-item-inner flexbox-left" href="#">
-          <div class="navbar-item-inner-icon-wrapper flexbox">
-            <img src="./Icons/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="original-icon">
-            <img src="./Icons/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="hover-icon">
-          </div>
-          <span class="link-text">Espacios</span>
-        </a>
-      </li>
-      <li class="navbar-item flexbox-left">
-        <a class="navbar-item-inner flexbox-left" href="#">
-          <div class="navbar-item-inner-icon-wrapper flexbox">
-            <img src="./Icons/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
-            <img src="./Icons/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="hover-icon">
-          </div>
-          <span class="link-text">Plantilla</span>
-        </a>
-      </li>
-      <li class="navbar-item flexbox-left">
-        <a class="navbar-item-inner flexbox-left" href="#">
-          <div class="navbar-item-inner-icon-wrapper flexbox">
-            <img src="./Icons/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="original-icon">
-            <img src="./Icons/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-home-hover" class="hover-icon">
-          </div>
-          <span class="link-text">Guía</span>
-        </a>
-      </li>
+  <?php include './template/navbar.html'?>
 
-      <li class="navbar-item flexbox-left">
-        <a href="#">
-          <div class="navbar-profile-icon flexbox profile-icon-transition">
-            <img src="./Icons/iconos-azules/icono=perfil.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
-          </div>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <!--header -->
 
-  <!--Inicio del header-->
-  <div class="container">
-    <div class="header">
-      <div class="titulo">
-        <h3>Programación Académica</h3>
-      </div>
-      <div class="rol">
-        <h3>Jefe de Departamento</h3>
-      </div>
-      <li class="icono-notificaciones">
-        <a href="#">
-          <i class="fas fa-bell" style="font-size: 28px; color: black   ;"></i>
-        </a>
-      </li>
-    </div>
-    <!-- <hr style="margin-left: 10vw; margin-right: 2vw" /> -->
-    <!-- Fin del  header-->
+  <?php include './template/header.html'?>
+
     <!--Cuadro principal del home-->
     <div class="home">
       <!--Cuadro de bienvenida-->
       <div class="bienvenida">
-        <h2>Bienvenid@ <?php echo $correo; ?></h2>
+        <h2>Bienvenid@ <?php echo $nombre; ?></h2>
       </div>
       <!--Cuadros de navegación-->
       <div class="cuadros-nav">
