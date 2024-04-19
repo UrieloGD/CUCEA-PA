@@ -18,7 +18,7 @@
 </style>
 
 <body>
-  <form action="validar.php" method="post">
+  <form action="./config/validar.php" method="post">
 
     <div class="flex items-center min-h-screen px-4">
       <div class="w-full max-w-sm mx-auto">
