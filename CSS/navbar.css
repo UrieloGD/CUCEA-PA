@@ -8,6 +8,9 @@
     transition: width .35s cubic-bezier(var(--transition-main), 1);
     overflow-y: auto;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     -webkit-transition: width .35s cubic-bezier(var(--transition-main), 1);
     -moz-transition: width .35s cubic-bezier(var(--transition-main), 1);
     -ms-transition: width .35s cubic-bezier(var(--transition-main), 1);
@@ -59,9 +62,11 @@
 }
 
 .navbar-items {
+    flex-grow: 1;
     margin: 0;
     padding: 0;
     list-style-type: none;
+    position: relative; /* Agrega esta línea para posicionar elementos hijos relativamente */
 }
 
 /* Navbar Logo */
@@ -140,12 +145,12 @@
 
 .navbar-profile-icon {
     width: 5rem;
-    /*80px/16px=5rem*/height: 5rem;
+    height: 5rem;
     border-radius: 50%;
     overflow: hidden;
     position: absolute;
     bottom: 5%;
-    /*Ajustaestevalorsegúntusnecesidades*/left: 50%;
+    left: 50%;
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
@@ -161,7 +166,7 @@
 
 .profile-icon-transition {
     width: 3.125rem;
-    /*50px/16px=3.125rem*/height: 3.125rem;
+    height: 3.125rem;
     border-radius: 50%;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -169,6 +174,7 @@
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+    margin-bottom: 20%;
 }
 
 #navbar:hover .profile-icon-transition {
@@ -257,22 +263,62 @@ hr {
     display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
 }
 
+/* Boton de cerrar sesion */
+
+.logout-container {
+    position: absolute;
+    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el botón horizontalmente */
+}
+
 .logout-item {
     margin-top: auto; /* Empuja el elemento hacia abajo */
 }
 
 .logout-button {
-    font-family: 'Kanit', sans-serif; /* Utiliza la misma fuente que el resto del navbar */
-    font-size: 16px; /* Ajusta el tamaño de fuente según tus preferencias */
-    padding: 8px 16px; /* Ajusta el espaciado interno del botón */
-    background-color: #3b7acc; /* Establece un color de fondo rojo */
-    color: #fff; /* Establece el color del texto en blanco */
-    border: none; /* Elimina el borde del botón */
-    border-radius: 4px; /* Agrega un borde redondeado */
-    cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre el botón */
-    transition: background-color 0.3s ease; /* Agrega una transición suave al cambiar el color de fondo */
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    padding: 8px 16px;
+    background-color: #0071B0;
+    color: #fff;
+    border: 2px solid #0071B0;
+    border-radius: 5px;
+    border: #fff solid 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+* a {
+    text-decoration: none;
 }
 
 .logout-button:hover {
-    background-color: #1f4d91; /* Cambia el color de fondo cuando se pasa sobre el botón */
+    background-color: #fff; /* Cambia el color de fondo cuando se pasa sobre el botón */
+    color: #0071B0; /* Cambia el color del texto cuando se pasa sobre el botón */
+    border-color: #0071B0; /* Cambia el color del borde cuando se pasa sobre el botón */
+}
+
+.logout-container {
+    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+}
+
+#navbar:hover .logout-container {
+    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
+}
+
+.logout-container {
+    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+    margin-bottom: 2vh; /* Agrega un margen superior de 2vh */
+}
+
+#navbar:hover .logout-container {
+    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
