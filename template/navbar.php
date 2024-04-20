@@ -83,15 +83,15 @@ include './config/sesiones.php';
                 </a>
             </li>
 
-            <li class="navbar-item flexbox-left">
-                <a href="#">
-                    <div class="navbar-profile-icon flexbox profile-icon-transition">
-                        <img src="./Icons/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
-                    </div>
-                </a>
-            </li>
-            <li class="navbar-item flexbox-left logout-item">
-                <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar sesión</button></a>
-            </li>
-        </ul>
-    </nav>
+        <li class="navbar-item flexbox-left">
+            <a href="#">
+                <div class="navbar-profile-icon flexbox profile-icon-transition">
+                    <img src="./Icons/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
+                </div>
+            </a>
+        </li>
+        <li class="logout-container">
+            <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar Sesión</button></a>
+        </li>
+    </ul>
+</nav>
