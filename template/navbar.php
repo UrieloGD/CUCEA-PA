@@ -19,7 +19,10 @@ include './config/sesiones.php';
 </head>
 
 <body>
-
+<!-- Agrega un icono de menú -->
+<div class="menu-icon">
+    <i class="fas fa-bars"></i>
+</div>
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">

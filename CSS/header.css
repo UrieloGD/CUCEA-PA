@@ -3,6 +3,11 @@
 
 * {
     font-family: 'Dm Sans', sans-serif;
+    /* evita que se arrastren las imagenes de toda la pagina */
+    user-select: none; /* Estándar */
+    -webkit-user-drag: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 body {
@@ -48,4 +53,43 @@ body {
     /* border: solid 1px; */
     align-items: center;
     justify-content: center;
+}
+
+@media screen and (max-width: 1400px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .header {
+        margin-left: 8vw;
+        font-size: small;
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 1100px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .header {
+        margin-left: 10vw;
+        
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+/* Media queries para hacer el diseño responsivo */
+@media screen and (max-width: 768px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .header {
+        /* la navbar se hara formato hamburgesa */
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 576px) {
+    /* Estilos para pantallas con ancho máximo de 576px */
+    .header {
+    /* la navbar se hara formato hamburgesa */
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
 }

@@ -1,14 +1,13 @@
 /* CSS del cuadro principal */
 
 .home {
-    /*border: solid black 1px;
-    */background-color: white;
+    /*border: solid black 1px;*/
+    background-color: white;
     width: 92vw;
-    height: 85vh;
-    /*margin: 2vw;
-    */margin-left: 6vw;
+    height: 88vh;
+    margin-left: 6vw;
     margin-right: 2vw;
-    margin-top: 2vh;
+    margin-top: 1vh;
     align-self: flex-end;
     border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -119,55 +118,112 @@
 
 /* Contenedor de Progreso y Siguientes Eventos */
 .container-eventos-progreso {
-    height: auto;
-    /* border: solid 1px; */
+    display: flex;
     margin: 10px;
     padding: 10px;
-    display: flex;
-    justify-content: center; /* Centra los divs horizontalmente */
+    /* height: auto; */
+    justify-content: space-between; /* Centra los divs horizontalmente */
     align-items: stretch; /* Ajusta la altura de los hijos para que ocupen toda la altura del contenedor */
     align-content: center;
+    flex-wrap: wrap;
 }
 
 /* CSS Progreso de PA */
 
 .eventos {
-    border: solid 1px gray;
-    flex: 50%;
-    height: auto;
+    border: solid 5px #E7E9F2;
+    flex: 1;
+    width: 45%;
+    /* height: auto; */
     margin-right: 1vw;
-    padding: 10px;
     border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
 }
 
 .eventos hr {
     border: none;
-    border-top: 1px solid gray;
+    border-top: 5px solid #E7E9F2;
+    width: 100%;
+}
+.evento-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.evento-icono {
+    width: auto;
+    margin-right: 10px;
+}
+
+.evento-detalle {
+    flex-grow: 1;
+}
+
+.evento-detalle span {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.evento-detalle p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+.evento-flecha img {
     width: 80%;
+    /* height: 20px; */
+}
+
+.siguienteseventos {
+    background-color: #E7E9F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -ms-border-radius: 5px 5px 0px 0px;
+    -o-border-radius: 5px 5px 0px 0px;
 }
 
 .progreso {
-    /* border: solid 1px; */
-    flex: 40%;
-    display: flex; /* Alinea los elementos hijos horizontal y verticalmente */
-    flex-direction: column; /* Alinea los elementos hijos verticalmente */
+    display: flex;
+    width: 45%;
+    flex: 1;
+    border: solid 5px #E7E9F2;
+    flex-direction: column;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -ms-border-radius: 10px 10px 10px 10px;
+    -o-border-radius: 10px 10px 10px 10px;
+}
+
+.progresoPA {
+    background-color: #E7E9F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.progresoContenido {
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    justify-content: center; /* Centrado vertical */
+    align-items: center; /* Centrado horizontal */
     padding: 10px;
 }
 
-/* .progreso span {
-    margin-left: 10px;
-} */
-
 .progress-container {
-    /* border: solid 1px; */
     display: flex; /* Alinea los elementos hijos horizontalmente */
     align-items: center; /* Centra verticalmente */
     width: 100%; /* Ancho del 70% del contenedor */
-    /* margin-left: 10px;  */
 }
 
 .progress-container progress {
@@ -197,9 +253,9 @@
 
 .info-evento img {
     margin-left: 1vw;
-    margin-top: 1vh;
+    margin-top: 2vh;
     margin-right: 1vw;
-    margin-bottom: -2vh;
+    margin-bottom: -2.5vh;
     width: 3em;
 }
 
@@ -214,4 +270,43 @@
     font-size: 14px;
     margin-top: 0.5vh;
     margin-left: 10%;
+}
+
+@media screen and (max-width: 1400px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .home {
+        width: 90vw;
+        
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 1100px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .home {
+        width: 88vw;
+        
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+/* Media queries para hacer el diseño responsivo */
+@media screen and (max-width: 768px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .home {
+        width: 85vw;
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 576px) {
+    /* Estilos para pantallas con ancho máximo de 576px */
+    .home {
+        width: 80vw;
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
 }
