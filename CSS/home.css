@@ -194,24 +194,3 @@
 /* .info-evento {
     border: solid 1px;
 } */
-
-.info-evento img {
-    margin-left: 1vw;
-    margin-top: 1vh;
-    margin-right: 1vw;
-    margin-bottom: -2vh;
-    width: 3em;
-}
-
-.info-evento span {
-    font-weight: bold;
-    font-size: 18px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.info-evento p {
-    font-size: 14px;
-    margin-top: 0.5vh;
-    margin-left: 10%;
-}
