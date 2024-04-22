@@ -46,8 +46,6 @@ if ($result->num_rows > 0) {
       </div>
       <hr>
       <ul id="notifications">
-        <li>Aldo Ceja está enojao pq no le has mandado la Base de Datos</li>
-        <li>Este es un ejemplo de notificación dos</li>
       </ul>
       <div class="icons">
         <i id="notification-icon" class="fas fa-bell" style="font-size: 28px; color: black   ;"></i>
@@ -86,13 +84,25 @@ if ($result->num_rows > 0) {
     // Add notifications here
     const notifications = document.getElementById('notifications');
 
-
     // Example notifications
+
     const notification1 = document.createElement('li');
-    notification1.textContent = 'Notificación 3';
+    notification1.textContent = 'Aldo Ceja está enojao pq no le has mandado la Base de Datos';
+    notification1.classList.add('urgente'); // Agregar la clase 'urgente' para notificaciones urgentes (rojo)
     notifications.appendChild(notification1);
 
     const notification2 = document.createElement('li');
-    notification2.textContent = 'Notificación 4';
+    notification2.textContent = 'Notificación 2';
+    notification2.classList.add('urgente'); // Agregar la clase 'urgente' para notificaciones urgentes (rojo)
     notifications.appendChild(notification2);
+
+    const notification3 = document.createElement('li');
+    notification3.textContent = 'Notificación 3';
+    notification3.classList.add('normal'); // Agregar la clase 'normal' para notificaciones normales (verde)
+    notifications.appendChild(notification3);
+
+    const notification4 = document.createElement('li');
+    notification4.textContent = 'Notificación 4';
+    notification4.classList.add('advertencia'); // Agregar la clase 'advertencia' para notificaciones de advertencia (amarillo)
+    notifications.appendChild(notification4);
   </script>

@@ -1,6 +1,13 @@
 <?php
-include './config/sesiones.php';
+
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['email'])) {
+    // El usuario no está autenticado, redirigir a la página de inicio de sesión
+    header('Location: login.php');
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -19,10 +26,10 @@ include './config/sesiones.php';
 </head>
 
 <body>
-<!-- Agrega un icono de menú -->
-<div class="menu-icon">
-    <i class="fas fa-bars"></i>
-</div>
+    <!-- Agrega un icono de menú -->
+    <div class="menu-icon">
+        <i class="fas fa-bars"></i>
+    </div>
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
@@ -68,7 +75,7 @@ include './config/sesiones.php';
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="#">
+                <a class="navbar-item-inner flexbox-left" href="./plantilla.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Icons/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
                         <img src="./Icons/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
@@ -86,15 +93,15 @@ include './config/sesiones.php';
                 </a>
             </li>
 
-        <li class="navbar-item flexbox-left">
-            <a href="#">
-                <div class="navbar-profile-icon flexbox profile-icon-transition">
-                    <img src="./Icons/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
-                </div>
-            </a>
-        </li>
-        <li class="logout-container">
-            <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar Sesión</button></a>
-        </li>
-    </ul>
-</nav>
+            <li class="navbar-item flexbox-left">
+                <a href="#">
+                    <div class="navbar-profile-icon flexbox profile-icon-transition">
+                        <img src="./Icons/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
+                    </div>
+                </a>
+            </li>
+            <li class="logout-container">
+                <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar Sesión</button></a>
+            </li>
+        </ul>
+    </nav>

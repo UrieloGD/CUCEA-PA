@@ -79,55 +79,55 @@
       </div>
       <div class="evento-item">
         <div class="evento-icono">
-            <img src="./Icons/icono-flag.png" alt="Icono">
+          <img src="./Icons/icono-flag.png" alt="Icono">
         </div>
         <div class="evento-detalle">
-            <span>Reunión de apertura de Programación Académica</span>
-            <p>04/04/2024 18:00 h</p>
+          <span>Reunión de apertura de Programación Académica</span>
+          <p>04/04/2024 18:00 h</p>
         </div>
         <div class="evento-flecha">
-            <img src="./Icons/icono-flechaDer.png" alt="Flecha">
+          <img src="./Icons/icono-flechaDer.png" alt="Flecha">
         </div>
-    </div>
-    <hr>
-    <div class="evento-item">
+      </div>
+      <hr>
+      <div class="evento-item">
         <div class="evento-icono">
-            <img src="./Icons/icono-bd.png" alt="Icono">
+          <img src="./Icons/icono-bd.png" alt="Icono">
         </div>
         <div class="evento-detalle">
-            <span>Entrega de bases de datos</span>
-            <p>21/04/2024 23:59 h</p>
+          <span>Entrega de bases de datos</span>
+          <p>21/04/2024 23:59 h</p>
         </div>
         <div class="evento-flecha">
-            <img src="./Icons/icono-flechaDer.png" alt="Flecha">
+          <img src="./Icons/icono-flechaDer.png" alt="Flecha">
         </div>
-    </div>
-    <hr>
-    <div class="evento-item">
+      </div>
+      <hr>
+      <div class="evento-item">
         <div class="evento-icono">
-            <img src="./Icons/icono-reunion.png" alt="Icono">
+          <img src="./Icons/icono-reunion.png" alt="Icono">
         </div>
         <div class="evento-detalle">
-            <span>Reunión de revisión de bases de datos</span>
-            <p>02/05/2024 18:00 h</p>
+          <span>Reunión de revisión de bases de datos</span>
+          <p>02/05/2024 18:00 h</p>
         </div>
         <div class="evento-flecha">
-            <img src="./Icons/icono-flechaDer.png" alt="Flecha">
+          <img src="./Icons/icono-flechaDer.png" alt="Flecha">
         </div>
-    </div>
-    <hr>
-    <div class="evento-item">
+      </div>
+      <hr>
+      <div class="evento-item">
         <div class="evento-icono">
-            <img src="./Icons/icono-flag.png" alt="Icono">
+          <img src="./Icons/icono-flag.png" alt="Icono">
         </div>
         <div class="evento-detalle">
-            <span>Cierre de Programación Académica</span>
-            <p>19/05/2024 18:00 h</p>
+          <span>Cierre de Programación Académica</span>
+          <p>19/05/2024 18:00 h</p>
         </div>
         <div class="evento-flecha">
-            <img src="./Icons/icono-flechaDer.png" alt="Flecha">
+          <img src="./Icons/icono-flechaDer.png" alt="Flecha">
         </div>
-    </div>
+      </div>
       <!--Aquí iremos agregando las funciones donde Aldo como admin agregara eventos importantes de PA-->
     </div>
     <!-- Progreso de Pa -->
