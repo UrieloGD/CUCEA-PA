@@ -20,6 +20,7 @@ if ($filas) {
     ?>
     <script>
         alert("Error de autenticación")
+        window.location.replace("../login.php");
     </script>
 <?php
 
