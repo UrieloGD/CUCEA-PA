@@ -2,8 +2,17 @@
 // Incluir el archivo de conexión a la base de datos
 require_once './config/db.php';
 
-// Obtener el correo electrónico del usuario loggeado desde la sesión
+
 session_start();
+
+if (!isset($_SESSION['email'])) {
+  // Re-derigir al usuario en caso de que no haya iniciado sesión
+  header("Location: login.php");
+  exit();
+}
+
+// Obtener email del usuario loggeado desde la sesión
+$email = $_SESSION['email'];
 
 $correo_usuario = $_SESSION['email'];
 
