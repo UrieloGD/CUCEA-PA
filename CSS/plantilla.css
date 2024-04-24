@@ -314,7 +314,7 @@ body {
     display: flex;
     flex-direction: column; 
     height: auto;
-    border: solid 1px; 
+    /* border: solid 1px; */
     margin: 10px;
     padding: 10px;
     justify-content: center; /* Centra los divs horizontalmente */
@@ -324,27 +324,6 @@ body {
 
 .container-inf button {
     margin-bottom: 15px; /* Agrega un margen inferior al botón */
-}
-
-.container-inf-int {
-    display: flex;
-    flex-direction: column; 
-    height: auto;
-    width: 80%;
-    border: dashed 2px;
-    margin: 40px;
-    padding: 30px;
-    justify-content: center; /* Centra los elementos horizontalmente */
-    align-items: center; /* Centra los elementos verticalmente */
-}
-
-.container-inf-int p {
-    margin-bottom: 10px; /* Agrega un margen inferior al texto */
-    font-size:x-large;
-}
-
-.container-inf-int button {
-    margin-top: 15px; /* Agrega un margen superior al botón */
 }
 
 .container-inf-dos {
@@ -367,4 +346,59 @@ body {
     border-top: #00659B solid;
     margin: 10px;
     padding: 10px;
+}
+
+/* Estilos para el Drag Area */
+
+.drop-area{
+  display: flex;
+  flex-direction: column; 
+  height: auto;
+  width: 80%;
+  border: dashed 2px;
+  margin: 40px;
+  padding: 30px;
+  justify-content: center; /* Centra los elementos horizontalmente */
+  align-items: center; /* Centra los elementos verticalmente */
+}
+
+.drop-area p {
+  margin-bottom: 10px; /* Agrega un margen inferior al texto */
+  font-size:x-large;
+}
+
+.drop-area button {
+  margin-top: 15px; /* Agrega un margen superior al botón */
+}
+
+.drop-area.active {
+  background-color:#c5def1;
+  color: black;
+  border: 2px dashed #0e81be;
+}
+
+.file-container{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px #ddd;
+
+}
+
+#preview{
+  margin-top: 10px;
+
+}
+
+.status-text{
+  padding: 0 10px;
+}
+
+.success{
+color: rgb(132, 255, 132);
+}
+
+.failure{
+  color: rgb(255, 132, 132);
 }

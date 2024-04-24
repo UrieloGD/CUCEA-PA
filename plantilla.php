@@ -52,20 +52,23 @@
     </div>
 
     <div class="container-inf">
-        <div class="container-inf-int">
-            <!--Elementos de subida-->
+        <!--Elementos de subida-->
+        <div class="drop-area">
             <p>Arrastra tus archivos a subir aquí</p>
             <p>o</p>
-            <a href="#"><button class="button-66" role="button">Selecciona archivo</button></a>
+            <button class="button-66" role="button">Selecciona archivo</button>
+            <input type="file" name="" id="input-file" hidden>
         </div>
-        <a href="#"><button class="button-65" role="button">Guardar</button></a>
+        <div id="preview"></div>
+        <button class="button-65" role="button" id="guardar-btn" onclick="uploadFiles()">Guardar</button>
     </div>
 
     <div class="container-inf-dos">
         <a href="#"><button class="button-65" role="button">Entrega tardía</button></a>
     </div>
+</div>
+</div>
 
-</div>
-</div>
+<script src="./JS/drag.js"></script>
 
 <?php include './template/footer.php' ?>

@@ -56,5 +56,17 @@ if (mysqli_query($conn, $insert_sql)) {
     echo "Error inserting records: " . mysqli_error($conn);
 }
 
+$sql = "CREATE TABLE IF NOT EXISTS archivos (
+    id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    ruta VARCHAR(255) NOT NULL,
+    tamaño INT NOT NULL
+    )";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Table Usuarios created successfully";
+} else {
+    echo "Error creating table: " . mysqli_error($conn);
+}
+
 mysqli_close($conn);
-?>
