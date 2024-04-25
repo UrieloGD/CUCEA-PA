@@ -30,7 +30,7 @@
     </div>
     <div class="cuadros-nav">
         <div class="cuadro-ind">
-            <a href="#"><button class="button-65" role="button">Descargar</button></a>
+            <a href="./template/Prueba.xlsx"><button class="button-65" role="button">Descargar</button></a>
         </div>
     </div>
 
