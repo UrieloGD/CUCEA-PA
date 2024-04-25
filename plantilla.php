@@ -30,7 +30,9 @@
     </div>
     <div class="cuadros-nav">
         <div class="cuadro-ind">
-            <a href="./template/Prueba.xlsx"><button class="button-65" role="button">Descargar</button></a>
+            <a href="#" onclick="descargarArchivo()">
+                <button class="button-65" role="button">Descargar</button>
+            </a>
         </div>
     </div>
 
@@ -69,6 +71,7 @@
 </div>
 </div>
 
+<script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
 
 <?php include './template/footer.php' ?>
