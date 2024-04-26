@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Consulta para obtener el archivo de la tabla "archivos"
-$sql = "SELECT ruta, tamaño FROM archivos WHERE nombre = 'Prueba.xlsx'";
+$sql = "SELECT ruta, tamaño FROM archivos WHERE nombre = 'Administracion.xlsx'";
 $resultado = $conn->query($sql);
 
 // Verificar si se encontró un resultado
@@ -27,7 +27,7 @@ if ($resultado->num_rows > 0) {
 
     // Configurar los encabezados para descargar el archivo
     header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-    header("Content-Disposition: attachment; filename=Prueba.xlsx");
+    header("Content-Disposition: attachment; filename=Administracion.xlsx");
     header("Content-Length: " . $archivo_tamaño);
 
     // Enviar el archivo al navegador

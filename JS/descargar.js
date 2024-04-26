@@ -9,18 +9,18 @@ function descargarArchivo() {
             var url = window.URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
-            a.download = 'Prueba.xlsx';
+            a.download = 'Administracion.xlsx';
             document.body.appendChild(a);
             a.click();
             a.remove();
         } else {
-            alert('No se encontró el archivo "Prueba.xlsx" en la base de datos.');
+            alert('No se encontró el archivo "Administracion.xlsx" en la base de datos.');
             console.error('Error al descargar el archivo');
         }
     };
 
     xhr.onerror = function() {
-        alert('No se encontró el archivo "Prueba.xlsx" en la base de datos.');
+        alert('No se encontró el archivo "Administracion.xlsx" en la base de datos.');
         console.error('Error al descargar el archivo');
     };
 
