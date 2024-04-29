@@ -1,71 +1,19 @@
-* {
-    font-family: 'Dm Sans', sans-serif;
-}
-
-body {
-    margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
-    background-color: #E7E9F2;
-}
-
-/* CSS header */
-
-.container {
-    display: flex;
-    flex-direction: column; /* Apilamos los elementos verticalmente */
-}
-
-.header {
-    display: flex;
-    /* border: solid 1px; */
-    background-color: white;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    border-radius: 0px 0px 10px 10px;
-    -webkit-border-radius: 0px 0px 10px 10px;
-    -moz-border-radius: 0px 0px 10px 10px;
-    -ms-border-radius: 0px 0px 10px 10px;
-    -o-border-radius: 0px 0px 10px 10px;
-}
-
-.titulo {
-    width: 40vw;
-    margin-left: 2vw;
-    /* background-color: aqua; */
-    /* border: solid 1px; */
-}
-
-.rol { 
-    margin-right: 2vw;
-    width: 45vw;
-    text-align: right;
-    /* background-color: aliceblue; */
-    /* border: solid 1px;*/
-}
-
-.icono-notificaciones {
-    display: flex;
-    /* border: solid 1px; */
-    align-items: center;
-    justify-content: center;
-}
-
 /* CSS del cuadro principal */
 
 .home {
     /*border: solid black 1px;*/
     background-color: white;
-    border-radius: 10px;
     width: 92vw;
-    height: 85vh;
-    /* margin: 2vw; */
+    height: 88vh;
     margin-left: 6vw;
     margin-right: 2vw;
-    margin-top: 2vh;
+    margin-top: 1vh;
     align-self: flex-end;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
 }
 
 .bienvenida {
@@ -73,13 +21,14 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    /*border: solid 1px;*/
     height: 10vh;
-    border-radius: 10px;
-    -webkit-border-radius: 10px 0px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+    border-radius: 20px 20px 0px 0px;
+    background-color: #0071B0;
+    color: #fff;
+    -webkit-border-radius: 20px 20px 0px 0px;
+    -moz-border-radius: 20px 20px 0px 0px;
+    -ms-border-radius: 20px 20px 0px 0px;
+    -o-border-radius: 20px 20px 0px 0px;
 }
 
 .cuadros-nav {
@@ -169,55 +118,112 @@ body {
 
 /* Contenedor de Progreso y Siguientes Eventos */
 .container-eventos-progreso {
-    height: auto;
-    /* border: solid 1px; */
+    display: flex;
     margin: 10px;
     padding: 10px;
-    display: flex;
-    justify-content: center; /* Centra los divs horizontalmente */
+    /* height: auto; */
+    justify-content: space-between; /* Centra los divs horizontalmente */
     align-items: stretch; /* Ajusta la altura de los hijos para que ocupen toda la altura del contenedor */
     align-content: center;
+    flex-wrap: wrap;
 }
 
 /* CSS Progreso de PA */
 
 .eventos {
-    border: solid 1px gray;
-    flex: 50%;
-    height: auto;
+    border: solid 5px #E7E9F2;
+    flex: 1;
+    width: 45%;
+    /* height: auto; */
     margin-right: 1vw;
-    padding: 10px;
     border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
 }
 
 .eventos hr {
     border: none;
-    border-top: 1px solid gray;
+    border-top: 5px solid #E7E9F2;
+    width: 100%;
+}
+.evento-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.evento-icono {
+    width: auto;
+    margin-right: 10px;
+}
+
+.evento-detalle {
+    flex-grow: 1;
+}
+
+.evento-detalle span {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.evento-detalle p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+.evento-flecha img {
     width: 80%;
+    /* height: 20px; */
+}
+
+.siguienteseventos {
+    background-color: #E7E9F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -ms-border-radius: 5px 5px 0px 0px;
+    -o-border-radius: 5px 5px 0px 0px;
 }
 
 .progreso {
-    /* border: solid 1px; */
-    flex: 40%;
-    display: flex; /* Alinea los elementos hijos horizontal y verticalmente */
-    flex-direction: column; /* Alinea los elementos hijos verticalmente */
+    display: flex;
+    width: 45%;
+    flex: 1;
+    border: solid 5px #E7E9F2;
+    flex-direction: column;
+    border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    -ms-border-radius: 10px 10px 10px 10px;
+    -o-border-radius: 10px 10px 10px 10px;
+}
+
+.progresoPA {
+    background-color: #E7E9F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.progresoContenido {
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    justify-content: center; /* Centrado vertical */
+    align-items: center; /* Centrado horizontal */
     padding: 10px;
 }
 
-/* .progreso span {
-    margin-left: 10px;
-} */
-
 .progress-container {
-    /* border: solid 1px; */
     display: flex; /* Alinea los elementos hijos horizontalmente */
     align-items: center; /* Centra verticalmente */
     width: 100%; /* Ancho del 70% del contenedor */
-    /* margin-left: 10px;  */
 }
 
 .progress-container progress {
@@ -247,9 +253,9 @@ body {
 
 .info-evento img {
     margin-left: 1vw;
-    margin-top: 1vh;
+    margin-top: 2vh;
     margin-right: 1vw;
-    margin-bottom: -2vh;
+    margin-bottom: -2.5vh;
     width: 3em;
 }
 
@@ -264,4 +270,145 @@ body {
     font-size: 14px;
     margin-top: 0.5vh;
     margin-left: 10%;
+}
+
+@media screen and (max-width: 1400px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .home {
+        width: 90vw;
+        height: fit-content;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .cuadro-ind {
+        width: 20%;
+        margin: 10px;
+    }
+    
+    .cuadro-ind img {
+        height: auto;
+        max-width: 100%;
+    }
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 1100px) {
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .home {
+        width: 86.5vw;
+        height: fit-content;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column-reverse; /* Cambia el orden de los elementos */
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .cuadro-ind {
+        width: 20%;
+        margin: 10px;
+    }
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+/* Media queries para hacer el diseño responsivo */
+@media screen and (max-width: 768px){
+    /* Estilos para pantallas con ancho máximo de 768px */
+    .home {
+        width: 83vw;
+        height: fit-content;
+        margin-bottom: 2vh;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column-reverse; /* Cambia el orden de los elementos */
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .cuadro-ind {
+        width: 25%;
+        margin: 10px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    /* Estilos para pantallas con ancho máximo de 576px */
+    .home {
+        width: 80vw;
+        height: fit-content;
+    }
+
+
+    .container-eventos-progreso {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .cuadro-ind {
+        width: 45%;
+        margin: 10px;
+    }
+    
+    .cuadro-ind img {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .overlay {
+        height: auto;
+    }
+    /* Aplica ajustes similares para otros elementos según sea necesario */
 }

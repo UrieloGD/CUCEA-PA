@@ -15,11 +15,10 @@ if ($filas) {
     header("location:../home.php");
 } else {
 ?>
-    <?php
-    include("../login.php");
-    ?>
+
     <script>
         alert("Error de autenticación")
+        window.location.replace("../login.php");
     </script>
 <?php
 

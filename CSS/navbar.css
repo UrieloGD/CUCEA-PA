@@ -4,10 +4,13 @@
     width: 5em;
     height: 100vh;
     position: fixed;
-    background-color: rgb(255, 255, 255);
+    background-color:  #0071B0;
     transition: width .35s cubic-bezier(var(--transition-main), 1);
     overflow-y: auto;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     -webkit-transition: width .35s cubic-bezier(var(--transition-main), 1);
     -moz-transition: width .35s cubic-bezier(var(--transition-main), 1);
     -ms-transition: width .35s cubic-bezier(var(--transition-main), 1);
@@ -28,9 +31,9 @@
 }
 
 #navbar:hover .navbar-logo img {
-    content: url(../Img/CUCEA-LOGO.png);
-    width: 250px;
-    height: 60px;
+    content: url(../Img/LogoQCA.png);
+    width: 85%;
+    height: 55px;
 }
 
 .navbar-logo-container {
@@ -59,9 +62,11 @@
 }
 
 .navbar-items {
+    flex-grow: 1;
     margin: 0;
     padding: 0;
     list-style-type: none;
+    position: relative; /* Agrega esta línea para posicionar elementos hijos relativamente */
 }
 
 /* Navbar Logo */
@@ -69,7 +74,7 @@
     margin: 10 0 2em 0;
     width: 100%;
     height: 7em;
-    background: rgb(255, 255, 255);
+    background:  #0071B0;
 }
 
 .navbar-logo>.navbar-item-inner {
@@ -91,14 +96,14 @@
     padding: 1em 0;
     width: 100%;
     position: relative;
-    color: rgb(255, 255, 255);
+    color:  #0071B0(255, 255, 255);
     text-decoration: none;
     transition: all .2s cubic-bezier(var(--transition-main), 1);
 }
 
 .navbar-item-inner:hover {
     color: hsl(var(--white));
-    background: #0071b0;
+    background: #fff;
     transform:scale(102%);
     -webkit-transform:scale(102%);
     -moz-transform:scale(102%);
@@ -124,7 +129,7 @@
     transition: all .35s cubic-bezier(var(--transition-main), 1);
     overflow: hidden;
     opacity: 0;
-    color: #0071b0;
+    color: #fff;
 }
 
 #navbar:hover .link-text {
@@ -140,12 +145,12 @@
 
 .navbar-profile-icon {
     width: 5rem;
-    /*80px/16px=5rem*/height: 5rem;
+    height: 5rem;
     border-radius: 50%;
     overflow: hidden;
     position: absolute;
     bottom: 5%;
-    /*Ajustaestevalorsegúntusnecesidades*/left: 50%;
+    left: 50%;
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     -moz-transform: translateX(-50%);
@@ -161,7 +166,7 @@
 
 .profile-icon-transition {
     width: 3.125rem;
-    /*50px/16px=3.125rem*/height: 3.125rem;
+    height: 3.125rem;
     border-radius: 50%;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -169,6 +174,7 @@
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
+    margin-bottom: 20%;
 }
 
 #navbar:hover .profile-icon-transition {
@@ -182,7 +188,7 @@
 .profile-menu {
     display: none;
     position: absolute;
-    background-color: #ffff;
+    background-color:  #0071B0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border-radius: 5px;
@@ -235,14 +241,14 @@ Flexbox
 hr {
     margin-top: 0px; /* justa el margen superior del hr */
     border: none; /* Elimina el borde del hr */
-    border-top: 2px solid #0071b0; /* Agrega un borde superior de 1px sólido */
+    border-top: 2px solid #fff; /* Agrega un borde superior de 1px sólido */
     width: 90%; /* Ajusta el ancho al 100% */
 }
 
 /* Cambio de color en el texto y el icono al pasar el mouse sobre las opciones */
 .navbar-item-inner:hover .link-text,
 .navbar-item-inner:hover .navbar-item-inner-icon-wrapper img {
-    color: #fff; /* Cambia el color del texto a blanco */
+    color: #0071B0; /* Cambia el color del texto a blanco */
 }
 
 .navbar-item-inner-icon-wrapper .hover-icon {
@@ -255,4 +261,64 @@ hr {
 
 .navbar-item-inner:hover .hover-icon {
     display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
+}
+
+/* Boton de cerrar sesion */
+
+.logout-container {
+    position: absolute;
+    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el botón horizontalmente */
+}
+
+.logout-item {
+    margin-top: auto; /* Empuja el elemento hacia abajo */
+}
+
+.logout-button {
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    padding: 8px 16px;
+    background-color: #0071B0;
+    color: #fff;
+    border: 2px solid #0071B0;
+    border-radius: 5px;
+    border: #fff solid 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+* a {
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    background-color: #fff; /* Cambia el color de fondo cuando se pasa sobre el botón */
+    color: #0071B0; /* Cambia el color del texto cuando se pasa sobre el botón */
+    border-color: #0071B0; /* Cambia el color del borde cuando se pasa sobre el botón */
+}
+
+.logout-container {
+    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+}
+
+#navbar:hover .logout-container {
+    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
+}
+
+.logout-container {
+    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+    margin-bottom: 2vh; /* Agrega un margen superior de 2vh */
+}
+
+#navbar:hover .logout-container {
+    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
