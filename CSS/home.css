@@ -276,37 +276,139 @@
     /* Estilos para pantallas con ancho máximo de 768px */
     .home {
         width: 90vw;
-        
+        height: fit-content;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .cuadro-ind {
+        width: 20%;
+        margin: 10px;
     }
     
+    .cuadro-ind img {
+        height: auto;
+        max-width: 100%;
+    }
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
 @media screen and (max-width: 1100px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .home {
-        width: 88vw;
-        
+        width: 86.5vw;
+        height: fit-content;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column-reverse; /* Cambia el orden de los elementos */
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .cuadro-ind {
+        width: 20%;
+        margin: 10px;
     }
     
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
 /* Media queries para hacer el diseño responsivo */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px){
     /* Estilos para pantallas con ancho máximo de 768px */
     .home {
-        width: 85vw;
+        width: 83vw;
+        height: fit-content;
+        margin-bottom: 2vh;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column-reverse; /* Cambia el orden de los elementos */
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
     }
     
-    /* Aplica ajustes similares para otros elementos según sea necesario */
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .cuadro-ind {
+        width: 25%;
+        margin: 10px;
+    }
 }
 
 @media screen and (max-width: 576px) {
     /* Estilos para pantallas con ancho máximo de 576px */
     .home {
         width: 80vw;
+        height: fit-content;
+    }
+
+
+    .container-eventos-progreso {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .cuadros-nav {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .cuadro-ind {
+        width: 45%;
+        margin: 10px;
     }
     
+    .cuadro-ind img {
+        height: auto;
+        max-width: 100%;
+    }
+
+    .overlay {
+        height: auto;
+    }
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }

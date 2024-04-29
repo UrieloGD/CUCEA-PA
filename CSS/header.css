@@ -162,6 +162,10 @@ body {
         margin-left: 8vw;
         font-size: small;
     }
+
+    .icono-notificaciones {
+        margin-right: 2vw;
+    }
     
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
@@ -180,9 +184,8 @@ body {
 @media screen and (max-width: 768px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
-        /* la navbar se hara formato hamburgesa */
+        margin-left: 13vw;
     }
-    
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
