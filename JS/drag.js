@@ -39,11 +39,14 @@ dropArea.addEventListener("drop", (e) => {
 
 
 
-function showFile(files){
-    if(files.length == undefined){
+function showFile(files) {
+    // Restablecer la variable filesToUpload antes de procesar los nuevos archivos
+    filesToUpload = [];
+
+    if (files.length == undefined) {
         processFile(files);
-    }else{
-        for(const file of files){
+    } else {
+        for (const file of files) {
             processFile(file);
         }
     }
@@ -129,10 +132,15 @@ function uploadFiles() {
         .then(result => {
             console.log(result);
             document.querySelector(`#${id} .status-text`).innerHTML = result;
+            // Eliminar el elemento de previsualización después de subir el archivo
+            document.querySelector(`#${id}`).remove();
         })
         .catch(error => {
             console.error('Error:', error);
             document.querySelector(`#${id} .status-text`).innerHTML = `<span class="failure">No se pudo cargar el archivo</span>`;
         });
     });
+
+    // Restablecer la variable filesToUpload después de subir los archivos
+    filesToUpload = [];
 }
