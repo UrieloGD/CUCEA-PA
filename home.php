@@ -8,10 +8,11 @@
 
 
 <!-- css del home -->
+<title>Home PA</title>
 <link rel="stylesheet" href="./CSS/home.css" />
 
 <!--Cuadro principal del home-->
-<div class="home">
+<div class="cuadro-principal">
   <!--Cuadro de bienvenida-->
   <div class="bienvenida">
     <h2>
@@ -54,7 +55,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./plantilla.php">
         <div class="overlay">
           <h4>Plantilla</h4>
         </div>

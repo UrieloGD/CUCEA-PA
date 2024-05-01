@@ -17,7 +17,7 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column; /* Apilamos los elementos verticalmente */
+    flex-direction: column;
 }
 
 .header {
@@ -126,9 +126,9 @@ body {
     justify-content: space-between; /* Space icons evenly */
     align-items: center; /* Center icons vertically */
     padding: 10px;
-  }
+}
   
-  .notification-menu .icons i {
+.notification-menu .icons i {
     font-size: 24px; /* Adjust icon size as needed */
     color: #333; /* Set icon color */
     margin-left: 60px; /* Reduce left margin */
@@ -136,13 +136,13 @@ body {
     font-size: 24px;
     color: #333;
     cursor: pointer; /* Add cursor for clickable icons */
-  }
+}
 
-  .notification-menu .icons i:hover {
+.notification-menu .icons i:hover {
     color: #007bff; /* Change color on hover */
-  }
+}
 
-  .notification-menu ul li.urgente {
+.notification-menu ul li.urgente {
     border: 2px solid rgb(255, 117, 117);
 }
 

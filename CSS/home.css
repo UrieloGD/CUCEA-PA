@@ -1,13 +1,14 @@
 /* CSS del cuadro principal */
 
-.home {
+.cuadro-principal {
     /*border: solid black 1px;*/
     background-color: white;
     width: 92vw;
-    height: 88vh;
+    height: fit-content;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
+    margin-bottom: 2vh;
     align-self: flex-end;
     border-radius: 20px;
     -webkit-border-radius: 20px;
@@ -21,7 +22,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 10vh;
+    /* height: 10vh; */
     border-radius: 20px 20px 0px 0px;
     background-color: #0071B0;
     color: #fff;
@@ -272,9 +273,10 @@
     margin-left: 10%;
 }
 
+/* Media queries para hacer el diseño responsivo */
+
 @media screen and (max-width: 1400px) {
-    /* Estilos para pantallas con ancho máximo de 768px */
-    .home {
+    .cuadro-principal {
         width: 90vw;
         height: fit-content;
     }
@@ -305,18 +307,16 @@
         height: auto;
         max-width: 100%;
     }
-    /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
 @media screen and (max-width: 1100px) {
-    /* Estilos para pantallas con ancho máximo de 768px */
-    .home {
+    .cuadro-principal {
         width: 86.5vw;
         height: fit-content;
     }
 
     .container-eventos-progreso {
-        flex-direction: column-reverse; /* Cambia el orden de los elementos */
+        flex-direction: column-reverse;
         align-items: center;
     }
 
@@ -333,24 +333,20 @@
     }
 
     .cuadro-ind {
-        width: 20%;
+        width: 25%;
         margin: 10px;
     }
-    
-    /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
-/* Media queries para hacer el diseño responsivo */
 @media screen and (max-width: 768px){
-    /* Estilos para pantallas con ancho máximo de 768px */
-    .home {
+    .cuadro-principal {
         width: 83vw;
         height: fit-content;
         margin-bottom: 2vh;
     }
 
     .container-eventos-progreso {
-        flex-direction: column-reverse; /* Cambia el orden de los elementos */
+        flex-direction: column-reverse; 
         align-items: center;
     }
 
@@ -373,8 +369,7 @@
 }
 
 @media screen and (max-width: 576px) {
-    /* Estilos para pantallas con ancho máximo de 576px */
-    .home {
+    .cuadro-principal {
         width: 80vw;
         height: fit-content;
     }
@@ -398,7 +393,7 @@
     }
 
     .cuadro-ind {
-        width: 45%;
+        width: 25%;
         margin: 10px;
     }
     
@@ -406,9 +401,4 @@
         height: auto;
         max-width: 100%;
     }
-
-    .overlay {
-        height: auto;
-    }
-    /* Aplica ajustes similares para otros elementos según sea necesario */
 }

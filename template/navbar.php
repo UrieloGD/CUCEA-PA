@@ -22,7 +22,6 @@ if (!isset($_SESSION['email'])) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/CSS/navbar.css">
 </head>
 
 <body>
@@ -33,13 +32,13 @@ if (!isset($_SESSION['email'])) {
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
-                <a class="navbar-item-inner flexbox" href="#">
+                <a class="navbar-item-inner flexbox" href="./home.php">
                     <img src="./Img/UDG+.png" width="60" height="80" alt="Logo-UDG">
                 </a>
             </li>
             <hr>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="#">
+                <a class="navbar-item-inner flexbox-left" href="./home.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox ">
                         <img src="./Icons/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="hover-icon">
                         <img src="./Icons/iconos-blancos/icono-home-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
