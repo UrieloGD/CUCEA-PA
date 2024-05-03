@@ -69,4 +69,30 @@ if (mysqli_query($conn, $sql)) {
     echo "Error creating table: " . mysqli_error($conn);
 }
 
+
+$sql = "CREATE TABLE IF NOT EXISTS BD (
+    id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    CICLO INT NOT NULL,
+    NRC INT NOT NULL,
+    `FECHA INI` INT NOT NULL,
+    `FECHA FIN` INT NOT NULL,
+    L VARCHAR (5) NOT NULL,
+    M VARCHAR (5) NOT NULL,
+    I VARCHAR (5) NOT NULL,
+    J VARCHAR (5) NOT NULL,
+    V VARCHAR (5) NOT NULL,
+    S VARCHAR (5) NOT NULL,
+    D VARCHAR (5) NOT NULL,
+    `HORA INI` INT NOT NULL,
+    `HORA FIN` INT NOT NULL,
+    EDIF VARCHAR (50) NOT NULL,
+    AULA INT NOT NULL
+    )";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Table BD created successfully";
+} else {
+    echo "Error creating table: " . mysqli_error($conn);
+}
+
 mysqli_close($conn);
