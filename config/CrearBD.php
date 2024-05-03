@@ -12,7 +12,7 @@ if (!$conn) {
 $dbname = "CREATE DATABASE PA;";
 
 if ($conn->query($dbname) == TRUE) {
-    echo "Database created successfully";
+    echo "Database created successfully <br>";
 } else {
     echo "Error creating database: " . $conn->error;
 }
@@ -31,9 +31,9 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table Usuarios created successfully";
+    echo "<br>Table Usuarios created successfully";
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    echo "<br> Error creating table Usuarios: " . mysqli_error($conn);
 }
 
 // Consulta para insertar registros en la tabla Usuarios
@@ -51,9 +51,9 @@ VALUES
     ('alejandro@cucea.udg.mx', '123', 8901234567, 'Alejandro', 'Flores', 'Secretaría Administrativa', 'Masculino')";
 
 if (mysqli_query($conn, $insert_sql)) {
-    echo "Records inserted successfully";
+    echo "<br>Records inserted successfully";
 } else {
-    echo "Error inserting records: " . mysqli_error($conn);
+    echo "<br> Error inserting records in table: " . mysqli_error($conn);
 }
 
 $sql = "CREATE TABLE IF NOT EXISTS archivos (
@@ -64,18 +64,18 @@ $sql = "CREATE TABLE IF NOT EXISTS archivos (
     )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table Usuarios created successfully";
+    echo "<br>Table Archivos created successfully";
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    echo "<br>Error creating table Archivos: " . mysqli_error($conn);
 }
 
 
 $sql = "CREATE TABLE IF NOT EXISTS BD (
     id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    CICLO INT NOT NULL,
-    NRC INT NOT NULL,
-    `FECHA INI` INT NOT NULL,
-    `FECHA FIN` INT NOT NULL,
+    CICLO VARCHAR (10) NOT NULL,
+    NRC VARCHAR (15) NOT NULL,
+    `FECHA INI` VARCHAR (10) NOT NULL,
+    `FECHA FIN` VARCHAR (10) NOT NULL,
     L VARCHAR (5) NOT NULL,
     M VARCHAR (5) NOT NULL,
     I VARCHAR (5) NOT NULL,
@@ -83,16 +83,16 @@ $sql = "CREATE TABLE IF NOT EXISTS BD (
     V VARCHAR (5) NOT NULL,
     S VARCHAR (5) NOT NULL,
     D VARCHAR (5) NOT NULL,
-    `HORA INI` INT NOT NULL,
-    `HORA FIN` INT NOT NULL,
-    EDIF VARCHAR (50) NOT NULL,
-    AULA INT NOT NULL
+    `HORA INI` VARCHAR (10) NOT NULL,
+    `HORA FIN` VARCHAR (10) NOT NULL,
+    EDIF VARCHAR (10) NOT NULL,
+    AULA VARCHAR (10) NOT NULL
     )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "Table BD created successfully";
+    echo "<br>Table BD created successfully";
 } else {
-    echo "Error creating table: " . mysqli_error($conn);
+    echo "<br>Error creating table BD: " . mysqli_error($conn);
 }
 
 mysqli_close($conn);

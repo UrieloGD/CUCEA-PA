@@ -19,9 +19,7 @@
      </div>
      <div class="tab-content">
           <div class="tab-pane active">
-               <div class="info-descarga">
-                    <p>En este apartado podrás descargar tu plantilla de Excel para realizar tu Programación Académica.</p>
-               </div>
+
           </div>
      </div>
 </div>

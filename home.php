@@ -31,7 +31,7 @@
   <!--Cuadros de navegación-->
   <div class="cuadros-nav">
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./basesdedatos.php">
         <div class="overlay">
           <h4>Bases de datos</h4>
         </div>

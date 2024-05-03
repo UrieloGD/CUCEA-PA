@@ -35,7 +35,7 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
         // Validar el valor según las restricciones individuales
         if ($nombreColumna == 'NRC') {
             // Validar que el valor no tenga más de 6 dígitos
-            if (is_numeric($valor) && strlen($valor) <= 6) {
+            if (is_numeric($valor) && strlen($valor) > 9) {
                 $errorEncontrado = true;
                 $insertarFila = false; // No insertar esta fila
                 $mensajeError = "Se encontraron errores en la columna $nombreColumna: El valor no debe tener más de 6 dígitos.";

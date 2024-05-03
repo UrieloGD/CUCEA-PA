@@ -47,7 +47,7 @@ if (!isset($_SESSION['email'])) {
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="#">
+                <a class="navbar-item-inner flexbox-left" href="./basesdedatos.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Icons/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
                         <img src="./Icons/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
