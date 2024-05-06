@@ -1,6 +1,5 @@
 
 /* CSS header y background del body y generales*/
-
 * {
     font-family: 'Dm Sans', sans-serif;
     /* evita que se arrastren las imagenes de toda la pagina */
@@ -156,6 +155,75 @@ body {
     border: 2px solid rgb(255, 255, 117);
 }
 
+
+/* Alinear contenidos del navbar */
+.header-content {
+    display: flex;
+    align-items: center;
+    padding: 0 2vw; /* Ajusta el espaciado horizontal según sea necesario */
+  }
+  
+  .titulo {
+    margin-left: 10px; /* Ajusta el margen izquierdo según sea necesario */
+    display: flex;
+    align-items: center;
+  }
+
+
+/* Estilos para el menú hamburguesa */
+
+/*Estilo del boton del menu*/
+.menu-toggle {
+    display: none;
+    /*border: none;*/
+    outline: none;
+    padding: 14px 16px;
+    background-color: inherit;
+    font: inherit;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+.mobile-menu {
+    display: none; /* Oculta el navbar vertical por defecto */
+    position: absolute;
+    top: 60px; /* Ajusta la posición superior según sea necesario */
+    left: 0;
+    width: 100%; /* Ajusta el ancho del navbar vertical según sea necesario */
+    background-color: #0071B0;
+    border-right: 1px solid #ccc; /* Agrega un borde derecho para separar del contenido */
+    z-index: 99; /* Asegura que esté sobre otros elementos */
+    
+}
+
+.mobile-menu a {
+    color: white;
+}
+
+.menu-list {
+    padding: 10px 20px;
+    color: white; /* Color de texto por defecto */
+    background-color: #0071B0; /* Color de fondo por defecto */
+    transition: color 0.3s, background-color 0.3s; /* Agrega una transición suave */
+}
+
+.menu-list:hover {
+    color: #0071B0; /* Color de texto al pasar el mouse */
+    background-color: white; /* Color de fondo al pasar el mouse */
+}
+
+.mobile-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu li {
+    padding: 10px 20px;
+}
+
+  
+
 @media screen and (max-width: 1400px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
@@ -184,17 +252,53 @@ body {
 @media screen and (max-width: 768px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
-        margin-left: 13vw;
+        margin-left: 2vw;
     }
     /* Aplica ajustes similares para otros elementos según sea necesario */
+
+      /* Menú hamburguesa al llegar a 576px */
+      .menu-toggle {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: block; /* Ocultar el menú hamburguesa */
+        /* Agrega aquí los estilos para el menú hamburguesa */
+    }
+    
+    .titulo {
+        display: flex;
+        align-items: center;
+    }
+
+    .titulo h3 {
+        margin-left: 10px;
+    }
+
 }
+
 
 @media screen and (max-width: 576px) {
     /* Estilos para pantallas con ancho máximo de 576px */
     .header {
+
+        margin-left: 2vw;
     /* la navbar se hara formato hamburgesa */
     }
+
+    /* Menú hamburguesa al llegar a 576px */
+    .menu-toggle {
+        display: block;
+    }
     
+    .titulo {
+        display: flex;
+        align-items: center;
+    }
+
+    .titulo h3 {
+        margin-left: 10px;
+    }
+
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
-

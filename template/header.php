@@ -35,6 +35,27 @@ if ($result->num_rows > 0) {
 
 <div class="container">
   <div class="header">
+  <div class="header-content"> <!-- Contenedor para alinear contenidos del header creo? -->
+
+  <!-- Icono Menú hamburguesa -->
+  <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    
+<!-- Menú hamburguesa -->
+  <div class="mobile-menu">
+    <ul>
+        <!-- Aquí agregar los mismos elementos del navbar actual -->
+        <li class="menu-list"><a href="./home.php">Inicio</a></li>
+        <li><a href="#">Registro</a></li>
+        <li><a href="#">Oferta</a></li>
+        <li><a href="#">Espacios</a></li>
+        <li><a href="./plantilla.php">Plantilla</a></li>
+        <li><a href="#">Guía</a></li>
+    </ul>
+  </div>
+
     <div class="titulo">
       <h3>Programación Académica</h3>
     </div>
@@ -60,6 +81,7 @@ if ($result->num_rows > 0) {
         <i id="notification-icon" class="fas fa-bell" style="font-size: 28px; color: black   ;"></i>
         <i id="calendar-icon" class="fas fa-calendar" style="font-size: 28px; color: black   ;"></i>
       </div>
+    </div>
     </div>
   </div>
 
@@ -114,4 +136,42 @@ if ($result->num_rows > 0) {
     notification4.textContent = 'Notificación 4';
     notification4.classList.add('advertencia'); // Agregar la clase 'advertencia' para notificaciones de advertencia (amarillo)
     notifications.appendChild(notification4);
-  </script>
+
+    //Java Script: Convierte "Programación Académica" a "PA" 
+
+ /* window.addEventListener('resize', function() {
+    var titulo = document.querySelector('.titulo h3');
+    if (window.innerWidth <= 768) {
+      titulo.textContent = 'PA';
+    } else {
+      titulo.textContent = 'Programación Académica';
+    }
+  }); */
+
+  //Java Script: Convierte "Programación Académica" a "PA" alineado con menú hamburguesa
+
+  window.addEventListener('resize', function() {
+  var tituloContainer = document.querySelector('.titulo');
+  if (window.innerWidth <= 768) {
+    tituloContainer.innerHTML = '<h3>PA</h3>';
+  } else {
+    tituloContainer.innerHTML = '<h3>Programación Académica</h3>';
+  }
+});
+
+ 
+//Java Script: Click para el boton hamburguesa
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el botón del menú hamburguesa y el menú móvil
+    var menuToggle = document.querySelector('.menu-toggle');
+    var mobileMenu = document.querySelector('.mobile-menu');
+
+    // Agrega un evento clic al botón del menú hamburguesa
+    menuToggle.addEventListener('click', function() {
+        // Cambia la visibilidad del menú móvil al hacer clic en el botón
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+    });
+});
+
+  </script> 

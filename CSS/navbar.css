@@ -322,3 +322,23 @@ hr {
 #navbar:hover .logout-container {
     display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
+
+
+
+/*Responsividad del navbar*/
+
+@media screen and (max-width: 768px) { /*Esconde el navbar después de alcanzar una resolución de 768px */
+    #navbar {
+      display: none;
+    }
+  
+    .menu-icon {
+      display: block;
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
