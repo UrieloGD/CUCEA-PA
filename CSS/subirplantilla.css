@@ -1,0 +1,25 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 88vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    align-self: flex-end;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
