@@ -44,17 +44,51 @@ if ($result->num_rows > 0) {
 
     
 <!-- Menú hamburguesa -->
-  <div class="mobile-menu">
+<div class="mobile-menu">
     <ul>
-        <!-- Aquí agregar los mismos elementos del navbar actual -->
-        <li class="menu-list"><a href="./home.php">Inicio</a></li>
-        <li><a href="#">Registro</a></li>
-        <li><a href="#">Oferta</a></li>
-        <li><a href="#">Espacios</a></li>
-        <li><a href="./plantilla.php">Plantilla</a></li>
-        <li><a href="#">Guía</a></li>
+        <li><a href="./home.php">
+            <img class="white-icon" src="./Icons/iconos-blancos/icono-home-b.png" alt="">
+            <img class="blue-icon" src="./Icons/iconos-azules/icono-home.png" alt="">
+            Inicio
+        </a></li>
+        <li><a href="#">
+            <img class="white-icon" src="./Icons/iconos-blancos/icono-registro-b.png" alt="">
+            <img class="blue-icon" src="./Icons/iconos-azules/icono-registro.png" alt="">
+            Registro
+        </a></li>
+        <li><a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-oferta-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-oferta.png" alt="">
+            Oferta
+        </a></li>
+        <li><a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-espacios-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-espacios.png" alt="">
+            Espacios
+        </a></li>
+        <li><a href="./plantilla.php">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-plantilla-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-plantilla.png" alt="">
+            Plantilla
+        </a></li>
+        <li><a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-guia-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-guia.png" alt="">
+            Guía
+        </a></li>
+        <!-- Perfil y Cerrar sesión van juntos -->
+        <li class="profile-item">
+          <a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-usuario-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono=perfil.png" alt="">
+            Perfil
+        </a>
+        <a href="./config/cerrarsesion.php">
+          <button>Cerrar sesión</button>
+          </a>
+      </li>
     </ul>
-  </div>
+</div>
 
     <div class="titulo">
       <h3>Programación Académica</h3>
