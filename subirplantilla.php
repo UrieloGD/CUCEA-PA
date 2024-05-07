@@ -8,72 +8,129 @@
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
 
+<!--Pestaña azul-->
+<div class="header-bar">
+  <h2>Plantillas de Programación Académica</h2>
+</div>
+
+<br><br>
+
 <!--Tabla Subir Plantilla-->
 <table>
   <tr>
-    <th>Departamento</th>
-    <th>Archivo</th>
-    <th>Ultima Actualización</th>
-    <th>Acciones</th>
+    <th style="text-align: center;">Departamento</th>
+    <th style="text-align: center;">Archivo</th>
+    <th style="text-align: center;">Ultima Actualización</th>
+    <th style="text-align: center;">Acciones</th>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Estudios Regionales</td>
+    <td style="text-align: center;">plantilla-reg.xls</td>
+    <td style="text-align: center;">01/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Finanzas</td>
+    <td style="text-align: center;">finanzas.xls</td>
+    <td style="text-align: center;">01/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Ciencias Sociales</td>
+    <td style="text-align: center;">pa-ciencias-sociales.xls</td>
+    <td style="text-align: center;">01/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>PALE</td>
+    <td style="text-align: center;">PA-PALE.xls</td>
+    <td style="text-align: center;">09/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Administración</td>
+    <td style="text-align: center;">planeación-dep-admin.xls</td>
+    <td style="text-align: center;">01/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Posgrados</td>
+    <td style="text-align: center; font-style: italic;">Sin archivo</td>
+    <td style="text-align: center; font-style: italic;">Sin archivo</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Economía</td>
+    <td style="text-align: center; font-style: italic;">Sin archivo</td>
+    <td style="text-align: center; font-style: italic;">Sin archivo</td>
+    <td style="text-align: center;">
+    <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Recursos Humanos</td>
+    <td style="text-align: center;">rh.xls</td>
+    <td style="text-align: center;">24/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Métodos Cuantitativos</td>
+    <td style="text-align: center;">plantilla_metodos_cuantitativos.xls</td>
+    <td style="text-align: center;">24/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
+    <td>Políticas Públicas</td>
+    <td style="text-align: center;">pa_pp.xls</td>
+    <td style="text-align: center;">24/10/2023</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\visualizar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\descargar-plantilla.png"></a>
+      <a href="#" class="btn"><img src="\CUCEA-PA\Icons\eliminar-plantilla.png"></a>
+    </td>
   </tr>
 </table>
