@@ -1,0 +1,30 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 120vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    align-self: flex-end;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+/* Pestaña subir plantilla */
+.header-bar {
+    background-color: #0071B0; 
+    color: white;
+    padding: 2px;
+    text-align: center;
+    font-size: 12px;
+    max-width: 550px;
+    margin: 0 auto;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }

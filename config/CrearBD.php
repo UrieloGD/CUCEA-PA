@@ -2,7 +2,7 @@
 
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'root'); //Para iniciar sesión en Windows (WAMP) se deja vacío
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
 
 if (!$conn) {
@@ -23,7 +23,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     ID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     Correo VARCHAR(500) NOT NULL,
     Pass VARCHAR(60) NOT NULL,
-    Codigo INT (10) Not NULL,
+    Codigo BIGINT (10) Not NULL,
     Nombre VARCHAR(60) NOT NULL,
     Apellido VARCHAR (60) NULL,
     Rol VARCHAR(80) NOT NULL,
