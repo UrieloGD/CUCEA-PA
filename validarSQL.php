@@ -35,10 +35,10 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
         // Validar el valor según las restricciones individuales
         if ($nombreColumna == 'NRC') {
             // Validar que el valor no tenga más de 6 dígitos
-            if (is_numeric($valor) && strlen($valor) > 9) {
+            if (is_numeric($valor) && strlen($valor) < 20) {
                 $errorEncontrado = true;
                 $insertarFila = false; // No insertar esta fila
-                $mensajeError = "Se encontraron errores en la columna $nombreColumna: El valor no debe tener más de 6 dígitos.";
+                $mensajeError = "Se encontraron errores en la columna $nombreColumna: </br> El valor no debe tener más de 6 dígitos.";
                 break 2; // Detener el proceso de inserción y el bucle principal si se encuentra un error
             }
         } elseif ($nombreColumna == 'Columna3') {
@@ -77,5 +77,5 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
 if ($errorEncontrado) {
     echo $mensajeError;
 } else {
-    echo 'Carga completa';
+    echo 'La Base de Datos se cargó correctamente';
 }
