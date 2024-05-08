@@ -29,7 +29,7 @@
     border-bottom-right-radius: 30px;
   }
 
-/* Tabla */ 
+  /* Tabla */ 
 table {
     margin: 3em auto 0;
     border-collapse: collapse;
@@ -37,9 +37,9 @@ table {
     max-width: 1400px; /* Tamaño máximo de la tabla */
     margin: 0 auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Combina los bordes de las celdas */
-  }
+}
 
-  th { /* Celdas de encabezado de la tabla */
+th { /* Celdas de encabezado de la tabla */
     background-color: #E7E9F2;
     background-color: #f2f2f2; /* Color de fondo para los encabezados */
     text-align: left; /* Alinea el texto de los encabezados a la izquierda */
@@ -48,9 +48,4 @@ table {
   th, td { /* Celdas de encabezado y celdas de datos de la tabla */
     border: 2px solid #f2f2f2; /* Agrega bordes a las celdas */
     padding: 5px; /* Espacio de relleno dentro de las celdas */
-  }
-
-  .btn img { /* Iconos */
-    height: 30px; /* Altura de imagenes */
-    align-items: center; /* Alinea imagenes al centro */
   }
