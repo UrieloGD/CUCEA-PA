@@ -19,14 +19,16 @@ if ($conn->query($dbname) == TRUE) {
 
 mysqli_select_db($conn, "PA");
 
+// Consulta SQL para crear la tabla Usuarios
 $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
-    Codigo BIGINT (10) Not NULL,
+    Codigo BIGINT (10) Not NULL PRIMARY KEY,
     Nombre VARCHAR(45) NOT NULL,
     Apellido VARCHAR(45) NOT NULL,
     Rol VARCHAR(80) NOT NULL,
     Correo VARCHAR(100) NOT NULL,
     Pass VARCHAR(32) NOT NULL,
-    Genero VARCHAR (20) NOT NULL
+    Genero VARCHAR (20) NOT NULL,
+    FOREIGN KEY (Rol) REFERENCES Jefes_Departamento(Rol)
     )";
 
 if (mysqli_query($conn, $sql)) {
@@ -49,12 +51,67 @@ VALUES
     ('daniel.sanchez@cucea.udg.mx', '123', 2108901234, 'Daniel', 'Sanchez', 'Coordinacion de Personal', 'Masculino'),
     ('monica.ramirez@cucea.udg.mx', '123', 2109012345, 'Monica', 'Ramirez', 'Coordinacion de Personal', 'Femenino')";
 
-if (mysqli_query($conn, $insert_sql)) {
-    echo "<br>Registros de usuarios instertados correctamente";
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Registros insertados exitosamente en tabla Usuarios";
 } else {
-    echo "<br> Error insertando los registros en la tabla Usuarios: " . mysqli_error($conn);
+    echo "<br>Error insertando los registros en tabla Usuarios: " . mysqli_error($conn);
 }
 
+// Consulta SQL para crear la tabla Jefes de Departamento
+$sql = "CREATE TABLE IF NOT EXISTS Jefes_de_Departamento (
+    Rol VARCHAR(80) NOT NULL,
+    Departamento VARCHAR(100) NOT NULL,
+    Nombre VARCHAR(45) NOT NULL,
+    Apellido VARCHAR(45) NOT NULL,
+    Codigo BIGINT(10),
+    FOREIGN KEY (Codigo) REFERENCES Usuarios(Codigo),
+    PRIMARY KEY (Rol),
+    FOREIGN KEY (Nombre, Apellido) REFERENCES Usuarios(Nombre, Apellido)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Tabla Jefes de Departamento creada exitosamente";
+} else {
+    echo "<br> Error creando tabla Jefes de Departamento: " . mysqli_error($conn);
+}
+
+// Consulta SQL para crear la tabla Secretaria Administrativa
+$sql = "CREATE TABLE IF NOT EXISTS Secretaria_Administrativa (
+    Rol VARCHAR(80) NOT NULL,
+    Departamento VARCHAR(100) NOT NULL,
+    Nombre VARCHAR(45) NOT NULL,
+    Apellido VARCHAR(45) NOT NULL,
+    Codigo BIGINT(10),
+    FOREIGN KEY (Codigo) REFERENCES Usuarios(Codigo),
+    PRIMARY KEY (Rol),
+    FOREIGN KEY (Nombre, Apellido) REFERENCES Usuarios(Nombre, Apellido)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Tabla Secretaria Administrativa creada exitosamente";
+} else {
+    echo "<br> Error creando tabla Secretaria Administrativa: " . mysqli_error($conn);
+}
+
+// Consulta SQL para crear la tabla Coordinacion de Personal
+$sql = "CREATE TABLE IF NOT EXISTS Coordinacion_de_Personal (
+    Rol VARCHAR(80) NOT NULL,
+    Departamento VARCHAR(100) NOT NULL,
+    Nombre VARCHAR(45) NOT NULL,
+    Apellido VARCHAR(45) NOT NULL,
+    Codigo BIGINT(10),
+    FOREIGN KEY (Codigo) REFERENCES Usuarios(Codigo),
+    PRIMARY KEY (Rol),
+    FOREIGN KEY (Nombre, Apellido) REFERENCES Usuarios(Nombre, Apellido)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Tabla Secretaria Administrativa creada exitosamente";
+} else {
+    echo "<br> Error creando tabla Secretaria Administrativa: " . mysqli_error($conn);
+}
+
+// Consulta SQL para crear la tabla Archivos
 $sql = "CREATE TABLE IF NOT EXISTS archivos (
     id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
@@ -63,7 +120,7 @@ $sql = "CREATE TABLE IF NOT EXISTS archivos (
     )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "<br>Table Archivos created successfully";
+    echo "<br>Table Archivos creada exitosamente";
 } else {
     echo "<br>Error creating table Archivos: " . mysqli_error($conn);
 }
