@@ -2,7 +2,7 @@
 
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'root');
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
 
 if (!$conn) {
@@ -14,46 +14,45 @@ $dbname = "CREATE DATABASE PA;";
 if ($conn->query($dbname) == TRUE) {
     echo "Database created successfully <br>";
 } else {
-    echo "Error creating database: " . $conn->error;
+    echo "<br>Error creando base de datos: " . $conn->error;
 }
 
 mysqli_select_db($conn, "PA");
 
 $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
-    ID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Correo VARCHAR(500) NOT NULL,
-    Pass VARCHAR(60) NOT NULL,
-    Codigo INT (10) Not NULL,
-    Nombre VARCHAR(60) NOT NULL,
-    Apellido VARCHAR (60) NULL,
+    Codigo BIGINT (10) Not NULL,
+    Nombre VARCHAR(45) NOT NULL,
+    Apellido VARCHAR(45) NOT NULL,
     Rol VARCHAR(80) NOT NULL,
+    Correo VARCHAR(100) NOT NULL,
+    Pass VARCHAR(32) NOT NULL,
     Genero VARCHAR (20) NOT NULL
     )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "<br>Table Usuarios created successfully";
+    echo "Tabla Usuarios creada exitosamente";
 } else {
-    echo "<br> Error creating table Usuarios: " . mysqli_error($conn);
+    echo "<br> Error creando tabla Usuarios: " . mysqli_error($conn);
 }
 
 // Consulta para insertar registros en la tabla Usuarios
 $insert_sql = "INSERT INTO Usuarios (Correo, Pass, Codigo, Nombre, Apellido, Rol, Genero)
 VALUES
-    ('maria@cucea.udg.mx', '123', 1234567890, 'María', 'García', 'Jefe de Departamento', 'Femenino'),
-    ('juan@cucea.udg.mx', '123', 0987654321, 'Juan', 'Rodríguez', 'Secretaría Administrativa', 'Masculino'),
-    ('ana@cucea.udg.mx', '123', 5678901234, 'Ana', 'Martínez', 'Jefe de Departamento', 'Femenino'),
-    ('pedro@cucea.udg.mx', '123', 2345678901, 'Pedro', 'Gómez', 'Secretaría Administrativa', 'Masculino'),
-    ('laura@cucea.udg.mx', '123', 9012345678, 'Laura', 'Hernández', 'Jefe de Departamento', 'Femenino'),
-    ('carlos@cucea.udg.mx', '123', 6789012345, 'Carlos', 'López', 'Secretaría Administrativa', 'Masculino'),
-    ('sofia@cucea.udg.mx', '123', 3456789012, 'Sofía', 'Sánchez', 'Jefe de Departamento', 'Femenino'),
-    ('diego@cucea.udg.mx', '123', 7890123456, 'Diego', 'Ramírez', 'Secretaría Administrativa', 'Masculino'),
-    ('isabella@cucea.udg.mx', '123', 4567890123, 'Isabella', 'Torres', 'Jefe de Departamento', 'Femenino'),
-    ('alejandro@cucea.udg.mx', '123', 8901234567, 'Alejandro', 'Flores', 'Secretaría Administrativa', 'Masculino')";
+    ('juan.perez@cucea.udg.mx', '123', 2100123456, 'Juan', 'Perez', 'Jefe de Departamento', 'Masculino'),
+    ('maria.lopez@cucea.udg.mx', '123', 2101234567, 'Maria', 'Lopez', 'Secretaria Administrativa', 'Femenino'),
+    ('luis.garcia@cucea.udg.mx', '123', 2102345678, 'Luis', 'Garcia', 'Coordinacion de Personal', 'Masculino'),
+    ('ana.martinez@cucea.udg.mx', '123', 2103456789, 'Ana', 'Martinez', 'Jefe de Departamento', 'Femenino'),
+    ('pedro.rodriguez@cucea.udg.mx', '123', 2104567890, 'Pedro', 'Rodriguez', 'Secretaria Administrativa', 'Masculino'),
+    ('sofia.gonzalez@cucea.udg.mx', '123', 2105678901, 'Sofia', 'Gonzalez', 'Coordinacion de Personal', 'Femenino'),
+    ('carlos.hernandez@cucea.udg.mx', '123', 2106789012, 'Carlos', 'Hernandez', 'Jefe de Departamento', 'Masculino'),
+    ('laura.diaz@cucea.udg.mx', '123', 2107890123, 'Laura', 'Diaz', 'Secretaria Administrativa', 'Femenino'),
+    ('daniel.sanchez@cucea.udg.mx', '123', 2108901234, 'Daniel', 'Sanchez', 'Coordinacion de Personal', 'Masculino'),
+    ('monica.ramirez@cucea.udg.mx', '123', 2109012345, 'Monica', 'Ramirez', 'Coordinacion de Personal', 'Femenino')";
 
 if (mysqli_query($conn, $insert_sql)) {
-    echo "<br>Records inserted successfully";
+    echo "<br>Registros de usuarios instertados correctamente";
 } else {
-    echo "<br> Error inserting records in table: " . mysqli_error($conn);
+    echo "<br> Error insertando los registros en la tabla Usuarios: " . mysqli_error($conn);
 }
 
 $sql = "CREATE TABLE IF NOT EXISTS archivos (
