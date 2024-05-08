@@ -31,9 +31,9 @@
   <!--Cuadros de navegación-->
   <div class="cuadros-nav">
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./basesdedatos.php">
         <div class="overlay">
-          <h4>Registro</h4>
+          <h4>Bases de datos</h4>
         </div>
         <img src="./Img/registro.png" alt="imagen de edificios de CUCEA" />
       </a>
@@ -63,7 +63,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./guia.php">
         <div class="overlay">
           <h4>Guía</h4>
         </div>

@@ -4,7 +4,7 @@
     /*border: solid black 1px;*/
     background-color: white;
     width: 92vw;
-    height: fit-content;
+    height: 88vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -52,7 +52,7 @@
 
 .cuadro-ind img {
     width: 100%;
-    height: 98%;
+    height: 100%;
     /* object-fit: cover; */
     transition: transform 0.3s; /* Transición para el efecto de zoom */
     transform-origin: center; /* Establece el origen de la transformación en el centro */
@@ -72,12 +72,8 @@
 
 .cuadro-ind:hover .overlay h4 {
     font-size: 18px;
-    transition: ease-in-out 0.2s;
+    transition: ease-in-out 0.4s;
     transform-origin: center; /* Establece el origen de la transformación en el centro */
-    -webkit-transition: ease-in-out 0.2s;
-    -moz-transition: ease-in-out 0.2s;
-    -ms-transition: ease-in-out 0.2s;
-    -o-transition: ease-in-out 0.2s;
     object-fit: contain;
 }
 
@@ -86,7 +82,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 98%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -299,13 +295,25 @@
     }
 
     .cuadro-ind {
-        width: 20%;
+        width: 30%;
         margin: 10px;
     }
     
     .cuadro-ind img {
         height: auto;
-        max-width: 100%;
+        max-width: 300px;
+    }
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 300px;
+        height: 98%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(92, 92, 92, 0.5);
+        z-index: 1;
     }
 }
 
