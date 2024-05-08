@@ -196,7 +196,7 @@ if ($result->num_rows > 0) {
  
 //Java Script: Click para el boton hamburguesa
 
-document.addEventListener('DOMContentLoaded', function() {
+/* document.addEventListener('DOMContentLoaded', function() {
     // Selecciona el botón del menú hamburguesa y el menú móvil
     var menuToggle = document.querySelector('.menu-toggle');
     var mobileMenu = document.querySelector('.mobile-menu');
@@ -206,6 +206,35 @@ document.addEventListener('DOMContentLoaded', function() {
         // Cambia la visibilidad del menú móvil al hacer clic en el botón
         mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
     });
+}); */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el botón del menú hamburguesa y el menú móvil
+    var menuToggle = document.querySelector('.menu-toggle');
+    var mobileMenu = document.querySelector('.mobile-menu');
+
+    // Función para manejar la visibilidad del menú hamburguesa
+    function toggleMobileMenu() {
+        var screenWidth = window.innerWidth;
+        if (screenWidth <= 768) {
+            mobileMenu.style.display = 'none';
+        } else {
+            mobileMenu.style.display = 'none';
+        }
+    }
+
+    // Agrega un evento clic al botón del menú hamburguesa
+    menuToggle.addEventListener('click', function() {
+        // Cambia la visibilidad del menú móvil al hacer clic en el botón
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Agrega un evento de cambio de tamaño de ventana
+    window.addEventListener('resize', toggleMobileMenu);
+
+    // Oculta el menú hamburguesa inicialmente
+    mobileMenu.style.display = 'none';
 });
+
 
   </script> 
