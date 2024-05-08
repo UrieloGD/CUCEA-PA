@@ -1,6 +1,5 @@
 
 /* CSS header y background del body y generales*/
-
 * {
     font-family: 'Dm Sans', sans-serif;
     /* evita que se arrastren las imagenes de toda la pagina */
@@ -156,8 +155,137 @@ body {
     border: 2px solid rgb(255, 255, 117);
 }
 
+
+/* Alinear contenidos del navbar */
+.header-content {
+    display: flex;
+    align-items: center;
+    padding: 0 2vw; /* Ajusta el espaciado horizontal según sea necesario */
+  }
+  
+  .titulo {
+    margin-left: 10px; /* Ajusta el margen izquierdo según sea necesario */
+    display: flex;
+    align-items: center;
+  }
+
+
+/* Estilos para el menú hamburguesa */
+
+/*Estilo del boton del menu*/
+.menu-toggle {
+    display: none;
+    /*border: none;*/
+    outline: none;
+    padding: 14px 16px;
+    background-color: inherit;
+    font: inherit;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+.mobile-menu {
+    display: none;
+    /*Ocultaelnavbarverticalpordefecto*/position: absolute;
+    top: 60px;
+    /*Ajustalaposiciónsuperiorsegúnseanecesario*/left: 0;
+    width: 95%;
+    /*Ajustaelanchodelnavbarverticalsegúnseanecesario*/background-color: #0071B0;
+    border-right: 1px solid #ccc;
+    /*Agregaunbordederechoparaseparardelcontenido*/z-index: 99;
+    /*Aseguraqueestésobreotroselementos*/margin-left: 6vw;
+    border-radius: 0px 0px 10px 10px;
+    -webkit-border-radius: 0px 0px 10px 10px;
+    -moz-border-radius: 0px 0px 10px 10px;
+    -ms-border-radius: 0px 0px 10px 10px;
+    -o-border-radius: 0px 0px 10px 10px;
+}
+
+.mobile-menu a {
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-menu .white-icon {
+    width: 20px; /* Ajusta el ancho según el tamaño de tus íconos */
+    height: 20px; /* Ajusta la altura según el tamaño de tus íconos */
+    margin-right: 10px;
+}
+
+.mobile-menu li {
+    padding: 10px 20px;
+    color: white;/*Colordetextopordefecto*/
+    background-color: #0071B0; /*Colordefondopordefecto*/
+    transition: color 0.3s, background-color 0.3s;  /* Agrega una transición suave */
+    -webkit-transition: color 0.3s, background-color 0.3s;
+    -moz-transition: color 0.3s, background-color 0.3s;
+    -ms-transition: color 0.3s, background-color 0.3s;
+    -o-transition: color 0.3s, background-color 0.3s;
+}
+
+.mobile-menu li:hover {
+    /* color: #0071B0; Color de texto al pasar el mouse */
+    background-color: white; /* Color de fondo al pasar el mouse */
+}
+
+.mobile-menu li:hover a {
+    color: #0071B0; /* Color de texto de los enlaces al pasar el mouse */
+}
+
+.mobile-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu li {
+    padding: 10px 20px;
+}
+
+.mobile-menu ul li.profile-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mobile-menu ul li.profile-item a {
+    margin-right: 10px; /* Ajusta este valor según tus necesidades */
+}
+
+ /* Estilos para el botón de cerrar sesión */
+.mobile-menu ul li.profile-item button {
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border: none;
+    color: #0071B0;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s; /* Agrega una transición suave */
+}
+
+/* Estilos para el botón en su estado hover */
+.mobile-menu ul li.profile-item button:hover {
+    background-color: #0071B0;
+    color: white;
+}
+
+.blue-icon {
+    display: none;
+}
+
+.mobile-menu li:hover .white-icon {
+    display: none;
+}
+
+.mobile-menu li:hover .blue-icon {
+    display: inline-block;
+    width: 20px; /* Ajusta el ancho según el tamaño de tus íconos */
+    height: 20px; /* Ajusta la altura según el tamaño de tus íconos */
+    margin-right: 10px;
+}
+  
+
 @media screen and (max-width: 1400px) {
-    /* Estilos para pantallas con ancho máximo de 768px */
     .header {
         margin-left: 8vw;
         font-size: small;
@@ -165,6 +293,33 @@ body {
 
     .icono-notificaciones {
         margin-right: 2vw;
+    }
+
+    .mobile-menu {
+        display: none; /* Ocultar el menú hamburguesa */
+    }
+    
+    
+    /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 1300px) {
+    .header {
+        margin-left: 8vw;
+        font-size: small;
+    }
+
+    .icono-notificaciones {
+        margin-right: 2vw;
+    }
+
+    .mobile-menu {
+        margin-left: 3vw;
+        display: none; /* Ocultar el menú hamburguesa */
+    }
+    
+    .rol { 
+        margin-left: -5vw;
     }
     
     /* Aplica ajustes similares para otros elementos según sea necesario */
@@ -176,7 +331,14 @@ body {
         margin-left: 10vw;
         
     }
+
+    .mobile-menu {
+        display: none; /* Ocultar el menú hamburguesa */
+    }
     
+    .rol { 
+        margin-left: -10vw;
+    }
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
@@ -184,17 +346,62 @@ body {
 @media screen and (max-width: 768px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
-        margin-left: 13vw;
+        margin-left: 2vw;
     }
     /* Aplica ajustes similares para otros elementos según sea necesario */
+
+      /* Menú hamburguesa al llegar a 576px */
+      .menu-toggle {
+        display: block;
+    }
+
+    .mobile-menu {
+        display: none; /* Ocultar el menú hamburguesa */
+    }
+    
+    .titulo {
+        display: flex;
+        align-items: center;
+    }
+
+    .titulo h3 {
+        margin-left: 10px;
+    }
+
+    .rol { 
+        margin-left: -10vw;
+    }
+    
+
 }
+
 
 @media screen and (max-width: 576px) {
     /* Estilos para pantallas con ancho máximo de 576px */
     .header {
+
+        margin-left: 2vw;
     /* la navbar se hara formato hamburgesa */
     }
+
+    /* Menú hamburguesa al llegar a 576px */
+    .menu-toggle {
+        display: block;
+    }
     
+    .titulo {
+        display: flex;
+        align-items: center;
+    }
+
+    .titulo h3 {
+        margin-left: 10px;
+    }
+
+    .rol { 
+        margin-left: -17vw;
+    }
+
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 

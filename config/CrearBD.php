@@ -21,12 +21,9 @@ mysqli_select_db($conn, "PA");
 
 // Consulta SQL para crear la tabla Usuarios
 $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
-    ID int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    Correo VARCHAR(500) NOT NULL,
-    Pass VARCHAR(60) NOT NULL,
-    Codigo INT (10) Not NULL,
-    Nombre VARCHAR(60) NOT NULL,
-    Apellido VARCHAR (60) NULL,
+    Codigo BIGINT (10) Not NULL PRIMARY KEY,
+    Nombre VARCHAR(45) NOT NULL,
+    Apellido VARCHAR(45) NOT NULL,
     Rol VARCHAR(80) NOT NULL,
     Correo VARCHAR(100) NOT NULL,
     Pass VARCHAR(32) NOT NULL,
