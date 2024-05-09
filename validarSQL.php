@@ -60,7 +60,7 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
         break; // Detener el procesamiento de filas si se encuentra un error
     }
 
-    $sql = "INSERT INTO bd (";
+    $sql = "INSERT INTO Data_Plantilla (";
     foreach ($encabezado as $nombreColumna) {
         $sql .= "`$nombreColumna`, ";
     }

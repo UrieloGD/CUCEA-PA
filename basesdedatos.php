@@ -11,7 +11,7 @@
 
 
 // Consulta SQL para obtener los datos de la tabla 'bd'
-    $sql = "SELECT * FROM bd";
+    $sql = "SELECT * FROM Data_Plantilla";
     $result = mysqli_query($conexion, $sql);
 
 // Número de registros por página
@@ -24,11 +24,11 @@ $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
 // Consulta SQL para obtener los datos de la tabla 'bd' con límite y offset
-$sql = "SELECT * FROM bd LIMIT $registros_por_pagina OFFSET $offset";
+$sql = "SELECT * FROM Data_Plantilla LIMIT $registros_por_pagina OFFSET $offset";
 $result = mysqli_query($conexion, $sql);
 
 // Obtener el total de registros
-$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM bd"));
+$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM Data_Plantilla"));
 $total_paginas = ceil($total_registros / $registros_por_pagina);
 ?>
 
@@ -84,7 +84,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                 // Recorrer los resultados y mostrarlos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>" . $row["id"] . "</td>";
+                    echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
                     echo "<td>" . $row["NRC"] . "</td>";
                     echo "<td>" . $row["FECHA INI"] . "</td>";

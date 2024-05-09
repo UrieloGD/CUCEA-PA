@@ -17,19 +17,30 @@ $email = $_SESSION['email'];
 $correo_usuario = $_SESSION['email'];
 
 // Consulta SQL para obtener el nombre del usuario loggeado
-$sql = "SELECT Nombre, rol, Genero, Apellido FROM usuarios WHERE Correo = '$correo_usuario'";
+$sql = "SELECT Nombre, Rol_ID, Genero, Apellido FROM Usuarios WHERE Correo = '$correo_usuario'";
 $result = $conexion->query($sql);
 
 // Verificar si se obtuvo un resultado
 if ($result->num_rows > 0) {
   $row = $result->fetch_assoc();
   $nombre = $row['Nombre'];
-  $rol = $row['rol'];
+  $rol_id = $row['Rol_ID'];
   $genero = $row['Genero'];
   $apellido = $row['Apellido'];
+
+  // Consulta SQL para obtener el nombre del rol
+  $sql_rol = "SELECT Nombre_Rol FROM Roles WHERE Rol_ID = $rol_id";
+  $result_rol = $conexion->query($sql_rol);
+
+  if ($result_rol->num_rows > 0) {
+    $row_rol = $result_rol->fetch_assoc();
+    $nombre_rol = $row_rol['Nombre_Rol'];
+  } else {
+    $nombre_rol = 'Rol no disponible';
+  }
 } else {
   $nombre = 'Nombre no disponible';
-  $rol = 'Rol no disponible';
+  $nombre_rol = 'Rol no disponible';
 }
 ?>
 
@@ -39,7 +50,7 @@ if ($result->num_rows > 0) {
       <h3>Programación Académica</h3>
     </div>
     <div class="rol">
-      <h3><?php echo $rol; ?></h3>
+      <h3><?php echo $nombre_rol; ?></h3>
     </div>
     <li class="icono-notificaciones">
       <a href="#" id="notification-icon">
