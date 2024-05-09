@@ -46,6 +46,61 @@ if ($result->num_rows > 0) {
 
 <div class="container">
   <div class="header">
+  <div class="header-content"> <!-- Contenedor para alinear contenidos del header creo? -->
+
+  <!-- Icono Menú hamburguesa -->
+  <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    
+<!-- Menú hamburguesa -->
+<div class="mobile-menu">
+    <ul>
+        <li><a href="./home.php">
+            <img class="white-icon" src="./Icons/iconos-blancos/icono-home-b.png" alt="">
+            <img class="blue-icon" src="./Icons/iconos-azules/icono-home.png" alt="">
+            Inicio
+        </a></li>
+        <li><a href="#">
+            <img class="white-icon" src="./Icons/iconos-blancos/icono-registro-b.png" alt="">
+            <img class="blue-icon" src="./Icons/iconos-azules/icono-registro.png" alt="">
+            Registro
+        </a></li>
+        <li><a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-oferta-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-oferta.png" alt="">
+            Oferta
+        </a></li>
+        <li><a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-espacios-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-espacios.png" alt="">
+            Espacios
+        </a></li>
+        <li><a href="./plantilla.php">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-plantilla-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-plantilla.png" alt="">
+            Plantilla
+        </a></li>
+        <li><a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-guia-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono-guia.png" alt="">
+            Guía
+        </a></li>
+        <!-- Perfil y Cerrar sesión van juntos -->
+        <li class="profile-item">
+          <a href="#">
+        <img class="white-icon" src="./Icons/iconos-blancos/icono-usuario-b.png" alt="">
+        <img class="blue-icon" src="./Icons/iconos-azules/icono=perfil.png" alt="">
+            Perfil
+        </a>
+        <a href="./config/cerrarsesion.php">
+          <button>Cerrar sesión</button>
+          </a>
+      </li>
+    </ul>
+</div>
+
     <div class="titulo">
       <h3>Programación Académica</h3>
     </div>
@@ -71,6 +126,7 @@ if ($result->num_rows > 0) {
         <i id="notification-icon" class="fas fa-bell" style="font-size: 28px; color: black   ;"></i>
         <i id="calendar-icon" class="fas fa-calendar" style="font-size: 28px; color: black   ;"></i>
       </div>
+    </div>
     </div>
   </div>
 
@@ -125,4 +181,71 @@ if ($result->num_rows > 0) {
     notification4.textContent = 'Notificación 4';
     notification4.classList.add('advertencia'); // Agregar la clase 'advertencia' para notificaciones de advertencia (amarillo)
     notifications.appendChild(notification4);
-  </script>
+
+    //Java Script: Convierte "Programación Académica" a "PA" 
+
+ /* window.addEventListener('resize', function() {
+    var titulo = document.querySelector('.titulo h3');
+    if (window.innerWidth <= 768) {
+      titulo.textContent = 'PA';
+    } else {
+      titulo.textContent = 'Programación Académica';
+    }
+  }); */
+
+  //Java Script: Convierte "Programación Académica" a "PA" alineado con menú hamburguesa
+
+  window.addEventListener('resize', function() {
+  var tituloContainer = document.querySelector('.titulo');
+  if (window.innerWidth <= 768) {
+    tituloContainer.innerHTML = '<h3>PA</h3>';
+  } else {
+    tituloContainer.innerHTML = '<h3>Programación Académica</h3>';
+  }
+});
+
+ 
+//Java Script: Click para el boton hamburguesa
+
+/* document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el botón del menú hamburguesa y el menú móvil
+    var menuToggle = document.querySelector('.menu-toggle');
+    var mobileMenu = document.querySelector('.mobile-menu');
+
+    // Agrega un evento clic al botón del menú hamburguesa
+    menuToggle.addEventListener('click', function() {
+        // Cambia la visibilidad del menú móvil al hacer clic en el botón
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+    });
+}); */
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el botón del menú hamburguesa y el menú móvil
+    var menuToggle = document.querySelector('.menu-toggle');
+    var mobileMenu = document.querySelector('.mobile-menu');
+
+    // Función para manejar la visibilidad del menú hamburguesa
+    function toggleMobileMenu() {
+        var screenWidth = window.innerWidth;
+        if (screenWidth <= 768) {
+            mobileMenu.style.display = 'none';
+        } else {
+            mobileMenu.style.display = 'none';
+        }
+    }
+
+    // Agrega un evento clic al botón del menú hamburguesa
+    menuToggle.addEventListener('click', function() {
+        // Cambia la visibilidad del menú móvil al hacer clic en el botón
+        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Agrega un evento de cambio de tamaño de ventana
+    window.addEventListener('resize', toggleMobileMenu);
+
+    // Oculta el menú hamburguesa inicialmente
+    mobileMenu.style.display = 'none';
+});
+
+
+  </script> 
