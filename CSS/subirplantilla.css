@@ -34,7 +34,7 @@ table {
     margin: 3em auto 0;
     border-collapse: collapse;
     width: 100%;
-    max-width: 1400px; /* Tamaño máximo de la tabla */
+    max-width: 1000px; /* Tamaño máximo de la tabla */
     margin: 0 auto; /* Centra la tabla horizontalmente */
     border-collapse: collapse; /* Combina los bordes de las celdas */
   }

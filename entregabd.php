@@ -26,10 +26,94 @@
   <tr>
 
   <td>Estudios Regionales</td>
-    <td style="text-align: center;">Pendiente</td>
+    <td class="sin-entregar">Pendiente</td>
     <td style="text-align: center;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/subir-plantilla.png"></a>
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
     </td>
   </tr>
+
+  <tr>
+    <td>Finanzas</td>
+    <td class="entregada">Entregada</td>
+    <td style="text-align: center;">01/10/2024</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Ciencias Sociales</td>
+    <td class="atrasada">Atrasada</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>PALE</td>
+    <td class="sin-entregar">Pendiente</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Administración</td>
+    <td class="entregada">Entregada</td>
+    <td style="text-align: center;">03/10/2024</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Posgrados</td>
+    <td class="sin-entregar">Pendiente</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Economía</td>
+    <td class="atrasada">Atrasada</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Recursos Humanos</td>
+    <td class="atrasada">Atrasada</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Métodos Cuantitativos</td>
+    <td class="sin-entregar">Pendiente</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>Políticas Públicas</td>
+    <td class="sin-entregar">Pendiente</td>
+    <td style="text-align: center; font-style: italic;">Sin entregar</td>
+    <td style="text-align: center;">
+      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+    </td>
+  </tr>
+
+</table>
+<?php include './template/footer.php' ?>
 

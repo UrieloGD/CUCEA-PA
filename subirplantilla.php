@@ -13,7 +13,7 @@
   <h2>Plantillas de Programación Académica</h2>
 </div>
 
-<br><br><br><br>
+<br><br>
 
 <!--Tabla Subir Plantilla-->
 <table>
@@ -135,3 +135,4 @@
   </tr>
 </table>
 <?php include './template/footer.php' ?>
+
