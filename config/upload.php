@@ -25,7 +25,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 
     if (move_uploaded_file($file, $uploadPath)) {
         // Insertar los detalles del archivo en la base de datos MySQL
-        $sql = "INSERT INTO archivos (nombre, ruta, tamaño) VALUES ('$fileName', '$uploadPath', $fileSize)";
+        $sql = "INSERT INTO plantilla_sa (Nombre_Archivo_SA, Ruta_Archivo_SA, Tamaño_Archivo_SA) VALUES ('$fileName', '$uploadPath', $fileSize)";
 
         if ($conn->query($sql) === TRUE) {
             echo "Archivo cargado y guardado en la base de datos correctamente.";

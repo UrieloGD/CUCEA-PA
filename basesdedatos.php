@@ -39,7 +39,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h2>Base de datos</h2>
+            <h3>Base de datos</h3>
         </div>
         <div class="icono-buscador" id="icono-buscador">
             <i class="fa fa-search" aria-hidden="true"></i>
