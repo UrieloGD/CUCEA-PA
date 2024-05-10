@@ -6,7 +6,7 @@ $_SESSION['email'] = $email;
 
 $conexion = mysqli_connect("localhost", "root", "", "pa");
 
-$consulta = "SELECT*FROM usuarios where Correo='$email' and pass='$pass'";
+$consulta = "SELECT*FROM Usuarios where Correo='$email' and pass='$pass'";
 $resultado = mysqli_query($conexion, $consulta);
 
 $filas = mysqli_num_rows($resultado);

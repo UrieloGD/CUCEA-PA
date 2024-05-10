@@ -323,8 +323,6 @@ hr {
     display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
 
-
-
 /*Responsividad del navbar*/
 
 @media screen and (max-width: 768px) { /*Esconde el navbar después de alcanzar una resolución de 768px */

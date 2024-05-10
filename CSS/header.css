@@ -289,11 +289,12 @@ body {
     }
 
     .mobile-menu {
-        display: none ; /* Ocultar el menú hamburguesa */
+        display: none ;
     }
-    
-    
-    /* Aplica ajustes similares para otros elementos según sea necesario */
+
+    .rol { 
+        margin-left: -5vw;
+    }
 }
 
 @media screen and (max-width: 1300px) {
@@ -345,7 +346,7 @@ body {
 @media screen and (max-width: 768px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
-        margin-left: 2vw;
+        margin-left: 3vw;
     }
     /* Aplica ajustes similares para otros elementos según sea necesario */
 
