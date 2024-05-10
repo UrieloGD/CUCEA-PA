@@ -40,9 +40,6 @@ dropArea.addEventListener("drop", (e) => {
 
 
 function showFile(files) {
-    // Restablecer la variable filesToUpload antes de procesar los nuevos archivos
-    filesToUpload = [];
-
     if (files.length == undefined) {
         processFile(files);
     } else {
@@ -101,10 +98,9 @@ function processFile(file) {
                 <div id="${id}" class="file-container">
                     <div class="status">
                         <span>${file.name}</span>
-                        <span class="status-text">
-                            Listo para subir
-                        </span>
+                        <span class="status-text">Listo para subir</span>
                     </div>
+                    <button class="cancel-btn" onclick="cancelUpload('${id}')">Cancelar</button>
                 </div>
             `;
             const html = document.querySelector('#preview').innerHTML;
@@ -115,8 +111,20 @@ function processFile(file) {
         filesToUpload.push({ file, id });
     } else {
         //No válido
-        alert("No es un archivo válido. Asegúrate de subir solamente archivos con extensión .xls y .xlsx");
+        Swal.fire({
+            icon: 'error',
+            title: 'Archivo no válido',
+            text: 'Asegúrate de subir solamente archivos con extensión .xls y .xlsx',
+        });
     }
+}
+
+function cancelUpload(id) {
+    const fileIndex = filesToUpload.findIndex(item => item.id === id);
+    if (fileIndex !== -1) {
+        filesToUpload.splice(fileIndex, 1);
+    }
+    document.querySelector(`#${id}`).remove();
 }
 
 function uploadFiles() {
@@ -132,12 +140,33 @@ function uploadFiles() {
         .then(result => {
             console.log(result);
             document.querySelector(`#${id} .status-text`).innerHTML = result;
+
+            // Mostrar SweetAlert dependiendo del resultado
+            if (result.includes('cargado y guardado')) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Archivo subido exitosamente',
+                    text: result,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al subir el archivo',
+                    text: result,
+                });
+            }
+
             // Eliminar el elemento de previsualización después de subir el archivo
             document.querySelector(`#${id}`).remove();
         })
         .catch(error => {
             console.error('Error:', error);
             document.querySelector(`#${id} .status-text`).innerHTML = `<span class="failure">No se pudo cargar el archivo</span>`;
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al subir el archivo',
+                text: 'No se pudo cargar el archivo',
+            });
         });
     });
 
