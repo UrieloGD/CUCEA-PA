@@ -2,14 +2,14 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<title>Entrega Base de Datos</title>
-<link rel="stylesheet" href="./CSS/entregabd.css" />
+<title>Plantillas Departamentos</title>
+<link rel="stylesheet" href="./CSS/plantillasDepartamentos.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
   <div class="encabezado">
       <div class="titulo-bd">
-        <h2>Base de datos</h2>
+        <h3>Plantillas Programación Academica</h3>
       </div>
   </div>
 <!--Pestaña azul-->
@@ -34,7 +34,7 @@
     <td class="sin-entregar">Pendiente</td>
     <td style="text-align: center;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -43,7 +43,7 @@
     <td class="entregada">Entregada</td>
     <td style="text-align: center;">01/10/2024</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -52,7 +52,7 @@
     <td class="atrasada">Atrasada</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -61,7 +61,7 @@
     <td class="sin-entregar">Pendiente</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -70,7 +70,7 @@
     <td class="entregada">Entregada</td>
     <td style="text-align: center;">03/10/2024</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -79,7 +79,7 @@
     <td class="sin-entregar">Pendiente</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -88,7 +88,7 @@
     <td class="atrasada">Atrasada</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -97,7 +97,7 @@
     <td class="atrasada">Atrasada</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -106,7 +106,7 @@
     <td class="sin-entregar">Pendiente</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 
@@ -115,7 +115,7 @@
     <td class="sin-entregar">Pendiente</td>
     <td style="text-align: center; font-style: italic;">Sin entregar</td>
     <td style="text-align: center;">
-      <a href="#" class="btn"><img src="./Icons/boton-ir.png"></a>
+      <button class="btn-ir">Ir</button>
     </td>
   </tr>
 </table>

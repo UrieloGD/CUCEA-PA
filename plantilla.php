@@ -22,7 +22,7 @@
                 <!--Elementos de descarga-->
                 <div class="icono-descarga">
                     <a href="#" onclick="descargarArchivo()">
-                        <img src="./Icons/icono-descarga.png" alt="imagen de edificios de CUCEA" />
+                        <img src="./Img/Icons/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
                     </a>
                 </div>
                 <div class="div-boton-descargar">

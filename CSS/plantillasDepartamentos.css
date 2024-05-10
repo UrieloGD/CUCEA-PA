@@ -93,6 +93,22 @@ td {
   align-items: center; /* Alinea imagenes al centro */
 }
 
+.btn-ir{
+  background-color:#0071b0;
+  color: #fff;
+  padding: 6px 21px;
+  border-radius: 7px;
+  border: none;
+  font-weight: bold
+}
+
+.btn-ir:hover {
+  transition: all 0.2s ease;;
+  transform: scale(1.05);
+  box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+  cursor: pointer;
+}
+
 .entregada {
   color: #3b763d;
   font-weight: bold;
