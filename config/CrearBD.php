@@ -175,7 +175,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     Tamaño_Archivo_Dep INT NOT NULL,
     Usuario_ID BIGINT(10),
     Fecha_Subida_Dep TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
 if (mysqli_query($conn, $sql)) {
