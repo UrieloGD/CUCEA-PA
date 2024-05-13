@@ -175,7 +175,7 @@ body {
 /*Estilo del boton del menu*/
 .menu-toggle {
     display: none;
-    /*border: none;*/
+    border: none;
     outline: none;
     padding: 14px 16px;
     background-color: inherit;
@@ -186,19 +186,16 @@ body {
   
 .mobile-menu {
     display: none;
-    /*Ocultaelnavbarverticalpordefecto*/position: absolute;
-    top: 60px;
-    /*Ajustalaposiciónsuperiorsegúnseanecesario*/left: 0;
-    width: 95%;
-    /*Ajustaelanchodelnavbarverticalsegúnseanecesario*/background-color: #0071B0;
-    border-right: 1px solid #ccc;
-    /*Agregaunbordederechoparaseparardelcontenido*/z-index: 99;
-    /*Aseguraqueestésobreotroselementos*/margin-left: 6vw;
-    border-radius: 0px 0px 10px 10px;
-    -webkit-border-radius: 0px 0px 10px 10px;
-    -moz-border-radius: 0px 0px 10px 10px;
-    -ms-border-radius: 0px 0px 10px 10px;
-    -o-border-radius: 0px 0px 10px 10px;
+    position: absolute; /*Oculta el navbar vertical por defecto*/
+    top: 7vw;
+    left: 0; /*Ajusta la posición superior según sea necesario*/
+    width: 95%; /*Ajusta el ancho del navbar vertical según sea necesario*/
+    height: 90vh;
+    background-color: #0071B0;  
+    z-index: 99; /*Asegura que esté sobre otros elementos*/
+    margin-left: 6vw;
+    border-radius: 0px 0px 20px 20px; /*no sirve je*/
+
 }
 
 .mobile-menu a {
@@ -208,25 +205,23 @@ body {
 }
 
 .mobile-menu .white-icon {
-    width: 20px; /* Ajusta el ancho según el tamaño de tus íconos */
-    height: 20px; /* Ajusta la altura según el tamaño de tus íconos */
-    margin-right: 10px;
+    width: 40px; /* Ajusta el ancho según el tamaño de tus íconos */
+    height: 40px; /* Ajusta la altura según el tamaño de tus íconos */
+    margin-right: 50px;
 }
 
 .mobile-menu li {
-    padding: 10px 20px;
+    padding: 3.5vh 6vw; /* Aumenta el padding vertical y horizontal */
+    font-size: 20px; /* Aumenta el tamaño de la fuente */
     color: white;/*Colordetextopordefecto*/
-    background-color: #0071B0; /*Colordefondopordefecto*/
     transition: color 0.3s, background-color 0.3s;  /* Agrega una transición suave */
-    -webkit-transition: color 0.3s, background-color 0.3s;
-    -moz-transition: color 0.3s, background-color 0.3s;
-    -ms-transition: color 0.3s, background-color 0.3s;
-    -o-transition: color 0.3s, background-color 0.3s;
 }
 
 .mobile-menu li:hover {
     /* color: #0071B0; Color de texto al pasar el mouse */
     background-color: white; /* Color de fondo al pasar el mouse */
+    width: 80.5vw;
+    margin-left: -40px;
 }
 
 .mobile-menu li:hover a {
@@ -235,12 +230,8 @@ body {
 
 .mobile-menu ul {
     list-style-type: none;
-    padding: 0;
+    padding: 40px;
     margin: 0;
-}
-
-.mobile-menu li {
-    padding: 10px 20px;
 }
 
 .mobile-menu ul li.profile-item {
@@ -255,12 +246,14 @@ body {
 
  /* Estilos para el botón de cerrar sesión */
 .mobile-menu ul li.profile-item button {
-    padding: 5px 10px;
+    padding: 15px 30px;
+    font-size: 15px;
     background-color: #ffffff;
     border: none;
     color: #0071B0;
     cursor: pointer;
-    transition: color 0.3s, background-color 0.3s; /* Agrega una transición suave */
+    transition: color 0.3s, background-color 0.3s; /*Agrega una transición suave*/
+    border-radius: 5px;
 }
 
 /* Estilos para el botón en su estado hover */
@@ -279,9 +272,9 @@ body {
 
 .mobile-menu li:hover .blue-icon {
     display: inline-block;
-    width: 20px; /* Ajusta el ancho según el tamaño de tus íconos */
-    height: 20px; /* Ajusta la altura según el tamaño de tus íconos */
-    margin-right: 10px;
+    width: 40px; /* Ajusta el ancho según el tamaño de tus íconos */
+    height: 40px; /* Ajusta la altura según el tamaño de tus íconos */
+    margin-right: 50px; /*Ajusta el espacio entre el icono y el texto"*/
 }
   
 
@@ -296,11 +289,12 @@ body {
     }
 
     .mobile-menu {
-        display: none; /* Ocultar el menú hamburguesa */
+        display: none ;
     }
-    
-    
-    /* Aplica ajustes similares para otros elementos según sea necesario */
+
+    .rol { 
+        margin-left: -5vw;
+    }
 }
 
 @media screen and (max-width: 1300px) {
@@ -342,11 +336,17 @@ body {
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 
+@media screen and (min-width: 769px) {
+    .mobile-menu {
+        display: none;
+    }
+}
+
 /* Media queries para hacer el diseño responsivo */
 @media screen and (max-width: 768px) {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
-        margin-left: 2vw;
+        margin-left: 3vw;
     }
     /* Aplica ajustes similares para otros elementos según sea necesario */
 

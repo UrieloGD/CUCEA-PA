@@ -340,7 +340,7 @@
 
 @media screen and (max-width: 768px){
   .cuadro-principal {
-      width: 85vw;
+      width: 95vw;
       height: fit-content;
       margin-bottom: 2vh;
   }
@@ -348,7 +348,7 @@
 
 @media screen and (max-width: 576px) {
   .cuadro-principal {
-      width: 80vw;
+      width: 96vw;
       height: fit-content;
   }
 }

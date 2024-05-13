@@ -31,7 +31,7 @@
 }
 
 #navbar:hover .navbar-logo img {
-    content: url(../Img/LogoQCA.png);
+    content: url(../Img/logos/LogoCUCEA-BLANCO.png);
     width: 85%;
     height: 55px;
 }
@@ -137,11 +137,12 @@
     opacity: 1;
 }
 
+/* 
 .icono-home{
     content: url(../Icons/Home.png);
     width: 220px;
     height: 60px;
-}
+} */
 
 .navbar-profile-icon {
     width: 5rem;
@@ -322,8 +323,6 @@ hr {
 #navbar:hover .logout-container {
     display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
-
-
 
 /*Responsividad del navbar*/
 

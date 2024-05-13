@@ -2,17 +2,10 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-
-
-
 <?php 
-    // Conectar a la base de datos utilizando tus credenciales
-    $conexion = mysqli_connect("localhost", "root", "", "pa");
-
-
 // Consulta SQL para obtener los datos de la tabla 'bd'
-    $sql = "SELECT * FROM bd";
-    $result = mysqli_query($conexion, $sql);
+$sql = "SELECT * FROM Data_Plantilla";
+$result = mysqli_query($conexion, $sql);
 
 // Número de registros por página
 $registros_por_pagina = 50;
@@ -24,11 +17,11 @@ $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
 // Consulta SQL para obtener los datos de la tabla 'bd' con límite y offset
-$sql = "SELECT * FROM bd LIMIT $registros_por_pagina OFFSET $offset";
+$sql = "SELECT * FROM Data_Plantilla LIMIT $registros_por_pagina OFFSET $offset";
 $result = mysqli_query($conexion, $sql);
 
 // Obtener el total de registros
-$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM bd"));
+$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM Data_Plantilla"));
 $total_paginas = ceil($total_registros / $registros_por_pagina);
 ?>
 
@@ -39,7 +32,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h2>Base de datos</h2>
+            <h3>Base de datos</h3>
         </div>
         <div class="icono-buscador" id="icono-buscador">
             <i class="fa fa-search" aria-hidden="true"></i>
@@ -84,7 +77,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                 // Recorrer los resultados y mostrarlos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>" . $row["id"] . "</td>";
+                    echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
                     echo "<td>" . $row["NRC"] . "</td>";
                     echo "<td>" . $row["FECHA INI"] . "</td>";
@@ -120,57 +113,6 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 </div>
 
 <!-- Barra de búsqueda oculta -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const iconoBuscador = document.getElementById("icono-buscador");
-    const barraBuscador = document.getElementById("barra-buscador");
-
-    iconoBuscador.addEventListener("click", function() {
-        if (barraBuscador.style.display === "none" || barraBuscador.style.display === "") {
-            barraBuscador.style.display = "flex";
-        } else {
-            barraBuscador.style.display = "none";
-        }
-    });
-});
-</script>
-
-<!-- Función de barra de búsqueda -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const inputBuscador = document.getElementById("input-buscador");
-    const tablaDatos = document.getElementById("tabla-datos").getElementsByTagName("tr");
-
-    inputBuscador.addEventListener("keyup", function() {
-        const filtro = inputBuscador.value.toUpperCase();
-
-        // Itera sobre las filas de la tabla y muestra solo las que coinciden con el filtro
-        for (let i = 1; i < tablaDatos.length; i++) {
-            const fila = tablaDatos[i];
-            const datosFila = fila.getElementsByTagName("td");
-            let mostrarFila = false;
-
-            // Itera sobre las celdas de la fila y verifica si alguna coincide con el filtro
-            for (let j = 0; j < datosFila.length; j++) {
-                const dato = datosFila[j];
-                if (dato) {
-                    const textoDato = dato.textContent || dato.innerText;
-                    if (textoDato.toUpperCase().indexOf(filtro) > -1) {
-                        mostrarFila = true;
-                        break;
-                    }
-                }
-            }
-
-            // Muestra u oculta la fila según el resultado de la búsqueda
-            if (mostrarFila) {
-                fila.style.display = "";
-            } else {
-                fila.style.display = "none";
-            }
-        }
-    });
-});
-</script>
+<script src="./JS/barradebusqueda.js"></script>
 
 <?php include ("./template/footer.php"); ?>
