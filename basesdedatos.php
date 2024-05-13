@@ -2,17 +2,10 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-
-
-
 <?php 
-    // Conectar a la base de datos utilizando tus credenciales
-    $conexion = mysqli_connect("localhost", "root", "", "pa");
-
-
 // Consulta SQL para obtener los datos de la tabla 'bd'
-    $sql = "SELECT * FROM Data_Plantilla";
-    $result = mysqli_query($conexion, $sql);
+$sql = "SELECT * FROM Data_Plantilla";
+$result = mysqli_query($conexion, $sql);
 
 // Número de registros por página
 $registros_por_pagina = 50;

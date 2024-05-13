@@ -2,7 +2,7 @@
 
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', ''); //Para iniciar sesión en Windows (WAMP) se deja vacío
+define('DB_PASSWORD', 'root'); //Para iniciar sesión en Windows (WAMP) se deja vacío
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
 
 if (!$conn) {

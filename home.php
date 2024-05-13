@@ -16,7 +16,7 @@
   <!--Cuadro de bienvenida-->
   <div class="bienvenida">
     <h2>
-      <?php
+    <?php
       if ($genero == 'Masculino') {
         echo "Bienvenido, ";
       } else if ($genero == 'Femenino') {
@@ -25,6 +25,10 @@
         echo "Bienvenid@, ";
       }
       echo $nombre, " ", $apellido;
+
+      if ($rol_id == 1){
+        echo "<br>", $nombre_rol, " - ", $_SESSION['Nombre_Departamento'];
+      }
       ?>
     </h2>
   </div>
