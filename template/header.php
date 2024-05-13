@@ -61,7 +61,7 @@
       <h3>Programación Académica</h3>
     </div>
     <div class="rol">
-      <h3><?php echo $codigo; ?></h3>
+      <h3><?php echo $nombre_rol; ?></h3>
     </div>
     <li class="icono-notificaciones">
       <a href="#" id="notification-icon">

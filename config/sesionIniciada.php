@@ -12,7 +12,6 @@ if (!isset($_SESSION['email'])) {
 // Obtener email del usuario loggeado desde la sesión
 $email = $_SESSION['email'];
 $correo_usuario = $_SESSION['email'];
-$codigo = $_SESSION['Codigo'];
 $rol_id = $_SESSION['Rol_ID'];
 
 // Consulta SQL para obtener el nombre del usuario loggeado
@@ -28,6 +27,10 @@ if ($result->num_rows > 0) {
   $apellido = $row['Apellido'];
   $codigo = $row['Codigo'];
 
+  // Guardar el código de usuario y el ID de rol en la sesión (por si acaso)
+  $_SESSION['Codigo'] = $codigo;
+  $_SESSION['Rol_ID'] = $rol_id;
+
   // Consulta SQL para obtener el nombre del rol
   $sql_rol = "SELECT Nombre_Rol FROM Roles WHERE Rol_ID = $rol_id";
   $result_rol = $conexion->query($sql_rol);
@@ -35,12 +38,12 @@ if ($result->num_rows > 0) {
   if ($result_rol->num_rows > 0) {
     $row_rol = $result_rol->fetch_assoc();
     $nombre_rol = $row_rol['Nombre_Rol'];
-} else {
+  } else {
     $nombre_rol = 'Rol no disponible';
-}
+  }
 
-// Verificar si el usuario es un jefe de departamento
-if ($rol_id == 1) {
+  // Verificar si el usuario es un jefe de departamento
+  if ($rol_id == 1) {
     // Consulta SQL para obtener el departamento del usuario
     $sql_departamento = "SELECT Departamentos.Departamento_ID, Departamentos.Nombre_Departamento
         FROM Usuarios_Departamentos
@@ -49,15 +52,17 @@ if ($rol_id == 1) {
     $result_departamento = $conexion->query($sql_departamento);
 
     if ($result_departamento->num_rows > 0) {
-        $row_departamento = $result_departamento->fetch_assoc();
-        $departamento_id = $row_departamento['Departamento_ID'];
-        $nombre_departamento = $row_departamento['Nombre_Departamento'];
-        // Puedes utilizar $departamento_id y $nombre_departamento según tus necesidades
+      $row_departamento = $result_departamento->fetch_assoc();
+      $departamento_id = $row_departamento['Departamento_ID'];
+      $nombre_departamento = $row_departamento['Nombre_Departamento'];
+      // Guardar el nombre del departamento en la sesión
+      $_SESSION['Nombre_Departamento'] = $nombre_departamento;
     } else {
-        echo "El usuario no está asociado a ningún departamento.";
+      echo "El usuario no está asociado a ningún departamento.";
     }
-}
+  }
 } else {
   $nombre = 'Nombre no disponible';
   $nombre_rol = 'Rol no disponible';
 }
+?>

@@ -1,12 +1,9 @@
 <?php
 $email = $_POST['email'];
 $pass = $_POST['pass'];
-$codigo = $_POST['Codigo'];
-$rol_id = $_POST['Rol_ID'];
 session_start();
 $_SESSION['email'] = $email;
-$_SESSION['Codigo'] = $codigo;
-$_SESSION['Rol_ID'] = $rol_id;
+
 // Después de una autenticación exitosa
 
 $conexion = mysqli_connect("localhost", "root", "root", "pa");
