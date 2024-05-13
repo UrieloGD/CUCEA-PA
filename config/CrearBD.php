@@ -175,6 +175,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     Tamaño_Archivo_Dep INT NOT NULL,
     Usuario_ID BIGINT(10),
     Fecha_Subida_Dep TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Departamento_ID INT NOT NULL,
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
