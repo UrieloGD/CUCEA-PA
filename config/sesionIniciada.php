@@ -14,7 +14,7 @@ $email = $_SESSION['email'];
 $correo_usuario = $_SESSION['email'];
 
 // Después de una autenticación exitosa guardamos el codigo para las acciones que haga en el sistema
-$codigo_usuario = $_SESSION['Codigo'];
+//$codigo_usuario = $_SESSION['Codigo'];
 
 // Consulta SQL para obtener el nombre del usuario loggeado
 $sql = "SELECT Nombre, Rol_ID, Genero, Apellido, Codigo FROM Usuarios WHERE Correo = '$correo_usuario'";
