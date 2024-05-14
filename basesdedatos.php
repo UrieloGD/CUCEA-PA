@@ -2,7 +2,7 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<?php 
+<?php
 // Consulta SQL para obtener los datos de la tabla 'bd'
 $sql = "SELECT * FROM Data_Plantilla";
 $result = mysqli_query($conexion, $sql);
@@ -39,8 +39,19 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
         </div>
         <div class="barra-buscador" id="barra-buscador" style="display: none;">
             <input type="text" id="input-buscador" placeholder="Buscar...">
-            <button id="btn-buscar">Buscar</button>
+            <!-- <button id="btn-buscar">Buscar</button> -->
         </div>
+        <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+        </div>
+
+        <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </div>
+        <div class="icono-buscador" id="icono-descargar">
+            <i class="fa fa-download" aria-hidden="true"></i>
+        </div>
+
         <!-- <div class="registros-por-pagina">
             <label for="select-registros">Registros por página:</label>
             <select id="select-registros">
@@ -51,9 +62,13 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
             </select>
         </div> -->
     </div>
+    <?php
+
+    ?>
     <div class="Tabla">
         <table id="tabla-datos">
             <tr>
+                <th></th> <!-- columna para el checkbox -->
                 <th>ID</th>
                 <th>CICLO</th>
                 <th>NRC</th>
@@ -71,30 +86,32 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                 <th>EDIF</th>
                 <th>AULA</th>
             </tr>
+
             <?php
             // Verificar si se obtuvieron resultados
             if (mysqli_num_rows($result) > 0) {
                 // Recorrer los resultados y mostrarlos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
+                    echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>"; // Agregar el checkbox
                     echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
                     echo "<td>" . $row["NRC"] . "</td>";
-                    echo "<td>" . $row["FECHA INI"] . "</td>";
-                    echo "<td>" . $row["FECHA FIN"] . "</td>";
+                    echo "<td>" . $row["FECHA_INI"] . "</td>";
+                    echo "<td>" . $row["FECHA_FIN"] . "</td>";
                     echo "<td>" . $row["L"] . "</td>";
                     echo "<td>" . $row["M"] . "</td>";
                     echo "<td>" . $row["I"] . "</td>";
                     echo "<td>" . $row["J"] . "</td>";
                     echo "<td>" . $row["V"] . "</td>";
-                    echo "<td>" . $row["HORA INI"] . "</td>";
-                    echo "<td>" . $row["HORA FIN"] . "</td>";
+                    echo "<td>" . $row["HORA_INI"] . "</td>";
+                    echo "<td>" . $row["HORA_FIN"] . "</td>";
                     echo "<td>" . $row["EDIF"] . "</td>";
                     echo "<td>" . $row["AULA"] . "</td>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='8'>No hay datos disponibles</td></tr>";
+                echo "<tr><td colspan='16'>No hay datos disponibles</td></tr>";
             }
             // Cerrar la conexión a la base de datos
             mysqli_close($conexion);
@@ -114,5 +131,8 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 
 <!-- Barra de búsqueda oculta -->
 <script src="./JS/barradebusqueda.js"></script>
+<script src="./JS/eliminarRegistro.js"></script>
+<script src="./JS/editarRegistros.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<?php include ("./template/footer.php"); ?>
+<?php include("./template/footer.php"); ?>
