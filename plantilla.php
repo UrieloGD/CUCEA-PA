@@ -43,28 +43,26 @@
                     <b>10 de noviembre de 2024</b>
                 </p>
             </div>
-            <div class="container-inf">
-                <!--Elementos de subida de archivo-->
-                <div class="drop-area">
-                    <p>Arrastra tus archivos a subir aquí</p>
-                    <p>o</p>
-                    <button class="boton-seleccionar-archivo" role="button">Selecciona archivo</button>
-                    <input type="file" name="" id="input-file" hidden>
+            <!-- <form id="formulario-subida" enctype="multipart/form-data"> -->
+                <div class="container-inf">
+                    <!--Elementos de subida de archivo-->
+                    <div class="drop-area">
+                        <p>Arrastra tus archivos a subir aquí</p>
+                        <p>o</p>
+                        <button class="boton-seleccionar-archivo" role="button">Selecciona archivo</button>
+                        <input type="file" name="" id="input-file" hidden>
+                    </div>
+
+                    <div id="preview"></div>
+                    <div id="mensaje"></div>
+
+                    <div class="container-peso">
+                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                    </div>
+
+                    <button class="boton-descargar" role="button" id="guardar-btn" onclick="uploadFiles()">Guardar</button>
                 </div>
-
-                <div id="preview"></div>
-                <div id="mensaje"></div>
-
-                <div class="container-peso">
-                    <h3>Tamaño máximo de archivo permitido: 2MB</h3>
-                </div>
-
-                <button class="boton-descargar" role="button" id="guardar-btn" onclick="uploadFiles()">Guardar</button>
-
-            </div>
-            <!-- <div class="container-inf-dos">
-                <a href="#"><button class="boton-descargar" role="button">Entrega tardía</button></a>
-            </div> -->
+            <!-- </form> -->
         </div>
     </div>
 </div>

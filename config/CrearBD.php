@@ -186,7 +186,7 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Plantilla_Dep: " . mysqli_error($conn);
 }
 
-// Crear tabla BD
+// Crear tabla Data_Plantilla
 $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     CICLO VARCHAR(10) NOT NULL,
@@ -207,9 +207,65 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
 )";
 
 if (mysqli_query($conn, $sql)) {
-    echo "<br>Tabla BD creada exitosamente";
+    echo "<br>Tabla Data_plantilla creada exitosamente";
 } else {
-    echo "<br>Error creando tabla BD: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Data_plantilla: " . mysqli_error($conn);
+}
+
+// Crear tabla Data_Estudios_Regionales
+$sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
+    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    CICLO VARCHAR(10) NOT NULL,
+    NRC VARCHAR(15) NOT NULL,
+    `FECHA INI` VARCHAR(10) NOT NULL,
+    `FECHA FIN` VARCHAR(10) NOT NULL,
+    L VARCHAR(5) NOT NULL,
+    M VARCHAR(5) NOT NULL,
+    I VARCHAR(5) NOT NULL,
+    J VARCHAR(5) NOT NULL,
+    V VARCHAR(5) NOT NULL,
+    S VARCHAR(5) NOT NULL,
+    D VARCHAR(5) NOT NULL,
+    `HORA INI` VARCHAR(10) NOT NULL,
+    `HORA FIN` VARCHAR(10) NOT NULL,
+    EDIF VARCHAR(10) NOT NULL,
+    AULA VARCHAR(10) NOT NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Data_Estudios_Regionales creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Data_Estudios_Regionales: " . mysqli_error($conn);
+}
+
+// Crear tabla Data_Finanzas
+$sql = "CREATE TABLE IF NOT EXISTS Data_Finanzas (
+    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    CICLO VARCHAR(10) NOT NULL,
+    NRC VARCHAR(15) NOT NULL,
+    `FECHA INI` VARCHAR(10) NOT NULL,
+    `FECHA FIN` VARCHAR(10) NOT NULL,
+    L VARCHAR(5) NOT NULL,
+    M VARCHAR(5) NOT NULL,
+    I VARCHAR(5) NOT NULL,
+    J VARCHAR(5) NOT NULL,
+    V VARCHAR(5) NOT NULL,
+    S VARCHAR(5) NOT NULL,
+    D VARCHAR(5) NOT NULL,
+    `HORA INI` VARCHAR(10) NOT NULL,
+    `HORA FIN` VARCHAR(10) NOT NULL,
+    EDIF VARCHAR(10) NOT NULL,
+    AULA VARCHAR(10) NOT NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Data_Finanzas creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Data_Finanzas: " . mysqli_error($conn);
 }
 
 mysqli_close($conn);

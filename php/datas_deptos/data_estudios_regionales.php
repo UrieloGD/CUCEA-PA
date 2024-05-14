@@ -2,9 +2,10 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+
 <?php 
 // Consulta SQL para obtener los datos de la tabla 'bd'
-$sql = "SELECT * FROM Data_Plantilla";
+$sql = "SELECT * FROM data_estudios_regionales";
 $result = mysqli_query($conexion, $sql);
 
 // Número de registros por página
@@ -17,22 +18,22 @@ $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
 // Consulta SQL para obtener los datos de la tabla 'bd' con límite y offset
-$sql = "SELECT * FROM Data_Plantilla LIMIT $registros_por_pagina OFFSET $offset";
+$sql = "SELECT * FROM data_estudios_regionales LIMIT $registros_por_pagina OFFSET $offset";
 $result = mysqli_query($conexion, $sql);
 
 // Obtener el total de registros
-$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM Data_Plantilla"));
+$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM data_estudios_regionales"));
 $total_paginas = ceil($total_registros / $registros_por_pagina);
 ?>
 
-<title>Bases de datos</title>
+<title>Estudios Regionales</title>
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Base de datos</h3>
+            <h3>Data - Estudios Regionales</h3>
         </div>
         <div class="icono-buscador" id="icono-buscador">
             <i class="fa fa-search" aria-hidden="true"></i>

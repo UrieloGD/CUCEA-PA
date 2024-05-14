@@ -1,0 +1,397 @@
+#navbar {
+    top: 0;
+    padding: 0;
+    width: 5em;
+    height: 100vh;
+    position: fixed;
+    background-color:  #0071B0;
+    transition: width .35s cubic-bezier(var(--transition-main), 1);
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    -webkit-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    -moz-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    -ms-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    -o-transition: width .35s cubic-bezier(var(--transition-main), 1);
+    z-index: 1000;
+    border-radius: 0px 20px 20px 0px;
+    -webkit-border-radius: 0px 20px 20px 0px;
+    -moz-border-radius: 0px 20px 20px 0px;
+    -ms-border-radius: 0px 20px 20px 0px;
+    -o-border-radius: 0px 20px 20px 0px;
+}
+
+#navbar:hover {
+    width: 16em;
+    border: solid 5px #E7E9F2;
+    margin-left: -5px;
+    margin-top: -5px;
+}
+
+#navbar:hover .navbar-logo img {
+    content: url(../../../Img/logos/LogoCUCEA-BLANCO.png);
+    width: 85%;
+    height: 55px;
+}
+
+.navbar-logo-container {
+    width: 60px;
+    height: 80px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+#navbar:hover .navbar-logo-container {
+    width: 200px;
+    height: 100px;
+}
+
+#navbar::-webkit-scrollbar-track {
+    background-color: hsl(var(--background-secondary));
+}
+
+#navbar::-webkit-scrollbar {
+    width: 8px;
+    background-color: hsl(var(--background-secondary));
+}
+
+#navbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary));
+}
+
+.navbar-items {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative; /* Agrega esta línea para posicionar elementos hijos relativamente */
+}
+
+/* Navbar Logo */
+.navbar-logo {
+    margin: 10 0 2em 0;
+    width: 100%;
+    height: 7em;
+    background:  #0071B0;
+}
+
+.navbar-logo>.navbar-item-inner {
+    width: calc(50rem - 8px);
+}
+
+.navbar-logo>.navbar-item-inner:hover {
+    background-color: transparent;
+}
+
+/* Navbar Items */
+.navbar-item {
+    padding: 0 .5em;
+    width: 100%;
+    cursor: pointer;
+}
+
+.navbar-item-inner {
+    padding: 1em 0;
+    width: 100%;
+    position: relative;
+    color:  #0071B0(255, 255, 255);
+    text-decoration: none;
+    transition: all .2s cubic-bezier(var(--transition-main), 1);
+}
+
+.navbar-item-inner:hover {
+    color: hsl(var(--white));
+    background: #fff;
+    transform:scale(102%);
+    -webkit-transform:scale(102%);
+    -moz-transform:scale(102%);
+    -ms-transform:scale(102%);
+    -o-transform:scale(102%);
+}
+
+.navbar-item-inner-icon-wrapper {
+    width: calc(5rem - 1em - 8px);
+    position: relative;
+}
+
+.navbar-item-inner-icon-wrapper ion-icon {
+    position: absolute;
+    font-size: calc(var(--navbar-buttons) - 1rem);
+}
+
+.link-text {
+    margin: 0;
+    width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: all .35s cubic-bezier(var(--transition-main), 1);
+    overflow: hidden;
+    opacity: 0;
+    color: #fff;
+}
+
+#navbar:hover .link-text {
+    width: calc(100% - calc(5rem - 8px));
+    opacity: 1;
+}
+
+/* 
+.icono-home{
+    content: url(../Icons/Home.png);
+    width: 220px;
+    height: 60px;
+} */
+
+.navbar-profile-icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+}
+
+.navbar-profile-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-icon-transition {
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    margin-bottom: 20%;
+}
+
+#navbar:hover .profile-icon-transition {
+    width: 5.625rem;
+    /* 90px / 16px = 5.625rem */
+    height: 5.625rem;
+    bottom: 5%;
+    /* Ajusta este valor según tus necesidades */
+}
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    background-color:  #0071B0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+.navbar-profile-icon:hover .profile-menu {
+    display: block;
+}
+
+:root {
+    --primary: 237, 94%, 81%;
+    --background: 266, 16%, 92%;
+    --background-secondary: 256, 12%, 12%;
+    --background-secondary-dark: 256, 10%, 10%;
+    --background-secondary-light: 257, 11%, 16%;
+    --text-primary: 0, 0%, 0%;
+
+    /* misc */
+    --transition-main: .175, .685, .32;
+
+}
+
+/* =========
+Flexbox
+========= */
+
+.flexbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexbox-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flexbox-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+hr {
+    margin-top: 0px; /* justa el margen superior del hr */
+    border: none; /* Elimina el borde del hr */
+    border-top: 2px solid #fff; /* Agrega un borde superior de 1px sólido */
+    width: 90%; /* Ajusta el ancho al 100% */
+}
+
+/* Cambio de color en el texto y el icono al pasar el mouse sobre las opciones */
+.navbar-item-inner:hover .link-text,
+.navbar-item-inner:hover .navbar-item-inner-icon-wrapper img {
+    color: #0071B0; /* Cambia el color del texto a blanco */
+}
+
+.navbar-item-inner-icon-wrapper .hover-icon {
+    display: none; /* Oculta el icono de hover por defecto */
+}
+
+.navbar-item-inner:hover .original-icon {
+    display: none; /* Oculta el icono original cuando se activa el hover */
+}
+
+.navbar-item-inner:hover .hover-icon {
+    display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
+}
+
+/* Boton de cerrar sesion */
+
+.logout-container {
+    position: absolute;
+    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el botón horizontalmente */
+}
+
+.logout-item {
+    margin-top: auto; /* Empuja el elemento hacia abajo */
+}
+
+.logout-button {
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    padding: 8px 16px;
+    background-color: #0071B0;
+    color: #fff;
+    border: 2px solid #0071B0;
+    border-radius: 5px;
+    border: #fff solid 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+
+* a {
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    background-color: #fff; /* Cambia el color de fondo cuando se pasa sobre el botón */
+    color: #0071B0; /* Cambia el color del texto cuando se pasa sobre el botón */
+    border-color: #0071B0; /* Cambia el color del borde cuando se pasa sobre el botón */
+}
+
+.logout-container {
+    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+}
+
+#navbar:hover .logout-container {
+    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
+}
+
+.logout-container {
+    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+    margin-bottom: 2vh; /* Agrega un margen superior de 2vh */
+}
+
+#navbar:hover .logout-container {
+    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
+}
+
+/*Responsividad del navbar*/
+
+/*Esconde el navbar después de alcanzar una resolución de 768px */
+@media screen and (max-width: 768px) {
+    #navbar {
+      display: none;
+    }
+  
+    .menu-icon {
+      display: block;
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+  @media screen and (max-height: 768px) {
+  
+    .navbar-profile-icon {
+        position: static;
+        margin-top: 1rem;
+        margin-bottom: 3rem;
+        transform: none;
+    }
+
+    #navbar:hover .navbar-profile-icon {
+        position: static;
+        margin: 1rem 3rem 2rem 4.5rem; /* Centra horizontalmente */
+        transform: none;
+    }
+
+    .logout-container {
+        margin-bottom: -2rem; /* Agrega un margen inferior de 2vh */
+    }
+      
+    #navbar {
+        /* Estilos del navbar normales */
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+    #navbar::-webkit-scrollbar {
+    width: 8px; /* Ancho del scrollbar oculto */
+    background-color: transparent; /* Color de fondo transparente */
+    }
+
+    #navbar::-webkit-scrollbar-thumb {
+        background-color: transparent; /* Color del pulgar transparente */
+    }
+
+    #navbar::-webkit-scrollbar-track {
+        background-color: transparent; /* Color de fondo del área de desplazamiento transparente */
+    }
+
+    #navbar:hover::-webkit-scrollbar {
+        width: 8px; /* Ancho del scrollbar visible */
+        background-color: rgb(255, 0, 0); /* Color de fondo del scrollbar */
+    }
+
+
+    #navbar:hover::-webkit-scrollbar-thumb {
+        background-color: gray; /* Color del pulgar (barra de desplazamiento) */
+        border-radius: 4px; /* Bordes redondeados del pulgar */
+    }
+    
+    #navbar:hover::-webkit-scrollbar-track {
+        background-color: rgb(183, 183, 183); /* Color de fondo del área de desplazamiento */
+    }
+
+}
