@@ -346,18 +346,18 @@ hr {
   
     .navbar-profile-icon {
         position: static;
-        margin-bottom: 1rem;
+        margin-top: 5rem;
         transform: none;
     }
 
     #navbar:hover .navbar-profile-icon {
         position: static;
-        margin: 1rem 1rem 1rem 4.5rem; /* Centra horizontalmente */
+        margin: 0.2rem 1rem 1rem 4.5rem; /* Centra horizontalmente */
         transform: none;
     }
 
     .logout-container {
-        margin-bottom: -1rem; /* Agrega un margen inferior de 2vh */
+        margin-bottom: 0.5rem; /* Agrega un margen inferior de 2vh */
     }
       
     #navbar {
@@ -416,6 +416,6 @@ hr {
   /* Estilos para el botón de "Cerrar sesión" */
   .logout-button {
     font-size: 12px;
-    padding: 6px 12px;
+    margin-top: -3rem;
   }
 }
