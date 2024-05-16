@@ -12,7 +12,6 @@ if (!isset($_SESSION['email'])) {
 // Obtener email del usuario loggeado desde la sesión
 $email = $_SESSION['email'];
 $correo_usuario = $_SESSION['email'];
-$rol_id = $_SESSION['Rol_ID'];
 
 // Consulta SQL para obtener el nombre del usuario loggeado
 $sql = "SELECT Nombre, Rol_ID, Genero, Apellido, Codigo FROM Usuarios WHERE Correo = '$correo_usuario'";
