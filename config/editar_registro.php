@@ -6,8 +6,8 @@ include '../config/db.php';
 $id = isset($_POST['id']) ? $_POST['id'] : '';
 $ciclo = isset($_POST['CICLO']) ? $_POST['CICLO'] : '';
 $nrc = isset($_POST['NRC']) ? $_POST['NRC'] : '';
-$fecha_ini = $_POST['FECHA_INI'];
-$fecha_fin = $_POST['FECHA_FIN'];
+$fecha_ini = isset($_POST['FECHA_INI']) ? $_POST['FECHA_INI'] : '';
+$fecha_fin = isset($_POST['FECHA_FIN']) ? $_POST['FECHA_FIN'] : '';
 $L = isset($_POST['L']) ? $_POST['L'] : '';
 $M = isset($_POST['M']) ? $_POST['M'] : '';
 $I = isset($_POST['I']) ? $_POST['I'] : '';
@@ -20,21 +20,36 @@ $hora_fin = isset($_POST['HORA_FIN']) ? $_POST['HORA_FIN'] : '';
 $edif = isset($_POST['EDIF']) ? $_POST['EDIF'] : '';
 $aula = isset($_POST['AULA']) ? $_POST['AULA'] : '';
 
-
-// Agrega los demás campos que deseas actualizar
-
-// Preparar la consulta SQL
-$stmt = mysqli_prepare($conexion, "UPDATE Data_Plantilla SET CICLO = ?, NRC = ?, FECHA_INI = ?, FECHA_FIN = ?, L = ?, M = ?, I = ?, J = ?, V = ?, S = ?, D = ?, HORA_INI = ?, HORA_FIN = ?, EDIF = ?, AULA = ? WHERE ID_Plantilla = ?");
-mysqli_stmt_bind_param($stmt, "sssssssssssssssi", $ciclo, $nrc, $fecha_ini, $fecha_fin, $L, $M, $I, $J, $V, $S, $D, $hora_ini, $hora_fin, $edif, $aula, $id);
-
-
-// Ejecutar la consulta
-if (mysqli_stmt_execute($stmt)) {
-    echo "Registro actualizado correctamente";
-} else {
-    echo "Error al actualizar el registro: " . mysqli_stmt_error($stmt);
+// Verificar que se proporcionó un ID válido
+if (!$id) {
+    echo "ID de registro no proporcionado";
+    exit;
 }
 
-// Cerrar la conexión
-mysqli_stmt_close($stmt);
+// Consulta SQL para actualizar el registro en la base de datos
+$sql = "UPDATE Data_Plantilla SET 
+    CICLO='$ciclo',
+    NRC='$nrc',
+    FECHA_INI='$fecha_ini',
+    FECHA_FIN='$fecha_fin',
+    L='$L',
+    M='$M',
+    I='$I',
+    J='$J',
+    V='$V',
+    S='$S',
+    D='$D',
+    HORA_INI='$hora_ini',
+    HORA_FIN='$hora_fin',
+    EDIF='$edif',
+    AULA='$aula'
+    WHERE ID_Plantilla='$id'";
+
+if (mysqli_query($conexion, $sql)) {
+    echo "Registro actualizado correctamente";
+} else {
+    echo "Error al actualizar el registro: " . mysqli_error($conexion);
+}
+
+// Cerrar la conexión a la base de datos
 mysqli_close($conexion);

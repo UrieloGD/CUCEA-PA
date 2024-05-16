@@ -15,7 +15,7 @@ function editarRegistrosSeleccionados() {
     var celdas = fila.getElementsByTagName("td");
 
     // Crear inputs para editar los campos
-    for (var i = 2; i < celdas.length - 1; i++) { // Comenzar desde el índice 2 para omitir el checkbox y el ID, y terminar antes de la última celda
+    for (var i = 2; i < celdas.length; i++) { // Comenzar desde el índice 2 para omitir el checkbox y el ID
         var celda = celdas[i];
         var valorActual = celda.textContent;
         var input = document.createElement("input");
@@ -33,7 +33,7 @@ function editarRegistrosSeleccionados() {
             id: id
         };
 
-        for (var i = 2; i < celdas.length - 1; i++) {
+        for (var i = 2; i < celdas.length; i++) {
             var input = celdas[i].firstChild;
             var campo = obtenerNombreCampo(i);
             datos[campo] = input.value;
@@ -69,10 +69,9 @@ function editarRegistrosSeleccionados() {
 }
 
 function obtenerNombreCampo(indice) {
-    var campos = ["id", "CICLO", "NRC", "FECHA_INI", "FECHA_FIN", "L", "M", "I", "J", "V", "S", "D", "HORA_INI", "HORA_FIN", "EDIF", "AULA"];
+    var campos = ["CICLO", "NRC", "FECHA_INI", "FECHA_FIN", "L", "M", "I", "J", "V", "S", "D", "HORA_INI", "HORA_FIN", "EDIF", "AULA"];
     return campos[indice - 2];
 }
-
 
 // Función auxiliar para convertir un objeto en una cadena de consulta
 function convertirObjeto(obj) {

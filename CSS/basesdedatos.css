@@ -135,13 +135,38 @@ th {
     -o-border-radius: 10px;
 }
 
-#btn-buscar {
-    padding: 5px 10px;
-    background-color: #0071b0;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+
+/* Estilos para nuevos formularios*/
+
+#formulario-añadir {
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 50px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#form-añadir-registro {
+    display: grid;
+    align-items: center;
+}
+
+#formulario-añadir button {
+    padding: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+#formulario-añadir input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.input-formulario {
+    width: 100%;
+    padding: 5px;
+    margin-right: 10px;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width: 1400px) {
