@@ -1,29 +1,60 @@
+var editandoRegistro = false; // Variable para rastrear si ya se está editando un registro
+
 function editarRegistrosSeleccionados() {
+    if (editandoRegistro) {
+        Swal.fire({
+            title: "Error",
+            text: "Ya se está editando un registro.",
+            icon: "error"
+        })
+        return;
+    }
+
     var checkboxes = document.querySelectorAll('input[name="registros_seleccionados[]"]:checked');
 
     if (checkboxes.length === 0) {
-        alert("No se han seleccionado registros");
+        Swal.fire({
+            title: "Error",
+            text: "No se han seleccionado registros para editar.",
+            icon: "error"
+        })
         return;
     } else if (checkboxes.length > 1) {
-        alert("Debe seleccionar exactamente un registro para editarlo");
+        Swal.fire({
+            title: "Error",
+            text: "No puede editar más de dos registros simultáneamente.",
+            icon: "error"
+        })
         return;
     }
+
+    editandoRegistro = true; // Indicar que se está editando un registro
 
     var checkbox = checkboxes[0];
     var id = checkbox.value;
     var fila = checkbox.parentNode.parentNode;
     var celdas = fila.getElementsByTagName("td");
 
-    // Crear inputs para editar los campos
+    // Guardar los valores originales en un array
+    var valoresOriginales = [];
     for (var i = 2; i < celdas.length; i++) { // Comenzar desde el índice 2 para omitir el checkbox y el ID
-        var celda = celdas[i];
-        var valorActual = celda.textContent;
-        var input = document.createElement("input");
-        input.type = "text";
-        input.value = valorActual;
-        celda.textContent = "";
-        celda.appendChild(input);
+        valoresOriginales.push(celdas[i].textContent);
     }
+
+        // Crear inputs para editar los campos
+        for (var i = 2; i < celdas.length; i++) { // Comenzar desde el índice 2 para omitir el checkbox y el ID
+            var celda = celdas[i];
+            var valorActual = celda.textContent;
+            var input = document.createElement("input");
+            input.type = "text";
+            input.style.width = "80px"; // Ajustar el ancho del input
+            input.value = valorActual;
+            celda.textContent = "";
+            celda.appendChild(input);
+        }
+
+    // Crear un contenedor para los botones
+    var contenedorBotones = document.createElement("div");
 
     // Agregar botón para guardar los cambios
     var botonGuardar = document.createElement("button");
@@ -60,12 +91,26 @@ function editarRegistrosSeleccionados() {
                         icon: "error"
                     });
                 }
+                editandoRegistro = false; // Permitir la edición de otro registro
             }
         };
         xhr.send(convertirObjeto(datos));
     };
+    contenedorBotones.appendChild(botonGuardar);
 
-    fila.appendChild(botonGuardar);
+    // Agregar botón para cancelar la edición
+    var botonCancelar = document.createElement("button");
+    botonCancelar.textContent = "Cancelar";
+    botonCancelar.onclick = function() {
+        for (var i = 2; i < celdas.length; i++) {
+            celdas[i].textContent = valoresOriginales[i - 2];
+        }
+        contenedorBotones.remove();
+        editandoRegistro = false; // Permitir la edición de otro registro
+    };
+    contenedorBotones.appendChild(botonCancelar);
+
+    fila.appendChild(contenedorBotones);
 }
 
 function obtenerNombreCampo(indice) {
