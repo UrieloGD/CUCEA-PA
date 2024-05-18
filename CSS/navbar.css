@@ -346,19 +346,18 @@ hr {
   
     .navbar-profile-icon {
         position: static;
-        margin-top: 1rem;
-        margin-bottom: 3rem;
+        margin-top: 5rem;
         transform: none;
     }
 
     #navbar:hover .navbar-profile-icon {
         position: static;
-        margin: 1rem 3rem 2rem 4.5rem; /* Centra horizontalmente */
+        margin: 0.2rem 1rem 1rem 4.5rem; /* Centra horizontalmente */
         transform: none;
     }
 
     .logout-container {
-        margin-bottom: -2rem; /* Agrega un margen inferior de 2vh */
+        margin-bottom: 0.5rem; /* Agrega un margen inferior de 2vh */
     }
       
     #navbar {
@@ -394,4 +393,29 @@ hr {
         background-color: rgb(183, 183, 183); /* Color de fondo del área de desplazamiento */
     }
 
+}
+  
+@media (max-width: 1360px) and (max-height: 768px) {
+    .navbar-item-inner-icon-wrapper img {
+      width: 30%; /* Ajusta el ancho de los iconos al 30% */
+      height: 30%; /* Ajusta la altura de los iconos al 30% */
+    }
+
+     /* Estilos para los iconos de la barra de navegación */
+  .navbar-item-inner-icon-wrapper img {
+    width: 30%;
+    height: 30%;
+  }
+
+  /* Estilos para el icono de perfil */
+  .navbar-profile-icon img {
+    width: 60%;
+    height: 60%;
+  }
+
+  /* Estilos para el botón de "Cerrar sesión" */
+  .logout-button {
+    font-size: 12px;
+    margin-top: -3rem;
+  }
 }

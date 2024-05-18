@@ -190,7 +190,7 @@ body {
     top: 7vw;
     left: 0; /*Ajusta la posición superior según sea necesario*/
     width: 95%; /*Ajusta el ancho del navbar vertical según sea necesario*/
-    height: 90vh;
+    min-height: 90vh;
     background-color: #0071B0;  
     z-index: 99; /*Asegura que esté sobre otros elementos*/
     margin-left: 6vw;
@@ -211,10 +211,15 @@ body {
 }
 
 .mobile-menu li {
-    padding: 3.5vh 6vw; /* Aumenta el padding vertical y horizontal */
-    font-size: 20px; /* Aumenta el tamaño de la fuente */
-    color: white;/*Colordetextopordefecto*/
-    transition: color 0.3s, background-color 0.3s;  /* Agrega una transición suave */
+    padding: 3.5vh 6vw;
+    /*Aumentaelpaddingverticalyhorizontal*/font-size: 20px;
+    /*Aumentaeltamañodelafuente*/color: white;
+    /*Colordetextopordefecto*/transition: color 0.3s, background-color 0.3s;
+      /* Agrega una transición suave */;
+    -webkit-transition: color 0.3s, background-color 0.3s;
+    -moz-transition: color 0.3s, background-color 0.3s;
+    -ms-transition: color 0.3s, background-color 0.3s;
+    -o-transition: color 0.3s, background-color 0.3s;
 }
 
 .mobile-menu li:hover {
@@ -276,6 +281,7 @@ body {
     height: 40px; /* Ajusta la altura según el tamaño de tus íconos */
     margin-right: 50px; /*Ajusta el espacio entre el icono y el texto"*/
 }
+
   
 
 @media screen and (max-width: 1400px) {
@@ -347,6 +353,7 @@ body {
     /* Estilos para pantallas con ancho máximo de 768px */
     .header {
         margin-left: 3vw;
+        
     }
     /* Aplica ajustes similares para otros elementos según sea necesario */
 
