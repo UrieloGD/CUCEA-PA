@@ -35,40 +35,39 @@
                 </div>
             </div>
         </div>
-        <!--Ventana de subida de plantilla-->
-        <div class="tab-pane">
-            <div class="info-subida">
-                <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
-                    <!-- Aqui se incluirá la fecha seleccionada por el Admin -->
-                    <b>10 de noviembre de 2024</b>
-                </p>
-            </div>
-            <!-- <form id="formulario-subida" enctype="multipart/form-data"> -->
-                <div class="container-inf">
-                    <!--Elementos de subida de archivo-->
-                    <div class="drop-area">
-                        <p>Arrastra tus archivos a subir aquí</p>
-                        <p>o</p>
-                        <button class="boton-seleccionar-archivo" role="button">Selecciona archivo</button>
-                        <input type="file" name="" id="input-file" hidden>
-                    </div>
-
-                    <div id="preview"></div>
-                    <div id="mensaje"></div>
-
-                    <div class="container-peso">
-                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
-                    </div>
-
-                    <button class="boton-descargar" role="button" id="guardar-btn" onclick="uploadFiles()">Guardar</button>
+            <!--Ventana de subida de plantilla-->
+            <div class="tab-pane">
+                <div class="info-subida">
+                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
+                        <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b>10 de noviembre de 2024</b>
+                    </p>
                 </div>
-            <!-- </form> -->
+                <!-- Formulario para subir el archivo -->
+                <form id="formulario-subida" action="./config/upload.php" method="POST" enctype="multipart/form-data">
+                    <div class="container-inf">
+                        <!--Elementos de subida de archivo-->
+                        <div class="drop-area">
+                            <p>Arrastra tus archivos a subir aquí</p>
+                            <p>o</p>
+                            <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
+                            <input type="file" name="file" id="input-file" hidden>
+                        </div>
+                        <div id="preview"></div>
+                        <div id="mensaje"></div>
+                        <div class="container-peso">
+                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                        </div>
+                        <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 <script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
 <script src="./JS/pestañas-plantilla.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 <?php include './template/footer.php' ?>

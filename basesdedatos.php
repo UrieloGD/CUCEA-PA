@@ -64,8 +64,8 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                 <th>I</th>
                 <th>J</th>
                 <th>V</th>
-                <!-- <th>S</th>
-                <th>D</th> -->
+                <th>S</th>
+                <!-- <th>D</th> -->
                 <th>HORA INI</th>
                 <th>HORA FIN</th>
                 <th>EDIF</th>
@@ -80,15 +80,17 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                     echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
                     echo "<td>" . $row["NRC"] . "</td>";
-                    echo "<td>" . $row["FECHA INI"] . "</td>";
-                    echo "<td>" . $row["FECHA FIN"] . "</td>";
+                    echo "<td>" . $row["FECHA_INI"] . "</td>";
+                    echo "<td>" . $row["FECHA_FIN"] . "</td>";
                     echo "<td>" . $row["L"] . "</td>";
                     echo "<td>" . $row["M"] . "</td>";
                     echo "<td>" . $row["I"] . "</td>";
                     echo "<td>" . $row["J"] . "</td>";
                     echo "<td>" . $row["V"] . "</td>";
-                    echo "<td>" . $row["HORA INI"] . "</td>";
-                    echo "<td>" . $row["HORA FIN"] . "</td>";
+                    echo "<td>" . $row["S"] . "</td>";
+                    //echo "<td>" . $row["S"] . "</td>";
+                    echo "<td>" . $row["HORA_INI"] . "</td>";
+                    echo "<td>" . $row["HORA_FIN"] . "</td>";
                     echo "<td>" . $row["EDIF"] . "</td>";
                     echo "<td>" . $row["AULA"] . "</td>";
                     echo "</tr>";
