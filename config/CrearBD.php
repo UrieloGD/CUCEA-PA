@@ -99,15 +99,15 @@ if (mysqli_query($conn, $sql)) {
 
 // Insertar departamentos
 $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento) VALUES
-    ('Estudios Regionales'),
+    ('Estudios_Regionales'),
     ('Finanzas'),
-    ('Ciencias Sociales'),
+    ('Ciencias_Sociales'),
     ('PALE'),
     ('Posgrados'),
     ('Economía'),
-    ('Recursos Humanos'),
-    ('Métodos Cuantitativos'),
-    ('Políticas Públicas'),
+    ('Recursos_Humanos'),
+    ('Métodos_Cuantitativos'),
+    ('Políticas_Públicas'),
     ('Administración')";
 
 if (mysqli_query($conn, $insert_departamentos)) {

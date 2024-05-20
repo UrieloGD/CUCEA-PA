@@ -57,7 +57,7 @@ $rol_id = $_SESSION['Rol_ID'];
                     if (isset($_SESSION['Nombre_Departamento'])) {
                         // Obtener el nombre del departamento desde la sesión
                         $nombre_departamento = $_SESSION['Nombre_Departamento'];
-                        echo "<a class='navbar-item-inner flexbox-left' href='./php/datas_deptos/data_$nombre_departamento.php'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
                     } else {
                         // Manejar el caso en que no se encuentre asociado a ningún departamento
                         echo "<a class='navbar-item-inner flexbox-left' href='#'>";
