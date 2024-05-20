@@ -96,7 +96,9 @@ if (!isset($_SESSION['email'])) {
                 </a>
             </li>
             <li class="logout-container">
-                <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar Sesión</button></a>
+                <a href="./config/cerrarsesion.php">
+                    <button class="logout-button">Cerrar Sesión</button>
+                </a>
             </li>
         </ul>
     </nav>

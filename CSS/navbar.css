@@ -331,7 +331,11 @@ hr {
     #navbar {
       display: none;
     }
-  
+    
+    span {
+        font-size: smaller;
+    }
+
     .menu-icon {
       display: block;
       position: fixed;
@@ -340,82 +344,64 @@ hr {
       font-size: 24px;
       cursor: pointer;
     }
-  }
-
-  @media screen and (max-height: 768px) {
-  
-    .navbar-profile-icon {
-        position: static;
-        margin-top: 5rem;
-        transform: none;
-    }
-
-    #navbar:hover .navbar-profile-icon {
-        position: static;
-        margin: 0.2rem 1rem 1rem 4.5rem; /* Centra horizontalmente */
-        transform: none;
-    }
 
     .logout-container {
-        margin-bottom: 0.5rem; /* Agrega un margen inferior de 2vh */
+        margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
     }
-      
+
+    .logout-button {
+        height: 50px; /* Ajusta el margen inferior del botón de cerrar sesión */
+    }
+  }
+
+
+  @media (max-width: 1360px) and (max-height: 768px) {
     #navbar {
-        /* Estilos del navbar normales */
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-    #navbar::-webkit-scrollbar {
-    width: 8px; /* Ancho del scrollbar oculto */
-    background-color: transparent; /* Color de fondo transparente */
+        width: 3.5em; /* Ajusta el ancho de la barra de navegación para pantallas pequeñas */
     }
 
-    #navbar::-webkit-scrollbar-thumb {
-        background-color: transparent; /* Color del pulgar transparente */
-    }
-
-    #navbar::-webkit-scrollbar-track {
-        background-color: transparent; /* Color de fondo del área de desplazamiento transparente */
-    }
-
-    #navbar:hover::-webkit-scrollbar {
-        width: 8px; /* Ancho del scrollbar visible */
-        background-color: rgb(255, 0, 0); /* Color de fondo del scrollbar */
+    #navbar:hover {
+        width: 10em; /* Ajusta el ancho de la barra de navegación al extenderse para pantallas pequeñas */
     }
 
 
-    #navbar:hover::-webkit-scrollbar-thumb {
-        background-color: gray; /* Color del pulgar (barra de desplazamiento) */
-        border-radius: 4px; /* Bordes redondeados del pulgar */
+    .navbar-item-inner-icon-wrapper {
+        width: calc(3rem - 0.5em - 5px); /* Ajusta el ancho del contenedor del icono */
     }
+
+    #navbar:hover .link-text {
+        display: inline; /* Muestra el texto de los enlaces cuando la barra de navegación se extiende */
+        width: auto;
+        opacity: 1;
+    }
+
+    .navbar-profile-icon,
+    .profile-icon-transition {
+            width: 1.5rem; /* Ajusta el ancho del icono de perfil */
+            height: 1.5rem; /* Ajusta la altura del icono de perfil */
+        }
     
-    #navbar:hover::-webkit-scrollbar-track {
-        background-color: rgb(183, 183, 183); /* Color de fondo del área de desplazamiento */
+    #navbar:hover .profile-icon-transition {
+            width: 1.5rem; /* Ajusta el ancho del icono de perfil al extenderse */
+            height: 1.5rem; /* Ajusta la altura del icono de perfil al extenderse */
+        }
+    
+    .logout-button {
+            height: 50px; /* Ajusta el margen inferior del botón de cerrar sesión */
+        }
+
+    
+    span {
+            font-size: smaller;
+        }
+
+    .navbar-logo img {
+            width: 3rem; /* Ajusta el ancho del logo para pantallas pequeñas */
+            height: 4rem; /* Ajusta la altura del logo para pantallas pequeñas */
+        }
+
+        
     }
 
-}
-  
-@media (max-width: 1360px) and (max-height: 768px) {
-    .navbar-item-inner-icon-wrapper img {
-      width: 30%; /* Ajusta el ancho de los iconos al 30% */
-      height: 30%; /* Ajusta la altura de los iconos al 30% */
-    }
 
-     /* Estilos para los iconos de la barra de navegación */
-  .navbar-item-inner-icon-wrapper img {
-    width: 30%;
-    height: 30%;
-  }
 
-  /* Estilos para el icono de perfil */
-  .navbar-profile-icon img {
-    width: 60%;
-    height: 60%;
-  }
-
-  /* Estilos para el botón de "Cerrar sesión" */
-  .logout-button {
-    font-size: 12px;
-    margin-top: -3rem;
-  }
-}
