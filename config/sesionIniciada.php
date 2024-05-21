@@ -36,6 +36,8 @@ if ($result->num_rows > 0) {
     // Guardar el código de usuario y el ID de rol en la sesión (por si acaso)
     $_SESSION['Codigo'] = $codigo;
     $_SESSION['Rol_ID'] = $rol_id;
+    $_SESSION['Nombre'] = $nombre;
+    $_SESSION['Apellido'] = $apellido;
 
     // Consulta SQL para obtener el nombre del rol
     $sql_rol = "SELECT Nombre_Rol FROM Roles WHERE Rol_ID = ?";

@@ -44,15 +44,10 @@
     margin: 10px;
     flex-grow: 1;
     width: 100%;
-    overflow: hidden;  /*Ajustaraltamañomáximodelcontenedor*/
-    display: flex; /*Aseguraquelaimagennosedesbordedelcontenedor*/
-    justify-content: center;  /*Alinealoselementoshijoshorizontalyverticalmente*/
-    align-items: center; /*Centrahorizontalmente*/
-     /* Centra verticalmente */:;
-    -webkit-border-radius:;
-    -moz-border-radius:; 
-    -ms-border-radius:;
-    -o-border-radius:;
+    overflow: hidden;
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
     border: 2px solid black;
 }
 

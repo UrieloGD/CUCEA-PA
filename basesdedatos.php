@@ -42,23 +42,25 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
         <div class="titulo-bd">
             <h3>Data - <?php echo $nombre_departamento; ?></h3>
         </div>
-        <div class="icono-buscador" id="icono-buscador">
-            <i class="fa fa-search" aria-hidden="true"></i>
-        </div>
-        <div class="barra-buscador" id="barra-buscador" style="display: none;">
-            <input type="text" id="input-buscador" placeholder="Buscar...">
-        </div>
-        <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-            <i class="fa fa-add" aria-hidden="true"></i>
-        </div>
-        <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-        </div>
-        <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-        </div>
-        <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
-            <i class="fa fa-download" aria-hidden="true"></i>
+        <div class="iconos-container">
+            <div class="icono-buscador" id="icono-buscador">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+            <div class="barra-buscador" id="barra-buscador" style="display: none;">
+                <input type="text" id="input-buscador" placeholder="Buscar...">
+            </div>
+            <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                <i class="fa fa-add" aria-hidden="true"></i>
+            </div>
+            <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+            <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </div>
+            <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </div>
         </div>
     </div>
     <div class="Tabla">
