@@ -54,9 +54,8 @@ if ($result->num_rows > 0) {
       $row_departamento = $result_departamento->fetch_assoc();
       $departamento_id = $row_departamento['Departamento_ID'];
       $nombre_departamento = $row_departamento['Nombre_Departamento'];
-      $_SESSION['Nombre_Departamento'] = $nombre_departamento; // Guardar el nombre del departamento en la sesión
-      $_SESSION['Departamento_ID'] = $departamento_id; // Guardar el ID del departamento en la sesión
-
+      // Guardar el nombre del departamento en la sesión
+      $_SESSION['Nombre_Departamento'] = $nombre_departamento;
     } else {
       echo "El usuario no está asociado a ningún departamento.";
     }

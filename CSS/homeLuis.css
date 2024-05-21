@@ -2,6 +2,9 @@
 
 .cuadro-principal {
     /*border: solid black 1px;*/
+    /*display: grid;
+    grid-template-columns : repeat(auto-fit, minmax(200px, 1fr));*/
+    /* gap: 2rem; */
     background-color: white;
     width: 92vw;
     height: 88vh;
@@ -10,11 +13,11 @@
     margin-top: 1vh;
     margin-bottom: 2vh;
     align-self: flex-end;
-    border-radius: 20px;
+    /*border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
-    -o-border-radius: 20px;
+    -o-border-radius: 20px;*/
 }
 
 .bienvenida {

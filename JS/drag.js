@@ -37,8 +37,6 @@ dropArea.addEventListener("drop", (e) => {
 
 });
 
-
-
 function showFile(files) {
     if (files.length == undefined) {
         processFile(files);
