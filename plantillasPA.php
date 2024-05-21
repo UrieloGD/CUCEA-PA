@@ -14,10 +14,6 @@
       <h3>Plantillas Programación Academica</h3>
     </div>
   </div>
-<!--Pestaña azul-->
-<!-- <div class="header-bar">
-  <h2>Plantilla</h2>
-</div> -->
 <br><br>
 
 <!--Tabla Subir Plantilla-->
