@@ -40,17 +40,30 @@
         <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
       </td>
     </tr>
+    <!-- Modificaciones para subida de archivos -->
     <tr>
       <td>Finanzas</td>
-      <td style="text-align: center;">finanzas.xls</td>
-      <td style="text-align: center;">01/10/2023</td>
-      <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-visualizar-plantilla.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
-      </td>
-    </tr>
+      <td id="nombre-archivo" style="text-align: center;">No se ha subido un archivo</td>
+      <td id="fecha-subida" style="text-align: center;">01/10/2023</td>
+        <td style="text-align: center;">
+              <form id="formulario-subida" action="./config/upload.php" method="POST" enctype="multipart/form-data">
+                  <label for="input-file" class="btn">
+                      <img src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png" alt="Subir Archivo">
+                  </label>
+                  <input id="input-file" class="hidden-input" type="file" name="file" onchange="actualizarNombreArchivo(this); actualizarFechaSubida();">
+              </form>
+              <style>
+              #input-file {
+              display: none; /* Oculta display de la función de subir archivo  */
+              }
+              </style>
+              <!-- Modificaciones para subida de archivos -->
+              <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-visualizar-plantilla.png"></a>
+              <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
+              <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
+        </td>
+      </tr>
+<!-- Modificaciones para subida de archivos -->
     <tr>
       <td>Ciencias Sociales</td>
       <td style="text-align: center;">pa-ciencias-sociales.xls</td>
@@ -139,6 +152,7 @@
         <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
       </td>
     </tr>
+    <script src="./JS/plantillasPA"></script>
   </table>
 </div>
 <?php include './template/footer.php' ?>
