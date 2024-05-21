@@ -36,7 +36,7 @@ $rol_id = $_SESSION['Rol_ID'];
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
                 <a class="navbar-item-inner flexbox" href="./home.php">
-                    <img src="./Img/logos/LogoUDG-BLANCO.png" width="60" height="80" alt="Logo-UDG">
+                    <img src="./Img/logos/LogoPA-Vertical.png" width="37" height="75" alt="LogoPA-Vertical">
                 </a>
             </li>
             <hr>
@@ -122,7 +122,9 @@ $rol_id = $_SESSION['Rol_ID'];
                 </a>
             </li>
             <li class="logout-container">
-                <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar Sesión</button></a>
+                <a href="./config/cerrarsesion.php">
+                    <button class="logout-button">Cerrar Sesión</button>
+                </a>
             </li>
         </ul>
     </nav>

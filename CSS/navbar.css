@@ -31,9 +31,9 @@
 }
 
 #navbar:hover .navbar-logo img {
-    content: url(../Img/logos/LogoCUCEA-BLANCO.png);
+    content: url(../Img/logos/LogoPA-Extendido.png);
     width: 85%;
-    height: 55px;
+    height: 45px;
 }
 
 .navbar-logo-container {
@@ -99,6 +99,10 @@
     color:  #0071B0(255, 255, 255);
     text-decoration: none;
     transition: all .2s cubic-bezier(var(--transition-main), 1);
+    -webkit-transition: all .2s cubic-bezier(var(--transition-main), 1);
+    -moz-transition: all .2s cubic-bezier(var(--transition-main), 1);
+    -ms-transition: all .2s cubic-bezier(var(--transition-main), 1);
+    -o-transition: all .2s cubic-bezier(var(--transition-main), 1);
 }
 
 .navbar-item-inner:hover {
@@ -231,6 +235,7 @@ Flexbox
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: auto;
 }
 
 .flexbox-right {
@@ -331,7 +336,11 @@ hr {
     #navbar {
       display: none;
     }
-  
+    
+    span {
+        font-size: smaller;
+    }
+
     .menu-icon {
       display: block;
       position: fixed;
@@ -340,82 +349,306 @@ hr {
       font-size: 24px;
       cursor: pointer;
     }
-  }
-
-  @media screen and (max-height: 768px) {
-  
-    .navbar-profile-icon {
-        position: static;
-        margin-top: 5rem;
-        transform: none;
-    }
-
-    #navbar:hover .navbar-profile-icon {
-        position: static;
-        margin: 0.2rem 1rem 1rem 4.5rem; /* Centra horizontalmente */
-        transform: none;
-    }
 
     .logout-container {
-        margin-bottom: 0.5rem; /* Agrega un margen inferior de 2vh */
+        margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
     }
-      
+
+    .logout-button {
+        height: 50px; /* Ajusta el margen inferior del botón de cerrar sesión */
+    }
+  }
+
+
+  @media (max-width: 1400px) {
     #navbar {
-        /* Estilos del navbar normales */
-        overflow-y: auto;
-        overflow-x: hidden;
-      }
-    #navbar::-webkit-scrollbar {
-    width: 8px; /* Ancho del scrollbar oculto */
-    background-color: transparent; /* Color de fondo transparente */
+        width: 4.5em;
     }
 
-    #navbar::-webkit-scrollbar-thumb {
-        background-color: transparent; /* Color del pulgar transparente */
+    #navbar:hover {
+        width: 15em; /* Ajusta el ancho de la barra de navegación al extenderse para pantallas pequeñas */
     }
 
-    #navbar::-webkit-scrollbar-track {
-        background-color: transparent; /* Color de fondo del área de desplazamiento transparente */
+    .navbar-item-inner-icon-wrapper {
+        width: calc(3.5rem - 0.5em - 1px); /* Ajusta el ancho del contenedor del icono */
     }
 
-    #navbar:hover::-webkit-scrollbar {
-        width: 8px; /* Ancho del scrollbar visible */
-        background-color: rgb(255, 0, 0); /* Color de fondo del scrollbar */
-    }
-
-
-    #navbar:hover::-webkit-scrollbar-thumb {
-        background-color: gray; /* Color del pulgar (barra de desplazamiento) */
-        border-radius: 4px; /* Bordes redondeados del pulgar */
+    
+    #navbar:hover .link-text {
+        display: inline; /* Muestra el texto de los enlaces cuando la barra de navegación se extiende */
+        width: auto;
+        opacity: 1;
     }
     
-    #navbar:hover::-webkit-scrollbar-track {
-        background-color: rgb(183, 183, 183); /* Color de fondo del área de desplazamiento */
+    .navbar-profile-icon,
+    .profile-icon-transition {
+            width: 2rem; /* Ajusta el ancho del icono de perfil */
+            height: 2rem; /* Ajusta la altura del icono de perfil */
+        }
+        
+    .navbar-profile-icon {
+            position: absolute;
+
+        }
+
+    #navbar:hover .profile-icon-transition {
+            width: 3rem; /* Ajusta el ancho del icono de perfil al extenderse */
+            height: 3rem; /* Ajusta la altura del icono de perfil al extenderse */
+            margin-bottom: 30%;
+        }
+    
+    .logout-container {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem; /* Agrega un margen inferior para separarlo del icono de perfil */
+        }
+    
+    .logout-button {
+            font-size: 0.8rem; /* Ajusta el tamaño de fuente del botón */
+            padding: 0.5rem 1rem; /* Ajusta el espaciado interno del botón */
+        }
+
+    
+    span {
+            font-size: smaller;
+        }
+
+    .navbar-logo img {
+            max-width: 50%;
+            max-height: 50%;
+            object-fit: contain;
+        }
+
+    #navbar:hover .navbar-logo img{
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
     }
 
+    .flexbox-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: auto;
+        }
 }
   
-@media (max-width: 1360px) and (max-height: 768px) {
-    .navbar-item-inner-icon-wrapper img {
-      width: 30%; /* Ajusta el ancho de los iconos al 30% */
-      height: 30%; /* Ajusta la altura de los iconos al 30% */
+  @media (max-width: 1300px) {
+    #navbar {
+        width: 4.5em;
     }
 
-     /* Estilos para los iconos de la barra de navegación */
-  .navbar-item-inner-icon-wrapper img {
-    width: 30%;
-    height: 30%;
-  }
+    #navbar:hover {
+        width: 15em; /* Ajusta el ancho de la barra de navegación al extenderse para pantallas pequeñas */
+    }
 
-  /* Estilos para el icono de perfil */
-  .navbar-profile-icon img {
-    width: 60%;
-    height: 60%;
-  }
+    .navbar-item-inner-icon-wrapper {
+        width: calc(3.5rem - 0.5em - 1px); /* Ajusta el ancho del contenedor del icono */
+    }
 
-  /* Estilos para el botón de "Cerrar sesión" */
-  .logout-button {
-    font-size: 12px;
-    margin-top: -3rem;
-  }
+    
+    #navbar:hover .link-text {
+        display: inline; /* Muestra el texto de los enlaces cuando la barra de navegación se extiende */
+        width: auto;
+        opacity: 1;
+    }
+    
+    .navbar-profile-icon,
+    .profile-icon-transition {
+            width: 2rem; /* Ajusta el ancho del icono de perfil */
+            height: 2rem; /* Ajusta la altura del icono de perfil */
+        }
+        
+    .navbar-profile-icon {
+            position: absolute;
+
+        }
+
+    #navbar:hover .profile-icon-transition {
+            width: 3rem; /* Ajusta el ancho del icono de perfil al extenderse */
+            height: 3rem; /* Ajusta la altura del icono de perfil al extenderse */
+            margin-bottom: 30%;
+        }
+    
+    .logout-container {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem; /* Agrega un margen inferior para separarlo del icono de perfil */
+        }
+    
+    .logout-button {
+            font-size: 0.8rem; /* Ajusta el tamaño de fuente del botón */
+            padding: 0.5rem 1rem; /* Ajusta el espaciado interno del botón */
+        }
+
+    
+    span {
+            font-size: smaller;
+        }
+
+    .navbar-logo img {
+            max-width: 50%;
+            max-height: 50%;
+            object-fit: contain;
+        }
+
+    #navbar:hover .navbar-logo img{
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .flexbox-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: auto;
+        }
+}
+
+
+  @media (max-width: 1200px) {
+    #navbar {
+        width: 4.5em;
+    }
+
+    #navbar:hover {
+        width: 15em; /* Ajusta el ancho de la barra de navegación al extenderse para pantallas pequeñas */
+    }
+
+    .navbar-item-inner-icon-wrapper {
+        width: calc(3.5rem - 0.5em - 1px); /* Ajusta el ancho del contenedor del icono */
+    }
+
+    
+    #navbar:hover .link-text {
+        display: inline; /* Muestra el texto de los enlaces cuando la barra de navegación se extiende */
+        width: auto;
+        opacity: 1;
+    }
+    
+    .navbar-profile-icon,
+    .profile-icon-transition {
+            width: 2rem; /* Ajusta el ancho del icono de perfil */
+            height: 2rem; /* Ajusta la altura del icono de perfil */
+        }
+        
+    .navbar-profile-icon {
+            position: absolute;
+
+        }
+
+    #navbar:hover .profile-icon-transition {
+            width: 3rem; /* Ajusta el ancho del icono de perfil al extenderse */
+            height: 3rem; /* Ajusta la altura del icono de perfil al extenderse */
+            margin-bottom: 30%;
+        }
+    
+    .logout-container {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem; /* Agrega un margen inferior para separarlo del icono de perfil */
+        }
+    
+    .logout-button {
+            font-size: 0.8rem; /* Ajusta el tamaño de fuente del botón */
+            padding: 0.5rem 1rem; /* Ajusta el espaciado interno del botón */
+        }
+
+    
+    span {
+            font-size: smaller;
+        }
+
+    .navbar-logo img {
+            max-width: 50%;
+            max-height: 50%;
+            object-fit: contain;
+        }
+
+    #navbar:hover .navbar-logo img{
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .flexbox-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: auto;
+        }
+}
+
+@media (max-width: 992px) {
+    #navbar {
+        width: 3.5em;
+    }
+
+    #navbar:hover {
+        width: 10em; /* Ajusta el ancho de la barra de navegación al extenderse para pantallas pequeñas */
+    }
+
+    .navbar-item-inner-icon-wrapper {
+        width: calc(3rem - 0.5em - 5px); /* Ajusta el ancho del contenedor del icono */
+    }
+
+    
+    #navbar:hover .link-text {
+        display: inline; /* Muestra el texto de los enlaces cuando la barra de navegación se extiende */
+        width: auto;
+        opacity: 1;
+    }
+    
+    .navbar-profile-icon,
+    .profile-icon-transition {
+            width: 1.5rem; /* Ajusta el ancho del icono de perfil */
+            height: 1.5rem; /* Ajusta la altura del icono de perfil */
+        }
+        
+    .navbar-profile-icon {
+            position: absolute;
+
+        }
+
+    #navbar:hover .profile-icon-transition {
+            width: 3rem; /* Ajusta el ancho del icono de perfil al extenderse */
+            height: 3rem; /* Ajusta la altura del icono de perfil al extenderse */
+            margin-bottom: 30%;
+        }
+    
+    .logout-container {
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1rem; /* Agrega un margen inferior para separarlo del icono de perfil */
+        }
+    
+    .logout-button {
+            font-size: 0.8rem; /* Ajusta el tamaño de fuente del botón */
+            padding: 0.5rem 1rem; /* Ajusta el espaciado interno del botón */
+        }
+
+    
+    span {
+            font-size: smaller;
+        }
+
+    .navbar-logo img {
+            max-width: 50%;
+            max-height: 50%;
+            object-fit: contain;
+        }
+
+    #navbar:hover .navbar-logo img{
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .flexbox-left {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: auto;
+        }
 }
