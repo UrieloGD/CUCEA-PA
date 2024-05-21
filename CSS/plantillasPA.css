@@ -88,6 +88,10 @@ td {
   align-items: center; /* Alinea imagenes al centro */
 }
 
+#input-file {
+  display: none; /* Oculta display de la función de subir archivo  */
+         }
+
 /* Media queries para hacer el diseño responsivo */
 
 @media screen and (max-width: 1400px) {
