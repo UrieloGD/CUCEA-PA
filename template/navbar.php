@@ -29,7 +29,7 @@ if (!isset($_SESSION['email'])) {
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
                 <a class="navbar-item-inner flexbox" href="./home.php">
-                    <img src="./Img/logos/LogoUDG-BLANCO.png" width="60" height="80" alt="Logo-UDG">
+                    <img src="./Img/logos/LogoPA-Vertical.png" width="35" height="75" alt="LogoPA-Vertical">
                 </a>
             </li>
             <hr>
