@@ -3,7 +3,7 @@
 .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 91.2vw;
     height: fit-content;
     margin-left: 6vw;
     margin-right: 2vw;
@@ -109,64 +109,28 @@ th {
     background-color: #0071b0;
     padding: 15px;
     border-radius: 10px;
-    color: #ffff; 
+    color: #fff;
 }
 
 .barra-buscador {
     display: flex;
     align-items: center;
     margin-left: 10px;
-    border: 4px solid #0071b0;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
 }
 
 #input-buscador {
     padding: 5px;
     margin-right: 5px;
+    border: #0071b0 1px;
+}
+
+#btn-buscar {
+    padding: 5px 10px;
+    background-color: #0071b0;
+    color: white;
     border: none;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-}
-
-
-/* Estilos para nuevos formularios*/
-
-#formulario-añadir {
-    width: 100%;
-    box-sizing: border-box;
-    padding-left: 50px;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-#form-añadir-registro {
-    display: grid;
-    align-items: center;
-}
-
-#formulario-añadir button {
-    padding: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
-}
-
-#formulario-añadir input {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.input-formulario {
-    width: 100%;
-    padding: 5px;
-    margin-right: 10px;
-    box-sizing: border-box;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 1400px) {

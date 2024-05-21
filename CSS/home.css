@@ -34,7 +34,7 @@
 
 .cuadros-nav {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Ajusta las cajas de manera horizontal */
     justify-content: space-between;
     margin: 20px 10px;
 }
@@ -43,11 +43,17 @@
     position: relative;
     margin: 10px;
     flex-grow: 1;
-    width: 100%; /* Ajustar al tamaño máximo del contenedor */
-    overflow: hidden; /* Asegura que la imagen no se desborde del contenedor */
-    display: flex; /* Alinea los elementos hijos horizontal y verticalmente */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
+    width: 100%;
+    overflow: hidden;  /*Ajustaraltamañomáximodelcontenedor*/
+    display: flex; /*Aseguraquelaimagennosedesbordedelcontenedor*/
+    justify-content: center;  /*Alinealoselementoshijoshorizontalyverticalmente*/
+    align-items: center; /*Centrahorizontalmente*/
+     /* Centra verticalmente */:;
+    -webkit-border-radius:;
+    -moz-border-radius:; 
+    -ms-border-radius:;
+    -o-border-radius:;
+    border: 2px solid black;
 }
 
 .cuadro-ind img {
@@ -57,6 +63,7 @@
     transition: transform 0.3s; /* Transición para el efecto de zoom */
     transform-origin: center; /* Establece el origen de la transformación en el centro */
     object-fit: contain;
+    border: 2px solid black;
 }
 
 /* Efecto de zoom al pasar el mouse sobre el cuadro */
@@ -106,11 +113,16 @@
 }
 
 .overlay img {
-    width: 100%; /* Ajustar al tamaño máximo del contenedor */
-    height: 100%; /* Ajustar al tamaño máximo del contenedor */
-    object-fit: cover; /* Asegura que la imagen cubra completamente el contenedor */
-    z-index: -1; /* Envía la imagen detrás del overlay */
-    transition: transform 0.3s; /* Transición para el efecto de zoom */
+    width: 100%;
+    /*Ajustaraltamañomáximodelcontenedor*/height: 100%;
+    /*Ajustaraltamañomáximodelcontenedor*/object-fit: cover;
+    /*Aseguraquelaimagencubracompletamenteelcontenedor*/z-index: -1;
+    /*Envíalaimagendetrásdeloverlay*/transition: transform 0.3s;
+     /* Transición para el efecto de zoom */;
+    -webkit-transition: transform 0.3s;
+    -moz-transition: transform 0.3s;
+    -ms-transition: transform 0.3s;
+    -o-transition: transform 0.3s;
 }
 
 /* Contenedor de Progreso y Siguientes Eventos */
@@ -291,7 +303,7 @@
 
     .cuadros-nav {
         flex-wrap: wrap;
-        justify-content: space-around;
+        justify-content: space-between;
     }
 
     .cuadro-ind {
@@ -305,16 +317,18 @@
     }
 
     .overlay {
-        position: absolute;
-        top: 0;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+        height: 100%;
+        /* top: 0;
         left: 0;
-        width: 300px;
-        height: 98%;
         display: flex;
+         position: absolute;
         align-items: center;
         justify-content: center;
         background-color: rgba(92, 92, 92, 0.5);
-        z-index: 1;
+        z-index: 1; */
     }
 }
 

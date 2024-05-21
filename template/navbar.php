@@ -6,6 +6,13 @@ if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
+
+// Incluir el archivo de sesión iniciada
+require_once './config/sesioniniciada.php';
+
+// Obtener el rol del usuario de la sesión
+$rol_id = $_SESSION['Rol_ID'];
+
 ?>
 
 <!DOCTYPE html>
@@ -43,12 +50,31 @@ if (!isset($_SESSION['email'])) {
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./basesdedatos.php">
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Bases de datos</span>
+                <?php
+                // Redirigir según el rol del usuario
+                if ($rol_id == 1) {
+                    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+                    if (isset($_SESSION['Nombre_Departamento'])) {
+                        // Obtener el nombre del departamento desde la sesión
+                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
+                        echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
+                    } else {
+                        // Manejar el caso en que no se encuentre asociado a ningún departamento
+                        echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                    }
+                } elseif ($rol_id == 2) {
+                    // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
+                    echo "<a class='navbar-item-inner flexbox-left' href='data_departamentos.php'>";
+                } else {
+                    // Otros roles o manejo de errores aquí
+                    echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                }
+                ?>
+                <div class="navbar-item-inner-icon-wrapper flexbox">
+                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                </div>
+                <span class="link-text">Bases de datos</span>
                 </a>
             </li>
             <li class="navbar-item flexbox-left">

@@ -34,20 +34,22 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
 
         // Validar el valor según las restricciones individuales
         if ($nombreColumna == 'NRC') {
-            
-            // Validar que el valor no sea numérico o tenga más de 6 dígitos
-            if (ctype_alpha(strval($valor)) OR strlen($valor) > 6) {
+            // Validar que el valor no tenga más de 6 dígitos
+            if (is_numeric($valor) && strlen($valor) > 9) {
                 $errorEncontrado = true;
                 $insertarFila = false; // No insertar esta fila
-                if (ctype_alpha(strval($valor))) {
-                    $mensajeError = "Se encontraron errores en la columna $nombreColumna: </br> El valor debe ser un número decimal.";
-                } else {
-                    $mensajeError = "Se encontraron errores en la columna $nombreColumna: </br> El valor no debe tener más de 6 dígitos.";
-                }
+                $mensajeError = "Se encontraron errores en la columna $nombreColumna: El valor no debe tener más de 6 dígitos.";
+                break 2; // Detener el proceso de inserción y el bucle principal si se encuentra un error
+            }
+        } elseif ($nombreColumna == 'Columna3') {
+            // Validar que el valor sea un número decimal válido
+            if (!is_numeric($valor)) {
+                $errorEncontrado = true;
+                $insertarFila = false; // No insertar esta fila
+                $mensajeError = "Se encontraron errores en la columna $nombreColumna: El valor debe ser un número decimal.";
                 break 2; // Detener el proceso de inserción y el bucle principal si se encuentra un error
             }
         }
-        
         // Agrega más validaciones según tus necesidades
 
         ${$nombreColumna} = $valor; // Crear variable dinámica
@@ -58,7 +60,7 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
         break; // Detener el procesamiento de filas si se encuentra un error
     }
 
-    $sql = "INSERT INTO Data_Plantilla (";
+    $sql = "INSERT INTO bd (";
     foreach ($encabezado as $nombreColumna) {
         $sql .= "`$nombreColumna`, ";
     }
@@ -75,5 +77,5 @@ for ($indiceFila = 2; $indiceFila <= $numeroFilas; $indiceFila++) {
 if ($errorEncontrado) {
     echo $mensajeError;
 } else {
-    echo 'La Base de Datos se subió correctamente';
+    echo 'Carga completa';
 }
