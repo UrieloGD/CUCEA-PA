@@ -624,7 +624,7 @@ Responsividad para distintas resoluciones
         display: flex;
         justify-content: flex-start;
         align-items: center;
-        margin-bottom: -0.5rem;
+        margin-bottom: auto;
     }
 }
 
