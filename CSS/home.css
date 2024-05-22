@@ -4,7 +4,7 @@
     /*border: solid black 1px;*/
     background-color: white;
     width: 92vw;
-    height: 88vh;
+    height: 89vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -41,7 +41,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr); 
     gap: 25px;
-    margin: 20px 25px;
+    margin: 0px 25px;
 }
 
 .cuadro-ind {
@@ -92,7 +92,7 @@
 }
 
 .cuadro-ind:hover .overlay h4 {
-    font-size: 18px;
+    font-size: 20px;
     transition: ease-in-out 0.4s;
     transform-origin: center; /* Establece el origen de la transformación en el centro */
     object-fit: contain;
@@ -353,7 +353,7 @@
 
 @media screen and (max-width: 1400px) {
     .cuadro-principal {
-        width: 89vw;
+        width: 88.5vw;
         height: fit-content;
     }
 
@@ -402,7 +402,7 @@
 
 @media screen and (max-width: 1100px) {
     .cuadro-principal {
-        width: 86.5vw;
+        width: 86.3vw;
         height: fit-content;
     }
 
@@ -444,7 +444,7 @@
 
 @media screen and (max-width: 768px){
     .cuadro-principal {
-        width: 93vw;
+        width: 96vw;
         height: fit-content;
         margin-bottom: 2vh;
         font-size: smaller;
@@ -507,7 +507,7 @@
 
 @media screen and (max-width: 576px) {
     .cuadro-principal {
-        width: -10vw;
+        width: 96vw;
         height: fit-content;
         font-size: smaller;
     }
