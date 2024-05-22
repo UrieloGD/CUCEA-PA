@@ -75,8 +75,10 @@
       </a>
     </div>
   </div>
+
   <!-- Bloque inferior -->
   <div class="container-eventos-progreso">
+
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
       <div class="siguienteseventos">
@@ -133,31 +135,50 @@
           <img src="./Img/Icons/iconos-eventosPA/icono-flechaDer.png" alt="Flecha">
         </div>
       </div>
+
       <!--Aquí iremos agregando las funciones donde Aldo como admin agregara eventos importantes de PA-->
     </div>
+
+
     <!-- Progreso de Pa -->
     <div class="progreso">
       <div class="progresoPA">
         <h3>Progreso de PA</h3>
       </div>
+
       <div class="progresoContenido">
         <span>Jefes de Departamento</span>
         <div class="progress-container">
-          <progress value="80" max="100"></progress>
-          <span>80%</span>
+          <div class="progress-bar" data-progress="80"></div>
+          <!-- <progress value="80" max="100"></progress> 
+          <span>80%</span> -->
         </div><br>
+
         <span>Control Escolar</span>
         <div class="progress-container">
-          <progress value="50" max="100"></progress>
-          <span>50%</span>
+          <div class="progress-bar" data-progress="50"></div>
+          <!-- <progress value="50" max="100"></progress>
+          <span>50%</span> -->
         </div><br>
+
         <span>Coordinadores</span>
         <div class="progress-container">
-          <progress value="30" max="100"></progress>
-          <span>30%</span>
+        <div class="progress-bar" data-progress="30"></div>
+          <!-- <progress value="30" max="100"></progress>
+          <span>30%</span> -->
         </div>
       </div>
     </div>
   </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressBars = document.querySelectorAll('.progress-bar');
+
+        progressBars.forEach(function(bar) {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.width = `${progress}%`;
+        });
+    });
+</script>
 <?php include './template/footer.php' ?>
