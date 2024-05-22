@@ -19,8 +19,9 @@
 /* Encabezado */
 .encabezado {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Distribuye el espacio entre el título y los íconos */
     align-items: center;
+    padding: 10px 20px; /* Ajusta el padding según sea necesario */
 }
 
 .encabezado h3 {
@@ -29,13 +30,11 @@
 
 .titulo-bd {
     color: #fff;
-    width: 30vw;
     padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-radius: 0px 0px 20px 20px;
     background-color: #0071b0;
+    text-align: center; /* Centra el texto dentro del div */
+    flex-grow: 1; /* Permite que el título ocupe el espacio disponible */
 }
 
 /* Tabla */
@@ -103,13 +102,18 @@ th {
 
 /*icono y Boton Buscar */
 
+.iconos-container {
+    display: flex; /* Asegura que los iconos estén en línea horizontal */
+    align-items: center;
+}
+
 .icono-buscador {
-    margin-left: 40px;
     cursor: pointer;
     background-color: #0071b0;
     padding: 15px;
     border-radius: 10px;
-    color: #ffff; 
+    color: #fff;
+    margin-left: 10px; /* Espacio entre los iconos */
 }
 
 .barra-buscador {
@@ -118,10 +122,6 @@ th {
     margin-left: 10px;
     border: 4px solid #0071b0;
     border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
 }
 
 #input-buscador {

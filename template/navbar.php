@@ -36,7 +36,7 @@ $rol_id = $_SESSION['Rol_ID'];
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
                 <a class="navbar-item-inner flexbox" href="./home.php">
-                    <img src="./Img/logos/LogoUDG-BLANCO.png" width="60" height="80" alt="Logo-UDG">
+                    <img src="./Img/logos/LogoPA-Vertical.png" width="37" height="75" alt="LogoPA-Vertical">
                 </a>
             </li>
             <hr>
@@ -57,7 +57,7 @@ $rol_id = $_SESSION['Rol_ID'];
                     if (isset($_SESSION['Nombre_Departamento'])) {
                         // Obtener el nombre del departamento desde la sesión
                         $nombre_departamento = $_SESSION['Nombre_Departamento'];
-                        echo "<a class='navbar-item-inner flexbox-left' href='./php/datas_deptos/data_$nombre_departamento.php'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
                     } else {
                         // Manejar el caso en que no se encuentre asociado a ningún departamento
                         echo "<a class='navbar-item-inner flexbox-left' href='#'>";
@@ -96,7 +96,27 @@ $rol_id = $_SESSION['Rol_ID'];
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./plantilla.php">
+
+            <?php
+                // Redirigir según el rol del usuario
+                if ($rol_id == 1) {
+                    // Si el usuario es jefe de departamento, redirigir a subir plantilla
+                    if (isset($_SESSION['Nombre_Departamento'])) {
+                        // Obtener el nombre del departamento desde la sesión
+                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
+                        echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>";
+                    } else {
+                        // Manejar el caso en que no se encuentre asociado a ningún departamento
+                        echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                    }
+                } elseif ($rol_id == 2) {
+                    // Si el usuario es secretaria administrativa, redirigir a plantillasPA
+                    echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
+                } else {
+                    // Otros roles o manejo de errores aquí
+                    echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                }
+                ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
@@ -122,7 +142,9 @@ $rol_id = $_SESSION['Rol_ID'];
                 </a>
             </li>
             <li class="logout-container">
-                <a href="./config/cerrarsesion.php"><button class="logout-button">Cerrar Sesión</button></a>
+                <a href="./config/cerrarsesion.php">
+                    <button class="logout-button">Cerrar Sesión</button>
+                </a>
             </li>
         </ul>
     </nav>

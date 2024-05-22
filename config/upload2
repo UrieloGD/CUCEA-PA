@@ -37,13 +37,54 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $highestColumn = $sheet->getHighestColumn();
 
         
+        // Obtener el ID del departamento del usuario desde la sesión
+        $departamento_id = $_SESSION['Departamento_ID'];
+
+        // Preparar la consulta SQL según el departamento del usuario
+        switch ($departamento_id) {
+            case 1:
+                $tabla_destino = 'Data_Estudios_Regionales';
+                break;
+            case 2:
+                $tabla_destino = 'Data_Finanzas';
+                break;
+            case 3:
+                $tabla_destino = 'Data_Ciencias_Sociales';
+                break;
+            case 4:
+                $tabla_destino = 'Data_PALE';
+                break;
+            case 5:
+                $tabla_destino = 'Data_Posgrados';
+                break;
+            case 6:
+                $tabla_destino = 'Data_Economia';
+                break;
+            case 7:
+                $tabla_destino = 'Data_Recursos_Humanos';
+                break;
+            case 8:
+                $tabla_destino = 'Data_Metodos_Cuantitativos';
+                break;
+            case 9:
+                $tabla_destino = 'Data_Politicas_Publicas';
+                break;
+            case 10:
+                $tabla_destino = 'Data_Administracion';
+                break;
+            default:
+                echo "Departamento no válido.";
+                exit;
+        }
+
         // Preparar la consulta SQL
-        $sql = "INSERT INTO data_plantilla (Departamento_ID, CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO $tabla_destino (DEPARTAMENTO_ID, CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        
         echo "Consulta SQL: " . $sql . "<br>";
-        // Insertar los datos en la tabla data_plantilla
-        for ($row = 2; $row <= $highestRow; $row++) { // Empezar desde la fila 2 para omitir los encabezados
+
+        // Insertar los datos en la tabla correspondiente
+        for ($row = 2; $row <= $highestRow; $row++) {
+            // Empezar desde la fila 2 para omitir los encabezados
             $departamento_id = $departamento_id ?? null;
             $ciclo = $sheet->getCell('A' . $row)->getValue() ?? null;
             $nrc = $sheet->getCell('B' . $row)->getValue() ?? null;
@@ -69,9 +110,9 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             echo "Error al ejecutar la consulta: " . $stmt->error . "<br>";
         }
 
-        echo "Valores a insertar: $departamento_id, $ciclo, $nrc, $fecha_ini, $fecha_fin, $l, $m, $i, $j, $v, $s, $d, $hora_ini, $hora_fin, $edif, $aula<br>";
-
         echo "Archivo cargado y datos insertados en la base de datos correctamente.";
+
+        echo "Valores a insertar: $departamento_id, $ciclo, $nrc, $fecha_ini, $fecha_fin, $l, $m, $i, $j, $v, $s, $d, $hora_ini, $hora_fin, $edif, $aula<br>";
     } else {
         echo "Usuario no autenticado.";
     }

@@ -43,9 +43,8 @@
                     </p>
                 </div>
                 <!-- Formulario para subir el archivo -->
-                <form id="formulario-subida" action="./config/upload.php" method="POST" enctype="multipart/form-data">
+                <form id="formulario-subida" enctype="multipart/form-data">
                     <div class="container-inf">
-                        <!--Elementos de subida de archivo-->
                         <div class="drop-area">
                             <p>Arrastra tus archivos a subir aquí</p>
                             <p>o</p>
@@ -67,7 +66,7 @@
 <script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
 <script src="./JS/pestañas-plantilla.js"></script>
+<script src="./JS/Ajax.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 <?php include './template/footer.php' ?>

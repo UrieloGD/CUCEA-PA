@@ -1,13 +1,22 @@
 <?php
 require '../vendor/autoload.php';
 include '../config/db.php';
+session_start(); // Iniciar la sesión
+
+// Obtener el nombre y el ID del departamento del usuario desde la sesión
+$nombre_departamento = $_SESSION['Nombre_Departamento'];
+$departamento_id = $_SESSION['Departamento_ID'];
+
+// Obtener el nombre y apellido del usuario desde la sesión (con verificación)
+$nombre_usuario = isset($_SESSION['Nombre']) ? $_SESSION['Nombre'] : 'Usuario';
+$apellido_usuario = isset($_SESSION['Apellido']) ? $_SESSION['Apellido'] : '';
 
 // Crear un nuevo objeto de PHPExcel
 $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-$objPHPExcel->getProperties()->setCreator("Omar Rodríguez")
-    ->setLastModifiedBy("Omar Rodríguez")
-    ->setTitle("Exportación de Data_Plantilla")
-    ->setSubject("Data_Plantilla")
+$objPHPExcel->getProperties()->setCreator("$nombre_usuario $apellido_usuario")
+    ->setLastModifiedBy("$nombre_usuario $apellido_usuario")
+    ->setTitle("Exportación de Data_$nombre_departamento")
+    ->setSubject("Data_$nombre_departamento")
     ->setDescription("Documento generado automáticamente desde la base de datos.")
     ->setKeywords("phpexcel")
     ->setCategory("Archivo de datos");
@@ -31,8 +40,11 @@ $objPHPExcel->setActiveSheetIndex(0)
     ->setCellValue('O1', 'EDIF')
     ->setCellValue('P1', 'AULA');
 
-// Consulta SQL para obtener los datos de la tabla 'Data_Plantilla'
-$sql = "SELECT * FROM Data_Plantilla";
+// Construir el nombre de la tabla según el departamento
+$tabla_departamento = "Data_" . $nombre_departamento;
+
+// Consulta SQL para obtener los datos de la tabla correspondiente al departamento
+$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
 
 // Verificar si se obtuvieron resultados
@@ -61,14 +73,14 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 // Renombrar hoja
-$objPHPExcel->getActiveSheet()->setTitle('Data_Plantilla');
+$objPHPExcel->getActiveSheet()->setTitle("Data_$nombre_departamento");
 
 // Establecer la hoja activa
 $objPHPExcel->setActiveSheetIndex(0);
 
 // Redirigir salida al navegador
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Data_Plantilla.xlsx"');
+header('Content-Disposition: attachment;filename="Data_' . $nombre_departamento . '.xlsx"');
 header('Cache-Control: max-age=0');
 header('Cache-Control: max-age=1');
 

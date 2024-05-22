@@ -3,10 +3,7 @@
 * {
     font-family: 'Dm Sans', sans-serif;
     /* evita que se arrastren las imagenes de toda la pagina */
-    user-select: none; /* Estándar */
-    -webkit-user-drag: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
+    /* user-select: none; */
 }
 
 body {
