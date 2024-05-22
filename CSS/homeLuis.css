@@ -2,9 +2,13 @@
 
 .cuadro-principal {
     /*border: solid black 1px;*/
-    /*display: grid;
-    grid-template-columns : repeat(auto-fit, minmax(200px, 1fr));*/
+    /* display: flex; */
+    /* grid-template-columns : repeat(auto-fit, minmax(200px, 1fr));*/ 
     /* gap: 2rem; */
+
+    container-type: inline-size;
+    box-sizing: border-box;
+
     background-color: white;
     width: 92vw;
     height: 88vh;
@@ -13,6 +17,7 @@
     margin-top: 1vh;
     margin-bottom: 2vh;
     align-self: flex-end;
+    float: right;
     /*border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -286,7 +291,7 @@
 
 /* Media queries para hacer el diseño responsivo */
 
-@media screen and (max-width: 1400px) {
+/* @media screen and (max-width: 1400px) {
     .cuadro-principal {
         width: 89vw;
         height: fit-content;
@@ -323,7 +328,7 @@
         justify-content: center;
         align-items: center;
         width: 90%;
-        height: 100%;
+        height: 100%; */
         /* top: 0;
         left: 0;
         display: flex;
@@ -332,10 +337,10 @@
         justify-content: center;
         background-color: rgba(92, 92, 92, 0.5);
         z-index: 1; */
-    }
-}
+    /* }
+} */
 
-@media screen and (max-width: 1100px) {
+/* @media screen and (max-width: 1100px) {
     .cuadro-principal {
         width: 86.5vw;
         height: fit-content;
@@ -499,4 +504,4 @@
         transform-origin: center; 
         object-fit: contain;
     }
-}
+} */
