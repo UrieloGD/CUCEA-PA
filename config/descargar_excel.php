@@ -23,22 +23,22 @@ $objPHPExcel->getProperties()->setCreator("$nombre_usuario $apellido_usuario")
 
 // Agregar los encabezados de la tabla
 $objPHPExcel->setActiveSheetIndex(0)
-    ->setCellValue('A1', 'ID')
-    ->setCellValue('B1', 'CICLO')
-    ->setCellValue('C1', 'NRC')
-    ->setCellValue('D1', 'FECHA INI')
-    ->setCellValue('E1', 'FECHA FIN')
-    ->setCellValue('F1', 'L')
-    ->setCellValue('G1', 'M')
-    ->setCellValue('H1', 'I')
-    ->setCellValue('I1', 'J')
-    ->setCellValue('J1', 'V')
-    ->setCellValue('K1', 'S')
-    ->setCellValue('L1', 'D')
-    ->setCellValue('M1', 'HORA INI')
-    ->setCellValue('N1', 'HORA FIN')
-    ->setCellValue('O1', 'EDIF')
-    ->setCellValue('P1', 'AULA');
+//    ->setCellValue('A1', 'ID')
+    ->setCellValue('A1', 'CICLO')
+    ->setCellValue('B1', 'NRC')
+    ->setCellValue('C1', 'FECHA INI')
+    ->setCellValue('D1', 'FECHA FIN')
+    ->setCellValue('E1', 'L')
+    ->setCellValue('F1', 'M')
+    ->setCellValue('G1', 'I')
+    ->setCellValue('H1', 'J')
+    ->setCellValue('I1', 'V')
+    ->setCellValue('J1', 'S')
+    ->setCellValue('K1', 'D')
+    ->setCellValue('L1', 'HORA INI')
+    ->setCellValue('M1', 'HORA FIN')
+    ->setCellValue('N1', 'EDIF')
+    ->setCellValue('O1', 'AULA');
 
 // Construir el nombre de la tabla según el departamento
 $tabla_departamento = "Data_" . $nombre_departamento;
@@ -52,22 +52,22 @@ if (mysqli_num_rows($result) > 0) {
     $fila = 2; // Empezar en la segunda fila
     while ($row = mysqli_fetch_assoc($result)) {
         $objPHPExcel->setActiveSheetIndex(0)
-            ->setCellValue('A' . $fila, $row['ID_Plantilla'])
-            ->setCellValue('B' . $fila, $row['CICLO'])
-            ->setCellValue('C' . $fila, $row['NRC'])
-            ->setCellValue('D' . $fila, $row['FECHA_INI'])
-            ->setCellValue('E' . $fila, $row['FECHA_FIN'])
-            ->setCellValue('F' . $fila, $row['L'])
-            ->setCellValue('G' . $fila, $row['M'])
-            ->setCellValue('H' . $fila, $row['I'])
-            ->setCellValue('I' . $fila, $row['J'])
-            ->setCellValue('J' . $fila, $row['V'])
-            ->setCellValue('K' . $fila, $row['S'])
-            ->setCellValue('L' . $fila, $row['D'])
-            ->setCellValue('M' . $fila, $row['HORA_INI'])
-            ->setCellValue('N' . $fila, $row['HORA_FIN'])
-            ->setCellValue('O' . $fila, $row['EDIF'])
-            ->setCellValue('P' . $fila, $row['AULA']);
+//          ->setCellValue('A' . $fila, $row['ID_Plantilla'])
+            ->setCellValue('A' . $fila, $row['CICLO'])
+            ->setCellValue('B' . $fila, $row['NRC'])
+            ->setCellValue('C' . $fila, $row['FECHA_INI'])
+            ->setCellValue('D' . $fila, $row['FECHA_FIN'])
+            ->setCellValue('E' . $fila, $row['L'])
+            ->setCellValue('F' . $fila, $row['M'])
+            ->setCellValue('G' . $fila, $row['I'])
+            ->setCellValue('H' . $fila, $row['J'])
+            ->setCellValue('I' . $fila, $row['V'])
+            ->setCellValue('J' . $fila, $row['S'])
+            ->setCellValue('K' . $fila, $row['D'])
+            ->setCellValue('L' . $fila, $row['HORA_INI'])
+            ->setCellValue('M' . $fila, $row['HORA_FIN'])
+            ->setCellValue('N' . $fila, $row['EDIF'])
+            ->setCellValue('O' . $fila, $row['AULA']);
         $fila++;
     }
 }

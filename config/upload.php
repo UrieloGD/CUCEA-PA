@@ -105,6 +105,36 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $stmt->execute();
         }
 
+        // Obtener el nombre del archivo
+        $nombreArchivo = $fileName;
+
+        // Obtener el tamaño del archivo en bytes
+        $tamanoArchivo = $fileSize;
+
+        // Obtener el ID del usuario desde la sesión
+        $usuario_id = $_SESSION['Codigo'];
+
+        // Obtener el ID del departamento desde la sesión
+        $departamento_id = $_SESSION['Departamento_ID'];
+
+        // Preparar la consulta SQL para insertar en la tabla Plantilla_Dep
+        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
+        $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
+
+        // Vincular los parámetros
+        $stmtInsertPlantillaDep->bind_param("siii", $nombreArchivo, $tamanoArchivo, $usuario_id, $departamento_id);
+
+        // Ejecutar la consulta
+        if ($stmtInsertPlantillaDep->execute()) {
+            // El archivo se insertó correctamente en la tabla Plantilla_Dep
+        } else {
+            // Ocurrió un error al insertar el archivo en la tabla Plantilla_Dep
+            echo json_encode(["success" => false, "message" => "Error al insertar el archivo en la tabla Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
+        }
+
+        // Cerrar la sentencia preparada
+        $stmtInsertPlantillaDep->close();
+
         if ($stmt->error) {
             echo json_encode(["success" => false, "message" => "Error al ejecutar la consulta: " . $stmt->error]);
         } else {
