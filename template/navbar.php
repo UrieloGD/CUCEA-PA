@@ -6,6 +6,13 @@ if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
+
+// Incluir el archivo de sesión iniciada
+require_once './config/sesioniniciada.php';
+
+// Obtener el rol del usuario de la sesión
+$rol_id = $_SESSION['Rol_ID'];
+
 ?>
 
 <!DOCTYPE html>
@@ -25,41 +32,56 @@ if (!isset($_SESSION['email'])) {
 </head>
 
 <body>
-    <!-- Agrega un icono de menú -->
-    <div class="menu-icon">
-        <i class="fas fa-bars"></i>
-    </div>
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
                 <a class="navbar-item-inner flexbox" href="./home.php">
-                    <img src="./Img/UDG+.png" width="60" height="80" alt="Logo-UDG">
+                    <img src="./Img/logos/LogoUDG-BLANCO.png" width="60" height="80" alt="Logo-UDG">
                 </a>
             </li>
             <hr>
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./home.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox ">
-                        <img src="./Icons/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="hover-icon">
-                        <img src="./Icons/iconos-blancos/icono-home-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                     </div>
                     <span class="link-text">Inicio</span>
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./basesdedatos.php">
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Icons/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                        <img src="./Icons/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Bases de datos</span>
+                <?php
+                // Redirigir según el rol del usuario
+                if ($rol_id == 1) {
+                    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+                    if (isset($_SESSION['Nombre_Departamento'])) {
+                        // Obtener el nombre del departamento desde la sesión
+                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
+                        echo "<a class='navbar-item-inner flexbox-left' href='./php/datas_deptos/data_$nombre_departamento.php'>";
+                    } else {
+                        // Manejar el caso en que no se encuentre asociado a ningún departamento
+                        echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                    }
+                } elseif ($rol_id == 2) {
+                    // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
+                    echo "<a class='navbar-item-inner flexbox-left' href='data_departamentos.php'>";
+                } else {
+                    // Otros roles o manejo de errores aquí
+                    echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                }
+                ?>
+                <div class="navbar-item-inner-icon-wrapper flexbox">
+                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                </div>
+                <span class="link-text">Bases de datos</span>
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="#">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Icons/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
-                        <img src="./Icons/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                     </div>
                     <span class="link-text">Oferta</span>
                 </a>
@@ -67,8 +89,8 @@ if (!isset($_SESSION['email'])) {
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="#">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Icons/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
-                        <img src="./Icons/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                     </div>
                     <span class="link-text">Espacios</span>
                 </a>
@@ -76,8 +98,8 @@ if (!isset($_SESSION['email'])) {
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./plantilla.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Icons/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
-                        <img src="./Icons/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                     </div>
                     <span class="link-text">Plantilla</span>
                 </a>
@@ -85,8 +107,8 @@ if (!isset($_SESSION['email'])) {
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./guia.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Icons/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
-                        <img src="./Icons/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                     </div>
                     <span class="link-text">Guía</span>
                 </a>
@@ -95,7 +117,7 @@ if (!isset($_SESSION['email'])) {
             <li class="navbar-item flexbox-left">
                 <a href="#">
                     <div class="navbar-profile-icon flexbox profile-icon-transition">
-                        <img src="./Icons/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
                     </div>
                 </a>
             </li>
@@ -104,3 +126,6 @@ if (!isset($_SESSION['email'])) {
             </li>
         </ul>
     </nav>
+
+ 
+

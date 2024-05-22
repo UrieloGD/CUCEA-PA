@@ -17,7 +17,7 @@
         <div class="login-container">
           <div class="space-y-4">
             <div>
-              <img src="./Img/LogoQCA2.png" width="100%" height="100%" alt="CUCEA" />
+              <img src="./Img/logos/LogoCUCEA-COLORES.png" width="100%" height="100%" alt="CUCEA" />
             </div>
             <br />
             <div class="text-center">

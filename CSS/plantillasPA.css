@@ -1,0 +1,124 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 88vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  align-self: flex-end;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+/* Pestaña subir plantilla */
+
+/* .header-bar {
+  background-color: #0071b0;
+  color: white;
+  padding: 2px;
+  text-align: center;
+  font-size: 12px;
+  max-width: 550px;
+  margin: 0 auto;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+} */
+
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
+}
+
+/* Tabla */
+
+.tabla {
+  display: flex;
+  padding: 0px 2vw;
+  align-items: center;
+}
+
+table {
+  flex: auto;
+  width: 100%;
+  /* border: solid; */
+  border-collapse: collapse; /* Separar los bordes de las celdas */
+  border-spacing: 0; /* Eliminar el espacio entre las celdas */
+}
+
+th {
+  background-color: #E7E9F2; /* Color de fondo para los encabezados */
+  text-align: left; /* Alinea el texto de los encabezados a la izquierda */
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border: 2px solid #E7E9F2;
+}
+
+.btn img {
+  /* Iconos */
+  height: 30px; /* Altura de imagenes */
+  align-items: center; /* Alinea imagenes al centro */
+}
+
+/* Media queries para hacer el diseño responsivo */
+
+@media screen and (max-width: 1400px) {
+  .cuadro-principal {
+    width: 90vw;
+    height: 89vh;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .cuadro-principal {
+    width: 86vw;
+    height: 89vh;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 93vw;
+    height: 89vh;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 87vh;
+  }
+
+  .encabezado {
+    font-size: small;
+  }
+}

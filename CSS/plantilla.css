@@ -220,12 +220,49 @@
   border-color: #fff; /* Cambia el color del borde cuando se pasa sobre el botón */
 }
 
+/* Botón para cancelar la subida del archivo */
+
+.file-container .cancel-btn {
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.file-container .cancel-btn:hover {
+  background-color: #c82333;
+}
+
+/* Estilos para mostrar el preview del archivo que se está subiendo */
 .file-container{
   display: flex;
   align-items: center;
-  gap: 10px;
+  margin-bottom: 10px;
   padding: 10px;
-  border: 1px #ddd;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.file-container .status {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.file-container .status-text {
+  font-size: 14px;
+  color: #10ad22;
+}
+
+.file-container .status-text.success {
+  color: green;
+}
+
+.file-container .status-text.error {
+  color: red;
 }
 
 #preview{
@@ -236,12 +273,21 @@
   padding: 0 10px;
 }
 
-.success{
-  color: rgb(132, 255, 132);
+#mensaje p {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
-.failure{
-  color: rgb(255, 132, 132);
+#mensaje p.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+#mensaje p.error {
+  background-color: #f8d7da;
+  color: #721c24;
 }
 
 /* Estilos para las pestañas */
@@ -340,7 +386,7 @@
 
 @media screen and (max-width: 768px){
   .cuadro-principal {
-    width: 85vw;
+    width: 95vw;
     height: 89vh;
     margin-bottom: 2vh;
   }
@@ -348,7 +394,7 @@
 
 @media screen and (max-width: 576px) {
   .cuadro-principal {
-    width: 80vw;
+    width: 96vw;
     height: 87vh;
   }
 }

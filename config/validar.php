@@ -4,9 +4,11 @@ $pass = $_POST['pass'];
 session_start();
 $_SESSION['email'] = $email;
 
+// Después de una autenticación exitosa
+
 $conexion = mysqli_connect("localhost", "root", "root", "pa");
 
-$consulta = "SELECT*FROM usuarios where Correo='$email' and pass='$pass'";
+$consulta = "SELECT*FROM Usuarios where Correo='$email' and pass='$pass'";
 $resultado = mysqli_query($conexion, $consulta);
 
 $filas = mysqli_num_rows($resultado);
