@@ -2,123 +2,83 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+
+
+<?php
+// Conexión a la base de datos
+include './config/db.php';
+
+// Obtener los departamentos que han subido un archivo
+$sql_departamentos_subidos = "SELECT Departamento_ID FROM Plantilla_Dep";
+$result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
+$departamentos_subidos = array();
+while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
+  $departamentos_subidos[] = $row['Departamento_ID'];
+}
+?>
+
+
 <title>Plantillas Departamentos</title>
 <link rel="stylesheet" href="./CSS/plantillasDepartamentos.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
   <div class="encabezado">
-      <div class="titulo-bd">
-        <h3>Plantillas Programación Academica</h3>
-      </div>
+    <div class="titulo-bd">
+      <h3>Plantillas Programación Academica</h3>
+    </div>
   </div>
-<!--Pestaña azul-->
-<!-- <div class="header-bar">
+  <!--Pestaña azul-->
+  <!-- <div class="header-bar">
   <h2>Plantilla</h2>
 </div> -->
+  <br><br>
 
-<br><br>
+  <!--Tabla Entrega BD-->
+  <div class="tabla">
+    <table>
+      <tr>
+        <th style="text-align: center;">Departamento</th>
+        <th style="text-align: center;">Estado de la entrega</th>
+        <th style="text-align: center;">Fecha de entrega</th>
+        <th style="text-align: center;">Base de datos</th>
+      </tr>
+      <tr>
+        <?php
+        // Fecha límite para marcar como "Atrasado"
+        $fecha_limite = "2022-06-01";
 
-<!--Tabla Entrega BD-->
-<div class="tabla">
-<table>
-  <tr>
-    <th style="text-align: center;">Departamento</th>
-    <th style="text-align: center;">Estado de la entrega</th>
-    <th style="text-align: center;">Fecha de entrega</th>
-    <th style="text-align: center;">Base de datos</th>
-  </tr>
-  <tr>
+        // Consulta para obtener los departamentos y la fecha de subida más reciente
+        $sql_departamentos = "SELECT d.Departamento_ID, d.Nombre_Departamento, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
+                        FROM Departamentos d
+                        LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
+                        GROUP BY d.Departamento_ID, d.Nombre_Departamento";
+        $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
-  <td>Estudios Regionales</td>
-    <td class="sin-entregar">Pendiente</td>
-    <td style="text-align: center;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
+        while ($row = mysqli_fetch_assoc($result_departamentos)) {
+          $departamento_id = $row['Departamento_ID'];
+          $nombre_departamento = $row['Nombre_Departamento'];
+          $fecha_subida = $row['Fecha_Subida_Dep'];
+          echo "<tr>";
+          echo "<td>$nombre_departamento</td>";
+          if ($fecha_subida !== null) {
+            echo "<td class='entregada'>Entregada</td>";
+            echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
+          } else {
+            $fecha_actual = date("Y-m-d");
+            if ($fecha_actual > $fecha_limite) {
+              echo "<td class='atrasada'>Atrasada</td>";
+              echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
+            } else {
+              echo "<td class='sin-entregar'>Pendiente</td>";
+              echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
+            }
+          }
+          echo "<td style='text-align: center;'><button class='btn-ir'>Ir</button></td>";
+          echo "</tr>";
+        }
+        ?>
+    </table>
+  </div>
 
-  <tr>
-    <td>Finanzas</td>
-    <td class="entregada">Entregada</td>
-    <td style="text-align: center;">01/10/2024</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Ciencias Sociales</td>
-    <td class="atrasada">Atrasada</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>PALE</td>
-    <td class="sin-entregar">Pendiente</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Administración</td>
-    <td class="entregada">Entregada</td>
-    <td style="text-align: center;">03/10/2024</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Posgrados</td>
-    <td class="sin-entregar">Pendiente</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Economía</td>
-    <td class="atrasada">Atrasada</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Recursos Humanos</td>
-    <td class="atrasada">Atrasada</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Métodos Cuantitativos</td>
-    <td class="sin-entregar">Pendiente</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-
-  <tr>
-    <td>Políticas Públicas</td>
-    <td class="sin-entregar">Pendiente</td>
-    <td style="text-align: center; font-style: italic;">Sin entregar</td>
-    <td style="text-align: center;">
-      <button class="btn-ir">Ir</button>
-    </td>
-  </tr>
-</table>
-</div>
-<?php include './template/footer.php' ?>
-
+  <?php include './template/footer.php' ?>
