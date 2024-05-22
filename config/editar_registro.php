@@ -1,6 +1,11 @@
 <?php
 // Conexión a la base de datos
 include '../config/db.php';
+session_start(); // Iniciar la sesión
+
+// Obtener el nombre y el ID del departamento del usuario desde la sesión
+$nombre_departamento = $_SESSION['Nombre_Departamento'];
+$departamento_id = $_SESSION['Departamento_ID'];
 
 // Obtener los datos enviados desde el formulario
 $id = isset($_POST['id']) ? $_POST['id'] : '';
@@ -20,6 +25,9 @@ $hora_fin = isset($_POST['HORA_FIN']) ? $_POST['HORA_FIN'] : '';
 $edif = isset($_POST['EDIF']) ? $_POST['EDIF'] : '';
 $aula = isset($_POST['AULA']) ? $_POST['AULA'] : '';
 
+// Construir el nombre de la tabla según el departamento
+$tabla_departamento = "Data_" . $nombre_departamento;
+
 // Verificar que se proporcionó un ID válido
 if (!$id) {
     echo "ID de registro no proporcionado";
@@ -27,23 +35,7 @@ if (!$id) {
 }
 
 // Consulta SQL para actualizar el registro en la base de datos
-$sql = "UPDATE Data_Plantilla SET 
-    CICLO='$ciclo',
-    NRC='$nrc',
-    FECHA_INI='$fecha_ini',
-    FECHA_FIN='$fecha_fin',
-    L='$L',
-    M='$M',
-    I='$I',
-    J='$J',
-    V='$V',
-    S='$S',
-    D='$D',
-    HORA_INI='$hora_ini',
-    HORA_FIN='$hora_fin',
-    EDIF='$edif',
-    AULA='$aula'
-    WHERE ID_Plantilla='$id'";
+$sql = "UPDATE `$tabla_departamento` SET CICLO='$ciclo', NRC='$nrc', FECHA_INI='$fecha_ini', FECHA_FIN='$fecha_fin', L='$L', M='$M', I='$I', J='$J', V='$V', S='$S', D='$D', HORA_INI='$hora_ini', HORA_FIN='$hora_fin', EDIF='$edif', AULA='$aula' WHERE ID_Plantilla='$id' AND Departamento_ID='$departamento_id'";
 
 if (mysqli_query($conexion, $sql)) {
     echo "Registro actualizado correctamente";

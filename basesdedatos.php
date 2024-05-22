@@ -6,6 +6,10 @@
 // Conexión a la base de datos
 include './config/db.php';
 
+// Obtener el nombre y el ID del departamento del usuario desde la sesión
+$nombre_departamento = $_SESSION['Nombre_Departamento'];
+$departamento_id = $_SESSION['Departamento_ID'];
+
 // Número de registros por página
 $registros_por_pagina = 50;
 
@@ -15,12 +19,17 @@ $pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 // Calcular el offset para la consulta SQL
 $offset = ($pagina_actual - 1) * $registros_por_pagina;
 
-// Consulta SQL para obtener los datos de la tabla 'Data_Plantilla' con límite y offset
-$sql = "SELECT * FROM Data_Plantilla LIMIT $registros_por_pagina OFFSET $offset";
+// Construir el nombre de la tabla según el departamento
+$tabla_departamento = "Data_" . $nombre_departamento;
+
+// Consulta SQL para obtener los datos de la tabla correspondiente al departamento
+$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id LIMIT $registros_por_pagina OFFSET $offset";
 $result = mysqli_query($conexion, $sql);
 
-// Obtener el total de registros
-$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM Data_Plantilla"));
+// Calcular el total de registros en la tabla correspondiente al departamento
+$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id"));
+
+// Calcular el total de páginas
 $total_paginas = ceil($total_registros / $registros_por_pagina);
 ?>
 
@@ -31,25 +40,27 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Base de datos</h3>
+            <h3>Data - <?php echo $nombre_departamento; ?></h3>
         </div>
-        <div class="icono-buscador" id="icono-buscador">
-            <i class="fa fa-search" aria-hidden="true"></i>
-        </div>
-        <div class="barra-buscador" id="barra-buscador" style="display: none;">
-            <input type="text" id="input-buscador" placeholder="Buscar...">
-        </div>
-        <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-            <i class="fa fa-add" aria-hidden="true"></i>
-        </div>
-        <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-            <i class="fa fa-trash" aria-hidden="true"></i>
-        </div>
-        <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
-            <i class="fa fa-pencil" aria-hidden="true"></i>
-        </div>
-        <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
-            <i class="fa fa-download" aria-hidden="true"></i>
+        <div class="iconos-container">
+            <div class="icono-buscador" id="icono-buscador">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </div>
+            <div class="barra-buscador" id="barra-buscador" style="display: none;">
+                <input type="text" id="input-buscador" placeholder="Buscar...">
+            </div>
+            <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                <i class="fa fa-add" aria-hidden="true"></i>
+            </div>
+            <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+            <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </div>
+            <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </div>
         </div>
     </div>
     <div class="Tabla">

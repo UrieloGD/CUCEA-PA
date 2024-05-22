@@ -4,7 +4,7 @@
     /*border: solid black 1px;*/
     background-color: white;
     width: 92vw;
-    height: 88vh;
+    height: 89vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -33,37 +33,46 @@
 }
 
 .cuadros-nav {
-    display: flex;
+   /* display: flex;
     flex-direction: row; /* Ajusta las cajas de manera horizontal */
-    justify-content: space-between;
-    margin: 20px 10px;
+   /* justify-content: space-between;
+    margin: 20px 10px; */
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 25px;
+    margin: -20px 25px;
 }
 
 .cuadro-ind {
-    position: relative;
+   /* position: relative;
     margin: 10px;
     flex-grow: 1;
     width: 100%;
     overflow: hidden;  /*Ajustaraltamañomáximodelcontenedor*/
-    display: flex; /*Aseguraquelaimagennosedesbordedelcontenedor*/
-    justify-content: center;  /*Alinealoselementoshijoshorizontalyverticalmente*/
-    align-items: center; /*Centrahorizontalmente*/
-     /* Centra verticalmente */:;
-    -webkit-border-radius:;
-    -moz-border-radius:; 
-    -ms-border-radius:;
-    -o-border-radius:;
-    border: 2px solid black;
+    /* display: flex; /*Aseguraquelaimagennosedesbordedelcontenedor*/
+    /* justify-content: center;  /*Alinealoselementoshijoshorizontalyverticalmente*/
+    /* align-items: center; /*Centrahorizontalmente*/
+
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+    aspect-ratio: 1/1;
 }
 
 .cuadro-ind img {
     width: 100%;
-    height: 100%;
+    height: 200%; /* 67 */
     /* object-fit: cover; */
-    transition: transform 0.3s; /* Transición para el efecto de zoom */
+    transition: transform 0.4s; /* Transición para el efecto de zoom */
     transform-origin: center; /* Establece el origen de la transformación en el centro */
-    object-fit: contain;
-    border: 2px solid black;
+    object-fit: contain; 
+    /* position: relative; */ 
+    /* border: 2px solid black; */
+
 }
 
 /* Efecto de zoom al pasar el mouse sobre el cuadro */
@@ -77,8 +86,13 @@
     -o-transform: scale(1.2);
 }
 
+.cuadro-ind:hover .overlay {
+    transform: scale(1.2);
+    transition: transform 0.4s;
+}
+
 .cuadro-ind:hover .overlay h4 {
-    font-size: 18px;
+    font-size: 20px;
     transition: ease-in-out 0.4s;
     transform-origin: center; /* Establece el origen de la transformación en el centro */
     object-fit: contain;
@@ -86,19 +100,22 @@
 
 .overlay {
     position: absolute;
-    top: 0;
+    top: 16.5%;
     left: 0;
     width: 100%;
-    height: 100%;
-    display: flex;
+    height: 67%;
+    display: grid; /* lo cambié de flex a grid */
     align-items: center;
     justify-content: center;
     background-color: rgba(92, 92, 92, 0.5);
-    z-index: 1;
+    z-index: 2;
+    
 }
 
-.overlay:hover {
+.cuadro-ind:hover .overlay {
     transform: scale(1.2);
+    transform-origin: center;
+    object-fit: contain;
     -webkit-transform: scale(1.2);
     -moz-transform: scale(1.2);
     -ms-transform: scale(1.2);
@@ -114,10 +131,10 @@
 
 .overlay img {
     width: 100%;
-    /*Ajustaraltamañomáximodelcontenedor*/height: 100%;
-    /*Ajustaraltamañomáximodelcontenedor*/object-fit: cover;
-    /*Aseguraquelaimagencubracompletamenteelcontenedor*/z-index: -1;
-    /*Envíalaimagendetrásdeloverlay*/transition: transform 0.3s;
+    height: 200%; /*Ajustar al tamaño máximo del contenedor*/
+    object-fit: cover;  /*Ajustaraltamañomáximodelcontenedor*/
+    z-index: 1; /*Aseguraquelaimagencubracompletamenteelcontenedor*/
+    transition: transform 0.4s;  /*Envíalaimagendetrásdeloverlay*/
      /* Transición para el efecto de zoom */;
     -webkit-transition: transform 0.3s;
     -moz-transition: transform 0.3s;
@@ -128,8 +145,8 @@
 /* Contenedor de Progreso y Siguientes Eventos */
 .container-eventos-progreso {
     display: flex;
-    margin: 10px;
-    padding: 10px;
+    margin: -20px 0px 20px 0px;
+    padding: 0px 20px 0px 20px;
     /* height: auto; */
     justify-content: space-between; /* Centra los divs horizontalmente */
     align-items: stretch; /* Ajusta la altura de los hijos para que ocupen toda la altura del contenedor */
@@ -143,7 +160,7 @@
     border: solid 5px #E7E9F2;
     flex: 1;
     width: 45%;
-    /* height: auto; */
+    height: auto;
     margin-right: 1vw;
     border-radius: 10px;
 }
@@ -256,6 +273,57 @@
 }
 /* CSS Siguientes eventos de PA */
 
+/* Estilos de las barras de porcentaje */
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #0071B0;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: attr(data-progress) "%"; /* Muestra el valor del atributo data-progress seguido de "%"*/
+    position: absolute; /* Posiciona el texto en relación a .progress-bar */
+    right: 10px; /* Ajusta la posición horizontal */
+    color: white; /* Color del texto */
+    font-weight: bold; /* Texto en negrita */
+    font-size: 14px; /* Tamaño de fuente */
+    align-items: center;
+}
+
+.progress-container {
+    background-color: #e0e0e0; /* Color gris claro para el fondo */
+    border-radius: 10px; /* Radio de borde curvo */
+    overflow: hidden; /* Evita que la barra de progreso se desborde */
+}
+
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #0071B0;
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+    position: relative;
+    /*  */
+    background: linear-gradient(to right, #0071B0, #0092e0, #0071B0);
+    background-size: 200% 100%;
+    animation: progress-bar-animation 2s linear infinite;
+}
+
+@keyframes progress-bar-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 /* .info-evento {
     border: solid 1px;
 } */
@@ -285,20 +353,24 @@
 
 @media screen and (max-width: 1400px) {
     .cuadro-principal {
-        width: 89vw;
-        height: fit-content;
+        width: 90vw;
+        height: 89vh;    
     }
 
     .container-eventos-progreso {
-        flex-direction: column;
+        /* flex-direction: column; */
         align-items: center;
     }
 
     .eventos,
     .progreso {
         width: 100%;
-        margin-right: 0;
+        margin-right: 1vw;
         margin-bottom: 20px;
+    }
+
+    .progreso {
+        height: 406px;
     }
 
     .cuadros-nav {
@@ -307,8 +379,8 @@
     }
 
     .cuadro-ind {
-        width: 30%;
-        margin: 10px;
+        width: 100%;
+        margin: 10px 0px;
     }
     
     .cuadro-ind img {
@@ -319,22 +391,22 @@
     .overlay {
         justify-content: center;
         align-items: center;
-        width: 90%;
-        height: 100%;
-        /* top: 0;
+        width: 100%;
+        height: 70%;
+        top: 15%;
         left: 0;
         display: flex;
          position: absolute;
         align-items: center;
         justify-content: center;
         background-color: rgba(92, 92, 92, 0.5);
-        z-index: 1; */
+        z-index: 1;
     }
 }
 
 @media screen and (max-width: 1100px) {
     .cuadro-principal {
-        width: 86.5vw;
+        width: 86.7vw;
         height: fit-content;
     }
 
@@ -349,23 +421,23 @@
         margin-right: 0;
         margin-bottom: 20px;
     }
-    
+
     .cuadros-nav {
         flex-wrap: wrap;
         justify-content: space-between;
     }
 
     .cuadro-ind {
-        width: 25%;
+        width: 85%;
         margin: 10px;
     }
 
     .overlay {
         position: absolute;
-        top: 0;
+        top: 15%;
         left: 0;
         width: 100%;
-        height: 100%;
+        height: 70%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -376,10 +448,14 @@
 
 @media screen and (max-width: 768px){
     .cuadro-principal {
-        width: 93vw;
+        width: 95vw;
         height: fit-content;
         margin-bottom: 2vh;
         font-size: smaller;
+    }
+
+    .bienvenida {
+        margin-bottom: 4.5vh;
     }
 
     .container-eventos-progreso {
@@ -395,8 +471,9 @@
     }
     
     .cuadros-nav {
-        flex-wrap: wrap;
-        justify-content: space-between;
+        /* flex-wrap: wrap;
+        justify-content: space-between; */
+        display: none;
     }
 
     .cuadro-ind {
@@ -438,9 +515,13 @@
 
 @media screen and (max-width: 576px) {
     .cuadro-principal {
-        width: -10vw;
+        width: 96vw;
         height: fit-content;
         font-size: smaller;
+    }
+    
+    .bienvenida {
+        margin-bottom: 3.5vh;
     }
 
     .container-eventos-progreso {
@@ -456,8 +537,9 @@
     }
 
     .cuadros-nav {
-        flex-wrap: wrap;
-        justify-content: space-around;
+        /* flex-wrap: wrap;
+        justify-content: space-around; */
+        display: none;
     }
 
     .cuadro-ind {

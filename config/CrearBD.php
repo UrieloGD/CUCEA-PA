@@ -99,15 +99,15 @@ if (mysqli_query($conn, $sql)) {
 
 // Insertar departamentos
 $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento) VALUES
-    ('Estudios Regionales'),
+    ('Estudios_Regionales'),
     ('Finanzas'),
-    ('Ciencias Sociales'),
+    ('Ciencias_Sociales'),
     ('PALE'),
     ('Posgrados'),
     ('Economía'),
-    ('Recursos Humanos'),
-    ('Métodos Cuantitativos'),
-    ('Políticas Públicas'),
+    ('Recursos_Humanos'),
+    ('Métodos_Cuantitativos'),
+    ('Políticas_Públicas'),
     ('Administración')";
 
 if (mysqli_query($conn, $insert_departamentos)) {
@@ -154,7 +154,7 @@ if (mysqli_query($conn, $insert_usuarios_departamentos)) {
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
     ID_Archivo_SA INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_SA VARCHAR(255) NOT NULL,
-    Ruta_Archivo_SA VARCHAR(255) NOT NULL,
+    -- Ruta_Archivo_SA VARCHAR(255) NOT NULL,
     Tamaño_Archivo_SA INT NOT NULL,
     Usuario_ID BIGINT(10),
     Fecha_Subida_SA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -374,7 +374,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Crear tabla Recursos_Humanos
-$sql = "CREATE TABLE IF NOT EXISTS Recursos_Humanos (
+$sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
@@ -401,7 +401,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Crear tabla Metodos_Cuantitativos
-$sql = "CREATE TABLE IF NOT EXISTS Metodos_Cuantitativos (
+$sql = "CREATE TABLE IF NOT EXISTS Data_Metodos_Cuantitativos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,

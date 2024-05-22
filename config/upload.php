@@ -13,7 +13,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar la conexión a la base de datos
 if ($conn->connect_error) {
-    die("Error de conexión a la base de datos: " . $conn->connect_error);
+    echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conn->connect_error]);
+    exit();
 }
 
 // Verificar si se envió un archivo
@@ -36,7 +37,6 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
 
-        
         // Obtener el ID del departamento del usuario desde la sesión
         $departamento_id = $_SESSION['Departamento_ID'];
 
@@ -73,14 +73,13 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $tabla_destino = 'Data_Administracion';
                 break;
             default:
-                echo "Departamento no válido.";
-                exit;
+                echo json_encode(["success" => false, "message" => "Departamento no válido."]);
+                exit();
         }
 
         // Preparar la consulta SQL
         $sql = "INSERT INTO $tabla_destino (DEPARTAMENTO_ID, CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        echo "Consulta SQL: " . $sql . "<br>";
 
         // Insertar los datos en la tabla correspondiente
         for ($row = 2; $row <= $highestRow; $row++) {
@@ -106,18 +105,46 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $stmt->execute();
         }
 
-        if ($stmt->error) {
-            echo "Error al ejecutar la consulta: " . $stmt->error . "<br>";
+        // Obtener el nombre del archivo
+        $nombreArchivo = $fileName;
+
+        // Obtener el tamaño del archivo en bytes
+        $tamanoArchivo = $fileSize;
+
+        // Obtener el ID del usuario desde la sesión
+        $usuario_id = $_SESSION['Codigo'];
+
+        // Obtener el ID del departamento desde la sesión
+        $departamento_id = $_SESSION['Departamento_ID'];
+
+        // Preparar la consulta SQL para insertar en la tabla Plantilla_Dep
+        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
+        $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
+
+        // Vincular los parámetros
+        $stmtInsertPlantillaDep->bind_param("siii", $nombreArchivo, $tamanoArchivo, $usuario_id, $departamento_id);
+
+        // Ejecutar la consulta
+        if ($stmtInsertPlantillaDep->execute()) {
+            // El archivo se insertó correctamente en la tabla Plantilla_Dep
+        } else {
+            // Ocurrió un error al insertar el archivo en la tabla Plantilla_Dep
+            echo json_encode(["success" => false, "message" => "Error al insertar el archivo en la tabla Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
         }
 
-        echo "Archivo cargado y datos insertados en la base de datos correctamente.";
+        // Cerrar la sentencia preparada
+        $stmtInsertPlantillaDep->close();
 
-        echo "Valores a insertar: $departamento_id, $ciclo, $nrc, $fecha_ini, $fecha_fin, $l, $m, $i, $j, $v, $s, $d, $hora_ini, $hora_fin, $edif, $aula<br>";
+        if ($stmt->error) {
+            echo json_encode(["success" => false, "message" => "Error al ejecutar la consulta: " . $stmt->error]);
+        } else {
+            echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos correctamente."]);
+        }
     } else {
-        echo "Usuario no autenticado.";
+        echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
     }
 } else {
-    echo "No se recibió ningún archivo.";
+    echo json_encode(["success" => false, "message" => "No se recibió ningún archivo."]);
 }
 
 $conn->close();
