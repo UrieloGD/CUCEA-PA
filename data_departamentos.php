@@ -3,20 +3,34 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 
-
 <?php
 // Conexión a la base de datos
 include './config/db.php';
 
-// Obtener los departamentos que han subido un archivo
-$sql_departamentos_subidos = "SELECT Departamento_ID FROM Plantilla_Dep";
+// Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
+$sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
+                              FROM Plantilla_Dep
+                              GROUP BY Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
 $departamentos_subidos = array();
 while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
-  $departamentos_subidos[] = $row['Departamento_ID'];
+  if ($row['Fecha_Subida_Dep'] !== null) {
+    $departamentos_subidos[] = $row['Departamento_ID'];
+  }
 }
-?>
 
+// Obtener el total de departamentos
+$sql_total_departamentos = "SELECT COUNT(*) AS total FROM Departamentos";
+$result_total_departamentos = mysqli_query($conexion, $sql_total_departamentos);
+$row_total_departamentos = mysqli_fetch_assoc($result_total_departamentos);
+$total_departamentos = $row_total_departamentos['total'];
+
+// Calcular el número de departamentos que han entregado
+$departamentos_entregados = count($departamentos_subidos);
+
+// Calcular el porcentaje de avance
+$porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
+?>
 
 <title>Plantillas Departamentos</title>
 <link rel="stylesheet" href="./CSS/plantillasDepartamentos.css" />
@@ -28,11 +42,18 @@ while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
       <h3>Plantillas Programación Academica</h3>
     </div>
   </div>
+
+  <!-- Barra de progreso -->
+  <div class="progress-container">
+    <div class="progress-bar" data-progress="<?php echo round($porcentaje_avance); ?>" style="width: <?php echo round($porcentaje_avance); ?>%;"></div>
+  </div>
+
+  <h3 class="centrado">Porcentaje total de entregas</h3>
+
   <!--Pestaña azul-->
   <!-- <div class="header-bar">
   <h2>Plantilla</h2>
 </div> -->
-  <br><br>
 
   <!--Tabla Entrega BD-->
   <div class="tabla">
