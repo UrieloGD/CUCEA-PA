@@ -1,151 +1,39 @@
 <?php
+include '../config/db.php';
 session_start();
-require './../vendor/autoload.php'; // Incluye PhpSpreadsheet
-use PhpOffice\PhpSpreadsheet\IOFactory;
 
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "pa";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $departamento_id = $_POST['Departamento_ID'];
+    $nombre_archivo_dep = $_POST['Nombre_Archivo_Dep'];
+    $fecha_subida_dep = $_POST['Fecha_Subida_Dep'];
 
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
+    // Manejo del archivo subido
+    if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+        $nombre_archivo = basename($_FILES['file']['name']);
+        $directorio_subida = '../uploads/'; // Asegúrate de que este directorio exista y tenga permisos de escritura
+        $ruta_archivo = $directorio_subida . $nombre_archivo;
 
-// Verificar la conexión a la base de datos
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conn->connect_error]);
-    exit();
-}
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $ruta_archivo)) {
+            // Insertar los datos en la base de datos
+            $sql = "INSERT INTO subir_plantilla (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep) 
+                    VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep')";
 
-// Verificar si se envió un archivo
-if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
-    $file = $_FILES["file"]["tmp_name"];
-    $fileName = $_FILES["file"]["name"];
-    $fileSize = $_FILES["file"]["size"];
-
-    // Obtener el ID del usuario actual desde la sesión
-    $usuario_id = $_SESSION['Codigo'] ?? null;
-    $rol_id = $_SESSION['Rol_ID'] ?? null;
-    $departamento_id = $_SESSION['Departamento_ID'] ?? null;
-
-    if ($usuario_id !== null) {
-        // Leer el archivo Excel
-        $spreadsheet = IOFactory::load($file);
-        $sheet = $spreadsheet->getActiveSheet();
-
-        // Obtener el rango de datos
-        $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
-
-        // Obtener el ID del departamento del usuario desde la sesión
-        $departamento_id = $_SESSION['Departamento_ID'];
-
-        // Preparar la consulta SQL según el departamento del usuario
-        switch ($departamento_id) {
-            case 1:
-                $tabla_destino = 'Data_Estudios_Regionales';
-                break;
-            case 2:
-                $tabla_destino = 'Data_Finanzas';
-                break;
-            case 3:
-                $tabla_destino = 'Data_Ciencias_Sociales';
-                break;
-            case 4:
-                $tabla_destino = 'Data_PALE';
-                break;
-            case 5:
-                $tabla_destino = 'Data_Posgrados';
-                break;
-            case 6:
-                $tabla_destino = 'Data_Economia';
-                break;
-            case 7:
-                $tabla_destino = 'Data_Recursos_Humanos';
-                break;
-            case 8:
-                $tabla_destino = 'Data_Metodos_Cuantitativos';
-                break;
-            case 9:
-                $tabla_destino = 'Data_Politicas_Publicas';
-                break;
-            case 10:
-                $tabla_destino = 'Data_Administracion';
-                break;
-            default:
-                echo json_encode(["success" => false, "message" => "Departamento no válido."]);
+            if (mysqli_query($conexion, $sql)) {
+                header('Location: ../progreso_plantillas.php');
                 exit();
-        }
-
-        // Preparar la consulta SQL
-        $sql = "INSERT INTO $tabla_destino (DEPARTAMENTO_ID, CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-
-        // Insertar los datos en la tabla correspondiente
-        for ($row = 2; $row <= $highestRow; $row++) {
-            // Empezar desde la fila 2 para omitir los encabezados
-            $departamento_id = $departamento_id ?? null;
-            $ciclo = $sheet->getCell('A' . $row)->getValue() ?? null;
-            $nrc = $sheet->getCell('B' . $row)->getValue() ?? null;
-            $fecha_ini = $sheet->getCell('C' . $row)->getValue() ?? null;
-            $fecha_fin = $sheet->getCell('D' . $row)->getValue() ?? null;
-            $l = $sheet->getCell('E' . $row)->getValue() ?? null;
-            $m = $sheet->getCell('F' . $row)->getValue() ?? null;
-            $i = $sheet->getCell('G' . $row)->getValue() ?? null;
-            $j = $sheet->getCell('H' . $row)->getValue() ?? null;
-            $v = $sheet->getCell('I' . $row)->getValue() ?? null;
-            $s = $sheet->getCell('J' . $row)->getValue() ?? null;
-            $d = $sheet->getCell('K' . $row)->getValue() ?? null;
-            $hora_ini = $sheet->getCell('L' . $row)->getValue() ?? null;
-            $hora_fin = $sheet->getCell('M' . $row)->getValue() ?? null;
-            $edif = $sheet->getCell('N' . $row)->getValue() ?? null;
-            $aula = $sheet->getCell('O' . $row)->getValue() ?? null;
-
-            $stmt->bind_param("isssssssssssssss", $departamento_id, $ciclo, $nrc, $fecha_ini, $fecha_fin, $l, $m, $i, $j, $v, $s, $d, $hora_ini, $hora_fin, $edif, $aula);
-            $stmt->execute();
-        }
-
-        // Obtener el nombre del archivo
-        $nombreArchivo = $fileName;
-
-        // Obtener el tamaño del archivo en bytes
-        $tamanoArchivo = $fileSize;
-
-        // Obtener el ID del usuario desde la sesión
-        $usuario_id = $_SESSION['Codigo'];
-
-        // Obtener el ID del departamento desde la sesión
-        $departamento_id = $_SESSION['Departamento_ID'];
-
-        // Preparar la consulta SQL para insertar en la tabla Plantilla_Dep
-        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
-        $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
-
-        // Vincular los parámetros
-        $stmtInsertPlantillaDep->bind_param("siii", $nombreArchivo, $tamanoArchivo, $usuario_id, $departamento_id);
-
-        // Ejecutar la consulta
-        if ($stmtInsertPlantillaDep->execute()) {
-            // El archivo se insertó correctamente en la tabla Plantilla_Dep
+            } else {
+                echo "Error añadiendo registro: " . mysqli_error($conexion);
+            }
         } else {
-            // Ocurrió un error al insertar el archivo en la tabla Plantilla_Dep
-            echo json_encode(["success" => false, "message" => "Error al insertar el archivo en la tabla Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
-        }
-
-        // Cerrar la sentencia preparada
-        $stmtInsertPlantillaDep->close();
-
-        if ($stmt->error) {
-            echo json_encode(["success" => false, "message" => "Error al ejecutar la consulta: " . $stmt->error]);
-        } else {
-            echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos correctamente."]);
+            echo "Error al mover el archivo subido.";
         }
     } else {
-        echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
+        echo "Error en la subida del archivo.";
     }
-} else {
-    echo json_encode(["success" => false, "message" => "No se recibió ningún archivo."]);
-}
 
-$conn->close();
+    mysqli_close($conexion);
+} else {
+    echo "Método de solicitud no permitido.";
+}
 ?>
+

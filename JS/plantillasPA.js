@@ -12,8 +12,8 @@ function actualizarNombreArchivo(input) {
     if (input.files.length > 0) {
         var nombreArchivo = input.files[0].name;
         document.getElementById('nombre-archivo').innerText = nombreArchivo;
+        document.getElementById('Nombre_Archivo_Dep').value = nombreArchivo;
     } else {
-        // Si no se selecciona ningún archivo, mantener el nombre original
         document.getElementById('nombre-archivo').innerText = 'No se ha subido un archivo';
     }
 }
@@ -21,4 +21,13 @@ function actualizarNombreArchivo(input) {
 function actualizarFechaSubida() {
     var fechaFormateada = obtenerFechaHoraActual();
     document.getElementById('fecha-subida').innerText = fechaFormateada;
+    document.getElementById('Fecha_Subida_Dep').value = fechaFormateada;
 }
+
+// Enviar el formulario automáticamente después de actualizar los campos ocultos
+document.getElementById('input-file').addEventListener('change', function() {
+    actualizarNombreArchivo(this);
+    actualizarFechaSubida();
+    document.getElementById('formulario-subida').submit();
+});
+
