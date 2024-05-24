@@ -1,4 +1,4 @@
-<!--header -->
+<!-- header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
@@ -50,11 +50,6 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 
   <h3 class="centrado">Porcentaje total de entregas</h3>
 
-  <!--Pestaña azul-->
-  <!-- <div class="header-bar">
-  <h2>Plantilla</h2>
-</div> -->
-
   <!--Tabla Entrega BD-->
   <div class="tabla">
     <table>
@@ -67,10 +62,10 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       <tr>
         <?php
         // Fecha límite para marcar como "Atrasado"
-        $fecha_limite = "2022-06-01";
+        $fecha_limite = "2024-06-01";
 
         // Consulta para obtener los departamentos y la fecha de subida más reciente
-        $sql_departamentos = "SELECT d.Departamento_ID, d.Nombre_Departamento, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
+        $sql_departamentos = "SELECT d.Departamento_ID, d.Nombre_Departamento, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                         FROM Departamentos d
                         LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
                         GROUP BY d.Departamento_ID, d.Nombre_Departamento";
@@ -78,7 +73,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 
         while ($row = mysqli_fetch_assoc($result_departamentos)) {
           $departamento_id = $row['Departamento_ID'];
-          $nombre_departamento = $row['Nombre_Departamento'];
+          $nombre_departamento = $row['Departamentos'];
           $fecha_subida = $row['Fecha_Subida_Dep'];
           echo "<tr>";
           echo "<td>$nombre_departamento</td>";
@@ -95,7 +90,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
               echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
             }
           }
-          echo "<td style='text-align: center;'><button class='btn-ir'>Ir</button></td>";
+          echo "<td style='text-align: center;'><a href='basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
           echo "</tr>";
         }
         ?>

@@ -6,9 +6,15 @@
 // Conexión a la base de datos
 include './config/db.php';
 
-// Obtener el nombre y el ID del departamento del usuario desde la sesión
-$nombre_departamento = $_SESSION['Nombre_Departamento'];
-$departamento_id = $_SESSION['Departamento_ID'];
+// Obtener el nombre y el ID del departamento del usuario desde la sesión o desde el parámetro GET
+$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
+
+// Obtener el nombre del departamento usando el ID
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+$result_departamento = mysqli_query($conexion, $sql_departamento);
+$row_departamento = mysqli_fetch_assoc($result_departamento);
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$departamento = $row_departamento['Departamentos'];
 
 // Número de registros por página
 $registros_por_pagina = 50;
@@ -40,7 +46,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Data - <?php echo $nombre_departamento; ?></h3>
+            <h3>Data - <?php echo $departamento; ?></h3>
         </div>
         <div class="iconos-container">
             <div class="icono-buscador" id="icono-buscador">
@@ -84,77 +90,43 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                 <th>EDIF</th>
                 <th>AULA</th>
             </tr>
-            <!-- Añadir nuevos registros-->
-            <tr>
-                <td colspan="17">
-                    <div id="formulario-añadir" style="display: none;">
-                        <form id="form-añadir-registro" style="display: grid; grid-template-columns: repeat(17, 1fr);">
-                            <div></div> <!-- Celda vacía para la columna "ID" -->
-                            <input type="text" id="ciclo" name="ciclo" placeholder="CICLO" required class="input-formulario">
-                            <input type="text" id="nrc" name="nrc" placeholder="NRC" required class="input-formulario">
-                            <input type="text" id="fecha_ini" name="fecha_ini" placeholder="FECHA INI" required class="input-formulario">
-                            <input type="text" id="fecha_fin" name="fecha_fin" placeholder="FECHA FIN" required class="input-formulario">
-                            <input type="text" id="l" name="l" placeholder="L" class="input-formulario">
-                            <input type="text" id="m" name="m" placeholder="M" class="input-formulario">
-                            <input type="text" id="i" name="i" placeholder="I" class="input-formulario">
-                            <input type="text" id="j" name="j" placeholder="J" class="input-formulario">
-                            <input type="text" id="v" name="v" placeholder="V" class="input-formulario">
-                            <input type="text" id="s" name="s" placeholder="S" class="input-formulario">
-                            <input type="text" id="d" name="d" placeholder="D" class="input-formulario">
-                            <input type="text" id="hora_ini" name="hora_ini" placeholder="HORA INI" required class="input-formulario">
-                            <input type="text" id="hora_fin" name="hora_fin" placeholder="HORA FIN" required class="input-formulario">
-                            <input type="text" id="edif" name="edif" placeholder="EDIF" required class="input-formulario">
-                            <input type="text" id="aula" name="aula" placeholder="AULA" required class="input-formulario">
-                            <div style="display: flex; flex-direction: column;">
-                                <button type="button" onclick="añadirRegistro()">Añadir</button>
-                                <button type="button" onclick="cerrarFormularioAñadir()">Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-
             <?php
-            // Verificar si seß obtuvieron resultados
-            if (mysqli_num_rows($result) > 0) {
-                // Recorrer los resultados y mostrarlos en la tabla
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>"; // Agregar el checkbox
-                    echo "<td>" . $row["ID_Plantilla"] . "</td>";
-                    echo "<td>" . $row["CICLO"] . "</td>";
-                    echo "<td>" . $row["NRC"] . "</td>";
-                    echo "<td>" . $row["FECHA_INI"] . "</td>";
-                    echo "<td>" . $row["FECHA_FIN"] . "</td>";
-                    echo "<td>" . $row["L"] . "</td>";
-                    echo "<td>" . $row["M"] . "</td>";
-                    echo "<td>" . $row["I"] . "</td>";
-                    echo "<td>" . $row["J"] . "</td>";
-                    echo "<td>" . $row["V"] . "</td>";
-                    echo "<td>" . $row["S"] . "</td>";
-                    echo "<td>" . $row["D"] . "</td>";
-                    echo "<td>" . $row["HORA_INI"] . "</td>";
-                    echo "<td>" . $row["HORA_FIN"] . "</td>";
-                    echo "<td>" . $row["EDIF"] . "</td>";
-                    echo "<td>" . $row["AULA"] . "</td>";
-                    echo "</tr>";
-                }
-            } else {
-                echo "<tr><td colspan='17'>No hay datos disponibles</td></tr>";
+            // Imprimir los datos en la tabla
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td><input type='checkbox' name='registro_seleccionado' value='" . $row['ID_Plantilla'] . "'></td>";
+                echo "<td>" . $row['ID_Plantilla'] . "</td>";
+                echo "<td>" . $row['CICLO'] . "</td>";
+                echo "<td>" . $row['NRC'] . "</td>";
+                echo "<td>" . $row['FECHA_INI'] . "</td>";
+                echo "<td>" . $row['FECHA_FIN'] . "</td>";
+                echo "<td>" . $row['L'] . "</td>";
+                echo "<td>" . $row['M'] . "</td>";
+                echo "<td>" . $row['I'] . "</td>";
+                echo "<td>" . $row['J'] . "</td>";
+                echo "<td>" . $row['V'] . "</td>";
+                echo "<td>" . $row['S'] . "</td>";
+                echo "<td>" . $row['D'] . "</td>";
+                echo "<td>" . $row['HORA_INI'] . "</td>";
+                echo "<td>" . $row['HORA_FIN'] . "</td>";
+                echo "<td>" . $row['EDIF'] . "</td>";
+                echo "<td>" . $row['AULA'] . "</td>";
+                echo "</tr>";
             }
-            // Cerrar la conexión a la base de datos
-            mysqli_close($conexion);
             ?>
         </table>
-        <!-- Enlaces de paginación -->
-        <div class="pagination">
-            <?php
-            for ($i = 1; $i <= $total_paginas; $i++) {
-                $active = ($i == $pagina_actual) ? 'active' : '';
-                echo "<a href='?pagina=$i' class='$active'>$i</a>";
+    </div>
+    <div class="paginacion">
+        <?php
+        // Imprimir enlaces de paginación
+        for ($i = 1; $i <= $total_paginas; $i++) {
+            if ($i == $pagina_actual) {
+                echo "<span>$i</span> ";
+            } else {
+                echo "<a href='basesdedatos.php?departamento_id=$departamento_id&pagina=$i'>$i</a> ";
             }
-            ?>
-        </div>
+        }
+        ?>
     </div>
 </div>
 

@@ -88,7 +88,8 @@ if (mysqli_query($conn, $insert_usuarios)) {
 // Crear tabla Departamentos
 $sql = "CREATE TABLE IF NOT EXISTS Departamentos (
     Departamento_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre_Departamento VARCHAR(100) NOT NULL
+    Nombre_Departamento VARCHAR(100) NOT NULL,
+    Departamentos VARCHAR(100) NOT NULL
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -98,17 +99,17 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Insertar departamentos
-$insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento) VALUES
-    ('Estudios_Regionales'),
-    ('Finanzas'),
-    ('Ciencias_Sociales'),
-    ('PALE'),
-    ('Posgrados'),
-    ('Economía'),
-    ('Recursos_Humanos'),
-    ('Métodos_Cuantitativos'),
-    ('Políticas_Públicas'),
-    ('Administración')";
+$insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departamentos) VALUES
+    ('Estudios_Regionales', 'Estudios Regionales'),
+    ('Finanzas', 'Finanzas'),
+    ('Ciencias_Sociales', 'Ciencias Sociales'),
+    ('PALE', 'PALE'),
+    ('Posgrados', 'Posgrados'),
+    ('Economia', 'Economía'),
+    ('Recursos_Humanos', 'Recursos Humanos'),
+    ('Metodos_Cuantitativos', 'Métodos Cuantitativos'),
+    ('Politicas_Publicas', 'Políticas Públicas'),
+    ('Administracion', 'Administración')";
 
 if (mysqli_query($conn, $insert_departamentos)) {
     echo "<br>Departamentos insertados exitosamente";
@@ -483,5 +484,3 @@ if (mysqli_query($conn, $sql)) {
 
 // Cerrar la conexión
 mysqli_close($conn);
-
-?>
