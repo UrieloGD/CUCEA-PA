@@ -19,21 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep')";
 
             if (mysqli_query($conexion, $sql)) {
-                header('Location: ../progreso_plantillas.php');
+                // Redirigir a la página principal tras una subida exitosa
+                header("Location: ../plantillasPA.php?success=true&nombre_archivo=$nombre_archivo_dep&fecha_subida=$fecha_subida_dep"); 
                 exit();
             } else {
-                echo "Error añadiendo registro: " . mysqli_error($conexion);
+                echo '<script>alert("Error añadiendo registro: ' . mysqli_error($conexion) . '");</script>';
             }
         } else {
-            echo "Error al mover el archivo subido.";
+            echo '<script>alert("Error al mover el archivo subido.");</script>';
         }
     } else {
-        echo "Error en la subida del archivo.";
+        echo '<script>alert("Error en la subida del archivo.");</script>';
     }
 
     mysqli_close($conexion);
 } else {
-    echo "Método de solicitud no permitido.";
+    echo '<script>alert("Método de solicitud no permitido.");</script>';
 }
 ?>
-

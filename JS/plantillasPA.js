@@ -28,6 +28,22 @@ function actualizarFechaSubida() {
 document.getElementById('input-file').addEventListener('change', function() {
     actualizarNombreArchivo(this);
     actualizarFechaSubida();
-    document.getElementById('formulario-subida').submit();
-});
 
+    var formData = new FormData(document.getElementById('formulario-subida'));
+    
+    fetch('./config/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Actualizar la tabla con los datos del archivo subido
+            document.getElementById('nombre-archivo').innerText = data.nombre_archivo;
+            document.getElementById('fecha-subida').innerText = data.fecha_subida;
+        } else {
+            console.error('Error en la subida:', data.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});

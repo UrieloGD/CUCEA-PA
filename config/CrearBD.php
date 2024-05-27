@@ -63,7 +63,7 @@ $sql = "CREATE TABLE IF NOT EXISTS subir_Plantilla (
     Departamento_ID INT NOT NULL,
     Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
     -- Ruta_Archivo_Dep VARCHAR(255) NOT NULL,
-    Fecha_Subida_Dep TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
