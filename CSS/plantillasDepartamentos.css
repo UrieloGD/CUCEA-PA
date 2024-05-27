@@ -1,6 +1,7 @@
 /* CSS del cuadro principal */
 
 .cuadro-principal {
+  min-height: 120vh;
   background-color: white;
   border-radius: 20px;
   width: 92vw;
@@ -39,21 +40,6 @@
   background-color: #0071b0;
 }
 
-
-/* Pestaña subir plantilla */
-/* .header-bar {
-  background-color: #0071b0;
-  color: white;
-  padding: 2px;
-  text-align: center;
-  font-size: 12px;
-  max-width: 550px;
-  margin: 0 auto;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
-} */
-
-
 /* Tabla */
 
 .tabla {
@@ -79,12 +65,6 @@ td {
   padding: 8px;
   text-align: left;
   border: 2px solid #e7e9f2;
-}
-
-.btn img {
-  /* Iconos */
-  height: 30px; /* Altura de imagenes */
-  align-items: center; /* Alinea imagenes al centro */
 }
 
 .btn img {
@@ -148,8 +128,62 @@ td {
   -o-border-radius: 1px;
 }
 
-/* Media queries para hacer el diseño responsivo */
+/* Estilos de la barra de progreso */
+.progress-container {
+  background-color: #e0e0e0; /* Color gris claro para el fondo*/
+  border-radius: 30px; /* Radio de borde curvo */
+  overflow: hidden; /* Evita que la barra de progreso se desborde */
+  width: 80%; /* Ajusta el ancho de la barra de progreso */
+  height: 20px; /* Aumentar la altura de la barra de progreso */
+  margin: 1rem auto; /* Añadir más espacio superior e inferior y centrar horizontalmente */
+  margin-top: 2rem;
+  box-sizing: border-box; /* Incluye el padding dentro del ancho y alto total */
+}
 
+.progress-bar {
+  width: 0%;
+  height: 100%; /* Asegurarse de que ocupe toda la altura del contenedor */
+  background-color: #0071B0;
+  border-radius: 20px;
+  transition: width 0.5s ease-in-out;
+  position: relative;
+  background: linear-gradient(to right, #0071B0, #0092e0, #0071B0);
+  background-size: 200% 100%;
+  animation: progress-bar-animation 2s linear infinite;
+}
+
+.progress-bar::after {
+  content: attr(data-progress) "%"; /* Muestra el valor del atributo data-progress seguido de "%" */
+  position: absolute; /* Posiciona el texto en relación a .progress-bar */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, -50%); /* Ajusta la posición para centrar */
+  color: white; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  font-size: 14px; /* Tamaño de fuente */
+}
+
+@keyframes progress-bar-animation {
+  0% { background-position: 0 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Estilo para centrar el encabezado */
+.centrado {
+  text-align: center;
+}
+
+@keyframes progress-bar-animation {
+  0% { background-position: 0 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Estilo para centrar el encabezado */
+.centrado {
+  text-align: center;
+}
+
+/* Media queries para hacer el diseño responsivo */
 @media screen and (max-width: 1400px) {
   .cuadro-principal {
     width: 90vw;
