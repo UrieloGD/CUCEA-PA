@@ -11,7 +11,7 @@
   <!--Cuadro de bienvenida-->
   <div class="bienvenida">
     <h2>
-    <?php
+      <?php
       if ($genero == 'Masculino') {
         echo "Bienvenido, ";
       } else if ($genero == 'Femenino') {
@@ -19,10 +19,10 @@
       } else {
         echo "Bienvenid@, ";
       }
-    
+
       echo $nombre, " ", $apellido;
 
-      if ($rol_id == 1){
+      if ($rol_id == 1) {
         echo "<br>", $nombre_rol, " - ", $_SESSION['Nombre_Departamento'];
       }
       ?>
@@ -159,7 +159,7 @@
 
         <span>Coordinadores</span>
         <div class="progress-container">
-        <div class="progress-bar" data-progress="30"></div>
+          <div class="progress-bar" data-progress="30"></div>
           <!-- <progress value="30" max="100"></progress>
           <span>30%</span> -->
         </div>
@@ -168,13 +168,13 @@
   </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const progressBars = document.querySelectorAll('.progress-bar');
+  document.addEventListener('DOMContentLoaded', function() {
+    const progressBars = document.querySelectorAll('.progress-bar');
 
-        progressBars.forEach(function(bar) {
-            const progress = bar.getAttribute('data-progress');
-            bar.style.width = `${progress}%`;
-        });
+    progressBars.forEach(function(bar) {
+      const progress = bar.getAttribute('data-progress');
+      bar.style.width = `${progress}%`;
     });
+  });
 </script>
 <?php include './template/footer.php' ?>

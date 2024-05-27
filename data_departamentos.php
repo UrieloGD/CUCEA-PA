@@ -95,7 +95,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
               echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
             }
           }
-          echo "<td style='text-align: center;'><button class='btn-ir'>Ir</button></td>";
+          echo "<td style='text-align: center;'><a href='basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
           echo "</tr>";
         }
         ?>

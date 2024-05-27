@@ -109,7 +109,9 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     ('Recursos_Humanos', 'Recursos Humanos'),
     ('Métodos_Cuantitativos', 'Métodos Cuantitativos'),
     ('Políticas_Públicas', 'Políticas Públicas'),
-    ('Administración', 'Administración')";
+    ('Administración', 'Administración'),
+    ('Secretaría_Administrativa', 'Secretaría Administrativa')
+    ";
 
 if (mysqli_query($conn, $insert_departamentos)) {
     echo "<br>Departamentos insertados exitosamente";

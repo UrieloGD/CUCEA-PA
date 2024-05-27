@@ -7,8 +7,15 @@
 include './config/db.php';
 
 // Obtener el nombre y el ID del departamento del usuario desde la sesión
-$nombre_departamento = $_SESSION['Nombre_Departamento'];
-$departamento_id = $_SESSION['Departamento_ID'];
+//$nombre_departamento = $_SESSION['Nombre_Departamento'];
+$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
+
+// Obtener el nombre del departamento usando el ID
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+$result_departamento = mysqli_query($conexion, $sql_departamento);
+$row_departamento = mysqli_fetch_assoc($result_departamento);
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$departamento_nombre = $row_departamento['Departamentos'];
 
 // Número de registros por página
 $registros_por_pagina = 50;
@@ -40,7 +47,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Data - <?php echo $nombre_departamento; ?></h3>
+            <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div>
         <div class="iconos-container">
             <div class="icono-buscador" id="icono-buscador">
