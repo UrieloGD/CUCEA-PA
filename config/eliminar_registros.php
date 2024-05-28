@@ -3,9 +3,14 @@
 include '../config/db.php';
 session_start(); // Iniciar la sesión
 
-// Obtener el nombre y el ID del departamento del usuario desde la sesión
-$nombre_departamento = $_SESSION['Nombre_Departamento'];
-$departamento_id = $_SESSION['Departamento_ID'];
+// Obtener el ID del departamento desde el formulario
+$departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
+
+// Obtener el nombre del departamento usando el ID
+$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
+$result_departamento = mysqli_query($conexion, $sql_departamento);
+$row_departamento = mysqli_fetch_assoc($result_departamento);
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
 
 // Obtener los IDs de los registros a eliminar
 $ids = explode(',', $_POST['ids']);

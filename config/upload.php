@@ -58,19 +58,19 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $tabla_destino = 'Data_Posgrados';
                 break;
             case 6:
-                $tabla_destino = 'Data_Economia';
+                $tabla_destino = 'Data_Economía';
                 break;
             case 7:
                 $tabla_destino = 'Data_Recursos_Humanos';
                 break;
             case 8:
-                $tabla_destino = 'Data_Metodos_Cuantitativos';
+                $tabla_destino = 'Data_Métodos_Cuantitativos';
                 break;
             case 9:
-                $tabla_destino = 'Data_Politicas_Publicas';
+                $tabla_destino = 'Data_Políticas_Públicas';
                 break;
             case 10:
-                $tabla_destino = 'Data_Administracion';
+                $tabla_destino = 'Data_Administraciún';
                 break;
             default:
                 echo json_encode(["success" => false, "message" => "Departamento no válido."]);
@@ -200,4 +200,3 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 }
 
 $conn->close();
-?>
