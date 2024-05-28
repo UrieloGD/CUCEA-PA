@@ -32,7 +32,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Insertar roles
-$insert_roles = "INSERT INTO Roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaria Administrativa'), ('Coordinacion de Personal')";
+$insert_roles = "INSERT INTO Roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal')";
 
 if (mysqli_query($conn, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";
@@ -109,8 +109,9 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     ('Recursos_Humanos', 'Recursos Humanos'),
     ('Métodos_Cuantitativos', 'Métodos Cuantitativos'),
     ('Políticas_Públicas', 'Políticas Públicas'),
-    ('Administración', 'Administración'), 
-    ('Secretaría_Administrativa', 'Secretaría Administrativa')";
+    ('Administración', 'Administración'),
+    ('Secretaría_Administrativa', 'Secretaría Administrativa')
+    ";
 
 if (mysqli_query($conn, $insert_departamentos)) {
     echo "<br>Departamentos insertados exitosamente";
@@ -194,8 +195,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -220,8 +221,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -247,8 +248,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Finanzas (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -274,8 +275,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
     DEPARTAMENTO_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -301,8 +302,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -328,8 +329,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Posgrados (
     DEPARTAMENTO_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -382,8 +383,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -409,8 +410,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Métodos_Cuantitativos (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -436,8 +437,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Políticas_Públicas (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -463,8 +464,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Administración (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
