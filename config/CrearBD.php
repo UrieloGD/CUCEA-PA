@@ -109,7 +109,8 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     ('Recursos_Humanos', 'Recursos Humanos'),
     ('Métodos_Cuantitativos', 'Métodos Cuantitativos'),
     ('Políticas_Públicas', 'Políticas Públicas'),
-    ('Administración', 'Administración')";
+    ('Administración', 'Administración'), 
+    ('Secretaría_Administrativa', 'Secretaría Administrativa')";
 
 if (mysqli_query($conn, $insert_departamentos)) {
     echo "<br>Departamentos insertados exitosamente";
@@ -155,11 +156,12 @@ if (mysqli_query($conn, $insert_usuarios_departamentos)) {
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
     ID_Archivo_SA INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_SA VARCHAR(255) NOT NULL,
-    -- Ruta_Archivo_SA VARCHAR(255) NOT NULL,
     Tamaño_Archivo_SA INT NOT NULL,
     Usuario_ID BIGINT(10),
     Fecha_Subida_SA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+    Departamento_ID INT NOT NULL,
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -353,8 +355,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Economía (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
