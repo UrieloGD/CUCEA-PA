@@ -106,13 +106,20 @@
 }
 
 .navbar-item-inner:hover {
+    margin-left: -5px;
     color: hsl(var(--white));
     background: #fff;
-    transform:scale(102%);
-    -webkit-transform:scale(102%);
-    -moz-transform:scale(102%);
-    -ms-transform:scale(102%);
-    -o-transform:scale(102%);
+    border-radius: 10px;
+    transform:scale(100%);
+    padding: -100px;
+    -webkit-transform:scale(100%);
+    -moz-transform:scale(100%);
+    -ms-transform:scale(100%);
+    -o-transform:scale(100%);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 }
 
 .navbar-item-inner-icon-wrapper {

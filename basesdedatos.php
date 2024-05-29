@@ -31,27 +31,30 @@ $result = mysqli_query($conexion, $sql);
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <div class="encabezado">
-        <div class="titulo-bd">
+        <div class="encabezado-izquierda"></div>
+        <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div>
-        <div class="iconos-container">
-            <div class="icono-buscador" id="icono-buscador">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
-            <div class="barra-buscador" id="barra-buscador" style="display: none;">
-                <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div>
-            <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                <i class="fa fa-add" aria-hidden="true"></i>
-            </div>
-            <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-            </div>
-            <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-            </div>
-            <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
-                <i class="fa fa-download" aria-hidden="true"></i>
+        <div class="encabezado-derecha">
+            <div class="iconos-container">
+                <div class="icono-buscador" id="icono-buscador">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+                <div class="barra-buscador" id="barra-buscador" style="display: none;">
+                    <input type="text" id="input-buscador" placeholder="Buscar...">
+                </div>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
     </div>

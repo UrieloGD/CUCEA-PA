@@ -2,7 +2,7 @@
 
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'root'); //Para iniciar sesión en Windows (WAMP) se deja vacío
+define('DB_PASSWORD', 'root');
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
 
 if (!$conn) {
@@ -109,8 +109,8 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     ('Recursos_Humanos', 'Recursos Humanos'),
     ('Métodos_Cuantitativos', 'Métodos Cuantitativos'),
     ('Políticas_Públicas', 'Políticas Públicas'),
-    ('Administración', 'Administración'),
-    ('Secretaría_Administrativa', 'Secretaría Administrativa')
+    ('Administración', 'Administración')
+    -- ('Secretaría_Administrativa', 'Secretaría Administrativa')
     ";
 
 if (mysqli_query($conn, $insert_departamentos)) {
