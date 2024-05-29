@@ -4,12 +4,13 @@
     /*border: solid black 1px;*/
     background-color: white;
     width: 92vw;
-    height: 89vh;
+    height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
     margin-bottom: 2vh;
     align-self: flex-end;
+    overflow: hidden; /* Para que el contenido adicional no desborde */
     border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
@@ -151,7 +152,8 @@
     justify-content: space-between; /* Centra los divs horizontalmente */
     align-items: stretch; /* Ajusta la altura de los hijos para que ocupen toda la altura del contenedor */
     align-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    /* border: solid; */
 }
 
 /* CSS Progreso de PA */
@@ -228,6 +230,11 @@
     -o-border-radius: 10px 10px 10px 10px;
 }
 
+.progreso span {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
 .progresoPA {
     background-color: #E7E9F2;
     display: flex;
@@ -260,7 +267,6 @@
 
 .progress-container span {
     /* border: solid 1px; */
-    margin-left: 10px; /* Margen entre la barra de progreso y el texto */
     margin-top: 10px;
 }
 
@@ -351,26 +357,28 @@
 
 /* Media queries para hacer el diseño responsivo */
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
     .cuadro-principal {
-        width: 90vw;
-        height: 89vh;    
-    }
+        background-color: white;
+        border-radius: 20px;
+        width: 92vw;
+        height: 90vh;
+        margin-left: 6vw;
+        margin-right: 2vw;
+        margin-top: 1vh;
+        margin-bottom: 2vh;
+    }   
 
     .container-eventos-progreso {
         /* flex-direction: column; */
-        align-items: center;
+        /* align-items: center; */
+        align-items: stretch;
     }
 
     .eventos,
     .progreso {
         width: 100%;
-        margin-right: 1vw;
-        margin-bottom: 20px;
-    }
-
-    .progreso {
-        height: 406px;
+        /* margin-bottom: 20px; */
     }
 
     .cuadros-nav {
@@ -386,6 +394,10 @@
     .cuadro-ind img {
         height: auto;
         max-width: 300px;
+    }
+
+    .progreso span{
+        font-size: medium;
     }
 
     .overlay {
@@ -404,27 +416,27 @@
     }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
     .cuadro-principal {
-        width: 86.7vw;
-        height: fit-content;
+        width: 92vw;
+        margin-left: 6vw;
     }
 
     .container-eventos-progreso {
-        flex-direction: column;
-        align-items: center;
+        /* flex-direction: column; */
+        /* align-items: center; */
+        align-items: stretch;
     }
 
     .eventos,
     .progreso {
         width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
+        /* margin-left: 10px; */
+    }    
 
-    .cuadros-nav {
-        flex-wrap: wrap;
-        justify-content: space-between;
+    
+    .progreso span{
+        font-size: medium;
     }
 
     .cuadro-ind {
@@ -446,38 +458,34 @@
     }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1200px) and (min-width: 993px) {
     .cuadro-principal {
-        width: 95vw;
-        height: fit-content;
-        margin-bottom: 2vh;
+        width: 90vw;
+        margin-left: 7vw;        
         font-size: smaller;
     }
 
-    .bienvenida {
-        margin-bottom: 4.5vh;
-    }
-
     .container-eventos-progreso {
-        flex-direction: column; 
+        /* flex-direction: column;  */
         align-items: center;
+        align-items: stretch;
+
     }
 
     .eventos,
     .progreso {
         width: 100%;
-        margin-right: 0;
-        margin-bottom: 20px;
+        /* margin-right: 20px; */
+        /* margin-bottom: 20px; */
     }
+
     
-    .cuadros-nav {
-        /* flex-wrap: wrap;
-        justify-content: space-between; */
-        display: none;
+    .progreso span{
+        font-size: medium;
     }
 
     .cuadro-ind {
-        width: 25%;
+        width: 30%;
         margin: 10px;
     }
 
@@ -513,44 +521,34 @@
     }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 992px) and (min-width: 769px) {
     .cuadro-principal {
-        width: 96vw;
-        height: fit-content;
+        width: 88vw;
+        height: 91vh; /* Mantener altura fija */
+        margin-left: 2.5vw;     
         font-size: smaller;
-    }
-    
-    .bienvenida {
-        margin-bottom: 3.5vh;
     }
 
     .container-eventos-progreso {
         flex-direction: column;
-        align-items: center;
+        align-items: stretch;
     }
 
     .eventos,
     .progreso {
         width: 100%;
-        margin-right: 0;
+        /* margin-right: 20px; */
         margin-bottom: 20px;
     }
 
-    .cuadros-nav {
-        /* flex-wrap: wrap;
-        justify-content: space-around; */
-        display: none;
+    .progreso span{
+        font-size: medium;
     }
 
     .cuadro-ind {
         width: 25%;
         margin: 10px;
         font-size: smaller;
-    }
-    
-    .cuadro-ind img {
-        height: auto;
-        max-width: 100%;
     }
 
     .overlay {
@@ -577,5 +575,40 @@
         transition: ease-in-out 0.4s;
         transform-origin: center; 
         object-fit: contain;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .cuadro-principal {
+        width: 96vw;
+        height: 91vh; /* Mantener altura fija */
+        margin-left: 2vw;     
+        font-size: smaller;
+    }
+
+    .bienvenida{
+        font-size: small;
+        padding: 10px;
+    }
+
+    .container-eventos-progreso {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .eventos,
+    .progreso {
+        width: 100%;
+        /* margin-right: 20px; */
+        margin-bottom: 20px;
+    }
+
+    .progreso span {
+        font-size: medium;
+        margin-bottom: 10px;
+    }
+
+    .cuadros-nav {
+        display: none;
     }
 }

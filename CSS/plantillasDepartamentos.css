@@ -183,33 +183,49 @@ td {
   text-align: center;
 }
 
-/* Media queries para hacer el diseño responsivo */
-@media screen and (max-width: 1400px) {
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
-    width: 90vw;
-    height: 89vh;
+      background-color: white;
+      border-radius: 20px;
+      width: 92vw;
+      height: 90vh;
+      margin-left: 6vw;
+      margin-right: 2vw;
+      margin-top: 1vh;
+      margin-bottom: 2vh;
+  }    
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+      width: 92vw;
+      margin-left: 6vw;
   }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 88vw;
-    height: 89vh;
+      width: 91vw;
+      margin-left: 7vw;        
+      font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+      width: 90vw;
+      margin-left: 8vw;        
+      margin-bottom: 2vh;
+      font-size: smaller;
   }
 }
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 95vw;
-    height: 89vh;
-    font-size: smaller;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .cuadro-principal {
-    width: 96vw;
-    height: 87vh;
-    font-size: smaller;
+      width: 95vw;
+      height: 91vh; /* Mantener altura fija */
+      margin-left: 2.5vw;     
+      font-size: smaller;
   }
 }

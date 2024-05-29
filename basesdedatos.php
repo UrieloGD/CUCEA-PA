@@ -17,27 +17,12 @@ $row_departamento = mysqli_fetch_assoc($result_departamento);
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $departamento_nombre = $row_departamento['Departamentos'];
 
-// Número de registros por página
-$registros_por_pagina = 50;
-
-// Determinar la página actual
-$pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-
-// Calcular el offset para la consulta SQL
-$offset = ($pagina_actual - 1) * $registros_por_pagina;
-
 // Construir el nombre de la tabla según el departamento
 $tabla_departamento = "Data_" . $nombre_departamento;
 
-// Consulta SQL para obtener los datos de la tabla correspondiente al departamento
-$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id LIMIT $registros_por_pagina OFFSET $offset";
+// Consulta SQL para obtener los datos de la tabla correspondiente al departamento sin paginación
+$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
-
-// Calcular el total de registros en la tabla correspondiente al departamento
-$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id"));
-
-// Calcular el total de páginas
-$total_paginas = ceil($total_registros / $registros_por_pagina);
 ?>
 
 <title>Data - <?php echo $departamento_nombre; ?></title>
@@ -153,15 +138,6 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
             mysqli_close($conexion);
             ?>
         </table>
-        <!-- Enlaces de paginación -->
-        <div class="pagination">
-            <?php
-            for ($i = 1; $i <= $total_paginas; $i++) {
-                $active = ($i == $pagina_actual) ? 'active' : '';
-                echo "<a href='?pagina=$i' class='$active'>$i</a>";
-            }
-            ?>
-        </div>
     </div>
 </div>
 
