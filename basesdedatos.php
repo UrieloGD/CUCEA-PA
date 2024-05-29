@@ -56,6 +56,7 @@ $result = mysqli_query($conexion, $sql);
         </div>
     </div>
     <div class="Tabla">
+        <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos">
             <tr>
                 <th></th> <!-- columna para el checkbox -->
@@ -112,6 +113,7 @@ $result = mysqli_query($conexion, $sql);
                 // Recorrer los resultados y mostrarlos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
+
                     echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>"; // Agregar el checkbox
                     echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
@@ -148,7 +150,8 @@ $result = mysqli_query($conexion, $sql);
 <script src="./JS/añadirRegistro.js"></script>
 <script>
     function descargarExcel() {
-        window.location.href = './config/descargar_excel.php';
+        var departamento_id = document.getElementById('departamento_id').value;
+        window.location.href = './config/descargar_excel.php?departamento_id=' + departamento_id;
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
