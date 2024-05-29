@@ -32,7 +32,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Insertar roles
-$insert_roles = "INSERT INTO Roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaria Administrativa'), ('Coordinacion de Personal')";
+$insert_roles = "INSERT INTO Roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal')";
 
 if (mysqli_query($conn, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";
@@ -103,7 +103,8 @@ if (mysqli_query($conn, $insert_usuarios)) {
 // Crear tabla Departamentos
 $sql = "CREATE TABLE IF NOT EXISTS Departamentos (
     Departamento_ID INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre_Departamento VARCHAR(100) NOT NULL
+    Nombre_Departamento VARCHAR(100) NOT NULL,
+    Departamentos VARCHAR(100) NOT NULL
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -113,17 +114,19 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Insertar departamentos
-$insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento) VALUES
-    ('Estudios_Regionales'),
-    ('Finanzas'),
-    ('Ciencias_Sociales'),
-    ('PALE'),
-    ('Posgrados'),
-    ('Economía'),
-    ('Recursos_Humanos'),
-    ('Métodos_Cuantitativos'),
-    ('Políticas_Públicas'),
-    ('Administración')";
+$insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departamentos) VALUES
+    ('Estudios_Regionales', 'Estudios Regionales'),
+    ('Finanzas', 'Finanzas'),
+    ('Ciencias_Sociales', 'Ciencias Sociales'),
+    ('PALE', 'PALE'),
+    ('Posgrados', 'Posgrados'),
+    ('Economía', 'Economía'),
+    ('Recursos_Humanos', 'Recursos Humanos'),
+    ('Métodos_Cuantitativos', 'Métodos Cuantitativos'),
+    ('Políticas_Públicas', 'Políticas Públicas'),
+    ('Administración', 'Administración'),
+    ('Secretaría_Administrativa', 'Secretaría Administrativa')
+    ";
 
 if (mysqli_query($conn, $insert_departamentos)) {
     echo "<br>Departamentos insertados exitosamente";
@@ -169,11 +172,12 @@ if (mysqli_query($conn, $insert_usuarios_departamentos)) {
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
     ID_Archivo_SA INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_SA VARCHAR(255) NOT NULL,
-    -- Ruta_Archivo_SA VARCHAR(255) NOT NULL,
     Tamaño_Archivo_SA INT NOT NULL,
     Usuario_ID BIGINT(10),
     Fecha_Subida_SA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+    Departamento_ID INT NOT NULL,
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
 if (mysqli_query($conn, $sql)) {
@@ -206,8 +210,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -232,8 +236,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -259,8 +263,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Finanzas (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -286,8 +290,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
     DEPARTAMENTO_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -313,8 +317,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -340,8 +344,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Posgrados (
     DEPARTAMENTO_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -362,13 +366,13 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Crear tabla Data_Economia
-$sql = "CREATE TABLE IF NOT EXISTS Data_Economia (
+$sql = "CREATE TABLE IF NOT EXISTS Data_Economía (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -394,8 +398,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -416,13 +420,13 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Crear tabla Metodos_Cuantitativos
-$sql = "CREATE TABLE IF NOT EXISTS Data_Metodos_Cuantitativos (
+$sql = "CREATE TABLE IF NOT EXISTS Data_Métodos_Cuantitativos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -443,13 +447,13 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Crear tabla Data_Politicas_Publicas
-$sql = "CREATE TABLE IF NOT EXISTS Data_Politicas_Publicas (
+$sql = "CREATE TABLE IF NOT EXISTS Data_Políticas_Públicas (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -470,13 +474,13 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Crear tabla Data_Administracion
-$sql = "CREATE TABLE IF NOT EXISTS Data_Administracion (
+$sql = "CREATE TABLE IF NOT EXISTS Data_Administración (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NOT NULL,
     NRC VARCHAR(15) NOT NULL,
-    FECHA_INI VARCHAR(10) NULL,
-    FECHA_FIN VARCHAR(10) NULL,
+    FECHA_INI DATE NULL,
+    FECHA_FIN DATE NULL,
     L VARCHAR(5) NULL,
     M VARCHAR(5) NULL,
     I VARCHAR(5) NULL,
@@ -498,5 +502,3 @@ if (mysqli_query($conn, $sql)) {
 
 // Cerrar la conexión
 mysqli_close($conn);
-
-?>

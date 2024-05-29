@@ -329,35 +329,6 @@ hr {
     display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
 
-/*Responsividad del navbar*/
-
-/*Esconde el navbar después de alcanzar una resolución de 768px */
-@media screen and (max-width: 768px) {
-    #navbar {
-      display: none;
-    }
-    
-    span {
-        font-size: smaller;
-    }
-
-    .menu-icon {
-      display: block;
-      position: fixed;
-      left: 20px;
-      top: 20px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .logout-container {
-        margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
-    }
-
-    .logout-button {
-        height: 50px; /* Ajusta el margen inferior del botón de cerrar sesión */
-    }
-  }
 
 /* =========
 Responsividad para distintas resoluciones
@@ -628,4 +599,33 @@ Responsividad para distintas resoluciones
     }
 }
 
+/*Responsividad del navbar*/
+
+/*Esconde el navbar después de alcanzar una resolución de 768px */
+@media screen and (max-width: 768px) {
+    #navbar {
+      display: none;
+    }
+    
+    span {
+        font-size: smaller;
+    }
+
+    .menu-icon {
+      display: block;
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .logout-container {
+        margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
+    }
+
+    .logout-button {
+        height: 50px; /* Ajusta el margen inferior del botón de cerrar sesión */
+    }
+  }
 

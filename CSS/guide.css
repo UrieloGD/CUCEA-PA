@@ -1,255 +1,24 @@
 /* CSS del cuadro principal */
 
 .cuadro-principal {
-    background-color: white;
-    border-radius: 20px;
-    width: 92vw;
-    height: 88vh;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    align-self: flex-end;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
-}
-
-/* CSS Pestaña Descarga */
-
-.info-descarga {
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: hidden; /* Para que el contenido adicional no desborde */
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  /* border: solid 1px; */
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
-.info-descarga p{
-    font-size: large;
-}
-
-.icono-descarga {
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-}
-
-.icono-descarga img {
-  width: 7vh;
-  margin-top: 3vh;
-  margin-bottom: 4vh;
-}
-
-/* Botón de descarga */
-.boton-descargar {
-  appearance: none;
-  backface-visibility: hidden;
-  background-color: #0071B0;
-  border-radius: 10px;
-  border-style: none;
-  box-shadow: none;
-  box-sizing: border-box;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  font-size: large ;
-  font-weight: 300;
-  padding: 15px 20px;
-  width: auto;
-  letter-spacing: normal;
-  line-height: 1;
-  outline: none;
-  overflow: hidden;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  transition: all .3s;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  vertical-align: top;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-}
-
-.boton-descargar:hover {
-  background-color: #0e81be;
-  box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
-  opacity: 1;
-  transform: scale(102%);
-  transition-duration: .35s;
-  -webkit-transform: scale(102%);
-  -moz-transform: scale(102%);
-  -ms-transform: scale(102%);
-  -o-transform: scale(102%);
-}
-
-.boton-descargar:after {
-  opacity: .5;
-}
-
-.boton-descargar:active {
-  box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
-}
-
-.boton-descargar:active:after {
-  opacity: 1;
-}
-
-.div-boton-descargar {
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  margin-bottom: 3vh;
-}
-/* CSS Pestaña subida */
-
-.info-subida{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  /* border: solid 1px; */
-  margin-top: -3vh;
-  font-size: large;
-  padding: 20px;
-}
-
-/* Contenedores de subida */
-.container-peso {
-  width: 100%;
-  margin-top: 3vh;
-  margin-bottom: 3vh;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  background-color: #D9EDF6;
-  color: #0071B0;
-  border-radius: 7.5px;
-  -webkit-border-radius: 7.5px;
-  -moz-border-radius: 7.5px;
-  -ms-border-radius: 7.5px;
-  -o-border-radius: 7.5px;
-}
-
-.container-inf {
-  display: flex;
-  flex-direction: column; 
-  height: auto;
-  margin: 10px;
-  padding: 10px;
-  justify-content: center; 
-  align-items: center;
-}
-
-.container-inf button {
-    margin-bottom: 15px;
-}
-
-.container-inf-dos {
-  display: flex;
-  flex-direction: column; 
-  height: auto;
-  margin: 10px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-}
-
-.container-inf-dos button {
-    margin-bottom: 15px;
-}
-
-/* Estilos para el Drag Area */
-
-.drop-area{
-  display: flex;
-  flex-direction: column; 
-  height: auto;
-  width: 100%;
-  border: dashed 2px;
-  border-color: #c0c0c0;
-  justify-content: center;
-  align-items: center;
-  margin-top: -1.5vh;
-}
-
-.drop-area p {
-  margin-bottom: 5px;
-  font-size: large;
-  /* color: #c0c0c0; */
-}
-
-.drop-area button {
-  margin-top: 15px;
-}
-
-.drop-area.active {
-  background-color:#c5def1;
-  color: black;
-  border: 2px dashed #0e81be;
-}
-
-.boton-seleccionar-archivo {
-  font-size: large;
-  font-weight: 300;
-  padding: 10px 20px;
-  background-color: #fff;
-  color: #0071B0;
-  border: #0071B0 solid 2px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
-}
-
-.boton-seleccionar-archivo:hover {
-  background-color: #0071B0; /* Cambia el color de fondo cuando se pasa sobre el botón */
-  color: #fff; /* Cambia el color del texto cuando se pasa sobre el botón */
-  border-color: #fff; /* Cambia el color del borde cuando se pasa sobre el botón */
-}
-
-.file-container{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border: 1px #ddd;
-}
-
-#preview{
-  margin-top: 10px;
-}
-
-.status-text{
-  padding: 0 10px;
-}
-
-.success{
-  color: rgb(132, 255, 132);
-}
-
-.failure{
-  color: rgb(255, 132, 132);
-}
-
-/* Estilos para las pestañas */
-.tab-container {
-  width: 100%;
-  margin: 0 auto;
-}
-
+/* CSS Pestañas */
 .tab-buttons {
   display: flex;
   width: 100%;
@@ -314,41 +83,49 @@
   display: block;
 }
 
-/* Media queries para hacer el diseño responsivo */
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+      background-color: white;
+      border-radius: 20px;
+      width: 92vw;
+      height: 90vh;
+      margin-left: 6vw;
+      margin-right: 2vw;
+      margin-top: 1vh;
+      margin-bottom: 2vh;
+  }    
+}
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+      width: 92vw;
+      margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+      width: 91vw;
+      margin-left: 7vw;        
+      font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
       width: 90vw;
-      height: fit-content;
-  }
-
-  .info-descarga p {
-    font-size: medium;
-  }
-
-  .info-subida p {
-    font-size: medium;
+      margin-left: 8vw;        
+      margin-bottom: 2vh;
+      font-size: smaller;
   }
 }
 
-@media screen and (max-width: 1100px) {
-  .cuadro-principal {
-      width: 88vw;
-      height: fit-content;
-  }
-}
-
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   .cuadro-principal {
       width: 95vw;
-      height: fit-content;
-      margin-bottom: 2vh;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .cuadro-principal {
-      width: 96vw;
-      height: fit-content;
+      height: 91vh; /* Mantener altura fija */
+      margin-left: 2.5vw;     
+      font-size: smaller;
   }
 }

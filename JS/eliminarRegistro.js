@@ -39,7 +39,22 @@ function eliminarRegistrosSeleccionados() {
                     });
                 }
             };
-            xhr.send('ids=' + encodeURIComponent(ids.join(',')));
+
+            // Obtener el departamento_id desde el HTML
+            var departamento_id = document.getElementById('departamento_id').value;
+            var datos = { 'departamento_id': departamento_id };
+            xhr.send('ids=' + encodeURIComponent(ids.join(',')) + '&' + convertirObjeto(datos));
         }
     });
+}
+
+// Función auxiliar para convertir un objeto en una cadena de consulta
+function convertirObjeto(obj) {
+    var str = [];
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    }
+    return str.join("&");
 }

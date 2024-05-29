@@ -1,15 +1,15 @@
-/* CSS del cuadro principal */
-
 .cuadro-principal {
     background-color: white;
     border-radius: 20px;
     width: 92vw;
-    height: fit-content;
+    height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
     margin-bottom: 2vh;
-    align-self: flex-end;
+    overflow: hidden; /* Para que el contenido adicional no desborde */
+    display: flex;
+    flex-direction: column;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
@@ -34,21 +34,24 @@
     border-radius: 0px 0px 20px 20px;
     background-color: #0071b0;
     text-align: center; /* Centra el texto dentro del div */
-    flex-grow: 1; /* Permite que el título ocupe el espacio disponible */
+    justify-content: center;
+    align-items: center;
+    flex: auto;
+    /* flex-grow: 1; Permite que el título ocupe el espacio disponible */
 }
 
 /* Tabla */
-
 .tabla {
+    flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
+    overflow-y: auto; /* Añadir scroll vertical */
     padding: 20px;
     border-radius: 20px 20px 0px 0px;
-    /* border: solid; */
+    position: relative; /* Para controlar el contenido interno */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    /* margin-top: 20px; */
 }
 
 th, td {
@@ -58,24 +61,16 @@ th, td {
 }
 
 th {
-    /* background-color: #0071b0; */
     color: black;
-    /* border-radius: 10px 10px 0px 0px; */
     border-bottom: solid #0071b0;
+    position: sticky; /* Hacer que el encabezado sea fijo */
+    top: 0; /* Posición fija en la parte superior */
+    background-color: white; /* Fondo blanco para que el encabezado sea legible */
+    z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
 }
 
-/* tr:nth-child(even) {
-    background-color: #f2f2f2;
-    border: solid 1px 0x #2c3e50;
-} */
-
-/* .iconos-bd {
-
-} */
-
-/* CSs paginacion */
-
-.pagination {
+/* CSS para la paginación */
+/* .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -98,10 +93,9 @@ th {
     border: 1px solid #0071b0;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {background-color: #ddd;} */
 
-/*icono y Boton Buscar */
-
+/* Icono y Boton Buscar */
 .iconos-container {
     display: flex; /* Asegura que los iconos estén en línea horizontal */
     align-items: center;
@@ -135,9 +129,7 @@ th {
     -o-border-radius: 10px;
 }
 
-
-/* Estilos para nuevos formularios*/
-
+/* Estilos para nuevos formularios */
 #formulario-añadir {
     width: 100%;
     box-sizing: border-box;
@@ -169,33 +161,49 @@ th {
     box-sizing: border-box;
 }
 
-@media screen and (max-width: 1400px) {
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
     .cuadro-principal {
-        width: 90vw;
-        height: fit-content;
+        background-color: white;
+        border-radius: 20px;
+        width: 92vw;
+        height: 90vh;
+        margin-left: 6vw;
+        margin-right: 2vw;
+        margin-top: 1vh;
+        margin-bottom: 2vh;
     }    
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
     .cuadro-principal {
-        width: 88vw;
-        height: fit-content;
+        width: 92vw;
+        margin-left: 6vw;
     }
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1200px) and (min-width: 993px) {
     .cuadro-principal {
-        width: 95vw;
-        height: fit-content;
+        width: 91vw;
+        margin-left: 7vw;        
+        font-size: smaller;
+    }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+    .cuadro-principal {
+        width: 90vw;
+        margin-left: 8vw;        
         margin-bottom: 2vh;
         font-size: smaller;
     }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
     .cuadro-principal {
-        width: 96vw;
-        height: fit-content;
+        width: 95vw;
+        height: 91vh; /* Mantener altura fija */
+        margin-left: 2.5vw;     
         font-size: smaller;
     }
 
@@ -230,9 +238,11 @@ th {
     }
     
     th {
-        /* background-color: #0071b0; */
         color: black;
-        /* border-radius: 10px 10px 0px 0px; */
         border-bottom: solid #0071b0;
+        position: sticky; /* Hacer que el encabezado sea fijo */
+        top: 0; /* Posición fija en la parte superior */
+        background-color: white; /* Fondo blanco para que el encabezado sea legible */
+        z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
     }
 }

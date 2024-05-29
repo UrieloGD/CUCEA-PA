@@ -3,9 +3,15 @@ require '../vendor/autoload.php';
 include '../config/db.php';
 session_start(); // Iniciar la sesión
 
-// Obtener el nombre y el ID del departamento del usuario desde la sesión
-$nombre_departamento = $_SESSION['Nombre_Departamento'];
-$departamento_id = $_SESSION['Departamento_ID'];
+// Obtener el ID del departamento desde el formulario
+$departamento_id = isset($_GET['departamento_id']) ? $_GET['departamento_id'] : '';
+
+// Obtener el nombre del departamento usando el ID
+$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
+$result_departamento = mysqli_query($conexion, $sql_departamento);
+$row_departamento = mysqli_fetch_assoc($result_departamento);
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+
 
 // Obtener el nombre y apellido del usuario desde la sesión (con verificación)
 $nombre_usuario = isset($_SESSION['Nombre']) ? $_SESSION['Nombre'] : 'Usuario';
@@ -23,7 +29,7 @@ $objPHPExcel->getProperties()->setCreator("$nombre_usuario $apellido_usuario")
 
 // Agregar los encabezados de la tabla
 $objPHPExcel->setActiveSheetIndex(0)
-//    ->setCellValue('A1', 'ID')
+    //    ->setCellValue('A1', 'ID')
     ->setCellValue('A1', 'CICLO')
     ->setCellValue('B1', 'NRC')
     ->setCellValue('C1', 'FECHA INI')
@@ -52,7 +58,7 @@ if (mysqli_num_rows($result) > 0) {
     $fila = 2; // Empezar en la segunda fila
     while ($row = mysqli_fetch_assoc($result)) {
         $objPHPExcel->setActiveSheetIndex(0)
-//          ->setCellValue('A' . $fila, $row['ID_Plantilla'])
+            //          ->setCellValue('A' . $fila, $row['ID_Plantilla'])
             ->setCellValue('A' . $fila, $row['CICLO'])
             ->setCellValue('B' . $fila, $row['NRC'])
             ->setCellValue('C' . $fila, $row['FECHA_INI'])

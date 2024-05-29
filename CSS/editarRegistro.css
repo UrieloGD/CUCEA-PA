@@ -1,6 +1,7 @@
 .input-estrecho {
     width: 80px; /* Ajusta este valor según sea necesario */
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     padding: 5px; /* Opcional: ajustar el padding según sea necesario */
+    border: none;
 }
 
