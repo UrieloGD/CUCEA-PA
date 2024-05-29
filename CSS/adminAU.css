@@ -45,8 +45,10 @@
   .busqueda {
     padding: 0px 2vw;
     display: flex;
-    justify-content: flex-start;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* espacio entre tabla y barra */
+    margin-top: -15px; /* quitar espacio */
   }
   
   .button-container {
@@ -59,21 +61,33 @@
   #search-input {
     padding: 8px;
     border: 1px solid #E7E9F2;
-    border-radius: 4px;
+    border-radius: 10px; /*más redondo */ 
     font-size: 16px;
+    width: 50%;
+    background-color: #E7E9F2;
   }
 
   /* Añadir Usuario y Ajustes */
   #add-user-btn{
-    display: flex;
-    justify-content: flex-end;
-    padding: 8px 16px;
+    /* display: flex;
+    justify-content: flex-end; */
+    padding: 8px 40px;
     background-color: #0071b0;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px; /* más redondo */
     cursor: pointer;
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    font-size: medium;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center; /* Añadido para alinear verticalmente */
+  }
+  
+  .button-container a {
+    margin-left: 30px; /* Añadido para separar el icono */
   }
 
   /* Tabla */
@@ -109,13 +123,15 @@
   
   .btn img {
     /* Iconos */
-    height: 20px; /* Altura de imagenes */
+    height: 26px; /* Altura de imagenes */
     align-items: center; /* Alinea imagenes al centro */
   }
   
   #input-file {
     display: none; /* Oculta display de la función de subir archivo  */
   }
+
+  
 
   /* Media queries para hacer el diseño responsivo */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {

@@ -18,6 +18,7 @@
 
 <!-- Barra de Busqueda-->
 <div class="busqueda">
+  <br>
   <input type="text" placeholder="Buscar..." id="search-input">
   <div class="button-container">
     <button id="add-user-btn">Añadir usuario</button>
@@ -60,8 +61,8 @@
       <td style="text-align: center;">Coordinador</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -71,8 +72,8 @@
       <td style="text-align: center;">Jefe de departamento</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -82,8 +83,8 @@
       <td style="text-align: center;">Jefe de departamento</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
 
       </td>
     </tr>
@@ -94,8 +95,8 @@
       <td style="text-align: center;">Coordinador</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
     <tr>
@@ -105,8 +106,8 @@
       <td style="text-align: center;">Jefe de departamento</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -116,8 +117,8 @@
       <td style="text-align: center;">Coordinador</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -127,8 +128,8 @@
       <td style="text-align: center;">Coordinador</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -138,8 +139,8 @@
       <td style="text-align: center;">Jefe de departamento</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -149,8 +150,8 @@
       <td style="text-align: center;">Jefe de departamento</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
@@ -160,12 +161,14 @@
       <td style="text-align: center;">Coordinador</td>
       <td style="text-align: center;">Activa</td>
       <td style="text-align: center;">
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar.png"></a>
-        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/editar2.png"></a>
+        <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/borrar2.png"></a>
       </td>
     </tr>
 
   </table>
+
+  
 
 </div>
 <?php include './template/footer.php' ?>
