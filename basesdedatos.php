@@ -50,11 +50,39 @@ $result = mysqli_query($conexion, $sql);
             <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
             </div>
-            <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
-                <i class="fa fa-download" aria-hidden="true"></i>
+<!-- MODIFICACIONES PARA BOTÓN DE DESCARGA  -->
+            <!-- Botón para abrir el menú emergente -->
+<div id="openMenuBtn" class="icono-buscador" onclick="openMenu()">
+    <i class="fa fa-download" aria-hidden="true"></i>
+</div>
+
+        <!-- Menú emergente -->
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" id="closeMenuBtn" onclick="closeMenu()">&times;</button>
+                <h2 class="modal-header">Escoge un formato de descarga</h2>
+            <div id="formatSelection">
+                <!-- Para la sección de Extensión -->
+                <div class="format-btn-group">
+                    <label for="pdfBtn" class="format-btn-label">Extensión</label>
+                    <button class="format-btn" id="pdfBtn" onclick="selectFormat('pdf')">PDF</button>
+                    <button class="format-btn" id="xlsBtn" onclick="selectFormat('xls')">XLS</button>
+                </div>
+                <!-- Para la sección de Formato -->
+                    <div class="format-btn-group">
+                        <label for="siiBtn" class="format-btn-label">Formato</label>
+                        <button class="format-btn" id="siiBtn" onclick="selectFormat('sii')">Carga a SIIAU</button>
+                        <button class="format-btn" id="reportBtn" onclick="selectFormat('report')">Reporte Integral</button>
+                    </div>
+                </div>
+
+                <button onclick="descargarExcel()">Descargar</button>
             </div>
         </div>
-    </div>
+
+</div>
+</div>
+    <!-- MODIFICACIONES PARA BOTÓN DE DESCARGA  -->
     <div class="Tabla">
         <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos">
@@ -153,6 +181,60 @@ $result = mysqli_query($conexion, $sql);
         var departamento_id = document.getElementById('departamento_id').value;
         window.location.href = './config/descargar_excel.php?departamento_id=' + departamento_id;
     }
+
+  // Modificaciones para el menú emergente
+    document.getElementById('openMenuBtn').addEventListener('click', function() {
+        document.getElementById('modal').style.display = 'block';
+    });
+
+    document.getElementById('closeMenuBtn').addEventListener('click', function() {
+        document.getElementById('modal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('modal')) {
+            document.getElementById('modal').style.display = 'none';
+        }
+    });
+
+    document.getElementById('pdfBtn').addEventListener('click', function() {
+        selectFormat('pdf');
+    });
+
+    document.getElementById('xlsBtn').addEventListener('click', function() {
+        selectFormat('xls');
+    });
+
+    document.getElementById('siiBtn').addEventListener('click', function() {
+        selectFormat('sii');
+    });
+
+    document.getElementById('reportBtn').addEventListener('click', function() {
+        selectFormat('report');
+    });
+
+    function selectFormat(format) {
+        const pdfBtn = document.getElementById('pdfBtn');
+        const xlsBtn = document.getElementById('xlsBtn');
+        const siiBtn = document.getElementById('siiBtn');
+        const reportBtn = document.getElementById('reportBtn');
+
+        pdfBtn.classList.remove('selected');
+        xlsBtn.classList.remove('selected');
+        siiBtn.classList.remove('selected');
+        reportBtn.classList.remove('selected');
+
+        if (format === 'pdf') {
+            pdfBtn.classList.add('selected');
+        } else if (format === 'xls') {
+            xlsBtn.classList.add('selected');
+        } else if (format === 'sii') {
+            siiBtn.classList.add('selected');
+        } else if (format === 'report') {
+            reportBtn.classList.add('selected');
+        }
+    }
+// Fin de modificaciones para el menú emergente
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
