@@ -56,33 +56,39 @@ $result = mysqli_query($conexion, $sql);
     <i class="fa fa-download" aria-hidden="true"></i>
 </div>
 
-        <!-- Menú emergente -->
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <button class="close-btn" id="closeMenuBtn" onclick="closeMenu()">&times;</button>
-                <h2 class="modal-header">Escoge un formato de descarga</h2>
-            <div id="formatSelection">
-                <!-- Para la sección de Extensión -->
-                <div class="format-btn-group">
-                    <label for="pdfBtn" class="format-btn-label">Extensión</label>
-                    <button class="format-btn" id="pdfBtn" onclick="selectFormat('pdf')">PDF</button>
-                    <button class="format-btn" id="xlsBtn" onclick="selectFormat('xls')">XLS</button>
-                </div>
-                <!-- Para la sección de Formato -->
-                    <div class="format-btn-group">
-                        <label for="siiBtn" class="format-btn-label">Formato</label>
-                        <button class="format-btn" id="siiBtn" onclick="selectFormat('sii')">Carga a SIIAU</button>
-                        <button class="format-btn" id="reportBtn" onclick="selectFormat('report')">Reporte Integral</button>
+                    <!-- Menú emergente -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <button class="close-btn" id="closeMenuBtn" onclick="closeMenu()">&times;</button>
+                    <h2 class="modal-header">Escoge un formato de descarga</h2>
+                    <div id="formatSelection">
+                        <!-- Para la sección de Extensión -->
+                        <div class="format-selection">
+                            <label for="pdfBtn">Extensión</label>
+                        <div class="buttons-container">
+                            <button id="pdfBtn" onclick="selectFormat('extension', 'pdf')">PDF</button>
+                            <button id="xlsBtn" onclick="selectFormat('extension', 'xls')">XLS</button>
+                        </div>
+                        </div>
+                        <!-- Para la sección de Formato -->
+                        <div class="format-selection">
+                            <label for="siiBtn">Formato</label>
+                        <div class="buttons-container">
+                            <button id="siiBtn" onclick="selectFormat('formato', 'sii')">Carga a SIIAU</button>
+                            <button id="reportBtn" onclick="selectFormat('formato', 'report')">Reporte Integral</button>
+                        </div>
+                        </div>
                     </div>
+                    <button class="download-btn" onclick="descargarExcel()">
+                         <i class="fa fa-download"></i> Descargar
+                    </button>
                 </div>
-
-                <button onclick="descargarExcel()">Descargar</button>
             </div>
-        </div>
 
+<!--  FIN MODIFICACIONES PARA BOTÓN DE DESCARGA  -->
 </div>
 </div>
-    <!-- MODIFICACIONES PARA BOTÓN DE DESCARGA  -->
+
     <div class="Tabla">
         <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos">
@@ -183,58 +189,34 @@ $result = mysqli_query($conexion, $sql);
     }
 
   // Modificaciones para el menú emergente
-    document.getElementById('openMenuBtn').addEventListener('click', function() {
-        document.getElementById('modal').style.display = 'block';
-    });
+document.getElementById('openMenuBtn').addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'block';
+});
 
-    document.getElementById('closeMenuBtn').addEventListener('click', function() {
+document.getElementById('closeMenuBtn').addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('modal')) {
         document.getElementById('modal').style.display = 'none';
-    });
-
-    window.addEventListener('click', function(event) {
-        if (event.target == document.getElementById('modal')) {
-            document.getElementById('modal').style.display = 'none';
-        }
-    });
-
-    document.getElementById('pdfBtn').addEventListener('click', function() {
-        selectFormat('pdf');
-    });
-
-    document.getElementById('xlsBtn').addEventListener('click', function() {
-        selectFormat('xls');
-    });
-
-    document.getElementById('siiBtn').addEventListener('click', function() {
-        selectFormat('sii');
-    });
-
-    document.getElementById('reportBtn').addEventListener('click', function() {
-        selectFormat('report');
-    });
-
-    function selectFormat(format) {
-        const pdfBtn = document.getElementById('pdfBtn');
-        const xlsBtn = document.getElementById('xlsBtn');
-        const siiBtn = document.getElementById('siiBtn');
-        const reportBtn = document.getElementById('reportBtn');
-
-        pdfBtn.classList.remove('selected');
-        xlsBtn.classList.remove('selected');
-        siiBtn.classList.remove('selected');
-        reportBtn.classList.remove('selected');
-
-        if (format === 'pdf') {
-            pdfBtn.classList.add('selected');
-        } else if (format === 'xls') {
-            xlsBtn.classList.add('selected');
-        } else if (format === 'sii') {
-            siiBtn.classList.add('selected');
-        } else if (format === 'report') {
-            reportBtn.classList.add('selected');
-        }
     }
-// Fin de modificaciones para el menú emergente
+});
+
+function selectFormat(type, format) {
+    const buttons = {
+        extension: [document.getElementById('pdfBtn'), document.getElementById('xlsBtn')],
+        formato: [document.getElementById('siiBtn'), document.getElementById('reportBtn')]
+    };
+
+    buttons[type].forEach(button => button.classList.remove('selected'));
+
+    if (format === 'pdf' || format === 'xls') {
+        document.getElementById(format + 'Btn').classList.add('selected');
+    } else if (format === 'sii' || format === 'report') {
+        document.getElementById(format + 'Btn').classList.add('selected');
+    }
+}
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

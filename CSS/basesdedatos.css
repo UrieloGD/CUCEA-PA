@@ -276,14 +276,14 @@ th {
 }
 
 .modal-header {
-    background-color: #007bff;
+    background-color: #327ecf;
     color: #fff;
-    padding: 20px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    padding: 25px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     margin-top: -20px; 
     margin-bottom: 20px; 
-    font-size: 16px;
+    font-size: 16px;   
 }
 
 
@@ -312,11 +312,58 @@ th {
     margin: 5px;
     padding: 10px 20px;
     font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+#formatSelection button.selected {
+    background-color: #0071b0;
+    color: white;
+    border-color: #0071b0;
 }
 
 #formatSelection button:hover {
+    background-color: #327ecf;
+    color: white;
+}
+
+#modal .download-btn {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
     background-color: #0071b0;
     color: white;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#modal .download-btn:hover {
+    background-color: #005685;
+}
+
+#modal .download-btn i {
+    margin-right: 5px;
+}
+
+.format-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px; /* Espacio entre las secciones */
+    font-size: 20px;
+}
+
+.format-section label {
+    margin-bottom: 25px; /* Espacio entre la etiqueta y los botones */
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
 }
 
 
