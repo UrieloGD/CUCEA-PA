@@ -20,7 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if (mysqli_query($conexion, $sql)) {
                 // Redirigir a la página principal tras una subida exitosa
+<<<<<<< HEAD
                 header("Location: ../plantillasPA.php?success=true&nombre_archivo=$nombre_archivo_dep&fecha_subida=$fecha_subida_dep");
+=======
+                header("Location: ../plantillasPA.php?success=true&nombre_archivo=$nombre_archivo_dep&fecha_subida=$fecha_subida_dep"); 
+>>>>>>> dbd124f2fb7fd0639ab39a6af379bf12672a9d3d
                 exit();
             } else {
                 echo '<script>alert("Error añadiendo registro: ' . mysqli_error($conexion) . '");</script>';
@@ -36,3 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     echo '<script>alert("Método de solicitud no permitido.");</script>';
 }
+<<<<<<< HEAD
+=======
+?>
+>>>>>>> dbd124f2fb7fd0639ab39a6af379bf12672a9d3d

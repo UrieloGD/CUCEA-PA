@@ -58,6 +58,21 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn);
 }
 
+$sql = "CREATE TABLE IF NOT EXISTS subir_Plantilla (
+    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
+    -- Ruta_Archivo_Dep VARCHAR(255) NOT NULL,
+    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla subir_Plantilla creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn);
+}
+
 // Insertar usuarios
 $insert_usuarios = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID)
 VALUES
