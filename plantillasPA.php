@@ -71,30 +71,30 @@
               }
             </style>
             <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-visualizar-plantilla.png"></a>
-            <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
+            <a href="./config/descargar_plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
             <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
           </td>
         </tr>
       <?php } ?>
 
       <?php
-      $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM subir_plantilla";
-      $result = mysqli_query($conexion, $sql);
+        $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM subir_plantilla";
+        $result = mysqli_query($conexion, $sql);
 
-      if ($result->num_rows > 0) {
-        echo "<script>";
-        while ($row = $result->fetch_assoc()) {
-          $departamento_id = $row["Departamento_ID"];
-          $nombre_archivo = $row["Nombre_Archivo_Dep"] ? $row["Nombre_Archivo_Dep"] : "No se ha subido un archivo";
-          $fecha_subida = $row["Fecha_Subida_Dep"] ? $row["Fecha_Subida_Dep"] : "---";
-          echo "document.getElementById('nombre-archivo-$departamento_id').innerText = '$nombre_archivo';";
-          echo "document.getElementById('fecha-subida-$departamento_id').innerText = '$fecha_subida';";
+        if ($result->num_rows > 0) {
+            echo "<script>";
+            while ($row = $result->fetch_assoc()) {
+                $departamento_id = $row["Departamento_ID"];
+                $nombre_archivo = $row["Nombre_Archivo_Dep"] ? $row["Nombre_Archivo_Dep"] : "No hay archivo asignado";
+                $fecha_subida = $row["Fecha_Subida_Dep"] ? $row["Fecha_Subida_Dep"] : "---";
+                echo "document.getElementById('nombre-archivo-$departamento_id').innerText = '$nombre_archivo';";
+                echo "document.getElementById('fecha-subida-$departamento_id').innerText = '$fecha_subida';";
+            }
+            echo "</script>";
+        } else {
+            echo "No se encontraron archivos subidos.";
         }
-        echo "</script>";
-      } else {
-        echo "No se encontraron archivos subidos.";
-      }
-      ?>
+        ?>
 
       <script src="./JS/plantillasPA.js"></script>
     </table>

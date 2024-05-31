@@ -1,39 +1,49 @@
 <?php
 include '../config/db.php';
 session_start();
-
+date_default_timezone_set('America/Mexico_City');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $departamento_id = $_POST['Departamento_ID'];
-    $nombre_archivo_dep = $_POST['Nombre_Archivo_Dep'];
-    $fecha_subida_dep = $_POST['Fecha_Subida_Dep'];
+    $nombre_archivo_dep = $_FILES['file']['name'];
+    $fecha_subida_dep = date('d/m/Y H:i');
 
-    // Manejo del archivo subido
-    if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
-        $nombre_archivo = basename($_FILES['file']['name']);
-        $directorio_subida = '../uploads/'; // Asegúrate de que este directorio exista y tenga permisos de escritura
-        $ruta_archivo = $directorio_subida . $nombre_archivo;
-
-        if (move_uploaded_file($_FILES['file']['tmp_name'], $ruta_archivo)) {
-            // Insertar los datos en la base de datos
-            $sql = "INSERT INTO subir_plantilla (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep) 
-                    VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep')";
-
-            if (mysqli_query($conexion, $sql)) {
-                // Redirigir a la página principal tras una subida exitosa
-                header("Location: ../plantillasPA.php?success=true&nombre_archivo=$nombre_archivo_dep&fecha_subida=$fecha_subida_dep"); 
-                exit();
-            } else {
-                echo '<script>alert("Error añadiendo registro: ' . mysqli_error($conexion) . '");</script>';
-            }
-        } else {
-            echo '<script>alert("Error al mover el archivo subido.");</script>';
+    $archivo_temporal = $_FILES['file']['tmp_name'];
+    $contenido_archivo_dep = null;
+    
+    // Leer el archivo temporal en chunks
+    $fp = fopen($archivo_temporal, 'rb');
+    if ($fp) {
+        $contenido_archivo_dep = '';
+        while (!feof($fp)) {
+            $contenido_archivo_dep .= fread($fp, 8192);
         }
-    } else {
-        echo '<script>alert("Error en la subida del archivo.");</script>';
+        fclose($fp);
     }
+    
+    // Escapar el contenido del archivo para evitar problemas de inyección SQL
+    $contenido_archivo_dep = mysqli_real_escape_string($conexion, $contenido_archivo_dep);
+    
+    // Insertar los datos en la base de datos
+    $sql = "INSERT INTO subir_plantilla (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
+            VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
 
-    mysqli_close($conexion);
+    if (mysqli_query($conexion, $sql)) {
+        header("Location: ../plantillasPA.php?success=true&nombre_archivo=$nombre_archivo_dep&fecha_subida=$fecha_subida_dep");
+        echo '<script>
+            Swal.fire({
+                title: "Archivo subido",
+                text: "El archivo ' . $nombre_archivo_dep . ' se ha subido correctamente.",
+                icon: "success",
+                confirmButtonText: "Aceptar"
+            });
+        </script>';
+        exit();
+    } else {
+        echo '<script>alert("Error añadiendo registro: ' . mysqli_error($conexion) . '");</script>';
+    }
 } else {
     echo '<script>alert("Método de solicitud no permitido.");</script>';
 }
+
+mysqli_close($conexion);
 ?>
