@@ -58,21 +58,6 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn);
 }
 
-$sql = "CREATE TABLE IF NOT EXISTS subir_Plantilla (
-    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
-    Departamento_ID INT NOT NULL,
-    Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
-    -- Ruta_Archivo_Dep VARCHAR(255) NOT NULL,
-    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
-)";
-
-if (mysqli_query($conn, $sql)) {
-    echo "<br>Tabla subir_Plantilla creada exitosamente";
-} else {
-    echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn);
-}
-
 // Insertar usuarios
 $insert_usuarios = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID)
 VALUES
@@ -150,7 +135,7 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Insertar relación de usuarios con departamentos (jefes de departamento)
-$insert_usuarios_departamentos = "INSERT INTO Usuarios_Departamentos (Usuario_ID, Departamento_ID) VALUES
+$insert_usuarios_departamentos = "INSERT INTO IF NOT EXISTS Usuarios_Departamentos (Usuario_ID, Departamento_ID) VALUES
     (2100123456, 1), -- Juan es jefe del Departamento 1 (Estudios Regionales)
     (2103456789, 2), -- Ana es jefa del Departamento 2 (Finanzas)
     (2106789012, 3), -- Carlos es jefe del Departamento 3 (Ciencias Sociales)
