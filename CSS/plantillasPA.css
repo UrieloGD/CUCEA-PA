@@ -4,32 +4,19 @@
   background-color: white;
   border-radius: 20px;
   width: 92vw;
-  height: 88vh;
+  height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  align-self: flex-end;
+  overflow: hidden; /* Para que el contenido adicional no desborde */
+  display: flex;
+  flex-direction: column;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
 }
-
-/* Pestaña subir plantilla */
-
-/* .header-bar {
-  background-color: #0071b0;
-  color: white;
-  padding: 2px;
-  text-align: center;
-  font-size: 12px;
-  max-width: 550px;
-  margin: 0 auto;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
-} */
-
 
 /* Encabezado */
 .encabezado {
@@ -77,7 +64,7 @@ th {
 
 th,
 td {
-  padding: 8px;
+  /* padding: 1px; */
   text-align: left;
   border: 2px solid #E7E9F2;
 }

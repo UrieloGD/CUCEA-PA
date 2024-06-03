@@ -155,13 +155,11 @@ if (mysqli_query($conn, $insert_usuarios_departamentos)) {
 
 // Crear tabla Plantilla_SA
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
-    ID_Archivo_SA INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre_Archivo_SA VARCHAR(255) NOT NULL,
-    Tamaño_Archivo_SA INT NOT NULL,
-    Usuario_ID BIGINT(10),
-    Fecha_Subida_SA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
+    Contenido_Archivo_Dep LONGBLOB NOT NULL,
+    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
     Departamento_ID INT NOT NULL,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
@@ -188,6 +186,21 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Plantilla_Dep creada exitosamente";
 } else {
     echo "<br>Error creando tabla Plantilla_Dep: " . mysqli_error($conn);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS subir_plantilla (
+    ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
+    Contenido_Archivo_Dep LONGBLOB NOT NULL,
+    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
+    Departamento_ID INT NOT NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla subir_plantilla creada exitosamente";
+} else {
+    echo "<br>Error creando tabla subir_plantilla: " . mysqli_error($conn);
 }
 
 // Crear tabla Data_Plantilla
