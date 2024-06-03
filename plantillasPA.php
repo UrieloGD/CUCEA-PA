@@ -48,9 +48,10 @@
           <td id="nombre-archivo-<?php echo $id; ?>" style="text-align: center;"></td>
           <td id="fecha-subida-<?php echo $id; ?>" style="text-align: center;"></td>
           <td style="text-align: center;">
+          <div class="btn-container">
             <form id="formulario-subida-<?php echo $id; ?>" action="./config/upload_sa.php" method="POST" enctype="multipart/form-data">
               <label for="input-file-<?php echo $id; ?>" class="btn">
-                <img src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png" alt="Subir Archivo">
+                <img style="margin-bottom: -16px;" src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png" alt="Subir Archivo">
               </label>
               <input id="input-file-<?php echo $id; ?>" class="hidden-input" type="file" name="file" onchange="actualizarNombreArchivo(this, <?php echo $id; ?>); actualizarFechaSubida(<?php echo $id; ?>);">
               <!-- Campos ocultos para enviar datos adicionales -->
@@ -70,9 +71,10 @@
                 /* Oculta el botón de enviar */
               }
             </style>
-            <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-visualizar-plantilla.png"></a>
+            <!-- <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-visualizar-plantilla.png"></a> -->
             <a href="./config/descargar_plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
             <a href="#" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
+            </div>
           </td>
         </tr>
       <?php } ?>
