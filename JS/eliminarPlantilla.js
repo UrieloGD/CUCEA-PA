@@ -1,5 +1,14 @@
-function eliminarPlantilla(departamentoId) {
-    console.log("Función eliminarPlantilla llamada con ID:", departamentoId);
+function eliminarPlantilla(id) {
+    const nombreArchivo = document.getElementById(`nombre-archivo-${id}`).innerText;
+
+    if (nombreArchivo === 'No hay archivo asignado') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No hay una plantilla asignada para eliminar.'
+        });
+        return;
+    }
 
     Swal.fire({
         title: '¿Estás seguro?',
@@ -8,42 +17,38 @@ function eliminarPlantilla(departamentoId) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: '¡Sí, elimínalo!'
+        confirmButtonText: 'Sí, eliminarlo!',
+        cancelButtonText: 'Cancelar'
     }).then((result) => {
-        console.log("Resultado de Swal.fire:", result);
-
         if (result.isConfirmed) {
-            console.log("Usuario confirmó la eliminación");
-
-            // Enviar solicitud AJAX al servidor
-            jQuery.ajax({
-                url: "./config/eliminar_plantilla.php",
-                type: "POST",
-                data: { departamentoId: departamentoId },
-                success: function(response) {
-                    console.log("Respuesta del servidor:", response);
-                    Swal.fire(
-                        '¡Eliminado!',
-                        'La plantilla ha sido eliminada.',
-                        'success'
-                    ).then(() => {
-                        console.log("Recargar la página");
-                        window.location.reload();
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.log("Error en la solicitud AJAX:");
-                    console.log("Status:", status);
-                    console.log("Error:", error);
+            // Llamada a la función para eliminar la plantilla
+            fetch(`./config/eliminar_plantilla.php?departamento_id=${id}`)
+                .then(response => response.text())
+                .then(data => {
+                    if (data.includes('success')) {
+                        Swal.fire(
+                            'Eliminado!',
+                            'La plantilla ha sido eliminada.',
+                            'success'
+                        ).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire(
+                            'Error',
+                            'Ocurrió un error al eliminar la plantilla.',
+                            'error'
+                        );
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
                     Swal.fire(
                         'Error',
-                        'Hubo un error al eliminar la plantilla: ' + error,
+                        'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.',
                         'error'
                     );
-                }
-            });
-        } else {
-            console.log("Usuario canceló la eliminación");
+                });
         }
     });
 }

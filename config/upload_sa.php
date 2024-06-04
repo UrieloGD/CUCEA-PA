@@ -1,5 +1,3 @@
-// Archivo: upload_sa.php
-
 <?php
 include '../config/db.php';
 session_start();
@@ -7,54 +5,42 @@ date_default_timezone_set('America/Mexico_City');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $departamento_id = $_POST['Departamento_ID'];
-    $nombre_archivo_dep = $_FILES['file']['name'];
-    $fecha_subida_dep = date('d/m/Y H:i');
-    $archivo_temporal = $_FILES['file']['tmp_name'];
-    $contenido_archivo_dep = null;
+    error_log("Departamento ID: $departamento_id");
 
-    // Leer el archivo temporal en chunks
-    $fp = fopen($archivo_temporal, 'rb');
-    if ($fp) {
-        $contenido_archivo_dep = '';
-        while (!feof($fp)) {
-            $contenido_archivo_dep .= fread($fp, 8192);
+    if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+        $nombre_archivo_dep = $_FILES['file']['name'];
+        $fecha_subida_dep = date('d/m/Y H:i');
+        $archivo_temporal = $_FILES['file']['tmp_name'];
+
+        // Leer el contenido del archivo
+        $contenido_archivo_dep = file_get_contents($archivo_temporal);
+        $contenido_archivo_dep = mysqli_real_escape_string($conexion, $contenido_archivo_dep);
+
+        error_log("Archivo temporal: $archivo_temporal");
+
+        // Insertar los datos en la base de datos
+        $sql = "INSERT INTO Plantilla_SA (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
+                VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
+
+        if (mysqli_query($conexion, $sql)) {
+            error_log("Inserción en la base de datos exitosa");
+            echo 'success';
+            exit();
+        } else {
+            error_log("Error al insertar en la base de datos: " . mysqli_error($conexion));
+            echo 'Error al añadir registro: ' . mysqli_error($conexion);
+            exit();
         }
-        fclose($fp);
-    }
-
-    // Escapar el contenido del archivo para evitar problemas de inyección SQL
-    $contenido_archivo_dep = mysqli_real_escape_string($conexion, $contenido_archivo_dep);
-
-    // Insertar los datos en la base de datos
-    $sql = "INSERT INTO Plantilla_SA (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
-            VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
-
-    if (mysqli_query($conexion, $sql)) {
-        echo '<script>
-            Swal.fire({
-                title: "Archivo subido",
-                text: "El archivo ' . $nombre_archivo_dep . ' se ha subido correctamente.",
-                icon: "success",
-                confirmButtonText: "Aceptar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "../plantillasPA.php?success=true&nombre_archivo=' . $nombre_archivo_dep . '&fecha_subida=' . $fecha_subida_dep . '";
-                }
-            });
-        </script>';
-        exit();
     } else {
-        echo '<script>
-            Swal.fire({
-                title: "Error",
-                text: "Error añadiendo registro: ' . mysqli_error($conexion) . '",
-                icon: "error",
-                confirmButtonText: "Aceptar"
-            });
-        </script>';
+        error_log("Error en la subida de archivo: " . $_FILES['file']['error']);
+        echo 'Error: No se subió ningún archivo o hubo un error en la subida.';
+        exit();
     }
 } else {
-    echo '<script>alert("Método de solicitud no permitido.");</script>';
+    error_log("Método de solicitud no permitido");
+    echo 'Error: Método de solicitud no permitido.';
+    exit();
 }
 
 mysqli_close($conexion);
+?>

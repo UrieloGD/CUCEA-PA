@@ -91,7 +91,32 @@ td .btn-container .btn {
 
 #input-file {
   display: none; /* Oculta display de la función de subir archivo  */
-         }
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.btn-container input[type="file"] {
+  display: none;
+}
+
+.btn-container .hidden-button {
+  display: none;
+}
+
+.btn-container .btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* .btn-container .btn img {
+  max-width: 30px;
+} */
 
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {

@@ -1,11 +1,65 @@
-function obtenerFechaHoraActual() {
-    var fecha = new Date();
-    var dia = fecha.getDate().toString().padStart(2, '0');
-    var mes = (fecha.getMonth() + 1).toString().padStart(2, '0'); // Los meses son 0-indexados
-    var año = fecha.getFullYear();
-    var horas = fecha.getHours().toString().padStart(2, '0');
-    var minutos = fecha.getMinutes().toString().padStart(2, '0');
-    return `${dia}/${mes}/${año} ${horas}:${minutos}`;
+function subirArchivo(id) {
+    Swal.fire({
+        title: 'Selecciona un archivo',
+        input: 'file',
+        inputAttributes: {
+            'accept': '*/*',
+            'aria-label': 'Selecciona un archivo'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Guardar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: (file) => {
+            if (file) {
+                const inputFileElement = document.getElementById(`input-file-${id}`);
+                inputFileElement.files = new DataTransfer().files;
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                inputFileElement.files = dt.files;
+
+                console.log("Archivo seleccionado:", file.name);
+
+                actualizarNombreArchivo(inputFileElement, id);
+                actualizarFechaSubida(id);
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const formData = new FormData();
+            formData.append('file', document.getElementById(`input-file-${id}`).files[0]);
+            formData.append('Departamento_ID', id);
+            formData.append('Nombre_Archivo_Dep', document.getElementById(`nombre-archivo-${id}`).textContent);
+            formData.append('Fecha_Subida_Dep', document.getElementById(`fecha-subida-${id}`).textContent);
+
+            console.log("Datos del formulario para enviar:", {
+                file: document.getElementById(`input-file-${id}`).files[0],
+                Departamento_ID: id,
+                Nombre_Archivo_Dep: document.getElementById(`nombre-archivo-${id}`).textContent,
+                Fecha_Subida_Dep: document.getElementById(`fecha-subida-${id}`).textContent
+            });
+
+            fetch('./config/upload_sa.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log("Respuesta del servidor:", data);
+                if (data.includes('success')) {
+                    Swal.fire('Archivo subido', 'El archivo se ha subido correctamente.', 'success')
+                        .then(() => {
+                            location.reload();
+                        });
+                } else {
+                    Swal.fire('Error', 'Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.', 'error');
+            });
+        }
+    });
 }
 
 function actualizarNombreArchivo(input, id) {
@@ -13,8 +67,10 @@ function actualizarNombreArchivo(input, id) {
         var nombreArchivo = input.files[0].name;
         document.getElementById(`nombre-archivo-${id}`).innerText = nombreArchivo;
         document.getElementById(`Nombre_Archivo_Dep-${id}`).value = nombreArchivo;
+        console.log(`Nombre de archivo actualizado para departamento ${id}: ${nombreArchivo}`);
     } else {
         document.getElementById(`nombre-archivo-${id}`).innerText = 'No se ha subido un archivo';
+        console.log(`No se ha subido un archivo para departamento ${id}`);
     }
 }
 
@@ -22,30 +78,23 @@ function actualizarFechaSubida(id) {
     var fechaFormateada = obtenerFechaHoraActual();
     document.getElementById(`fecha-subida-${id}`).innerText = fechaFormateada;
     document.getElementById(`Fecha_Subida_Dep-${id}`).value = fechaFormateada;
+    console.log(`Fecha de subida actualizada para departamento ${id}: ${fechaFormateada}`);
 }
 
-// Enviar el formulario automáticamente después de actualizar los campos ocultos
-document.querySelectorAll('.hidden-input').forEach(function(input) {
-    input.addEventListener('change', function() {
-        var id = this.id.split('-')[2]; // Obtiene el ID del input-file
-        actualizarNombreArchivo(this, id);
-        actualizarFechaSubida(id);
+function obtenerFechaHoraActual() {
+    var fecha = new Date();
+    var dia = fecha.getDate().toString().padStart(2, '0');
+    var mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    var año = fecha.getFullYear();
+    var horas = fecha.getHours().toString().padStart(2, '0');
+    var minutos = fecha.getMinutes().toString().padStart(2, '0');
+    return `${dia}/${mes}/${año} ${horas}:${minutos}`;
+}
 
-        var formData = new FormData(document.getElementById(`formulario-subida-${id}`));
-        
-        fetch('./config/upload_sa.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text()) // Cambiar a response.text()
-        .then(data => {
-            if (data.includes('success')) {
-                // Actualizar la tabla directamente en la base de datos
-                location.reload(); // Recargar la página para mostrar los datos actualizados
-            } else {
-                console.error('Error en la subida:', data);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
-});
+function handleFileChange(event, id) {
+    var inputFileElement = event.target;
+    actualizarNombreArchivo(inputFileElement, id);
+    actualizarFechaSubida(id);
+    console.log(`Cambio de archivo manejado para departamento ${id}`);
+    subirArchivo(id);
+}

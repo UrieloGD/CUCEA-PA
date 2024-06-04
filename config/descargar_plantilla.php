@@ -50,4 +50,3 @@ if (isset($_GET['departamento_id'])) {
 } else {
     echo "No se proporcionó un ID de departamento.";
 }
-?>
