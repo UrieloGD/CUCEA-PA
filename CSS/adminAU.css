@@ -9,7 +9,7 @@
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow: hidden; /* Para que el contenido adicional no desborde */
+  overflow: scroll; /* Para que el contenido adicional no desborde */
   display: flex;
   flex-direction: column;
   -webkit-border-radius: 20px;
