@@ -1,25 +1,25 @@
 /* CSS del cuadro principal */
 
-.cuadro-principal {
-  background-color: white;
-  border-radius: 20px;
-  width: 92vw;
-  height: 90vh;
-  margin-left: 6vw;
-  margin-right: 2vw;
-  margin-top: 1vh;
-  margin-bottom: 2vh;
-  overflow: hidden; /* Para que el contenido adicional no desborde */
-  display: flex;
-  flex-direction: column;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
-}
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: hidden; /* Para que el contenido adicional no desborde */
+    display: flex;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
   
   /* Encabezado */
-.encabezado {
+  .encabezado {
     display: flex;
     justify-content: center;
     align-items: center;
