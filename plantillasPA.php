@@ -93,4 +93,3 @@ include './template/navbar.php';
 <script src="./JS/plantillasPA.js"></script>
 <script src="./JS/eliminarPlantilla.js"></script>
 <script src="./JS/descargarPlantilla.js"></script>
-

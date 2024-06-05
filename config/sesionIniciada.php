@@ -80,5 +80,3 @@ if ($result->num_rows > 0) {
     $nombre = 'Nombre no disponible';
     $nombre_rol = 'Rol no disponible';
 }
-
-?>
