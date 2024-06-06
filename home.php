@@ -23,7 +23,10 @@
       echo $nombre, " ", $apellido;
 
       if ($rol_id == 1) {
-        echo "<br>", $nombre_rol, " - ", $_SESSION['Nombre_Departamento'];
+        echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
+      } 
+      else {
+        echo "<br>", $nombre_rol;
       }
       ?>
     </h2>

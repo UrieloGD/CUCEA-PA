@@ -129,9 +129,7 @@
   
   #input-file {
     display: none; /* Oculta display de la función de subir archivo  */
-  }
-
-  
+  } 
 
   /* Media queries para hacer el diseño responsivo */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {

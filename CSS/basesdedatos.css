@@ -85,7 +85,7 @@ table {
 th, td {
     padding: 8px;
     text-align: left;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 3px solid #e7e9f2;
 }
 
 th {
