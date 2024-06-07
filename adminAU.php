@@ -22,7 +22,7 @@
     <input type="text" placeholder="Buscar..." id="search-input">
     <div class="button-container">
       <button id="add-button" class="btn">Añadir usuario</button>
-      <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/ajustes.png"></a>
+      <!-- <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/ajustes.png"></a> -->
     </div>
   </div>
 
@@ -111,12 +111,52 @@
       ?>
     </table>
   </div>
-</div>
 
-<script src="./JS/adminAU.js"></script>
-<script>
-  const roles = <?php echo json_encode($roles); ?>;
-  const departamentos = <?php echo json_encode($departamentos); ?>;
-</script>
+  <!-- Formulario para agregar nuevo usuario -->
+  <div id="nuevoUsuarioModal" class="modal">
+    <div class="modal-contenido">
+      <span class="cerrar">&times;</span>
+      <h2>Agregar nuevo usuario</h2>
+      <form id="nuevoUsuarioForm">
+        <!-- Campos del formulario -->
+        <label for="codigo">Código:</label>
+        <input type="text" id="codigo" name="codigo" required>
 
-<?php include './template/footer.php' ?>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required>
+
+        <label for="rol">Rol:</label>
+        <select id="rol" name="rol"></select>
+
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" name="departamento"></select>
+
+        <label for="genero">Género:</label>
+        <select id="genero" name="genero">
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
+
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Guardar</button>
+      </form>
+    </div>
+
+  </div>
+
+
+  <script src="./JS/adminAU.js"></script>
+  <script>
+    const roles = <?php echo json_encode($roles); ?>;
+    const departamentos = <?php echo json_encode($departamentos); ?>;
+  </script>
+
+  <?php include './template/footer.php' ?>

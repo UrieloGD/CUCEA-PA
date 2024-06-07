@@ -13,19 +13,21 @@ if ($conn->connect_error) {
 }
 
 // Obtener los datos del formulario
-$nombre = $_POST['nombre'];
-$apellido = $_POST['apellido'];
-$correo = $_POST['correo'];
-$rol = $_POST['rol'];
-$departamento = $_POST['departamento'];
+$data = json_decode(file_get_contents('php://input'), true);
 
-// Generar un código único para el usuario
-$codigo = mt_rand(1000000000, 9999999999);
+$codigo = $data['codigo'];
+$nombre = $data['nombre'];
+$apellido = $data['apellido'];
+$correo = $data['correo'];
+$rol = $data['rol'];
+$departamento = $data['departamento'];
+$genero = $data['genero'];
+$password = $data['password'];
 
 // Insertar el usuario en la tabla Usuarios
-$sql = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, '', '', ?)";
+$sql = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("isssi", $codigo, $nombre, $apellido, $correo, $rol);
+$stmt->bind_param("issssss", $codigo, $nombre, $apellido, $correo, $password, $genero, $rol);
 
 if ($stmt->execute()) {
     // Insertar la relación usuario-departamento en la tabla Usuarios_Departamentos
