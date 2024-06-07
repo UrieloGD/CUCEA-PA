@@ -5,8 +5,8 @@
 <!-- Conexión a la base de datos -->
 <?php include './config/db.php' ?>
 
-<title>Centro de Gestión</title>
-<link rel="stylesheet" href="./CSS/admin-home.css" />
+<title>Reporte de entrega</title>
+<link rel="stylesheet" href="./CSS/admin-reporte.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -14,10 +14,8 @@
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Control de eventos</h3>
+            <h3>Reporte de entrega</h3>
         </div>
     </div>
-    
-
 
 <?php include './template/footer.php' ?>

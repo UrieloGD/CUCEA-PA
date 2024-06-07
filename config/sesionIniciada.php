@@ -56,7 +56,7 @@ if ($result->num_rows > 0) {
     // Verificar si el usuario es un jefe de departamento
     if ($rol_id == 1) {
         // Consulta SQL para obtener el departamento del usuario
-        $sql_departamento = "SELECT Departamentos.Departamento_ID, Departamentos.Nombre_Departamento
+        $sql_departamento = "SELECT Departamentos.Departamento_ID, Departamentos.Nombre_Departamento, Departamentos.Departamentos
             FROM Usuarios_Departamentos
             INNER JOIN Departamentos ON Usuarios_Departamentos.Departamento_ID = Departamentos.Departamento_ID
             WHERE Usuario_ID = ?";
@@ -69,8 +69,10 @@ if ($result->num_rows > 0) {
             $row_departamento = $result_departamento->fetch_assoc();
             $departamento_id = $row_departamento['Departamento_ID'];
             $nombre_departamento = $row_departamento['Nombre_Departamento'];
+            $departamentos = $row_departamento['Departamentos'];
             $_SESSION['Nombre_Departamento'] = $nombre_departamento; // Guardar el nombre del departamento en la sesión
             $_SESSION['Departamento_ID'] = $departamento_id; // Guardar el ID del departamento en la sesión
+            $_SESSION['Departamentos'] = $departamentos; // Guardar el departamento del usuario
 
         } else {
             echo "El usuario no está asociado a ningún departamento.";

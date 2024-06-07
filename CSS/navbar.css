@@ -94,7 +94,7 @@
 
 .navbar-item-inner {
     padding: 1em 0;
-    width: 100%;
+    width: 94%;
     position: relative;
     color:  #0071B0(255, 255, 255);
     text-decoration: none;
@@ -106,12 +106,12 @@
 }
 
 .navbar-item-inner:hover {
-    margin-left: -5px;
+    /* margin-left: -5px; */
     color: hsl(var(--white));
     background: #fff;
     border-radius: 10px;
     transform:scale(100%);
-    padding: -100px;
+    /* padding: -100px; */
     -webkit-transform:scale(100%);
     -moz-transform:scale(100%);
     -ms-transform:scale(100%);
@@ -622,8 +622,8 @@ Responsividad para distintas resoluciones
       display: block;
       position: fixed;
       left: 20px;
-      top: 20px;
-      font-size: 24px;
+      /* top: 20px; */
+      font-size: 18px;
       cursor: pointer;
     }
 
@@ -632,7 +632,7 @@ Responsividad para distintas resoluciones
     }
 
     .logout-button {
-        height: 50px; /* Ajusta el margen inferior del botón de cerrar sesión */
+        height: 60px; /* Ajusta el margen inferior del botón de cerrar sesión */
     }
   }
 

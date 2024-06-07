@@ -382,20 +382,10 @@ body {
     .rol { 
         margin-left: -10vw;
     }
-    
 
 }
 
-
-@media screen and (max-width: 576px) {
-    /* Estilos para pantallas con ancho máximo de 576px */
-    .header {
-
-        margin-left: 2vw;
-    /* la navbar se hara formato hamburgesa */
-    }
-
-    /* Menú hamburguesa al llegar a 576px */
+@media screen and (max-width: 576px) {    
     .menu-toggle {
         display: block;
     }
@@ -410,13 +400,8 @@ body {
     }
 
     .rol { 
-        margin-left: -12vw;
+        margin-left: -15vw;
     }
-
-    .icono-notificaciones {
-        margin-right: 3vw;
-    }
-
     /* Aplica ajustes similares para otros elementos según sea necesario */
 }
 

@@ -61,7 +61,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./dashboard_oferta.php"">
         <div class="overlay">
           <h4>Oferta</h4>
         </div>
