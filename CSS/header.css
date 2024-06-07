@@ -183,14 +183,16 @@ body {
   
 .mobile-menu {
     display: none;
-    position: absolute; /*Oculta el navbar vertical por defecto*/
-    top: 7vw;
-    left: 0; /*Ajusta la posición superior según sea necesario*/
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 47px;
+    left: 14px; /*Ajusta la posición superior según sea necesario*/
     width: 95%; /*Ajusta el ancho del navbar vertical según sea necesario*/
-    min-height: 90vh;
+    max-height: 80vh;
     background-color: #0071B0;  
     z-index: 99; /*Asegura que esté sobre otros elementos*/
-    margin-left: 6vw;
+    /* margin-left: 6vw; */
     border-radius: 0px 0px 20px 20px; /*no sirve je*/
 
 }
@@ -202,17 +204,16 @@ body {
 }
 
 .mobile-menu .white-icon {
-    width: 40px; /* Ajusta el ancho según el tamaño de tus íconos */
-    height: 40px; /* Ajusta la altura según el tamaño de tus íconos */
+    width: 35px; /* Ajusta el ancho según el tamaño de tus íconos */
+    height: auto; /* Ajusta la altura según el tamaño de tus íconos */
     margin-right: 50px;
 }
 
 .mobile-menu li {
-    padding: 3.5vh 6vw;
-    /*Aumentaelpaddingverticalyhorizontal*/font-size: 20px;
-    /*Aumentaeltamañodelafuente*/color: white;
-    /*Colordetextopordefecto*/transition: color 0.3s, background-color 0.3s;
-      /* Agrega una transición suave */;
+    padding: 20px 30px;
+    font-size: 16px;
+    color: white;
+    transition: color 0.3s, background-color 0.3s;
     -webkit-transition: color 0.3s, background-color 0.3s;
     -moz-transition: color 0.3s, background-color 0.3s;
     -ms-transition: color 0.3s, background-color 0.3s;
@@ -222,12 +223,14 @@ body {
 .mobile-menu li:hover {
     /* color: #0071B0; Color de texto al pasar el mouse */
     background-color: white; /* Color de fondo al pasar el mouse */
-    width: 80.5vw;
-    margin-left: -40px;
+    width: 85%;
+    /* margin-left: -40px; */
+    border-radius: 10px;
 }
 
 .mobile-menu li:hover a {
     color: #0071B0; /* Color de texto de los enlaces al pasar el mouse */
+    font-weight: bold;
 }
 
 .mobile-menu ul {
@@ -242,12 +245,18 @@ body {
     justify-content: space-between;
 }
 
-.mobile-menu ul li.profile-item a {
+.mobile-menu ul li.profile-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu ul li.profile-button a {
     margin-right: 10px; /* Ajusta este valor según tus necesidades */
 }
 
  /* Estilos para el botón de cerrar sesión */
-.mobile-menu ul li.profile-item button {
+.mobile-menu ul li.profile-button button {
     padding: 15px 30px;
     font-size: 15px;
     background-color: #ffffff;
@@ -259,7 +268,7 @@ body {
 }
 
 /* Estilos para el botón en su estado hover */
-.mobile-menu ul li.profile-item button:hover {
+.mobile-menu ul li.profile-button button:hover {
     background-color: #0071B0;
     color: white;
 }
@@ -270,6 +279,7 @@ body {
 
 .mobile-menu li:hover .white-icon {
     display: none;
+    width: 35px;
 }
 
 .mobile-menu li:hover .blue-icon {
@@ -278,8 +288,6 @@ body {
     height: 40px; /* Ajusta la altura según el tamaño de tus íconos */
     margin-right: 50px; /*Ajusta el espacio entre el icono y el texto"*/
 }
-
-  
 
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
     .header {

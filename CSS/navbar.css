@@ -1,151 +1,151 @@
 #navbar {
-    top: 0;
-    padding: 0;
-    width: 5em;
-    height: 100vh;
-    position: fixed;
-    background-color:  #0071B0;
-    transition: width .35s cubic-bezier(var(--transition-main), 1);
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    -webkit-transition: width .35s cubic-bezier(var(--transition-main), 1);
-    -moz-transition: width .35s cubic-bezier(var(--transition-main), 1);
-    -ms-transition: width .35s cubic-bezier(var(--transition-main), 1);
-    -o-transition: width .35s cubic-bezier(var(--transition-main), 1);
-    z-index: 1000;
-    border-radius: 0px 20px 20px 0px;
-    -webkit-border-radius: 0px 20px 20px 0px;
-    -moz-border-radius: 0px 20px 20px 0px;
-    -ms-border-radius: 0px 20px 20px 0px;
-    -o-border-radius: 0px 20px 20px 0px;
+  top: 0;
+  padding: 0;
+  width: 5em;
+  height: 100vh;
+  position: fixed;
+  background-color: #0071b0;
+  transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  -webkit-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+  -moz-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+  -ms-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+  -o-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+  z-index: 1000;
+  border-radius: 0px 20px 20px 0px;
+  -webkit-border-radius: 0px 20px 20px 0px;
+  -moz-border-radius: 0px 20px 20px 0px;
+  -ms-border-radius: 0px 20px 20px 0px;
+  -o-border-radius: 0px 20px 20px 0px;
 }
 
 #navbar:hover {
-    width: 16em;
-    border: solid 5px #E7E9F2;
-    margin-left: -5px;
-    margin-top: -5px;
+  width: 16em;
+  border: solid 5px #e7e9f2;
+  margin-left: -5px;
+  margin-top: -5px;
 }
 
 #navbar:hover .navbar-logo img {
-    content: url(../Img/logos/LogoPA-Extendido.png);
-    width: 85%;
-    height: 45px;
+  content: url(../Img/logos/LogoPA-Extendido.png);
+  width: 85%;
+  height: 45px;
 }
 
 .navbar-logo-container {
-    width: 60px;
-    height: 80px;
-    overflow: hidden;
-    transition: all 0.3s ease;
+  width: 60px;
+  height: 80px;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 #navbar:hover .navbar-logo-container {
-    width: 200px;
-    height: 100px;
+  width: 200px;
+  height: 100px;
 }
 
 #navbar::-webkit-scrollbar-track {
-    background-color: hsl(var(--background-secondary));
+  background-color: hsl(var(--background-secondary));
 }
 
 #navbar::-webkit-scrollbar {
-    width: 8px;
-    background-color: hsl(var(--background-secondary));
+  width: 8px;
+  background-color: hsl(var(--background-secondary));
 }
 
 #navbar::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--primary));
+  background-color: hsl(var(--primary));
 }
 
 .navbar-items {
-    flex-grow: 1;
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-    position: relative; /* Agrega esta línea para posicionar elementos hijos relativamente */
+  flex-grow: 1;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  position: relative; /* Agrega esta línea para posicionar elementos hijos relativamente */
 }
 
 /* Navbar Logo */
 .navbar-logo {
-    margin: 10 0 2em 0;
-    width: 100%;
-    height: 7em;
-    background:  #0071B0;
+  margin: 10 0 2em 0;
+  width: 100%;
+  height: 7em;
+  background: #0071b0;
 }
 
-.navbar-logo>.navbar-item-inner {
-    width: calc(50rem - 8px);
+.navbar-logo > .navbar-item-inner {
+  width: calc(50rem - 8px);
 }
 
-.navbar-logo>.navbar-item-inner:hover {
-    background-color: transparent;
+.navbar-logo > .navbar-item-inner:hover {
+  background-color: transparent;
 }
 
 /* Navbar Items */
 .navbar-item {
-    padding: 0 .5em;
-    width: 100%;
-    cursor: pointer;
+  padding: 0 0.5em;
+  width: 100%;
+  cursor: pointer;
 }
 
 .navbar-item-inner {
-    padding: 1em 0;
-    width: 94%;
-    position: relative;
-    color:  #0071B0(255, 255, 255);
-    text-decoration: none;
-    transition: all .2s cubic-bezier(var(--transition-main), 1);
-    -webkit-transition: all .2s cubic-bezier(var(--transition-main), 1);
-    -moz-transition: all .2s cubic-bezier(var(--transition-main), 1);
-    -ms-transition: all .2s cubic-bezier(var(--transition-main), 1);
-    -o-transition: all .2s cubic-bezier(var(--transition-main), 1);
+  padding: 1em 0;
+  width: 94%;
+  position: relative;
+  color: #0071B0(255, 255, 255);
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(var(--transition-main), 1);
+  -webkit-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
+  -moz-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
+  -ms-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
+  -o-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
 }
 
 .navbar-item-inner:hover {
-    /* margin-left: -5px; */
-    color: hsl(var(--white));
-    background: #fff;
-    border-radius: 10px;
-    transform:scale(100%);
-    /* padding: -100px; */
-    -webkit-transform:scale(100%);
-    -moz-transform:scale(100%);
-    -ms-transform:scale(100%);
-    -o-transform:scale(100%);
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+  /* margin-left: -5px; */
+  color: hsl(var(--white));
+  background: #fff;
+  border-radius: 10px;
+  transform: scale(100%);
+  /* padding: -100px; */
+  -webkit-transform: scale(100%);
+  -moz-transform: scale(100%);
+  -ms-transform: scale(100%);
+  -o-transform: scale(100%);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 .navbar-item-inner-icon-wrapper {
-    width: calc(5rem - 1em - 8px);
-    position: relative;
+  width: calc(5rem - 1em - 8px);
+  position: relative;
 }
 
 .navbar-item-inner-icon-wrapper ion-icon {
-    position: absolute;
-    font-size: calc(var(--navbar-buttons) - 1rem);
+  position: absolute;
+  font-size: calc(var(--navbar-buttons) - 1rem);
 }
 
 .link-text {
-    margin: 0;
-    width: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: all .35s cubic-bezier(var(--transition-main), 1);
-    overflow: hidden;
-    opacity: 0;
-    color: #fff;
+  margin: 0;
+  width: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: all 0.35s cubic-bezier(var(--transition-main), 1);
+  overflow: hidden;
+  opacity: 0;
+  color: #fff;
 }
 
 #navbar:hover .link-text {
-    width: calc(100% - calc(5rem - 8px));
-    opacity: 1;
+  width: calc(100% - calc(5rem - 8px));
+  opacity: 1;
 }
 
 /* 
@@ -156,76 +156,75 @@
 } */
 
 .navbar-profile-icon {
-    width: 5rem;
-    height: 5rem;
-    border-radius: 50%;
-    overflow: hidden;
-    position: absolute;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
 }
 
 .navbar-profile-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .profile-icon-transition {
-    width: 3.125rem;
-    height: 3.125rem;
-    border-radius: 50%;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    margin-bottom: 20%;
+  width: 3.125rem;
+  height: 3.125rem;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  margin-bottom: 20%;
 }
 
 #navbar:hover .profile-icon-transition {
-    width: 5.625rem;
-    /* 90px / 16px = 5.625rem */
-    height: 5.625rem;
-    bottom: 5%;
-    /* Ajusta este valor según tus necesidades */
+  width: 5.625rem;
+  /* 90px / 16px = 5.625rem */
+  height: 5.625rem;
+  bottom: 5%;
+  /* Ajusta este valor según tus necesidades */
 }
 
 .profile-menu {
-    display: none;
-    position: absolute;
-    background-color:  #0071B0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    z-index: 1;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+  display: none;
+  position: absolute;
+  background-color: #0071b0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 .navbar-profile-icon:hover .profile-menu {
-    display: block;
+  display: block;
 }
 
 :root {
-    --primary: 237, 94%, 81%;
-    --background: 266, 16%, 92%;
-    --background-secondary: 256, 12%, 12%;
-    --background-secondary-dark: 256, 10%, 10%;
-    --background-secondary-light: 257, 11%, 16%;
-    --text-primary: 0, 0%, 0%;
+  --primary: 237, 94%, 81%;
+  --background: 266, 16%, 92%;
+  --background-secondary: 256, 12%, 12%;
+  --background-secondary-dark: 256, 10%, 10%;
+  --background-secondary-light: 257, 11%, 16%;
+  --text-primary: 0, 0%, 0%;
 
-    /* misc */
-    --transition-main: .175, .685, .32;
-
+  /* misc */
+  --transition-main: 0.175, 0.685, 0.32;
 }
 
 /* =========
@@ -233,406 +232,404 @@ Flexbox
 ========= */
 
 .flexbox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .flexbox-left {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: auto;
 }
 
 .flexbox-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 hr {
-    margin-top: 0px; /* justa el margen superior del hr */
-    border: none; /* Elimina el borde del hr */
-    border-top: 2px solid #fff; /* Agrega un borde superior de 1px sólido */
-    width: 90%; /* Ajusta el ancho al 100% */
+  margin-top: 0px; /* justa el margen superior del hr */
+  border: none; /* Elimina el borde del hr */
+  border-top: 2px solid #fff; /* Agrega un borde superior de 1px sólido */
+  width: 90%; /* Ajusta el ancho al 100% */
 }
 
 /* Cambio de color en el texto y el icono al pasar el mouse sobre las opciones */
 .navbar-item-inner:hover .link-text,
 .navbar-item-inner:hover .navbar-item-inner-icon-wrapper img {
-    color: #0071B0; /* Cambia el color del texto a blanco */
+  color: #0071b0; /* Cambia el color del texto a blanco */
 }
 
 .navbar-item-inner-icon-wrapper .hover-icon {
-    display: none; /* Oculta el icono de hover por defecto */
+  display: none; /* Oculta el icono de hover por defecto */
 }
 
 .navbar-item-inner:hover .original-icon {
-    display: none; /* Oculta el icono original cuando se activa el hover */
+  display: none; /* Oculta el icono original cuando se activa el hover */
 }
 
 .navbar-item-inner:hover .hover-icon {
-    display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
+  display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
 }
 
 /* Boton de cerrar sesion */
 
 .logout-container {
-    position: absolute;
-    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-    left: 50%;
-    transform: translateX(-50%); /* Centra el botón horizontalmente */
+  position: absolute;
+  bottom: 10px; /* Ajusta la distancia desde la parte inferior */
+  left: 50%;
+  transform: translateX(-50%); /* Centra el botón horizontalmente */
 }
 
 .logout-item {
-    margin-top: auto; /* Empuja el elemento hacia abajo */
+  margin-top: auto; /* Empuja el elemento hacia abajo */
 }
 
 .logout-button {
-    font-family: 'Kanit', sans-serif;
-    font-size: 16px;
-    padding: 8px 16px;
-    background-color: #0071B0;
-    color: #fff;
-    border: 2px solid #0071B0;
-    border-radius: 5px;
-    border: #fff solid 2px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+  font-family: "Kanit", sans-serif;
+  font-size: 16px;
+  padding: 8px 16px;
+  background-color: #0071b0;
+  color: #fff;
+  border: 2px solid #0071b0;
+  border-radius: 5px;
+  border: #fff solid 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 * a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .logout-button:hover {
-    background-color: #fff; /* Cambia el color de fondo cuando se pasa sobre el botón */
-    color: #0071B0; /* Cambia el color del texto cuando se pasa sobre el botón */
-    border-color: #0071B0; /* Cambia el color del borde cuando se pasa sobre el botón */
+  background-color: #fff; /* Cambia el color de fondo cuando se pasa sobre el botón */
+  color: #0071b0; /* Cambia el color del texto cuando se pasa sobre el botón */
+  border-color: #0071b0; /* Cambia el color del borde cuando se pasa sobre el botón */
 }
 
 .logout-container {
-    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+  display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
 }
 
 #navbar:hover .logout-container {
-    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
+  display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
 
 .logout-container {
-    display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
-    margin-bottom: 2vh; /* Agrega un margen superior de 2vh */
+  display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
+  margin-bottom: 2vh; /* Agrega un margen superior de 2vh */
 }
 
 #navbar:hover .logout-container {
-    display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
+  display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
-
 
 /* =========
 Responsividad para distintas resoluciones
 ========= */
 
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
-    #navbar {
-        width: 4.5em;
-    }
+  #navbar {
+    width: 4.5em;
+  }
 
-    #navbar:hover {
-        width: 15em;
-    }
+  #navbar:hover {
+    width: 15em;
+  }
 
-    .navbar-item-inner-icon-wrapper {
-        width: calc(3.5rem - 0.5em - 1px);
-    }
+  .navbar-item-inner-icon-wrapper {
+    width: calc(3.5rem - 0.5em - 1px);
+  }
 
-    #navbar:hover .link-text {
-        display: inline;
-        width: auto;
-        opacity: 1;
-    }
+  #navbar:hover .link-text {
+    display: inline;
+    width: auto;
+    opacity: 1;
+  }
 
-    .navbar-profile-icon,
-    .profile-icon-transition {
-        width: 2rem;
-        height: 2rem;
-    }
+  .navbar-profile-icon,
+  .profile-icon-transition {
+    width: 2rem;
+    height: 2rem;
+  }
 
-    #navbar:hover .profile-icon-transition {
-        width: 3rem;
-        height: 3rem;
-        margin-bottom: 30%;
-    }
+  #navbar:hover .profile-icon-transition {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 30%;
+  }
 
-    .logout-container {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
+  .logout-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
 
-    .logout-button {
-        font-size: 0.8rem;
-        padding: 0.5rem 1rem;
-    }
+  .logout-button {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
 
-    span {
-        font-size: smaller;
-    }
+  span {
+    font-size: smaller;
+  }
 
-    .navbar-logo img {
-        max-width: 50%;
-        max-height: 50%;
-        object-fit: contain;
-    }
+  .navbar-logo img {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: contain;
+  }
 
-    #navbar:hover .navbar-logo img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
+  #navbar:hover .navbar-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
 
-    .flexbox-left {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin-bottom: auto;
-    }
+  .flexbox-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: auto;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
-    #navbar {
-        width: 4.5em;
-    }
+  #navbar {
+    width: 4.5em;
+  }
 
-    #navbar:hover {
-        width: 15em;
-    }
+  #navbar:hover {
+    width: 15em;
+  }
 
-    .navbar-item-inner-icon-wrapper {
-        width: calc(3.5rem - 0.5em - 1px);
-    }
+  .navbar-item-inner-icon-wrapper {
+    width: calc(3.5rem - 0.5em - 1px);
+  }
 
-    #navbar:hover .link-text {
-        display: inline;
-        width: auto;
-        opacity: 1;
-    }
+  #navbar:hover .link-text {
+    display: inline;
+    width: auto;
+    opacity: 1;
+  }
 
-    .navbar-profile-icon,
-    .profile-icon-transition {
-        width: 2rem;
-        height: 2rem;
-    }
+  .navbar-profile-icon,
+  .profile-icon-transition {
+    width: 2rem;
+    height: 2rem;
+  }
 
-    #navbar:hover .profile-icon-transition {
-        width: 3rem;
-        height: 3rem;
-        margin-bottom: 30%;
-    }
+  #navbar:hover .profile-icon-transition {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 30%;
+  }
 
-    .logout-container {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
+  .logout-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
 
-    .logout-button {
-        font-size: 0.8rem;
-        padding: 0.5rem 1rem;
-    }
+  .logout-button {
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
 
-    span {
-        font-size: smaller;
-    }
+  span {
+    font-size: smaller;
+  }
 
-    .navbar-logo img {
-        max-width: 50%;
-        max-height: 50%;
-        object-fit: contain;
-    }
+  .navbar-logo img {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: contain;
+  }
 
-    #navbar:hover .navbar-logo img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-    }
+  #navbar:hover .navbar-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
 
-    .flexbox-left {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin-bottom: auto;
-    }
-    
+  .flexbox-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: auto;
+  }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
-    #navbar {
-        width: 4em;
-    }
+  #navbar {
+    width: 4em;
+  }
 
-    #navbar:hover {
-        width: 14em;
-    }
+  #navbar:hover {
+    width: 14em;
+  }
 
-    .navbar-item-inner-icon-wrapper {
-        width: calc(3rem - 0.5em - 1px);
-    }
+  .navbar-item-inner-icon-wrapper {
+    width: calc(3rem - 0.5em - 1px);
+  }
 
-    #navbar:hover .link-text {
-        display: inline;
-        width: auto;
-        opacity: 1;
-    }
+  #navbar:hover .link-text {
+    display: inline;
+    width: auto;
+    opacity: 1;
+  }
 
-    .navbar-profile-icon,
-    .profile-icon-transition {
-        width: 1.8rem;
-        height: 1.8rem;
-    }
+  .navbar-profile-icon,
+  .profile-icon-transition {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
 
-    #navbar:hover .profile-icon-transition {
-        width: 2.8rem;
-        height: 2.8rem;
-        margin-bottom: 25%;
-    }
+  #navbar:hover .profile-icon-transition {
+    width: 2.8rem;
+    height: 2.8rem;
+    margin-bottom: 25%;
+  }
 
-    .logout-container {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 0.8rem;
-    }
+  .logout-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
 
-    .logout-button {
-        font-size: 0.7rem;
-        padding: 0.4rem 0.8rem;
-    }
+  .logout-button {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+  }
 
-    span {
-        font-size: smaller;
-    }
+  span {
+    font-size: smaller;
+  }
 
-    .navbar-logo img {
-        max-width: 40%;
-        max-height: 40%;
-        object-fit: contain;
-    }
+  .navbar-logo img {
+    max-width: 40%;
+    max-height: 40%;
+    object-fit: contain;
+  }
 
-    #navbar:hover .navbar-logo img {
-        max-width: 90%;
-        max-height: 90%;
-        object-fit: contain;
+  #navbar:hover .navbar-logo img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
 
-        .flexbox-left {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            margin-bottom: auto;
+    .flexbox-left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: auto;
     }
-}
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
-    #navbar {
-        width: 3.5em;
-    }
+  #navbar {
+    width: 3.5em;
+  }
 
-    #navbar:hover {
-        width: 10em;
-    }
+  #navbar:hover {
+    width: 10em;
+  }
 
-    .navbar-item-inner-icon-wrapper {
-        width: calc(3rem - 0.5em - 5px);
-    }
+  .navbar-item-inner-icon-wrapper {
+    width: calc(3rem - 0.5em - 5px);
+  }
 
-    #navbar:hover .link-text {
-        display: inline;
-        width: auto;
-        opacity: 1;
-    }
+  #navbar:hover .link-text {
+    display: inline;
+    width: auto;
+    opacity: 1;
+  }
 
-    .navbar-profile-icon,
-    .profile-icon-transition {
-        width: 1.5rem;
-        height: 1.5rem;
-    }
+  .navbar-profile-icon,
+  .profile-icon-transition {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 
-    #navbar:hover .profile-icon-transition {
-        width: 2.5rem;
-        height: 2.5rem;
-        margin-bottom: 20%;
-    }
+  #navbar:hover .profile-icon-transition {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 20%;
+  }
 
-    .logout-container {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 0.5rem;
-    }
+  .logout-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
 
-    .logout-button {
-        font-size: 0.6rem;
-        padding: 0.3rem 0.6rem;
-    }
+  .logout-button {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.6rem;
+  }
 
-    span {
-        font-size: smaller;
-    }
+  span {
+    font-size: smaller;
+  }
 
-    .navbar-logo img {
-        max-width: 40%;
-        max-height: 40%;
-        object-fit: contain;
-    }
+  .navbar-logo img {
+    max-width: 40%;
+    max-height: 40%;
+    object-fit: contain;
+  }
 
-    #navbar:hover .navbar-logo img {
-        max-width: 80%;
-        max-height: 80%;
-        object-fit: contain;
-    }
+  #navbar:hover .navbar-logo img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+  }
 
-    .flexbox-left {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        margin-bottom: auto;
-    }
+  .flexbox-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: auto;
+  }
 }
 
 /*Responsividad del navbar*/
 
 /*Esconde el navbar después de alcanzar una resolución de 768px */
 @media screen and (max-width: 768px) {
-    #navbar {
-      display: none;
-    }
-    
-    span {
-        font-size: smaller;
-    }
-
-    .menu-icon {
-      display: block;
-      position: fixed;
-      left: 20px;
-      /* top: 20px; */
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    .logout-container {
-        margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
-    }
-
-    .logout-button {
-        height: 60px; /* Ajusta el margen inferior del botón de cerrar sesión */
-    }
+  #navbar {
+    display: none;
   }
 
+  span {
+    font-size: smaller;
+  }
+
+  .menu-icon {
+    display: block;
+    position: fixed;
+    left: 20px;
+    /* top: 20px; */
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .logout-container {
+    margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
+  }
+
+  .logout-button {
+    height: 60px; /* Ajusta el margen inferior del botón de cerrar sesión */
+  }
+}

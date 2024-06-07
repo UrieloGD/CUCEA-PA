@@ -14,47 +14,56 @@
 <!-- Menú hamburguesa -->
 <div class="mobile-menu">
     <ul>
-        <li><a href="./home.php">
+        <li>
+          <a href="./home.php">
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png" alt="">
             <img class="blue-icon" src="./Img//Icons/iconos-navbar/iconos-azules/icono-home.png" alt="">
-            Inicio
-        </a></li>
-        <li><a href="./basesdedatos.php">
+            Inicio</a>
+        </li>
+        <li>
+          <a href="./basesdedatos.php">
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" alt="">
             <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" alt="">
-            Bases de Datos
-        </a></li>
-        <li><a href="#">
-        <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" alt="">
-        <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" alt="">
-            Oferta
-        </a></li>
-        <li><a href="#">
-        <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" alt="">
-        <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" alt="">
-            Espacios
-        </a></li>
-        <li><a href="./plantilla.php">
-        <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" alt="">
-        <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" alt="">
-            Plantilla
-        </a></li>
-        <li><a href="./guia.php">
-        <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" alt="">
-        <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" alt="">
+            Bases de Datos</a>
+        </li>
+        <li>
+          <a href="#">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" alt="">
+            Oferta</a>
+        </li>
+        <li>
+            <a href="#">
+              <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" alt="">
+              <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" alt="">
+              Espacios</a>
+        </li>
+        <li>
+          <a href="./plantilla.php">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" alt="">
+            Plantilla</a>
+        </li>
+        <li>
+          <a href="./guia.php">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" alt="">
             Guía
-        </a></li>
+          </a>
+        </li>
         <!-- Perfil y Cerrar sesión van juntos -->
         <li class="profile-item">
           <a href="#">
-        <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
-        <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
             Perfil
-        </a>
-        <a href="./config/cerrarsesion.php">
-          <button>Cerrar sesión</button>
           </a>
-      </li>
+        </li>
+        <li class="profile-button">
+          <a href="./config/cerrarsesion.php">
+            <button>Cerrar sesión</button>
+          </a>
+        </li>
     </ul>
 </div>
     <div class="titulo">
