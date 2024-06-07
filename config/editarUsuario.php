@@ -27,8 +27,8 @@ $userId = $data['id'];
 $nombre = $data['Nombre'];
 $apellido = $data['Apellido'];
 $correo = $data['Correo'];
-$rol = $data['Rol'];  // Rol_ID
-$departamento = $data['Departamento'];  // Departamento_ID
+$rol = $data['Rol'];
+$departamento = $data['Departamento'];
 
 // Debug: Ver datos recibidos
 error_log("Datos recibidos: " . print_r($data, true));

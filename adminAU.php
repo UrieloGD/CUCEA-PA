@@ -5,7 +5,6 @@
 <title>Añadir Usuarios</title>
 <link rel="stylesheet" href="./CSS/adminAU.css" />
 
-
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
 
@@ -22,16 +21,17 @@
     <br>
     <input type="text" placeholder="Buscar..." id="search-input">
     <div class="button-container">
-      <button id="add-user-btn">Añadir usuario</button>
+      <button id="add-button" class="btn">Añadir usuario</button>
       <a href="#" class="btn"><img src="./Img/Icons/iconos-adminAU/ajustes.png"></a>
     </div>
   </div>
 
   <!--Tabla Añadir Usuarios-->
-
   <div class="tabla">
     <table>
+
       <tr>
+        <th style="text-align: center;">Código</th>
         <th style="text-align: center;">Nombre</th>
         <th style="text-align: center;">Apellido</th>
         <th style="text-align: center;">Correo</th>
@@ -89,6 +89,7 @@
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
           echo "<tr data-id='" . $row["Codigo"] . "'>";
+          echo "<td style='text-align: center;'>" . $row["Codigo"] . "</td>";
           echo "<td class='editable' data-field='Nombre' style='text-align: center;'>" . $row["Nombre"] . "</td>";
           echo "<td class='editable' data-field='Apellido' style='text-align: center;'>" . $row["Apellido"] . "</td>";
           echo "<td class='editable' data-field='Correo' style='text-align: center;'>" . $row["Correo"] . "</td>";
