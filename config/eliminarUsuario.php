@@ -25,23 +25,32 @@ if (!$data) {
 
 $userId = $data['id'];
 
-// Eliminar el usuario de la tabla Usuarios
-$sql = "DELETE FROM Usuarios WHERE Codigo = ?";
-$stmt = $conn->prepare($sql);
+// Iniciar una transacción
+$conn->autocommit(false);
+$conn->begin_transaction();
 
-if ($stmt === false) {
-    echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
-    exit();
-}
+try {
+    // Eliminar los registros relacionados en la tabla Usuarios_Departamentos
+    $sql = "DELETE FROM Usuarios_Departamentos WHERE Usuario_ID = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->close();
 
-$stmt->bind_param("i", $userId);
+    // Eliminar el usuario de la tabla Usuarios
+    $sql = "DELETE FROM Usuarios WHERE Codigo = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->close();
 
-// Ejecutar la consulta
-if ($stmt->execute()) {
+    // Confirmar la transacción
+    $conn->commit();
     echo json_encode(["success" => true, "message" => "Usuario eliminado exitosamente"]);
-} else {
-    echo json_encode(["success" => false, "message" => "Error al eliminar el usuario: " . $stmt->error]);
+} catch (Exception $e) {
+    // Revertir la transacción en caso de error
+    $conn->rollback();
+    echo json_encode(["success" => false, "message" => "Error al eliminar el usuario: " . $e->getMessage()]);
 }
 
-$stmt->close();
 $conn->close();
