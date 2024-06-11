@@ -186,6 +186,25 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Plantilla_SA: " . mysqli_error($conn);
 }
 
+// Crear tabla Eventos_Admin
+$sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
+    ID_Evento INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre_Evento VARCHAR(255) NOT NULL,
+    Descripcion_Evento TEXT,
+    Fecha_Inicio DATE,
+    Fecha_Fin DATE,
+    Categoria VARCHAR(100),
+    Participantes VARCHAR(255) NOT NULL,
+    notificaciones TEXT
+)";
+
+if (mysqli_query($conn, $sql)){
+    echo "<br>Tabla Eventos_Admin creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
+}
+
+
 // Crear tabla Plantilla_Dep
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
