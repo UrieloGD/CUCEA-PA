@@ -18,7 +18,6 @@
 
 <!-- Barra de Busqueda-->
 <div class="busqueda">
-  <br>
   <input type="text" placeholder="Buscar..." id="search-input">
   <div class="button-container">
     <button id="add-user-btn">Añadir usuario</button>
