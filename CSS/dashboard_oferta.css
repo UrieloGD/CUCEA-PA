@@ -1,0 +1,51 @@
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 6vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .encabezado h3 {
+    margin: 0;
+  }
+  
+  .titulo-bd {
+    color: #fff;
+    width: 30vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #0071b0;
+  }
+  
+  /* CSS Div dashboard */
+  .powerbi-container {
+    width: calc(100% - 20px); /* Ancho completo menos los márgenes laterales */
+    height: calc(100% - 80px); /* Altura completa menos el encabezado y el margen superior */
+    margin: 40px 10px 0 10px; /* Margen superior de 40px y lateral de 10px */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .powerbi-container iframe {
+    width: 100%;
+    height: 100%;
+  }

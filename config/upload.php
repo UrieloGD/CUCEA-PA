@@ -70,7 +70,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $tabla_destino = 'Data_Políticas_Públicas';
                 break;
             case 10:
-                $tabla_destino = 'Data_Administraciún';
+                $tabla_destino = 'Data_Administración';
                 break;
             default:
                 echo json_encode(["success" => false, "message" => "Departamento no válido."]);

@@ -38,7 +38,7 @@
             </div>
             <br />
             <div class="text-center">
-              <a class="text-sm-nip text-blue-500 hover:underline" href="#">Recuperar contraseña.</a>
+              <a class="text-sm-nip text-blue-500 hover:underline" href="./recovery.php">Recuperar contraseña.</a>
             </div>
             <br />
             <div class="text-center">

@@ -16,6 +16,15 @@
   </div>
 <br><br> 
 
+<head>
+    <title>Crear Evento</title>
+    <link rel="stylesheet" type="text/css" href="controlEv.css">
+</head>
+<body>
+    <h1>Crear Evento</h1>
+    <textarea id="event-description" placeholder="Escribe la descripción del evento aquí..."></textarea>
+</body>
+
 <th style="text-align: center;">Nombre</th>
 
 

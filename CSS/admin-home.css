@@ -1,0 +1,405 @@
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 6vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
+}
+
+.recuadros-superiores {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.recuadro {
+  position: relative;
+  width: 25%;
+  height: 250px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.recuadro:hover {
+  width: 34%;
+}
+
+.recuadro:not(:hover) {
+  width: 30%;
+}
+
+.recuadro img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recuadro .texto {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: larger;
+  text-align: center;
+}
+
+.contenido {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 20px;
+}
+
+.izquierda {
+  width: 62%;
+  display: flex;
+  flex-direction: column;
+  padding-right: 20px;
+  margin-left: 20px;
+}
+
+.izquierda th {
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+  border-bottom: none;
+}
+
+.izquierda h3 {
+  border: 3px solid #e7e9f2;
+  background-color: #e7e9f2;
+  border-bottom: none;
+  border-radius: 10px 10px 0px 0px;
+  -webkit-border-radius: 10px 10px 0px 0px;
+  -moz-border-radius: 10px 10px 0px 0px;
+  -ms-border-radius: 10px 10px 0px 0px;
+  -o-border-radius: 10px 10px 0px 0px;
+}
+
+.derecha {
+  width: 31%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e7e9f2;
+  border-radius: 10px;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  /* border-radius: 10px; */
+  overflow: hidden;
+  text-align: center;
+  border-radius: 0px 0px 3px 3px;
+}
+
+.tabla th,
+.tabla td {
+  border: 3px solid #e7e9f2;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla th {
+  background-color: #e7e9f2;
+  font-weight: bold;
+  font-size: large;
+}
+
+.tabla td {
+  position: relative;
+  justify-content: center;
+  border: 3px solid #e7e9f2;
+  padding: 9px 30px;
+}
+
+.titulo-tabla {
+  text-align: center;
+  background-color: #e7e9f2;
+  font-size: 1.2em;
+  padding: 10px;
+  margin: 0; /* Remueve el margen de la etiqueta h3 */
+}
+
+.entregada,
+.atrasada,
+.sin-entregar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 40px; /* Aumenta el padding para hacer el fondo más ancho */
+  margin: 0px 0px 0px 0px;
+  border-radius: 10px;
+  border: solid 0px;
+  font-weight: bold;
+  max-width: 150px; /* Asegura un ancho mínimo */
+  box-sizing: border-box; /* Incluye el padding y borde en el tamaño total */
+}
+
+.entregada {
+  background-color: #dff1d8;
+  color: #3b763d;
+}
+
+.atrasada {
+  background-color: #f9d1d3;
+  color: #953d42;
+}
+
+.sin-entregar {
+  background-color: #fdf8e4;
+  color: #8b6e3b;
+}
+
+/* Bordes internos separados */
+.entregada,
+.atrasada,
+.sin-entregar {
+  box-shadow: inset 0 0 0 1px transparent; /* Elimina la sombra de los bordes */
+}
+
+.tabla td {
+  position: relative;
+}
+
+.tabla td .entregada,
+.tabla td .atrasada,
+.tabla td .sin-entregar {
+  position: absolute;
+  /* top: 50%; */
+  /* left: 50%; */
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px #ddd; /* Añade una sombra para simular un borde */
+}
+
+/* Grafica progreso de entregas */
+
+.circulo-progreso {
+  width: 250px;
+  height: 250px;
+  background: conic-gradient(
+    #0071b0 0% var(--progress),
+    #ffffff var(--progress) 100%
+  );
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.circulo {
+  width: 200px;
+  height: 200px;
+  background-color: #e7e9f2;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.porcentaje {
+  color: #0071b0;
+}
+
+.progreso {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos verticalmente */
+}
+
+/* Media queries para hacer el diseño responsivo */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+
+  .progreso {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92vw;
+    margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+    overflow: auto;
+
+  }
+
+  .contenido {
+    flex-direction: row;
+  }
+
+  .izquierda {
+    width: 62%;
+    margin-left: 20px;
+    padding-right: 20px;
+  }
+
+  .derecha {
+    width: 31%;
+    margin-right: 20px;
+  }
+
+  .tabla {
+    width: 100%;
+    table-layout: fixed;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 93vw;
+    height: auto; /* Altura automática */
+    margin-left: 2.5vw;
+    font-size: smaller;
+    overflow: auto;
+  }
+
+  .recuadros-superiores {
+    flex-wrap: nowrap; /* Permitir que los recuadros se envuelvan */
+  }
+
+  .recuadro {
+    width: 20%; /* Dos recuadros por fila */
+    height: 100px;
+    margin-bottom: 20px;
+    margin: 0px 9px;
+    font-size: smaller;
+  }
+
+  .recuadro:hover,
+  .recuadro:not(:hover) {
+    width: 45%; /* Ancho fijo */
+  }
+
+  .contenido {
+    flex-direction: column; /* Apilar contenido */
+    padding: 20px;
+  }
+
+  .contenedor-tabla {
+    width: 100%;
+    max-width: 800px; /* Ajusta este valor según tus necesidades */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+  }
+
+  .titulo-tabla {
+    text-align: center;
+    background-color: #e7e9f2;
+    font-size: 1.2em;
+    /* padding: 10px;s */
+    margin: 0;
+    max-width: 96%; /* Asegura que el encabezado no se desborde */
+    box-sizing: border-box; /* Incluye el padding en el ancho total */
+  }
+
+  .izquierda {
+    padding: 10px;
+    width: 100%;
+    margin-left: 0;
+    padding-right: 0;
+    table-layout: fixed;
+  }
+
+  .derecha {
+    width: 87%;
+    margin-right: 0;
+    margin-top: 15px;
+    margin-left: 10px;
+  }
+
+  .tabla {
+    width: 96%;
+    table-layout: fixed;
+  }
+
+  .tabla th,
+  .tabla td {
+    word-wrap: break-word; /* Permite el salto de línea en el texto */
+  }
+
+  .tabla th:first-child,
+  .tabla td:first-child {
+    width: 40%; /* Ajusta el ancho de la columna "Departamento" */
+  }
+
+  .tabla th:last-child,
+  .tabla td:last-child {
+    width: 30%; /* Ajusta el ancho de la columna "Estado de la entrega" */
+  }
+}

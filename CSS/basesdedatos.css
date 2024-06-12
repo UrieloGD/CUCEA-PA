@@ -19,25 +19,51 @@
 /* Encabezado */
 .encabezado {
     display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre el título y los íconos */
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 20px; /* Ajusta el padding según sea necesario */
+    padding: 0px 0px 20px 0px;
+    /* border: solid; */
+}
+
+.encabezado-izquierda,
+.encabezado-centro,
+.encabezado-derecha {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.encabezado-centro {
+    color: #fff;
+    margin-top: -10px;
+    padding: 10px 10px;
+    background-color: #0071b0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 0px 20px 20px;
 }
 
 .encabezado h3 {
     margin: 0;
+    /* padding: -30px -300px; */
+    margin-top: 10px;
 }
 
-.titulo-bd {
-    color: #fff;
-    padding: 10px;
-    border-radius: 0px 0px 20px 20px;
-    background-color: #0071b0;
-    text-align: center; /* Centra el texto dentro del div */
-    justify-content: center;
+.encabezado-derecha  {
+    /* border: solid; */
+    justify-content: space-between; /* Asegura que los iconos estén centrados */
+    margin-top: 5px;
+}
+
+.iconos-container {
+    width: 100%;
+    display: flex;
     align-items: center;
-    flex: auto;
-    /* flex-grow: 1; Permite que el título ocupe el espacio disponible */
+    /* border: solid; */
+    justify-content: space-around;
+    padding: 0px 40px;
 }
 
 /* Tabla */
@@ -47,24 +73,27 @@
     padding: 20px;
     border-radius: 20px 20px 0px 0px;
     position: relative; /* Para controlar el contenido interno */
+    margin-top: -5px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: -20px;
 }
 
 th, td {
     padding: 8px;
     text-align: left;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 3px solid #e7e9f2;
 }
 
 th {
+    margin-top: -50px;
     color: black;
-    border-bottom: solid #0071b0;
+    border-bottom: 3px solid #0071b0;
     position: sticky; /* Hacer que el encabezado sea fijo */
-    top: 0; /* Posición fija en la parte superior */
+    top: -20px; /* Posición fija en la parte superior */
     background-color: white; /* Fondo blanco para que el encabezado sea legible */
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
 }
@@ -96,10 +125,6 @@ th {
 .pagination a:hover:not(.active) {background-color: #ddd;} */
 
 /* Icono y Boton Buscar */
-.iconos-container {
-    display: flex; /* Asegura que los iconos estén en línea horizontal */
-    align-items: center;
-}
 
 .icono-buscador {
     cursor: pointer;
@@ -144,18 +169,31 @@ th {
 }
 
 #formulario-añadir button {
-    padding: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+    padding: 5px;
+    margin: 10px 10px 0px 10px;
+    border: none;
+    background-color: #0071b0;
+    color: #fff;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
 }
 
 #formulario-añadir input {
-    width: 100%;
+    width: 90%;
     box-sizing: border-box;
+    border-radius: 4px;
+    border: #5d5d5d solid;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
 }
 
 .input-formulario {
-    width: 100%;
+    width: 90%;
     padding: 5px;
     margin-right: 10px;
     box-sizing: border-box;
