@@ -21,13 +21,29 @@
             Inicio</a>
         </li>
         <li>
-          <a href="./basesdedatos.php">
+          <?php 
+          // Redirigir según el rol del usuario
+          if ($rol_id == 1) {
+            // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+            if (isset($_SESSION['Nombre_Departamento'])) {
+              // Obtener el nombre del departamento desde la sesión
+              $nombre_departamento = $_SESSION['Nombre_Departamento'];
+              echo "<a href='./basesdedatos.php'>";
+            } else {
+              // Manejar el caso en que no se encuentre asociado a ningún departamento
+              echo "<a href='./data_departamentos.php'>";
+            }
+          } else { 
+            // Otros roles o manejo de errores aquí
+            echo "<a href='./data_departamentos.php'>";
+          }
+          ?>
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" alt="">
             <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" alt="">
             Bases de Datos</a>
         </li>
         <li>
-          <a href="#">
+          <a href="dashboard_oferta.php">
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" alt="">
             <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" alt="">
             Oferta</a>
@@ -39,7 +55,23 @@
               Espacios</a>
         </li>
         <li>
-          <a href="./plantilla.php">
+        <?php 
+          // Redirigir según el rol del usuario
+          if ($rol_id == 1) {
+            // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+            if (isset($_SESSION['Nombre_Departamento'])) {
+              // Obtener el nombre del departamento desde la sesión
+              $nombre_departamento = $_SESSION['Nombre_Departamento'];
+              echo "<a href='./plantilla.php'>";
+            } else {
+              // Manejar el caso en que no se encuentre asociado a ningún departamento
+              echo "<a href='./plantillaspa.php'>";
+            }
+          } else { 
+            // Otros roles o manejo de errores aquí
+            echo "<a href='./plantillaspa.php'>";
+          }
+          ?>
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" alt="">
             <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" alt="">
             Plantilla</a>
@@ -51,6 +83,19 @@
             Guía
           </a>
         </li>
+        <?php
+          if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
+        ?>
+        <li>
+          <a href="./admin-home.php">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-admin-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" alt="">
+            Admin
+          </a>
+        </li>
+        <?php
+          }
+        ?>
         <!-- Perfil y Cerrar sesión van juntos -->
         <li class="profile-item">
           <a href="#">

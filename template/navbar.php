@@ -67,7 +67,7 @@ $rol_id = $_SESSION['Rol_ID'];
                     echo "<a class='navbar-item-inner flexbox-left' href='data_departamentos.php'>";
                 } else {
                     // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                    echo "<a class='navbar-item-inner flexbox-left' href='data_departamentos.php'>";
                 }
                 ?>
                 <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -114,7 +114,7 @@ $rol_id = $_SESSION['Rol_ID'];
                     echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
                 } else {
                     // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                    echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
                 }
                 ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox">

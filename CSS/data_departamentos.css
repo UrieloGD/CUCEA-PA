@@ -1,16 +1,17 @@
 /* CSS del cuadro principal */
 
 .cuadro-principal {
-  min-height: 120vh;
+  /*border: solid black 1px;*/
   background-color: white;
-  border-radius: 20px;
   width: 92vw;
-  height: 88vh;
+  height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
   align-self: flex-end;
+  overflow: auto;
+  border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
@@ -73,19 +74,19 @@ td {
   align-items: center; /* Alinea imagenes al centro */
 }
 
-.btn-ir{
-  background-color:#0071b0;
+.btn-ir {
+  background-color: #0071b0;
   color: #fff;
   padding: 6px 21px;
   border-radius: 7px;
   border: none;
-  font-weight: bold
+  font-weight: bold;
 }
 
 .btn-ir:hover {
-  transition: all 0.2s ease;;
+  transition: all 0.2s ease;
   transform: scale(1.05);
-  box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 5px 30px, rgba(0, 0, 0, 0.05) 0 1px 4px;
   cursor: pointer;
 }
 
@@ -143,11 +144,11 @@ td {
 .progress-bar {
   width: 0%;
   height: 100%; /* Asegurarse de que ocupe toda la altura del contenedor */
-  background-color: #0071B0;
+  background-color: #0071b0;
   border-radius: 20px;
   transition: width 0.5s ease-in-out;
   position: relative;
-  background: linear-gradient(to right, #0071B0, #0092e0, #0071B0);
+  background: linear-gradient(to right, #0071b0, #0092e0, #0071b0);
   background-size: 200% 100%;
   animation: progress-bar-animation 2s linear infinite;
 }
@@ -164,8 +165,12 @@ td {
 }
 
 @keyframes progress-bar-animation {
-  0% { background-position: 0 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Estilo para centrar el encabezado */
@@ -174,8 +179,12 @@ td {
 }
 
 @keyframes progress-bar-animation {
-  0% { background-position: 0 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 /* Estilo para centrar el encabezado */
@@ -186,46 +195,70 @@ td {
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
-      background-color: white;
-      border-radius: 20px;
-      width: 92vw;
-      height: 90vh;
-      margin-left: 6vw;
-      margin-right: 2vw;
-      margin-top: 1vh;
-      margin-bottom: 2vh;
-  }    
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-      width: 92vw;
-      margin-left: 6vw;
+    width: 92vw;
+    margin-left: 6vw;
   }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-      width: 91vw;
-      margin-left: 7vw;        
-      font-size: smaller;
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
   }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-      width: 90vw;
-      margin-left: 8vw;        
-      margin-bottom: 2vh;
-      font-size: smaller;
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
   }
 }
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-      width: 95vw;
-      height: 91vh; /* Mantener altura fija */
-      margin-left: 2.5vw;     
-      font-size: smaller;
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .titulo-bd {
+    color: #fff;
+    width: 50vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #0071b0;
+  }
+
+  .tabla {
+    padding: 10px 20px;
+  }
+
+  th,
+  td {
+    font-size: medium;
+  }
+
+  .btn-ir {
+    font-size: smaller;
   }
 }

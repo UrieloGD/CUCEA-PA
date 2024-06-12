@@ -1,19 +1,19 @@
 /* CSS del cuadro principal */
 
 .cuadro-principal {
-    background-color: white;
-    border-radius: 20px;
-    width: 92vw;
-    height: 88vh;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    align-self: flex-end;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 88vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  align-self: flex-end;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 /* CSS Pestaña Descarga */
@@ -26,14 +26,14 @@
   /* border: solid 1px; */
 }
 
-.info-descarga p{
-    font-size: large;
+.info-descarga p {
+  font-size: large;
 }
 
 .icono-descarga {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
 .icono-descarga img {
@@ -46,7 +46,7 @@
 .boton-descargar {
   appearance: none;
   backface-visibility: hidden;
-  background-color: #0071B0;
+  background-color: #0071b0;
   border-radius: 10px;
   border-style: none;
   box-shadow: none;
@@ -54,7 +54,7 @@
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-size: large ;
+  font-size: large;
   font-weight: 300;
   padding: 15px 20px;
   width: auto;
@@ -65,7 +65,7 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-  transition: all .3s;
+  transition: all 0.3s;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -78,10 +78,10 @@
 
 .boton-descargar:hover {
   background-color: #0e81be;
-  box-shadow: rgba(0, 0, 0, .05) 0 5px 30px, rgba(0, 0, 0, .05) 0 1px 4px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 5px 30px, rgba(0, 0, 0, 0.05) 0 1px 4px;
   opacity: 1;
   transform: scale(102%);
-  transition-duration: .35s;
+  transition-duration: 0.35s;
   -webkit-transform: scale(102%);
   -moz-transform: scale(102%);
   -ms-transform: scale(102%);
@@ -89,11 +89,12 @@
 }
 
 .boton-descargar:after {
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .boton-descargar:active {
-  box-shadow: rgba(0, 0, 0, .1) 0 3px 6px 0, rgba(0, 0, 0, .1) 0 0 10px 0, rgba(0, 0, 0, .1) 0 1px 4px -1px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 3px 6px 0, rgba(0, 0, 0, 0.1) 0 0 10px 0,
+    rgba(0, 0, 0, 0.1) 0 1px 4px -1px;
 }
 
 .boton-descargar:active:after {
@@ -103,12 +104,12 @@
 .div-boton-descargar {
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   margin-bottom: 3vh;
 }
 /* CSS Pestaña subida */
 
-.info-subida{
+.info-subida {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -128,8 +129,8 @@
   justify-content: center;
   align-content: center;
   align-items: center;
-  background-color: #D9EDF6;
-  color: #0071B0;
+  background-color: #d9edf6;
+  color: #0071b0;
   border-radius: 7.5px;
   -webkit-border-radius: 7.5px;
   -moz-border-radius: 7.5px;
@@ -139,21 +140,21 @@
 
 .container-inf {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   height: auto;
   margin: 10px;
   padding: 10px;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
 }
 
 .container-inf button {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .container-inf-dos {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   height: auto;
   margin: 10px;
   padding: 10px;
@@ -162,14 +163,14 @@
 }
 
 .container-inf-dos button {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 /* Estilos para el Drag Area */
 
-.drop-area{
+.drop-area {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   height: auto;
   width: 100%;
   border: dashed 2px;
@@ -190,7 +191,7 @@
 }
 
 .drop-area.active {
-  background-color:#c5def1;
+  background-color: #c5def1;
   color: black;
   border: 2px dashed #0e81be;
 }
@@ -200,10 +201,11 @@
   font-weight: 300;
   padding: 10px 20px;
   background-color: #fff;
-  color: #0071B0;
-  border: #0071B0 solid 2px;
+  color: #0071b0;
+  border: #0071b0 solid 2px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
   display: flex;
   align-items: center;
   white-space: nowrap;
@@ -215,7 +217,7 @@
 }
 
 .boton-seleccionar-archivo:hover {
-  background-color: #0071B0; /* Cambia el color de fondo cuando se pasa sobre el botón */
+  background-color: #0071b0; /* Cambia el color de fondo cuando se pasa sobre el botón */
   color: #fff; /* Cambia el color del texto cuando se pasa sobre el botón */
   border-color: #fff; /* Cambia el color del borde cuando se pasa sobre el botón */
 }
@@ -237,7 +239,7 @@
 }
 
 /* Estilos para mostrar el preview del archivo que se está subiendo */
-.file-container{
+.file-container {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -265,11 +267,11 @@
   color: red;
 }
 
-#preview{
+#preview {
   margin-top: 10px;
 }
 
-.status-text{
+.status-text {
   padding: 0 10px;
 }
 
@@ -327,7 +329,7 @@
 }
 
 .tab-button.active {
-  color: #0071B0;
+  color: #0071b0;
 }
 
 .tab-button.active::after {
@@ -337,7 +339,7 @@
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: #0071B0;
+  background-color: #0071b0;
 }
 
 .tab-button:first-child {
@@ -364,54 +366,54 @@
 
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
-      background-color: white;
-      border-radius: 20px;
-      width: 92vw;
-      height: 90vh;
-      margin-left: 6vw;
-      margin-right: 2vw;
-      margin-top: 1vh;
-      margin-bottom: 2vh;
-  }    
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-      width: 92vw;
-      margin-left: 6vw;
+    width: 92vw;
+    margin-left: 6vw;
   }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-      width: 91vw;
-      margin-left: 7vw;        
-      font-size: smaller;
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
   }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-      width: 90vw;
-      margin-left: 8vw;        
-      margin-bottom: 2vh;
-      font-size: smaller;
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
   }
 
-  .tab-content p { 
+  .tab-content p {
     font-size: medium;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) and (min-width: 481px) {
   .cuadro-principal {
-      width: 95vw;
-      height: 91vh; /* Mantener altura fija */
-      margin-left: 2.5vw;     
-      font-size: smaller;
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
   }
 
-  .tab-content p span{ 
-    font-size: medium;
+  .tab-content p span {
+    font-size: small;
   }
 }
