@@ -40,3 +40,25 @@
       border-radius: 0px 0px 20px 20px;
       background-color: #0071b0;
     }
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+  }
+  
+  h1 {
+      color: #333;
+  }
+  
+  #event-description {
+      width: 400px;
+      height: 200px;
+      padding: 50px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+      margin: 0 auto;
+      display: block;
+  }

@@ -2,7 +2,7 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<title>Añadir Usuarios</title>
+<title>Crear Evento</title>
 <link rel="stylesheet" href="./CSS/adminAU.css"/>
 
 <!--Cuadro principal del home-->
@@ -16,20 +16,21 @@
   </div>
 <br><br> 
 
+<!-- Contenido -->
 <head>
     <title>Crear Evento</title>
     <link rel="stylesheet" type="text/css" href="controlEv.css">
 </head>
 <body>
-    <h1>Crear Evento</h1>
-    <textarea id="event-description" placeholder="Escribe la descripción del evento aquí..."></textarea>
+    <h2>Crear Evento</h2>
+    <textarea id="event-description" placeholder="Escribe el nombre del evento"></textarea>
 </body>
 
-<th style="text-align: center;">Nombre</th>
+<!-- <th style="text-align: center;">Nombre</th>
 
 
 <th style="text-align: center;">Participantes</th>
-<!-- Barra de Busqueda-->
+ Barra de Busqueda *comentado* 
 <div class="busqueda">
-  <input type="text" placeholder="Escribe el nombre del participante" id="search-input">
+  <input type="text" placeholder="Escribe el nombre del participante" id="search-input"> -->
 
