@@ -1,28 +1,42 @@
-function descargarArchivo() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'config/download.php', true);
-    xhr.responseType = 'blob';
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var blob = xhr.response;
-            var url = window.URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.href = url;
-            a.download = 'Administracion.xlsx';
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-        } else {
-            alert('No se encontró el archivo "Administracion.xlsx" en la base de datos.');
-            console.error('Error al descargar el archivo');
+function descargarArchivo(departamentoId) {
+    $.ajax({
+        url: './config/download.php',
+        method: 'GET',
+        data: { departamento_id: departamentoId },
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(data, status, xhr) {
+            const contentType = xhr.getResponseHeader('Content-Type');
+            if (contentType && contentType.indexOf('application/json') !== -1) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const errorResponse = JSON.parse(reader.result);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorResponse.message
+                    });
+                };
+                reader.readAsText(data);
+            } else {
+                const disposition = xhr.getResponseHeader('Content-Disposition');
+                let filename = "archivo_descargado";
+                if (disposition && disposition.indexOf('filename=') !== -1) {
+                    filename = disposition.split('filename=')[1].replace(/['"]/g, '');
+                }
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(data);
+                link.download = filename;
+                link.click();
+            }
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al intentar descargar el archivo. Por favor, inténtalo de nuevo más tarde.'
+            });
         }
-    };
-
-    xhr.onerror = function() {
-        alert('No se encontró el archivo "Administracion.xlsx" en la base de datos.');
-        console.error('Error al descargar el archivo');
-    };
-
-    xhr.send();
+    });
 }

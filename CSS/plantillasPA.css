@@ -4,32 +4,19 @@
   background-color: white;
   border-radius: 20px;
   width: 92vw;
-  height: 88vh;
+  height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  align-self: flex-end;
+  overflow: hidden; /* Para que el contenido adicional no desborde */
+  display: flex;
+  flex-direction: column;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
 }
-
-/* Pestaña subir plantilla */
-
-/* .header-bar {
-  background-color: #0071b0;
-  color: white;
-  padding: 2px;
-  text-align: center;
-  font-size: 12px;
-  max-width: 550px;
-  margin: 0 auto;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
-} */
-
 
 /* Encabezado */
 .encabezado {
@@ -73,24 +60,63 @@ table {
 th {
   background-color: #E7E9F2; /* Color de fondo para los encabezados */
   text-align: left; /* Alinea el texto de los encabezados a la izquierda */
+  padding: 10px; /* Agrega un padding a los encabezados */
 }
 
-th,
 td {
-  padding: 8px;
+  flex: auto;
+  padding: 10px;
   text-align: left;
   border: 2px solid #E7E9F2;
+  
+}
+
+td .btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+td .btn-container .btn {
+  margin: 0 5px;
 }
 
 .btn img {
   /* Iconos */
   height: 30px; /* Altura de imagenes */
   align-items: center; /* Alinea imagenes al centro */
+  justify-content: center;
+  cursor: pointer;
 }
 
 #input-file {
   display: none; /* Oculta display de la función de subir archivo  */
-         }
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.btn-container input[type="file"] {
+  display: none;
+}
+
+.btn-container .hidden-button {
+  display: none;
+}
+
+.btn-container .btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* .btn-container .btn img {
+  max-width: 30px;
+} */
 
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {

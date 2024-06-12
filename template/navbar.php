@@ -78,7 +78,7 @@ $rol_id = $_SESSION['Rol_ID'];
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="#">
+                <a class="navbar-item-inner flexbox-left" href="./dashboard_oferta.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
@@ -141,6 +141,28 @@ $rol_id = $_SESSION['Rol_ID'];
                     </div>
                 </a>
             </li>
+            <?php
+            if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
+                ?>
+                <li class="navbar-item flexbox-left">
+                    <a class="navbar-item-inner flexbox-left" href="./admin-home.php">
+                        <div class="navbar-item-inner-icon-wrapper flexbox">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" width="50%" height="50%" alt="icono-admin" class="hover-icon">
+                            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-admin-b.png" width="50%" height="50%" alt="icono-admin-hover" class="original-icon">
+                        </div>
+                        <span class="link-text">Admin</span>
+                    </a>
+                </li>
+                <?php
+            }
+            ?>
+            <li class="navbar-item flexbox-left">
+                <a href="#">
+                    <div class="navbar-profile-icon flexbox profile-icon-transition">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
+                    </div>
+                </a>
+            </li>
             <li class="logout-container">
                 <a href="./config/cerrarsesion.php">
                     <button class="logout-button">Cerrar Sesión</button>
@@ -148,6 +170,3 @@ $rol_id = $_SESSION['Rol_ID'];
             </li>
         </ul>
     </nav>
-
- 
-

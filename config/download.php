@@ -1,41 +1,51 @@
 <?php
-// Conectar a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "pa";
+include 'db.php';
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+if (isset($_GET['departamento_id'])) {
+    $departamento_id = $_GET['departamento_id'];
 
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+    // Consulta a la base de datos para obtener el nombre y contenido del archivo correspondiente al departamento
+    $sql = "SELECT Nombre_Archivo_Dep, Contenido_Archivo_Dep FROM Plantilla_SA WHERE Departamento_ID = '$departamento_id'";
+    $result = mysqli_query($conexion, $sql);
 
-// Consulta para obtener el archivo de la tabla "archivos"
-$sql = "SELECT ruta, tamaño FROM archivos WHERE nombre = 'Administracion.xlsx'";
-$resultado = $conn->query($sql);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $nombre_archivo = $row['Nombre_Archivo_Dep'];
+        $contenido_archivo = $row['Contenido_Archivo_Dep'];
 
-// Verificar si se encontró un resultado
-if ($resultado->num_rows > 0) {
-    $fila = $resultado->fetch_assoc();
-    $archivo_ruta = $fila["ruta"];
-    $archivo_tamaño = $fila["tamaño"];
+        // Remover guiones bajos adicionales del nombre del archivo
+        $nombre_archivo = str_replace('_', '', $nombre_archivo);
 
-    // Leer el contenido del archivo desde la ruta
-    $archivo_contenido = file_get_contents($archivo_ruta);
+        // Obtener la extensión del archivo
+        $extension = pathinfo($nombre_archivo, PATHINFO_EXTENSION);
 
-    // Configurar los encabezados para descargar el archivo
-    header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-    header("Content-Disposition: attachment; filename=Administracion.xlsx");
-    header("Content-Length: " . $archivo_tamaño);
+        // Establecer el tipo de contenido según la extensión
+        switch ($extension) {
+            case 'xlsx':
+                $tipo_contenido = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                break;
+            case 'xls':
+                $tipo_contenido = 'application/vnd.ms-excel';
+                break;
+            case 'pdf':
+                $tipo_contenido = 'application/pdf';
+                break;
+                // Agrega más casos según los tipos de archivo que manejes
+            default:
+                $tipo_contenido = 'application/octet-stream';
+                break;
+        }
 
-    // Enviar el archivo al navegador
-    echo $archivo_contenido;
+        // Enviar el archivo al navegador para descargarlo
+        header('Content-Description: File Transfer');
+        header('Content-Type: ' . $tipo_contenido);
+        header('Content-Disposition: attachment; filename="' . $nombre_archivo . '"');
+        header('Content-Length: ' . strlen($contenido_archivo));
+        echo $contenido_archivo;
+        exit;
+    } else {
+        echo "No se encontró ningún archivo para ese departamento.";
+    }
 } else {
-    http_response_code(404);
+    echo "No se proporcionó un ID de departamento.";
 }
-
-// Cerrar la conexión a la base de datos
-$conn->close();
-exit;

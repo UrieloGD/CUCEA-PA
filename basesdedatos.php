@@ -31,9 +31,11 @@ $result = mysqli_query($conexion, $sql);
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <div class="encabezado">
-        <div class="titulo-bd">
+        <div class="encabezado-izquierda"></div>
+        <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div>
+<<<<<<< HEAD
         <div class="iconos-container">
             <div class="icono-buscador" id="icono-buscador">
                 <i class="fa fa-search" aria-hidden="true"></i>
@@ -82,6 +84,27 @@ $result = mysqli_query($conexion, $sql);
                     <button class="download-btn" onclick="descargarExcel()">
                          <i class="fa fa-download"></i> Descargar
                     </button>
+=======
+        <div class="encabezado-derecha">
+            <div class="iconos-container">
+                <div class="icono-buscador" id="icono-buscador">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+                <div class="barra-buscador" id="barra-buscador" style="display: none;">
+                    <input type="text" id="input-buscador" placeholder="Buscar...">
+                </div>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+>>>>>>> eeecb411d5c51d9e1e9036bf630a4f4bd1fb5255
                 </div>
             </div>
 

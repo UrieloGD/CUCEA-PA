@@ -23,7 +23,10 @@
       echo $nombre, " ", $apellido;
 
       if ($rol_id == 1) {
-        echo "<br>", $nombre_rol, " - ", $_SESSION['Nombre_Departamento'];
+        echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
+      } 
+      else {
+        echo "<br>", $nombre_rol;
       }
       ?>
     </h2>
@@ -58,7 +61,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./dashboard_oferta.php"">
         <div class="overlay">
           <h4>Oferta</h4>
         </div>
