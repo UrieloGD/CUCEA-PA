@@ -11,7 +11,7 @@
   <!--Cuadro de bienvenida-->
   <div class="bienvenida">
     <h2>
-    <?php
+      <?php
       if ($genero == 'Masculino') {
         echo "Bienvenido, ";
       } else if ($genero == 'Femenino') {
@@ -19,11 +19,14 @@
       } else {
         echo "Bienvenid@, ";
       }
-    
+
       echo $nombre, " ", $apellido;
 
-      if ($rol_id == 1){
-        echo "<br>", $nombre_rol, " - ", $_SESSION['Nombre_Departamento'];
+      if ($rol_id == 1) {
+        echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
+      } 
+      else {
+        echo "<br>", $nombre_rol;
       }
       ?>
     </h2>
@@ -31,7 +34,26 @@
   <!--Cuadros de navegación-->
   <div class="cuadros-nav">
     <div class="cuadro-ind">
-      <a href="./basesdedatos.php">
+      <?php
+        // Redirigir según el rol del usuario
+        if ($rol_id == 1) {
+    	    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+          if (isset($_SESSION['Nombre_Departamento'])) {
+            // Obtener el nombre del departamento desde la sesión
+            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            echo "<a href='./basesdedatos.php'>";
+          } else {
+            // Manejar el caso en que no se encuentre asociado a ningún departamento
+            echo "<a href='#'>";
+          }
+        } elseif ($rol_id == 2) {
+          // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
+          echo "<a href='data_departamentos.php'>";
+        } else {
+          // Otros roles o manejo de errores aquí
+          echo "<a href='#'>";
+        }
+      ?>
         <div class="overlay">
           <h4>Bases de datos</h4>
         </div>
@@ -39,7 +61,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./dashboard_oferta.php"">
         <div class="overlay">
           <h4>Oferta</h4>
         </div>
@@ -55,7 +77,26 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="./plantilla.php">
+      <?php
+        // Redirigir según el rol del usuario
+        if ($rol_id == 1) {
+          // Si el usuario es jefe de departamento, redirigir a subir plantilla
+          if (isset($_SESSION['Nombre_Departamento'])) {
+            // Obtener el nombre del departamento desde la sesión
+            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            echo "<a href='./plantilla.php'>";
+          } else {
+            // Manejar el caso en que no se encuentre asociado a ningún departamento
+            echo "<a href='#'>";
+          }
+        } elseif ($rol_id == 2) {
+          // Si el usuario es secretaria administrativa, redirigir a plantillasPA
+          echo "<a href='./plantillaspa.php'>";
+        } else {
+          // Otros roles o manejo de errores aquí
+          echo "<a href='#'>";
+        }
+        ?>
         <div class="overlay">
           <h4>Plantilla</h4>
         </div>
@@ -159,7 +200,7 @@
 
         <span>Coordinadores</span>
         <div class="progress-container">
-        <div class="progress-bar" data-progress="30"></div>
+          <div class="progress-bar" data-progress="30"></div>
           <!-- <progress value="30" max="100"></progress>
           <span>30%</span> -->
         </div>
@@ -168,13 +209,13 @@
   </div>
 </div>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const progressBars = document.querySelectorAll('.progress-bar');
+  document.addEventListener('DOMContentLoaded', function() {
+    const progressBars = document.querySelectorAll('.progress-bar');
 
-        progressBars.forEach(function(bar) {
-            const progress = bar.getAttribute('data-progress');
-            bar.style.width = `${progress}%`;
-        });
+    progressBars.forEach(function(bar) {
+      const progress = bar.getAttribute('data-progress');
+      bar.style.width = `${progress}%`;
     });
+  });
 </script>
 <?php include './template/footer.php' ?>

@@ -1,3 +1,45 @@
+<?php
+session_start(); // Inicia la sesión para acceder a los datos del usuario logeado
+
+function obtenerDepartamentoId($usuario_id)
+{
+    // Conectar a la base de datos
+    $servername = "localhost";
+    $username = "root";
+    $password = "root";
+    $dbname = "pa";
+
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Verificar la conexión
+    if ($conn->connect_error) {
+        return null; // Manejar la conexión fallida
+    }
+
+    // Obtener el ID del departamento del usuario logeado
+    $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $departamento_id = $row['Departamento_ID'];
+    } else {
+        $departamento_id = null; // No se encontró el departamento del usuario
+    }
+
+    // Cerrar la conexión a la base de datos
+    $conn->close();
+
+    return $departamento_id;
+}
+
+$departamento_id = null;
+if (isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    $departamento_id = obtenerDepartamentoId($usuario_id);
+}
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -21,52 +63,51 @@
                 </div>
                 <!--Elementos de descarga-->
                 <div class="icono-descarga">
-                    <a href="#" onclick="descargarArchivo()">
+                    <a href="#" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">
                         <img src="./Img/Icons/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
                     </a>
                 </div>
                 <div class="div-boton-descargar">
-                    <a href="#" onclick="descargarArchivo()">
-                        <button class="boton-descargar" role="button">Descargar</button>
-                    </a>
+                    <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
                 </div>
                 <div class="info-descarga">
                     <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="#">aquí.</a></p>
                 </div>
             </div>
         </div>
-            <!--Ventana de subida de plantilla-->
-            <div class="tab-pane">
-                <div class="info-subida">
-                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
-                        <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b>10 de noviembre de 2024</b>
-                    </p>
-                </div>
-                <!-- Formulario para subir el archivo -->
-                <form id="formulario-subida" enctype="multipart/form-data">
-                    <div class="container-inf">
-                        <div class="drop-area">
-                            <p>Arrastra tus archivos a subir aquí</p>
-                            <p>o</p>
-                            <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
-                            <input type="file" name="file" id="input-file" hidden>
-                        </div>
-                        <div id="preview"></div>
-                        <div id="mensaje"></div>
-                        <div class="container-peso">
-                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
-                        </div>
-                        <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
-                    </div>
-                </form>
+        <!--Ventana de subida de plantilla-->
+        <div class="tab-pane">
+            <div class="info-subida">
+                <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
+                    <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b>10 de noviembre de 2024</b>
+                </p>
             </div>
+            <!-- Formulario para subir el archivo -->
+            <form id="formulario-subida" enctype="multipart/form-data">
+                <div class="container-inf">
+                    <div class="drop-area">
+                        <p>Arrastra tus archivos a subir aquí</p>
+                        <p>o</p>
+                        <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
+                        <input type="file" name="file" id="input-file" hidden>
+                    </div>
+                    <div id="preview"></div>
+                    <div id="mensaje"></div>
+                    <div class="container-peso">
+                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                    </div>
+                    <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 <script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
 <script src="./JS/pestañas-plantilla.js"></script>
 <script src="./JS/Ajax.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?php include './template/footer.php' ?>

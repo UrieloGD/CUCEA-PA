@@ -7,63 +7,59 @@
 include './config/db.php';
 
 // Obtener el nombre y el ID del departamento del usuario desde la sesión
-$nombre_departamento = $_SESSION['Nombre_Departamento'];
-$departamento_id = $_SESSION['Departamento_ID'];
+//$nombre_departamento = $_SESSION['Nombre_Departamento'];
+$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
 
-// Número de registros por página
-$registros_por_pagina = 50;
-
-// Determinar la página actual
-$pagina_actual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-
-// Calcular el offset para la consulta SQL
-$offset = ($pagina_actual - 1) * $registros_por_pagina;
+// Obtener el nombre del departamento usando el ID
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+$result_departamento = mysqli_query($conexion, $sql_departamento);
+$row_departamento = mysqli_fetch_assoc($result_departamento);
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$departamento_nombre = $row_departamento['Departamentos'];
 
 // Construir el nombre de la tabla según el departamento
 $tabla_departamento = "Data_" . $nombre_departamento;
 
-// Consulta SQL para obtener los datos de la tabla correspondiente al departamento
-$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id LIMIT $registros_por_pagina OFFSET $offset";
+// Consulta SQL para obtener los datos de la tabla correspondiente al departamento sin paginación
+$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
-
-// Calcular el total de registros en la tabla correspondiente al departamento
-$total_registros = mysqli_num_rows(mysqli_query($conexion, "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id"));
-
-// Calcular el total de páginas
-$total_paginas = ceil($total_registros / $registros_por_pagina);
 ?>
 
-<title>Bases de datos</title>
+<title>Data - <?php echo $departamento_nombre; ?></title>
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <div class="encabezado">
-        <div class="titulo-bd">
-            <h3>Data - <?php echo $nombre_departamento; ?></h3>
+        <div class="encabezado-izquierda"></div>
+        <div class="encabezado-centro">
+            <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div>
-        <div class="iconos-container">
-            <div class="icono-buscador" id="icono-buscador">
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </div>
-            <div class="barra-buscador" id="barra-buscador" style="display: none;">
-                <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div>
-            <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                <i class="fa fa-add" aria-hidden="true"></i>
-            </div>
-            <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-            </div>
-            <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-            </div>
-            <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
-                <i class="fa fa-download" aria-hidden="true"></i>
+        <div class="encabezado-derecha">
+            <div class="iconos-container">
+                <div class="icono-buscador" id="icono-buscador">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                </div>
+                <div class="barra-buscador" id="barra-buscador" style="display: none;">
+                    <input type="text" id="input-buscador" placeholder="Buscar...">
+                </div>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
+                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
     </div>
     <div class="Tabla">
+        <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos">
             <tr>
                 <th></th> <!-- columna para el checkbox -->
@@ -120,6 +116,7 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
                 // Recorrer los resultados y mostrarlos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
+
                     echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>"; // Agregar el checkbox
                     echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
@@ -146,15 +143,6 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
             mysqli_close($conexion);
             ?>
         </table>
-        <!-- Enlaces de paginación -->
-        <div class="pagination">
-            <?php
-            for ($i = 1; $i <= $total_paginas; $i++) {
-                $active = ($i == $pagina_actual) ? 'active' : '';
-                echo "<a href='?pagina=$i' class='$active'>$i</a>";
-            }
-            ?>
-        </div>
     </div>
 </div>
 
@@ -165,7 +153,8 @@ $total_paginas = ceil($total_registros / $registros_por_pagina);
 <script src="./JS/añadirRegistro.js"></script>
 <script>
     function descargarExcel() {
-        window.location.href = './config/descargar_excel.php';
+        var departamento_id = document.getElementById('departamento_id').value;
+        window.location.href = './config/descargar_excel.php?departamento_id=' + departamento_id;
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,81 +1,106 @@
-/* CSS del cuadro principal */
-
 .cuadro-principal {
-    background-color: white;
-    border-radius: 20px;
-    width: 92vw;
-    height: fit-content;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-    align-self: flex-end;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    -ms-border-radius: 20px;
-    -o-border-radius: 20px;
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
 }
 
 /* Encabezado */
 .encabezado {
-    display: flex;
-    justify-content: space-between; /* Distribuye el espacio entre el título y los íconos */
-    align-items: center;
-    padding: 10px 20px; /* Ajusta el padding según sea necesario */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
+  /* border: solid; */
+}
+
+.encabezado-izquierda,
+.encabezado-centro,
+.encabezado-derecha {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.encabezado-centro {
+  color: #fff;
+  margin-top: -10px;
+  padding: 10px 10px;
+  background-color: #0071b0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px 0px 20px 20px;
 }
 
 .encabezado h3 {
-    margin: 0;
+  margin: 0;
+  /* padding: -30px -300px; */
+  margin-top: 10px;
 }
 
-.titulo-bd {
-    color: #fff;
-    padding: 10px;
-    border-radius: 0px 0px 20px 20px;
-    background-color: #0071b0;
-    text-align: center; /* Centra el texto dentro del div */
-    flex-grow: 1; /* Permite que el título ocupe el espacio disponible */
+.encabezado-derecha {
+  /* border: solid; */
+  justify-content: space-between; /* Asegura que los iconos estén centrados */
+  margin-top: 5px;
+}
+
+.iconos-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  /* border: solid; */
+  justify-content: space-around;
+  padding: 0px 40px;
 }
 
 /* Tabla */
-
 .tabla {
-    padding: 20px;
-    border-radius: 20px 20px 0px 0px;
-    /* border: solid; */
+  flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
+  overflow-y: auto; /* Añadir scroll vertical */
+  padding: 20px;
+  border-radius: 20px 20px 0px 0px;
+  position: relative; /* Para controlar el contenido interno */
+  margin-top: -5px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    /* margin-top: 20px; */
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: -20px;
 }
 
-th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 2px solid #ddd;
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 3px solid #e7e9f2;
 }
 
 th {
-    /* background-color: #0071b0; */
-    color: black;
-    /* border-radius: 10px 10px 0px 0px; */
-    border-bottom: solid #0071b0;
+  margin-top: -50px;
+  color: black;
+  border-bottom: 3px solid #0071b0;
+  position: sticky; /* Hacer que el encabezado sea fijo */
+  top: -20px; /* Posición fija en la parte superior */
+  background-color: white; /* Fondo blanco para que el encabezado sea legible */
+  z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
 }
 
-/* tr:nth-child(even) {
-    background-color: #f2f2f2;
-    border: solid 1px 0x #2c3e50;
-} */
-
-/* .iconos-bd {
-
-} */
-
-/* CSs paginacion */
-
-.pagination {
+/* CSS para la paginación */
+/* .pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
@@ -98,141 +123,167 @@ th {
     border: 1px solid #0071b0;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {background-color: #ddd;} */
 
-/*icono y Boton Buscar */
-
-.iconos-container {
-    display: flex; /* Asegura que los iconos estén en línea horizontal */
-    align-items: center;
-}
+/* Icono y Boton Buscar */
 
 .icono-buscador {
-    cursor: pointer;
-    background-color: #0071b0;
-    padding: 15px;
-    border-radius: 10px;
-    color: #fff;
-    margin-left: 10px; /* Espacio entre los iconos */
+  cursor: pointer;
+  background-color: #0071b0;
+  padding: 15px;
+  border-radius: 10px;
+  color: #fff;
+  margin-left: 10px; /* Espacio entre los iconos */
 }
 
 .barra-buscador {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    border: 4px solid #0071b0;
-    border-radius: 10px;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  border: 4px solid #0071b0;
+  border-radius: 10px;
 }
 
 #input-buscador {
-    padding: 5px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 10px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
+  padding: 5px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
-
-/* Estilos para nuevos formularios*/
-
+/* Estilos para nuevos formularios */
 #formulario-añadir {
-    width: 100%;
-    box-sizing: border-box;
-    padding-left: 50px;
-    display: flex;
-    justify-content: space-evenly;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 50px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 #form-añadir-registro {
-    display: grid;
-    align-items: center;
+  display: grid;
+  align-items: center;
 }
 
 #formulario-añadir button {
-    padding: 10px;
-    margin-right: 10px;
-    margin-left: 10px;
+  padding: 5px;
+  margin: 10px 10px 0px 10px;
+  border: none;
+  background-color: #0071b0;
+  color: #fff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 
 #formulario-añadir input {
-    width: 100%;
-    box-sizing: border-box;
+  width: 90%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: #5d5d5d solid;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
 }
 
 .input-formulario {
+  width: 90%;
+  padding: 5px;
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92vw;
+    margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 93vw;
+    height: fit-content;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 93vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .encabezado h2 {
+    margin: 0;
+    font-size: medium;
+  }
+
+  /* Tabla */
+
+  .tabla {
+    padding: 20px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  table {
     width: 100%;
-    padding: 5px;
-    margin-right: 10px;
-    box-sizing: border-box;
-}
+    border-collapse: collapse;
+  }
 
-@media screen and (max-width: 1400px) {
-    .cuadro-principal {
-        width: 90vw;
-        height: fit-content;
-    }    
-}
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-size: smaller;
+  }
 
-@media screen and (max-width: 1100px) {
-    .cuadro-principal {
-        width: 88vw;
-        height: fit-content;
-    }
-}
-
-@media screen and (max-width: 768px){
-    .cuadro-principal {
-        width: 95vw;
-        height: fit-content;
-        margin-bottom: 2vh;
-        font-size: smaller;
-    }
-}
-
-@media screen and (max-width: 576px) {
-    .cuadro-principal {
-        width: 96vw;
-        height: fit-content;
-        font-size: smaller;
-    }
-
-    .encabezado {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .encabezado h2 {
-        margin: 0;
-        font-size: medium;
-    }
-    
-    /* Tabla */
-    
-    .tabla {
-        padding: 20px;
-        border-radius: 20px 20px 0px 0px;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 2px solid #ddd;
-        font-size: smaller;
-    }
-    
-    th {
-        /* background-color: #0071b0; */
-        color: black;
-        /* border-radius: 10px 10px 0px 0px; */
-        border-bottom: solid #0071b0;
-    }
+  th {
+    color: black;
+    border-bottom: solid #0071b0;
+    position: sticky; /* Hacer que el encabezado sea fijo */
+    top: 0; /* Posición fija en la parte superior */
+    background-color: white; /* Fondo blanco para que el encabezado sea legible */
+    z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  }
 }

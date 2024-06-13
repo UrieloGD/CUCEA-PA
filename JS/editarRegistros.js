@@ -94,8 +94,14 @@ function editarRegistrosSeleccionados() {
                 editandoRegistro = false; // Permitir la edición de otro registro
             }
         };
+
+        var departamento_id = document.getElementById('departamento_id').value;
+        datos['departamento_id'] = departamento_id;
+        xhr.send(convertirObjeto(datos));
+
         xhr.send(convertirObjeto(datos));
     };
+    
     contenedorBotones.appendChild(botonGuardar);
 
     // Agregar botón para cancelar la edición
