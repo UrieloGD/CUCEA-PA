@@ -191,9 +191,13 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     Descripcion_Evento TEXT,
     Fecha_Inicio DATE,
     Fecha_Fin DATE,
-    Categoria VARCHAR(100),
+    Hora_Inicio TIME NOT NULL,
+    Hora_Fin TIME NOT NULL,
+    Etiqueta VARCHAR(100),
     Participantes VARCHAR(255) NOT NULL,
-    notificaciones TEXT
+    notificaciones TEXT,
+    Hora_Noti TIME NOT NULL
+
 )";
 
 if (mysqli_query($conn, $sql)){

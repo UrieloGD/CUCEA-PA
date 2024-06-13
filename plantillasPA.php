@@ -7,7 +7,6 @@ include './template/navbar.php';
 <link rel="stylesheet" href="./CSS/plantillasPA.css" />
 
 <div class="cuadro-principal">
-<<<<<<< HEAD
 
     <!--Pestaña azul-->
     <div class="encabezado">
@@ -158,7 +157,6 @@ include './template/navbar.php';
     </tr>
     <script src="./JS/plantillasPA"></script>
   </table>
-=======
     <div class="encabezado">
         <div class="titulo-bd">
             <h3>Plantillas Programación Académica</h3>
@@ -238,7 +236,6 @@ include './template/navbar.php';
         </table>
     </div>
     <?php include './template/footer.php'; ?>
->>>>>>> eeecb411d5c51d9e1e9036bf630a4f4bd1fb5255
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
