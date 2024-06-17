@@ -16,6 +16,8 @@
     <ul>
         <li>
           <a href="./home.php">
+        <li>
+          <a href="./home.php">
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png" alt="">
             <img class="blue-icon" src="./Img//Icons/iconos-navbar/iconos-azules/icono-home.png" alt="">
             Inicio</a>
@@ -101,6 +103,8 @@
           <a href="#">
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
             <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
             Perfil
           </a>
         </li>
@@ -108,6 +112,12 @@
           <a href="./config/cerrarsesion.php">
             <button>Cerrar sesión</button>
           </a>
+        </li>
+        <li class="profile-button">
+          <a href="./config/cerrarsesion.php">
+            <button>Cerrar sesión</button>
+          </a>
+        </li>
         </li>
     </ul>
 </div>
@@ -139,4 +149,5 @@
     </div>
   </div>
   <script src="./JS/header.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
