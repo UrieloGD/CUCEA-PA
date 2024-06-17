@@ -30,7 +30,7 @@
  // Example notifications
 
  const notification1 = document.createElement('li');
- notification1.textContent = 'Aldo Ceja está enojao pq no le has mandado la Base de Datos';
+ notification1.textContent = 'Aldo Ceja está enojao pq no se han entregado las bases de datos';
  notification1.classList.add('urgente'); // Agregar la clase 'urgente' para notificaciones urgentes (rojo)
  notifications.appendChild(notification1);
 
