@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $horIn = $_POST['HorIn'];
     $horFi = $_POST['HorFi'];
     $etiqueta = $_POST['etiqueta'];
-    $participantes = $_POST['participantes'];
+    $participantes = isset($_POST['participantes']) ? implode(",", $_POST['participantes']) : ''; // Convertir el arreglo en una cadena separada por comas
     $notif = $_POST['notificacion'];
     $horNotif = $_POST['HorNotif'];
 
@@ -63,7 +63,6 @@ if ($fechaNotificacion !== null) {
 } else {
     echo "No se estableció fecha de notificación.<br>";
 }
-
 
     // Insertar datos en la tabla eventos_admin
     $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, notificaciones, Hora_Noti)

@@ -64,11 +64,11 @@ form {
   display: flex;
   width: 100%;
   margin-bottom: 20px;
-  align-items: center;
-  /* border: solid; */
+  /* align-items: center; */
+  border: solid;
 }
 
-.boton-agregar-noti {
+.boton-agregar {
   background: none;
   font-weight: bold;
   padding: 8px;
@@ -133,7 +133,8 @@ textarea {
 .split-item {
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .checkbox-label {
@@ -152,7 +153,6 @@ textarea {
 .btn-guardar,
 .btn-cancelar {
   padding: 10px 20px;
-  border: none;
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
@@ -164,15 +164,64 @@ textarea {
 
 .btn-guardar {
   background-color: #0071b0;
+  border: none;
   color: white;
 }
 
 .btn-cancelar {
-  background-color: #f8f9fa;
-  color: #333;
+  background-color: white;
+  border: solid #0071b0 2px;
+  color: #0071b0;
+  font-weight: 600;
 }
 
 textarea {
   width: 100%;
   resize: vertical;
+}
+
+/* css para participantes seleccionados */
+
+#participantes-seleccionados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.participante-tarjeta {
+  display: flex;
+  align-items: center;
+  background-color: #e8f0fe;
+  border: 1px solid #c2d8ff;
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a73e8;
+  cursor: default;
+}
+
+.participante-tarjeta:hover {
+  background-color: #d2e3fc;
+  border-color: #b3cef9;
+}
+
+.participante-tarjeta .cerrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #c2d8ff;
+  color: #1a73e8;
+  font-size: 12px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.participante-tarjeta .cerrar:hover {
+  background-color: #b3cef9;
 }

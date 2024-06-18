@@ -3,16 +3,39 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <!-- Conexión a la base de datos -->
-<?php include './config/db.php' ?>
+<?php
+// Conexión a la base de datos
+include './config/db.php';
 
-<title>Control de Eventos</title>
+// Obtener usuarios de la base de datos
+$sql = "SELECT Codigo, Nombre, Apellido, Correo FROM Usuarios";
+$resultado = $conexion->query($sql);
+
+// Generar opciones del dropdown
+$opciones_usuarios = "";
+if ($resultado->num_rows > 0) {
+    while ($fila = $resultado->fetch_assoc()) {
+        $codigo = $fila["Codigo"];
+        $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
+        $correo = $fila["Correo"];
+        $opciones_usuarios .= "<option value='$codigo'>$nombre ($correo)</option>";
+    }
+} else {
+    $opciones_participantes = "<option value=''>No hay usuarios registrados</option>";
+}
+
+// Cerrar la conexión
+$conexion->close();
+?>
+
+<title>Crear Evento</title>
 <link rel="stylesheet" href="./CSS/admin-eventos.css" />
 
 <div class="cuadro-principal">
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Gestión de usuarios</h3>
+            <h3>Crear evento</h3>
         </div>
     </div>
     <div class="contenedor-formulario">
@@ -58,8 +81,9 @@
                     </label>
                 </div>
             </div>
+
             <div class="botones_agregar">
-                <button type="button" class="boton-agregar-noti">+ Agregar notificación</button>
+                <button type="button" class="boton-agregar">+ Agregar notificación</button>
             </div>
             
             <div class="form-group split-group">
@@ -67,11 +91,11 @@
                     <label for="participantes">
                         <i class="fas fa-users"></i> Participantes
                     </label>
-                    <select id="participantes" name="participantes">
-                        <option value="">Elige un participante</option>
-                        <!-- Opciones de participantes... -->
+                    <select id="participantes" name="participantes[]" multiple>
+                        <option value="">Selecciona los participantes</option>
+                        <?php echo $opciones_usuarios; ?>
                     </select>
-                    <button type="button" class="btn-agregar">+ Agregar participantes</button>
+                    <div id="participantes-seleccionados"></div>
                 </div>
                 <div class="split-item">
                     <label for="etiqueta">
@@ -79,12 +103,16 @@
                     </label>
                     <select id="etiqueta" name="etiqueta">
                         <option value="">Elige una etiqueta</option>
-                        <!-- Opciones de etiquetas... -->
+                        <option value="1">Programación Académica</option>
                     </select>
-                    <button type="button" class="btn-agregar">+ Agregar etiqueta</button>
                 </div>
             </div>
             
+            <!-- <div class="botones_agregar">    
+                <button type="button" class="boton-agregar">+ Agregar participantes</button>
+                <button type="button" class="boton-agregar">+ Agregar etiqueta</button>
+            </div> -->
+                            
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
@@ -92,28 +120,63 @@
                 <textarea id="descripcion" name="descripcion" rows="4"></textarea>
             </div>
             
-    </div>
-
             <div class="form-actions">
                 <button type="submit" class="btn-guardar">Guardar</button>
                 <button type="button" class="btn-cancelar">Cancelar</button>
             </div>
-        </form>
+        </form>        
     </div>
-
+    
     <script>
-        function cargarEventos() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    document.getElementById("tablaEventos").innerHTML = this.responseText;
-                }
-            };
-            xhttp.open("GET", "config/mostrar_eventos.php", true);
-            xhttp.send();
+        // function cargarEventos() {
+        //     var xhttp = new XMLHttpRequest();
+        //     xhttp.onreadystatechange = function() {
+        //         if (this.readyState == 4 && this.status == 200) {
+        //             document.getElementById("tablaEventos").innerHTML = this.responseText;
+        //         }
+        //     };
+        //     xhttp.open("GET", "config/mostrar_eventos.php", true);
+        //     xhttp.send();
+        // }
+
+        // cargarEventos();
+
+        // Obtener el elemento select y el contenedor de participantes seleccionados
+   
+        const selectParticipantes = document.getElementById('participantes');
+        const contenedorParticipantes = document.getElementById('participantes-seleccionados');
+
+        // Función para agregar un participante seleccionado
+        function agregarParticipante() {
+            const participanteSeleccionado = selectParticipantes.value;
+            const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
+
+            if (participanteSeleccionado) {
+                const tarjetaParticipante = document.createElement('div');
+                tarjetaParticipante.classList.add('participante-tarjeta');
+
+                const nombreParticipanteElement = document.createElement('span');
+                nombreParticipanteElement.textContent = nombreParticipante;
+                tarjetaParticipante.appendChild(nombreParticipanteElement);
+
+                const cerrarParticipante = document.createElement('span');
+                cerrarParticipante.classList.add('cerrar');
+                cerrarParticipante.textContent = '×';
+                cerrarParticipante.addEventListener('click', eliminarParticipante);
+                tarjetaParticipante.appendChild(cerrarParticipante);
+
+                contenedorParticipantes.appendChild(tarjetaParticipante);
+                selectParticipantes.selectedIndex = 0;
+            }
         }
 
-        cargarEventos();
+        function eliminarParticipante(evento) {
+            const tarjetaParticipante = evento.target.parentNode;
+            tarjetaParticipante.remove();
+        }
+
+        // Agregar evento al cambiar la selección del dropdown
+        selectParticipantes.addEventListener('change', agregarParticipante);
     </script>
 
 <?php include './template/footer.php' ?>
