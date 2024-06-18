@@ -190,6 +190,19 @@ if (mysqli_query($conn, $sql)){
     echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
 }
 
+$sql = "CREATE TABLE Fechas_Limite (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Clave VARCHAR(50) NOT NULL UNIQUE,
+    Valor VARCHAR(100) NOT NULL
+)";
+
+if (mysqli_query($conn, $sql)){
+    echo "<br>Tabla Fechas_limite creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conn);
+}
+
+
 // Crear tabla Plantilla_Dep
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
