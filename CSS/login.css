@@ -25,13 +25,22 @@ Global Styles
 }
 
 body {
-  background: linear-gradient(
-    30deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 15%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajusta la altura al 100% de la ventana */
+  margin: 0; /* Elimina el margen por defecto */
+  background: linear-gradient(30deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 15%, rgba(0, 212, 255, 1) 100%);
   font-family: Calibri, sans-serif;
+}
+
+.login-container {
+  background-color: rgb(243, 243, 243);
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  box-shadow: 0.4375rem 0.4375rem rgba(0, 0, 0, 0.151);
+  max-width: 24rem; /* Agrega un ancho máximo */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
 }
 
 html {

@@ -7,6 +7,12 @@
 // Conexión a la base de datos
 include './config/db.php';
 
+// Obtener la última fecha límite de la base de datos
+$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
+$row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01 23:50";
+
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
                               FROM Plantilla_Dep
@@ -66,8 +72,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       </tr>
       <tr>
         <?php
-        // Fecha límite para marcar como "Atrasado"
-        $fecha_limite = "2022-06-01 23:59:59"; // Año-Mes-Día Hora:Minuto:Segundo
+
         // Consulta para obtener los departamentos y la fecha de subida más reciente
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                         FROM Departamentos d
@@ -81,6 +86,9 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           $fecha_subida = $row['Fecha_Subida_Dep'];
           echo "<tr>";
           echo "<td>$nombre_departamento</td>";
+
+          // Comparar la fecha límite con la fecha y hora actuales
+          $fecha_actual = date("Y-m-d H:i:s");
           if ($fecha_subida !== null) {
             echo "<td class='entregada'>Entregada</td>";
             echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
@@ -99,26 +107,87 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
         }
         ?>
     </table>
-    </div>
+  </div>
 
-    <div class="form-actions">
-      <button type="button" class="btn" onclick="openModal()">Cambiar Fecha Límite</button>
-      <button type="submit" class="btn">Generar Reporte</button>
-    </div>
+  <div class="form-actions">
+    <button type="button" class="btn" onclick="openModal()">Cambiar Fecha Límite</button>
+    <button type="submit" class="btn">Generar Reporte</button>
+  </div>
 
-    <div class="fechalimite">
-      <span>La fecha límite actual es <?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span>
-    </div>
+  <div class="fechalimite">
+    <span>La fecha límite actual es <?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span>
+  </div>
 
-    <!-- Modal -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Cambiar Fecha Límite</h2>
-        <label for="fecha-limite">Nueva Fecha Límite:</label>
-        <input type="datetime-local" id="fecha-limite" name="fecha-limite">
-        <button id="guardar-fecha" onclick="guardarFechaLimite()">Guardar</button>      </div>
+  <!-- Modal para cambiar fecha límite -->
+  <div id="modalFechaLimite" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h2>Cambiar Fecha Límite</h2>
+      <form id="fechaLimiteForm" action="./config/updateFechaLimite.php" method="post">
+        <label for="fecha_limite">Nueva Fecha Límite:</label>
+        <input type="datetime-local" id="fecha_limite" name="fecha_limite" required>
+        <button type="submit" class="btn">Guardar</button>
+      </form>
     </div>
   </div>
-  <script src="./JS/actualizar_fecha_limite.js"></script>
+
+  <script>
+    // Función para abrir el modal
+    function openModal() {
+      document.getElementById('modalFechaLimite').style.display = 'block';
+    }
+
+    // Función para cerrar el modal
+    function closeModal() {
+      document.getElementById('modalFechaLimite').style.display = 'none';
+    }
+
+    // Cerrar el modal si se hace clic fuera del contenido del modal
+    window.onclick = function(event) {
+      var modal = document.getElementById('modalFechaLimite');
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      }
+    }
+  </script>
+
+  <style>
+    /* Estilos para el modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  </style>
+
   <?php include './template/footer.php' ?>
