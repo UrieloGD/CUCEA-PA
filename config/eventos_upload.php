@@ -22,19 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $horIn = $_POST['HorIn'];
     $horFi = $_POST['HorFi'];
     $etiqueta = $_POST['etiqueta'];
-<<<<<<< HEAD
-    $participantes = $_POST['participantes'];
-=======
-    $participantes = isset($_POST['participantes']) ? implode(",", $_POST['participantes']) : ''; // Convertir el arreglo en una cadena separada por comas
->>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
+    $participantes = isset($_POST['participantes']) ? implode(",", $_POST['participantes']) : '';
     $notif = $_POST['notificacion'];
     $horNotif = $_POST['HorNotif'];
 
-    // Calculo de la notificación
-    // Convertir la fecha de inicio a un objeto DateTime
-    $fechaInicio = new DateTime($fechIn);
 
-    // Calcular la fecha de notificación basada en la opción seleccionada
+    
+    // Calculo de la notificación
+    $fechaInicio = new DateTime($fechIn . ' ' . $horIn);
     switch ($notif) {
         case '1 hora antes':
             $fechaNotificacion = clone $fechaInicio;
@@ -60,20 +55,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
     }
 
-// Mostrar la fecha de notificación calculada
-if ($fechaNotificacion !== null) {
-    $fechaNotificacionFormato = $fechaNotificacion->format('d/m/Y H:i:s'); // Formato deseado
-    echo "La notificación está programada para el día: " . $fechaNotificacionFormato . "<br>";
-} else {
-    echo "No se estableció fecha de notificación.<br>";
-}
+    // Mostrar la fecha de notificación calculada
+    if ($fechaNotificacion !== null) {
+        $fechaNotificacionFormato = $fechaNotificacion->format('Y-m-d H:i:s');
+        echo "La notificación está programada para el día: " . $fechaNotificacionFormato . "<br>";
+    } else {
+        echo "No se estableció fecha de notificación.<br>";
+    }
 
-<<<<<<< HEAD
+    echo "Datos recibidos:<br>";
+    print_r($_POST);  // Ver todos los datos recibidos
+    
+    if (isset($_POST['participantes'])) {
+        echo "Contenido de 'participantes[]': ";
+        print_r($_POST['participantes']);
+    } else {
+        echo "No se recibió el campo 'participantes[]'";
+    }
 
-=======
->>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
+    
     // Insertar datos en la tabla eventos_admin
-    $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, notificaciones, Hora_Noti)
+    $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
     VALUES ('$nombre', '$descripcion', '$fechIn', '$fechFi', '$horIn', '$horFi', '$etiqueta', '$participantes', '$notif', '$horNotif')";
 
     if ($conn->query($sql) === TRUE) {
@@ -81,15 +83,8 @@ if ($fechaNotificacion !== null) {
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+
     // Cerrar la conexión
     $conn->close();
-<<<<<<< HEAD
-
-    // Después de insertar, incluir el archivo para mostrar eventos
-    include 'mostrar_eventos.php';
 }
 ?>
-=======
-}
-?>
->>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7

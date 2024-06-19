@@ -15,13 +15,12 @@ $resultado = $conexion->query($sql);
 $opciones_usuarios = "";
 if ($resultado->num_rows > 0) {
     while ($fila = $resultado->fetch_assoc()) {
-        $codigo = $fila["Codigo"];
         $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
         $correo = $fila["Correo"];
-        $opciones_usuarios .= "<option value='$codigo'>$nombre ($correo)</option>";
+        $opciones_usuarios .= "<option value='$nombre'>$nombre ($correo)</option>";
     }
 } else {
-    $opciones_participantes = "<option value=''>No hay usuarios registrados</option>";
+    $opciones_usuarios = "<option value=''>No hay usuarios registrados</option>";
 }
 
 // Cerrar la conexión
@@ -108,11 +107,6 @@ $conexion->close();
                 </div>
             </div>
             
-            <!-- <div class="botones_agregar">    
-                <button type="button" class="boton-agregar">+ Agregar participantes</button>
-                <button type="button" class="boton-agregar">+ Agregar etiqueta</button>
-            </div> -->
-                            
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
@@ -128,7 +122,7 @@ $conexion->close();
     </div>
     
     <script>
-        // function cargarEventos() {
+    // function cargarEventos() {
         //     var xhttp = new XMLHttpRequest();
         //     xhttp.onreadystatechange = function() {
         //         if (this.readyState == 4 && this.status == 200) {
@@ -141,8 +135,8 @@ $conexion->close();
 
         // cargarEventos();
 
+
         // Obtener el elemento select y el contenedor de participantes seleccionados
-   
         const selectParticipantes = document.getElementById('participantes');
         const contenedorParticipantes = document.getElementById('participantes-seleccionados');
 
@@ -157,26 +151,25 @@ $conexion->close();
 
                 const nombreParticipanteElement = document.createElement('span');
                 nombreParticipanteElement.textContent = nombreParticipante;
+
+                const botonEliminar = document.createElement('button');
+                botonEliminar.textContent = 'X';
+                botonEliminar.classList.add('btn-eliminar');
+                botonEliminar.addEventListener('click', () => {
+                    tarjetaParticipante.remove();
+                });
+
                 tarjetaParticipante.appendChild(nombreParticipanteElement);
-
-                const cerrarParticipante = document.createElement('span');
-                cerrarParticipante.classList.add('cerrar');
-                cerrarParticipante.textContent = '×';
-                cerrarParticipante.addEventListener('click', eliminarParticipante);
-                tarjetaParticipante.appendChild(cerrarParticipante);
-
+                tarjetaParticipante.appendChild(botonEliminar);
                 contenedorParticipantes.appendChild(tarjetaParticipante);
-                selectParticipantes.selectedIndex = 0;
             }
         }
 
-        function eliminarParticipante(evento) {
-            const tarjetaParticipante = evento.target.parentNode;
-            tarjetaParticipante.remove();
-        }
-
-        // Agregar evento al cambiar la selección del dropdown
+        // Escuchar el cambio en el elemento select
         selectParticipantes.addEventListener('change', agregarParticipante);
-    </script>
 
+    </script>
+</div>
+
+<!--Footer-->
 <?php include './template/footer.php' ?>

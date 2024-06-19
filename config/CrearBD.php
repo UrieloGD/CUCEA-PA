@@ -194,15 +194,9 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     Hora_Inicio TIME NOT NULL,
     Hora_Fin TIME NOT NULL,
     Etiqueta VARCHAR(100),
-    Participantes VARCHAR(255) NOT NULL,
-<<<<<<< HEAD
-    notificaciones TEXT,
-    Hora_Noti TIME NOT NULL
-
-=======
+    Participantes VARCHAR(1000) NOT NULL,
     Notificaciones TEXT,
     Hora_Noti TIME NOT NULL
->>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
 )";
 
 if (mysqli_query($conn, $sql)){
@@ -211,8 +205,6 @@ if (mysqli_query($conn, $sql)){
     echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
 }
 
-<<<<<<< HEAD
-=======
 $sql = "CREATE TABLE Fechas_Limite (
     id INT AUTO_INCREMENT PRIMARY KEY,
     Clave VARCHAR(50) NOT NULL UNIQUE,
@@ -225,7 +217,6 @@ if (mysqli_query($conn, $sql)){
     echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conn);
 }
 
->>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
 
 // Crear tabla Plantilla_Dep
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
