@@ -1,0 +1,97 @@
+/* Estilos para la barra de navegación */
+.sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    /*padding-top: 10px;*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333333;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #ffffff;
+    background-color: #007bff;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #333333;
+}
+
+/* Estilos para el botón de apertura */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #0056b3;
+}
+
+.contenedor-fecha-hora {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+.hora {
+    border: 2px solid red;
+}
+
+.fecha {
+    border: 2px solid red;
+}
+
+.contenedor-notificacion {
+    display: flex;
+    align-content: center;
+    height: 8vh;
+    border: 2px solid black;
+    padding: 5px;
+}
+
+.imagen {
+    border: 2px solid red;
+}
+
+.info-notificacion {
+    border: 2px solid blue;
+    flex-grow: 1;
+    align-content: space-between;
+}
+
+
+.usuario {
+
+}
+
+.descripcion {
+
+}
+
+.fecha-hora {
+
+}

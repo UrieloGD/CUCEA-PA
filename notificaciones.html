@@ -1,105 +1,40 @@
-<!--
-<!DOCTYPE html>
-<html>
-<title>W3.CSS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<body>
-
-<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right: 0;" id="rightMenu">
-  <button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large">Close &times;</button>
-  <a href="#" class="w3-bar-item w3-button">Link 1 right</a>
-  <a href="#" class="w3-bar-item w3-button">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button">Link 3</a>
-</div>
-
-<div class="w3-teal">
-  <button class="w3-button w3-teal w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button>
-  <div class="w3-container">
-    <h1>My Page</h1>
-  </div>
-</div>
-
-<div class="w3-container">
-<p>In this example, we demonstrate how to use two side navigations.</p>
-<p>We have created two "menu" buttons: one to open the side navigation from the left and one to open it from the right.</p>
-</div>
-     
-<script>
-function openRightMenu() {
-  document.getElementById("rightMenu").style.display = "block";
-}
-
-function closeRightMenu() {
-  document.getElementById("rightMenu").style.display = "none";
-}
-</script>
-     
-</body>
-</html>
--->
-
 <!DOCTYPE html>
 <html>
 <title>Barra de Navegación Lateral Derecha</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-    /* Estilos para la barra de navegación */
-    .sidebar {
-        height: 100%;
-        width: 0;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        right: 0;
-        background-color: #ffffff;
-        overflow-x: hidden;
-        transition: 0.5s;
-        padding-top: 60px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
 
-    .sidebar a {
-        padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: 16px;
-        color: #333333;
-        display: block;
-        transition: 0.3s;
-    }
+<link rel="stylesheet" href="./CSS/notificaciones.css" />
 
-    .sidebar a:hover {
-        color: #ffffff;
-        background-color: #007bff;
-    }
-
-    .sidebar .closebtn {
-        position: absolute;
-        top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
-        color: #333333;
-    }
-
-    /* Estilos para el botón de apertura */
-    .openbtn {
-        font-size: 20px;
-        cursor: pointer;
-        background-color: #007bff;
-        color: white;
-        padding: 10px 15px;
-        border: none;
-    }
-
-    .openbtn:hover {
-        background-color: #0056b3;
-    }
-</style>
 <body>
 
     <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <div class="contenedor-fecha-hora">
+            <div class="hora">
+                13:20:59
+            </div>
+            <div class="fecha">
+                17 de junio de 2024
+            </div>
+        </div>
+        <div class="contenedor-notificacion">
+            <div class="imagen">
+                img
+            </div>
+            <div class="info-notificacion">
+                <div class="usuario">
+                    Coordionación de Personal
+                </div>
+                <div class="descripcion">
+                    Ha realizado una solicitud de cambios
+                </div>
+                <div class="fecha-hora">
+                    3 de junio, 14:20 horas
+                </div>
+            </div>
+
+        </div>
+        <!-- Botón de cerrar, por si se llega a necesitar -->
+        <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
         <a href="#">Coordinadores de Mercadotecnia</a>
         <a href="#">Escudelas vigionales</a>
         <a href="#">Vg. Mercados con solicitud de apertura de sección</a>
