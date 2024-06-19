@@ -67,8 +67,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       <tr>
         <?php
         // Fecha límite para marcar como "Atrasado"
-        $fecha_limite = "2022-06-01";
-
+        $fecha_limite = "2022-06-01 23:59:59"; // Año-Mes-Día Hora:Minuto:Segundo
         // Consulta para obtener los departamentos y la fecha de subida más reciente
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                         FROM Departamentos d
@@ -100,6 +99,26 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
         }
         ?>
     </table>
-  </div>
+    </div>
 
+    <div class="form-actions">
+      <button type="button" class="btn" onclick="openModal()">Cambiar Fecha Límite</button>
+      <button type="submit" class="btn">Generar Reporte</button>
+    </div>
+
+    <div class="fechalimite">
+      <span>La fecha límite actual es <?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Cambiar Fecha Límite</h2>
+        <label for="fecha-limite">Nueva Fecha Límite:</label>
+        <input type="datetime-local" id="fecha-limite" name="fecha-limite">
+        <button id="guardar-fecha" onclick="guardarFechaLimite()">Guardar</button>      </div>
+    </div>
+  </div>
+  <script src="./JS/actualizar_fecha_limite.js"></script>
   <?php include './template/footer.php' ?>

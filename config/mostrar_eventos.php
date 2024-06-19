@@ -42,7 +42,11 @@ if ($result->num_rows > 0) {
                 <td>{$row['Hora_Fin']}</td>
                 <td>{$row['Etiqueta']}</td>
                 <td>{$row['Participantes']}</td>
+<<<<<<< HEAD
                 <td>{$row['notificaciones']}</td>
+=======
+                <td>{$row['Notificaciones']}</td>
+>>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
                 <td>{$row['Hora_Noti']}</td>
               </tr>";
     }
@@ -52,4 +56,8 @@ if ($result->num_rows > 0) {
 
 // Cerrar la conexión
 $conn->close();
+<<<<<<< HEAD
 ?>
+=======
+?>
+>>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7

@@ -164,6 +164,75 @@ td {
   font-size: 14px; /* Tamaño de fuente */
 }
 
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn{
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #0071b0;
+  border: none;
+  color: white;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.fechalimite {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Estilo para centrar el encabezado */
+.centrado {
+  text-align: center;
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @keyframes progress-bar-animation {
   0% {
     background-position: 0 0;
@@ -173,11 +242,6 @@ td {
   }
 }
 
-/* Estilo para centrar el encabezado */
-.centrado {
-  text-align: center;
-}
-
 @keyframes progress-bar-animation {
   0% {
     background-position: 0 0;
@@ -185,11 +249,6 @@ td {
   100% {
     background-position: 200% 0;
   }
-}
-
-/* Estilo para centrar el encabezado */
-.centrado {
-  text-align: center;
 }
 
 /* Media Queries para diferentes resoluciones */

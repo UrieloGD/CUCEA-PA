@@ -22,7 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $horIn = $_POST['HorIn'];
     $horFi = $_POST['HorFi'];
     $etiqueta = $_POST['etiqueta'];
+<<<<<<< HEAD
     $participantes = $_POST['participantes'];
+=======
+    $participantes = isset($_POST['participantes']) ? implode(",", $_POST['participantes']) : ''; // Convertir el arreglo en una cadena separada por comas
+>>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
     $notif = $_POST['notificacion'];
     $horNotif = $_POST['HorNotif'];
 
@@ -64,7 +68,10 @@ if ($fechaNotificacion !== null) {
     echo "No se estableció fecha de notificación.<br>";
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7
     // Insertar datos en la tabla eventos_admin
     $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, notificaciones, Hora_Noti)
     VALUES ('$nombre', '$descripcion', '$fechIn', '$fechFi', '$horIn', '$horFi', '$etiqueta', '$participantes', '$notif', '$horNotif')";
@@ -76,8 +83,13 @@ if ($fechaNotificacion !== null) {
     }
     // Cerrar la conexión
     $conn->close();
+<<<<<<< HEAD
 
     // Después de insertar, incluir el archivo para mostrar eventos
     include 'mostrar_eventos.php';
 }
 ?>
+=======
+}
+?>
+>>>>>>> 122eee405c2e90e98bc38fcbf313be47b80f95b7

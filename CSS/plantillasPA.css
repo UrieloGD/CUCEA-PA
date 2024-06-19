@@ -5,6 +5,7 @@
   border-radius: 20px;
   width: 92vw;
   height: 90vh;
+  height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
@@ -61,9 +62,12 @@ th {
   background-color: #e7e9f2; /* Color de fondo para los encabezados */
   text-align: left; /* Alinea el texto de los encabezados a la izquierda */
   padding: 10px; /* Agrega un padding a los encabezados */
+  padding: 10px; /* Agrega un padding a los encabezados */
 }
 
 td {
+  flex: auto;
+  padding: 10px;
   flex: auto;
   padding: 10px;
   text-align: left;
@@ -86,11 +90,39 @@ td .btn-container .btn {
   align-items: center; /* Alinea imagenes al centro */
   justify-content: center;
   cursor: pointer;
+  justify-content: center;
+  cursor: pointer;
 }
 
 #input-file {
   display: none; /* Oculta display de la función de subir archivo  */
 }
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.btn-container input[type="file"] {
+  display: none;
+}
+
+.btn-container .hidden-button {
+  display: none;
+}
+
+.btn-container .btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* .btn-container .btn img {
+  max-width: 30px;
+} */
 
 .btn-container {
   display: flex;
