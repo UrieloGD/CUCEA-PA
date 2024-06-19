@@ -33,6 +33,14 @@ function obtenerDepartamentoId($usuario_id)
     return $departamento_id;
 }
 
+include './config/db.php';
+
+// Obtener la última fecha límite de la base de datos
+$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
+$row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01 23:50";
+
 $departamento_id = null;
 if (isset($_SESSION['usuario_id'])) {
     $usuario_id = $_SESSION['usuario_id'];
@@ -79,7 +87,7 @@ if (isset($_SESSION['usuario_id'])) {
         <div class="tab-pane">
             <div class="info-subida">
                 <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
-                    <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b>10 de noviembre de 2024</b>
+                    <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b><?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span></b>
                 </p>
             </div>
             <!-- Formulario para subir el archivo -->

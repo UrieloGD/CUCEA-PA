@@ -148,10 +148,15 @@ table {
 /* Contenido del modal */
 .modal-contenido {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% desde la parte superior y centrado horizontalmente */
+  border-radius: 10px;
+  margin: 5% auto; /*15% desde la parte superior y centrado horizontalmente*/
   padding: 20px;
   border: 1px solid #888;
-  width: 30%; /* Ancho del modal */
+  width: 30%; /*Ancho del modal*/
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 /* Botón para cerrar el modal */
@@ -167,6 +172,100 @@ table {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* Estilos para el formulario */
+#nuevoUsuarioForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#nuevoUsuarioForm label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#nuevoUsuarioForm input,
+#nuevoUsuarioForm select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+#nuevoUsuarioForm button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+#nuevoUsuarioForm button:hover {
+  background-color: #005d91;
+}
+
+/* Estilos para el nombre y apellido */
+.nombre-apellido {
+  display: flex;
+  gap: 20px;
+}
+
+.campo {
+  flex: 1;
+}
+
+.campo label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.campo input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+/* Estilos para Rol y Departamento */
+.rol-departamento {
+  display: flex;
+  gap: 20px;
+}
+
+.campo {
+  flex: 1;
+}
+
+.campo label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.campo select {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 /* Media queries para hacer el diseño responsivo */

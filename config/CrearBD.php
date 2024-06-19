@@ -188,6 +188,20 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Plantilla_Dep: " . mysqli_error($conn);
 }
 
+$sql = "CREATE TABLE Fechas_Limite (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha_Limite DATETIME,
+    Fecha_Actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Usuario_ID BIGINT(10),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Fechas_limite creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conn);
+}
+
 // Crear tabla Data_Plantilla
 $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,

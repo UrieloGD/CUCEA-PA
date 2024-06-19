@@ -122,20 +122,30 @@
         <label for="codigo">Código:</label>
         <input type="text" id="codigo" name="codigo" required>
 
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
+        <div class="nombre-apellido">
+          <div class="campo">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+          </div>
+          <div class="campo">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+          </div>
+        </div>
 
         <label for="correo">Correo:</label>
         <input type="email" id="correo" name="correo" required>
 
-        <label for="rol">Rol:</label>
-        <select id="rol" name="rol"></select>
-
-        <label for="departamento">Departamento:</label>
-        <select id="departamento" name="departamento"></select>
+        <div class="rol-departamento">
+          <div class="campo">
+            <label for="rol">Rol:</label>
+            <select id="rol" name="rol"></select>
+          </div>
+          <div class="campo">
+            <label for="departamento">Departamento:</label>
+            <select id="departamento" name="departamento"></select>
+          </div>
+        </div>
 
         <label for="genero">Género:</label>
         <select id="genero" name="genero">
@@ -152,10 +162,10 @@
 
   </div>
 
-<script src="./JS/admin-usuarios.js"></script>
-<script>
-  const roles = <?php echo json_encode($roles); ?>;
-  const departamentos = <?php echo json_encode($departamentos); ?>;
-</script>
+  <script src="./JS/admin-usuarios.js"></script>
+  <script>
+    const roles = <?php echo json_encode($roles); ?>;
+    const departamentos = <?php echo json_encode($departamentos); ?>;
+  </script>
 
   <?php include './template/footer.php' ?>
