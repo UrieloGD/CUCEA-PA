@@ -1,17 +1,16 @@
 <?php
+// Conexión a la base de datos
 include './config/db.php';
-include './../JS/actualizar_fecha_limite.js'; // Incluye el archivo donde está la función actualizarFechaLimite
 
-// Obtener la nueva fecha límite del formulario
+// Obtener la nueva fecha límite del parámetro enviado
 $nuevaFechaLimite = $_POST['nueva_fecha_limite'];
+$usuarioId = $_SESSION['Codigo'];
 
-// Actualizar la fecha límite en la base de datos
-$query = "UPDATE fechas_limite SET valor = '$nuevaFechaLimite' WHERE clave = 'fecha_limite'";
-$resultado = mysqli_query($conexion, $query);
-
-if ($resultado) {
-    echo "true";
+// Insertar la nueva fecha límite en la tabla Fechas_Limite
+$sql_insertar_fecha_limite = "INSERT INTO Fechas_Limite (Fecha_Limite, Usuario_ID) VALUES ('$nuevaFechaLimite', '$usuarioId')";
+if (mysqli_query($conexion, $sql_insertar_fecha_limite)) {
+    echo "Fecha límite actualizada correctamente";
 } else {
-    echo "false";
+    echo "Error al actualizar la fecha límite: " . mysqli_error($conexion);
 }
 ?>

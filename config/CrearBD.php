@@ -191,9 +191,11 @@ if (mysqli_query($conn, $sql)){
 }
 
 $sql = "CREATE TABLE Fechas_Limite (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    Clave VARCHAR(50) NOT NULL UNIQUE,
-    Valor VARCHAR(100) NOT NULL
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha_Limite DATETIME,
+    Fecha_Actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Usuario_ID BIGINT(10),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
 )";
 
 if (mysqli_query($conn, $sql)){
@@ -201,7 +203,6 @@ if (mysqli_query($conn, $sql)){
 } else {
     echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conn);
 }
-
 
 // Crear tabla Plantilla_Dep
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (

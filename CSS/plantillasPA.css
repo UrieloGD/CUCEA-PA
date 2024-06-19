@@ -97,7 +97,6 @@ td .btn-container .btn {
 #input-file {
   display: none; /* Oculta display de la función de subir archivo  */
 }
-}
 
 .btn-container {
   display: flex;
