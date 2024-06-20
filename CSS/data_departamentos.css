@@ -284,6 +284,21 @@ td {
   -o-border-radius: 10px;
 }
 
+.btn-guardar{
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #0071b0;
+  border: none;
+  color: white;
+  margin-left: 50px;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
 .fechalimite {
   display: flex;
   text-align: center;
