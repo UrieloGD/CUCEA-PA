@@ -1,9 +1,11 @@
 <?php
 include './db.php';
 
+session_start(); // Iniciar la sesión al comienzo del archivo
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nueva_fecha_limite = $_POST['fecha_limite'];
-    $usuario_id = 1; // Asume que el ID del administrador es 1. Ajusta según sea necesario.
+    $usuario_id = $_SESSION['Codigo']; // Asume que el ID del administrador es 1. Ajusta según sea necesario.
 
     // Inserta la nueva fecha límite en la tabla Fechas_Limite
     $sql = "INSERT INTO Fechas_Limite (Fecha_Limite, Fecha_Actualizacion, Usuario_ID) VALUES (?, NOW(), ?)";

@@ -7,7 +7,7 @@
   margin-right: 6vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;

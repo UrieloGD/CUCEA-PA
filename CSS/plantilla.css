@@ -10,6 +10,7 @@
   margin-top: 1vh;
   margin-bottom: 2vh;
   align-self: flex-end;
+  overflow: auto;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;

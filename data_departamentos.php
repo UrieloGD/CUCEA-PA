@@ -86,6 +86,9 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           $fecha_subida = $row['Fecha_Subida_Dep'];
           echo "<tr>";
           echo "<td>$nombre_departamento</td>";
+
+          // Comparar la fecha límite con la fecha y hora actuales
+          $fecha_actual = date("Y-m-d H:i:s");
           if ($fecha_subida !== null) {
             echo "<td class='entregada'>Entregada</td>";
             echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
