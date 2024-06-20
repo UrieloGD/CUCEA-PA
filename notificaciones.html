@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html>
 <title>Barra de Navegación Lateral Derecha</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./CSS/navbar.css" />
+    <link rel="stylesheet" href="./CSS/header.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-">
+    </link>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
 
 <link rel="stylesheet" href="./CSS/notificaciones.css" />
 
@@ -9,41 +21,57 @@
 
     <div id="mySidebar" class="sidebar">
         <div class="contenedor-fecha-hora">
-            <div class="hora">
-                13:20:59
+            <div class="fecha-hora-info">
+                <div class="hora">13:20:59</div>
+                <div class="fecha">17 de junio de 2024</div>
             </div>
-            <div class="fecha">
-                17 de junio de 2024
+            <button class="marcar-leido">Marcar como leído</button>
+        </div>
+        <div class="contenedor-notificacion">
+            <div class="imagen">
+                <div class="circulo"></div>
+            </div>
+            <div class="info-notificacion">
+                <div class="usuario">Coordinación de Personal</div>
+                <div class="descripcion">Ha realizado una solicitud de cambios</div>
+                <div class="fecha-hora">3 de junio, 14:20 horas</div>
             </div>
         </div>
         <div class="contenedor-notificacion">
             <div class="imagen">
-                img
+                <div class="circulo"></div>
             </div>
             <div class="info-notificacion">
-                <div class="usuario">
-                    Coordionación de Personal
-                </div>
-                <div class="descripcion">
-                    Ha realizado una solicitud de cambios
-                </div>
-                <div class="fecha-hora">
-                    3 de junio, 14:20 horas
-                </div>
+                <div class="usuario">Estudios regionales</div>
+                <div class="descripcion">La base de datos no ha sido actualizada</div>
+                <div class="fecha-hora">3 de junio, 11:30 horas</div>
             </div>
-
         </div>
+        <div class="contenedor-notificacion">
+            <div class="imagen">
+                <div class="circulo"></div>
+            </div>
+            <div class="info-notificacion">
+                <div class="usuario">Políticas públicas</div>
+                <div class="descripcion">La base de datos ha sido actualizada correctamente</div>
+                <div class="fecha-hora">3 de junio, 11:30 horas</div>
+            </div>
+        </div>
+        <div class="contenedor-notificacion">
+            <div class="imagen">
+                <div class="circulo"></div>
+            </div>
+            <div class="info-notificacion">
+                <div class="usuario">Control Escolar</div>
+                <div class="descripcion">Ha enviado una solicitud de apertura de sección</div>
+                <div class="fecha-hora">2 de junio, 11:30 horas</div>
+            </div>
+        </div>
+    
+
         <!-- Botón de cerrar, por si se llega a necesitar -->
         <!-- <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>-->
-        <a href="#">Coordinadores de Mercadotecnia</a>
-        <a href="#">Escudelas vigionales</a>
-        <a href="#">Vg. Mercados con solicitud de apertura de sección</a>
-        <a href="#">Ventas diferenciales</a>
-        <a href="#">Políticas públicas</a>
-        <a href="#">Economía</a>
-        <a href="#">Arturo Gonzalez</a>
-        <a href="#">Métricos consultados</a>
-        <a href="#">Esmeralda Martínez</a>
+        <!-- <a href="#">Coordinadores de Mercadotecnia</a> -->
     </div>
 
     <div style="text-align: right; padding: 10px;">
@@ -57,7 +85,8 @@
 
     <script>
         function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("mySidebar").style.width = "400px";
+            /* Para ajustar el tamaño de la barra mientras esté abierta */
         }
 
         function closeNav() {

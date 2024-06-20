@@ -1,15 +1,13 @@
-/* Estilos para la barra de navegación */
 .sidebar {
     height: 100%;
-    width: 0;
+    width: 0; /* Ancho fijo para la barra lateral */
     position: fixed;
     z-index: 1;
     top: 0;
     right: 0;
     background-color: #ffffff;
     overflow-x: hidden;
-    transition: 0.5s;
-    /*padding-top: 10px;*/
+    transition: 0.4s;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -52,46 +50,80 @@
 
 .contenedor-fecha-hora {
     display: flex;
+    justify-content: space-between; /* Nuevo */
+    align-items: center; /* Nuevo */
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.fecha-hora-info {
+    display: flex;
     flex-direction: column;
-    border: 2px solid black;
-    padding: 5px;
 }
 
 .hora {
-    border: 2px solid red;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px 0px;
 }
 
 .fecha {
-    border: 2px solid red;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px 0px;
+}
+
+.marcar-leido {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .contenedor-notificacion {
     display: flex;
-    align-content: center;
-    height: 8vh;
-    border: 2px solid black;
-    padding: 5px;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .imagen {
-    border: 2px solid red;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Para que el contenedor no se achique */
+}
+
+.circulo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #007bff;
+    /* Aquí es donde se agregarán las imágenes de fondo o íconos */
 }
 
 .info-notificacion {
-    border: 2px solid blue;
     flex-grow: 1;
-    align-content: space-between;
 }
 
-
 .usuario {
-
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .descripcion {
-
+    font-size: 14px;
+    margin-bottom: 5px;
 }
 
 .fecha-hora {
-
+    font-size: 12px;
+    color: #666;
 }
+
+/**/

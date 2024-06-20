@@ -1,0 +1,549 @@
+/* CSS header y background del body y generales*/
+* {
+  font-family: "Dm Sans", sans-serif;
+  /* evita que se arrastren las imagenes de toda la pagina */
+  /* user-select: none; */
+}
+
+body {
+  margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
+  background-color: #e7e9f2;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  z-index: 2; /*Asegura que esté sobre otros elementos*/
+  /* border: solid black 1px; */
+  background-color: white;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  border-radius: 0px 0px 10px 10px;
+  -webkit-border-radius: 0px 0px 10px 10px;
+  -moz-border-radius: 0px 0px 10px 10px;
+  -ms-border-radius: 0px 0px 10px 10px;
+  -o-border-radius: 0px 0px 10px 10px;
+}
+
+.titulo {
+  width: 40vw;
+  margin-left: 2vw;
+  /* background-color: aqua; */
+  /* border: solid 1px; */
+}
+
+.rol {
+  margin-right: 2vw;
+  width: 45vw;
+  text-align: right;
+  /* background-color: aliceblue; */
+  /* border: solid 1px;*/
+}
+
+.icono-notificaciones {
+  display: flex;
+  /* border: solid 1px; */
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-menu {
+  position: absolute; /*Position the menu relative to its parent*/
+  top: 60px; /*Adjust the top position as needed*/
+  right: 20px; /*Adjust the right position as needed*/
+  width: 300px; /*Adjust the width as needed*/
+  background-color: white; /*Set the background color*/
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); /*Add a shadow*/
+  display: none;
+  z-index: 100;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.notification-menu h3 {
+  padding: 10px 15px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.notification-menu ul li {
+  padding: 15px 20px; /*Adjust padding as needed*/
+  width: 230px;
+  border: 1px solid #ddd; /*Add a border*/
+  border-radius: 80px; /*Add rounded corners*/
+  margin-bottom: 10px; /* Add spacing between notifications */
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.notification-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Enable flexbox layout */
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: flex-start; /* Align items at the top */
+}
+
+.notification-menu li {
+  padding: 30px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.notification-menu li:hover {
+  background-color: #f2f2f2;
+}
+
+.notification-menu .date {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.notification-menu .icons {
+  display: flex; /* Use flexbox for icons */
+  justify-content: space-between; /* Space icons evenly */
+  align-items: center; /* Center icons vertically */
+  padding: 10px;
+}
+
+.notification-menu .icons i {
+  font-size: 24px; /* Adjust icon size as needed */
+  color: #333; /* Set icon color */
+  margin-left: 60px; /* Reduce left margin */
+  margin-right: 60px; /* Reduce right margin */
+  font-size: 24px;
+  color: #333;
+  cursor: pointer; /* Add cursor for clickable icons */
+}
+
+.notification-menu .icons i:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.notification-menu ul li.urgente {
+  border: 2px solid rgb(255, 117, 117);
+}
+
+/* Estilos para notificaciones normales */
+.notification-menu ul li.normal {
+  border: 2px solid rgb(117, 255, 117);
+}
+
+/* Estilos para notificaciones de advertencia */
+.notification-menu ul li.advertencia {
+  border: 2px solid rgb(255, 255, 117);
+}
+
+/* Alinear contenidos del navbar */
+.header-content {
+  display: flex;
+  align-items: center;
+  padding: 0 2vw; /* Ajusta el espaciado horizontal según sea necesario */
+}
+
+.titulo {
+  margin-left: 10px; /* Ajusta el margen izquierdo según sea necesario */
+  display: flex;
+  align-items: center;
+}
+
+/* Estilos para el menú hamburguesa */
+
+/*Estilo del boton del menu*/
+.menu-toggle {
+  display: none;
+  border: none;
+  outline: none;
+  padding: 14px 16px;
+  background-color: inherit;
+  font: inherit;
+  margin: 0;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 43px;
+  left: 10px; /*Ajusta la posición superior según sea necesario*/
+  width: 96%; /*Ajusta el ancho del navbar vertical según sea necesario*/
+  max-height: 88vh;
+  background-color: #0071b0;
+  z-index: 1; /*Asegura que esté sobre otros elementos*/
+  /* margin-left: 6vw; */
+  border-radius: 0px 0px 20px 20px; /*no sirve je*/
+}
+
+.mobile-menu a {
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.mobile-menu .white-icon {
+  width: 35px; /* Ajusta el ancho según el tamaño de tus íconos */
+  height: auto; /* Ajusta la altura según el tamaño de tus íconos */
+  margin-right: 50px;
+}
+
+.mobile-menu li {
+  padding: 20px 30px;
+  font-size: 16px;
+  color: white;
+  transition: color 0.3s, background-color 0.3s;
+  -webkit-transition: color 0.3s, background-color 0.3s;
+  -moz-transition: color 0.3s, background-color 0.3s;
+  -ms-transition: color 0.3s, background-color 0.3s;
+  -o-transition: color 0.3s, background-color 0.3s;
+}
+
+.mobile-menu li:hover {
+  /* color: #0071B0; Color de texto al pasar el mouse */
+  background-color: white; /* Color de fondo al pasar el mouse */
+  width: 85%;
+  /* margin-left: -40px; */
+  border-radius: 10px;
+}
+
+.mobile-menu li:hover a {
+  color: #0071b0; /* Color de texto de los enlaces al pasar el mouse */
+  font-weight: bold;
+}
+
+.mobile-menu ul {
+  list-style-type: none;
+  padding: 40px;
+  margin: 0;
+}
+
+.mobile-menu ul li.profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile-menu ul li.profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu ul li.profile-button a {
+  margin-right: 10px; /* Ajusta este valor según tus necesidades */
+}
+
+/* Estilos para el botón de cerrar sesión */
+.mobile-menu ul li.profile-button button {
+  padding: 15px 30px;
+  font-size: 15px;
+  background-color: #ffffff;
+  border: none;
+  color: #0071b0;
+  cursor: pointer;
+  transition: color 0.3s, background-color 0.3s; /*Agrega una transición suave*/
+  border-radius: 5px;
+}
+
+/* Estilos para el botón en su estado hover */
+.mobile-menu ul li.profile-button button:hover {
+  background-color: #0071b0;
+  color: white;
+}
+
+.blue-icon {
+  display: none;
+}
+
+.mobile-menu li:hover .white-icon {
+  display: none;
+  width: 35px;
+}
+
+.mobile-menu li:hover .blue-icon {
+  display: inline-block;
+  width: 35px;
+  height: auto;
+  margin-right: 50px;
+}
+
+/* *********************************** */
+/* Estilos para nuevas notificaciones */
+/* *********************************** */
+
+.sidebar {
+  height: 100%;
+  width: 0; /* Ancho fijo para la barra lateral */
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  transition: 0.4s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #333333;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #ffffff;
+  background-color: #007bff;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: #333333;
+}
+
+/* Estilos para el botón de apertura */
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #0056b3;
+}
+
+.contenedor-fecha-hora {
+  display: flex;
+  justify-content: space-between; /* Nuevo */
+  align-items: center; /* Nuevo */
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.fecha-hora-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.hora {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 3px 0px;
+}
+
+.fecha {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 3px 0px;
+}
+
+.marcar-leido {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contenedor-notificacion {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.imagen {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0; /* Para que el contenedor no se achique */
+}
+
+.circulo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #007bff;
+  /* Aquí es donde se agregarán las imágenes de fondo o íconos */
+}
+
+.info-notificacion {
+  flex-grow: 1;
+}
+
+.usuario {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.descripcion {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.fecha-hora {
+  font-size: 12px;
+  color: #666;
+}
+
+/* Fin notificaciones */
+
+
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .header {
+    margin-left: 6vw;
+    font-size: small;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+
+  .rol {
+    margin-left: -1vw;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .header {
+    margin-left: 6vw;
+    font-size: small;
+  }
+
+  .icono-notificaciones {
+    margin-right: 2vw;
+  }
+
+  .mobile-menu {
+    margin-left: 3vw;
+    display: none; /* Ocultar el menú hamburguesa */
+  }
+
+  .rol {
+    margin-left: -1vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  /* Estilos para pantallas con ancho máximo de 768px */
+  .header {
+    margin-left: 7vw;
+    font-size: small;
+  }
+
+  .mobile-menu {
+    display: none; /* Ocultar el menú hamburguesa */
+  }
+
+  .rol {
+    margin-left: -3vw;
+  }
+  /* Aplica ajustes similares para otros elementos según sea necesario */
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .header {
+    margin-left: 8vw;
+    font-size: small;
+  }
+
+  .icono-notificaciones {
+    margin-right: 3vw;
+  }
+
+  .rol {
+    margin-left: -5vw;
+  }
+
+  .mobile-menu {
+    display: none;
+  }
+}
+
+/* Media queries para hacer el diseño responsivo */
+@media screen and (max-width: 768px) {
+  /* Estilos para pantallas con ancho máximo de 768px */
+  .header {
+    margin-left: 3vw;
+    font-size: small;
+  }
+  .menu-toggle {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: none; /* Ocultar el menú hamburguesa */
+  }
+
+  .titulo {
+    display: flex;
+    align-items: center;
+  }
+
+  .titulo h3 {
+    margin-left: 10px;
+  }
+
+  .rol {
+    margin-left: -10vw;
+  }
+}
+
+@media screen and (max-width: 768px) and (min-width: 481px) {
+  .header {
+    margin-left: 2vw;
+    font-size: small;
+    z-index: 99;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .titulo {
+    display: flex;
+    align-items: center;
+  }
+
+  .titulo h3 {
+    margin-left: 10px;
+  }
+
+  .rol {
+    margin-left: -15vw;
+  }
+  /* Aplica ajustes similares para otros elementos según sea necesario */
+}

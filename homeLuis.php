@@ -1,23 +1,17 @@
 <!--header -->
-
-<?php include './template/header.php' ?>
-
+<?php include './template/headerLuis.php' ?>
 <!-- navbar -->
-
-<?php  include './template/navbar.php' ?>
-
-
+<?php include './template/navbar.php' ?>
 <!-- css del home -->
 <title>Home PA</title>
-<link rel="stylesheet" href="./CSS/homeLuis.css" />
+<link rel="stylesheet" href="./CSS/home.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
   <!--Cuadro de bienvenida-->
   <div class="bienvenida">
-    <h2> 
-    <?php
-    
+    <h2>
+      <?php
       if ($genero == 'Masculino') {
         echo "Bienvenido, ";
       } else if ($genero == 'Femenino') {
@@ -25,19 +19,41 @@
       } else {
         echo "Bienvenid@, ";
       }
+
       echo $nombre, " ", $apellido;
 
-      if ($rol_id == 1){
-        echo "<br>", $nombre_rol, " - ", $_SESSION['Nombre_Departamento'];
+      if ($rol_id == 1) {
+        echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
       } 
-    
-    ?>
+      else {
+        echo "<br>", $nombre_rol;
+      }
+      ?>
     </h2>
   </div>
   <!--Cuadros de navegación-->
   <div class="cuadros-nav">
     <div class="cuadro-ind">
-      <a href="./basesdedatos.php">
+      <?php
+        // Redirigir según el rol del usuario
+        if ($rol_id == 1) {
+    	    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+          if (isset($_SESSION['Nombre_Departamento'])) {
+            // Obtener el nombre del departamento desde la sesión
+            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            echo "<a href='./basesdedatos.php'>";
+          } else {
+            // Manejar el caso en que no se encuentre asociado a ningún departamento
+            echo "<a href='#'>";
+          }
+        } elseif ($rol_id == 2) {
+          // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
+          echo "<a href='data_departamentos.php'>";
+        } else {
+          // Otros roles o manejo de errores aquí
+          echo "<a href='#'>";
+        }
+      ?>
         <div class="overlay">
           <h4>Bases de datos</h4>
         </div>
@@ -45,7 +61,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./dashboard_oferta.php"">
         <div class="overlay">
           <h4>Oferta</h4>
         </div>
@@ -61,7 +77,26 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="./plantilla.php">
+      <?php
+        // Redirigir según el rol del usuario
+        if ($rol_id == 1) {
+          // Si el usuario es jefe de departamento, redirigir a subir plantilla
+          if (isset($_SESSION['Nombre_Departamento'])) {
+            // Obtener el nombre del departamento desde la sesión
+            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            echo "<a href='./plantilla.php'>";
+          } else {
+            // Manejar el caso en que no se encuentre asociado a ningún departamento
+            echo "<a href='#'>";
+          }
+        } elseif ($rol_id == 2) {
+          // Si el usuario es secretaria administrativa, redirigir a plantillasPA
+          echo "<a href='./plantillaspa.php'>";
+        } else {
+          // Otros roles o manejo de errores aquí
+          echo "<a href='#'>";
+        }
+        ?>
         <div class="overlay">
           <h4>Plantilla</h4>
         </div>
@@ -77,8 +112,10 @@
       </a>
     </div>
   </div>
+
   <!-- Bloque inferior -->
   <div class="container-eventos-progreso">
+
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
       <div class="siguienteseventos">
@@ -135,31 +172,50 @@
           <img src="./Img/Icons/iconos-eventosPA/icono-flechaDer.png" alt="Flecha">
         </div>
       </div>
+
       <!--Aquí iremos agregando las funciones donde Aldo como admin agregara eventos importantes de PA-->
     </div>
+
+
     <!-- Progreso de Pa -->
     <div class="progreso">
       <div class="progresoPA">
         <h3>Progreso de PA</h3>
       </div>
+
       <div class="progresoContenido">
         <span>Jefes de Departamento</span>
         <div class="progress-container">
-          <progress value="80" max="100"></progress>
-          <span>80%</span>
+          <div class="progress-bar" data-progress="80"></div>
+          <!-- <progress value="80" max="100"></progress> 
+          <span>80%</span> -->
         </div><br>
+
         <span>Control Escolar</span>
         <div class="progress-container">
-          <progress value="50" max="100"></progress>
-          <span>50%</span>
+          <div class="progress-bar" data-progress="50"></div>
+          <!-- <progress value="50" max="100"></progress>
+          <span>50%</span> -->
         </div><br>
+
         <span>Coordinadores</span>
         <div class="progress-container">
-          <progress value="30" max="100"></progress>
-          <span>30%</span>
+          <div class="progress-bar" data-progress="30"></div>
+          <!-- <progress value="30" max="100"></progress>
+          <span>30%</span> -->
         </div>
       </div>
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+
+    progressBars.forEach(function(bar) {
+      const progress = bar.getAttribute('data-progress');
+      bar.style.width = `${progress}%`;
+    });
+  });
+</script>
 <?php include './template/footer.php' ?>
