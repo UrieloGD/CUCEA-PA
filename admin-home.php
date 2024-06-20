@@ -54,7 +54,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
             </a>
         </div>
         <div class="recuadro" onclick="activateRecuadro(this)">
-            <a class="texto" href="./admin-eventos.php">
+            <a class="texto" href="./admin-visual-eventos.php">
                 <img src="./Img/img-admin/img-control-eventos.jpg" alt="Control de eventos">
                 <div class="texto">Control de eventos</div>
             </a>

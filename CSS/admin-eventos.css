@@ -65,7 +65,7 @@ form {
   width: 100%;
   margin-bottom: 20px;
   /* align-items: center; */
-  border: solid;
+  /* border: solid; */
 }
 
 .boton-agregar {
@@ -150,16 +150,12 @@ textarea {
   margin-top: 20px;
 }
 
-.btn-guardar,
-.btn-cancelar {
+.btn-guardar, .btn-cancelar {
   padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
   font-size: 16px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 .btn-guardar {
@@ -173,6 +169,11 @@ textarea {
   border: solid #0071b0 2px;
   color: #0071b0;
   font-weight: 600;
+}
+
+.btn-guardar:hover, .btn-cancelar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 textarea {

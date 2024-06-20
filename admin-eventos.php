@@ -4,8 +4,10 @@
 <?php include './template/navbar.php' ?>
 <!-- Conexión a la base de datos -->
 <?php
-// Conexión a la base de datos
 include './config/db.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Obtener usuarios de la base de datos
 $sql = "SELECT Codigo, Nombre, Apellido, Correo FROM Usuarios";
@@ -40,7 +42,7 @@ $conexion->close();
     </div>
     <div class="contenedor-formulario">
 
-        <form action="config/eventos_upload.php" method="post" id="eventoForm">
+        <form id="eventoForm" method="post">
             <div class="form-group">
                 <label for="nombre">
                     <i class="fas fa-pen"></i> Nombre
@@ -82,9 +84,9 @@ $conexion->close();
                 </div>
             </div>
 
-            <div class="botones_agregar">
+            <!-- <div class="botones_agregar">
                 <button type="button" class="boton-agregar">+ Agregar notificación</button>
-            </div>
+            </div> -->
             
             <div class="form-group split-group">
                 <div class="split-item">
@@ -103,15 +105,12 @@ $conexion->close();
                     </label>
                     <select id="etiqueta" name="etiqueta">
                         <option value="">Elige una etiqueta</option>
-                        <option value="1">Programación Académica</option>
+                        <option value="Progracmación Académica">Programación Académica</option>
+                        <option value="Oferta Académica">Oferta Académica</option>
+                        <option value="Administrativo">Administrativo</option>
                     </select>
                 </div>
             </div>
-            
-            <!-- <div class="botones_agregar">    
-                <button type="button" class="boton-agregar">+ Agregar participantes</button>
-                <button type="button" class="boton-agregar">+ Agregar etiqueta</button>
-            </div> -->
                             
             <div class="form-group">
                 <label for="descripcion">
@@ -122,31 +121,16 @@ $conexion->close();
             
             <div class="form-actions">
                 <button type="submit" class="btn-guardar">Guardar</button>
-                <button type="button" class="btn-cancelar">Cancelar</button>
+                <a href="./admin-visual-eventos.php"><button type="button" class="btn-cancelar">Cancelar</button></a>
             </div>
         </form>        
     </div>
     
     <script>
-        // function cargarEventos() {
-        //     var xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = function() {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //             document.getElementById("tablaEventos").innerHTML = this.responseText;
-        //         }
-        //     };
-        //     xhttp.open("GET", "config/mostrar_eventos.php", true);
-        //     xhttp.send();
-        // }
-
-        // cargarEventos();
-
-        // Obtener el elemento select y el contenedor de participantes seleccionados
-   
+        // Código para manejar la selección de participantes
         const selectParticipantes = document.getElementById('participantes');
         const contenedorParticipantes = document.getElementById('participantes-seleccionados');
 
-        // Función para agregar un participante seleccionado
         function agregarParticipante() {
             const participanteSeleccionado = selectParticipantes.value;
             const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
@@ -175,8 +159,58 @@ $conexion->close();
             tarjetaParticipante.remove();
         }
 
-        // Agregar evento al cambiar la selección del dropdown
         selectParticipantes.addEventListener('change', agregarParticipante);
+
+        // Código para manejar el envío del formulario
+        document.getElementById('eventoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Deseas guardar este evento?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, guardar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var formData = new FormData(this);
+
+                    fetch('config/eventos_upload.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.status === 'success') {
+                            Swal.fire(
+                                '¡Guardado!',
+                                'El evento ha sido guardado.',
+                                'success'
+                            ).then(() => {
+                                window.location.href = './admin-visual-eventos.php';
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al guardar el evento: ' + data.message,
+                                'error'
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error',
+                            'Hubo un problema al procesar la respuesta del servidor.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
     </script>
 
 <?php include './template/footer.php' ?>

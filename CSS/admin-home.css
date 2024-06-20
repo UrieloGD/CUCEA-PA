@@ -38,7 +38,7 @@
 .recuadros-superiores {
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  width: 97%;
   margin-top: 20px;
 }
 
@@ -87,8 +87,8 @@
 
 .contenido {
   display: flex;
-  width: 100%;
-  justify-content: center;
+  width: 97%;
+  justify-content:space-around;
   padding: 20px;
 }
 

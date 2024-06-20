@@ -75,8 +75,16 @@
 }
 
 .cuadro-ind:hover .overlay {
-  transform: scale(1.2);
+  transform: scale(1.1);
   transition: transform 0.4s;
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  -webkit-transition: transform 0.4s;
+  -moz-transition: transform 0.4s;
+  -ms-transition: transform 0.4s;
+  -o-transition: transform 0.4s;
 }
 
 .cuadro-ind:hover .overlay h4 {
