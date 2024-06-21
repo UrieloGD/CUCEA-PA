@@ -42,10 +42,29 @@ $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
 $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01 23:50";
 
 $departamento_id = null;
-if (isset($_SESSION['usuario_id'])) {
-    $usuario_id = $_SESSION['usuario_id'];
-    $departamento_id = obtenerDepartamentoId($usuario_id);
+if (isset($_SESSION['Codigo'])) {
+    $Codigo = $_SESSION['Codigo'];
+    $departamento_id = obtenerDepartamentoId($Codigo);
 }
+
+$fecha_actual = date("Y-m-d H:i:s");
+
+if ($fecha_actual > $fecha_limite) {
+    // Verificar si ya se ha enviado una justificación pendiente o aprobada
+    $sql_justificacion = "SELECT * FROM Justificaciones 
+                          WHERE Usuario_ID = '$usuario_id' 
+                          AND Departamento_ID = '$departamento_id'
+                          AND Fecha_Limite_Superada = '$fecha_limite'
+                          AND (Estado = 'Pendiente' OR Estado = 'Aprobada')";
+    $result_justificacion = mysqli_query($conexion, $sql_justificacion);
+    
+    if (mysqli_num_rows($result_justificacion) == 0) {
+        // No hay justificación pendiente o aprobada, mostrar el modal
+        include 'justificacion.php';
+        exit(); // Detener la ejecución del resto del script
+    }
+}
+
 ?>
 
 <!--header -->
@@ -79,7 +98,7 @@ if (isset($_SESSION['usuario_id'])) {
                     <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
                 </div>
                 <div class="info-descarga">
-                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="#">aquí.</a></p>
+                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="./guia.php">aquí.</a></p>
                 </div>
             </div>
         </div>

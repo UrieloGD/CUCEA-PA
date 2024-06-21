@@ -59,6 +59,7 @@ input {
   background-color: #dfe3ec;
   border: 9px solid #bfc5d3;
   outline: none;
+  margin-top: 5px;
 }
 
 input,
