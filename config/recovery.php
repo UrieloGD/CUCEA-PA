@@ -4,6 +4,10 @@ require_once('./db.php');
 // Establecer la codificación de la conexión a la base de datos
 $conexion->set_charset('utf8');
 
+// Código para filtrar y evitar inyecciones de código.
+//$email = mysqli_real_escape_string($conexion, $_POST['Correo']);
+//$emailclean = filter_var($email, FILTER_SANITIZE_EMAIL, FILTER_FLAG_STRIP_HIGH);
+
 $email = $_POST['email'];
 
 require './../vendor/autoload.php';
@@ -48,12 +52,12 @@ if ($result->num_rows > 0) {
         $mail->AltBody = 'Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página http://localhost/git/CUCEA-PA/cambiarContraseña.php?id=' . $codigo;
 
         $mail->send();
-        echo 'Correo de recuperación enviado';
+        echo json_encode(['success' => true, 'message' => 'Correo de recuperación enviado']);
     } catch (Exception $e) {
-        echo "El mensaje no se pudo enviar. Error de Mailer: {$mail->ErrorInfo}";
+        echo json_encode(['success' => false, 'message' => "El mensaje no se pudo enviar. Error de Mailer: {$mail->ErrorInfo}"]);
     }
 } else {
-    echo "El correo no está registrado.";
+    echo json_encode(['success' => false, 'message' => "El correo no está registrado."]);
 }
 
 $stmt->close();

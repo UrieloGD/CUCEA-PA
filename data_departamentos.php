@@ -4,6 +4,30 @@
 <?php include './template/navbar.php' ?>
 
 <?php
+// Verifica si el parámetro de éxito está presente en la URL
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+  echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Fecha límite actualizada',
+                text: 'La fecha límite se ha actualizado correctamente.',
+                confirmButtonText: 'Aceptar'
+            }).then(function() {
+                // Eliminar el parámetro success de la URL
+                if (window.history.replaceState) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('success');
+                    window.history.replaceState({path: url.href}, '', url.href);
+                }
+            });
+        });
+    </script>";
+}
+?>
+
+
+<?php
 // Conexión a la base de datos
 include './config/db.php';
 
@@ -86,9 +110,6 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           $fecha_subida = $row['Fecha_Subida_Dep'];
           echo "<tr>";
           echo "<td>$nombre_departamento</td>";
-
-          // Comparar la fecha límite con la fecha y hora actuales
-          $fecha_actual = date("Y-m-d H:i:s");
           if ($fecha_subida !== null) {
             echo "<td class='entregada'>Entregada</td>";
             echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
@@ -115,7 +136,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   </div>
 
   <div class="fechalimite">
-    <span>La fecha límite actual es <?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span>
+    <span>La fecha límite actual es <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></span>
   </div>
 
   <!-- Modal para cambiar fecha límite -->
