@@ -3,7 +3,7 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Guía PA</title>
-<link rel="stylesheet" href="./CSS/guide.css">
+<link rel="stylesheet" href="./CSS/guiaPA.css">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
