@@ -184,7 +184,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     Hora_Noti TIME NOT NULL
 )";
 
-if (mysqli_query($conn, $sql)){
+if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Eventos_Admin creada exitosamente";
 } else {
     echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
@@ -221,6 +221,22 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Fechas_limite creada exitosamente";
 } else {
     echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conn);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
+    ID_Justificacion INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    Usuario_ID BIGINT(10) NOT NULL,
+    Justificacion TEXT NOT NULL,
+    Fecha_Justificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Justificaciones creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conn);
 }
 
 // Crear tabla Data_Plantilla

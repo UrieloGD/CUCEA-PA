@@ -87,21 +87,29 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           echo "<tr>";
           echo "<td>$nombre_departamento</td>";
 
-          // Comparar la fecha límite con la fecha y hora actuales
-          $fecha_actual = date("Y-m-d H:i:s");
+          // Nueva lógica
+          $sql_justificacion = "SELECT * FROM Justificaciones WHERE Departamento_ID = '$departamento_id' ORDER BY Fecha_Justificacion DESC LIMIT 1";
+          $result_justificacion = mysqli_query($conexion, $sql_justificacion);
+          $justificacion = mysqli_fetch_assoc($result_justificacion);
+
           if ($fecha_subida !== null) {
             echo "<td class='entregada'>Entregada</td>";
             echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
           } else {
-            $fecha_actual = date("Y-m-d");
-            if ($fecha_actual > $fecha_limite) {
+            $fecha_actual = date("Y-m-d H:i:s");
+            if (strtotime($fecha_actual) > strtotime($fecha_limite)) {
               echo "<td class='atrasada'>Atrasada</td>";
-              echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
+              if ($justificacion) {
+                echo "<td style='text-align: center; font-style: italic;'>Justificación enviada</td>";
+              } else {
+                echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
+              }
             } else {
               echo "<td class='sin-entregar'>Pendiente</td>";
               echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
             }
           }
+
           echo "<td style='text-align: center;'><a href='basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
           echo "</tr>";
         }
