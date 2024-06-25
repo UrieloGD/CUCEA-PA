@@ -229,6 +229,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
     Codigo_Usuario BIGINT(10) NOT NULL,
     Justificacion TEXT NOT NULL,
     Fecha_Justificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Justificacion_Enviada BOOLEAN DEFAULT 0,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID),
     FOREIGN KEY (Codigo_Usuario) REFERENCES Usuarios(Codigo)
 )";

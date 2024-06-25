@@ -7,7 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $departamento_id = $_POST['departamento_id'];
     $codigo_usuario = $_POST['codigo_usuario'];
 
-    $sql = "INSERT INTO Justificaciones (Departamento_ID, Codigo_Usuario, Justificacion) VALUES ('$departamento_id', '$codigo_usuario', '$justificacion')";
+    // Insertar justificación y marcarla como enviada
+    $sql = "INSERT INTO Justificaciones (Departamento_ID, Codigo_Usuario, Justificacion, Justificacion_Enviada) VALUES ('$departamento_id', '$codigo_usuario', '$justificacion', 1)";
 
     if (mysqli_query($conexion, $sql)) {
         echo "Justificación guardada exitosamente";

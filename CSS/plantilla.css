@@ -363,6 +363,85 @@
   display: block;
 }
 
+.justification-container {
+  max-width: 800px;
+  margin-top: -40;
+  padding: 25px;
+}
+
+.access-restricted {
+  background-color: #fde8e8;
+  width: 88vw;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 30px;
+  text-align: center;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+.icon-circle {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 25px;
+}
+
+.icon-circle img {
+  width: 80px;
+  height: 80px;
+}
+
+.access-restricted h2 {
+  color: #dc3545;
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.access-restricted p, .access-restricted ul {
+  color: #721c24;
+  margin-bottom: 20px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.access-restricted ul {
+  text-align: left;
+  padding-left: 35vw;
+}
+
+#formulario-justificacion textarea {
+  width: 89vw;
+  padding: 15px;
+  border: 2px solid #ced4da;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.boton-continuar {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+  display: block;  /* Hace que el botón sea un elemento de bloque */
+  margin: 0 40vw;  /* Centra el botón horizontalmente */
+  width: fit-content;  /* Ajusta el ancho del botón al contenido */
+}
+
+.boton-continuar:hover {
+  background-color: #005a8e;
+}
+
 /* Media Queries para diferentes resoluciones */
 
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
