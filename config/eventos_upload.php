@@ -12,9 +12,9 @@ if ($conn->connect_error) {
     die("La conexión ha fallado: " . $conn->connect_error);
 }
 
-// Verificar si se recibieron los datos del formulario
+include 'db.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener datos del formulario de eventos nuevos
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
     $fechIn = $_POST['FechIn'];
@@ -26,8 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $notif = $_POST['notificacion'];
     $horNotif = $_POST['HorNotif'];
 
-
-    
     // Calculo de la notificación
     $fechaInicio = new DateTime($fechIn . ' ' . $horIn);
     switch ($notif) {
@@ -73,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "No se recibió el campo 'participantes[]'";
     }
 
-    
     // Insertar datos en la tabla eventos_admin
     $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
     VALUES ('$nombre', '$descripcion', '$fechIn', '$fechFi', '$horIn', '$horFi', '$etiqueta', '$participantes', '$notif', '$horNotif')";
@@ -84,7 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
-    // Cerrar la conexión
     $conn->close();
 }
 ?>
+

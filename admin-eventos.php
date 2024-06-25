@@ -1,23 +1,24 @@
 <!--header -->
-<?php include './template/header.php' ?>
+<?php include './template/header.php'; ?>
 <!-- navbar -->
-<?php include './template/navbar.php' ?>
+<?php include './template/navbar.php'; ?>
 <!-- Conexión a la base de datos -->
 <?php
 // Conexión a la base de datos
 include './config/db.php';
 
 // Obtener usuarios de la base de datos
-$sql = "SELECT Codigo, Nombre, Apellido, Correo FROM Usuarios";
+$sql = "SELECT Codigo, Nombre, Apellido, Correo, Rol_ID FROM Usuarios";
 $resultado = $conexion->query($sql);
 
 // Generar opciones del dropdown
 $opciones_usuarios = "";
 if ($resultado->num_rows > 0) {
     while ($fila = $resultado->fetch_assoc()) {
+        $codigo = $fila["Codigo"];
         $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
         $correo = $fila["Correo"];
-        $opciones_usuarios .= "<option value='$nombre'>$nombre ($correo)</option>";
+        $opciones_usuarios .= "<option value='$codigo'>$nombre ($correo)</option>";
     }
 } else {
     $opciones_usuarios = "<option value=''>No hay usuarios registrados</option>";
@@ -95,6 +96,9 @@ $conexion->close();
                         <?php echo $opciones_usuarios; ?>
                     </select>
                     <div id="participantes-seleccionados"></div>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="select_all_rol_3" name="select_all_rol_3"> Seleccionar todos los usuarios con rol 3
+                    </label>
                 </div>
                 <div class="split-item">
                     <label for="etiqueta">
@@ -122,29 +126,13 @@ $conexion->close();
     </div>
     
     <script>
-    // function cargarEventos() {
-        //     var xhttp = new XMLHttpRequest();
-        //     xhttp.onreadystatechange = function() {
-        //         if (this.readyState == 4 && this.status == 200) {
-        //             document.getElementById("tablaEventos").innerHTML = this.responseText;
-        //         }
-        //     };
-        //     xhttp.open("GET", "config/mostrar_eventos.php", true);
-        //     xhttp.send();
-        // }
-
-        // cargarEventos();
-
-
         // Obtener el elemento select y el contenedor de participantes seleccionados
         const selectParticipantes = document.getElementById('participantes');
         const contenedorParticipantes = document.getElementById('participantes-seleccionados');
+        const selectAllRol2Checkbox = document.getElementById('select_all_rol_3');
 
         // Función para agregar un participante seleccionado
-        function agregarParticipante() {
-            const participanteSeleccionado = selectParticipantes.value;
-            const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
-
+        function agregarParticipante(participanteSeleccionado, nombreParticipante) {
             if (participanteSeleccionado) {
                 const tarjetaParticipante = document.createElement('div');
                 tarjetaParticipante.classList.add('participante-tarjeta');
@@ -166,10 +154,39 @@ $conexion->close();
         }
 
         // Escuchar el cambio en el elemento select
-        selectParticipantes.addEventListener('change', agregarParticipante);
+        selectParticipantes.addEventListener('change', () => {
+            const participanteSeleccionado = selectParticipantes.value;
+            const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
+            agregarParticipante(participanteSeleccionado, nombreParticipante);
+        });
 
+        // Manejar la selección de todos los usuarios con rol 2
+        selectAllRol2Checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                fetch('./config/get_users_by_role.php?role=3')
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(user => {
+                            agregarParticipante(user.Codigo, `${user.Nombre} ${user.Apellido} (${user.Correo})`);
+                            // Seleccionar visualmente en el select
+                            const option = Array.from(selectParticipantes.options).find(opt => opt.value == user.Codigo);
+                            if (option) {
+                                option.selected = true;
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching users:', error));
+            } else {
+                // Desmarcar a todos
+                Array.from(selectParticipantes.options).forEach(option => option.selected = false);
+                // Limpiar el contenedor visual
+                while (contenedorParticipantes.firstChild) {
+                    contenedorParticipantes.removeChild(contenedorParticipantes.firstChild);
+                }
+            }
+        });
     </script>
 </div>
 
 <!--Footer-->
-<?php include './template/footer.php' ?>
+<?php include './template/footer.php'; ?>
