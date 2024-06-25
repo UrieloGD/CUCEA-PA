@@ -104,28 +104,50 @@ if ($fecha_actual > $fecha_limite) {
         </div>
         <!--Ventana de subida de plantilla-->
         <div class="tab-pane">
-            <div class="info-subida">
-                <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
-                    <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b><?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span></b>
-                </p>
-            </div>
-            <!-- Formulario para subir el archivo -->
-            <form id="formulario-subida" enctype="multipart/form-data">
-                <div class="container-inf">
-                    <div class="drop-area">
-                        <p>Arrastra tus archivos a subir aquí</p>
-                        <p>o</p>
-                        <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
-                        <input type="file" name="file" id="input-file" hidden>
-                    </div>
-                    <div id="preview"></div>
-                    <div id="mensaje"></div>
-                    <div class="container-peso">
-                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
-                    </div>
-                    <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+            <?php
+            $fecha_actual = date("Y-m-d H:i:s");
+            $fecha_limite_pasada = strtotime($fecha_actual) > strtotime($fecha_limite);
+
+            if ($fecha_limite_pasada) {
+                // Mostrar formulario de justificación
+            ?>
+                <div class="info-subida">
+                    <p>La fecha límite para subir tu plantilla ha pasado. Por favor, proporciona una justificación:</p>
                 </div>
-            </form>
+                <form id="formulario-justificacion" method="post" action="guardar_justificacion.php">
+                    <textarea name="justificacion" rows="5" cols="50" required></textarea>
+                    <input type="hidden" name="departamento_id" value="<?php echo $departamento_id; ?>">
+                    <!-- <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id']; ?>"> -->
+                    <button type="submit" class="boton-descargar" role="button">Enviar Justificación</button>
+                </form>
+            <?php
+            } else {
+                // Mostrar formulario de subida de plantilla original
+            ?>
+                <div class="info-subida">
+                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
+                        <b><?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></b>
+                    </p>
+                </div>
+                <form id="formulario-subida" enctype="multipart/form-data">
+                    <div class="container-inf">
+                        <div class="drop-area">
+                            <p>Arrastra tus archivos a subir aquí</p>
+                            <p>o</p>
+                            <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
+                            <input type="file" name="file" id="input-file" hidden>
+                        </div>
+                        <div id="preview"></div>
+                        <div id="mensaje"></div>
+                        <div class="container-peso">
+                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                        </div>
+                        <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+                    </div>
+                </form>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>
