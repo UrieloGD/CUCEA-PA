@@ -72,56 +72,100 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             case 10:
                 $tabla_destino = 'Data_Administración';
                 break;
+            case 11:
+                $tabla_destino = 'Data_Auditoría';
+                break;
+            case 12:
+                $tabla_destino = 'Data_Mercadotecnia';
+                break;
+            case 13:
+                $tabla_destino = 'Data_Impuestos';
+                break;
+            case 14:
+                $tabla_destino = 'Data_Sistemas_de_Información';
+                break;
+            case 15:
+                $tabla_destino = 'Data_Turismo';
+                break;
+            case 16:
+                $tabla_destino = 'Data_Contabilidad';
+                break;
             default:
                 echo json_encode(["success" => false, "message" => "Departamento no válido."]);
                 exit();
         }
 
         // Preparar la consulta SQL
-        $sql = "INSERT INTO $tabla_destino (DEPARTAMENTO_ID, CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO $tabla_destino (DEPARTAMENTO_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
 
         $errores = array();
 
         // Insertar los datos en la tabla correspondiente
-        for ($row = 2; $row <= $highestRow; $row++) {
-            // Empezar desde la fila 2 para omitir los encabezados
+        for ($row = 2; $row <= $highestRow; $row++) { // Empezar desde la fila 2 para omitir los encabezados
             $departamento_id = $departamento_id ?? null;
             $ciclo = $sheet->getCell('A' . $row)->getValue() ?? null;
-            $nrc = $sheet->getCell('B' . $row)->getValue() ?? null;
-            $fecha_ini = $sheet->getCell('C' . $row)->getFormattedValue() ?? null;
-            $fecha_fin = $sheet->getCell('D' . $row)->getFormattedValue() ?? null;
-            $l = $sheet->getCell('E' . $row)->getValue() ?? null;
-            $m = $sheet->getCell('F' . $row)->getValue() ?? null;
-            $i = $sheet->getCell('G' . $row)->getValue() ?? null;
-            $j = $sheet->getCell('H' . $row)->getValue() ?? null;
-            $v = $sheet->getCell('I' . $row)->getValue() ?? null;
-            $s = $sheet->getCell('J' . $row)->getValue() ?? null;
-            $d = $sheet->getCell('K' . $row)->getValue() ?? null;
-            $hora_ini = $sheet->getCell('L' . $row)->getValue() ?? null;
-            $hora_fin = $sheet->getCell('M' . $row)->getValue() ?? null;
-            $edif = $sheet->getCell('N' . $row)->getValue() ?? null;
-            $aula = $sheet->getCell('O' . $row)->getValue() ?? null;
+            $crn = $sheet->getCell('B' . $row)->getValue() ?? null;
+            $materia = $sheet->getCell('C' . $row)->getValue() ?? null;
+            $cve_materia = $sheet->getCell('D' . $row)->getValue() ?? null;
+            $seccion = $sheet->getCell('E' . $row)->getValue() ?? null;
+            $nivel = $sheet->getCell('F' . $row)->getValue() ?? null;
+            $nivel_tipo = $sheet->getCell('G' . $row)->getValue() ?? null;
+            $tipo = $sheet->getCell('H' . $row)->getValue() ?? null;
+            $c_min = $sheet->getCell('I' . $row)->getValue() ?? null;
+            $h_totales = $sheet->getCell('J' . $row)->getValue() ?? null;
+            $estatus = $sheet->getCell('K' . $row)->getValue() ?? null;
+            $tipo_contrato = $sheet->getCell('L' . $row)->getValue() ?? null;
+            $codigo_profesor = $sheet->getCell('M' . $row)->getValue() ?? null;
+            $nombre_profesor = $sheet->getCell('N' . $row)->getValue() ?? null;
+            $categoria = $sheet->getCell('O' . $row)->getValue() ?? null;
+            $descarga = $sheet->getCell('O' . $row)->getValue() ?? null;
+            $codigo_descarga = $sheet->getCell('P' . $row)->getValue() ?? null;
+            $nombre_descarga = $sheet->getCell('Q' . $row)->getValue() ?? null;
+            $nombre_definitivo = $sheet->getCell('R' . $row)->getValue() ?? null;
+            $titular = $sheet->getCell('S' . $row)->getValue() ?? null;
+            $horas = $sheet->getCell('T' . $row)->getValue() ?? null;
+            $codigo_dependencia = $sheet->getCell('V' . $row)->getValue() ?? null;
+            $l = $sheet->getCell('W' . $row)->getValue() ?? null;
+            $m = $sheet->getCell('X' . $row)->getValue() ?? null;
+            $i = $sheet->getCell('Y' . $row)->getValue() ?? null;
+            $j = $sheet->getCell('Z' . $row)->getValue() ?? null;
+            $v = $sheet->getCell('AA' . $row)->getValue() ?? null;
+            $s = $sheet->getCell('AB' . $row)->getValue() ?? null;
+            $d = $sheet->getCell('AC' . $row)->getValue() ?? null;
+            $dia_presencial = $sheet->getCell('AD' . $row)->getValue() ?? null;
+            $dia_virtual = $sheet->getCell('AE' . $row)->getValue() ?? null;
+            $modalidad = $sheet->getCell('AF' . $row)->getValue() ?? null;
+            $fecha_inicial = $sheet->getCell('AG' . $row)->getFormattedValue() ?? null;
+            $fecha_final = $sheet->getCell('AH' . $row)->getFormattedValue() ?? null;
+            $hora_inicial = $sheet->getCell('AI' . $row)->getValue() ?? null;
+            $hora_final = $sheet->getCell('AJ' . $row)->getValue() ?? null;
+            $modulo = $sheet->getCell('AK' . $row)->getValue() ?? null;
+            $aula = $sheet->getCell('AL' . $row)->getValue() ?? null;
+            $cupo = $sheet->getCell('AM' . $row)->getValue() ?? null;
+            $observaciones = $sheet->getCell('AN' . $row)->getValue() ?? null;
+            $examen_extraodinario = $sheet->getCell('AO' . $row)->getValue() ?? null;
+
 
             // Validaciones
-            // CICLO: debe contener no más de 6 caracteres
+            // ciclo: debe contener no más de 6 caracteres
             if (strlen($ciclo) > 6) {
-                $errores[] = "El valor '$ciclo' en la columna CICLO no debe tener más de 6 caracteres.";
+                $errores[] = "El valor '$ciclo' en la columna ciclo no debe tener más de 6 caracteres.";
             }
 
-            // NRC: debe tener no más de 7 caracteres
-            if (strlen($nrc) > 7) {
-                $errores[] = "El valor '$nrc' en la columna NRC tiene más de 7 caracteres.";
-            }
+            // crn: debe tener no más de 7 caracteres
+            // if (strlen($crn) > 7) {
+            //     $errores[] = "El valor '$crn' en la columna CRN tiene más de 7 caracteres.";
+            // }
 
             // Días: Solo deben contener la letra correspondiente
-            $dias = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
-            foreach ($dias as $dia) {
-                $valor = strtolower($dia);
-                if ($$valor != $dia && !empty($$valor)) {
-                    $errores[] = "El valor '$$valor' en la columna $dia no es válido. Debe contener solo la letra $dia.";
-                }
-            }
+            // $dias = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
+            // foreach ($dias as $dia) {
+            //     $valor = strtolower($dia);
+            //     if ($$valor != $dia && !empty($$valor)) {
+            //         $errores[] = "El valor '$valor' en la columna $dia no es válido. Debe contener solo la letra $dia.";
+            //     }
+            // }
 
             if (count($errores) > 0) {
                 // Mostrar errores y detener el script si hay errores
@@ -130,20 +174,20 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             }
 
             // Convertir fechas al formato YYYY-MM-DD
-            if ($fecha_ini) {
-                $fecha_ini = DateTime::createFromFormat('d/m/Y', $fecha_ini);
-                if ($fecha_ini) {
-                    $fecha_ini = $fecha_ini->format('Y-m-d');
+            if ($fecha_inicial) {
+                $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
+                if ($fecha_inicial) {
+                    $fecha_inicial = $fecha_inicial->format('d-m-Y');
                 } else {
-                    $errores[] = "El valor '$fecha_ini' en la columna FECHA_INI no es una fecha válida.";
+                    $errores[] = "El valor '$fecha_inicial' en la columna fecha inicial no es una fecha válida.";
                 }
             }
-            if ($fecha_fin) {
-                $fecha_fin = DateTime::createFromFormat('d/m/Y', $fecha_fin);
-                if ($fecha_fin) {
-                    $fecha_fin = $fecha_fin->format('Y-m-d');
+            if ($fecha_final) {
+                $fecha_final = DateTime::createFromFormat('d/m/Y', $fecha_final);
+                if ($fecha_final) {
+                    $fecha_final = $fecha_final->format('d-m-Y');
                 } else {
-                    $errores[] = "El valor '$fecha_fin' en la columna FECHA_FIN no es una fecha válida.";
+                    $errores[] = "El valor '$fecha_final' en la columna fecha final no es una fecha válida.";
                 }
             }
 
@@ -153,7 +197,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 exit();
             }
 
-            $stmt->bind_param("isssssssssssssss", $departamento_id, $ciclo, $nrc, $fecha_ini, $fecha_fin, $l, $m, $i, $j, $v, $s, $d, $hora_ini, $hora_fin, $edif, $aula);
+            $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", $departamento_id, $ciclo, $crn, $materia, $cve_materia, $seccion, $nivel, $nivel_tipo, $tipo, $c_min, $h_totales, $estatus, $tipo_contrato, $codigo_profesor, $nombre_profesor, $categoria, $descarga, $codigo_descarga, $nombre_descarga, $nombre_definitivo, $titular, $horas, $codigo_dependencia, $l, $m, $i, $j, $v, $s, $d, $dia_presencial, $dia_virtual, $modalidad, $fecha_inicial, $fecha_final, $hora_inicial, $hora_final, $modulo, $aula, $cupo, $observaciones, $examen_extraodinario);
             $stmt->execute();
         }
 
@@ -198,5 +242,9 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 } else {
     echo json_encode(["success" => false, "message" => "No se recibió ningún archivo."]);
 }
+
+header('Content-Type: application/json');
+echo json_encode($response);
+exit();
 
 $conn->close();

@@ -30,7 +30,7 @@ $hora_fin = $_POST['hora_fin'];
 $edif = $_POST['edif'];
 $aula = $_POST['aula'];
 
-$sql = "INSERT INTO `$tabla_departamento` (CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA, Departamento_ID)
+$sql = "INSERT INTO `$tabla_departamento` (CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO Departamento_ID)
         VALUES ('$ciclo', '$nrc', '$fecha_ini', '$fecha_fin', '$l', '$m', '$i', '$j', '$v', '$s', '$d', '$hora_ini', '$hora_fin', '$edif', '$aula', $departamento_id)";
 
 if (mysqli_query($conexion, $sql)) {
