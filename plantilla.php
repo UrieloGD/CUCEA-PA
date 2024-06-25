@@ -35,6 +35,8 @@ function obtenerDepartamentoId($usuario_id)
 
 include './config/db.php';
 
+$codigo_usuario =  $_SESSION['Codigo'];
+
 // Obtener la última fecha límite de la base de datos
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
@@ -95,10 +97,10 @@ if (isset($_SESSION['usuario_id'])) {
                 <div class="info-subida">
                     <p>La fecha límite para subir tu plantilla ha pasado. Por favor, proporciona una justificación:</p>
                 </div>
-                <form id="formulario-justificacion" method="post" action="guardar_justificacion.php">
+                <form id="formulario-justificacion" method="post" action="./config/guardar_justificacion.php">
                     <textarea name="justificacion" rows="5" cols="50" required></textarea>
                     <input type="hidden" name="departamento_id" value="<?php echo $departamento_id; ?>">
-                    <!-- <input type="hidden" name="usuario_id" value="<?php echo $_SESSION['usuario_id']; ?>"> -->
+                    <input type="hidden" name="codigo_usuario" value="<?php echo $codigo_usuario; ?>">
                     <button type="submit" class="boton-descargar" role="button">Enviar Justificación</button>
                 </form>
             <?php
