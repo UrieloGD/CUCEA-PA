@@ -74,6 +74,7 @@
   border-radius: 20px 20px 0px 0px;
   position: relative; /* Para controlar el contenido interno */
   margin-top: -5px;
+  overflow-x: auto; /* Permite desplazamiento horizontal */
 }
 
 table {
@@ -97,6 +98,10 @@ th {
   top: -20px; /* Posición fija en la parte superior */
   background-color: white; /* Fondo blanco para que el encabezado sea legible */
   z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Ajusta este valor según tus necesidades */
 }
 
 /* CSS para la paginación */
