@@ -105,7 +105,7 @@ $conexion->close();
                     </label>
                     <select id="etiqueta" name="etiqueta">
                         <option value="">Elige una etiqueta</option>
-                        <option value="Progracmación Académica">Programación Académica</option>
+                        <option value="Programación Académica">Programación Académica</option>
                         <option value="Oferta Académica">Oferta Académica</option>
                         <option value="Administrativo">Administrativo</option>
                     </select>

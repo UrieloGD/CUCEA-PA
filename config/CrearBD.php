@@ -153,22 +153,6 @@ if (mysqli_query($conn, $insert_usuarios_departamentos)) {
     echo "<br>Error insertando relación de usuarios y departamentos: " . mysqli_error($conn);
 }
 
-// Crear tabla Plantilla_SA
-$sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
-    ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
-    Contenido_Archivo_Dep LONGBLOB NOT NULL,
-    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
-    Departamento_ID INT NOT NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
-)";
-
-if (mysqli_query($conn, $sql)) {
-    echo "<br>Tabla Plantilla_SA creada exitosamente";
-} else {
-    echo "<br>Error creando tabla Plantilla_SA: " . mysqli_error($conn);
-}
-
 // Crear tabla Eventos_Admin
 $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     ID_Evento INT AUTO_INCREMENT PRIMARY KEY,
@@ -188,6 +172,41 @@ if (mysqli_query($conn, $sql)){
     echo "<br>Tabla Eventos_Admin creada exitosamente";
 } else {
     echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
+}
+
+// Crear tabla Justificaciones
+$sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
+    Justificacion_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Usuario_ID BIGINT(10) NOT NULL,
+    Departamento_ID INT NOT NULL,
+    Justificacion TEXT NOT NULL,
+    Fecha_Justificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Fecha_Limite_Superada DATETIME NOT NULL,
+    Estado ENUM('Pendiente', 'Aprobada', 'Rechazada') DEFAULT 'Pendiente',
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Justificaciones creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conn);
+}
+
+// Crear tabla Plantilla_SA
+$sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
+    ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
+    Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
+    Contenido_Archivo_Dep LONGBLOB NOT NULL,
+    Fecha_Subida_Dep VARCHAR(255) NOT NULL,
+    Departamento_ID INT NOT NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+)";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Plantilla_SA creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Plantilla_SA: " . mysqli_error($conn);
 }
 
 // Crear tabla Plantilla_Dep
