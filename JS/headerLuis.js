@@ -9,8 +9,55 @@
  });
 
  // Get the current date and time
- const currentDate = document.getElementById('current-date');
- const currentTime = document.getElementById('current-time');
+ /* const currentDate = document.getElementById('current-date');
+ const currentTime = document.getElementById('current-time'); */ 
+
+ // Función para actualizar la fecha y hora
+function actualizarFechaHora() {
+  // Crear el contenedor principal
+  const contenedor = document.createElement('div');
+  contenedor.className = 'contenedor-fecha-hora';
+
+  // Crear el contenedor de información
+  const info = document.createElement('div');
+  info.className = 'fecha-hora-info';
+
+  // Crear el elemento para la hora
+  const horaElement = document.createElement('div');
+  horaElement.className = 'hora';
+
+  // Crear el elemento para la fecha
+  const fechaElement = document.createElement('div');
+  fechaElement.className = 'fecha';
+
+  // Añadir los elementos al DOM
+  info.appendChild(horaElement);
+  info.appendChild(fechaElement);
+  contenedor.appendChild(info);
+  document.body.appendChild(contenedor); // Asume que quieres añadirlo al body
+
+  // Función para actualizar el contenido
+  function actualizar() {
+      const ahora = new Date();
+
+      // Actualizar hora
+      const horas = ahora.getHours().toString().padStart(2, '0');
+      const minutos = ahora.getMinutes().toString().padStart(2, '0');
+      const segundos = ahora.getSeconds().toString().padStart(2, '0');
+      horaElement.textContent = `${horas}:${minutos}:${segundos}`;
+
+      // Actualizar fecha
+      const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+      fechaElement.textContent = ahora.toLocaleDateString('es-ES', opciones);
+  }
+
+  // Actualizar inmediatamente y luego cada segundo
+  actualizar();
+  setInterval(actualizar, 1000);
+}
+
+// Llamar a la función cuando se carga la página
+window.addEventListener('load', actualizarFechaHora);
 
  // Update the current date and time every second
  setInterval(() => {
