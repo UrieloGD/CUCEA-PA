@@ -1,25 +1,24 @@
 <?php
 require '../vendor/autoload.php';
 include '../config/db.php';
-session_start(); // Iniciar la sesión
+session_start();
 
-// Obtener el ID del departamento desde el formulario
 $departamento_id = isset($_GET['departamento_id']) ? $_GET['departamento_id'] : '';
 
-// Obtener el nombre del departamento usando el ID
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
-$result_departamento = mysqli_query($conexion, $sql_departamento);
-$row_departamento = mysqli_fetch_assoc($result_departamento);
+$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result_departamento = $stmt->get_result();
+$row_departamento = $result_departamento->fetch_assoc();
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 
-
-// Obtener el nombre y apellido del usuario desde la sesión (con verificación)
 $nombre_usuario = isset($_SESSION['Nombre']) ? $_SESSION['Nombre'] : 'Usuario';
 $apellido_usuario = isset($_SESSION['Apellido']) ? $_SESSION['Apellido'] : '';
 
-// Crear un nuevo objeto de PHPExcel
-$objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-$objPHPExcel->getProperties()->setCreator("$nombre_usuario $apellido_usuario")
+$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+$spreadsheet->getProperties()
+    ->setCreator("$nombre_usuario $apellido_usuario")
     ->setLastModifiedBy("$nombre_usuario $apellido_usuario")
     ->setTitle("Exportación de Data_$nombre_departamento")
     ->setSubject("Data_$nombre_departamento")
@@ -27,73 +26,53 @@ $objPHPExcel->getProperties()->setCreator("$nombre_usuario $apellido_usuario")
     ->setKeywords("phpexcel")
     ->setCategory("Archivo de datos");
 
-// Agregar los encabezados de la tabla
-$objPHPExcel->setActiveSheetIndex(0)
-    //    ->setCellValue('A1', 'ID')
-    ->setCellValue('A1', 'CICLO')
-    ->setCellValue('B1', 'NRC')
-    ->setCellValue('C1', 'FECHA INI')
-    ->setCellValue('D1', 'FECHA FIN')
-    ->setCellValue('E1', 'L')
-    ->setCellValue('F1', 'M')
-    ->setCellValue('G1', 'I')
-    ->setCellValue('H1', 'J')
-    ->setCellValue('I1', 'V')
-    ->setCellValue('J1', 'S')
-    ->setCellValue('K1', 'D')
-    ->setCellValue('L1', 'HORA INI')
-    ->setCellValue('M1', 'HORA FIN')
-    ->setCellValue('N1', 'EDIF')
-    ->setCellValue('O1', 'AULA');
+$sheet = $spreadsheet->getActiveSheet();
 
-// Construir el nombre de la tabla según el departamento
-$tabla_departamento = "Data_" . $nombre_departamento;
+$headers = [
+    'CICLO', 'CRN', 'MATERIA', 'CVE_MATERIA', 'SECCION', 'NIVEL', 'NIVEL_TIPO', 'TIPO',
+    'C_MIN', 'H_TOTALES', 'ESTATUS', 'TIPO_CONTRATO', 'CODIGO_PROFESOR', 'NOMBRE_PROFESOR',
+    'CATEGORIA', 'DESCARGA', 'CODIGO_DESCARGA', 'NOMBRE_DESCARGA', 'NOMBRE_DEFINITIVO',
+    'TITULAR', 'HORAS', 'CODIGO_DEPENDENCIA', 'L', 'M', 'I', 'J', 'V', 'S', 'D', 'DIA_PRESENCIAL',
+    'DIA_VIRTUAL', 'MODALIDAD', 'FECHA_INICIAL', 'FECHA_FINAL', 'HORA_INICIAL', 'HORA_FINAL',
+    'MODULO', 'AULA', 'CUPO', 'OBSERVACIONES', 'EXAMEN_EXTRAORDINARIO'
+];
 
-// Consulta SQL para obtener los datos de la tabla correspondiente al departamento
-$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
-$result = mysqli_query($conexion, $sql);
+foreach ($headers as $index => $header) {
+    $sheet->setCellValue(\PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1', $header);
+}
 
-// Verificar si se obtuvieron resultados
-if (mysqli_num_rows($result) > 0) {
-    $fila = 2; // Empezar en la segunda fila
-    while ($row = mysqli_fetch_assoc($result)) {
-        $objPHPExcel->setActiveSheetIndex(0)
-            //          ->setCellValue('A' . $fila, $row['ID_Plantilla'])
-            ->setCellValue('A' . $fila, $row['CICLO'])
-            ->setCellValue('B' . $fila, $row['NRC'])
-            ->setCellValue('C' . $fila, $row['FECHA_INI'])
-            ->setCellValue('D' . $fila, $row['FECHA_FIN'])
-            ->setCellValue('E' . $fila, $row['L'])
-            ->setCellValue('F' . $fila, $row['M'])
-            ->setCellValue('G' . $fila, $row['I'])
-            ->setCellValue('H' . $fila, $row['J'])
-            ->setCellValue('I' . $fila, $row['V'])
-            ->setCellValue('J' . $fila, $row['S'])
-            ->setCellValue('K' . $fila, $row['D'])
-            ->setCellValue('L' . $fila, $row['HORA_INI'])
-            ->setCellValue('M' . $fila, $row['HORA_FIN'])
-            ->setCellValue('N' . $fila, $row['EDIF'])
-            ->setCellValue('O' . $fila, $row['AULA']);
-        $fila++;
+$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+
+$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = 2;
+    while ($data = $result->fetch_assoc()) {
+        $col = 1;
+        foreach ($headers as $header) {
+            $sheet->setCellValue(
+                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row, 
+                $data[$header] ?? ''
+            );
+            $col++;
+        }
+        $row++;
     }
 }
 
-// Renombrar hoja
-$objPHPExcel->getActiveSheet()->setTitle("Data_$nombre_departamento");
+$sheet->setTitle("Data_$nombre_departamento");
 
-// Establecer la hoja activa
-$objPHPExcel->setActiveSheetIndex(0);
-
-// Redirigir salida al navegador
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="Data_' . $nombre_departamento . '.xlsx"');
 header('Cache-Control: max-age=0');
-header('Cache-Control: max-age=1');
 
-// Guardar el archivo
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, 'Xlsx');
+$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 $writer->save('php://output');
 
-// Cerrar la conexión a la base de datos
-mysqli_close($conexion);
+$stmt->close();
+$conexion->close();
 exit;
