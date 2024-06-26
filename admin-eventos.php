@@ -11,17 +11,21 @@ include './config/db.php';
 $sql = "SELECT Codigo, Nombre, Apellido, Correo, Rol_ID FROM Usuarios";
 $resultado = $conexion->query($sql);
 
-// Generar opciones del dropdown
-$opciones_usuarios = "";
+// Se despliegan los usuarios (Nombre y correo en checkboxes)
+$filas_usuarios = "";
 if ($resultado->num_rows > 0) {
     while ($fila = $resultado->fetch_assoc()) {
         $codigo = $fila["Codigo"];
         $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
         $correo = $fila["Correo"];
-        $opciones_usuarios .= "<option value='$codigo'>$nombre ($correo)</option>";
+        $filas_usuarios .= "<tr>
+            <td><input type='checkbox' name='participantes[]' value='$codigo'></td>
+            <td>$nombre</td>
+            <td>$correo</td>
+        </tr>";
     }
 } else {
-    $opciones_usuarios = "<option value=''>No hay usuarios registrados</option>";
+    $filas_usuarios = "<tr><td colspan='3'>No hay usuarios registrados</td></tr>";
 }
 
 // Cerrar la conexión
@@ -91,11 +95,18 @@ $conexion->close();
                     <label for="participantes">
                         <i class="fas fa-users"></i> Participantes
                     </label>
-                    <select id="participantes" name="participantes[]" multiple>
-                        <option value="">Selecciona los participantes</option>
-                        <?php echo $opciones_usuarios; ?>
-                    </select>
-                    <div id="participantes-seleccionados"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Seleccionar</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php echo $filas_usuarios; ?>
+                        </tbody>
+                    </table>
                     <label class="checkbox-label">
                         <input type="checkbox" id="select_all_rol_3" name="select_all_rol_3"> Seleccionar todos los usuarios con rol 3
                     </label>
@@ -129,60 +140,28 @@ $conexion->close();
         // Obtener el elemento select y el contenedor de participantes seleccionados
         const selectParticipantes = document.getElementById('participantes');
         const contenedorParticipantes = document.getElementById('participantes-seleccionados');
-        const selectAllRol2Checkbox = document.getElementById('select_all_rol_3');
+        const selectAllRol3Checkbox = document.getElementById('select_all_rol_3');
 
-        // Función para agregar un participante seleccionado
-        function agregarParticipante(participanteSeleccionado, nombreParticipante) {
-            if (participanteSeleccionado) {
-                const tarjetaParticipante = document.createElement('div');
-                tarjetaParticipante.classList.add('participante-tarjeta');
-
-                const nombreParticipanteElement = document.createElement('span');
-                nombreParticipanteElement.textContent = nombreParticipante;
-
-                const botonEliminar = document.createElement('button');
-                botonEliminar.textContent = 'X';
-                botonEliminar.classList.add('btn-eliminar');
-                botonEliminar.addEventListener('click', () => {
-                    tarjetaParticipante.remove();
-                });
-
-                tarjetaParticipante.appendChild(nombreParticipanteElement);
-                tarjetaParticipante.appendChild(botonEliminar);
-                contenedorParticipantes.appendChild(tarjetaParticipante);
-            }
-        }
-
-        // Escuchar el cambio en el elemento select
-        selectParticipantes.addEventListener('change', () => {
-            const participanteSeleccionado = selectParticipantes.value;
-            const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
-            agregarParticipante(participanteSeleccionado, nombreParticipante);
-        });
-
-        // Manejar la selección de todos los usuarios con rol 2
-        selectAllRol2Checkbox.addEventListener('change', function() {
+        // Manejar la selección de todos los usuarios con rol 3
+        selectAllRol3Checkbox.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('input[name="participantes[]"]');
             if (this.checked) {
                 fetch('./config/get_users_by_role.php?role=3')
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(user => {
-                            agregarParticipante(user.Codigo, `${user.Nombre} ${user.Apellido} (${user.Correo})`);
-                            // Seleccionar visualmente en el select
-                            const option = Array.from(selectParticipantes.options).find(opt => opt.value == user.Codigo);
-                            if (option) {
-                                option.selected = true;
-                            }
+                            // Marcar visualmente los checkboxes correspondientes
+                            checkboxes.forEach(checkbox => {
+                                if (checkbox.value == user.Codigo) {
+                                    checkbox.checked = true;
+                                }
+                            });
                         });
                     })
                     .catch(error => console.error('Error fetching users:', error));
             } else {
                 // Desmarcar a todos
-                Array.from(selectParticipantes.options).forEach(option => option.selected = false);
-                // Limpiar el contenedor visual
-                while (contenedorParticipantes.firstChild) {
-                    contenedorParticipantes.removeChild(contenedorParticipantes.firstChild);
-                }
+                checkboxes.forEach(checkbox => checkbox.checked = false);
             }
         });
     </script>
