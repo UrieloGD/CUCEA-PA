@@ -139,6 +139,23 @@
   -o-border-radius: 7.5px;
 }
 
+.container-precaucion {
+  width: 100%;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background-color: #FDF8E4;
+  color: #8B6E3B;
+  border-radius: 7.5px;
+  -webkit-border-radius: 7.5px;
+  -moz-border-radius: 7.5px;
+  -ms-border-radius: 7.5px;
+  -o-border-radius: 7.5px;
+}
+
 .container-inf {
   display: flex;
   flex-direction: column;
@@ -440,6 +457,16 @@
 
 .boton-continuar:hover {
   background-color: #005a8e;
+}
+
+.boton-continuar.disabled {
+  background-color: #cccccc; /* Gris claro */
+  cursor: not-allowed;
+}
+
+.boton-continuar:not(.disabled) {
+  background-color: #007bff; /* Color original del botón */
+  cursor: pointer;
 }
 
 /* Media Queries para diferentes resoluciones */

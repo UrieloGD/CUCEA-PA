@@ -42,15 +42,6 @@ if (isset($_SESSION['usuario_id'])) {
     $departamento_id = obtenerDepartamentoId($usuario_id);
 }
 
-$justificacion_enviada = false;
-if ($departamento_id) {
-    $sql_justificacion = "SELECT Justificacion_Enviada FROM Justificaciones WHERE Departamento_ID = '$departamento_id' AND Codigo_Usuario = '$codigo_usuario' ORDER BY Fecha_Justificacion DESC LIMIT 1";
-    $result_justificacion = mysqli_query($conexion, $sql_justificacion);
-    if ($result_justificacion->num_rows > 0) {
-        $row_justificacion = $result_justificacion->fetch_assoc();
-        $justificacion_enviada = $row_justificacion['Justificacion_Enviada'];
-    }
-}
 ?>
 
 <!--header -->
@@ -86,6 +77,27 @@ if ($departamento_id) {
                 </div>
             </div>
         </div>
+
+        <?php
+        $justificacion_enviada = false;
+        if ($departamento_id) {
+            $sql_justificacion = "SELECT Justificacion_Enviada FROM Justificaciones
+        WHERE Departamento_ID = ? AND Codigo_Usuario = ?
+        ORDER BY Fecha_Justificacion DESC LIMIT 1";
+
+            $stmt = $conexion->prepare($sql_justificacion);
+            $stmt->bind_param("is", $departamento_id, $codigo_usuario);
+            $stmt->execute();
+            $result_justificacion = $stmt->get_result();
+
+            if ($result_justificacion->num_rows > 0) {
+                $row_justificacion = $result_justificacion->fetch_assoc();
+                $justificacion_enviada = $row_justificacion['Justificacion_Enviada'] == 1;
+            }
+            $stmt->close();
+        }
+        ?>
+
         <div class="tab-pane">
             <?php
             $fecha_actual = date("Y-m-d H:i:s");
@@ -109,18 +121,24 @@ if ($departamento_id) {
                         <p>Si deseas subir la plantilla, justifica por qué no subiste la plantilla a tiempo.</p>
                     </div>
                     <form id="formulario-justificacion" method="post" action="./config/guardar_justificacion.php">
-                        <textarea name="justificacion" placeholder="Escribe tu justificación aquí" rows="5" required></textarea>
+                        <textarea name="justificacion" placeholder="Escribe tu justificación aquí..." rows="5" required></textarea>
+                        <div id="char-count">0 / 60 caracteres</div>
                         <input type="hidden" name="departamento_id" value="<?php echo $departamento_id; ?>">
                         <input type="hidden" name="codigo_usuario" value="<?php echo $codigo_usuario; ?>">
-                        <button type="submit" class="boton-continuar">Continuar</button>
+                        <button type="submit" class="boton-continuar disabled" disabled>Continuar</button>
                     </form>
                 </div>
             <?php
             } else {
             ?>
                 <div class="info-subida">
-                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></b></p>
+                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
                 </div>
+                <?php if ($fecha_limite_pasada && $justificacion_enviada) { ?>
+                    <div class="container-precaucion">
+                        <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>
+                    </div>
+                <?php } ?>
                 <form id="formulario-subida" enctype="multipart/form-data">
                     <div class="container-inf">
                         <div class="drop-area">
@@ -144,6 +162,8 @@ if ($departamento_id) {
     </div>
 </div>
 
+
+<script src="./js/guardarJustifiicacion.js"></script>
 <script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
 <script src="./JS/pestañas-plantilla.js"></script>
