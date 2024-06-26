@@ -43,6 +43,14 @@
                         <span class="department"><?php echo htmlspecialchars($row['Etiqueta']); ?></span>
                     </div>
                 </div>
+                <div class="event-actions">
+                    <button class="action-btn edit-btn" onclick="editEvent(<?php echo $row['ID_Evento']; ?>)">
+                        <img src="./Img/Icons/iconos-adminAU/editar2.png" alt="Editar">
+                    </button>
+                    <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
+                        <img src="./Img/Icons/iconos-adminAU/borrar2.png" alt="Borrar">
+                    </button>
+                </div>
             </div>
             <?php
         }
@@ -60,3 +68,34 @@
     </div>
 </div>
 <?php include './template/footer.php' ?>
+
+
+<script>
+function deleteEvent(eventId) {
+    fetch('./config/eliminarEvento.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: eventId }),
+    })
+    .then(response => {
+        // Primero, intenta parsear como JSON
+        return response.json().catch(() => response.text());
+    })
+    .then(data => {
+        if (typeof data === 'object' && data.success) {
+            alert(data.message);
+            window.location.reload();
+        } else {
+            // Si no es un objeto JSON, muestra el texto de la respuesta
+            console.error('Respuesta no válida:', data);
+            alert('Error al eliminar el evento. Por favor, inténtalo de nuevo.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al eliminar evento:', error);
+        alert('Error al eliminar el evento. Por favor, inténtalo de nuevo.');
+    });
+}
+</script>
