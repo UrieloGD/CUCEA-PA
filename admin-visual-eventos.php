@@ -110,6 +110,6 @@
 
 <script>
     function editEvent(eventId) {
-        window.location.href = `./config/editarEvento.php?id=${eventId}`;
+        window.location.href = `./editarEvento.php?id=${eventId}`;
     }
 </script>
