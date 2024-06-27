@@ -107,3 +107,9 @@
             });
     }
 </script>
+
+<script>
+    function editEvent(eventId) {
+        window.location.href = `./config/editarEvento.php?id=${eventId}`;
+    }
+</script>
