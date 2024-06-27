@@ -101,9 +101,10 @@
 table {
   flex: auto;
   width: 100%;
-  /* border: solid; */
   border-collapse: collapse; /* Separar los bordes de las celdas */
   border-spacing: 0; /* Eliminar el espacio entre las celdas */
+  border: 2px solid #e7e9f2; /* Agrega un borde sólido a la tabla */
+  margin-bottom: 30px;
 }
 
 th {
@@ -116,10 +117,6 @@ td {
   padding: 10px;
   text-align: left;
   border: none; /* Elimina el borde de las celdas */
-}
-
-table {
-  border: 2px solid #e7e9f2; /* Agrega un borde sólido a la tabla */
 }
 
 .btn img {
