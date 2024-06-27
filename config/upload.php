@@ -2,7 +2,6 @@
 session_start();
 require './../vendor/autoload.php';
 ob_start();
-
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $servername = "localhost";
@@ -12,8 +11,7 @@ $dbname = "pa";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-function safeSubstr($string, $start, $length = null)
-{
+function safeSubstr($string, $start, $length = null) {
     if ($string === null) {
         return null;
     }
@@ -111,57 +109,20 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 
             if ($fecha_inicial) {
                 $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
-                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('d/m/Y') : null;
+                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('Y-m-d') : null;
             }
             if ($fecha_final) {
                 $fecha_final = DateTime::createFromFormat('d/m/Y', $fecha_final);
-                $fecha_final = $fecha_final ? $fecha_final->format('d/m/Y') : null;
+                $fecha_final = $fecha_final ? $fecha_final->format('Y-m-d') : null;
             }
 
-            $stmt->bind_param(
-                "isssssssssssssssssssssssssssssssssssssssss",
-                $departamento_id,
-                $ciclo,
-                $crn,
-                $materia,
-                $cve_materia,
-                $seccion,
-                $nivel,
-                $nivel_tipo,
-                $tipo,
-                $c_min,
-                $h_totales,
-                $estatus,
-                $tipo_contrato,
-                $codigo_profesor,
-                $nombre_profesor,
-                $categoria,
-                $descarga,
-                $codigo_descarga,
-                $nombre_descarga,
-                $nombre_definitivo,
-                $titular,
-                $horas,
-                $codigo_dependencia,
-                $l,
-                $m,
-                $i,
-                $j,
-                $v,
-                $s,
-                $d,
-                $dia_presencial,
-                $dia_virtual,
-                $modalidad,
-                $fecha_inicial,
-                $fecha_final,
-                $hora_inicial,
-                $hora_final,
-                $modulo,
-                $aula,
-                $cupo,
-                $observaciones,
-                $examen_extraordinario
+            $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
+                $departamento_id, $ciclo, $crn, $materia, $cve_materia, $seccion, $nivel, $nivel_tipo, $tipo,
+                $c_min, $h_totales, $estatus, $tipo_contrato, $codigo_profesor, $nombre_profesor,
+                $categoria, $descarga, $codigo_descarga, $nombre_descarga, $nombre_definitivo,
+                $titular, $horas, $codigo_dependencia, $l, $m, $i, $j, $v, $s, $d, $dia_presencial,
+                $dia_virtual, $modalidad, $fecha_inicial, $fecha_final, $hora_inicial, $hora_final,
+                $modulo, $aula, $cupo, $observaciones, $examen_extraordinario
             );
 
             if (!$stmt->execute()) {
@@ -195,3 +156,4 @@ if (json_decode($output) === null) {
 }
 
 $conn->close();
+?>

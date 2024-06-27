@@ -184,6 +184,27 @@
   margin-top: 20px;
 }
 
+/*Estilos botones editar y borrar*/
+
+.event-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.action-btn img {
+  width: 2vw;
+  height: 2vw;
+}
+
 /* Estilos de colores individuales */
 .event-icons span.icon-red {
   background-color: red;
