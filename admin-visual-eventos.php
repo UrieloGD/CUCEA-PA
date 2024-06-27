@@ -27,8 +27,8 @@
     $result = mysqli_query($conexion, $sql);
 
     if (mysqli_num_rows($result) > 0) {
-        while($row = mysqli_fetch_assoc($result)) {
-            ?>
+        while ($row = mysqli_fetch_assoc($result)) {
+    ?>
             <div class="event-container">
                 <div class="event-header">
                     <div class="event-day-container">
@@ -44,14 +44,14 @@
                     </div>
                 </div>
             </div>
-            <?php
+        <?php
         }
     } else {
         ?>
         <div class="event-container" style="text-align: center;">
             <h3>No hay próximos eventos registrados</h3>
         </div>
-        <?php
+    <?php
     }
     ?>
 

@@ -57,17 +57,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (fieldName === "Rol") {
           field.innerHTML = getRolesDropdown(value);
+          // Añadir event listener al select de roles
+          const rolSelect = field.querySelector("select");
+          rolSelect.addEventListener("change", function () {
+            const departamentoField = row.querySelector(
+              '[data-field="Departamento"]'
+            );
+            const departamentoSelect =
+              departamentoField.querySelector("select");
+            if (
+              this.options[this.selectedIndex].text ===
+                "Secretaría Administrativa" ||
+              this.options[this.selectedIndex].text ===
+                "Coordinación de Personal"
+            ) {
+              departamentoSelect.disabled = true;
+              departamentoSelect.value = ""; // Opcional: limpiar la selección
+            } else {
+              departamentoSelect.disabled = false;
+            }
+          });
         } else if (fieldName === "Departamento") {
           field.innerHTML = getDepartamentosDropdown(value);
+          // Verificar el rol actual y deshabilitar si es necesario
+          const rolField = row.querySelector('[data-field="Rol"]');
+          const rolSelect = rolField.querySelector("select");
+          const departamentoSelect = field.querySelector("select");
+          if (
+            rolSelect.options[rolSelect.selectedIndex].text ===
+              "Secretaría Administrativa" ||
+            rolSelect.options[rolSelect.selectedIndex].text ===
+              "Coordinación de Personal"
+          ) {
+            departamentoSelect.disabled = true;
+            departamentoSelect.value = ""; // Opcional: limpiar la selección
+          }
         } else {
           field.innerHTML = `<input type='text' value='${value}' data-field='${fieldName}'>`;
         }
       } else {
         const input = field.querySelector("input");
-
         const select = field.querySelector("select");
-
-        //reloadPage();
 
         if (input) {
           field.innerText = input.value;
@@ -78,12 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     row.querySelector(".edit").style.display = isEditing ? "none" : "";
-
     row.querySelector(".save").style.display = isEditing ? "" : "none";
-
     row.querySelector(".cancel").style.display = isEditing ? "" : "none";
-
-    row.querySelector(".delete").style.display = isEditing ? "none" : ""; // Ocultar botón de borrar al editar
+    row.querySelector(".delete").style.display = isEditing ? "none" : "";
   }
 
   function getRolesDropdown(currentRole) {

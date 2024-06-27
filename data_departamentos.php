@@ -156,7 +156,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       <h2>Cambiar Fecha Límite</h2>
       <form id="fechaLimiteForm" action="./config/updateFechaLimite.php" method="post">
         <label for="fecha_limite">Nueva Fecha Límite:</label>
-        <input type="datetime-local" id="fecha_limite" name="fecha_limite" required>
+        <input type="date" id="fecha_limite" name="fecha_limite" required>
         <button type="submit" class="btn-guardar">Guardar</button>
       </form>
     </div>
