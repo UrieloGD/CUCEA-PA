@@ -273,6 +273,19 @@ document.addEventListener("DOMContentLoaded", function () {
     departamentosSelect.add(option);
   });
 
+  rolesSelect.addEventListener("change", function () {
+    const selectedRole = this.options[this.selectedIndex].text;
+    if (
+      selectedRole === "Secretaría Administrativa" ||
+      selectedRole === "Coordinación de Personal"
+    ) {
+      departamentosSelect.disabled = true;
+      departamentosSelect.value = ""; // Opcional: limpiar la selección
+    } else {
+      departamentosSelect.disabled = false;
+    }
+  });
+
   // Función para mostrar el modal
   function mostrarModal() {
     nuevoUsuarioModal.style.display = "block";
