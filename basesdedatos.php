@@ -52,11 +52,17 @@ $result = mysqli_query($conexion, $sql);
                 <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="descargarExcel()">
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
+    </div>
+    <div id="popup-columnas">
+        <h3>Selecciona las columnas a descargar</h3>
+        <div id="opciones-columnas"></div>
+        <button onclick="descargarExcelSeleccionado()">Descargar</button>
+        <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
     <div class="Tabla">
         <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
@@ -228,12 +234,7 @@ $result = mysqli_query($conexion, $sql);
 <script src="./JS/eliminarRegistro.js"></script>
 <script src="./JS/editarRegistros.js"></script>
 <script src="./JS/añadirRegistro.js"></script>
-<script>
-    function descargarExcel() {
-        var departamento_id = document.getElementById('departamento_id').value;
-        window.location.href = './config/descargar_excel.php?departamento_id=' + departamento_id;
-    }
-</script>
+<script src="./JS/descargarExcel&popUp.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?php include("./template/footer.php"); ?>
