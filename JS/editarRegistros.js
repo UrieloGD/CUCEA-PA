@@ -120,7 +120,13 @@ function editarRegistrosSeleccionados() {
 }
 
 function obtenerNombreCampo(indice) {
-    var campos = ["CICLO", "NRC", "FECHA_INI", "FECHA_FIN", "L", "M", "I", "J", "V", "S", "D", "HORA_INI", "HORA_FIN", "EDIF", "AULA"];
+    var campos = ["CICLO", "CRN", "MATERIA", "CVE_MATERIA", "SECCION", "NIVEL", "NIVEL_TIPO",
+            "TIPO", "C_MIN", "H_TOTALES", "ESTATUS", "TIPO_CONTRATO", "CODIGO_PROFESOR",
+            "NOMBRE_PROFESOR", "CATEGORIA", "DESCARGA", "CODIGO_DESCARGA", "NOMBRE_DESCARGA",
+            "NOMBRE_DEFINITIVO", "TITULAR", "HORAS", "CODIGO_DEPENDENCIA", "L", "M", "I",
+            "J", "V", "S", "D", "DIA_PRESENCIAL", "DIA_VIRTUAL", "MODALIDAD",
+            "FECHA_INICIAL", "FECHA_FINAL", "HORA_INICIAL", "HORA_FINAL", "MODULO",
+            "AULA", "CUPO", "OBSERVACIONES", "EXAMEN_EXTRAORDINARIO"];
     return campos[indice - 2];
 }
 
