@@ -21,7 +21,7 @@ $departamento_nombre = $row_departamento['Departamentos'];
 $tabla_departamento = "Data_" . $nombre_departamento;
 
 // Consulta SQL para obtener los datos de la tabla correspondiente al departamento sin paginación
-$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
+$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
 ?>
 

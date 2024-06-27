@@ -192,19 +192,6 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
 }
 
-// Crear tabla Justificaciones
-$sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
-    Justificacion_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Usuario_ID BIGINT(10) NOT NULL,
-    Departamento_ID INT NOT NULL,
-    Justificacion TEXT NOT NULL,
-    Fecha_Justificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Fecha_Limite_Superada DATETIME NOT NULL,
-    Estado ENUM('Pendiente', 'Aprobada', 'Rechazada') DEFAULT 'Pendiente',
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
-)";
-
 if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Justificaciones creada exitosamente";
 } else {

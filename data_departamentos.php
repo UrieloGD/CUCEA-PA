@@ -96,23 +96,6 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       </tr>
       <tr>
         <?php
-        echo "<td style='text-align: center;'>";
-        if ($fecha_subida !== null && $fecha_subida > $fecha_limite) {
-            $sql_justificacion = "SELECT Justificacion, Estado FROM Justificaciones 
-                                  WHERE Departamento_ID = '$departamento_id' 
-                                  AND Fecha_Limite_Superada = '$fecha_limite'
-                                  ORDER BY Fecha_Justificacion DESC LIMIT 1";
-            $result_justificacion = mysqli_query($conexion, $sql_justificacion);
-            if ($row_justificacion = mysqli_fetch_assoc($result_justificacion)) {
-                echo "<span title='" . htmlspecialchars($row_justificacion['Justificacion']) . "'>
-                      Ver justificación (" . $row_justificacion['Estado'] . ")</span>";
-            } else {
-                echo "Sin justificación";
-            }
-        } else {
-            echo "N/A";
-        }
-        echo "</td>";
         // Consulta para obtener los departamentos y la fecha de subida más reciente
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                         FROM Departamentos d

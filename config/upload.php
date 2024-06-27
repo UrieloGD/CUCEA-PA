@@ -109,11 +109,11 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 
             if ($fecha_inicial) {
                 $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
-                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('d/m/Y') : null;
+                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('Y-m-d') : null;
             }
             if ($fecha_final) {
                 $fecha_final = DateTime::createFromFormat('d/m/Y', $fecha_final);
-                $fecha_final = $fecha_final ? $fecha_final->format('d/m/Y') : null;
+                $fecha_final = $fecha_final ? $fecha_final->format('Y-m-d') : null;
             }
 
             $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
