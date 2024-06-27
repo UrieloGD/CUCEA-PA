@@ -21,7 +21,7 @@ $departamento_nombre = $row_departamento['Departamentos'];
 $tabla_departamento = "Data_" . $nombre_departamento;
 
 // Consulta SQL para obtener los datos de la tabla correspondiente al departamento sin paginación
-$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
+$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
 ?>
 
@@ -65,9 +65,27 @@ $result = mysqli_query($conexion, $sql);
                 <th></th> <!-- columna para el checkbox -->
                 <th>ID</th>
                 <th>CICLO</th>
-                <th>NRC</th>
-                <th>FECHA INI</th>
-                <th>FECHA FIN</th>
+                <th>CRN</th>
+                <th>MATERIA</th>
+                <th>CVE MATERIA</th>
+                <th>SECCIÓN</th>
+                <th>NIVEL</th>
+                <th>NIVEL TIPO</th>
+                <th>TIPO</th>
+                <th>C. MIN</th>
+                <th>H. TOTALES</th>
+                <th>STATUS</th>
+                <th>TIPO CONTRATO</th>
+                <th>CÓDIGO</th>
+                <th>NOMBRE PROFESOR</th>
+                <th>CATEGORIA</th>
+                <th>DESCARGA</th>
+                <th>CÓDIGO DESCARGA</th>
+                <th>NOMBRE DESCARGA</th>
+                <th>NOMBRE DEFINITIVO</th>
+                <th>TITULAR</th>
+                <th>HORAS</th>
+                <th>CÓDIGO DEPENDENCIA</th>
                 <th>L</th>
                 <th>M</th>
                 <th>I</th>
@@ -75,10 +93,18 @@ $result = mysqli_query($conexion, $sql);
                 <th>V</th>
                 <th>S</th>
                 <th>D</th>
-                <th>HORA INI</th>
-                <th>HORA FIN</th>
-                <th>EDIF</th>
+                <th>DÍA PRESENCIAL</th>
+                <th>DÍA VIRTUAL</th>
+                <th>MODALIDAD</th>
+                <th>FECHA INICIAL</th>
+                <th>FECHA FINAL</th>
+                <th>HORA INICIAL</th>
+                <th>HORA FINAL</th>
+                <th>MÓDULO</th>
                 <th>AULA</th>
+                <th>CUPO</th>
+                <th>OBSERVACIONES</th>
+                <th>EXTRAORDINARIO</th>
             </tr>
             <!-- Añadir nuevos registros-->
             <tr>
@@ -87,9 +113,27 @@ $result = mysqli_query($conexion, $sql);
                         <form id="form-añadir-registro" style="display: grid; grid-template-columns: repeat(17, 1fr);">
                             <div></div> <!-- Celda vacía para la columna "ID" -->
                             <input type="text" id="ciclo" name="ciclo" placeholder="CICLO" required class="input-formulario">
-                            <input type="text" id="nrc" name="nrc" placeholder="NRC" required class="input-formulario">
-                            <input type="text" id="fecha_ini" name="fecha_ini" placeholder="FECHA INI" required class="input-formulario">
-                            <input type="text" id="fecha_fin" name="fecha_fin" placeholder="FECHA FIN" required class="input-formulario">
+                            <input type="text" id="crn" name="crn" placeholder="CRN" required class="input-formulario">
+                            <input type="text" id="materia" name="materia" placeholder="MATERIA" required class="input-formulario">
+                            <input type="text" id="cve_materia" name="cve_materia" placeholder="CVE MATERIA" required class="input-formulario">
+                            <input type="text" id="seccion" name="seccion" placeholder="SECCIÓN" required class="input-formulario">
+                            <input type="text" id="nivel" name="nivel" placeholder="NIVEL" required class="input-formulario">
+                            <input type="text" id="nivel_tipo" name="nivel_tipo" placeholder="NIVEL_TIPO" required class="input-formulario">
+                            <input type="text" id="tipo" name="tipo" placeholder="TIPO" required class="input-formulario">
+                            <input type="text" id="c_min" name="c_min" placeholder="C. MIN" required class="input-formulario">
+                            <input type="text" id="h_totales" name="h_totales" placeholder="H. TOTALES" required class="input-formulario">
+                            <input type="text" id="estatus" name="estatus" placeholder="STATUS" required class="input-formulario">
+                            <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="TIPO CONTRATO" required class="input-formulario">
+                            <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="CÓDIGO" required class="input-formulario">
+                            <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="NOMBRE PROFESOR" required class="input-formulario">
+                            <input type="text" id="categoria" name="categoria" placeholder="CATEGORIA" required class="input-formulario">
+                            <input type="text" id="descarga" name="descarga" placeholder="DESCARGA" required class="input-formulario">
+                            <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="CÓDIGO DESCARGA" required class="input-formulario">
+                            <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="NOMBRE DESCARGA" required class="input-formulario">
+                            <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="NOMBRe DEFINITIVO" required class="input-formulario">
+                            <input type="text" id="titular" name="titular" placeholder="TITULAR" required class="input-formulario">
+                            <input type="text" id="horas" name="horas" placeholder="HORAS" required class="input-formulario">
+                            <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="CÓDIGO DEPENDENCIA" required class="input-formulario">
                             <input type="text" id="l" name="l" placeholder="L" class="input-formulario">
                             <input type="text" id="m" name="m" placeholder="M" class="input-formulario">
                             <input type="text" id="i" name="i" placeholder="I" class="input-formulario">
@@ -97,10 +141,18 @@ $result = mysqli_query($conexion, $sql);
                             <input type="text" id="v" name="v" placeholder="V" class="input-formulario">
                             <input type="text" id="s" name="s" placeholder="S" class="input-formulario">
                             <input type="text" id="d" name="d" placeholder="D" class="input-formulario">
-                            <input type="text" id="hora_ini" name="hora_ini" placeholder="HORA INI" required class="input-formulario">
-                            <input type="text" id="hora_fin" name="hora_fin" placeholder="HORA FIN" required class="input-formulario">
-                            <input type="text" id="edif" name="edif" placeholder="EDIF" required class="input-formulario">
+                            <input type="text" id="dia_presencial" name="dia_presencial" placeholder="DIA PRESENCIAL" required class="input-formulario">
+                            <input type="text" id="dia_virtual" name="dia_virtual" placeholder="DIA VIRTUAL" required class="input-formulario">
+                            <input type="text" id="modalidad" name="modalidad" placeholder="MODALIDAD" required class="input-formulario">
+                            <input type="text" id="fecha_inicial" name="fecha_inicial" placeholder="FECHA INICIAL" required class="input-formulario">
+                            <input type="text" id="fecha_final" name="fecha_final" placeholder="FECHA FINAL" required class="input-formulario">
+                            <input type="text" id="hora_inicial" name="hora_inicial" placeholder="HORA INICIAL" required class="input-formulario">
+                            <input type="text" id="hora_final" name="hora_final" placeholder="HORA FINAL" required class="input-formulario">
+                            <input type="text" id="modulo" name="modulo" placeholder="MODULO" required class="input-formulario">
                             <input type="text" id="aula" name="aula" placeholder="AULA" required class="input-formulario">
+                            <input type="text" id="cupo" name="cupo" placeholder="CUPO" required class="input-formulario">
+                            <input type="text" id="observaciones" name="observaciones" placeholder="OBSERVACIONES" required class="input-formulario">
+                            <input type="text" id="extraordinario" name="extraordinario" placeholder="EXTRAORDINARIO" required class="input-formulario">
                             <div style="display: flex; flex-direction: column;">
                                 <button type="button" onclick="añadirRegistro()">Añadir</button>
                                 <button type="button" onclick="cerrarFormularioAñadir()">Cancelar</button>
@@ -116,13 +168,30 @@ $result = mysqli_query($conexion, $sql);
                 // Recorrer los resultados y mostrarlos en la tabla
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-
                     echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>"; // Agregar el checkbox
                     echo "<td>" . $row["ID_Plantilla"] . "</td>";
                     echo "<td>" . $row["CICLO"] . "</td>";
-                    echo "<td>" . $row["NRC"] . "</td>";
-                    echo "<td>" . $row["FECHA_INI"] . "</td>";
-                    echo "<td>" . $row["FECHA_FIN"] . "</td>";
+                    echo "<td>" . $row["CRN"] . "</td>";
+                    echo "<td>" . $row["MATERIA"] . "</td>";
+                    echo "<td>" . $row["CVE_MATERIA"] . "</td>";
+                    echo "<td>" . $row["SECCION"] . "</td>";
+                    echo "<td>" . $row["NIVEL"] . "</td>";
+                    echo "<td>" . $row["NIVEL_TIPO"] . "</td>";
+                    echo "<td>" . $row["TIPO"] . "</td>";
+                    echo "<td>" . $row["C_MIN"] . "</td>";
+                    echo "<td>" . $row["H_TOTALES"] . "</td>";
+                    echo "<td>" . $row["ESTATUS"] . "</td>";
+                    echo "<td>" . $row["TIPO_CONTRATO"] . "</td>";
+                    echo "<td>" . $row["CODIGO_PROFESOR"] . "</td>";
+                    echo "<td>" . $row["NOMBRE_PROFESOR"] . "</td>";
+                    echo "<td>" . $row["CATEGORIA"] . "</td>";
+                    echo "<td>" . $row["DESCARGA"] . "</td>";
+                    echo "<td>" . $row["CODIGO_DESCARGA"] . "</td>";
+                    echo "<td>" . $row["NOMBRE_DESCARGA"] . "</td>";
+                    echo "<td>" . $row["NOMBRE_DEFINITIVO"] . "</td>";
+                    echo "<td>" . $row["TITULAR"] . "</td>";
+                    echo "<td>" . $row["HORAS"] . "</td>";
+                    echo "<td>" . $row["CODIGO_DEPENDENCIA"] . "</td>";
                     echo "<td>" . $row["L"] . "</td>";
                     echo "<td>" . $row["M"] . "</td>";
                     echo "<td>" . $row["I"] . "</td>";
@@ -130,10 +199,18 @@ $result = mysqli_query($conexion, $sql);
                     echo "<td>" . $row["V"] . "</td>";
                     echo "<td>" . $row["S"] . "</td>";
                     echo "<td>" . $row["D"] . "</td>";
-                    echo "<td>" . $row["HORA_INI"] . "</td>";
-                    echo "<td>" . $row["HORA_FIN"] . "</td>";
-                    echo "<td>" . $row["EDIF"] . "</td>";
+                    echo "<td>" . $row["DIA_PRESENCIAL"] . "</td>";
+                    echo "<td>" . $row["DIA_VIRTUAL"] . "</td>";
+                    echo "<td>" . $row["MODALIDAD"] . "</td>";
+                    echo "<td>" . $row["FECHA_INICIAL"] . "</td>";
+                    echo "<td>" . $row["FECHA_FINAL"] . "</td>";
+                    echo "<td>" . $row["HORA_INICIAL"] . "</td>";
+                    echo "<td>" . $row["HORA_FINAL"] . "</td>";
+                    echo "<td>" . $row["MODULO"] . "</td>";
                     echo "<td>" . $row["AULA"] . "</td>";
+                    echo "<td>" . $row["CUPO"] . "</td>";
+                    echo "<td>" . $row["OBSERVACIONES"] . "</td>";
+                    echo "<td>" . $row["EXAMEN_EXTRAORDINARIO"] . "</td>";
                     echo "</tr>";
                 }
             } else {
