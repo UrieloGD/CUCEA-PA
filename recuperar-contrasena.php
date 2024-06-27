@@ -18,12 +18,13 @@
                 <div class="login-container">
                     <div class="space-y-4">
                         <div>
-                            <img src="./Img/logos/LogoCUCEA-COLORES.png" width="100%" height="100%" alt="CUCEA" />
+                            <img src="./Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA" />
                         </div>
                         <br />
-                        <div class="text-center">
-                            <h1 class="text-3xl font-bold">Mi plataforma CUCEA</h1>
+                        <div>
+                            <img src="./Img/logos/LogoPA-Color.png" width="100%" height="100%" alt="LogoPA" />
                         </div>
+                        <br />
                         <div class="space-y-4">
                             <div class="space-y-2">
                                 <label class="text-sm font-medium" for="email">Correo</label>
