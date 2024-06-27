@@ -7,6 +7,7 @@
   <title>Login</title>
   <link rel="stylesheet" href="./CSS/navbar.css" />
   <link rel="stylesheet" href="./CSS/login.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -53,3 +54,19 @@
 </body>
 
 </html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    if (error === '1') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de autenticación',
+        text: 'Usuario o contraseña incorrectos',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  });
+</script>

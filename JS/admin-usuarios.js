@@ -28,10 +28,21 @@ document.addEventListener("DOMContentLoaded", function () {
   cancelButtons.forEach((button) => {
     button.addEventListener("click", function (event) {
       event.preventDefault();
-
       const row = button.closest("tr");
-
-      toggleEdit(row, false);
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Se perderán los cambios no guardados.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, cancelar edición",
+        cancelButtonText: "No, continuar editando",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          reloadPage(); // recargar página al cancelar edición
+        }
+      });
     });
   });
 
@@ -107,74 +118,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function saveChanges(row) {
     const userId = row.getAttribute("data-id");
-
     const inputs = row.querySelectorAll("input");
-
     const selects = row.querySelectorAll("select");
-
     const data = {};
 
     inputs.forEach((input) => {
       const fieldName = input.getAttribute("data-field");
-
       data[fieldName] = input.value;
     });
 
     selects.forEach((select) => {
       const fieldName = select.getAttribute("data-field");
-
       data[fieldName] = select.value;
     });
 
-    console.log("Sending data to server:", { id: userId, ...data }); // Log data está siendo enviada
+    console.log("Sending data to server:", { id: userId, ...data });
 
     fetch("config/editarUsuario.php", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         id: userId,
-
         ...data,
       }),
     })
       .then((response) => response.json())
-
       .then((result) => {
-        console.log("Server response:", result); // Log repuesta del servidor
-
+        console.log("Server response:", result);
         if (result.success) {
-          inputs.forEach((input) => {
-            const fieldName = input.getAttribute("data-field");
-
-            row.querySelector(`.editable[data-field=${fieldName}]`).innerText =
-              input.value;
-
-            //reloadPage();
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Usuario actualizado exitosamente",
+          }).then(() => {
+            reloadPage();
           });
-
-          selects.forEach((select) => {
-            const fieldName = select.getAttribute("data-field");
-
-            row.querySelector(`.editable[data-field=${fieldName}]`).innerText =
-              select.options[select.selectedIndex].text;
-          });
-
-          toggleEdit(row, false);
         } else {
-          console.error(result.message); //Mensaje para hacer debug
-
-          alert("Error al actualizar el usuario: " + result.message); // Mostrar mensaje de error
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al actualizar el usuario: " + result.message,
+          });
         }
       })
-
       .catch((error) => {
         console.error("Error:", error);
-
-        alert("Error al actualizar el usuario.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al procesar la solicitud.",
+        });
       });
   }
 
@@ -188,31 +183,48 @@ document.addEventListener("DOMContentLoaded", function () {
       const row = button.closest("tr");
       const userId = row.getAttribute("data-id");
 
-      if (
-        confirm(`¿Estás seguro de eliminar al usuario con código ${userId}?`)
-      ) {
-        fetch("config/eliminarUsuario.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: userId }),
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            console.log("Server response:", result);
-            if (result.success) {
-              row.remove();
-              alert("Usuario eliminado exitosamente");
-            } else {
-              alert("Error al eliminar el usuario: " + result.message);
-            }
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: `¿Quieres eliminar al usuario con código ${userId}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch("config/eliminarUsuario.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: userId }),
           })
-          .catch((error) => {
-            console.error("Error:", error);
-            alert("Error al eliminar el usuario.");
-          });
-      }
+            .then((response) => response.json())
+            .then((result) => {
+              console.log("Server response:", result);
+              if (result.success) {
+                row.remove();
+                Swal.fire(
+                  "Eliminado",
+                  "El usuario ha sido eliminado exitosamente.",
+                  "success"
+                );
+              } else {
+                Swal.fire(
+                  "Error",
+                  "Error al eliminar el usuario: " + result.message,
+                  "error"
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              Swal.fire("Error", "Error al eliminar el usuario.", "error");
+            });
+        }
+      });
     });
   });
 
@@ -308,19 +320,41 @@ document.addEventListener("DOMContentLoaded", function () {
       password,
     };
 
-    // Enviar los datos al servidor usando AJAX
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "./config/guardarUsuario.php", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        // Manejar la respuesta del servidor
-        console.log(xhr.responseText);
-        // Aquí puedes agregar código para actualizar la tabla de usuarios u otras acciones
-        ocultarModal(); // Ocultar el modal después de guardar el usuario
-      }
-    };
-    xhr.send(JSON.stringify(datos));
+    // Enviar los datos al servidor usando fetch
+    fetch("./config/guardarUsuario.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datos),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success) {
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: result.message,
+          }).then(() => {
+            ocultarModal(); // Ocultar el modal después de guardar el usuario
+            // Aquí puedes agregar código para actualizar la tabla de usuarios si es necesario
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: result.message,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al procesar la solicitud.",
+        });
+      });
   };
 
   // Evento click para cerrar el modal al hacer clic fuera de él
@@ -331,8 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 });
 
-filterTable();
-
-//function reloadPage() {
-//window.location.reload();
-//}
+function reloadPage() {
+  window.location.reload();
+}

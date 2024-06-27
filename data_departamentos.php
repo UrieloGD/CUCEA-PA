@@ -4,6 +4,30 @@
 <?php include './template/navbar.php' ?>
 
 <?php
+// Verifica si el parámetro de éxito está presente en la URL
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+  echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Fecha límite actualizada',
+                text: 'La fecha límite se ha actualizado correctamente.',
+                confirmButtonText: 'Aceptar'
+            }).then(function() {
+                // Eliminar el parámetro success de la URL
+                if (window.history.replaceState) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('success');
+                    window.history.replaceState({path: url.href}, '', url.href);
+                }
+            });
+        });
+    </script>";
+}
+?>
+
+
+<?php
 // Conexión a la base de datos
 include './config/db.php';
 
@@ -139,7 +163,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   </div>
 
   <div class="fechalimite">
-    <span>La fecha límite actual es <?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span>
+    <span>La fecha límite actual es <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></span>
   </div>
 
   <!-- Modal para cambiar fecha límite -->
@@ -150,7 +174,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       <form id="fechaLimiteForm" action="./config/updateFechaLimite.php" method="post">
         <label for="fecha_limite">Nueva Fecha Límite:</label>
         <input type="datetime-local" id="fecha_limite" name="fecha_limite" required>
-        <button type="submit" class="btn">Guardar</button>
+        <button type="submit" class="btn-guardar">Guardar</button>
       </form>
     </div>
   </div>
@@ -195,14 +219,15 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       margin: 15% auto;
       padding: 20px;
       border: 1px solid #888;
-      width: 80%;
+      width: 70%;
       max-width: 600px;
+      border-radius: 10px;
     }
 
     .close {
-      color: #aaa;
+      color: #0071b0;
       float: right;
-      font-size: 28px;
+      font-size: 38px;
       font-weight: bold;
     }
 

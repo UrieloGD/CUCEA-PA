@@ -7,6 +7,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="./CSS/navbar.css" />
     <link rel="stylesheet" href="./CSS/login.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -34,6 +35,10 @@
                         <div class="text-center">
                             <input type="submit" class="button-3" value="Recuperar contraseña">
                         </div>
+                        <br>
+                        <div class="text-center">
+                            <a class="text-sm-nip text-blue-500 hover:underline" href="./login.php">Regresar al inicio.</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,3 +48,37 @@
 </body>
 
 </html>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        fetch('./config/recovery.php', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.message,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message,
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema al procesar la solicitud.',
+                });
+            });
+    });
+</script>

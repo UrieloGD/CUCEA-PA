@@ -1,13 +1,14 @@
 <?php
 session_start();
-include './config/db.php';
+include './db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $justificacion = mysqli_real_escape_string($conexion, $_POST['justificacion']);
     $departamento_id = $_POST['departamento_id'];
-    $usuario_id = $_POST['usuario_id'];
+    $codigo_usuario = $_POST['codigo_usuario'];
 
-    $sql = "INSERT INTO Justificaciones (Departamento_ID, Usuario_ID, Justificacion) VALUES ('$departamento_id', '$usuario_id', '$justificacion')";
+    // Insertar justificación y marcarla como enviada
+    $sql = "INSERT INTO Justificaciones (Departamento_ID, Codigo_Usuario, Justificacion, Justificacion_Enviada) VALUES ('$departamento_id', '$codigo_usuario', '$justificacion', 1)";
 
     if (mysqli_query($conexion, $sql)) {
         echo "Justificación guardada exitosamente";
