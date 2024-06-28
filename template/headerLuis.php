@@ -1,7 +1,7 @@
 <?php
   include('./config/sesionIniciada.php')
 ?>
-<link rel="stylesheet" href="./CSS/notificaciones.css" />
+
 <div class="container">
   <div class="header">
   <div class="header-content"> <!-- Contenedor para alinear contenidos del header creo? -->
@@ -128,62 +128,26 @@
       <h3><?php echo $nombre_rol; ?></h3>
     </div>
     <li class="icono-notificaciones">
-      <a href="javascript:void(0);" id="notification-icon" onclick="toggleNav()">
+      <a href="#" id="notification-icon">
         <i class="fas fa-bell" style="font-size: 28px; color: black;"></i>
       </a>
     </li>
+    <!-- Add the notification menu container -->
+    <div class="notification-menu" id="notification-menu">
+      <div class="date">
+        <span id="current-time"></span><br>
+        <span id="current-date"></span>
+      </div>
+      <hr>
+      <ul id="notifications">
+      </ul>
+      <div class="icons">
+        <i id="notification-icon" class="fas fa-bell" style="font-size: 28px; color: black;"></i>
+        <i id="calendar-icon" class="fas fa-calendar" style="font-size: 28px; color: black;"></i>
+      </div>
     </div>
-    <div id="mySidebar" class="sidebar">
-  <div class="contenedor-fecha-hora">
-    <div class="fecha-hora-info">
-      <div class="hora">13:20:59</div>
-      <div class="fecha">17 de junio de 2024</div>
-    </div>
-    <button class="marcar-leido">Marcar como leído</button>
-  </div>
-  <div class="contenedor-notificacion">
-    <div class="imagen">
-      <div class="circulo"></div>
-    </div>
-    <div class="info-notificacion">
-      <div class="usuario">Coordinación de Personal</div>
-      <div class="descripcion">Ha realizado una solicitud de cambios</div>
-      <div class="fecha-hora">3 de junio, 14:20 horas</div>
     </div>
   </div>
-  <div class="contenedor-notificacion">
-            <div class="imagen">
-                <div class="circulo"></div>
-            </div>
-            <div class="info-notificacion">
-                <div class="usuario">Estudios regionales</div>
-                <div class="descripcion">La base de datos no ha sido actualizada</div>
-                <div class="fecha-hora">3 de junio, 11:30 horas</div>
-            </div>
-        </div>
-        <div class="contenedor-notificacion">
-            <div class="imagen">
-                <div class="circulo"></div>
-            </div>
-            <div class="info-notificacion">
-                <div class="usuario">Políticas públicas</div>
-                <div class="descripcion">La base de datos ha sido actualizada correctamente</div>
-                <div class="fecha-hora">3 de junio, 11:30 horas</div>
-            </div>
-        </div>
-        <div class="contenedor-notificacion">
-            <div class="imagen">
-                <div class="circulo"></div>
-            </div>
-            <div class="info-notificacion">
-                <div class="usuario">Control Escolar</div>
-                <div class="descripcion">Ha enviado una solicitud de apertura de sección</div>
-                <div class="fecha-hora">2 de junio, 11:30 horas</div>
-            </div>
-        </div>
-  <!-- Agrega aquí las demás notificaciones del segundo código -->
-</div>
-  </div>
-  <script src="./JS/header.js"></script>
-  <script src="./JS/barra-notificaciones.js"></script>
+  <script src="./JS/headerLuis.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

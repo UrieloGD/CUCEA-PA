@@ -1,7 +1,5 @@
 <?php
 header('Content-Type: application/json');
-
-// Asegúrate de que la ruta sea correcta
 require_once __DIR__ . '/db.php';
 
 // Leer datos de la solicitud
