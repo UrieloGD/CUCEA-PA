@@ -38,7 +38,6 @@
                     <div class="event-day-container">
                         <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Fecha_Inicio'])); ?></div>
                         <div class="event-time"><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></div>
-                        <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Fecha_Fin'])); ?></div>
 
                     </div>
                 </div>
