@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="./CSS/admin-visual-eventos.css" />
 
 <!--Cuadro principal del home-->
-<!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <!--Pestaña azul-->
     <div class="encabezado">
@@ -77,33 +76,57 @@
 
 <script>
     function deleteEvent(eventId) {
-        fetch('./config/eliminarEvento.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    id: eventId
-                }),
-            })
-            .then(response => {
-                // Primero, intenta parsear como JSON
-                return response.json().catch(() => response.text());
-            })
-            .then(data => {
-                if (typeof data === 'object' && data.success) {
-                    alert(data.message);
-                    window.location.reload();
-                } else {
-                    // Si no es un objeto JSON, muestra el texto de la respuesta
-                    console.error('Respuesta no válida:', data);
-                    alert('Error al eliminar el evento. Por favor, inténtalo de nuevo.');
-                }
-            })
-            .catch(error => {
-                console.error('Error al eliminar evento:', error);
-                alert('Error al eliminar el evento. Por favor, inténtalo de nuevo.');
-            });
+        Swal.fire({
+            title: 'Estás a punto de eliminar el evento',
+            text: "¿Estás seguro?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('./config/eliminarEvento.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            id: eventId
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire(
+                                'Eliminado',
+                                'El evento ha sido eliminado.',
+                                'success'
+                            ).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                data.message,
+                                'error'
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire(
+                            'Error!',
+                            'Error al eliminar el evento. Por favor, inténtalo de nuevo.',
+                            'error'
+                        );
+                    });
+            }
+        });
+    }
+
+    function editEvent(eventId) {
+        window.location.href = `./editarEvento.php?id=${eventId}`;
     }
 </script>
 
@@ -112,3 +135,5 @@
         window.location.href = `./editarEvento.php?id=${eventId}`;
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
