@@ -33,7 +33,13 @@ include './template/navbar.php';
                 7 => "Recursos Humanos",
                 8 => "Métodos Cuantitativos",
                 9 => "Políticas Públicas",
-                10 => "Administración"
+                10 => "Administración",
+                11 => "Auditoría",
+                12 => "Mercadotecnia",
+                13 => "Impuestos",
+                14 => "Sistemas de Información",
+                15 => "Turisimo",
+                16 => "Contabilidad"
             ];
 
             $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM Plantilla_SA";

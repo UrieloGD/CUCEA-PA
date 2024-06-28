@@ -27,11 +27,11 @@
                 <div class="login-container">
                     <div class="space-y-4">
                         <div>
-                            <img src="./Img/logos/LogoCUCEA-COLORES.png" width="100%" height="100%" alt="CUCEA">
+                            <img src="./Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA">
                         </div>
                         <br>
                         <div class="text-center">
-                            <h1 class="text-3xl font-bold">Mi plataforma CUCEA</h1>
+                            <img src="./Img/logos/LogoPA-Color.png" width="100%" height="100%"></img>
                         </div>
                         <div class="space-y-4">
                             <div class="space-y-2">
