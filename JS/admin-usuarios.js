@@ -368,31 +368,29 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       body: JSON.stringify(datos),
     })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.success) {
-          Swal.fire({
-            icon: "success",
-            title: "¡Éxito!",
-            text: result.message,
-          }).then(() => {
-            ocultarModal(); // Ocultar el modal después de guardar el usuario
-            // Aquí puedes agregar código para actualizar la tabla de usuarios si es necesario
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: result.message,
-          });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text(); // Primero obtenemos el texto de la respuesta
+      })
+      .then(text => {
+        try {
+          return JSON.parse(text); // Intentamos parsearlo como JSON
+        } catch (e) {
+          console.error("La respuesta no es JSON válido:", text);
+          throw new Error("La respuesta del servidor no es JSON válido");
         }
       })
-      .catch((error) => {
+      .then(result => {
+        // Manejo del resultado como antes
+      })
+      .catch(error => {
         console.error("Error:", error);
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Hubo un problema al procesar la solicitud.",
+          text: "Hubo un problema al procesar la solicitud: " + error.message,
         });
       });
   };
