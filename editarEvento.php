@@ -1,9 +1,6 @@
-
 <?php
 //<!-- Conexión a la base de datos -->
 include './config/db.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 // Verificar si se proporcionó un ID de evento
 if (!isset($_GET['id'])) {
@@ -20,24 +17,30 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
-    die(json_encode(['status' => 'error', 'message' => 'No se encontró el evento']));}
+    die(json_encode(['status' => 'error', 'message' => 'No se encontró el evento']));
+}
 
 $evento = $result->fetch_assoc();
 
 
 // Procesar el formulario cuando se envía
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    header('Content-Type: application/json');
+    error_reporting(0);
+    ini_set('display_errors', 0);
+
+
     try {
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
-        $fecha_inicio = $_POST['fecha_inicio'];
-        $fecha_fin = $_POST['fecha_fin'];
-        $hora_inicio = $_POST['hora_inicio'];
-        $hora_fin = $_POST['hora_fin'];
-        $etiqueta = $_POST['etiqueta'];
-        $participantes = $_POST['participantes'];
-        $notificaciones = $_POST['notificaciones'];
-        $hora_noti = $_POST['hora_noti'];
+        $nombre = $_POST['nombre'] ?? '';
+        $descripcion = $_POST['descripcion'] ?? '';
+        $fecha_inicio = $_POST['fecha_inicio'] ?? '';
+        $fecha_fin = $_POST['fecha_fin'] ?? '';
+        $hora_inicio = $_POST['hora_inicio'] ?? '';
+        $hora_fin = $_POST['hora_fin'] ?? '';
+        $etiqueta = $_POST['etiqueta'] ?? '';
+        $participantes = isset($_POST['participantes']) ? implode(',', $_POST['participantes']) : '';
+        $notificaciones = $_POST['notificaciones'] ?? '';
+        $hora_noti = $_POST['hora_noti'] ?? '';
 
         $sql = "UPDATE Eventos_Admin SET 
                 Nombre_Evento = ?, 
@@ -56,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, $hora_inicio, $hora_fin, $etiqueta, $participantes, $notificaciones, $hora_noti, $id);
 
         if ($stmt->execute()) {
-            echo json_encode(['status' => 'success']);
+            echo json_encode(['status' => 'success', 'message' => 'Cambios guardados correctamente']);
         } else {
             echo json_encode(['status' => 'error', 'message' => $stmt->error]);
         }
@@ -90,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </label>
                 <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($evento['Nombre_Evento']); ?>" required>
             </div>
-            
+
             <div class="form-group">
                 <label>
                     <i class="fas fa-calendar"></i> Fecha y hora
@@ -104,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="time" id="hora_fin" name="hora_fin" value="<?php echo $evento['Hora_Fin']; ?>" required>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label>
                     <i class="fas fa-bell"></i> Notificaciones
@@ -121,61 +124,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input type="time" id="hora_noti" name="hora_noti" value="<?php echo $evento['Hora_Noti']; ?>" required>
                 </div>
             </div>
-            
+
             <div class="form-group split-group">
                 <div class="split-item">
-                <label for="participantes">
-            <i class="fas fa-users"></i> Participantes
-        </label>
-        <select id="participantes" name="participantes[]" multiple>
-            <option value="">Selecciona los participantes</option>
-            <?php
-            // Obtener usuarios de la base de datos
-            $sql = "SELECT Codigo, Nombre, Apellido, Correo FROM Usuarios";
-            $resultado = $conexion->query($sql);
-
-            // Generar opciones del dropdown
-            if ($resultado->num_rows > 0) {
-                while ($fila = $resultado->fetch_assoc()) {
-                    $codigo = $fila["Codigo"];
-                    $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
-                    $correo = $fila["Correo"];
-                    $selected = in_array($codigo, explode(',', $evento['Participantes'])) ? 'selected' : '';
-                    echo "<option value='$codigo' $selected>$nombre ($correo)</option>";
-                }
-            } else {
-                echo "<option value=''>No hay usuarios registrados</option>";
-            }
-            ?>
-        </select>
-        <div id="participantes-seleccionados"></div>
-                <div class="split-item">
-                    <label for="etiqueta">
-                        <i class="fas fa-tag"></i> Etiqueta
+                    <label for="participantes">
+                        <i class="fas fa-users"></i> Participantes
                     </label>
-                    <select id="etiqueta" name="etiqueta">
-                        <option value="">Elige una etiqueta</option>
-                        <option value="Programación Académica" <?php echo ($evento['Etiqueta'] == 'Programación Académica') ? 'selected' : ''; ?>>Programación Académica</option>
-                        <option value="Oferta Académica" <?php echo ($evento['Etiqueta'] == 'Oferta Académica') ? 'selected' : ''; ?>>Oferta Académica</option>
-                        <option value="Administrativo" <?php echo ($evento['Etiqueta'] == 'Administrativo') ? 'selected' : ''; ?>>Administrativo</option>
+                    <select id="participantes" name="participantes[]" multiple>
+                        <option value="" selected disabled>Selecciona los participantes</option>
+                        <?php
+                        // Obtener usuarios de la base de datos
+                        $sql = "SELECT Codigo, Nombre, Apellido, Correo FROM Usuarios";
+                        $resultado = $conexion->query($sql);
+
+                        // Generar opciones del dropdown
+                        if ($resultado->num_rows > 0) {
+                            while ($fila = $resultado->fetch_assoc()) {
+                                $codigo = $fila["Codigo"];
+                                $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
+                                $correo = $fila["Correo"];
+                                $selected = in_array($codigo, explode(',', $evento['Participantes'])) ? 'selected' : '';
+                                echo "<option value='$codigo' $selected>$nombre ($correo)</option>";
+                            }
+                        } else {
+                            echo "<option value=''>No hay usuarios registrados</option>";
+                        }
+                        ?>
                     </select>
+                    <div id="participantes-seleccionados"></div>
+                    <div class="split-item">
+                        <label for="etiqueta">
+                            <i class="fas fa-tag"></i> Etiqueta
+                        </label>
+                        <select id="etiqueta" name="etiqueta">
+                            <option value="">Elige una etiqueta</option>
+                            <option value="Programación Académica" <?php echo ($evento['Etiqueta'] == 'Programación Académica') ? 'selected' : ''; ?>>Programación Académica</option>
+                            <option value="Oferta Académica" <?php echo ($evento['Etiqueta'] == 'Oferta Académica') ? 'selected' : ''; ?>>Oferta Académica</option>
+                            <option value="Administrativo" <?php echo ($evento['Etiqueta'] == 'Administrativo') ? 'selected' : ''; ?>>Administrativo</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-                            
-            <div class="form-group">
-                <label for="descripcion">
-                    <i class="fas fa-align-left"></i> Descripción
-                </label>
-                <textarea id="descripcion" name="descripcion" rows="4"><?php echo htmlspecialchars($evento['Descripcion_Evento']); ?></textarea>
-            </div>
-            
-            <div class="form-actions">
-                <button type="submit" class="btn-guardar">Guardar cambios</button>
-                <a href="./admin-visual-eventos.php"><button type="button" class="btn-cancelar">Cancelar</button></a>
-            </div>
-        </form>        
+
+                <div class="form-group">
+                    <label for="descripcion">
+                        <i class="fas fa-align-left"></i> Descripción
+                    </label>
+                    <textarea id="descripcion" name="descripcion" rows="4"><?php echo htmlspecialchars($evento['Descripcion_Evento']); ?></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-guardar">Guardar cambios</button>
+                    <a href="./admin-visual-eventos.php"><button type="button" class="btn-cancelar">Cancelar</button></a>
+                </div>
+        </form>
     </div>
-    
+
     <script>
         document.getElementById('eventoForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -190,86 +193,67 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 confirmButtonText: 'Sí, guardar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
-            if (result.isConfirmed) {
-                var formData = new FormData(this);
+                if (result.isConfirmed) {
+                    var formData = new FormData(this);
 
-                fetch(window.location.href, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if(data.status === 'success') {
-                        Swal.fire(
-                            '¡Guardado!',
-                            'Los cambios han sido guardados.',
-                            'success'
-                        ).then(() => {
-                            window.location.href = './admin-visual-eventos.php';
+                    fetch(window.location.href, {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.text();
+                        })
+                        .then(text => {
+                            console.log('Server response:', text); // Para depuración
+                            try {
+                                return JSON.parse(text);
+                            } catch (error) {
+                                console.error('Error parsing JSON:', text);
+                                throw new Error('Invalid JSON response');
+                            }
+                        })
+                        .then(data => {
+                            if (data.status === 'success') {
+                                Swal.fire(
+                                    '¡Guardado!',
+                                    data.message || 'Los cambios han sido guardados.',
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = './admin-visual-eventos.php';
+                                });
+                            } else {
+                                throw new Error(data.message || 'Error desconocido');
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al procesar la respuesta del servidor: ' + error.message,
+                                'error'
+                            );
                         });
-                    } else {
-                        Swal.fire(
-                            'Error',
-                            'Hubo un problema al guardar los cambios: ' + data.message,
-                            'error'
-                        );
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                    Swal.fire(
-                        'Error',
-                        'Hubo un problema al procesar la respuesta del servidor.',
-                        'error'
-                    );
-                });
-            }
+                }
+            });
         });
-    });
 
-    // Código para manejar la selección de participantes
-    const selectParticipantes = document.getElementById('participantes');
-    const contenedorParticipantes = document.getElementById('participantes-seleccionados');
+        // Código para manejar la selección de participantes
+        const selectParticipantes = document.getElementById('participantes');
+        const contenedorParticipantes = document.getElementById('participantes-seleccionados');
 
-    function agregarParticipante() {
-        const participanteSeleccionado = selectParticipantes.value;
-        const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
+        function agregarParticipante() {
+            const participanteSeleccionado = selectParticipantes.value;
+            const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
 
-        if (participanteSeleccionado) {
-            const tarjetaParticipante = document.createElement('div');
-            tarjetaParticipante.classList.add('participante-tarjeta');
-
-            const nombreParticipanteElement = document.createElement('span');
-            nombreParticipanteElement.textContent = nombreParticipante;
-            tarjetaParticipante.appendChild(nombreParticipanteElement);
-
-            const cerrarParticipante = document.createElement('span');
-            cerrarParticipante.classList.add('cerrar');
-            cerrarParticipante.textContent = '×';
-            cerrarParticipante.addEventListener('click', eliminarParticipante);
-            tarjetaParticipante.appendChild(cerrarParticipante);
-
-            contenedorParticipantes.appendChild(tarjetaParticipante);
-            selectParticipantes.selectedIndex = 0;
-        }
-    }
-
-    function eliminarParticipante(evento) {
-        const tarjetaParticipante = evento.target.parentNode;
-        tarjetaParticipante.remove();
-    }
-
-    selectParticipantes.addEventListener('change', agregarParticipante);
-
-    // Inicializar las tarjetas de participantes existentes
-    window.addEventListener('load', function() {
-        for (let option of selectParticipantes.options) {
-            if (option.selected) {
+            if (participanteSeleccionado) {
                 const tarjetaParticipante = document.createElement('div');
                 tarjetaParticipante.classList.add('participante-tarjeta');
 
                 const nombreParticipanteElement = document.createElement('span');
-                nombreParticipanteElement.textContent = option.text;
+                nombreParticipanteElement.textContent = nombreParticipante;
                 tarjetaParticipante.appendChild(nombreParticipanteElement);
 
                 const cerrarParticipante = document.createElement('span');
@@ -279,11 +263,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 tarjetaParticipante.appendChild(cerrarParticipante);
 
                 contenedorParticipantes.appendChild(tarjetaParticipante);
+                selectParticipantes.selectedIndex = 0;
             }
         }
-    });
+
+        function eliminarParticipante(evento) {
+            const tarjetaParticipante = evento.target.parentNode;
+            tarjetaParticipante.remove();
+        }
+
+        selectParticipantes.addEventListener('change', agregarParticipante);
+
+        // Inicializar las tarjetas de participantes existentes
+        window.addEventListener('load', function() {
+            for (let option of selectParticipantes.options) {
+                if (option.selected) {
+                    const tarjetaParticipante = document.createElement('div');
+                    tarjetaParticipante.classList.add('participante-tarjeta');
+
+                    const nombreParticipanteElement = document.createElement('span');
+                    nombreParticipanteElement.textContent = option.text;
+                    tarjetaParticipante.appendChild(nombreParticipanteElement);
+
+                    const cerrarParticipante = document.createElement('span');
+                    cerrarParticipante.classList.add('cerrar');
+                    cerrarParticipante.textContent = '×';
+                    cerrarParticipante.addEventListener('click', eliminarParticipante);
+                    tarjetaParticipante.appendChild(cerrarParticipante);
+
+                    contenedorParticipantes.appendChild(tarjetaParticipante);
+                }
+            }
+        });
     </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<?php include './template/footer.php' ?>
+    <?php include './template/footer.php' ?>
