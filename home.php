@@ -104,7 +104,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="./guia.php">
+      <a href="./guiaPA.php">
         <div class="overlay">
           <h4>Guía</h4>
         </div>

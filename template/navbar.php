@@ -125,7 +125,7 @@ $rol_id = $_SESSION['Rol_ID'];
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./guia.php">
+                <a class="navbar-item-inner flexbox-left" href="./guiaPA.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">

@@ -79,7 +79,7 @@
             Plantilla</a>
         </li>
         <li>
-          <a href="./guia.php">
+          <a href="./guiaPA.php">
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" alt="">
             <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" alt="">
             Guía

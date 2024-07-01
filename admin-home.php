@@ -48,7 +48,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
     <!-- Recuadros superiores -->
     <div class="recuadros-superiores">
         <div class="recuadro active" onclick="activateRecuadro(this)">
-            <a class="texto" href="">
+            <a class="texto" href="./admin-reportes.php">
                 <img src="./Img/img-admin/img-reporte-entrega.jpg" alt="Reporte de entrega">
                 <div class="texto">Reporte de entrega</div>
             </a>
