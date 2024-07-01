@@ -8,7 +8,7 @@
 include './config/db.php';
 
 // Obtener usuarios de la base de datos
-$sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, GROUP_CONCAT(d.Nombre_Departamento SEPARATOR ', ') AS Departamentos
+$sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, GROUP_CONCAT(d.Departamentos SEPARATOR ', ') AS Departamentos
         FROM Usuarios u
         LEFT JOIN Roles r ON u.Rol_ID = r.Rol_ID
         LEFT JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID
@@ -17,7 +17,6 @@ $sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, GROUP_CON
 
 $resultado = $conexion->query($sql);
 
-// Se despliegan los usuarios (Nombre y correo en checkboxes)
 $filas_usuarios = "";
 if ($resultado->num_rows > 0) {
     while ($fila = $resultado->fetch_assoc()) {
@@ -25,14 +24,20 @@ if ($resultado->num_rows > 0) {
         $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
         $correo = $fila["Correo"];
         $rol = $fila["Nombre_Rol"];
-        $departamentos = $fila["Departamentos"];
+        
+
+        if(empty($fila["Departamentos"])){
+            $rol_departamento = $rol;
+        } else{
+            $rol= $fila["Nombre_Rol"] . " - " . $fila["Departamentos"];
+        }
     
         $filas_usuarios .= "<tr>
             <td><input type='checkbox' name='participantes[]' value='$codigo' class='checkbox-usuario'></td>
             <td>$nombre</td>
             <td>$correo</td>
             <td>$rol</td>
-            <td>$departamentos</td>
+            <td></td>
         </tr>";
     }
     
@@ -69,6 +74,15 @@ $conexion->close();
     max-height: 70%;
     overflow-y: auto;
     border-radius: 8px;
+    text-align: center;
+}
+
+.modal-content table {
+    width: 100%; 
+    }
+
+.modal-content table thead th {
+    text-align: left;
 }
 
 .close {
@@ -78,8 +92,7 @@ $conexion->close();
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -163,7 +176,7 @@ $conexion->close();
                     <button type="button" id="abrirModal">Añadir participantes</button>
                     <div id="participantes-seleccionados"></div>
                     <label class="checkbox-label">
-                        <input type="checkbox" id="select_all_rol_3" name="select_all_rol_3"> Seleccionar todos los usuarios con rol 3
+                        <!-- <input type="checkbox" id="select_all_rol_3" name="select_all_rol_3"> Seleccionar todos los usuarios con rol 3 -->
                     </label>
                     <!-- Elementos de entrada ocultos para los participantes seleccionados -->
                     <div id="input-participantes"></div>
@@ -200,11 +213,10 @@ $conexion->close();
             <table>
                 <thead>
                     <tr>
-                        <th>Seleccionar</th>
+                        <th></th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Rol</th>
-                        <th>Departamentos</th>
                     </tr>
                 </thead>
                 <tbody>
