@@ -28,10 +28,21 @@ document.addEventListener("DOMContentLoaded", function () {
   cancelButtons.forEach((button) => {
     button.addEventListener("click", function (event) {
       event.preventDefault();
-
       const row = button.closest("tr");
-
-      toggleEdit(row, false);
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Se perderán los cambios no guardados.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, cancelar edición",
+        cancelButtonText: "No, continuar editando",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          reloadPage(); // recargar página al cancelar edición
+        }
+      });
     });
   });
 
@@ -46,17 +57,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (fieldName === "Rol") {
           field.innerHTML = getRolesDropdown(value);
+          // Añadir event listener al select de roles
+          const rolSelect = field.querySelector("select");
+          rolSelect.addEventListener("change", function () {
+            const departamentoField = row.querySelector(
+              '[data-field="Departamento"]'
+            );
+            const departamentoSelect =
+              departamentoField.querySelector("select");
+            if (
+              this.options[this.selectedIndex].text ===
+                "Secretaría Administrativa" ||
+              this.options[this.selectedIndex].text ===
+                "Coordinación de Personal"
+            ) {
+              departamentoSelect.disabled = true;
+              departamentoSelect.value = ""; // Opcional: limpiar la selección
+            } else {
+              departamentoSelect.disabled = false;
+            }
+          });
         } else if (fieldName === "Departamento") {
           field.innerHTML = getDepartamentosDropdown(value);
+          // Verificar el rol actual y deshabilitar si es necesario
+          const rolField = row.querySelector('[data-field="Rol"]');
+          const rolSelect = rolField.querySelector("select");
+          const departamentoSelect = field.querySelector("select");
+          if (
+            rolSelect.options[rolSelect.selectedIndex].text ===
+              "Secretaría Administrativa" ||
+            rolSelect.options[rolSelect.selectedIndex].text ===
+              "Coordinación de Personal"
+          ) {
+            departamentoSelect.disabled = true;
+            departamentoSelect.value = ""; // Opcional: limpiar la selección
+          }
         } else {
           field.innerHTML = `<input type='text' value='${value}' data-field='${fieldName}'>`;
         }
       } else {
         const input = field.querySelector("input");
-
         const select = field.querySelector("select");
-
-        //reloadPage();
 
         if (input) {
           field.innerText = input.value;
@@ -67,12 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     row.querySelector(".edit").style.display = isEditing ? "none" : "";
-
     row.querySelector(".save").style.display = isEditing ? "" : "none";
-
     row.querySelector(".cancel").style.display = isEditing ? "" : "none";
-
-    row.querySelector(".delete").style.display = isEditing ? "none" : ""; // Ocultar botón de borrar al editar
+    row.querySelector(".delete").style.display = isEditing ? "none" : "";
   }
 
   function getRolesDropdown(currentRole) {
@@ -107,74 +145,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function saveChanges(row) {
     const userId = row.getAttribute("data-id");
-
     const inputs = row.querySelectorAll("input");
-
     const selects = row.querySelectorAll("select");
-
     const data = {};
 
     inputs.forEach((input) => {
       const fieldName = input.getAttribute("data-field");
-
       data[fieldName] = input.value;
     });
 
     selects.forEach((select) => {
       const fieldName = select.getAttribute("data-field");
-
       data[fieldName] = select.value;
     });
 
-    console.log("Sending data to server:", { id: userId, ...data }); // Log data está siendo enviada
+    console.log("Sending data to server:", { id: userId, ...data });
 
     fetch("config/editarUsuario.php", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         id: userId,
-
         ...data,
       }),
     })
       .then((response) => response.json())
-
       .then((result) => {
-        console.log("Server response:", result); // Log repuesta del servidor
-
+        console.log("Server response:", result);
         if (result.success) {
-          inputs.forEach((input) => {
-            const fieldName = input.getAttribute("data-field");
-
-            row.querySelector(`.editable[data-field=${fieldName}]`).innerText =
-              input.value;
-
-            //reloadPage();
+          Swal.fire({
+            icon: "success",
+            title: "¡Éxito!",
+            text: "Usuario actualizado exitosamente",
+          }).then(() => {
+            reloadPage();
           });
-
-          selects.forEach((select) => {
-            const fieldName = select.getAttribute("data-field");
-
-            row.querySelector(`.editable[data-field=${fieldName}]`).innerText =
-              select.options[select.selectedIndex].text;
-          });
-
-          toggleEdit(row, false);
         } else {
-          console.error(result.message); //Mensaje para hacer debug
-
-          alert("Error al actualizar el usuario: " + result.message); // Mostrar mensaje de error
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al actualizar el usuario: " + result.message,
+          });
         }
       })
-
       .catch((error) => {
         console.error("Error:", error);
-
-        alert("Error al actualizar el usuario.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al procesar la solicitud.",
+        });
       });
   }
 
@@ -188,31 +210,48 @@ document.addEventListener("DOMContentLoaded", function () {
       const row = button.closest("tr");
       const userId = row.getAttribute("data-id");
 
-      if (
-        confirm(`¿Estás seguro de eliminar al usuario con código ${userId}?`)
-      ) {
-        fetch("config/eliminarUsuario.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: userId }),
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            console.log("Server response:", result);
-            if (result.success) {
-              row.remove();
-              alert("Usuario eliminado exitosamente");
-            } else {
-              alert("Error al eliminar el usuario: " + result.message);
-            }
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: `¿Quieres eliminar al usuario con código ${userId}?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          fetch("config/eliminarUsuario.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: userId }),
           })
-          .catch((error) => {
-            console.error("Error:", error);
-            alert("Error al eliminar el usuario.");
-          });
-      }
+            .then((response) => response.json())
+            .then((result) => {
+              console.log("Server response:", result);
+              if (result.success) {
+                row.remove();
+                Swal.fire(
+                  "Eliminado",
+                  "El usuario ha sido eliminado exitosamente.",
+                  "success"
+                );
+              } else {
+                Swal.fire(
+                  "Error",
+                  "Error al eliminar el usuario: " + result.message,
+                  "error"
+                );
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              Swal.fire("Error", "Error al eliminar el usuario.", "error");
+            });
+        }
+      });
     });
   });
 
@@ -259,6 +298,19 @@ document.addEventListener("DOMContentLoaded", function () {
     option.value = departamento.Departamento_ID;
     option.text = departamento.Nombre_Departamento;
     departamentosSelect.add(option);
+  });
+
+  rolesSelect.addEventListener("change", function () {
+    const selectedRole = this.options[this.selectedIndex].text;
+    if (
+      selectedRole === "Secretaría Administrativa" ||
+      selectedRole === "Coordinación de Personal"
+    ) {
+      departamentosSelect.disabled = true;
+      departamentosSelect.value = ""; // Opcional: limpiar la selección
+    } else {
+      departamentosSelect.disabled = false;
+    }
   });
 
   // Función para mostrar el modal
@@ -308,19 +360,39 @@ document.addEventListener("DOMContentLoaded", function () {
       password,
     };
 
-    // Enviar los datos al servidor usando AJAX
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "./config/guardarUsuario.php", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        // Manejar la respuesta del servidor
-        console.log(xhr.responseText);
-        // Aquí puedes agregar código para actualizar la tabla de usuarios u otras acciones
-        ocultarModal(); // Ocultar el modal después de guardar el usuario
-      }
-    };
-    xhr.send(JSON.stringify(datos));
+    // Enviar los datos al servidor usando fetch
+    fetch("./config/guardarUsuario.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datos),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text(); // Primero obtenemos el texto de la respuesta
+      })
+      .then(text => {
+        try {
+          return JSON.parse(text); // Intentamos parsearlo como JSON
+        } catch (e) {
+          console.error("La respuesta no es JSON válido:", text);
+          throw new Error("La respuesta del servidor no es JSON válido");
+        }
+      })
+      .then(result => {
+        // Manejo del resultado como antes
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al procesar la solicitud: " + error.message,
+        });
+      });
   };
 
   // Evento click para cerrar el modal al hacer clic fuera de él
@@ -331,8 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 });
 
-filterTable();
-
-//function reloadPage() {
-//window.location.reload();
-//}
+function reloadPage() {
+  window.location.reload();
+}

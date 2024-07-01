@@ -7,18 +7,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $confpass = $_POST['confpass'];
 
     if ($pass === $confpass) {
-        // Actualizar la contraseña en la base de datos sin hash
+        // Actualizar la contraseña en la base de datos
         $updateQuery = "UPDATE usuarios SET Pass=? WHERE Codigo=?";
         $stmt = $conexion->prepare($updateQuery);
         if ($stmt) {
             $stmt->bind_param('si', $pass, $codigo);
             if ($stmt->execute()) {
-                echo "Contraseña cambiada exitosamente";
-                // Redirigir a la página de inicio de sesión
-                header("Location: ../login.php");
-                exit();
+                echo json_encode(['success' => true, 'message' => 'Contraseña cambiada exitosamente']);
             } else {
-                echo "Error actualizando la contraseña: " . $conexion->error;
+                echo json_encode(['success' => false, 'message' => 'Error al cambiar la contraseña: ' . $stmt->error]);
             }
             $stmt->close();
         } else {

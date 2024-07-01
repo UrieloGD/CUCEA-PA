@@ -1,6 +1,7 @@
 <?php
 session_start();
-require './../vendor/autoload.php'; // Incluye PhpSpreadsheet
+require './../vendor/autoload.php';
+ob_start();
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $servername = "localhost";
@@ -8,187 +9,135 @@ $username = "root";
 $password = "root";
 $dbname = "pa";
 
-// Crear conexión
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Verificar la conexión a la base de datos
+function safeSubstr($string, $start, $length = null) {
+    if ($string === null) {
+        return null;
+    }
+    return $length === null ? substr($string, $start) : substr($string, $start, $length);
+}
+
 if ($conn->connect_error) {
     echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conn->connect_error]);
     exit();
 }
 
-// Verificar si se envió un archivo
 if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
     $file = $_FILES["file"]["tmp_name"];
     $fileName = $_FILES["file"]["name"];
     $fileSize = $_FILES["file"]["size"];
 
-    // Obtener el ID del usuario actual desde la sesión
     $usuario_id = $_SESSION['Codigo'] ?? null;
     $rol_id = $_SESSION['Rol_ID'] ?? null;
     $departamento_id = $_SESSION['Departamento_ID'] ?? null;
 
     if ($usuario_id !== null) {
-        // Leer el archivo Excel
         $spreadsheet = IOFactory::load($file);
         $sheet = $spreadsheet->getActiveSheet();
-
-        // Obtener el rango de datos
         $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
 
-        // Obtener el ID del departamento del usuario desde la sesión
-        $departamento_id = $_SESSION['Departamento_ID'];
+        $tabla_destino = 'Data_' . str_replace(' ', '_', $_SESSION['Nombre_Departamento']);
 
-        // Preparar la consulta SQL según el departamento del usuario
-        switch ($departamento_id) {
-            case 1:
-                $tabla_destino = 'Data_Estudios_Regionales';
-                break;
-            case 2:
-                $tabla_destino = 'Data_Finanzas';
-                break;
-            case 3:
-                $tabla_destino = 'Data_Ciencias_Sociales';
-                break;
-            case 4:
-                $tabla_destino = 'Data_PALE';
-                break;
-            case 5:
-                $tabla_destino = 'Data_Posgrados';
-                break;
-            case 6:
-                $tabla_destino = 'Data_Economía';
-                break;
-            case 7:
-                $tabla_destino = 'Data_Recursos_Humanos';
-                break;
-            case 8:
-                $tabla_destino = 'Data_Métodos_Cuantitativos';
-                break;
-            case 9:
-                $tabla_destino = 'Data_Políticas_Públicas';
-                break;
-            case 10:
-                $tabla_destino = 'Data_Administración';
-                break;
-            default:
-                echo json_encode(["success" => false, "message" => "Departamento no válido."]);
-                exit();
+        // Verificar si la tabla existe
+        $tabla_existe = $conn->query("SHOW TABLES LIKE '$tabla_destino'");
+        if ($tabla_existe->num_rows == 0) {
+            echo json_encode(["success" => false, "message" => "La tabla $tabla_destino no existe en la base de datos."]);
+            exit();
         }
 
-        // Preparar la consulta SQL
-        $sql = "INSERT INTO $tabla_destino (DEPARTAMENTO_ID, CICLO, NRC, FECHA_INI, FECHA_FIN, L, M, I, J, V, S, D, HORA_INI, HORA_FIN, EDIF, AULA) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO $tabla_destino (
+            Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO,
+            C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR,
+            CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO,
+            TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL,
+            DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL,
+            MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
+            exit();
+        }
 
         $errores = array();
 
-        // Insertar los datos en la tabla correspondiente
         for ($row = 2; $row <= $highestRow; $row++) {
-            // Empezar desde la fila 2 para omitir los encabezados
-            $departamento_id = $departamento_id ?? null;
-            $ciclo = $sheet->getCell('A' . $row)->getValue() ?? null;
-            $nrc = $sheet->getCell('B' . $row)->getValue() ?? null;
-            $fecha_ini = $sheet->getCell('C' . $row)->getFormattedValue() ?? null;
-            $fecha_fin = $sheet->getCell('D' . $row)->getFormattedValue() ?? null;
-            $l = $sheet->getCell('E' . $row)->getValue() ?? null;
-            $m = $sheet->getCell('F' . $row)->getValue() ?? null;
-            $i = $sheet->getCell('G' . $row)->getValue() ?? null;
-            $j = $sheet->getCell('H' . $row)->getValue() ?? null;
-            $v = $sheet->getCell('I' . $row)->getValue() ?? null;
-            $s = $sheet->getCell('J' . $row)->getValue() ?? null;
-            $d = $sheet->getCell('K' . $row)->getValue() ?? null;
-            $hora_ini = $sheet->getCell('L' . $row)->getValue() ?? null;
-            $hora_fin = $sheet->getCell('M' . $row)->getValue() ?? null;
-            $edif = $sheet->getCell('N' . $row)->getValue() ?? null;
-            $aula = $sheet->getCell('O' . $row)->getValue() ?? null;
+            $ciclo = safeSubstr($sheet->getCell('A' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $crn = safeSubstr($sheet->getCell('B' . $row)->getCalculatedValue(), 0, 15) ?? null;
+            $materia = safeSubstr($sheet->getCell('C' . $row)->getCalculatedValue(), 0, 80) ?? null;
+            $cve_materia = safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $seccion = safeSubstr($sheet->getCell('E' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $nivel = safeSubstr($sheet->getCell('F' . $row)->getCalculatedValue(), 0, 25) ?? null;
+            $nivel_tipo = safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 25) ?? null;
+            $tipo = safeSubstr($sheet->getCell('H' . $row)->getCalculatedValue(), 0, 1) ?? null;
+            $c_min = safeSubstr($sheet->getCell('I' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $h_totales = safeSubstr($sheet->getCell('J' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $estatus = safeSubstr($sheet->getCell('K' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $tipo_contrato = safeSubstr($sheet->getCell('L' . $row)->getCalculatedValue(), 0, 30) ?? null;
+            $codigo_profesor = safeSubstr($sheet->getCell('M' . $row)->getCalculatedValue(), 0, 7) ?? null;
+            $nombre_profesor = safeSubstr($sheet->getCell('N' . $row)->getCalculatedValue(), 0, 60) ?? null;
+            $categoria = safeSubstr($sheet->getCell('O' . $row)->getCalculatedValue(), 0, 40) ?? null;
+            $descarga = safeSubstr($sheet->getCell('P' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $codigo_descarga = safeSubstr($sheet->getCell('Q' . $row)->getCalculatedValue(), 0, 7) ?? null;
+            $nombre_descarga = safeSubstr($sheet->getCell('R' . $row)->getCalculatedValue(), 0, 60) ?? null;
+            $nombre_definitivo = safeSubstr($sheet->getCell('S' . $row)->getCalculatedValue(), 0, 60) ?? null;
+            $titular = safeSubstr($sheet->getCell('T' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $horas = safeSubstr($sheet->getCell('U' . $row)->getCalculatedValue(), 0, 1) ?? null;
+            $codigo_dependencia = safeSubstr($sheet->getCell('V' . $row)->getCalculatedValue(), 0, 4) ?? null;
+            $l = safeSubstr($sheet->getCell('W' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $m = safeSubstr($sheet->getCell('X' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $i = safeSubstr($sheet->getCell('Y' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $j = safeSubstr($sheet->getCell('Z' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $v = safeSubstr($sheet->getCell('AA' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $s = safeSubstr($sheet->getCell('AB' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $d = safeSubstr($sheet->getCell('AC' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $dia_presencial = safeSubstr($sheet->getCell('AD' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $dia_virtual = safeSubstr($sheet->getCell('AE' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $modalidad = safeSubstr($sheet->getCell('AF' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $fecha_inicial = $sheet->getCell('AG' . $row)->getCalculatedValue() ?? null;
+            $fecha_final = $sheet->getCell('AH' . $row)->getCalculatedValue() ?? null;
+            $hora_inicial = safeSubstr($sheet->getCell('AI' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $hora_final = safeSubstr($sheet->getCell('AJ' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $modulo = safeSubstr($sheet->getCell('AK' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $aula = safeSubstr($sheet->getCell('AL' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
+            $cupo = safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 3) ?? null;
+            $examen_extraordinario = safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 2) ?? null;
 
-            // Validaciones
-            // CICLO: debe contener no más de 6 caracteres
-            if (strlen($ciclo) > 6) {
-                $errores[] = "El valor '$ciclo' en la columna CICLO no debe tener más de 6 caracteres.";
+            if ($fecha_inicial) {
+                $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
+                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('Y-m-d') : null;
+            }
+            if ($fecha_final) {
+                $fecha_final = DateTime::createFromFormat('d/m/Y', $fecha_final);
+                $fecha_final = $fecha_final ? $fecha_final->format('Y-m-d') : null;
             }
 
-            // NRC: debe tener no más de 7 caracteres
-            if (strlen($nrc) > 7) {
-                $errores[] = "El valor '$nrc' en la columna NRC tiene más de 7 caracteres.";
-            }
+            $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
+                $departamento_id, $ciclo, $crn, $materia, $cve_materia, $seccion, $nivel, $nivel_tipo, $tipo,
+                $c_min, $h_totales, $estatus, $tipo_contrato, $codigo_profesor, $nombre_profesor,
+                $categoria, $descarga, $codigo_descarga, $nombre_descarga, $nombre_definitivo,
+                $titular, $horas, $codigo_dependencia, $l, $m, $i, $j, $v, $s, $d, $dia_presencial,
+                $dia_virtual, $modalidad, $fecha_inicial, $fecha_final, $hora_inicial, $hora_final,
+                $modulo, $aula, $cupo, $observaciones, $examen_extraordinario
+            );
 
-            // Días: Solo deben contener la letra correspondiente
-            $dias = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
-            foreach ($dias as $dia) {
-                $valor = strtolower($dia);
-                if ($$valor != $dia && !empty($$valor)) {
-                    $errores[] = "El valor '$$valor' en la columna $dia no es válido. Debe contener solo la letra $dia.";
-                }
+            if (!$stmt->execute()) {
+                $errores[] = "Error en la fila $row: " . $stmt->error;
             }
-
-            if (count($errores) > 0) {
-                // Mostrar errores y detener el script si hay errores
-                echo json_encode(["success" => false, "message" => $errores]);
-                exit();
-            }
-
-            // Convertir fechas al formato YYYY-MM-DD
-            if ($fecha_ini) {
-                $fecha_ini = DateTime::createFromFormat('d/m/Y', $fecha_ini);
-                if ($fecha_ini) {
-                    $fecha_ini = $fecha_ini->format('Y-m-d');
-                } else {
-                    $errores[] = "El valor '$fecha_ini' en la columna FECHA_INI no es una fecha válida.";
-                }
-            }
-            if ($fecha_fin) {
-                $fecha_fin = DateTime::createFromFormat('d/m/Y', $fecha_fin);
-                if ($fecha_fin) {
-                    $fecha_fin = $fecha_fin->format('Y-m-d');
-                } else {
-                    $errores[] = "El valor '$fecha_fin' en la columna FECHA_FIN no es una fecha válida.";
-                }
-            }
-
-            if (count($errores) > 0) {
-                // Mostrar errores y detener el script si hay errores
-                echo json_encode(["success" => false, "message" => $errores]);
-                exit();
-            }
-
-            $stmt->bind_param("isssssssssssssss", $departamento_id, $ciclo, $nrc, $fecha_ini, $fecha_fin, $l, $m, $i, $j, $v, $s, $d, $hora_ini, $hora_fin, $edif, $aula);
-            $stmt->execute();
         }
 
-        // Obtener el nombre del archivo
-        $nombreArchivo = $fileName;
-
-        // Obtener el tamaño del archivo en bytes
-        $tamanoArchivo = $fileSize;
-
-        // Obtener el ID del usuario desde la sesión
-        $usuario_id = $_SESSION['Codigo'];
-
-        // Obtener el ID del departamento desde la sesión
-        $departamento_id = $_SESSION['Departamento_ID'];
-
-        // Preparar la consulta SQL para insertar en la tabla Plantilla_Dep
         $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
         $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
-
-        // Vincular los parámetros
-        $stmtInsertPlantillaDep->bind_param("siii", $nombreArchivo, $tamanoArchivo, $usuario_id, $departamento_id);
-
-        // Ejecutar la consulta
-        if ($stmtInsertPlantillaDep->execute()) {
-            // El archivo se insertó correctamente en la tabla Plantilla_Dep
-        } else {
-            // Ocurrió un error al insertar el archivo en la tabla Plantilla_Dep
-            echo json_encode(["success" => false, "message" => "Error al insertar el archivo en la tabla Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
-        }
-
-        // Cerrar la sentencia preparada
+        $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
+        $stmtInsertPlantillaDep->execute();
         $stmtInsertPlantillaDep->close();
 
-        if ($stmt->error) {
-            echo json_encode(["success" => false, "message" => "Error al ejecutar la consulta: " . $stmt->error]);
+        if (count($errores) > 0) {
+            echo json_encode(["success" => false, "message" => "Se encontraron errores al insertar los datos:", "errores" => $errores]);
         } else {
             echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos correctamente."]);
         }
@@ -199,4 +148,12 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
     echo json_encode(["success" => false, "message" => "No se recibió ningún archivo."]);
 }
 
+$output = ob_get_clean();
+if (json_decode($output) === null) {
+    echo json_encode(["success" => false, "message" => $output]);
+} else {
+    echo $output;
+}
+
 $conn->close();
+?>

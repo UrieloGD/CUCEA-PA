@@ -74,6 +74,7 @@
   border-radius: 20px 20px 0px 0px;
   position: relative; /* Para controlar el contenido interno */
   margin-top: -5px;
+  overflow-x: auto; /* Permite desplazamiento horizontal */
 }
 
 table {
@@ -97,6 +98,10 @@ th {
   top: -20px; /* Posición fija en la parte superior */
   background-color: white; /* Fondo blanco para que el encabezado sea legible */
   z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Ajusta este valor según tus necesidades */
 }
 
 /* CSS para la paginación */
@@ -198,6 +203,74 @@ th {
   padding: 5px;
   margin-right: 10px;
   box-sizing: border-box;
+}
+
+/* css pop up de columnas de descarga excel */
+
+.popup-active {
+  overflow: hidden;
+}
+
+.popup-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+#popup-columnas {
+  display:none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  border: 1px solid black; 
+  z-index: 1000;
+  ;
+}
+
+#popup-columnas h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.select-all-div {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.columns-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+#popup-columnas button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+#popup-columnas button:hover {
+  background-color: #005a8c;
 }
 
 /* Media Queries para diferentes resoluciones */

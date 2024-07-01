@@ -1,0 +1,96 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: auto; /* Para que el contenido adicional no desborde */
+    display: flex;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+  
+  /* Encabezado */
+  .encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .encabezado h3 {
+    margin: 0;
+  }
+  
+  .titulo-bd {
+    color: #fff;
+    width: 30vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #0071b0;
+  } 
+
+  /* Aquí empieza el código */ 
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+.container {
+    background-color: #007bff;
+    max-width: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+.countdown {
+    text-align: center;
+    padding: 10px;
+}
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+.timer-box {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+}
+.activities, .events {
+    padding: 10px;
+}
+.activity, .event {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-left: 4px solid;
+}
+.activity {
+    border-color: #ffc107;
+}
+.activity:last-child {
+    border-color: #28a745;
+}
+.event {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}

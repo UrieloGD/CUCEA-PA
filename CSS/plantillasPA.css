@@ -48,12 +48,12 @@
   display: flex;
   padding: 0px 2vw;
   align-items: center;
+  margin-bottom: 30px;
 }
 
 table {
   flex: auto;
   width: 100%;
-  /* border: solid; */
   border-collapse: collapse; /* Separar los bordes de las celdas */
   border-spacing: 0; /* Eliminar el espacio entre las celdas */
 }
@@ -62,14 +62,12 @@ th {
   background-color: #e7e9f2; /* Color de fondo para los encabezados */
   text-align: left; /* Alinea el texto de los encabezados a la izquierda */
   padding: 10px; /* Agrega un padding a los encabezados */
-  padding: 10px; /* Agrega un padding a los encabezados */
 }
 
 td {
   flex: auto;
-  padding: 10px;
+  padding: 7.5px;
   flex: auto;
-  padding: 10px;
   text-align: left;
   border: 2px solid #e7e9f2;
 }
@@ -88,8 +86,6 @@ td .btn-container .btn {
   /* Iconos */
   height: 30px; /* Altura de imagenes */
   align-items: center; /* Alinea imagenes al centro */
-  justify-content: center;
-  cursor: pointer;
   justify-content: center;
   cursor: pointer;
 }
