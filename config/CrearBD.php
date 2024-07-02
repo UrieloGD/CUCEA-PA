@@ -117,7 +117,7 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     ('Políticas_Públicas', 'Políticas Públicas'),
     ('Administración', 'Administración'),
     ('Auditoría', 'Auditoría'),
-    ('Mercadotecnia', 'Mercadotecnia'),
+    ('Mercadotecnia', 'Mercadotecnia y Negocios Internacionales'),
     ('Impuestos', 'Impuestos'),
     ('Sistemas_de_Información', 'Sistemas de Información'),
     ('Turismo', 'Turismo'),

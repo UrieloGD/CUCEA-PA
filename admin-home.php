@@ -12,7 +12,7 @@ $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS F
                               FROM Plantilla_Dep
                               GROUP BY Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
-$departamentos_subidos = array();
+$departasmentos_subidos = array();
 while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
   if ($row['Fecha_Subida_Dep'] !== null) {
     $departamentos_subidos[] = $row['Departamento_ID'];
@@ -30,6 +30,14 @@ $departamentos_entregados = count($departamentos_subidos);
 
 // Calcular el porcentaje de avance
 $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
+
+// Obtener la fecha límite más reciente
+$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
+$fecha_limite = null;
+if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
+    $fecha_limite = mysqli_fetch_assoc($result_fecha_limite)['Fecha_Limite'];
+}
 ?>
 
 <title>Centro de Gestión</title>
@@ -80,9 +88,6 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
                         </thead>
                         <tbody>
                             <?php
-                            // Fecha límite para marcar como "Atrasado"
-                            $fecha_limite = "2022-06-01";
-
                             // Consulta para obtener los departamentos y la fecha de subida más reciente
                             $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                                             FROM Departamentos d
