@@ -59,11 +59,11 @@ table {
 th {
   background-color: #e7e9f2; /* Color de fondo para los encabezados */
   text-align: left; /* Alinea el texto de los encabezados a la izquierda */
+  padding: 10px;
 }
 
-th,
 td {
-  padding: 8px;
+  padding: 7.5px;
   text-align: left;
   border: 2px solid #e7e9f2;
 }
@@ -77,7 +77,7 @@ td {
 .btn-ir {
   background-color: #0071b0;
   color: #fff;
-  padding: 6px 21px;
+  padding: 3px 17px;
   border-radius: 7px;
   border: none;
   font-weight: bold;
@@ -191,6 +191,7 @@ td {
   align-items: center;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 /* Estilo para centrar el encabezado */
@@ -338,6 +339,21 @@ td {
   background-color: #0071b0;
   border: none;
   color: white;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.btn-guardar{
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: #0071b0;
+  border: none;
+  color: white;
+  margin-left: 50px;
   font-size: 16px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;

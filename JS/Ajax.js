@@ -38,21 +38,30 @@ document.getElementById('formulario-subida').addEventListener('submit', function
 
     xhr.onload = function() {
         if (xhr.status === 200) {
-            let response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Éxito',
-                    text: response.message,
-                    didClose: () => {
-                        window.location.reload();
-                    }
-                });
-            } else {
+            try {
+                let response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.message,
+                        didClose: () => {
+                            window.location.reload();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response.message
+                    });
+                }
+            } catch (e) {
+                console.error("Error parsing JSON:", xhr.responseText);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: response.message
+                    text: 'Hubo un problema al procesar la respuesta del servidor.'
                 });
             }
         } else {

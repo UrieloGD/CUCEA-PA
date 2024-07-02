@@ -1,99 +1,115 @@
 <?php
 require '../vendor/autoload.php';
 include '../config/db.php';
-session_start(); // Iniciar la sesión
+session_start();
 
-// Obtener el ID del departamento desde el formulario
-$departamento_id = isset($_GET['departamento_id']) ? $_GET['departamento_id'] : '';
+$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : 0;
+$columnas_seleccionadas = isset($_GET['columnas']) ? json_decode($_GET['columnas'], true) : [];
 
-// Obtener el nombre del departamento usando el ID
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
-$result_departamento = mysqli_query($conexion, $sql_departamento);
-$row_departamento = mysqli_fetch_assoc($result_departamento);
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
-
-
-// Obtener el nombre y apellido del usuario desde la sesión (con verificación)
-$nombre_usuario = isset($_SESSION['Nombre']) ? $_SESSION['Nombre'] : 'Usuario';
-$apellido_usuario = isset($_SESSION['Apellido']) ? $_SESSION['Apellido'] : '';
-
-// Crear un nuevo objeto de PHPExcel
-$objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-$objPHPExcel->getProperties()->setCreator("$nombre_usuario $apellido_usuario")
-    ->setLastModifiedBy("$nombre_usuario $apellido_usuario")
-    ->setTitle("Exportación de Data_$nombre_departamento")
-    ->setSubject("Data_$nombre_departamento")
-    ->setDescription("Documento generado automáticamente desde la base de datos.")
-    ->setKeywords("phpexcel")
-    ->setCategory("Archivo de datos");
-
-// Agregar los encabezados de la tabla
-$objPHPExcel->setActiveSheetIndex(0)
-    //    ->setCellValue('A1', 'ID')
-    ->setCellValue('A1', 'CICLO')
-    ->setCellValue('B1', 'NRC')
-    ->setCellValue('C1', 'FECHA INI')
-    ->setCellValue('D1', 'FECHA FIN')
-    ->setCellValue('E1', 'L')
-    ->setCellValue('F1', 'M')
-    ->setCellValue('G1', 'I')
-    ->setCellValue('H1', 'J')
-    ->setCellValue('I1', 'V')
-    ->setCellValue('J1', 'S')
-    ->setCellValue('K1', 'D')
-    ->setCellValue('L1', 'HORA INI')
-    ->setCellValue('M1', 'HORA FIN')
-    ->setCellValue('N1', 'EDIF')
-    ->setCellValue('O1', 'AULA');
-
-// Construir el nombre de la tabla según el departamento
-$tabla_departamento = "Data_" . $nombre_departamento;
-
-// Consulta SQL para obtener los datos de la tabla correspondiente al departamento
-$sql = "SELECT * FROM `$tabla_departamento` WHERE Departamento_ID = $departamento_id";
-$result = mysqli_query($conexion, $sql);
-
-// Verificar si se obtuvieron resultados
-if (mysqli_num_rows($result) > 0) {
-    $fila = 2; // Empezar en la segunda fila
-    while ($row = mysqli_fetch_assoc($result)) {
-        $objPHPExcel->setActiveSheetIndex(0)
-            //          ->setCellValue('A' . $fila, $row['ID_Plantilla'])
-            ->setCellValue('A' . $fila, $row['CICLO'])
-            ->setCellValue('B' . $fila, $row['NRC'])
-            ->setCellValue('C' . $fila, $row['FECHA_INI'])
-            ->setCellValue('D' . $fila, $row['FECHA_FIN'])
-            ->setCellValue('E' . $fila, $row['L'])
-            ->setCellValue('F' . $fila, $row['M'])
-            ->setCellValue('G' . $fila, $row['I'])
-            ->setCellValue('H' . $fila, $row['J'])
-            ->setCellValue('I' . $fila, $row['V'])
-            ->setCellValue('J' . $fila, $row['S'])
-            ->setCellValue('K' . $fila, $row['D'])
-            ->setCellValue('L' . $fila, $row['HORA_INI'])
-            ->setCellValue('M' . $fila, $row['HORA_FIN'])
-            ->setCellValue('N' . $fila, $row['EDIF'])
-            ->setCellValue('O' . $fila, $row['AULA']);
-        $fila++;
-    }
+if (empty($departamento_id) || empty($columnas_seleccionadas)) {
+    die("Error: Faltan parámetros necesarios.");
 }
 
-// Renombrar hoja
-$objPHPExcel->getActiveSheet()->setTitle("Data_$nombre_departamento");
+$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
+if ($stmt === false) {
+    die("Error preparando la consulta: " . $conexion->error);
+}
 
-// Establecer la hoja activa
-$objPHPExcel->setActiveSheetIndex(0);
+$mapeo_columnas = [
 
-// Redirigir salida al navegador
+    'CVE MATERIA' => 'CVE_MATERIA',
+    'SECCIÓN' => 'SECCION',
+    'NIVEL TIPO' => 'NIVEL_TIPO',
+    'C. MIN' => 'C_MIN',
+    'H. TOTALES' => 'H_TOTALES',
+    'STATUS' => 'ESTATUS',
+    'TIPO CONTRATO' => 'TIPO_CONTRATO',
+    'CÓDIGO' => 'CODIGO_PROFESOR',
+    'NOMBRE PROFESOR' => 'NOMBRE_PROFESOR',
+    'CÓDIGO DESCARGA' => 'CODIGO_DESCARGA',
+    'NOMBRE DESCARGA' => 'NOMBRE_DESCARGA',
+    'NOMBRE DEFINITIVO' => 'NOMBRE_DEFINITIVO',
+    'CÓDIGO DEPENDENCIA' => 'CODIGO_DEPENDENCIA',
+    'DÍA PRESENCIAL' => 'DIA_PRESENCIAL',
+    'DÍA VIRTUAL' => 'DIA_VIRTUAL',
+    'FECHA INICIAL' => 'FECHA_INICIAL',
+    'FECHA FINAL' => 'FECHA_FINAL',
+    'HORA INICIAL' => 'HORA_INICIAL',
+    'HORA FINAL' => 'HORA_FINAL',
+    'MÓDULO' => 'MODULO',
+    'EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
+];
+// Función para convertir el nombre mostrado al nombre real
+function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas) {
+    return isset($mapeo_columnas[$nombre_mostrado]) ? $mapeo_columnas[$nombre_mostrado] : str_replace(' ', '_', $nombre_mostrado);
+}
+
+// Convertir los nombres seleccionados a los nombres reales
+$columnas_reales = array_map(function($columna) use ($mapeo_columnas) {
+    return obtenerNombreRealColumna($columna, $mapeo_columnas);
+}, $columnas_seleccionadas);
+
+$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
+if ($stmt === false) {
+    die("Error preparando la consulta de departamento: " . $conexion->error);
+}
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result_departamento = $stmt->get_result();
+$row_departamento = $result_departamento->fetch_assoc();
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+
+$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+
+$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+
+// Construir la consulta SQL dinámica con los nombres reales de las columnas
+$sql = "SELECT " . implode(", ", $columnas_reales) . " FROM `$tabla_departamento` WHERE Departamento_ID = ?";
+
+$stmt = $conexion->prepare($sql);
+if ($stmt === false) {
+    die("Error preparando la consulta: " . $conexion->error);
+}
+
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Escribir los encabezados en el Excel (usando los nombres mostrados)
+foreach ($columnas_seleccionadas as $index => $header) {
+    $sheet->setCellValue(\PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1', $header);
+}
+
+// Escribir los datos
+if ($result->num_rows > 0) {
+    $row = 2;
+    while ($data = $result->fetch_assoc()) {
+        $col = 1;
+        foreach ($columnas_reales as $header_real) {
+            $sheet->setCellValue(
+                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row, 
+                $data[$header_real] ?? ''
+            );
+            $col++;
+        }
+        $row++;
+    }
+} else {
+    die("No se encontraron resultados para el departamento especificado.");
+}
+
+$sheet->setTitle("Data_$nombre_departamento");
+
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment;filename="Data_' . $nombre_departamento . '.xlsx"');
 header('Cache-Control: max-age=0');
-header('Cache-Control: max-age=1');
 
-// Guardar el archivo
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($objPHPExcel, 'Xlsx');
+$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
 $writer->save('php://output');
 
-// Cerrar la conexión a la base de datos
-mysqli_close($conexion);
+$stmt->close();
+$conexion->close();
 exit;

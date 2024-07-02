@@ -1,9 +1,8 @@
 <?php
-session_start(); // Inicia la sesión para acceder a los datos del usuario logeado
+session_start();
 
 function obtenerDepartamentoId($usuario_id)
 {
-    // Conectar a la base de datos
     $servername = "localhost";
     $username = "root";
     $password = "root";
@@ -11,12 +10,10 @@ function obtenerDepartamentoId($usuario_id)
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Verificar la conexión
     if ($conn->connect_error) {
-        return null; // Manejar la conexión fallida
+        return null;
     }
 
-    // Obtener el ID del departamento del usuario logeado
     $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
     $result = $conn->query($sql);
 
@@ -24,45 +21,25 @@ function obtenerDepartamentoId($usuario_id)
         $row = $result->fetch_assoc();
         $departamento_id = $row['Departamento_ID'];
     } else {
-        $departamento_id = null; // No se encontró el departamento del usuario
+        $departamento_id = null;
     }
 
-    // Cerrar la conexión a la base de datos
     $conn->close();
-
     return $departamento_id;
 }
 
 include './config/db.php';
 
-// Obtener la última fecha límite de la base de datos
+$codigo_usuario =  $_SESSION['Codigo'];
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
 $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01 23:50";
 
 $departamento_id = null;
-if (isset($_SESSION['Codigo'])) {
-    $Codigo = $_SESSION['Codigo'];
-    $departamento_id = obtenerDepartamentoId($Codigo);
-}
-
-$fecha_actual = date("Y-m-d H:i:s");
-
-if ($fecha_actual > $fecha_limite) {
-    // Verificar si ya se ha enviado una justificación pendiente o aprobada
-    $sql_justificacion = "SELECT * FROM Justificaciones 
-                          WHERE Usuario_ID = '$usuario_id' 
-                          AND Departamento_ID = '$departamento_id'
-                          AND Fecha_Limite_Superada = '$fecha_limite'
-                          AND (Estado = 'Pendiente' OR Estado = 'Aprobada')";
-    $result_justificacion = mysqli_query($conexion, $sql_justificacion);
-    
-    if (mysqli_num_rows($result_justificacion) == 0) {
-        // No hay justificación pendiente o aprobada, mostrar el modal
-        include 'justificacion.php';
-        exit(); // Detener la ejecución del resto del script
-    }
+if (isset($_SESSION['usuario_id'])) {
+    $usuario_id = $_SESSION['usuario_id'];
+    $departamento_id = obtenerDepartamentoId($usuario_id);
 }
 
 ?>
@@ -83,12 +60,10 @@ if ($fecha_actual > $fecha_limite) {
             <button class="tab-button">Subir plantilla</button>
         </div>
         <div class="tab-content">
-            <!--Ventana de descaga de plantilla-->
             <div class="tab-pane active">
                 <div class="info-descarga">
                     <p>En este apartado podrás descargar tu plantilla de Excel para realizar tu Programación Académica.</p>
                 </div>
-                <!--Elementos de descarga-->
                 <div class="icono-descarga">
                     <a href="#" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">
                         <img src="./Img/Icons/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
@@ -102,34 +77,93 @@ if ($fecha_actual > $fecha_limite) {
                 </div>
             </div>
         </div>
-        <!--Ventana de subida de plantilla-->
+
+        <?php
+        $justificacion_enviada = false;
+        if ($departamento_id) {
+            $sql_justificacion = "SELECT Justificacion_Enviada FROM Justificaciones
+        WHERE Departamento_ID = ? AND Codigo_Usuario = ?
+        ORDER BY Fecha_Justificacion DESC LIMIT 1";
+
+            $stmt = $conexion->prepare($sql_justificacion);
+            $stmt->bind_param("is", $departamento_id, $codigo_usuario);
+            $stmt->execute();
+            $result_justificacion = $stmt->get_result();
+
+            if ($result_justificacion->num_rows > 0) {
+                $row_justificacion = $result_justificacion->fetch_assoc();
+                $justificacion_enviada = $row_justificacion['Justificacion_Enviada'] == 1;
+            }
+            $stmt->close();
+        }
+        ?>
+
         <div class="tab-pane">
-            <div class="info-subida">
-                <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es
-                    <!-- Aqui se incluirá la fecha seleccionada por el Admin --> <b><?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span></b>
-                </p>
-            </div>
-            <!-- Formulario para subir el archivo -->
-            <form id="formulario-subida" enctype="multipart/form-data">
-                <div class="container-inf">
-                    <div class="drop-area">
-                        <p>Arrastra tus archivos a subir aquí</p>
-                        <p>o</p>
-                        <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
-                        <input type="file" name="file" id="input-file" hidden>
+            <?php
+            $fecha_actual = date("Y-m-d H:i:s");
+            $fecha_limite_pasada = strtotime($fecha_actual) > strtotime($fecha_limite);
+
+            if ($fecha_limite_pasada && !$justificacion_enviada) {
+            ?>
+                <div class="justification-container">
+                    <div class="access-restricted">
+                        <div class="icon-circle">
+                            <img src="./Img/Icons/icono-entrega-tardia.png" alt="Access Restricted" />
+                        </div>
+                        <h2>Acceso restringido</h2>
+                        <p>La fecha límite para subir tu plantilla fue el día <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></p>
+                        <p>No subir tus actividades a tiempo puede tener graves consecuencias, tales como:</p>
+                        <ul>
+                            <li>Atrasar otras tareas.</li>
+                            <li>Cargar de trabajo a otras personas o áreas.</li>
+                            <li>Perjudicar la agenda de los alumnos.</li>
+                        </ul>
+                        <p>Si deseas subir la plantilla, justifica por qué no subiste la plantilla a tiempo.</p>
                     </div>
-                    <div id="preview"></div>
-                    <div id="mensaje"></div>
-                    <div class="container-peso">
-                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
-                    </div>
-                    <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+                    <form id="formulario-justificacion" method="post" action="./config/guardar_justificacion.php">
+                        <textarea name="justificacion" placeholder="Escribe tu justificación aquí..." rows="5" required></textarea>
+                        <div id="char-count">0 / 60 caracteres</div>
+                        <input type="hidden" name="departamento_id" value="<?php echo $departamento_id; ?>">
+                        <input type="hidden" name="codigo_usuario" value="<?php echo $codigo_usuario; ?>">
+                        <button type="submit" class="boton-continuar disabled" disabled>Continuar</button>
+                    </form>
                 </div>
-            </form>
+            <?php
+            } else {
+            ?>
+                <div class="info-subida">
+                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
+                </div>
+                <?php if ($fecha_limite_pasada && $justificacion_enviada) { ?>
+                    <div class="container-precaucion">
+                        <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>
+                    </div>
+                <?php } ?>
+                <form id="formulario-subida" enctype="multipart/form-data">
+                    <div class="container-inf">
+                        <div class="drop-area">
+                            <p>Arrastra tus archivos a subir aquí</p>
+                            <p>o</p>
+                            <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
+                            <input type="file" name="file" id="input-file" hidden>
+                        </div>
+                        <div id="preview"></div>
+                        <div id="mensaje"></div>
+                        <div class="container-peso">
+                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                        </div>
+                        <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+                    </div>
+                </form>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>
-</div>
+
+
+<script src="./js/guardarJustifiicacion.js"></script>
 <script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
 <script src="./JS/pestañas-plantilla.js"></script>

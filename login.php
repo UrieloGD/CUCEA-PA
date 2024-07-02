@@ -7,6 +7,7 @@
   <title>Login</title>
   <link rel="stylesheet" href="./CSS/navbar.css" />
   <link rel="stylesheet" href="./CSS/login.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -17,12 +18,13 @@
         <div class="login-container">
           <div class="space-y-4">
             <div>
-              <img src="./Img/logos/LogoCUCEA-COLORES.png" width="100%" height="100%" alt="CUCEA" />
+              <img src="./Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA" />
             </div>
             <br />
-            <div class="text-center">
-              <h1 class="text-3xl font-bold">Mi plataforma CUCEA</h1>
+            <div>
+              <img src="./Img/logos/LogoPA-Color.png" width="100%" height="100%" alt="LogoPA" />
             </div>
+            <br />
             <div class="space-y-4">
               <div class="space-y-2">
                 <label class="text-sm font-medium" for="email">Correo</label>
@@ -38,7 +40,7 @@
             </div>
             <br />
             <div class="text-center">
-              <a class="text-sm-nip text-blue-500 hover:underline" href="./recovery.php">Recuperar contraseña.</a>
+              <a class="text-sm-nip text-blue-500 hover:underline" href="./recuperar-contrasena.php">Recuperar contraseña.</a>
             </div>
             <br />
             <div class="text-center">
@@ -53,3 +55,19 @@
 </body>
 
 </html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+
+    if (error === '1') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de autenticación',
+        text: 'Usuario o contraseña incorrectos',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  });
+</script>

@@ -4,6 +4,30 @@
 <?php include './template/navbar.php' ?>
 
 <?php
+// Verifica si el parámetro de éxito está presente en la URL
+if (isset($_GET['success']) && $_GET['success'] == '1') {
+  echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Fecha límite actualizada',
+                text: 'La fecha límite se ha actualizado correctamente.',
+                confirmButtonText: 'Aceptar'
+            }).then(function() {
+                // Eliminar el parámetro success de la URL
+                if (window.history.replaceState) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('success');
+                    window.history.replaceState({path: url.href}, '', url.href);
+                }
+            });
+        });
+    </script>";
+}
+?>
+
+
+<?php
 // Conexión a la base de datos
 include './config/db.php';
 
@@ -72,23 +96,6 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       </tr>
       <tr>
         <?php
-        echo "<td style='text-align: center;'>";
-        if ($fecha_subida !== null && $fecha_subida > $fecha_limite) {
-            $sql_justificacion = "SELECT Justificacion, Estado FROM Justificaciones 
-                                  WHERE Departamento_ID = '$departamento_id' 
-                                  AND Fecha_Limite_Superada = '$fecha_limite'
-                                  ORDER BY Fecha_Justificacion DESC LIMIT 1";
-            $result_justificacion = mysqli_query($conexion, $sql_justificacion);
-            if ($row_justificacion = mysqli_fetch_assoc($result_justificacion)) {
-                echo "<span title='" . htmlspecialchars($row_justificacion['Justificacion']) . "'>
-                      Ver justificación (" . $row_justificacion['Estado'] . ")</span>";
-            } else {
-                echo "Sin justificación";
-            }
-        } else {
-            echo "N/A";
-        }
-        echo "</td>";
         // Consulta para obtener los departamentos y la fecha de subida más reciente
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                         FROM Departamentos d
@@ -103,21 +110,29 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           echo "<tr>";
           echo "<td>$nombre_departamento</td>";
 
-          // Comparar la fecha límite con la fecha y hora actuales
-          $fecha_actual = date("Y-m-d H:i:s");
+          // Nueva lógica
+          $sql_justificacion = "SELECT * FROM Justificaciones WHERE Departamento_ID = '$departamento_id' ORDER BY Fecha_Justificacion DESC LIMIT 1";
+          $result_justificacion = mysqli_query($conexion, $sql_justificacion);
+          $justificacion = mysqli_fetch_assoc($result_justificacion);
+
           if ($fecha_subida !== null) {
             echo "<td class='entregada'>Entregada</td>";
             echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
           } else {
-            $fecha_actual = date("Y-m-d");
-            if ($fecha_actual > $fecha_limite) {
+            $fecha_actual = date("Y-m-d H:i:s");
+            if (strtotime($fecha_actual) > strtotime($fecha_limite)) {
               echo "<td class='atrasada'>Atrasada</td>";
-              echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
+              if ($justificacion) {
+                echo "<td style='text-align: center; font-style: italic;'>Justificación enviada</td>";
+              } else {
+                echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
+              }
             } else {
               echo "<td class='sin-entregar'>Pendiente</td>";
               echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
             }
           }
+
           echo "<td style='text-align: center;'><a href='basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
           echo "</tr>";
         }
@@ -131,7 +146,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   </div>
 
   <div class="fechalimite">
-    <span>La fecha límite actual es <?php echo date('d/m/Y H:i', strtotime($fecha_limite)); ?></span>
+    <span>La fecha límite actual es <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></span>
   </div>
 
   <!-- Modal para cambiar fecha límite -->
@@ -141,8 +156,8 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       <h2>Cambiar Fecha Límite</h2>
       <form id="fechaLimiteForm" action="./config/updateFechaLimite.php" method="post">
         <label for="fecha_limite">Nueva Fecha Límite:</label>
-        <input type="datetime-local" id="fecha_limite" name="fecha_limite" required>
-        <button type="submit" class="btn">Guardar</button>
+        <input type="date" id="fecha_limite" name="fecha_limite" required>
+        <button type="submit" class="btn-guardar">Guardar</button>
       </form>
     </div>
   </div>
@@ -187,14 +202,15 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       margin: 15% auto;
       padding: 20px;
       border: 1px solid #888;
-      width: 80%;
+      width: 70%;
       max-width: 600px;
+      border-radius: 10px;
     }
 
     .close {
-      color: #aaa;
+      color: #0071b0;
       float: right;
-      font-size: 28px;
+      font-size: 38px;
       font-weight: bold;
     }
 

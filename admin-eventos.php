@@ -49,7 +49,7 @@ $conexion->close();
                 </label>
                 <input type="text" id="nombre" name="nombre" placeholder="Nombre del evento">
             </div>
-            
+
             <div class="form-group">
                 <label>
                     <i class="fas fa-calendar"></i> Fecha y hora
@@ -63,7 +63,7 @@ $conexion->close();
                     <input type="time" id="HorFin" name="HorFi">
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label>
                     <i class="fas fa-bell"></i> Notificaciones
@@ -87,7 +87,7 @@ $conexion->close();
             <!-- <div class="botones_agregar">
                 <button type="button" class="boton-agregar">+ Agregar notificación</button>
             </div> -->
-            
+
             <div class="form-group split-group">
                 <div class="split-item">
                     <label for="participantes">
@@ -111,21 +111,21 @@ $conexion->close();
                     </select>
                 </div>
             </div>
-                            
+
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
                 </label>
                 <textarea id="descripcion" name="descripcion" rows="4"></textarea>
             </div>
-            
+
             <div class="form-actions">
                 <button type="submit" class="btn-guardar">Guardar</button>
                 <a href="./admin-visual-eventos.php"><button type="button" class="btn-cancelar">Cancelar</button></a>
             </div>
-        </form>        
+        </form>
     </div>
-    
+
     <script>
         // Código para manejar la selección de participantes
         const selectParticipantes = document.getElementById('participantes');
@@ -179,38 +179,38 @@ $conexion->close();
                     var formData = new FormData(this);
 
                     fetch('config/eventos_upload.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data.status === 'success') {
-                            Swal.fire(
-                                '¡Guardado!',
-                                'El evento ha sido guardado.',
-                                'success'
-                            ).then(() => {
-                                window.location.href = './admin-visual-eventos.php';
-                            });
-                        } else {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                Swal.fire(
+                                    '¡Guardado!',
+                                    'El evento ha sido guardado.',
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = './admin-visual-eventos.php';
+                                });
+                            } else {
+                                Swal.fire(
+                                    'Error',
+                                    'Hubo un problema al guardar el evento: ' + data.message,
+                                    'error'
+                                );
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error:', error);
                             Swal.fire(
                                 'Error',
-                                'Hubo un problema al guardar el evento: ' + data.message,
+                                'Hubo un problema al procesar la respuesta del servidor.',
                                 'error'
                             );
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                        Swal.fire(
-                            'Error',
-                            'Hubo un problema al procesar la respuesta del servidor.',
-                            'error'
-                        );
-                    });
+                        });
                 }
             });
         });
     </script>
 
-<?php include './template/footer.php' ?>
+    <?php include './template/footer.php' ?>

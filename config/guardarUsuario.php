@@ -1,4 +1,6 @@
 <?php
+header('Content-Type: application/json');
+
 // Conexión a la base de datos
 $servername = "localhost";
 $username = "root";
@@ -9,7 +11,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Verificar la conexión
 if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
+    die(json_encode(["success" => false, "message" => "Error de conexión: " . $conn->connect_error]));
 }
 
 // Obtener los datos del formulario
@@ -36,14 +38,14 @@ if ($stmt->execute()) {
     $stmt_departamento->bind_param("ii", $codigo, $departamento);
 
     if ($stmt_departamento->execute()) {
-        echo "Usuario agregado exitosamente";
+        echo json_encode(["success" => true, "message" => "Usuario agregado exitosamente"]);
     } else {
-        echo "Error al agregar la relación usuario-departamento: " . $stmt_departamento->error;
+        echo json_encode(["success" => false, "message" => "Error al agregar la relación usuario-departamento: " . $stmt_departamento->error]);
     }
 
     $stmt_departamento->close();
 } else {
-    echo "Error al agregar el usuario: " . $stmt->error;
+    echo json_encode(["success" => false, "message" => "Error al agregar el usuario: " . $stmt->error]);
 }
 
 $stmt->close();
