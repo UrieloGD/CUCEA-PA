@@ -266,6 +266,23 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conn);
 }
 
+$sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo VARCHAR(50) NOT NULL,
+    Mensaje TEXT NOT NULL,
+    Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Usuario_ID BIGINT(10),
+    Vista BOOLEAN DEFAULT 0,
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+);";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Notificaciones creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conn);
+}
+
+
 // Crear tabla Data_Plantilla
 $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,

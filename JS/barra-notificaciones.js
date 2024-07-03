@@ -1,5 +1,18 @@
 let isNavOpen = false;
 
+window.actualizarBadgeNotificaciones = function () {
+  const notificacionesSinVer = document.querySelectorAll(
+    ".contenedor-notificacion:not(.vista)"
+  );
+  const badge = document.getElementById("notification-badge");
+
+  if (notificacionesSinVer.length > 0) {
+    badge.style.display = "block";
+  } else {
+    badge.style.display = "none";
+  }
+};
+
 function toggleNav() {
   const sidebar = document.getElementById("mySidebar");
   if (isNavOpen) {
@@ -12,21 +25,82 @@ function toggleNav() {
   isNavOpen = !isNavOpen;
 }
 
+function actualizarBadgeNotificaciones() {
+  const notificacionesSinVer = document.querySelectorAll(
+    ".contenedor-notificacion:not(.vista)"
+  );
+  const badge = document.getElementById("notification-badge");
+
+  if (notificacionesSinVer.length > 0) {
+    badge.style.display = "block";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+function manejarClicNotificacion(event) {
+  const notificacion = event.currentTarget;
+
+  // Si la notificación no estaba vista, márcarla como vista
+  if (!notificacion.classList.contains("vista")) {
+    notificacion.classList.add("vista");
+    marcarNotificacionComoVista(
+      notificacion.dataset.id,
+      notificacion.dataset.tipo
+    );
+    actualizarBadgeNotificaciones();
+  }
+}
+
+function marcarNotificacionComoVista(id, tipo) {
+  fetch("./config/marcar_vista.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `id=${id}&tipo=${tipo}`,
+  })
+    .then((response) => response.text())
+    .then((text) => {
+      console.log("Respuesta completa del servidor:", text);
+      try {
+        return JSON.parse(text);
+      } catch (error) {
+        throw new Error(`Respuesta no válida del servidor: ${text}`);
+      }
+    })
+    .then((data) => {
+      if (data.success) {
+        console.log("Notificación marcada como vista");
+      } else {
+        console.error(
+          "Error al marcar la notificación como vista:",
+          data.error
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("Error en la solicitud:", error);
+    });
+}
+
 function marcarNotificacionesComoVistas() {
-  const notificaciones = document.querySelectorAll(".contenedor-notificacion");
-  const ids = [];
-  const tipos = [];
+  const notificaciones = document.querySelectorAll(
+    ".contenedor-notificacion:not(.vista)"
+  );
 
   notificaciones.forEach((notificacion) => {
-    if (!notificacion.classList.contains("vista")) {
-      ids.push(notificacion.dataset.id);
-      tipos.push(notificacion.dataset.tipo);
-      notificacion.classList.add("vista");
-    }
+    notificacion.classList.add("vista");
+    marcarNotificacionComoVista(
+      notificacion.dataset.id,
+      notificacion.dataset.tipo
+    );
   });
 
+  actualizarBadgeNotificaciones();
+
   if (ids.length > 0) {
-    fetch("marcar_vistas.php", {
+    fetch("./config/marcar_vista.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -41,6 +115,19 @@ function marcarNotificacionesComoVistas() {
       });
   }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const notificaciones = document.querySelectorAll(".contenedor-notificacion");
+  notificaciones.forEach((notificacion) => {
+    notificacion.addEventListener("click", manejarClicNotificacion);
+  });
+
+  const botonMarcarLeido = document.querySelector(".marcar-leido");
+  if (botonMarcarLeido) {
+    botonMarcarLeido.addEventListener("click", marcarNotificacionesComoVistas);
+  }
+  actualizarBadgeNotificaciones();
+});
 
 // Función para cerrar la barra de navegación al hacer clic fuera de ella
 document.addEventListener("click", function (event) {
