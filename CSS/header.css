@@ -49,6 +49,18 @@ body {
   /* border: solid 1px; */
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
 }
 
 .notification-menu {

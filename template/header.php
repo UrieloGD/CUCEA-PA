@@ -2,35 +2,44 @@
 include('./config/sesionIniciada.php')
 ?>
 
-
-<!-- Adquirir justificaciones -->
 <?php
 date_default_timezone_set('America/Mexico_City');
-// Añade esto justo después de incluir 'sesionIniciada.php'
-$notificaciones = [];
-if ($rol_id == 2) { // 2 es el ID del rol de Secretaría Administrativa
 
-  // Conexión a la base de datos
+if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de departamento y secretaría administrativa
+  $notificaciones = [];
+
   $servername = "localhost";
   $username = "root";
   $password = "root";
   $dbname = "pa";
   $conn = mysqli_connect($servername, $username, $password, 'PA');
 
-  // Consulta para obtener las justificaciones
-  $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, d.Departamentos, u.Nombre, u.Apellido 
-  FROM Justificaciones j
-  JOIN Departamentos d ON j.Departamento_ID = d.Departamento_ID
-  JOIN Usuarios u ON j.Codigo_Usuario = u.Codigo
-  WHERE j.Justificacion_Enviada = 1
-  UNION ALL
-  SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, d.Departamentos, u.Nombre, u.Apellido
-  FROM Plantilla_Dep p
-  JOIN Departamentos d ON p.Departamento_ID = d.Departamento_ID
-  JOIN Usuarios u ON p.Usuario_ID = u.Codigo
-  WHERE p.Notificacion_Vista = 0
-  ORDER BY fecha DESC
-  LIMIT 10";
+  if ($rol_id == 2) {
+    // Consulta para secretaría administrativa (mantén la consulta existente)
+    $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
+                   d.Departamentos, u.Nombre, u.Apellido, 
+                   j.Notificacion_Vista AS vista
+            FROM Justificaciones j
+            JOIN Departamentos d ON j.Departamento_ID = d.Departamento_ID
+            JOIN Usuarios u ON j.Codigo_Usuario = u.Codigo
+            WHERE j.Justificacion_Enviada = 1
+            UNION ALL
+            SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, 
+                   d.Departamentos, u.Nombre, u.Apellido, 
+                   p.Notificacion_Vista AS vista
+            FROM Plantilla_Dep p
+            JOIN Departamentos d ON p.Departamento_ID = d.Departamento_ID
+            JOIN Usuarios u ON p.Usuario_ID = u.Codigo
+            ORDER BY fecha DESC
+            LIMIT 10";
+  } else {
+    // Consulta para jefes de departamento
+    $query = "SELECT Tipo AS tipo, ID AS id, Fecha AS fecha, Mensaje, Vista AS vista
+                  FROM Notificaciones
+                  WHERE Usuario_ID = " . $_SESSION['Codigo'] . "
+                  ORDER BY Fecha DESC
+                  LIMIT 10";
+  }
 
   $result = mysqli_query($conn, $query);
 
@@ -171,9 +180,12 @@ if ($rol_id == 2) { // 2 es el ID del rol de Secretaría Administrativa
       <li class="icono-notificaciones">
         <a href="javascript:void(0);" id="notification-icon" onclick="toggleNav()">
           <i class="fas fa-bell" style="font-size: 28px; color: black;"></i>
+          <span id="notification-badge" class="notification-badge"></span>
         </a>
       </li>
     </div>
+
+    <!-- Notificaciones -->
     <div id="mySidebar" class="sidebar">
       <div class="contenedor-fecha-hora">
         <div class="fecha-hora-info">
@@ -182,39 +194,44 @@ if ($rol_id == 2) { // 2 es el ID del rol de Secretaría Administrativa
         </div>
         <button class="marcar-leido">Marcar como leído</button>
       </div>
-      <?php if ($rol_id == 2) : // Solo mostrar para Secretaría Administrativa 
+      <?php if ($rol_id == 1 || $rol_id == 2) : // Mostrar para jefes de departamento y secretaría administrativa 
       ?>
-        <?php foreach ($notificaciones as $notificacion) : ?>
-          <div class="contenedor-notificacion" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
-            <div class="imagen">
-              <div class="circulo"></div>
-            </div>
-            <div class="info-notificacion">
-              <div class="usuario"><?php echo $notificacion['Departamentos']; ?></div>
-              <div class="descripcion">
-                <?php
-                if ($notificacion['tipo'] == 'justificacion') {
-                  echo $notificacion['Nombre'] . ' ' . $notificacion['Apellido'] . ' ha enviado una justificación';
-                } else {
-                  echo $notificacion['Nombre'] . ' ' . $notificacion['Apellido'] . ' ha subido su Base de Datos';
-                }
-                ?>
+        <?php if (!empty($notificaciones)) : ?>
+          <?php foreach ($notificaciones as $notificacion) : ?>
+            <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
+              <div class="imagen">
+                <div class="circulo"></div>
               </div>
-              <div class="fecha-hora">
-                <?php echo date('d/m/Y H:i:s', strtotime($notificacion['fecha'])); ?>
+              <div class="info-notificacion">
+                <?php if ($rol_id == 2) : ?>
+                  <div class="usuario"><?php echo $notificacion['Departamentos']; ?></div>
+                  <div class="descripcion">
+                    <?php
+                    if ($notificacion['tipo'] == 'justificacion') {
+                      echo $notificacion['Nombre'] . ' ' . $notificacion['Apellido'] . ' ha enviado una justificación';
+                    } else {
+                      echo $notificacion['Nombre'] . ' ' . $notificacion['Apellido'] . ' ha subido su Base de Datos';
+                    }
+                    ?>
+                  </div>
+                <?php else : ?>
+                  <div class="descripcion"><?php echo $notificacion['Mensaje']; ?></div>
+                <?php endif; ?>
+                <div class="fecha-hora">
+                  <?php echo date('d/m/Y H:i:s', strtotime($notificacion['fecha'])); ?>
+                </div>
               </div>
             </div>
-          </div>
-        <?php endforeach; ?>
-        <?php if (empty($notificaciones)) : ?>
-          <div class="contenedor-notificacion" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
+          <?php endforeach; ?>
+        <?php else : ?>
+          <div class="contenedor-notificacion">
             <div class="info-notificacion">
               <div class="descripcion">No hay nuevas notificaciones</div>
             </div>
           </div>
         <?php endif; ?>
       <?php else : ?>
-        <div class="contenedor-notificacion" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
+        <div class="contenedor-notificacion">
           <div class="info-notificacion">
             <div class="descripcion">No tienes notificaciones</div>
           </div>
@@ -222,6 +239,11 @@ if ($rol_id == 2) { // 2 es el ID del rol de Secretaría Administrativa
       <?php endif; ?>
     </div>
   </div>
+
+
+  <script src="./JS/header.js"></script>
+  <script src="./JS/barra-notificaciones.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- actualizar fecha y hora en tiempo real -->
   <script>
@@ -255,7 +277,13 @@ if ($rol_id == 2) { // 2 es el ID del rol de Secretaría Administrativa
     actualizarFechaHora();
   </script>
 
-
-  <script src="./JS/header.js"></script>
-  <script src="./JS/barra-notificaciones.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Inicializar budget para notificaciones -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof actualizarBadgeNotificaciones === 'function') {
+        actualizarBadgeNotificaciones();
+      } else {
+        console.error('La función actualizarBadgeNotificaciones no está definida');
+      }
+    });
+  </script>
