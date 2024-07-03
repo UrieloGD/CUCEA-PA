@@ -106,7 +106,7 @@
   -o-border-radius: 5px;
 }
 
-.estado-sin-entregar {
+.estado-pendiente {
   background-color: #FDF8E4;
   color: #8B6E3B;
   font-weight: bold;

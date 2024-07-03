@@ -35,7 +35,7 @@ include './config/db.php';
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01 23:50";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01";
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
@@ -116,19 +116,19 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           $justificacion = mysqli_fetch_assoc($result_justificacion);
 
           if ($fecha_subida !== null) {
-            echo "<td class='entregada'>Entregada</td>";
+            echo "<td><span class='estado-entregada'>Entregada</span></td>";
             echo "<td style='text-align: center;'>" . date('d/m/Y H:i:s', strtotime($fecha_subida)) . "</td>";
           } else {
             $fecha_actual = date("Y-m-d H:i:s");
             if (strtotime($fecha_actual) > strtotime($fecha_limite)) {
-              echo "<td class='atrasada'>Atrasada</td>";
+              echo "<td><span class='estado-atrasada'>Atrasada</span></td>";
               if ($justificacion) {
                 echo "<td style='text-align: center; font-style: italic;'>Justificación enviada</td>";
               } else {
                 echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
               }
             } else {
-              echo "<td class='sin-entregar'>Pendiente</td>";
+              echo "<td><span class='estado-pendiente'>Pendiente</span></td>";
               echo "<td style='text-align: center; font-style: italic;'>Sin entregar</td>";
             }
           }
@@ -142,7 +142,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 
   <div class="form-actions">
     <button type="button" class="btn" onclick="openModal()">Cambiar Fecha Límite</button>
-    <button type="submit" class="btn">Generar Reporte</button>
+    <a href="./admin-reportes.php"><button type="submit" class="btn">Generar Reporte</button></a>
   </div>
 
   <div class="fechalimite">

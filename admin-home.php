@@ -34,7 +34,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 // Obtener la fecha límite más reciente
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
-$fecha_limite = null;
+$fecha_limite = $result_fecha_limite;
 if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
     $fecha_limite = mysqli_fetch_assoc($result_fecha_limite)['Fecha_Limite'];
 }
