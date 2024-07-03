@@ -5,8 +5,8 @@
 <!-- Conexión a la base de datos -->
 <?php include './config/db.php' ?>
 
-<title>Centro de Gestión</title>
-<link rel="stylesheet" href="./CSS/admin-visual-eventos.css" />
+<title>Calendario</title>
+<link rel="stylesheet" href="./CSS/calendario.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -18,9 +18,10 @@
     </div>
 
     </head>
+
 <body>
-    <div class="container">
-        <div class="header">
+    <div class="container-calendar">
+        <div class="header-calendar">
             <h2>Hoy</h2>
         </div>
         <div class="countdown">
@@ -49,5 +50,21 @@
             </div>
         </div>
     </div>
+</div>
 </body>
+
+<div class="date-bar">
+    <div class="date-selector">
+        <span class="month-year">Junio 2024</span>
+        <div class="arrow-buttons">
+            <button class="arrow left">&#9664;</button>
+            <button class="arrow right">&#9654;</button>
+        </div>
+    </div>
+    <div class="view-options">
+        <button class="search-icon">&#128269;</button>
+        <button class="list-icon">&#9776;</button>
+        <button class="grid-icon">&#9783;</button>
+    </div>
+</div>
 </html>

@@ -1,3 +1,5 @@
+ // headerLuis.js
+ 
  // Get the notification icon and menu
  const notificationIcon = document.getElementById('notification-icon');
  const notificationMenu = document.getElementById('notification-menu');
@@ -8,56 +10,28 @@
    notificationMenu.style.display = (notificationMenu.style.display === 'none') ? 'block' : 'none';
  });
 
+ <script>
+        // Función para abrir la barra lateral
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "400px";
+            /* Para ajustar el tamaño de la barra mientras esté abierta */
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        // Función para cerrar la barra de navegación al hacer clic fuera de ella
+        window.onclick = function(event) {
+            if (event.target != document.getElementById("mySidebar") && event.target != document.getElementsByClassName("openbtn")[0]) {
+                document.getElementById("mySidebar").style.width = "0";
+            }
+        
+    </script>
+
  // Get the current date and time
- /* const currentDate = document.getElementById('current-date');
- const currentTime = document.getElementById('current-time'); */ 
-
- // Función para actualizar la fecha y hora
-function actualizarFechaHora() {
-  // Crear el contenedor principal
-  const contenedor = document.createElement('div');
-  contenedor.className = 'contenedor-fecha-hora';
-
-  // Crear el contenedor de información
-  const info = document.createElement('div');
-  info.className = 'fecha-hora-info';
-
-  // Crear el elemento para la hora
-  const horaElement = document.createElement('div');
-  horaElement.className = 'hora';
-
-  // Crear el elemento para la fecha
-  const fechaElement = document.createElement('div');
-  fechaElement.className = 'fecha';
-
-  // Añadir los elementos al DOM
-  info.appendChild(horaElement);
-  info.appendChild(fechaElement);
-  contenedor.appendChild(info);
-  document.body.appendChild(contenedor); // Asume que quieres añadirlo al body
-
-  // Función para actualizar el contenido
-  function actualizar() {
-      const ahora = new Date();
-
-      // Actualizar hora
-      const horas = ahora.getHours().toString().padStart(2, '0');
-      const minutos = ahora.getMinutes().toString().padStart(2, '0');
-      const segundos = ahora.getSeconds().toString().padStart(2, '0');
-      horaElement.textContent = `${horas}:${minutos}:${segundos}`;
-
-      // Actualizar fecha
-      const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-      fechaElement.textContent = ahora.toLocaleDateString('es-ES', opciones);
-  }
-
-  // Actualizar inmediatamente y luego cada segundo
-  actualizar();
-  setInterval(actualizar, 1000);
-}
-
-// Llamar a la función cuando se carga la página
-window.addEventListener('load', actualizarFechaHora);
+ const currentDate = document.getElementById('current-date');
+ const currentTime = document.getElementById('current-time'); 
 
  // Update the current date and time every second
  setInterval(() => {

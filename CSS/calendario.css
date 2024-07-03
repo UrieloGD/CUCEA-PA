@@ -41,24 +41,38 @@
     background-color: #0071b0;
   } 
 
+
+  .section-title {
+    font-weight: bold;
+    margin-top: 20px;
+    /* margin-bottom: 10px; */
+    max-width: 100%;
+    margin-left: 60px;
+    margin-right: 60px;
+  }
   /* Aquí empieza el código */ 
-  body {
+/*  body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 20px;
     background-color: #f0f0f0;
+} */
+
+.container-calendar {
+    background-color: white;
+    border-color: #0071b0;
+    max-width: 290px;
+   
+    margin-left: 5%;
+    margin-top: 1%;
+    /* overflow: hidden; */
+    /* box-shadow: 0 0 10px rgba(0,0,0,0.1); */
 }
-.container {
-    background-color: #007bff;
-    max-width: 300px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-.header {
-    background-color: #007bff;
+.header-calendar {
+    background-color: #0071b0;
+    margin-top: 20px;
     color: white;
-    padding: 10px;
+    padding: 1px;
     text-align: center;
 }
 .countdown {
@@ -93,4 +107,50 @@
 .event {
     background-color: #f8f9fa;
     border-radius: 5px;
+}
+
+/* barra azul */
+.date-bar {
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+}
+
+.month-year {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.arrow-buttons {
+    display: flex;
+}
+
+.arrow {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.view-options {
+    display: flex;
+}
+
+.view-options button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0 5px;
 }
