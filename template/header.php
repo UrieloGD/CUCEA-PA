@@ -224,66 +224,68 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             </div>
           <?php endforeach; ?>
         <?php else : ?>
-          <div class="contenedor-notificacion">
+          <div class="mensaje-sin-notificaciones">
             <div class="info-notificacion">
               <div class="descripcion">No hay nuevas notificaciones</div>
             </div>
           </div>
-        <?php endif; ?>
-      <?php else : ?>
-        <div class="contenedor-notificacion">
-          <div class="info-notificacion">
-            <div class="descripcion">No tienes notificaciones</div>
-          </div>
-        </div>
-      <?php endif; ?>
+    </div>
+  <?php endif; ?>
+<?php else : ?>
+  <div class="mensaje-sin-notificaciones">
+    <div class="info-notificacion">
+      <div class="descripcion">No tienes notificaciones</div>
     </div>
   </div>
+  </div>
+<?php endif; ?>
+</div>
+</div>
 
 
-  <script src="./JS/header.js"></script>
-  <script src="./JS/barra-notificaciones.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./JS/header.js"></script>
+<script src="./JS/barra-notificaciones.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <!-- actualizar fecha y hora en tiempo real -->
-  <script>
-    function actualizarFechaHora() {
-      const ahora = new Date();
+<!-- actualizar fecha y hora en tiempo real -->
+<script>
+  function actualizarFechaHora() {
+    const ahora = new Date();
 
-      // Actualizar hora
-      const hora = ahora.getHours().toString().padStart(2, '0');
-      const minutos = ahora.getMinutes().toString().padStart(2, '0');
-      const segundos = ahora.getSeconds().toString().padStart(2, '0');
-      document.getElementById('hora-dinamica').textContent = `${hora}:${minutos}:${segundos}`;
+    // Actualizar hora
+    const hora = ahora.getHours().toString().padStart(2, '0');
+    const minutos = ahora.getMinutes().toString().padStart(2, '0');
+    const segundos = ahora.getSeconds().toString().padStart(2, '0');
+    document.getElementById('hora-dinamica').textContent = `${hora}:${minutos}:${segundos}`;
 
-      // Actualizar fecha
-      const opciones = {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      };
-      let fechaFormateada = ahora.toLocaleDateString('es-ES', opciones);
+    // Actualizar fecha
+    const opciones = {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    };
+    let fechaFormateada = ahora.toLocaleDateString('es-ES', opciones);
 
-      // Agregar "de" entre el mes y el año
-      fechaFormateada = fechaFormateada.replace(/(\d+)\s+de?\s*(\w+)\s+de?\s*(\d+)/, '$1 de $2 de $3');
+    // Agregar "de" entre el mes y el año
+    fechaFormateada = fechaFormateada.replace(/(\d+)\s+de?\s*(\w+)\s+de?\s*(\d+)/, '$1 de $2 de $3');
 
-      document.getElementById('fecha-dinamica').textContent = fechaFormateada;
+    document.getElementById('fecha-dinamica').textContent = fechaFormateada;
+  }
+
+  // Actualizar cada segundo
+  setInterval(actualizarFechaHora, 1000);
+
+  // Llamar una vez al cargar la página
+  actualizarFechaHora();
+</script>
+
+<!-- Inicializar budget para notificaciones -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    if (typeof actualizarBadgeNotificaciones === 'function') {
+      actualizarBadgeNotificaciones();
+    } else {
+      console.error('La función actualizarBadgeNotificaciones no está definida');
     }
-
-    // Actualizar cada segundo
-    setInterval(actualizarFechaHora, 1000);
-
-    // Llamar una vez al cargar la página
-    actualizarFechaHora();
-  </script>
-
-  <!-- Inicializar budget para notificaciones -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      if (typeof actualizarBadgeNotificaciones === 'function') {
-        actualizarBadgeNotificaciones();
-      } else {
-        console.error('La función actualizarBadgeNotificaciones no está definida');
-      }
-    });
-  </script>
+  });
+</script>

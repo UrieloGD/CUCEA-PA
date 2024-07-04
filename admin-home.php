@@ -12,11 +12,11 @@ $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS F
                               FROM Plantilla_Dep
                               GROUP BY Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
-$departasmentos_subidos = array();
+$departamentos_subidos = array();
 while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
-  if ($row['Fecha_Subida_Dep'] !== null) {
-    $departamentos_subidos[] = $row['Departamento_ID'];
-  }
+    if ($row['Fecha_Subida_Dep'] !== null) {
+        $departamentos_subidos[] = $row['Departamento_ID'];
+    }
 }
 
 // Obtener el total de departamentos
@@ -76,74 +76,74 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
     </div>
 
     <div class="contenido">
-            <div class="izquierda">
-                <div class="contenedor-tabla">
-                    <h3 class="titulo-tabla">Bases de Datos Pendientes de Entrega</h3>
-                    <table class="tabla">
-                        <thead>
-                            <tr>
-                                <th>Departamento</th>
-                                <th>Estado de la entrega</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // Consulta para obtener los departamentos y la fecha de subida más reciente
-                            $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
+        <div class="izquierda">
+            <div class="contenedor-tabla">
+                <h3 class="titulo-tabla">Bases de Datos Pendientes de Entrega</h3>
+                <table class="tabla">
+                    <thead>
+                        <tr>
+                            <th>Departamento</th>
+                            <th>Estado de la entrega</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Consulta para obtener los departamentos y la fecha de subida más reciente
+                        $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                                             FROM Departamentos d
                                             LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
                                             GROUP BY d.Departamento_ID, d.Departamentos";
-                            $result_departamentos = mysqli_query($conexion, $sql_departamentos);
+                        $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
-                            while ($row = mysqli_fetch_assoc($result_departamentos)) {
-                                $departamento_id = $row['Departamento_ID'];
-                                $nombre_departamento = $row['Departamentos'];
-                                $fecha_subida = $row['Fecha_Subida_Dep'];
-                                echo "<tr>";
-                                echo "<td>$nombre_departamento</td>";
-                                if ($fecha_subida !== null) {
-                                    echo "<td><span class='entregada'>Entregada</span></td>";
+                        while ($row = mysqli_fetch_assoc($result_departamentos)) {
+                            $departamento_id = $row['Departamento_ID'];
+                            $nombre_departamento = $row['Departamentos'];
+                            $fecha_subida = $row['Fecha_Subida_Dep'];
+                            echo "<tr>";
+                            echo "<td>$nombre_departamento</td>";
+                            if ($fecha_subida !== null) {
+                                echo "<td><span class='entregada'>Entregada</span></td>";
+                            } else {
+                                $fecha_actual = date("Y-m-d");
+                                if ($fecha_actual > $fecha_limite) {
+                                    echo "<td><span class='atrasada'>Atrasada</span></td>";
                                 } else {
-                                    $fecha_actual = date("Y-m-d");
-                                    if ($fecha_actual > $fecha_limite) {
-                                        echo "<td><span class='atrasada'>Atrasada</span></td>";
-                                    } else {
-                                        echo "<td><span class='sin-entregar'>Pendiente</span></td>";
-                                    }
+                                    echo "<td><span class='sin-entregar'>Pendiente</span></td>";
                                 }
-                                echo "</tr>";
                             }
+                            echo "</tr>";
+                        }
 
-                                // Calcular el porcentaje de avance
-                                $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                        // Calcular el porcentaje de avance
+                        $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
+                        ?>
+                    </tbody>
+                </table>
             </div>
-            <div class="derecha">
-                <h3>Progreso de Entregas</h3>
-                <div class="progreso">
-                    <p>Se ha alcanzado el <?php echo round($porcentaje_avance); ?>% del total de entregas necesarias.</p>
-                    <div class="circulo-progreso">
-                        <div class="circulo">
-                            <span class="porcentaje"><?php echo round($porcentaje_avance); ?>%</span>
-                        </div>
+        </div>
+        <div class="derecha">
+            <h3>Progreso de Entregas</h3>
+            <div class="progreso">
+                <p>Se ha alcanzado el <?php echo round($porcentaje_avance); ?>% del total de entregas necesarias.</p>
+                <div class="circulo-progreso">
+                    <div class="circulo">
+                        <span class="porcentaje"><?php echo round($porcentaje_avance); ?>%</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Include your footer here -->
-    <script>
-        function updateCircleProgress(percentage) {
-            var circleElement = document.querySelector('.circulo-progreso');
-            var porcentajeElement = document.querySelector('.porcentaje');
-            porcentajeElement.textContent = percentage + '%';
-            circleElement.style.setProperty('--progress', percentage + '%');
-        }
+</div>
+<!-- Include your footer here -->
+<script>
+    function updateCircleProgress(percentage) {
+        var circleElement = document.querySelector('.circulo-progreso');
+        var porcentajeElement = document.querySelector('.porcentaje');
+        porcentajeElement.textContent = percentage + '%';
+        circleElement.style.setProperty('--progress', percentage + '%');
+    }
 
-        updateCircleProgress(<?php echo round($porcentaje_avance); ?>);
-    </script>
+    updateCircleProgress(<?php echo round($porcentaje_avance); ?>);
+</script>
 
 <?php include './template/footer.php' ?>
