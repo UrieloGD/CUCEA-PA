@@ -12,7 +12,7 @@ $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS F
                               FROM Plantilla_Dep
                               GROUP BY Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
-$departasmentos_subidos = array();
+$departamentos_subidos = array();
 while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
   if ($row['Fecha_Subida_Dep'] !== null) {
     $departamentos_subidos[] = $row['Departamento_ID'];
