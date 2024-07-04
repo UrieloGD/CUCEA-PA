@@ -179,7 +179,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
       </div>
       <li class="icono-notificaciones">
         <a href="javascript:void(0);" id="notification-icon" onclick="toggleNav()">
-          <i class="fas fa-bell" style="font-size: 28px; color: black;"></i>
+          <img src="./Img/Icons/iconos-header/Notificacion.png" alt="">
           <span id="notification-badge" class="notification-badge"></span>
         </a>
       </li>
