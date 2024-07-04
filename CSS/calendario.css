@@ -1,0 +1,180 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin: 1vh 2vw 2vh 6vw;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.titulo-bd {
+    color: #fff;
+    width: 30vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 20px 20px;
+    background-color: #0071b0;
+}
+
+.calendar-container {
+    display: flex;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.left-column {
+    width: 30%;
+    padding-right: 20px;
+}
+
+.right-column {
+    width: 70%;
+}
+
+.header-calendar {
+    background-color: #0071b0;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.countdown {
+    text-align: center;
+    padding: 10px;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.timer-box {
+    background-color: #f8f9fa;
+    color: #0071b0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.activities, .events {
+    margin-top: 20px;
+}
+
+.activity, .event {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-left: 4px solid;
+}
+
+.activity {
+    border-color: #ffc107;
+}
+
+.activity:last-child {
+    border-color: #28a745;
+}
+
+.event {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.date-bar {
+    background-color: #0071B0;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.date-selector {
+    display: flex;
+    align-items: center;
+}
+
+.month-year {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.arrow-buttons {
+    display: flex;
+}
+
+.arrow {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.view-options {
+    display: flex;
+}
+
+.view-options button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.calendar-table th, .calendar-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.calendar-table th {
+    background-color: #0077be;
+    color: white;
+}
+
+.calendar-table td:hover {
+    background-color: #f5f5f5;
+}
+
+@media (max-width: 768px) {
+    .calendar-container {
+        flex-direction: column;
+    }
+    
+    .left-column, .right-column {
+        width: 100%;
+    }
+    
+    .left-column {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+}

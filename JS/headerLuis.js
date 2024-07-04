@@ -1,3 +1,5 @@
+ // headerLuis.js
+ 
  // Get the notification icon and menu
  const notificationIcon = document.getElementById('notification-icon');
  const notificationMenu = document.getElementById('notification-menu');
@@ -8,9 +10,28 @@
    notificationMenu.style.display = (notificationMenu.style.display === 'none') ? 'block' : 'none';
  });
 
+ <script>
+        // Función para abrir la barra lateral
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "400px";
+            /* Para ajustar el tamaño de la barra mientras esté abierta */
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+        }
+
+        // Función para cerrar la barra de navegación al hacer clic fuera de ella
+        window.onclick = function(event) {
+            if (event.target != document.getElementById("mySidebar") && event.target != document.getElementsByClassName("openbtn")[0]) {
+                document.getElementById("mySidebar").style.width = "0";
+            }
+        
+    </script>
+
  // Get the current date and time
  const currentDate = document.getElementById('current-date');
- const currentTime = document.getElementById('current-time');
+ const currentTime = document.getElementById('current-time'); 
 
  // Update the current date and time every second
  setInterval(() => {

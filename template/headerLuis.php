@@ -1,3 +1,5 @@
+<!-- headerLuis.php -->
+
 <?php
   include('./config/sesionIniciada.php')
 ?>
