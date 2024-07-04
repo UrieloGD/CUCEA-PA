@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./CSS/navbar.css">
     <link rel="stylesheet" href="./CSS/login.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="icon" href="./Img/Icons/iconos-header/pestaña.png" type="image/png">
 </head>
 
 <body>
