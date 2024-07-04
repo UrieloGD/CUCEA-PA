@@ -51,6 +51,10 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
 }
 ?>
 
+<head>
+  <link rel="icon" href="./Img/Icons/iconos-header/pestaña.png" type="image/png">
+</head>
+
 <link rel="stylesheet" href="./CSS/notificaciones.css" />
 <div class="container">
   <div class="header">
