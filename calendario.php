@@ -1,23 +1,23 @@
+<!--header -->
 <?php include './template/header.php' ?>
+<!-- navbar -->
 <?php include './template/navbar.php' ?>
+<!-- Conexión a la base de datos -->
 <?php include './config/db.php' ?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendario</title>
-    <link rel="stylesheet" href="./CSS/calendario.css" />
-</head>
-<body>
-    <div class="cuadro-principal">
-        <div class="encabezado">
-            <div class="titulo-bd">
-                <h3>Calendario</h3>
-            </div>
+<title>Centro de Gestión</title>
+<link rel="stylesheet" href="./CSS/calendario.css" />
+
+<!--Cuadro principal del home-->
+<div class="cuadro-principal">
+    <!--Pestaña azul-->
+    <div class="encabezado">
+        <div class="titulo-bd">
+            <h3>Próximos Eventos</h3>
         </div>
+    </div>
         
+    <!-- aquí inica el código -->
         <div class="calendar-container">
             <div class="left-column">
                 <div class="header-calendar">

@@ -86,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <div class="contenedor-formulario">
+        
         <form id="eventoForm" method="post">
             <div class="form-group">
                 <label for="nombre">

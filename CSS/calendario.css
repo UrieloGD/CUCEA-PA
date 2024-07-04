@@ -1,43 +1,54 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
+/* CSS del cuadro principal */
 
 .cuadro-principal {
     background-color: white;
     border-radius: 20px;
     width: 92vw;
     height: 90vh;
-    margin: 1vh 2vw 2vh 6vw;
-    overflow: auto;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: auto; /* Para que el contenido adicional no desborde */
     display: flex;
     flex-direction: column;
-}
-
-.encabezado {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+  
+  /* Encabezado */
+  .encabezado {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-}
-
-.titulo-bd {
+  }
+  
+  .encabezado h3 {
+    margin: 0;
+  }
+  
+  .titulo-bd {
     color: #fff;
     width: 30vw;
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0 0 20px 20px;
+    border-radius: 0px 0px 20px 20px;
     background-color: #0071b0;
-}
+  }
 
+  /* Aquí inicia el código */
+
+/* Cuadro de actividades y eventos */  
 .calendar-container {
     display: flex;
     margin-top: 20px;
     padding: 0 20px;
+    margin-left: 40px;
 }
 
 .left-column {
@@ -49,9 +60,11 @@ body {
     width: 70%;
 }
 
+
+
 .header-calendar {
-    background-color: #0071b0;
-    color: white;
+    background-color: white;
+    color: #0071b0;
     padding: 15px;
     border-radius: 10px;
 }
@@ -98,6 +111,7 @@ body {
     border-radius: 5px;
 }
 
+/* Barra de la fecha */
 .date-bar {
     background-color: #0071B0;
     color: white;
@@ -106,6 +120,9 @@ body {
     align-items: center;
     padding: 10px 15px;
     border-radius: 10px 10px 0 0;
+    margin-bottom: 20px;
+    margin-right: 40px;
+
 }
 
 .date-selector {
@@ -150,7 +167,7 @@ body {
 }
 
 .calendar-table th, .calendar-table td {
-    border: 1px solid #ddd;
+    border: 1px solid #E7E9F2;
     padding: 8px;
     text-align: center;
 }

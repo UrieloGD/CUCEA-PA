@@ -74,7 +74,7 @@
 }
 
 .marcar-leido {
-    background-color: #007bff;
+    background-color: #0071B0;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -86,8 +86,49 @@
     display: flex;
     align-items: center;
     padding: 10px;
+    background-color: #F0F9FF;
     border-bottom: 1px solid #e0e0e0;
+    position: relative; 
+    cursor: pointer;
 }
+
+.contenedor-notificacion.vista {
+    background-color: white; /* Fondo blanco claro para notificaciones vistas */
+}
+
+.contenedor-notificacion::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #0071B0;
+    display: block; /* Mostrar siempre */
+}
+
+.contenedor-notificacion.vista::after {
+    display: none; /* Ocultar el círculo para notificaciones vistas */
+}
+
+.contenedor-notificacion.no-leido::after {
+    display: block; /* Mostrar para notificaciones no leídas */
+}
+
+.mensaje-sin-notificaciones {
+    padding: 10px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+  }
+  
+  .mensaje-sin-notificaciones .info-notificacion {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
 
 .imagen {
     width: 50px;

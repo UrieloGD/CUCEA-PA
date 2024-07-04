@@ -368,24 +368,31 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       body: JSON.stringify(datos),
     })
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.text(); // Primero obtenemos el texto de la respuesta
+        return response.json();
       })
-      .then(text => {
-        try {
-          return JSON.parse(text); // Intentamos parsearlo como JSON
-        } catch (e) {
-          console.error("La respuesta no es JSON válido:", text);
-          throw new Error("La respuesta del servidor no es JSON válido");
+      .then((result) => {
+        if (result.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: result.message,
+          }).then(() => {
+            ocultarModal();
+            reloadPage();
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: result.message,
+          });
         }
       })
-      .then(result => {
-        // Manejo del resultado como antes
-      })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error:", error);
         Swal.fire({
           icon: "error",

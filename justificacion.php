@@ -4,42 +4,7 @@
 <?php include './template/navbar.php' ?>
 <!-- css del home -->
     <title>Acceso restringido</title>
-    <style>
-        /* Estilos para el modal, similar a la imagen proporcionada */
-        body {
-            background-color: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .modal {
-            background-color: #ffe6e6;
-            border-radius: 10px;
-            padding: 20px;
-            width: 80%;
-            max-width: 500px;
-            text-align: center;
-        }
-        .modal h2 {
-            color: #d9534f;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-bottom: 10px;
-        }
-        .btn-continuar {
-            background-color: #0275d8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="justificacion.css">
 </head>
 
     <div class="modal">

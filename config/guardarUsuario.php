@@ -26,6 +26,19 @@ $departamento = $data['departamento'];
 $genero = $data['genero'];
 $password = $data['password'];
 
+// Verificar si el código ya existe
+$check_sql = "SELECT Codigo FROM Usuarios WHERE Codigo = ?";
+$check_stmt = $conn->prepare($check_sql);
+$check_stmt->bind_param("i", $codigo);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows > 0) {
+    echo json_encode(["success" => false, "message" => "El código de usuario ya existe"]);
+    exit();
+}
+$check_stmt->close();
+
 // Insertar el usuario en la tabla Usuarios
 $sql = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);

@@ -117,7 +117,7 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     ('Políticas_Públicas', 'Políticas Públicas'),
     ('Administración', 'Administración'),
     ('Auditoría', 'Auditoría'),
-    ('Mercadotecnia', 'Mercadotecnia'),
+    ('Mercadotecnia', 'Mercadotecnia y Negocios Internacionales'),
     ('Impuestos', 'Impuestos'),
     ('Sistemas_de_Información', 'Sistemas de Información'),
     ('Turismo', 'Turismo'),
@@ -223,6 +223,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     Usuario_ID BIGINT(10),
     Fecha_Subida_Dep TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Departamento_ID INT NOT NULL,
+    Notificacion_Vista BOOLEAN DEFAULT 0,
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
@@ -254,6 +255,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
     Justificacion TEXT NOT NULL,
     Fecha_Justificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Justificacion_Enviada BOOLEAN DEFAULT 0,
+    Notificacion_Vista BOOLEAN DEFAULT 0,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID),
     FOREIGN KEY (Codigo_Usuario) REFERENCES Usuarios(Codigo)
 )";
@@ -263,6 +265,23 @@ if (mysqli_query($conn, $sql)) {
 } else {
     echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conn);
 }
+
+$sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Tipo VARCHAR(50) NOT NULL,
+    Mensaje TEXT NOT NULL,
+    Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    Usuario_ID BIGINT(10),
+    Vista BOOLEAN DEFAULT 0,
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+);";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Notificaciones creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conn);
+}
+
 
 // Crear tabla Data_Plantilla
 $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
@@ -436,6 +455,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -488,6 +508,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -540,6 +561,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Posgrados (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -592,6 +614,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Economía (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -644,6 +667,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -696,6 +720,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Métodos_Cuantitativos (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -748,6 +773,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Políticas_Públicas (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
@@ -800,6 +826,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Administración (
     HORA_INICIAL VARCHAR(10) NULL,
     HORA_FINAL VARCHAR(10) NULL,
     MODULO VARCHAR(10) NULL,
+    AULA VARCHAR(10) NULL,
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,

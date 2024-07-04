@@ -90,43 +90,37 @@ td {
   cursor: pointer;
 }
 
-.entregada {
-  color: #3b763d;
+.estado-entregada, .estado-atrasada, .estado-pendiente {
+  display: inline;
+  padding: 3px 20px;
+  border-radius: 7.5px;
   font-weight: bold;
+  margin: 0 auto;
   text-align: center;
-  background-color: #dff1d8;
-  padding: 2px 3px;
-  border-radius: 1px;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  -ms-border-radius: 1px;
-  -o-border-radius: 1px;
+  -webkit-border-radius: 7.5px;
+  -moz-border-radius: 7.5px;
+  -ms-border-radius: 7.5px;
+  -o-border-radius: 7.5px;
 }
 
-.atrasada {
-  color: #953d42; /* Color rojo */
-  font-weight: bold; /* Texto en negrita */
-  text-align: center;
-  background-color: #f9d1d3;
-  padding: 2px 3px;
-  border-radius: 1px;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  -ms-border-radius: 1px;
-  -o-border-radius: 1px;
+/* Mantén los estilos de color existentes */
+.estado-entregada {
+  background-color: #DFF1D8;
+  color: #3B763D;
 }
 
-.sin-entregar {
-  color: #8b6e3b; /* Color amarillo */
-  font-weight: bold; /* Texto en negrita */
+.estado-atrasada {
+  background-color: #F9D1D3;
+  color: #953D42;
+}
+
+.estado-pendiente {
+  background-color: #FDF8E4;
+  color: #8B6E3B;
+}
+
+td:nth-child(2) {
   text-align: center;
-  background-color: #fdf8e4;
-  padding: 2px 3px;
-  border-radius: 1px;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  -ms-border-radius: 1px;
-  -o-border-radius: 1px;
 }
 
 /* Estilos de la barra de progreso */
@@ -168,12 +162,13 @@ td {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .btn {
   padding: 10px 20px;
   border-radius: 10px;
+  margin-top: -20px;
   cursor: pointer;
   background-color: #0071b0;
   border: none;
@@ -190,8 +185,11 @@ td {
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
+  margin: 20px 30px 10px 30px;
+  background-color: #FDF8E4;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 10px;
 }
 
 /* Estilo para centrar el encabezado */
