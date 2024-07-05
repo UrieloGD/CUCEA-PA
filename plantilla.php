@@ -163,12 +163,12 @@ if (isset($_SESSION['usuario_id'])) {
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./js/guardarJustifiicacion.js"></script>
 <script src="./JS/descargar.js"></script>
 <script src="./JS/drag.js"></script>
-<script src="./JS/pestañas-plantilla.js"></script>
 <script src="./JS/Ajax.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./JS/pestañas-plantilla.js"></script>
 
 <?php include './template/footer.php' ?>
