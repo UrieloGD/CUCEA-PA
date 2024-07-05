@@ -13,6 +13,27 @@ require_once './config/sesioniniciada.php';
 // Obtener el rol del usuario de la sesión
 $rol_id = $_SESSION['Rol_ID'];
 
+function getColorPalette()
+{
+    return [
+        '#4C4CC2',
+        '#DF2E79',
+        '#064789',
+        '#B00F0F',
+        '#03CD54',
+        '#FF6F32',
+        '#F46BBD',
+        '#B75CFF'
+    ];
+}
+
+function generateColorForUser($userId)
+{
+    $colors = getColorPalette();
+    $colorIndex = $userId % count($colors);
+    return $colors[$colorIndex];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -97,7 +118,7 @@ $rol_id = $_SESSION['Rol_ID'];
             </li>
             <li class="navbar-item flexbox-left">
 
-            <?php
+                <?php
                 // Redirigir según el rol del usuario
                 if ($rol_id == 1) {
                     // Si el usuario es jefe de departamento, redirigir a subir plantilla
@@ -117,11 +138,11 @@ $rol_id = $_SESSION['Rol_ID'];
                     echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
                 }
                 ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Plantilla</span>
+                <div class="navbar-item-inner-icon-wrapper flexbox">
+                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                </div>
+                <span class="link-text">Plantilla</span>
                 </a>
             </li>
             <li class="navbar-item flexbox-left">
@@ -133,17 +154,23 @@ $rol_id = $_SESSION['Rol_ID'];
                     <span class="link-text">Guía</span>
                 </a>
             </li>
-
             <li class="navbar-item flexbox-left">
                 <a href="#">
-                    <div class="navbar-profile-icon flexbox profile-icon-transition">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
+                    <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
+                        <?php
+                        $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
+                        $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
+                        $iniciales = $nombreInicial . $apellidoInicial;
+                        $userId = $_SESSION['Codigo'];
+                        $backgroundColor = generateColorForUser($userId);
+                        echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
+                        ?>
                     </div>
                 </a>
             </li>
             <?php
             if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
-                ?>
+            ?>
                 <li class="navbar-item flexbox-left">
                     <a class="navbar-item-inner flexbox-left" href="./admin-home.php">
                         <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -153,13 +180,20 @@ $rol_id = $_SESSION['Rol_ID'];
                         <span class="link-text">Admin</span>
                     </a>
                 </li>
-                <?php
+            <?php
             }
             ?>
             <li class="navbar-item flexbox-left">
                 <a href="#">
-                    <div class="navbar-profile-icon flexbox profile-icon-transition">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" width="50%" height="50%" alt="Imagen de Perfil" class="original-icon">
+                    <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
+                        <?php
+                        $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
+                        $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
+                        $iniciales = $nombreInicial . $apellidoInicial;
+                        $userId = $_SESSION['Codigo'];
+                        $backgroundColor = generateColorForUser($userId);
+                        echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
+                        ?>
                     </div>
                 </a>
             </li>
