@@ -85,6 +85,10 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   <h2>Plantilla</h2>
 </div> -->
 
+<div class="fechalimite">
+    <span>La fecha límite actual es <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></span>
+  </div>
+
   <!--Tabla Entrega BD-->
   <div class="tabla">
     <table>
@@ -143,10 +147,6 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   <div class="form-actions">
     <button type="button" class="btn" onclick="openModal()">Cambiar Fecha Límite</button>
     <a href="./admin-reportes.php"><button type="submit" class="btn">Generar Reporte</button></a>
-  </div>
-
-  <div class="fechalimite">
-    <span>La fecha límite actual es <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></span>
   </div>
 
   <!-- Modal para cambiar fecha límite -->
