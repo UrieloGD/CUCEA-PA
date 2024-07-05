@@ -10,8 +10,24 @@ if (!isset($_SESSION['email'])) {
 // Incluir el archivo de sesión iniciada
 require_once './config/sesioniniciada.php';
 
+
+// Configuración de la base de datos
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "pa";
+
+// Crear conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar conexión
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 // Obtener el rol del usuario de la sesión
 $rol_id = $_SESSION['Rol_ID'];
+$userId = $_SESSION['Codigo'];
 
 function getColorPalette()
 {
@@ -29,9 +45,26 @@ function getColorPalette()
 
 function generateColorForUser($userId)
 {
+    global $conn;
+
     $colors = getColorPalette();
     $colorIndex = $userId % count($colors);
-    return $colors[$colorIndex];
+    $color = $colors[$colorIndex];
+
+    // Actualizar el color en la base de datos
+    $stmt = $conn->prepare("UPDATE Usuarios SET IconoColor = ? WHERE Codigo = ?");
+    if ($stmt === false) {
+        die("Error preparing statement: " . $conn->error);
+    }
+
+    $stmt->bind_param("si", $color, $userId);
+    if (!$stmt->execute()) {
+        die("Error executing statement: " . $stmt->error);
+    }
+
+    $stmt->close();
+
+    return $color;
 }
 
 ?>
