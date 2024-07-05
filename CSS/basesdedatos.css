@@ -37,12 +37,19 @@
 .encabezado-centro {
   color: #fff;
   margin-top: -10px;
-  padding: 10px 10px;
+  padding: 13px 10px;
   background-color: #0071b0;
   text-align: center;
   align-items: center;
   justify-content: center;
   border-radius: 0px 0px 20px 20px;
+}
+
+.encabezado-izquierda{
+  /* border: solid; */
+  align-items: start;
+  justify-content: left;
+  margin-left: 20px;
 }
 
 .encabezado h3 {
@@ -53,16 +60,16 @@
 
 .encabezado-derecha {
   /* border: solid; */
-  justify-content: space-between; /* Asegura que los iconos estén centrados */
-  margin-top: 5px;
+  justify-content: right; /* Asegura que los iconos estén centrados */
+  margin-top: 10px;
 }
 
 .iconos-container {
-  width: 100%;
+  width: 40%;
   display: flex;
-  align-items: center;
+  align-items: left;
   /* border: solid; */
-  justify-content: space-around;
+  justify-content: space-between;
   padding: 0px 40px;
 }
 
@@ -136,28 +143,36 @@ th {
   cursor: pointer;
   background-color: #0071b0;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 10px 10px; /* Redondea solo las esquinas izquierdas */
   color: #fff;
-  margin-left: 10px; /* Espacio entre los iconos */
+  margin-right: 0; /* Quita el margen derecho */
+  z-index: 1;
 }
 
 .barra-buscador {
   display: flex;
   align-items: center;
-  margin-left: 10px;
-  border: 4px solid #0071b0;
-  border-radius: 10px;
+  width: 95%; /* Ocupa el 70% del div contenedor */
+  border: none; /* Quita el borde azul */
+  margin-top: 10px;
 }
 
 #input-buscador {
-  padding: 5px;
-  margin-right: 5px;
+  flex-grow: 1;
+  margin-left: -4px;
+  padding: 12.5px;
   border: none;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  -ms-border-radius: 10px;
-  -o-border-radius: 10px;
+  border-radius: 0 10px 10px 0;
+  background-color: #f0f0f0;
+  outline: 1px solid transparent; /* Inicialmente transparente */
+}
+
+#input-buscador:focus {
+  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
+}
+
+#input-buscador:focus {
+  outline: 2px solid rgb(0, 114, 176); /* #0071b0 con 50% de opacidad */
 }
 
 /* Estilos para nuevos formularios */
@@ -271,6 +286,50 @@ th {
 
 #popup-columnas button:hover {
   background-color: #005a8c;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal input, .modal select {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* Media Queries para diferentes resoluciones */
