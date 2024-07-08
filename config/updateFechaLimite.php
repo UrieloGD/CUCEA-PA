@@ -24,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensaje = "La fecha límite para subir las Bases de Datos ha sido actualizada a: " . date('d/m/Y', strtotime($nueva_fecha_limite));
 
         while ($jefe = mysqli_fetch_assoc($result_jefes)) {
-            $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID) VALUES ('fecha_limite', ?, ?)";
+            $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) VALUES ('fecha_limite', ?, ?, ?)";
             $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
-            mysqli_stmt_bind_param($stmt_notificacion, "si", $mensaje, $jefe['Codigo']);
+            mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $usuario_id);
             mysqli_stmt_execute($stmt_notificacion);
             mysqli_stmt_close($stmt_notificacion);
         }

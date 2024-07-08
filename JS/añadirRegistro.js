@@ -1,16 +1,27 @@
 function mostrarFormularioAñadir() {
-    document.getElementById('formulario-añadir').style.display = 'flex';
+    document.getElementById('modal-añadir').style.display = 'block';
 }
 
 function cerrarFormularioAñadir() {
-    document.getElementById('formulario-añadir').style.display = 'none';
+    document.getElementById('modal-añadir').style.display = 'none';
+}
+
+// Cerrar el modal al hacer clic en la X
+document.querySelector('.close').onclick = function() {
+    cerrarFormularioAñadir();
+}
+
+// Cerrar el modal al hacer clic fuera de él
+window.onclick = function(event) {
+    if (event.target == document.getElementById('modal-añadir')) {
+        cerrarFormularioAñadir();
+    }
 }
 
 function añadirRegistro() {
     var form = document.getElementById('form-añadir-registro');
     var datos = new FormData(form);
     
-    // Obtener el departamento_id desde el HTML
     var departamento_id = document.getElementById('departamento_id').value;
     datos.append('departamento_id', departamento_id);
 
@@ -27,6 +38,7 @@ function añadirRegistro() {
                             text: respuesta.message,
                             icon: "success"
                         }).then(() => {
+                            cerrarFormularioAñadir();
                             location.reload();
                         });
                     } else {

@@ -21,7 +21,8 @@
         <div class="calendar-container">
             <div class="left-column">
                 <div class="header-calendar">
-                    <h2>Hoy</h2>
+                    <div class="hoy">
+                    <h2>Hoy</h2></div>
                     <div class="countdown">
                         <p>10 días para entregar</p>
                         <div class="timer">

@@ -49,6 +49,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     Pass VARCHAR(32) NOT NULL,
     Genero VARCHAR(20) NOT NULL,
     Rol_ID INT,
+    IconoColor VARCHAR(7),
     FOREIGN KEY (Rol_ID) REFERENCES Roles(Rol_ID)
 )";
 
@@ -78,7 +79,7 @@ VALUES
     (2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg.mx', '123', 'Masculino', 1),
     (2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg.mx', '123', 'Masculino', 1),
     (2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg.mx', '123', 'Femenino', 2),
-    (2104567890, 'Dennise', 'Murillo', 'denisse.murillo@cucea.udg.mx', '123', 'Masculino', 2),
+    (2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg.mx', '123', 'Masculino', 2),
     (2107890123, 'Laura', 'Diaz', 'laura.diaz@cucea.udg.mx', '123', 'Femenino', 2),
     (2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg.mx', '123', 'Femenino', 3),
     (2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg.mx', '123', 'Masculino', 3),
@@ -273,6 +274,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
     Vista BOOLEAN DEFAULT 0,
+    Emisor_ID INT,
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
 );";
 
