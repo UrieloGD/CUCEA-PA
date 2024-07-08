@@ -235,12 +235,12 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
                     } elseif ($notificacion['tipo'] == 'plantilla') {
                       echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
                     } else {
-                      echo $notificacion['Mensaje'];
+                      echo $notificacion['Mensaje'] ?? 'Nueva notificación';
                     }
                     ?>
                   </div>
                 <?php else : ?>
-                  <div class="descripcion"><?php echo $notificacion['Mensaje']; ?></div>
+                  <div class="descripcion"><?php echo $notificacion['Mensaje'] ?? 'Nueva notificación'; ?></div>
                 <?php endif; ?>
                 <div class="fecha-hora">
                   <?php echo date('d/m/Y H:i:s', strtotime($notificacion['fecha'])); ?>

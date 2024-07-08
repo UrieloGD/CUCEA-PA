@@ -1,5 +1,6 @@
 <?php
 include '../config/db.php';
+include './config/email_functions.php';
 session_start();
 date_default_timezone_set('America/Mexico_City');
 
@@ -24,6 +25,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_query($conexion, $sql)) {
             error_log("Inserción en la base de datos exitosa");
+
+            // Obtener el correo del jefe de departamento
+            $sql_jefe = "SELECT u.Correo, d.Nombre_Departamento 
+                         FROM Usuarios u 
+                         JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID 
+                         JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                         WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
+            $stmt = mysqli_prepare($conexion, $sql_jefe);
+            mysqli_stmt_bind_param($stmt, "i", $departamento_id);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $jefe = mysqli_fetch_assoc($result);
+
+            if ($jefe) {
+                $asunto = "Nuevo archivo subido por Secretaría Administrativa";
+                $cuerpo = "
+                <html>
+                <body>
+                    <h2>Nuevo archivo subido</h2>
+                    <p>Se ha subido un nuevo archivo para el departamento de {$jefe['Nombre_Departamento']}.</p>
+                    <p>Nombre del archivo: {$nombre_archivo_dep}</p>
+                    <p>Fecha de subida: {$fecha_subida_dep}</p>
+                    <p>Por favor, ingrese al sistema para más detalles.</p>
+                </body>
+                </html>
+                ";
+                enviarCorreo($jefe['Correo'], $asunto, $cuerpo);
+            }
+
             echo 'success';
             exit();
         } else {
@@ -43,4 +73,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 mysqli_close($conexion);
-?>
