@@ -49,6 +49,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     Pass VARCHAR(32) NOT NULL,
     Genero VARCHAR(20) NOT NULL,
     Rol_ID INT,
+    IconoColor VARCHAR(7),
     FOREIGN KEY (Rol_ID) REFERENCES Roles(Rol_ID)
 )";
 
@@ -273,6 +274,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
     Vista BOOLEAN DEFAULT 0,
+    Emisor_ID INT,
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
 );";
 
