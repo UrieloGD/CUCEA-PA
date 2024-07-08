@@ -63,3 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Evento de búsqueda
     inputBuscador.addEventListener("keyup", busquedaDebounced);
 });
+
+document.getElementById('icono-buscador').addEventListener('click', function() {
+    document.getElementById('input-buscador').focus();
+});

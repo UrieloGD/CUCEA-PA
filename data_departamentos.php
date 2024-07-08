@@ -74,11 +74,11 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   </div>
 
   <!-- Barra de progreso -->
+  <h3 class="centrado">Porcentaje total de entregas</h3>
   <div class="progress-container">
     <div class="progress-bar" data-progress="<?php echo round($porcentaje_avance); ?>" style="width: <?php echo round($porcentaje_avance); ?>%;"></div>
   </div>
 
-  <h3 class="centrado">Porcentaje total de entregas</h3>
 
   <!--Pestaña azul-->
   <!-- <div class="header-bar">
