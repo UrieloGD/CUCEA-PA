@@ -182,7 +182,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     Hora_Inicio TIME NOT NULL,
     Hora_Fin TIME NOT NULL,
     Etiqueta VARCHAR(100),
-    Participantes VARCHAR(255) NOT NULL,
+    Participantes TEXT NOT NULL,
     Notificaciones TEXT,
     Hora_Noti TIME NOT NULL
 )";
