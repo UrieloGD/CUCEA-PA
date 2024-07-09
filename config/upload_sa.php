@@ -1,6 +1,6 @@
 <?php
 include '../config/db.php';
-include './config/email_functions.php';
+include './email_functions.php';
 session_start();
 date_default_timezone_set('America/Mexico_City');
 
@@ -39,19 +39,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $jefe = mysqli_fetch_assoc($result);
 
             if ($jefe) {
-                $asunto = "Nuevo archivo subido por Secretaría Administrativa";
+                $asunto = "Nueva plantilla subida por Secretaría Administrativa";
                 $cuerpo = "
                 <html>
                 <body>
-                    <h2>Nuevo archivo subido</h2>
-                    <p>Se ha subido un nuevo archivo para el departamento de {$jefe['Nombre_Departamento']}.</p>
+                    <h2>Nueva plantilla subida</h2>
+                    <p>Se ha subido una nueva plantilla para el departamento de {$jefe['Nombre_Departamento']}.</p>
                     <p>Nombre del archivo: {$nombre_archivo_dep}</p>
                     <p>Fecha de subida: {$fecha_subida_dep}</p>
                     <p>Por favor, ingrese al sistema para más detalles.</p>
                 </body>
                 </html>
                 ";
-                enviarCorreo($jefe['Correo'], $asunto, $cuerpo);
+
+                try {
+                    if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
+                        error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Nombre_Departamento']}");
+                    } else {
+                        error_log("Error al enviar correo al jefe del departamento {$jefe['Nombre_Departamento']}");
+                    }
+                } catch (Exception $e) {
+                    error_log("Excepción al enviar correo: " . $e->getMessage());
+                }
+            } else {
+                error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
             }
 
             echo 'success';

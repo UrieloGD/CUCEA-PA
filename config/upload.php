@@ -175,34 +175,50 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
 
         if ($stmtInsertPlantillaDep->execute()) {
-            // Enviar correo a Secretaría Administrativa
-            $sqlSecretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2 LIMIT 1";
-            $resultSecretaria = $conn->query($sqlSecretaria);
-            if ($secretaria = $resultSecretaria->fetch_assoc()) {
+            // Obtener el nombre del departamento
+            $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+            $stmt_departamento = $conn->prepare($sql_departamento);
+            $stmt_departamento->bind_param("i", $departamento_id);
+            $stmt_departamento->execute();
+            $result_departamento = $stmt_departamento->get_result();
+            $departamento = $result_departamento->fetch_assoc();
+
+            // Obtener correos de los usuarios de secretaría administrativa
+            $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+            $result_secretaria = $conn->query($sql_secretaria);
+
+            $envio_exitoso = true;
+
+            while ($secretaria = $result_secretaria->fetch_assoc()) {
+                $destinatario = $secretaria['Correo'];
                 $asunto = "Nueva Base de Datos subida por Jefe de Departamento";
                 $cuerpo = "
                 <html>
                 <body>
                     <h2>Nueva Base de Datos subida</h2>
-                    <p>El Jefe del Departamento de {$_SESSION['Nombre_Departamento']} ha subido una nueva Base de Datos.</p>
+                    <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido una nueva Base de Datos.</p>
                     <p>Nombre del archivo: {$fileName}</p>
                     <p>Fecha de subida: " . date('d/m/Y H:i') . "</p>
                     <p>Por favor, ingrese al sistema para más detalles.</p>
                 </body>
                 </html>
                 ";
-                if (enviarCorreo($secretaria['Correo'], $asunto, $cuerpo)) {
-                    echo json_encode(["success" => true, "message" => "Archivo cargado, datos insertados en la base de datos y correo enviado correctamente."]);
-                } else {
-                    echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos, pero no se pudo enviar el correo."]);
+
+                if (!enviarCorreo($destinatario, $asunto, $cuerpo)) {
+                    $envio_exitoso = false;
                 }
+            }
+
+            if ($envio_exitoso) {
+                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
             } else {
-                echo json_encode(["success" => false, "message" => "Error al obtener el correo de la Secretaría Administrativa."]);
+                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos, pero hubo problemas al enviar algunos correos."]);
             }
         } else {
             echo json_encode(["success" => false, "message" => "Error al insertar en Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
         }
 
+        $stmt_departamento->close();
         $stmtInsertPlantillaDep->close();
     } else {
         echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
