@@ -1,8 +1,5 @@
-<!--header -->
-<?php include './template/header.php' ?>
-<!-- navbar -->
-<?php include './template/navbar.php' ?>
-<!-- Conexión a la base de datos -->
+<?php include './template/header.php'; ?>
+<?php include './template/navbar.php'; ?>
 <?php
 include './config/db.php';
 
@@ -10,23 +7,40 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Obtener usuarios de la base de datos
-$sql = "SELECT Codigo, Nombre, Apellido, Correo FROM Usuarios";
+$sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, GROUP_CONCAT(d.Departamentos SEPARATOR ', ') AS Departamentos
+        FROM Usuarios u
+        LEFT JOIN Roles r ON u.Rol_ID = r.Rol_ID
+        LEFT JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID
+        LEFT JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID
+        GROUP BY u.Codigo";
+
 $resultado = $conexion->query($sql);
 
-// Generar opciones del dropdown
-$opciones_usuarios = "";
+$filas_usuarios = "";
 if ($resultado->num_rows > 0) {
     while ($fila = $resultado->fetch_assoc()) {
         $codigo = $fila["Codigo"];
         $nombre = $fila["Nombre"] . " " . $fila["Apellido"];
         $correo = $fila["Correo"];
-        $opciones_usuarios .= "<option value='$codigo'>$nombre ($correo)</option>";
+        $rol = $fila["Nombre_Rol"];
+        
+        if(empty($fila["Departamentos"])){
+            $rol_departamento = $rol;
+        } else{
+            $rol= $fila["Nombre_Rol"] . " - " . $fila["Departamentos"];
+        }
+    
+        $filas_usuarios .= "<tr>
+            <td><input type='checkbox' name='participantes[]' value='$codigo' class='checkbox-usuario'></td>
+            <td>$nombre</td>
+            <td>$correo</td>
+            <td>$rol</td>
+        </tr>";
     }
 } else {
-    $opciones_participantes = "<option value=''>No hay usuarios registrados</option>";
+    $filas_usuarios = "<tr><td colspan='4'>No hay usuarios registrados</td></tr>";
 }
 
-// Cerrar la conexión
 $conexion->close();
 ?>
 
@@ -34,14 +48,12 @@ $conexion->close();
 <link rel="stylesheet" href="./CSS/admin-eventos.css" />
 
 <div class="cuadro-principal">
-    <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
             <h3>Crear evento</h3>
         </div>
     </div>
     <div class="contenedor-formulario">
-
         <form id="eventoForm" method="post">
             <div class="form-group">
                 <label for="nombre">
@@ -84,20 +96,14 @@ $conexion->close();
                 </div>
             </div>
 
-            <!-- <div class="botones_agregar">
-                <button type="button" class="boton-agregar">+ Agregar notificación</button>
-            </div> -->
-
             <div class="form-group split-group">
                 <div class="split-item">
                     <label for="participantes">
                         <i class="fas fa-users"></i> Participantes
                     </label>
-                    <select id="participantes" name="participantes[]" multiple>
-                        <option value="">Selecciona los participantes</option>
-                        <?php echo $opciones_usuarios; ?>
-                    </select>
+                    <button class="boton-agregar-participantes" type="button" id="abrirModal">Añadir participantes</button>
                     <div id="participantes-seleccionados"></div>
+                    <div id="input-participantes"></div>
                 </div>
                 <div class="split-item">
                     <label for="etiqueta">
@@ -111,7 +117,7 @@ $conexion->close();
                     </select>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
@@ -125,92 +131,31 @@ $conexion->close();
             </div>
         </form>
     </div>
+    
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Seleccionar Participantes</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php echo $filas_usuarios; ?>
+                </tbody>
+            </table>
+            <button class="btn-guardar" type="button" id="confirmarParticipantes">Confirmar selección</button>
+        </div>
+    </div>
+</div>
 
-    <script>
-        // Código para manejar la selección de participantes
-        const selectParticipantes = document.getElementById('participantes');
-        const contenedorParticipantes = document.getElementById('participantes-seleccionados');
+<script src="./JS/admin-eventos.js"></script>
 
-        function agregarParticipante() {
-            const participanteSeleccionado = selectParticipantes.value;
-            const nombreParticipante = selectParticipantes.options[selectParticipantes.selectedIndex].text;
-
-            if (participanteSeleccionado) {
-                const tarjetaParticipante = document.createElement('div');
-                tarjetaParticipante.classList.add('participante-tarjeta');
-
-                const nombreParticipanteElement = document.createElement('span');
-                nombreParticipanteElement.textContent = nombreParticipante;
-                tarjetaParticipante.appendChild(nombreParticipanteElement);
-
-                const cerrarParticipante = document.createElement('span');
-                cerrarParticipante.classList.add('cerrar');
-                cerrarParticipante.textContent = '×';
-                cerrarParticipante.addEventListener('click', eliminarParticipante);
-                tarjetaParticipante.appendChild(cerrarParticipante);
-
-                contenedorParticipantes.appendChild(tarjetaParticipante);
-                selectParticipantes.selectedIndex = 0;
-            }
-        }
-
-        function eliminarParticipante(evento) {
-            const tarjetaParticipante = evento.target.parentNode;
-            tarjetaParticipante.remove();
-        }
-
-        selectParticipantes.addEventListener('change', agregarParticipante);
-
-        // Código para manejar el envío del formulario
-        document.getElementById('eventoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: "¿Deseas guardar este evento?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, guardar',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var formData = new FormData(this);
-
-                    fetch('config/eventos_upload.php', {
-                            method: 'POST',
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                Swal.fire(
-                                    '¡Guardado!',
-                                    'El evento ha sido guardado.',
-                                    'success'
-                                ).then(() => {
-                                    window.location.href = './admin-visual-eventos.php';
-                                });
-                            } else {
-                                Swal.fire(
-                                    'Error',
-                                    'Hubo un problema al guardar el evento: ' + data.message,
-                                    'error'
-                                );
-                            }
-                        })
-                        .catch((error) => {
-                            console.error('Error:', error);
-                            Swal.fire(
-                                'Error',
-                                'Hubo un problema al procesar la respuesta del servidor.',
-                                'error'
-                            );
-                        });
-                }
-            });
-        });
-    </script>
-
-    <?php include './template/footer.php' ?>
+<?php include './template/footer.php'; ?>
