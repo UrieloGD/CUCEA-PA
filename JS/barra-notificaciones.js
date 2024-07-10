@@ -41,7 +41,6 @@ function actualizarBadgeNotificaciones() {
 function manejarClicNotificacion(event) {
   const notificacion = event.currentTarget;
 
-  // Si la notificación no estaba vista, márcarla como vista
   if (!notificacion.classList.contains("vista")) {
     notificacion.classList.add("vista");
     marcarNotificacionComoVista(
@@ -49,6 +48,11 @@ function manejarClicNotificacion(event) {
       notificacion.dataset.tipo
     );
     actualizarBadgeNotificaciones();
+
+    // Si es una notificación de plantilla, podrías redirigir al usuario a la página de plantillas
+    if (notificacion.dataset.tipo === "plantilla") {
+      window.location.href = "./plantilla.php";
+    }
   }
 }
 

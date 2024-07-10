@@ -27,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             error_log("Inserción en la base de datos exitosa");
 
             // Obtener el correo del jefe de departamento
-            $sql_jefe = "SELECT u.Correo, d.Nombre_Departamento 
-                         FROM Usuarios u 
-                         JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID 
-                         JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID 
-                         WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
+            $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
+                 FROM Usuarios u 
+                 JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID 
+                 JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
             $stmt = mysqli_prepare($conexion, $sql_jefe);
             mysqli_stmt_bind_param($stmt, "i", $departamento_id);
             mysqli_stmt_execute($stmt);
@@ -39,12 +39,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $jefe = mysqli_fetch_assoc($result);
 
             if ($jefe) {
-                $asunto = "Nueva plantilla subida por Secretaría Administrativa";
+                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['Departamentos']}.";
+
+
+                // Insertar notificación en la tabla Notificaciones
+                $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                                     VALUES ('plantilla', ?, ?, ?)";
+                $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
+                mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $_SESSION['Codigo']);
+                mysqli_stmt_execute($stmt_notificacion);
+
+                // Enviar correo electrónico
+                $asunto = "Nueva plantilla subida - Programación Académica";
                 $cuerpo = "
                 <html>
                 <body>
                     <h2>Nueva plantilla subida</h2>
-                    <p>Se ha subido una nueva plantilla para el departamento de {$jefe['Nombre_Departamento']}.</p>
+                    <p>{$mensaje}</p>
                     <p>Nombre del archivo: {$nombre_archivo_dep}</p>
                     <p>Fecha de subida: {$fecha_subida_dep}</p>
                     <p>Por favor, ingrese al sistema para más detalles.</p>
@@ -52,15 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </html>
                 ";
 
-                try {
-                    if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
-                        error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Nombre_Departamento']}");
-                    } else {
-                        error_log("Error al enviar correo al jefe del departamento {$jefe['Nombre_Departamento']}");
-                    }
-                } catch (Exception $e) {
-                    error_log("Excepción al enviar correo: " . $e->getMessage());
+                if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
+                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
+                } else {
+                    error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
                 }
+
+                error_log("Notificación creada para el jefe del departamento {$jefe['Departamentos']}");
             } else {
                 error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
             }
