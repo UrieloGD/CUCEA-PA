@@ -52,58 +52,84 @@
 }
 
 .left-column {
-    width: 25%; /* tamaño del cuadro "hoy" y su contenido*/
+    width: 30%; /* tamaño del cuadro "hoy" y su contenido*/
     padding-right: 20px; 
     border-color: #0071B0;
+    overflow-y: auto;
 }
 
 .right-column {
-    width: 73%; /* tamaño calendario y barra */
+    width: 70%; /* tamaño calendario y barra */
+    padding-left: 10px;
+    
 }
 
 .header-calendar {
     background-color: white;
     color: black;
-    padding: 15px;
-    border-radius: 10px;
+    border-radius: 15px;
     border-style: solid;
     border-color: #0071B0;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
 }
 
 .hoy {
     text-align: center;
     color: white;
     background-color: #0071b0;
-    padding: 15px;
     border: 2px solid #0071B0;
     border-radius: 10px 10px 0 0; /* bordes cuadro azul "hoy"*/
 }
 
 .countdown {
     text-align: center;
-    padding: 10px;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.timer-label {
+    font-size: medium;
+    color: black; 
 }
 
 .timer {
     display: flex;
     justify-content: center;
-    gap: 10px; /* espacio entre días horas y minutos */
-    margin-top: 10px;
+    gap: 10px; /* Espacio entre los elementos del timer */
+    margin-top: 5px;
+}
+
+.timer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .timer-box {
-    background-color: #f8f9fa;
+    background-color: #E7E9F2;
     color: black;
-    font-size:x-large;
-    padding: 25px; /* tamaño cuadros días horas minutos */
-    border-radius: 5px;
+    font-size: x-large;
+    font-display: bold;
+    padding: 12px 12px;
+    min-width: 40px;
+    text-align: center;
+    margin-bottom: 5px; /* Espacio entre el número y la etiqueta */
 }
 
-.activities, .events {
-    margin-top: 20px;
-    border-color: #0071B0;
-    border-style: solid;
+.activities {
+    padding: 0 18px;
+    margin: 0;
 }
+
+.events {
+    padding: 0 18px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
 
 .activity, .event {
     margin-bottom: 10px;
@@ -111,17 +137,40 @@
     border-left: 4px solid;
 }
 
+
 .activity {
-    border-color: #ffc107;
+    border-color: #FFC700;
 }
 
 .activity:last-child {
-    border-color: #28a745;
+    border-color: #49B053;
 }
 
 .event {
-    background-color: #f8f9fa;
+    display: flex;
+    padding: 0 0 0 0;
+    margin-bottom: 10px;
     border-radius: 5px;
+    overflow: hidden;
+    gap: 10px;
+    text-align: justify;
+}
+
+.event-time {
+    background-color: #E7E9F2;
+    color: black;
+    padding: 0px 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px; /* Ajusta este valor según tus necesidades */
+}
+
+.event-description {
+    background-color: #E7E9F2;
+    padding: 0px 10px;
+    flex-grow: 1;
 }
 
 /* Barra de la fecha */
@@ -134,7 +183,11 @@
     padding: 10px 15px;
     border-radius: 10px 10px 0 0;
     margin-bottom: 20px;
-    margin-right: 40px;
+    margin-right: 38px;
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    -ms-border-radius: 10px 10px 0 0;
+    -o-border-radius: 10px 10px 0 0;
 }
 
 .date-selector {
@@ -174,13 +227,13 @@
 }
 
 .calendar-table {
-    width: 96.6%; /* tamaño tabla */
+    width: 96.3%; /* tamaño tabla */
     border-collapse: collapse;
 }
 
 .calendar-table th, .calendar-table td {
     border: 1px solid #E7E9F2;
-    padding: 32px; /* tamaño cuadros calendario */
+    padding: 28px; /* tamaño cuadros calendario */
     text-align: center;
     font-size: medium;
 }

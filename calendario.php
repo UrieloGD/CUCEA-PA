@@ -5,7 +5,7 @@
 <!-- Conexión a la base de datos -->
 <?php include './config/db.php' ?>
 
-<title>Centro de Gestión</title>
+<title>Calendario</title>
 <link rel="stylesheet" href="./CSS/calendario.css" />
 
 <!--Cuadro principal del home-->
@@ -26,9 +26,18 @@
                     <div class="countdown">
                         <p>10 días para entregar</p>
                         <div class="timer">
-                            <div class="timer-box">10<br>Días</div>
-                            <div class="timer-box">05<br>Horas</div>
-                            <div class="timer-box">27<br>Minutos</div>
+                        <div class="timer-item">
+                            <div class="timer-box">10</div>
+                            <div class="timer-label">Días</div>
+                        </div>
+                        <div class="timer-item">
+                            <div class="timer-box">05</div>
+                            <div class="timer-label">Horas</div>
+                        </div>
+                        <div class="timer-item">
+                            <div class="timer-box">27</div>
+                            <div class="timer-label">Minutos</div>
+                        </div>
                         </div>
                     </div>
                     <div class="activities">
@@ -40,12 +49,12 @@
                     <div class="events">
                         <h3>Eventos próximos</h3>
                         <div class="event">
-                            <strong>Hoy 15:00</strong><br>
-                            Reunión de revisión de bases de datos
+                        <div class="event-time">Hoy 15:00</div>
+                        <div class="event-description">Reunión de revisión de bases de datos</div>
                         </div>
                         <div class="event">
-                            <strong>24 - 26 Jun 13:30</strong><br>
-                            Cierre de programación académica
+                        <div class="event-time">24 - 26 Jun 13:30</div>
+                        <div class="event-description">Cierre de programación académica</div>
                         </div>
                     </div>
                 </div>
@@ -61,9 +70,9 @@
                         </div>
                     </div>
                     <div class="view-options">
-                        <button class="search-icon">&#128269;</button>
-                        <button class="list-icon">&#9776;</button>
-                        <button class="grid-icon">&#9783;</button>
+                        <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png"></button>
+                        <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png"></button>
+                        <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button>
                     </div>
                 </div>
                 <div class="calendar">
