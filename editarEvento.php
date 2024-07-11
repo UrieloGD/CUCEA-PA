@@ -33,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $nombre = $_POST['nombre'] ?? '';
         $descripcion = $_POST['descripcion'] ?? '';
-        $fecha_inicio = $_POST['fecha_inicio'] ?? '';
-        $fecha_fin = $_POST['fecha_fin'] ?? '';
-        $hora_inicio = $_POST['hora_inicio'] ?? '';
-        $hora_fin = $_POST['hora_fin'] ?? '';
+        $fecha_inicio = $_POST['Evento_fecha_inicio'] ?? '';
+        $fecha_fin = $_POST['Evento_echa_fin'] ?? '';
+        $hora_inicio = $_POST['Evento_hora_inicio'] ?? '';
+        $hora_fin = $_POST['Evento_hora_fin'] ?? '';
         $etiqueta = $_POST['etiqueta'] ?? '';
         $participantes = isset($_POST['participantes']) ? implode(',', $_POST['participantes']) : '';
         $notificaciones = $_POST['notificaciones'] ?? '';
@@ -45,10 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "UPDATE Eventos_Admin SET 
                 Nombre_Evento = ?, 
                 Descripcion_Evento = ?, 
-                Fecha_Inicio = ?, 
-                Fecha_Fin = ?, 
-                Hora_Inicio = ?, 
-                Hora_Fin = ?, 
+                Evento_Fecha_Inicio = ?, 
+                Evento_Fecha_Fin = ?, 
+                Evento_Hora_Inicio = ?, 
+                Evento_Hora_Fin = ?, 
                 Etiqueta = ?, 
                 Participantes = ?, 
                 Notificaciones = ?, 
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 WHERE ID_Evento = ?";
 
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, $hora_inicio, $hora_fin, $etiqueta, $participantes, $notificaciones, $hora_noti, $id);
+        $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $evento_fecha_inicio, $evento_fecha_fin, $evento_hora_inicio, $evento_hora_fin, $etiqueta, $participantes, $notificaciones, $hora_noti, $id);
 
         if ($stmt->execute()) {
             echo json_encode(['status' => 'success', 'message' => 'Cambios guardados correctamente']);
@@ -100,12 +100,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $evento['Fecha_Inicio']; ?>" required>
-                    <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $evento['Fecha_Fin']; ?>" required>
+                    <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $evento['Evento_Fecha_Inicio']; ?>" required>
+                    <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $evento['Evento_Fecha_Fin']; ?>" required>
                     <span>a las</span>
-                    <input type="time" id="hora_inicio" name="hora_inicio" value="<?php echo $evento['Hora_Inicio']; ?>" required>
+                    <input type="time" id="hora_inicio" name="hora_inicio" value="<?php echo $evento['Evento_Hora_Inicio']; ?>" required>
                     <span> --> </span>
-                    <input type="time" id="hora_fin" name="hora_fin" value="<?php echo $evento['Hora_Fin']; ?>" required>
+                    <input type="time" id="hora_fin" name="hora_fin" value="<?php echo $evento['Evento_Hora_Fin']; ?>" required>
                 </div>
             </div>
 

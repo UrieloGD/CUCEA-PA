@@ -177,10 +177,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     ID_Evento INT AUTO_INCREMENT PRIMARY KEY,
     Nombre_Evento VARCHAR(255) NOT NULL,
     Descripcion_Evento TEXT,
-    Fecha_Inicio DATE,
-    Fecha_Fin DATE,
-    Hora_Inicio TIME NOT NULL,
-    Hora_Fin TIME NOT NULL,
+    Evento_Fecha_Inicio DATE,
+    Evento_Fecha_Fin DATE,
+    Evento_Hora_Inicio TIME NOT NULL,
+    Evento_Hora_Fin TIME NOT NULL,
     Etiqueta VARCHAR(100),
     Participantes TEXT NOT NULL,
     Notificaciones TEXT,
@@ -191,12 +191,6 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Eventos_Admin creada exitosamente";
 } else {
     echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
-}
-
-if (mysqli_query($conn, $sql)) {
-    echo "<br>Tabla Justificaciones creada exitosamente";
-} else {
-    echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conn);
 }
 
 // Crear tabla Plantilla_SA
@@ -219,7 +213,6 @@ if (mysqli_query($conn, $sql)) {
 $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
-    -- Ruta_Archivo_Dep VARCHAR(255) NOT NULL,
     Tamaño_Archivo_Dep INT NOT NULL,
     Usuario_ID BIGINT(10),
     Fecha_Subida_Dep TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

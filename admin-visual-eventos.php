@@ -21,11 +21,14 @@
 
     <!-- Contenido -->
     <?php
-    // Consulta para obtener los eventos ordenados por fecha
-    $sql = "SELECT * FROM Eventos_Admin 
-        WHERE (Fecha_Fin >= CURDATE() OR (Fecha_Inicio <= CURDATE() AND Fecha_Fin >= CURDATE()))
-        ORDER BY Fecha_Inicio, Hora_Inicio 
-        LIMIT 5";
+    // Consulta modificada para obtener los nombres de los participantes
+    $sql = "SELECT e.*, GROUP_CONCAT(CONCAT(u.Nombre, ' ', u.Apellido) SEPARATOR ', ') AS NombresParticipantes
+            FROM Eventos_Admin e
+            LEFT JOIN Usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
+            WHERE (e.Evento_Fecha_Fin >= CURDATE() OR (e.Evento_Fecha_Inicio <= CURDATE() AND e.Evento_Fecha_Fin >= CURDATE()))
+            GROUP BY e.ID_Evento
+            ORDER BY e.Evento_Fecha_Inicio, e.Evento_Hora_Inicio 
+            LIMIT 5";
 
     $result = mysqli_query($conexion, $sql);
 
@@ -35,14 +38,14 @@
             <div class="event-container">
                 <div class="event-header">
                     <div class="event-day-container">
-                        <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Fecha_Inicio'])); ?></div>
-                        <div class="event-time"><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></div>
-
+                        <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Evento_Fecha_Inicio'])); ?></div>
+                        <div class="event-time"><?php echo date('H:i', strtotime($row['Evento_Hora_Inicio'])); ?></div>
                     </div>
                 </div>
                 <div class="event-details">
                     <h3><?php echo htmlspecialchars($row['Nombre_Evento']); ?></h3>
                     <p><?php echo htmlspecialchars($row['Descripcion_Evento']); ?></p>
+                    <p>Participantes: <?php echo htmlspecialchars($row['NombresParticipantes']); ?></p>
                     <div class="event-footer">
                         <span class="department"><?php echo htmlspecialchars($row['Etiqueta']); ?></span>
                     </div>
@@ -71,8 +74,6 @@
         <a href="./admin-eventos.php"><button type="button" class="btn">Crear evento</button></a>
     </div>
 </div>
-<?php include './template/footer.php' ?>
-
 
 <script>
     function deleteEvent(eventId) {
@@ -130,10 +131,6 @@
     }
 </script>
 
-<script>
-    function editEvent(eventId) {
-        window.location.href = `./editarEvento.php?id=${eventId}`;
-    }
-</script>
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php include './template/footer.php' ?>
