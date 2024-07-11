@@ -36,13 +36,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $asunto = "Actualización de fecha límite - Programación Académica";
             $cuerpo = "
             <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                    .header { text-align: center; padding-bottom: 20px; }
+                    .header img { width: 100px; }
+                    .content { padding: 20px; }
+                    h2 { color: #2c3e50; }
+                    p { line-height: 1.5; color: #333; }
+                    .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                </style>
+            </head>
             <body>
-                <h2>Actualización de fecha límite</h2>
-                <p>{$mensaje}</p>
-                <p>Por favor, ingrese al sistema para más detalles.</p>
+                <div class='container'>
+                    <div class='header'>
+                        <img src='../Img/logos/LogoPA-Color-Rellenado.png' alt='Logo P.A'>
+                    </div>
+                    <div class='content'>
+                        <h2>Actualización de fecha límite</h2>
+                        <p>{$mensaje}</p>
+                        <p>Por favor, ingrese al sistema para más detalles.</p>
+                    </div>
+                    <div class='footer'>
+                        <p>Centro para la Sociedad Digital</p>
+                    </div>
+                </div>
             </body>
             </html>
             ";
+
             enviarCorreo($jefe['Correo'], $asunto, $cuerpo);
         }
 
