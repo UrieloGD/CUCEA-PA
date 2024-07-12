@@ -1,7 +1,9 @@
 <?php
 session_start();
 require './../vendor/autoload.php';
+include './email_functions.php';
 ob_start();
+
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 $servername = "localhost";
@@ -11,7 +13,8 @@ $dbname = "pa";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-function safeSubstr($string, $start, $length = null) {
+function safeSubstr($string, $start, $length = null)
+{
     if ($string === null) {
         return null;
     }
@@ -116,13 +119,50 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $fecha_final = $fecha_final ? $fecha_final->format('d/m/Y') : null;
             }
 
-            $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
-                $departamento_id, $ciclo, $crn, $materia, $cve_materia, $seccion, $nivel, $nivel_tipo, $tipo,
-                $c_min, $h_totales, $estatus, $tipo_contrato, $codigo_profesor, $nombre_profesor,
-                $categoria, $descarga, $codigo_descarga, $nombre_descarga, $nombre_definitivo,
-                $titular, $horas, $codigo_dependencia, $l, $m, $i, $j, $v, $s, $d, $dia_presencial,
-                $dia_virtual, $modalidad, $fecha_inicial, $fecha_final, $hora_inicial, $hora_final,
-                $modulo, $aula, $cupo, $observaciones, $examen_extraordinario
+            $stmt->bind_param(
+                "isssssssssssssssssssssssssssssssssssssssss",
+                $departamento_id,
+                $ciclo,
+                $crn,
+                $materia,
+                $cve_materia,
+                $seccion,
+                $nivel,
+                $nivel_tipo,
+                $tipo,
+                $c_min,
+                $h_totales,
+                $estatus,
+                $tipo_contrato,
+                $codigo_profesor,
+                $nombre_profesor,
+                $categoria,
+                $descarga,
+                $codigo_descarga,
+                $nombre_descarga,
+                $nombre_definitivo,
+                $titular,
+                $horas,
+                $codigo_dependencia,
+                $l,
+                $m,
+                $i,
+                $j,
+                $v,
+                $s,
+                $d,
+                $dia_presencial,
+                $dia_virtual,
+                $modalidad,
+                $fecha_inicial,
+                $fecha_final,
+                $hora_inicial,
+                $hora_final,
+                $modulo,
+                $aula,
+                $cupo,
+                $observaciones,
+                $examen_extraordinario
             );
 
             if (!$stmt->execute()) {
@@ -133,14 +173,53 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
         $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
         $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
-        $stmtInsertPlantillaDep->execute();
-        $stmtInsertPlantillaDep->close();
 
-        if (count($errores) > 0) {
-            echo json_encode(["success" => false, "message" => "Se encontraron errores al insertar los datos:", "errores" => $errores]);
+        if ($stmtInsertPlantillaDep->execute()) {
+            // Obtener el nombre del departamento
+            $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+            $stmt_departamento = $conn->prepare($sql_departamento);
+            $stmt_departamento->bind_param("i", $departamento_id);
+            $stmt_departamento->execute();
+            $result_departamento = $stmt_departamento->get_result();
+            $departamento = $result_departamento->fetch_assoc();
+
+            // Obtener correos de los usuarios de secretaría administrativa
+            $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+            $result_secretaria = $conn->query($sql_secretaria);
+
+            $envio_exitoso = true;
+
+            while ($secretaria = $result_secretaria->fetch_assoc()) {
+                $destinatario = $secretaria['Correo'];
+                $asunto = "Nueva Base de Datos subida por Jefe de Departamento";
+                $cuerpo = "
+                <html>
+                <body>
+                    <h2>Nueva Base de Datos subida</h2>
+                    <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido una nueva Base de Datos.</p>
+                    <p>Nombre del archivo: {$fileName}</p>
+                    <p>Fecha de subida: " . date('d/m/Y H:i') . "</p>
+                    <p>Por favor, ingrese al sistema para más detalles.</p>
+                </body>
+                </html>
+                ";
+
+                if (!enviarCorreo($destinatario, $asunto, $cuerpo)) {
+                    $envio_exitoso = false;
+                }
+            }
+
+            if ($envio_exitoso) {
+                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
+            } else {
+                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos, pero hubo problemas al enviar algunos correos."]);
+            }
         } else {
-            echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos correctamente."]);
+            echo json_encode(["success" => false, "message" => "Error al insertar en Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
         }
+
+        $stmt_departamento->close();
+        $stmtInsertPlantillaDep->close();
     } else {
         echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
     }
@@ -156,4 +235,3 @@ if (json_decode($output) === null) {
 }
 
 $conn->close();
-?>
