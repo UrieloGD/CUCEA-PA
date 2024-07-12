@@ -212,7 +212,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
               <div class="imagen">
                 <?php if (isset($notificacion['Nombre']) && isset($notificacion['Apellido']) && isset($notificacion['IconoColor'])) : ?>
-                  <div class="circulo" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
+                  <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
                     <?php
                     $nombreInicial = strtoupper(substr($notificacion['Nombre'], 0, 1));
                     $apellidoInicial = strtoupper(substr($notificacion['Apellido'], 0, 1));
@@ -220,7 +220,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
                     ?>
                   </div>
                 <?php else : ?>
-                  <div class="circulo" style="background-color: #ccc;">
+                  <div class="circulo-notificaciones" style="background-color: #ccc;">
                     <span>SA</span>
                   </div>
                 <?php endif; ?>
