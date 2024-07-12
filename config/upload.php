@@ -99,21 +99,21 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $modalidad = safeSubstr($sheet->getCell('AF' . $row)->getCalculatedValue(), 0, 10) ?? null;
             $fecha_inicial = $sheet->getCell('AG' . $row)->getCalculatedValue() ?? null;
             $fecha_final = $sheet->getCell('AH' . $row)->getCalculatedValue() ?? null;
-            $hora_inicial = safeSubstr($sheet->getCell('AI' . $row)->getCalculatedValue(), 0, 10) ?? null;
-            $hora_final = safeSubstr($sheet->getCell('AJ' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $hora_inicial = str_pad(safeSubstr($sheet->getCell('AI' . $row)->getCalculatedValue(), 0, 10), 4, '0', STR_PAD_LEFT) ?? null;
+            $hora_final = str_pad(safeSubstr($sheet->getCell('AJ' . $row)->getCalculatedValue(), 0, 10), 4, '0', STR_PAD_LEFT) ?? null;
             $modulo = safeSubstr($sheet->getCell('AK' . $row)->getCalculatedValue(), 0, 10) ?? null;
-            $aula = safeSubstr($sheet->getCell('AL' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $aula = str_pad(safeSubstr($sheet->getCell('AL' . $row)->getCalculatedValue(), 0, 10), 4, '0', STR_PAD_LEFT) ?? null;
             $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
             $cupo = safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 3) ?? null;
             $examen_extraordinario = safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 2) ?? null;
 
             if ($fecha_inicial) {
                 $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
-                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('Y-m-d') : null;
+                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('d/m/Y') : null;
             }
             if ($fecha_final) {
                 $fecha_final = DateTime::createFromFormat('d/m/Y', $fecha_final);
-                $fecha_final = $fecha_final ? $fecha_final->format('Y-m-d') : null;
+                $fecha_final = $fecha_final ? $fecha_final->format('d/m/Y') : null;
             }
 
             $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
