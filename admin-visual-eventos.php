@@ -25,9 +25,9 @@
     $sql = "SELECT e.*, GROUP_CONCAT(CONCAT(u.Nombre, ' ', u.Apellido) SEPARATOR ', ') AS NombresParticipantes
             FROM Eventos_Admin e
             LEFT JOIN Usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
-            WHERE (e.Evento_Fecha_Fin >= CURDATE() OR (e.Evento_Fecha_Inicio <= CURDATE() AND e.Evento_Fecha_Fin >= CURDATE()))
+            WHERE (e.Fecha_Fin >= CURDATE() OR (e.Fecha_Inicio <= CURDATE() AND e.Fecha_Fin >= CURDATE()))
             GROUP BY e.ID_Evento
-            ORDER BY e.Evento_Fecha_Inicio, e.Evento_Hora_Inicio 
+            ORDER BY e.Fecha_Inicio, e.Hora_Inicio 
             LIMIT 5";
 
     $result = mysqli_query($conexion, $sql);
@@ -38,8 +38,8 @@
             <div class="event-container">
                 <div class="event-header">
                     <div class="event-day-container">
-                        <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Evento_Fecha_Inicio'])); ?></div>
-                        <div class="event-time"><?php echo date('H:i', strtotime($row['Evento_Hora_Inicio'])); ?></div>
+                        <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Fecha_Inicio'])); ?></div>
+                        <div class="event-time"><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></div>
                     </div>
                 </div>
                 <div class="event-details">

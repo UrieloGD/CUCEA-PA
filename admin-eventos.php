@@ -85,12 +85,12 @@ if ($resultado->num_rows > 0) {
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="FechIn" name="FechIn" value="<?php echo $editing ? $evento['Evento_Fecha_Inicio'] : ''; ?>" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="<?php echo $editing ? $evento['Evento_Fecha_Fin'] : ''; ?>" required>
+                    <input type="date" id="FechIn" name="FechIn" value="<?php echo $editing ? $evento['Fecha_Inicio'] : ''; ?>" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechFi" name="FechFi" value="<?php echo $editing ? $evento['Fecha_Fin'] : ''; ?>" required  min="<?php echo date('Y-m-d'); ?>">
                     <span>a las</span>
-                    <input type="time" id="HorIn" name="HorIn" value="<?php echo $editing ? $evento['Evento_Hora_Inicio'] : ''; ?>" required>
+                    <input type="time" id="HorIn" name="HorIn" value="<?php echo $editing ? $evento['Hora_Inicio'] : ''; ?>" required>
                     <span> --> </span>
-                    <input type="time" id="HorFin" name="HorFi" value="<?php echo $editing ? $evento['Evento_Hora_Fin'] : ''; ?>" required>
+                    <input type="time" id="HorFin" name="HorFi" value="<?php echo $editing ? $evento['Hora_Fin'] : ''; ?>" required>
                 </div>
             </div>
 
