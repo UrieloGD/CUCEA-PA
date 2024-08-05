@@ -41,12 +41,14 @@ if (mysqli_query($conn, $insert_roles)) {
 }
 
 // Crear tabla Usuarios
+// Crear tabla Usuarios
 $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     Codigo BIGINT(10) NOT NULL PRIMARY KEY,
     Nombre VARCHAR(45) NOT NULL,
     Apellido VARCHAR(45) NOT NULL,
     Correo VARCHAR(100) NOT NULL,
-    Pass VARCHAR(32) NOT NULL,
+    Pass VARCHAR(96) NOT NULL,  
+    Salt VARCHAR(32) NOT NULL,  
     Genero VARCHAR(20) NOT NULL,
     Rol_ID INT,
     IconoColor VARCHAR(7),
