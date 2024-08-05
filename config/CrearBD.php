@@ -78,6 +78,8 @@ VALUES
     (2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1),
     (2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1),
     (2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1),
+    (217125966, 'Omar', 'Rodriguez', 'cesar.rpadilla@alumnos.udg.mx', Masculino', 1),
+    (215161264, 'Uriel', 'Valencia', 'uriel.valencia1264@alumnos.udg.mx', Masculino', 2),
     (2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2),
     (2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Masculino', 2),
     (2107890123, 'Laura', 'Diaz', 'laura.diaz@cucea.udg', '123', 'Femenino', 2),
