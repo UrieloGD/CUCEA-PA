@@ -98,7 +98,33 @@
                                 $dayOfWeek = 0;
                             }
                             
-                            $calendar .= "<td>$day</td>";
+                            $class = '';
+                            $content = $day;
+                            
+                            switch ($day) {
+                                case 5:
+                                    $class = 'highlighted-day';
+                                    break;
+                                case 10:
+                                    $class = 'day-with-event';
+                                    $content = "$day<span class='event-indicator yellow'>Actividad 1</span>";
+                                    break;
+                                case 15:
+                                    $class = 'day-with-event';
+                                    $content = "$day<span class='event-indicator yellow'>Actividad 2</span>";
+                                    break;
+                                case 24:
+                                    $class = 'day-with-event multiple-events';
+                                    $content = "$day<span class='event-indicator green'>Actividad 3</span><span class='event-indicator green'>Cierre PA</span>";
+                                    break;
+                                case 25:
+                                case 26:
+                                    $class = 'day-with-event';
+                                    $content = "$day<span class='event-indicator green'>Cierre PA</span>";
+                                    break;
+                            }
+                            
+                            $calendar .= "<td class='$class'>$content</td>";
                             $day++;
                             $dayOfWeek++;
                         }

@@ -226,6 +226,7 @@
     padding: 0 5px;
 }
 
+/* Calendario */ 
 .calendar-table {
     width: 96.3%; /* tamaño tabla */
     border-collapse: collapse;
@@ -241,11 +242,68 @@
 .calendar-table th {
     background-color: white;
     color: black;
-    font-size: medium;
+    font-size: large;
+    font-style: bold;
 }
 
 .calendar-table td:hover {
     background-color: #f5f5f5;
+}
+
+.calendar-table td.highlighted-day {
+    background-color: #0071B0;
+    color: white;
+    border-radius: 80%;
+    -webkit-border-radius: 80%;
+    -moz-border-radius: 80%;
+    -ms-border-radius: 80%;
+    -o-border-radius: 80%;
+}
+
+.calendar-table th, .calendar-table td {
+    border: 1px solid #E7E9F2;
+    padding: 5px;
+    text-align: center;
+    font-size: medium;
+    width: 80px; /* Tamaño de las celdas */
+    height: 80px; /* Tamaño de las celdas */
+    position: relative;
+}
+
+.calendar-table td.day-with-event {
+    position: relative;
+}
+
+.calendar-table td .event-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    color: black;
+    font-size: 8px;
+    padding: 1px 2px;
+    border-radius: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-table td .event-indicator.yellow {
+    background-color: #FFC700;
+    color: white;
+}
+
+.calendar-table td .event-indicator.green {
+    background-color: #49B053;
+    color: white;
+}
+
+.calendar-table td.multiple-events .event-indicator:nth-child(2) {
+    bottom: 18px; /* Ajusta este valor según sea necesario */
+}
+
+.calendar-table td.multiple-events {
+    font-size: smaller; /* Opcional: reduce el tamaño del número del día para dar más espacio */
 }
 
 @media (max-width: 768px) {
@@ -260,5 +318,20 @@
     .left-column {
         padding-right: 0;
         margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timer {
+        flex-wrap: wrap;
+    }
+    
+    .timer-item {
+        flex-basis: 50%;
+    }
+    
+    .calendar-table th, .calendar-table td {
+        padding: 5px;
+        font-size: smaller;
     }
 }
