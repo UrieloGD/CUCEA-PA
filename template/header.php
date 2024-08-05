@@ -40,12 +40,12 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             LIMIT 10";
   } else if ($rol_id == 1) { // Jefe de departamento
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
-                     e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
-              FROM Notificaciones n
-              JOIN Usuarios e ON n.Emisor_ID = e.Codigo
-              WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
-              ORDER BY n.Fecha DESC
-              LIMIT 10";
+              e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
+          FROM Notificaciones n
+          JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+          WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
+          ORDER BY n.Fecha DESC
+          LIMIT 10";
   }
 
   $result = mysqli_query($conn, $query);
@@ -212,7 +212,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
               <div class="imagen">
                 <?php if (isset($notificacion['Nombre']) && isset($notificacion['Apellido']) && isset($notificacion['IconoColor'])) : ?>
-                  <div class="circulo" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
+                  <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
                     <?php
                     $nombreInicial = strtoupper(substr($notificacion['Nombre'], 0, 1));
                     $apellidoInicial = strtoupper(substr($notificacion['Apellido'], 0, 1));
@@ -220,7 +220,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
                     ?>
                   </div>
                 <?php else : ?>
-                  <div class="circulo" style="background-color: #ccc;">
+                  <div class="circulo-notificaciones" style="background-color: #ccc;">
                     <span>SA</span>
                   </div>
                 <?php endif; ?>
@@ -235,12 +235,12 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
                     } elseif ($notificacion['tipo'] == 'plantilla') {
                       echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
                     } else {
-                      echo $notificacion['Mensaje'];
+                      echo $notificacion['Mensaje'] ?? 'Nueva notificación';
                     }
                     ?>
                   </div>
                 <?php else : ?>
-                  <div class="descripcion"><?php echo $notificacion['Mensaje']; ?></div>
+                  <div class="descripcion"><?php echo $notificacion['Mensaje'] ?? 'Nueva notificación'; ?></div>
                 <?php endif; ?>
                 <div class="fecha-hora">
                   <?php echo date('d/m/Y H:i:s', strtotime($notificacion['fecha'])); ?>

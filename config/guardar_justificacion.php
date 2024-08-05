@@ -1,6 +1,7 @@
 <?php
 session_start();
 include './db.php';
+include './email_functions.php';
 
 header('Content-Type: application/json');
 
@@ -26,18 +27,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($row['count'] > 0) {
         echo json_encode(["success" => false, "message" => "Ya has enviado una justificación anteriormente."]);
-    } else {
-        // Insertar justificación y marcarla como enviada
-        $sql = "INSERT INTO Justificaciones (Departamento_ID, Codigo_Usuario, Justificacion, Justificacion_Enviada) 
-                VALUES (?, ?, ?, 1)";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("iss", $departamento_id, $codigo_usuario, $justificacion);
+        exit();
+    }
 
-        if ($stmt->execute()) {
-            echo json_encode(["success" => true, "message" => "Justificación guardada exitosamente"]);
-        } else {
-            echo json_encode(["success" => false, "message" => "Error al guardar la justificación: " . $stmt->error]);
+    // Insertar justificación y marcarla como enviada
+    $sql = "INSERT INTO Justificaciones (Departamento_ID, Codigo_Usuario, Justificacion, Justificacion_Enviada) 
+            VALUES (?, ?, ?, 1)";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("iss", $departamento_id, $codigo_usuario, $justificacion);
+
+    if ($stmt->execute()) {
+        // La justificación se guardó correctamente
+
+        // Obtener información del departamento
+        $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+        $stmt_departamento = $conexion->prepare($sql_departamento);
+        $stmt_departamento->bind_param("i", $departamento_id);
+        $stmt_departamento->execute();
+        $result_departamento = $stmt_departamento->get_result();
+        $departamento = $result_departamento->fetch_assoc();
+
+        // Obtener correos de los usuarios de secretaría administrativa
+        $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+        $result_secretaria = $conexion->query($sql_secretaria);
+
+        while ($secretaria = $result_secretaria->fetch_assoc()) {
+            $destinatario = $secretaria['Correo'];
+            $asunto = "Nueva justificación enviada";
+            $cuerpo = "
+            <html>
+            <body>
+                <h2>Nueva justificación enviada</h2>
+                <p>Se ha recibido una nueva justificación del departamento de {$departamento['Departamentos']}.</p>
+                <p>Fecha de envío: " . date('d/m/Y H:i') . "</p>
+                <p>Por favor, ingrese al sistema para más detalles.</p>
+            </body>
+            </html>
+            ";
+
+            enviarCorreo($destinatario, $asunto, $cuerpo);
         }
+
+        echo json_encode(["success" => true, "message" => "Justificación guardada exitosamente"]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Error al guardar la justificación: " . $stmt->error]);
     }
 } else {
     echo json_encode(["success" => false, "message" => "Método de solicitud no válido"]);

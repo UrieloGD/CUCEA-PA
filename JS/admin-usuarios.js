@@ -132,10 +132,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     departamentos.forEach((departamento) => {
       dropdown += `<option value='${departamento.Departamento_ID}' ${
-        departamento.Nombre_Departamento === currentDepartamento
+        departamento.Departamentos === currentDepartamento
           ? "selected"
           : ""
-      }>${departamento.Nombre_Departamento}</option>`;
+      }>${departamento.Departamentos}</option>`;
     });
 
     dropdown += `</select>`;
@@ -296,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
   departamentos.forEach((departamento) => {
     const option = document.createElement("option");
     option.value = departamento.Departamento_ID;
-    option.text = departamento.Nombre_Departamento;
+    option.text = departamento.Departamentos;
     departamentosSelect.add(option);
   });
 

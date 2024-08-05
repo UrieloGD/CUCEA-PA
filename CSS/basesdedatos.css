@@ -414,6 +414,13 @@ th {
   cursor: pointer;
 }
 
+.input-estrecho {
+  width: 80px; /* Ajusta este valor según sea necesario */
+  /* box-sizing: border-box; */
+  padding: 5px; /* Opcional: ajustar el padding según sea necesario */
+  border: none;
+}
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {

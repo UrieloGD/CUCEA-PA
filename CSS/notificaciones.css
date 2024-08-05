@@ -140,7 +140,7 @@
     flex-shrink: 0; /* Para que el contenedor no se achique */
 }
 
-.circulo {
+.circulo-notificaciones {
     width: 40px;
     height: 40px;
     border-radius: 50%;
