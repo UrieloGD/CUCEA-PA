@@ -1,21 +1,5 @@
-function makeEditable() {
-    const table = document.getElementById('tabla-datos');
-    const rows = table.getElementsByTagName('tr');
-    
-    for (let i = 1; i < rows.length; i++) { // Empezamos desde 1 para saltar la fila de encabezados
-        const cells = rows[i].getElementsByTagName('td');
-        for (let j = 1; j < cells.length; j++) { // Empezamos desde 1 para saltar la columna ID
-            if (j !== 1) { // No hacemos editable la columna ID
-                cells[j].setAttribute('contenteditable', 'true');
-                cells[j].addEventListener('blur', function() {
-                    updateCell(this);
-                });
-            }
-        }
-    }
-}
+let changedCells = new Set();
 
-// Mapear los nombres de las columnas si es necesario
 const columnMap = {
     'ID': 'ID_Plantilla',
     'CICLO': 'CICLO',
@@ -61,55 +45,183 @@ const columnMap = {
     'EXTRAORDINARIO': 'EXAMEN_EXTRAORDINARIO'
 };
 
-// Función para actualizar una celda
-function updateCell(cell) {
-    const row = cell.parentNode;
-    const id = row.cells[1].textContent; // Asumiendo que el ID está en la segunda columna
-    const columnIndex = cell.cellIndex;
-    const newValue = cell.textContent;
-    
-    // Obtener el nombre de la columna del encabezado de la tabla
-    const headerRow = document.querySelector('#tabla-datos tr');
-    let columnName = headerRow.cells[columnIndex].textContent;
+const maxLengths = {
+    'CICLO': 10,
+    'CRN': 15,
+    'MATERIA': 80,
+    'CVE_MATERIA': 5,
+    'SECCION': 5,
+    'NIVEL': 25,
+    'NIVEL_TIPO': 25,
+    'TIPO': 1,
+    'C_MIN': 2,
+    'H_TOTALES': 2,
+    'ESTATUS': 10,
+    'TIPO_CONTRATO': 30,
+    'CODIGO_PROFESOR': 9,
+    'NOMBRE_PROFESOR': 60,
+    'CATEGORIA': 40,
+    'DESCARGA': 2,
+    'CODIGO_DESCARGA': 9,
+    'NOMBRE_DESCARGA': 60,
+    'NOMBRE_DEFINITIVO': 60,
+    'TITULAR': 2,
+    'HORAS': 1,
+    'CODIGO_DEPENDENCIA': 4,
+    'L': 5,
+    'M': 5,
+    'I': 5,
+    'J': 5,
+    'V': 5,
+    'S': 5,
+    'D': 5,
+    'DIA_PRESENCIAL': 10,
+    'DIA_VIRTUAL': 10,
+    'MODALIDAD': 10,
+    'FECHA_INICIAL': 10,
+    'FECHA_FINAL': 10,
+    'HORA_INICIAL': 10,
+    'HORA_FINAL': 10,
+    'MODULO': 10,
+    'AULA': 10,
+    'CUPO': 3,
+    'OBSERVACIONES': 150,
+    'EXAMEN_EXTRAORDINARIO': 2
+};
 
-    if (columnMap[columnName]) {
-        columnName = columnMap[columnName];
+function makeEditable() {
+    const table = document.getElementById('tabla-datos');
+    const rows = table.getElementsByTagName('tr');
+    
+    for (let i = 1; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        for (let j = 1; j < cells.length; j++) {
+            if (j !== 1) {
+                cells[j].setAttribute('contenteditable', 'true');
+                cells[j].addEventListener('input', function() {
+                    updateCell(this);
+                });
+                cells[j].addEventListener('focus', function() {
+                    showCharacterCount(this);
+                });
+                cells[j].addEventListener('blur', function() {
+                    hideCharacterCount(this);
+                });
+            }
+        }
     }
+}
 
-     // Obtener el departamento_id
-     const departamentoId = document.getElementById('departamento_id').value;
+function updateCell(cell) {
+    const columnName = getColumnName(cell);
+    console.log('Updating cell in column:', columnName); // Para depuración
+    const maxLength = maxLengths[columnName] || 60;
     
-     // Mostrar indicador de carga
-     cell.style.backgroundColor = '#FFFACD'; // Amarillo claro para indicar carga
-     
-     // Enviar la actualización al servidor
-     fetch('actualizar_celda.php', {
-         method: 'POST',
-         headers: {
-             'Content-Type': 'application/x-www-form-urlencoded',
-         },
-         body: `id=${encodeURIComponent(id)}&column=${encodeURIComponent(columnName)}&value=${encodeURIComponent(newValue)}&departamento_id=${encodeURIComponent(departamentoId)}`
-     })
-     .then(response => response.json())
-     .then(data => {
-         if (data.success) {
-             cell.style.backgroundColor = '#90EE90'; // Verde claro para indicar éxito
-             setTimeout(() => {
-                 cell.style.backgroundColor = '';
-             }, 2000);
-         } else {
-             cell.style.backgroundColor = '#FFB6C1'; // Rosa claro para indicar error
-             cell.textContent = data.oldValue || ''; // Revertir al valor anterior si está disponible
-             console.error('Error al actualizar:', data.error);
-             alert(`Error al actualizar: ${data.error}`);
-         }
-     })
-     .catch(error => {
-         console.error('Error:', error);
-         cell.style.backgroundColor = '#FFB6C1'; // Rosa claro para indicar error
-         alert(`Error de red o del servidor: ${error.message}`);
-     });
- }
- 
- // Llamar a makeEditable cuando se carga la página
- document.addEventListener('DOMContentLoaded', makeEditable);
+    if (cell.textContent.length > maxLength) {
+        cell.textContent = cell.textContent.slice(0, maxLength);
+    }
+    
+    cell.style.backgroundColor = '#FFFACD';
+    changedCells.add(cell);
+    showSaveButton();
+    updateCharacterCount(cell);
+}
+
+function showCharacterCount(cell) {
+    const columnName = getColumnName(cell);
+    const maxLength = maxLengths[columnName] || 60;
+    const countSpan = document.createElement('span');
+    countSpan.className = 'char-count';
+    countSpan.style.position = 'absolute';
+    countSpan.style.bottom = '0';
+    countSpan.style.right = '0';
+    countSpan.style.fontSize = '10px';
+    countSpan.style.color = '#888';
+    cell.style.position = 'relative';
+    cell.appendChild(countSpan);
+    updateCharacterCount(cell);
+}
+
+function hideCharacterCount(cell) {
+    const countSpan = cell.querySelector('.char-count');
+    if (countSpan) {
+        cell.removeChild(countSpan);
+    }
+}
+
+function updateCharacterCount(cell) {
+    const columnName = getColumnName(cell);
+    const maxLength = maxLengths[columnName] || 60;
+    const remainingChars = maxLength - cell.textContent.length;
+    const countSpan = cell.querySelector('.char-count');
+    if (countSpan) {
+        countSpan.textContent = remainingChars;
+    }
+}
+
+function getColumnName(cell) {
+    const headerRow = document.querySelector('#tabla-datos tr');
+    let columnName = headerRow.cells[cell.cellIndex].textContent.trim();
+    console.log('Column name from header:', columnName); // Para depuración
+    let mappedName = columnMap[columnName] || columnName;
+    console.log('Mapped column name:', mappedName); // Para depuración
+    return mappedName;
+}
+
+function showSaveButton() {
+    let saveButton = document.getElementById('save-changes-button');
+    if (!saveButton) {
+        saveButton = document.createElement('button');
+        saveButton.id = 'save-changes-button';
+        saveButton.textContent = 'Guardar Cambios';
+        saveButton.onclick = saveAllChanges;
+        saveButton.style.marginRight = '10px';
+        document.querySelector('.encabezado-derecha .iconos-container').prepend(saveButton);
+    }
+}
+
+function saveAllChanges() {
+    const promises = [];
+    changedCells.forEach(cell => {
+        const row = cell.parentNode;
+        const id = row.cells[1].textContent;
+        const columnName = getColumnName(cell);
+        const newValue = cell.textContent;
+        
+        console.log('Saving changes for column:', columnName, 'with value:', newValue); // Para depuración
+
+        promises.push(fetch('actualizar_celda.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `id=${encodeURIComponent(id)}&column=${encodeURIComponent(columnName)}&value=${encodeURIComponent(newValue)}`
+        }).then(response => response.json()));
+    });
+
+    Promise.all(promises)
+        .then(results => {
+            results.forEach((data, index) => {
+                const cell = Array.from(changedCells)[index];
+                if (data.success) {
+                    cell.style.backgroundColor = '#90EE90';
+                    setTimeout(() => {
+                        cell.style.backgroundColor = '';
+                    }, 2000);
+                } else {
+                    cell.style.backgroundColor = '#FFB6C1';
+                    cell.textContent = data.oldValue || '';
+                    console.error('Error al actualizar:', data.error);
+                    alert(`Error al actualizar: ${data.error}`);
+                }
+            });
+            changedCells.clear();
+            document.getElementById('save-changes-button').remove();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(`Error de red o del servidor: ${error.message}`);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', makeEditable);
