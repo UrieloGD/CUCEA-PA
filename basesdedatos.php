@@ -113,59 +113,21 @@ $result = mysqli_query($conexion, $sql);
                 <th>EXTRAORDINARIO</th>
             </tr>
             <?php
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>";
-                    echo "<td>" . $row["ID_Plantilla"] . "</td>";
-                    echo "<td>" . $row["CICLO"] . "</td>";
-                    echo "<td>" . $row["CRN"] . "</td>";
-                    echo "<td>" . $row["MATERIA"] . "</td>";
-                    echo "<td>" . $row["CVE_MATERIA"] . "</td>";
-                    echo "<td>" . $row["SECCION"] . "</td>";
-                    echo "<td>" . $row["NIVEL"] . "</td>";
-                    echo "<td>" . $row["NIVEL_TIPO"] . "</td>";
-                    echo "<td>" . $row["TIPO"] . "</td>";
-                    echo "<td>" . $row["C_MIN"] . "</td>";
-                    echo "<td>" . $row["H_TOTALES"] . "</td>";
-                    echo "<td>" . $row["ESTATUS"] . "</td>";
-                    echo "<td>" . $row["TIPO_CONTRATO"] . "</td>";
-                    echo "<td>" . $row["CODIGO_PROFESOR"] . "</td>";
-                    echo "<td>" . $row["NOMBRE_PROFESOR"] . "</td>";
-                    echo "<td>" . $row["CATEGORIA"] . "</td>";
-                    echo "<td>" . $row["DESCARGA"] . "</td>";
-                    echo "<td>" . $row["CODIGO_DESCARGA"] . "</td>";
-                    echo "<td>" . $row["NOMBRE_DESCARGA"] . "</td>";
-                    echo "<td>" . $row["NOMBRE_DEFINITIVO"] . "</td>";
-                    echo "<td>" . $row["TITULAR"] . "</td>";
-                    echo "<td>" . $row["HORAS"] . "</td>";
-                    echo "<td>" . $row["CODIGO_DEPENDENCIA"] . "</td>";
-                    echo "<td>" . $row["L"] . "</td>";
-                    echo "<td>" . $row["M"] . "</td>";
-                    echo "<td>" . $row["I"] . "</td>";
-                    echo "<td>" . $row["J"] . "</td>";
-                    echo "<td>" . $row["V"] . "</td>";
-                    echo "<td>" . $row["S"] . "</td>";
-                    echo "<td>" . $row["D"] . "</td>";
-                    echo "<td>" . $row["DIA_PRESENCIAL"] . "</td>";
-                    echo "<td>" . $row["DIA_VIRTUAL"] . "</td>";
-                    echo "<td>" . $row["MODALIDAD"] . "</td>";
-                    echo "<td>" . $row["FECHA_INICIAL"] . "</td>";
-                    echo "<td>" . $row["FECHA_FINAL"] . "</td>";
-                    echo "<td>" . $row["HORA_INICIAL"] . "</td>";
-                    echo "<td>" . $row["HORA_FINAL"] . "</td>";
-                    echo "<td>" . $row["MODULO"] . "</td>";
-                    echo "<td>" . $row["AULA"] . "</td>";
-                    echo "<td>" . $row["CUPO"] . "</td>";
-                    echo "<td>" . $row["OBSERVACIONES"] . "</td>";
-                    echo "<td>" . $row["EXAMEN_EXTRAORDINARIO"] . "</td>";
-                    echo "</tr>";
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>";
+                        
+                        foreach ($row as $key => $value) {
+                            echo "<td>" . htmlspecialchars($value) . "</td>";
+                        }
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='43'>No hay datos disponibles</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='43'>No hay datos disponibles</td></tr>";
-            }
-            mysqli_close($conexion);
-            ?>
+                mysqli_close($conexion);
+                ?>
         </table>
     </div>
 </div>
@@ -380,6 +342,7 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
+<script src="./JS/tabla_editable.js"></script>
 <script src="./JS/barradebusqueda.js"></script>
 <script src="./JS/eliminarRegistro.js"></script>
 <script src="./JS/editarRegistros.js"></script>
