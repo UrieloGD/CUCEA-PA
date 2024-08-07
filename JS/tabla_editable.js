@@ -97,22 +97,22 @@ function makeEditable() {
         const cells = rows[i].getElementsByTagName('td');
         for (let j = 1; j < cells.length; j++) {
             if (j !== 1) {
+                cells[j].setAttribute('data-original-value', cells[j].textContent.trim());
                 cells[j].setAttribute('contenteditable', 'true');
                 cells[j].addEventListener('input', function() {
                     updateCell(this);
                 });
-                // cells[j].addEventListener('focus', function() {
-                //     showCharacterCount(this);
-                // });
-                // cells[j].addEventListener('blur', function() {
-                //     hideCharacterCount(this);
-                // });
             }
         }
     }
 }
 
 function updateCell(cell) {
+
+    if (!cell.hasAttribute('data-original-value')) {
+        cell.setAttribute('data-original-value', cell.textContent.trim());
+    }
+
     const columnName = getColumnName(cell);
     const maxLength = maxLengths[columnName] || 60;
 
@@ -141,7 +141,9 @@ function updateCell(cell) {
     cell.style.backgroundColor = '#FFFACD';
     changedCells.add(cell);
     showSaveButton();
+    showEditIcons();
 }
+
 function showCharacterCount(cell) {
     const columnName = getColumnName(cell);
     const maxLength = maxLengths[columnName] || 60;
@@ -195,6 +197,37 @@ function hideSaveButton() {
     saveIcon.style.opacity = '0';
 }
 
+function showEditIcons() {
+    const saveIcon = document.getElementById('icono-guardar');
+    const undoIcon = document.getElementById('icono-deshacer');
+    saveIcon.style.visibility = 'visible';
+    saveIcon.style.opacity = '1';
+    undoIcon.style.visibility = 'visible';
+    undoIcon.style.opacity = '1';
+}
+
+function hideEditIcons() {
+    const saveIcon = document.getElementById('icono-guardar');
+    const undoIcon = document.getElementById('icono-deshacer');
+    saveIcon.style.visibility = 'hidden';
+    saveIcon.style.opacity = '0';
+    undoIcon.style.visibility = 'hidden';
+    undoIcon.style.opacity = '0';
+}
+
+function undoAllChanges() {
+    changedCells.forEach(cell => {
+        const originalValue = cell.getAttribute('data-original-value');
+        if (originalValue !== null) {
+            cell.textContent = originalValue;
+        }
+        cell.style.backgroundColor = '';
+        cell.removeAttribute('data-original-value');
+    });
+    changedCells.clear();
+    hideEditIcons();
+}
+
 function saveAllChanges() {
     const promises = [];
     changedCells.forEach(cell => {
@@ -220,6 +253,7 @@ function saveAllChanges() {
                 const cell = Array.from(changedCells)[index];
                 if (data.success) {
                     cell.style.backgroundColor = '#90EE90';
+                    cell.removeAttribute('data-original-value');
                     setTimeout(() => {
                         cell.style.backgroundColor = '';
                     }, 2000);
@@ -232,6 +266,8 @@ function saveAllChanges() {
             });
             changedCells.clear();
             hideSaveButton();
+            changedCells.clear();
+            hideEditIcons();
         })
         .catch(error => {
             console.error('Error:', error);

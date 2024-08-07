@@ -113,6 +113,30 @@ th {
   padding: 0px 40px;
 }
 
+#icono-deshacer {
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #f5c275;
+  padding: 15px;
+  color: #fff;
+  margin-right: 0;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: visibility 0.2s, opacity 0.2s;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  -moz-transition: visibility 0.2s, opacity 0.2s;
+  -ms-transition: visibility 0.2s, opacity 0.2s;
+  -o-transition: visibility 0.2s, opacity 0.2s;
+}
+
+#icono-deshacer i {
+  font-size: 18px;
+}
+
 #icono-guardar {
   visibility: hidden;
   opacity: 0;

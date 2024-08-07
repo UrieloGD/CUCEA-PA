@@ -46,6 +46,9 @@ $result = mysqli_query($conexion, $sql);
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
+                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
                     <i class="fa fa-add" aria-hidden="true"></i>
                 </div>
