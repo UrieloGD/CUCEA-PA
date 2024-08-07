@@ -87,6 +87,16 @@ if (isset($_POST['id']) && isset($_POST['column']) && isset($_POST['value'])) {
     if (isset($columnMap[$column])) {
         $column = $columnMap[$column];
     }
+
+    $numericColumns = ['CICLO', 'C_MIN', 'H_TOTALES', 'CODIGO_PROFESOR', 'CODIGO_DESCARGA', 'HORAS', 'HORA_INICIAL', 'HORA_FINAL', 'CUPO'];
+
+    if (in_array($column, $numericColumns)) {
+        if (!is_numeric($value)) {
+            $response['error'] = "El valor para la columna $column debe ser numérico";
+            echo json_encode($response);
+            exit;
+        }
+    }
         
     $departamento_id = $_SESSION['Departamento_ID'];
     $sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
