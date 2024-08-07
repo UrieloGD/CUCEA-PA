@@ -65,7 +65,7 @@ $result = mysqli_query($conexion, $sql);
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
     <div class="Tabla">
-        <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
+    <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos">
             <tr>
                 <th></th>
@@ -117,48 +117,48 @@ $result = mysqli_query($conexion, $sql);
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
                     echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . $row["ID_Plantilla"] . "'></td>";
-                    echo "<td>" . $row["ID_Plantilla"] . "</td>";
-                    echo "<td>" . $row["CICLO"] . "</td>";
-                    echo "<td>" . $row["CRN"] . "</td>";
-                    echo "<td>" . $row["MATERIA"] . "</td>";
-                    echo "<td>" . $row["CVE_MATERIA"] . "</td>";
-                    echo "<td>" . $row["SECCION"] . "</td>";
-                    echo "<td>" . $row["NIVEL"] . "</td>";
-                    echo "<td>" . $row["NIVEL_TIPO"] . "</td>";
-                    echo "<td>" . $row["TIPO"] . "</td>";
-                    echo "<td>" . $row["C_MIN"] . "</td>";
-                    echo "<td>" . $row["H_TOTALES"] . "</td>";
-                    echo "<td>" . $row["ESTATUS"] . "</td>";
-                    echo "<td>" . $row["TIPO_CONTRATO"] . "</td>";
-                    echo "<td>" . $row["CODIGO_PROFESOR"] . "</td>";
-                    echo "<td>" . $row["NOMBRE_PROFESOR"] . "</td>";
-                    echo "<td>" . $row["CATEGORIA"] . "</td>";
-                    echo "<td>" . $row["DESCARGA"] . "</td>";
-                    echo "<td>" . $row["CODIGO_DESCARGA"] . "</td>";
-                    echo "<td>" . $row["NOMBRE_DESCARGA"] . "</td>";
-                    echo "<td>" . $row["NOMBRE_DEFINITIVO"] . "</td>";
-                    echo "<td>" . $row["TITULAR"] . "</td>";
-                    echo "<td>" . $row["HORAS"] . "</td>";
-                    echo "<td>" . $row["CODIGO_DEPENDENCIA"] . "</td>";
-                    echo "<td>" . $row["L"] . "</td>";
-                    echo "<td>" . $row["M"] . "</td>";
-                    echo "<td>" . $row["I"] . "</td>";
-                    echo "<td>" . $row["J"] . "</td>";
-                    echo "<td>" . $row["V"] . "</td>";
-                    echo "<td>" . $row["S"] . "</td>";
-                    echo "<td>" . $row["D"] . "</td>";
-                    echo "<td>" . $row["DIA_PRESENCIAL"] . "</td>";
-                    echo "<td>" . $row["DIA_VIRTUAL"] . "</td>";
-                    echo "<td>" . $row["MODALIDAD"] . "</td>";
-                    echo "<td>" . $row["FECHA_INICIAL"] . "</td>";
-                    echo "<td>" . $row["FECHA_FINAL"] . "</td>";
-                    echo "<td>" . $row["HORA_INICIAL"] . "</td>";
-                    echo "<td>" . $row["HORA_FINAL"] . "</td>";
-                    echo "<td>" . $row["MODULO"] . "</td>";
-                    echo "<td>" . $row["AULA"] . "</td>";
-                    echo "<td>" . $row["CUPO"] . "</td>";
-                    echo "<td>" . $row["OBSERVACIONES"] . "</td>";
-                    echo "<td>" . $row["EXAMEN_EXTRAORDINARIO"] . "</td>";
+                    echo "<td>" . htmlspecialchars($row["ID_Plantilla"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CICLO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CRN"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["MATERIA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CVE_MATERIA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["SECCION"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["NIVEL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["NIVEL_TIPO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["TIPO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["C_MIN"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["H_TOTALES"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["ESTATUS"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["TIPO_CONTRATO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CODIGO_PROFESOR"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["NOMBRE_PROFESOR"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CATEGORIA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["DESCARGA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CODIGO_DESCARGA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["NOMBRE_DESCARGA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["NOMBRE_DEFINITIVO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["TITULAR"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["HORAS"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CODIGO_DEPENDENCIA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["L"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["M"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["I"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["J"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["V"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["S"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["D"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["DIA_PRESENCIAL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["DIA_VIRTUAL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["MODALIDAD"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["FECHA_INICIAL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["FECHA_FINAL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["HORA_INICIAL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["HORA_FINAL"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["MODULO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["AULA"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CUPO"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["OBSERVACIONES"]) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["EXAMEN_EXTRAORDINARIO"]) . "</td>";
                     echo "</tr>";
                 }
             } else {
@@ -380,6 +380,7 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
+<script src="./JS/tabla_editable.js"></script>
 <script src="./JS/barradebusqueda.js"></script>
 <script src="./JS/eliminarRegistro.js"></script>
 <script src="./JS/editarRegistros.js"></script>

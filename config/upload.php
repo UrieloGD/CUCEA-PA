@@ -68,7 +68,8 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $errores = array();
 
         for ($row = 2; $row <= $highestRow; $row++) {
-            $ciclo = safeSubstr($sheet->getCell('A' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $ciclo = $sheet->getCell('A' . $row)->getCalculatedValue();
+            $ciclo = $ciclo !== null ? safeSubstr($ciclo, 0, 10) : null;            
             $crn = safeSubstr($sheet->getCell('B' . $row)->getCalculatedValue(), 0, 15) ?? null;
             $materia = safeSubstr($sheet->getCell('C' . $row)->getCalculatedValue(), 0, 80) ?? null;
             $cve_materia = safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 5) ?? null;
@@ -102,11 +103,13 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $modalidad = safeSubstr($sheet->getCell('AF' . $row)->getCalculatedValue(), 0, 10) ?? null;
             $fecha_inicial = $sheet->getCell('AG' . $row)->getCalculatedValue() ?? null;
             $fecha_final = $sheet->getCell('AH' . $row)->getCalculatedValue() ?? null;
-            $hora_inicial = str_pad(safeSubstr($sheet->getCell('AI' . $row)->getCalculatedValue(), 0, 10), 4, '0', STR_PAD_LEFT) ?? null;
-            $hora_final = str_pad(safeSubstr($sheet->getCell('AJ' . $row)->getCalculatedValue(), 0, 10), 4, '0', STR_PAD_LEFT) ?? null;
+            $hora_inicial = $sheet->getCell('AI' . $row)->getCalculatedValue();
+            $hora_inicial = $hora_inicial !== null ? str_pad(substr($hora_inicial, 0, 10), 4, '0', STR_PAD_LEFT) : null;
+            $hora_final = $sheet->getCell('AJ' . $row)->getCalculatedValue();
+            $hora_final = $hora_final !== null ? str_pad(substr($hora_final, 0, 10), 4, '0', STR_PAD_LEFT) : null;
             $modulo = safeSubstr($sheet->getCell('AK' . $row)->getCalculatedValue(), 0, 10) ?? null;
-            $aula = str_pad(safeSubstr($sheet->getCell('AL' . $row)->getCalculatedValue(), 0, 10), 4, '0', STR_PAD_LEFT) ?? null;
-            $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
+            $aula = $sheet->getCell('AL' . $row)->getCalculatedValue();
+            $aula = $aula !== null ? str_pad(substr($aula, 0, 10), 4, '0', STR_PAD_LEFT) : null;            $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
             $cupo = safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 3) ?? null;
             $examen_extraordinario = safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 2) ?? null;
 
