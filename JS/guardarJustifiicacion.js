@@ -47,6 +47,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Más de 60 caracteres, procediendo con el envío"); // Depuración
 
+    // Mostrar Sweet Alert de carga
+    Swal.fire({
+      title: "Procesando...",
+      html: "Por favor espere mientras se envía su justificación.",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+        console.log("Sweet Alert de carga mostrado");
+      },
+    }).then(() => {
+      console.log("Sweet Alert de carga cerrado");
+    });
+
+    console.log("Iniciando fetch");
+
     const formData = new FormData(this);
 
     fetch("./config/guardar_justificacion.php", {
@@ -56,6 +71,9 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         console.log("Respuesta del servidor:", data); // Depuración
+        // Cerrar el Sweet Alert de carga
+        Swal.close();
+
         if (data.success) {
           Swal.fire({
             title: "Éxito",
@@ -73,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((error) => {
         console.error("Error:", error);
+        Swal.close();
         Swal.fire(
           "Error",
           "Hubo un problema al enviar la justificación",

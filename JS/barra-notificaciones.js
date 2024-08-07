@@ -1,3 +1,37 @@
+function actualizarNotificaciones() {
+  fetch("./config/obtener_notificaciones.php")
+    .then((response) => response.text())
+    .then((html) => {
+      const sidebar = document.getElementById("mySidebar");
+
+      // Mantener el contenedor de fecha y hora
+      const contenedorFechaHora = sidebar.querySelector(
+        ".contenedor-fecha-hora"
+      );
+
+      // Actualizar el contenido de las notificaciones
+      sidebar.innerHTML = html;
+
+      // Volver a insertar el contenedor de fecha y hora al principio
+      if (contenedorFechaHora) {
+        sidebar.insertBefore(contenedorFechaHora, sidebar.firstChild);
+      }
+
+      // Volver a añadir los event listeners
+      const notificaciones = document.querySelectorAll(
+        ".contenedor-notificacion"
+      );
+      notificaciones.forEach((notificacion) => {
+        notificacion.addEventListener("click", manejarClicNotificacion);
+      });
+
+      actualizarBadgeNotificaciones();
+    })
+    .catch((error) =>
+      console.error("Error al actualizar notificaciones:", error)
+    );
+}
+
 let isNavOpen = false;
 
 window.actualizarBadgeNotificaciones = function () {
@@ -131,6 +165,8 @@ document.addEventListener("DOMContentLoaded", function () {
     botonMarcarLeido.addEventListener("click", marcarNotificacionesComoVistas);
   }
   actualizarBadgeNotificaciones();
+  // Iniciar la actualización automática cada 30 segundos
+  setInterval(actualizarNotificaciones, 30000);
 });
 
 // Función para cerrar la barra de navegación al hacer clic fuera de ella
