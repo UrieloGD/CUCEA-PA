@@ -101,12 +101,12 @@ function makeEditable() {
                 cells[j].addEventListener('input', function() {
                     updateCell(this);
                 });
-                cells[j].addEventListener('focus', function() {
-                    showCharacterCount(this);
-                });
-                cells[j].addEventListener('blur', function() {
-                    hideCharacterCount(this);
-                });
+                // cells[j].addEventListener('focus', function() {
+                //     showCharacterCount(this);
+                // });
+                // cells[j].addEventListener('blur', function() {
+                //     hideCharacterCount(this);
+                // });
             }
         }
     }
@@ -114,19 +114,34 @@ function makeEditable() {
 
 function updateCell(cell) {
     const columnName = getColumnName(cell);
-    console.log('Updating cell in column:', columnName); // Para depuración
     const maxLength = maxLengths[columnName] || 60;
+
+    // Obtener la posición del cursor
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    const cursorPosition = range.startOffset;
+
+    // Convertir a mayúsculas
+    let newText = cell.textContent.toUpperCase();
     
-    if (cell.textContent.length > maxLength) {
-        cell.textContent = cell.textContent.slice(0, maxLength);
+    // Limitar la longitud
+    if (newText.length > maxLength) {
+        newText = newText.slice(0, maxLength);
     }
+    
+    // Actualizar el contenido de la celda
+    cell.textContent = newText;
+
+    // Restaurar la posición del cursor
+    range.setStart(cell.firstChild, Math.min(cursorPosition, newText.length));
+    range.setEnd(cell.firstChild, Math.min(cursorPosition, newText.length));
+    selection.removeAllRanges();
+    selection.addRange(range);
     
     cell.style.backgroundColor = '#FFFACD';
     changedCells.add(cell);
     showSaveButton();
-    updateCharacterCount(cell);
 }
-
 function showCharacterCount(cell) {
     const columnName = getColumnName(cell);
     const maxLength = maxLengths[columnName] || 60;
@@ -169,15 +184,15 @@ function getColumnName(cell) {
 }
 
 function showSaveButton() {
-    let saveButton = document.getElementById('save-changes-button');
-    if (!saveButton) {
-        saveButton = document.createElement('button');
-        saveButton.id = 'save-changes-button';
-        saveButton.textContent = 'Guardar Cambios';
-        saveButton.onclick = saveAllChanges;
-        saveButton.style.marginRight = '10px';
-        document.querySelector('.encabezado-derecha .iconos-container').prepend(saveButton);
-    }
+    const saveIcon = document.getElementById('icono-guardar');
+    saveIcon.style.visibility = 'visible';
+    saveIcon.style.opacity = '1';
+}
+
+function hideSaveButton() {
+    const saveIcon = document.getElementById('icono-guardar');
+    saveIcon.style.visibility = 'hidden';
+    saveIcon.style.opacity = '0';
 }
 
 function saveAllChanges() {
@@ -216,12 +231,13 @@ function saveAllChanges() {
                 }
             });
             changedCells.clear();
-            document.getElementById('save-changes-button').remove();
+            hideSaveButton();
         })
         .catch(error => {
             console.error('Error:', error);
             alert(`Error de red o del servidor: ${error.message}`);
         });
+        hideSaveButton();
 }
 
 document.addEventListener('DOMContentLoaded', makeEditable);

@@ -64,15 +64,6 @@
   margin-top: 10px;
 }
 
-.iconos-container {
-  width: 40%;
-  display: flex;
-  align-items: left;
-  /* border: solid; */
-  justify-content: space-between;
-  padding: 0px 40px;
-}
-
 /* Tabla */
 .tabla {
   flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
@@ -112,6 +103,35 @@ th {
 }
 
 /* Icono y Boton Buscar */
+
+.iconos-container {
+  width: 60%;
+  display: flex;
+  align-items: left;
+  /* border: solid; */
+  justify-content: space-between;
+  padding: 0px 40px;
+}
+
+#icono-guardar {
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #0071b0;
+  border-radius: 10px;
+  padding: 15px;
+  color: #fff;
+  margin-right: 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: visibility 0.2s, opacity 0.2s;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  -moz-transition: visibility 0.2s, opacity 0.2s;
+  -ms-transition: visibility 0.2s, opacity 0.2s;
+  -o-transition: visibility 0.2s, opacity 0.2s;
+}
 
 .icono-buscador {
   cursor: pointer;
