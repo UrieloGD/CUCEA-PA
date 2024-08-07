@@ -41,7 +41,6 @@ if (mysqli_query($conn, $insert_roles)) {
 }
 
 // Crear tabla Usuarios
-// Crear tabla Usuarios
 $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     Codigo BIGINT(10) NOT NULL PRIMARY KEY,
     Nombre VARCHAR(45) NOT NULL,
@@ -61,38 +60,62 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn);
 }
 
-// Insertar usuarios
-$insert_usuarios = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID)
-VALUES
-    (2100123456, 'Juan', 'Perez', 'juan.perez@cucea.udg', '123', 'Masculino', 1),
-    (2103456789, 'Ana', 'Martinez', 'ana.martinez@cucea.udg', '123', 'Femenino', 1),
-    (2106789012, 'Carlos', 'Hernandez', 'carlos.hernandez@cucea.udg', '123', 'Masculino', 1),
-    (2110123456, 'Pedro', 'Gómez', 'pedro.gomez@cucea.udg', '123', 'Masculino', 1),
-    (2111234567, 'Laura', 'Torres', 'laura.torres@cucea.udg', '123', 'Femenino', 1),
-    (2112345678, 'Javier', 'Ruiz', 'javier.ruiz@cucea.udg', '123', 'Masculino', 1),
-    (2113456789, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1),
-    (2114567890, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1),
-    (2115678901, 'Mariana', 'Ponce', 'mariana.ponce@cucea.udg', '123', 'Femenino', 1),
-    (2116789012, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1),
-    (2121234567, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1),
-    (2130192837, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1),
-    (2140596871, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1),
-    (2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1),
-    (2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1),
-    (2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1),
-    (2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2),
-    (2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Masculino', 2),
-    (2107890123, 'Laura', 'Diaz', 'laura.diaz@cucea.udg', '123', 'Femenino', 2),
-    (2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg', '123', 'Femenino', 3),
-    (2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg', '123', 'Masculino', 3),
-    (2108901234, 'Daniel', 'Sanchez', 'daniel.sanchez@cucea.udg', '123', 'Masculino', 3),
-    (2109012345, 'Monica', 'Ramirez', 'monica.ramirez@cucea.udg', '123', 'Femenino', 3)";
-
-if (mysqli_query($conn, $insert_usuarios)) {
-    echo "<br>Usuarios insertados exitosamente";
-} else {
-    echo "<br>Error insertando usuarios: " . mysqli_error($conn);
+// Para el hasheo de contraseñas
+function hashPassword($password) {
+    $salt = bin2hex(random_bytes(16));
+    $hashedPassword = hash('sha256', $salt . $password);
+    return ['hash' => $hashedPassword, 'salt' => $salt];
 }
+// Usuarios (los necesitamos en arreglo para el hasheo de contraseñas)
+$usuarios= [
+    [2100123456, 'Juan', 'Perez', 'juan.perez@cucea.udg', '123', 'Masculino', 1],
+    [2103456789, 'Ana', 'Martinez', 'ana.martinez@cucea.udg', '123', 'Femenino', 1],
+    [2106789012, 'Carlos', 'Hernandez', 'carlos.hernandez@cucea.udg', '123', 'Masculino', 1],
+    [2110123456, 'Pedro', 'Gómez', 'pedro.gomez@cucea.udg', '123', 'Masculino', 1],
+    [111234567, 'Laura', 'Torres', 'laura.torres@cucea.udg', '123', 'Femenino', 1],
+    [2112345678, 'Javier', 'Ruiz', 'javier.ruiz@cucea.udg', '123', 'Masculino', 1],
+    [2113456789, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1],
+    [2114567890, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1],
+    [2115678901, 'Mariana', 'Ponce', 'mariana.ponce@cucea.udg', '123', 'Femenino', 1],
+    [2116789012, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1],
+    [2121234567, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1],
+    [2130192837, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1],
+    [2140596871, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1],
+    [2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1],
+    [2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1],
+    [2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1],
+    [2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2],
+    [2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Masculino', 2],
+    [2107890123, 'Laura', 'Diaz', 'laura.diaz@cucea.udg', '123', 'Femenino', 2],
+    [2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg', '123', 'Femenino', 3],
+    [2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg', '123', 'Masculino', 3],
+    [2108901234, 'Daniel', 'Sanchez', 'daniel.sanchez@cucea.udg', '123', 'Masculino', 3],
+    [2109012345, 'Monica', 'Ramirez', 'monica.ramirez@cucea.udg', '123', 'Femenino', 3]
+];
+
+$stmt = $conn->prepare("INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Salt, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+// Insertar usuarios
+foreach ($usuarios as $usuario) {
+    $passwordData = hashPassword($usuario[4]); // El índice 4 corresponde a la contraseña
+
+    $stmt->bind_param(
+        "issssssis",
+        $usuario[0], // Codigo
+        $usuario[1], // Nombre
+        $usuario[2], // Apellido
+        $usuario[3], // Correo
+        $passwordData['hash'], // Pass hasheada
+        $passwordData['salt'], // Salt
+        $usuario[5], // Genero
+        $usuario[6], // Rol_ID
+        $usuario[7]  // IconoColor
+    );
+
+    $stmt->execute();
+}
+
+$stmt->close();
 
 // Crear tabla Departamentos
 $sql = "CREATE TABLE IF NOT EXISTS Departamentos (
