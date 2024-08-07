@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($tipo == 'justificacion') {
         $sql = "UPDATE Justificaciones SET Notificacion_Vista = 1 WHERE ID_Justificacion = ?";
     } elseif ($tipo == 'plantilla') {
-        $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
+        $sql = "UPDATE Plantilla_Dep SET Notificacion_Vista = 1 WHERE ID_Archivo_Dep = ?";
     } elseif ($tipo == 'fecha_limite') {
         $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
     } else {
