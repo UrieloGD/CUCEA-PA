@@ -216,16 +216,26 @@ function hideEditIcons() {
 }
 
 function undoAllChanges() {
-    changedCells.forEach(cell => {
-        const originalValue = cell.getAttribute('data-original-value');
+    if (changedCells.size > 0) {
+        // Obtener la última celda modificada
+        const lastCell = Array.from(changedCells).pop();
+
+        // Revertir los cambios de la última celda
+        const originalValue = lastCell.getAttribute('data-original-value');
         if (originalValue !== null) {
-            cell.textContent = originalValue;
+            lastCell.textContent = originalValue;
         }
-        cell.style.backgroundColor = '';
-        cell.removeAttribute('data-original-value');
-    });
-    changedCells.clear();
-    hideEditIcons();
+        lastCell.style.backgroundColor = '';
+        lastCell.removeAttribute('data-original-value');
+
+        // Eliminar la última celda de la lista de celdas modificadas
+        changedCells.delete(lastCell);
+    }
+
+    // Si ya no quedan celdas modificadas, ocultar los iconos de edición
+    if (changedCells.size === 0) {
+        hideEditIcons();
+    }
 }
 
 function saveAllChanges() {
