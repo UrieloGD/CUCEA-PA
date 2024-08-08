@@ -76,7 +76,7 @@
       }
 
       // Consulta para obtener los departamentos
-      $departamentos_sql = "SELECT Departamento_ID, Nombre_Departamento FROM Departamentos";
+      $departamentos_sql = "SELECT Departamento_ID, Departamentos FROM Departamentos";
       $departamentos_result = $conn->query($departamentos_sql);
 
       $departamentos = [];

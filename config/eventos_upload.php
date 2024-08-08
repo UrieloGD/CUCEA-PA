@@ -3,22 +3,9 @@ header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "pa";
+include 'db.php';
 
-// Crear la conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die(json_encode(['status' => 'error', 'message' => "La conexión ha fallado: " . $conn->connect_error]));
-}
-
-// Verificar si se recibieron los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Obtener datos del formulario
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
     $fechIn = $_POST['FechIn'];
@@ -30,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $notif = $_POST['notificacion'];
     $horNotif = $_POST['HorNotif'];
 
-    // Calculo de la notificación
-    $fechaInicio = new DateTime($fechIn);
+    // Cálculo de la notificación
+    $fechaInicio = new DateTime($fechIn . ' ' . $horIn);
     $fechaNotificacion = null;
 
     switch ($notif) {
@@ -51,21 +38,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $fechaNotificacion = clone $fechaInicio;
             $fechaNotificacion->modify('-1 week');
             break;
+        case 'Sin notificación':
+            $fechaNotificacion = null;
+            break;
     }
 
     // Insertar datos en la tabla eventos_admin
-    $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, notificaciones, Hora_Noti)
-    VALUES ('$nombre', '$descripcion', '$fechIn', '$fechFi', '$horIn', '$horFi', '$etiqueta', '$participantes', '$notif', '$horNotif')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo json_encode(['status' => 'success', 'message' => 'Nuevo registro creado con éxito']);
+    $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("ssssssssss", $nombre, $descripcion, $fechIn, $fechFi, $horIn, $horFi, $etiqueta, $participantes, $notif, $horNotif);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Nuevo evento creado con éxito']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error: ' . $sql . '<br>' . $conn->error]);
+        echo json_encode(['status' => 'error', 'message' => 'Error al crear el evento: ' . $stmt->error]);
     }
+
+    $stmt->close();
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Método de solicitud no válido']);
 }
 
-// Cerrar la conexión
-$conn->close();
+$conexion->close();
 ?>

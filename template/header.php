@@ -14,31 +14,38 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
   $dbname = "pa";
   $conn = mysqli_connect($servername, $username, $password, 'PA');
 
-  if ($rol_id == 2) {
-    // Consulta para secretaría administrativa (mantén la consulta existente)
+  if ($rol_id == 2) { // Secretaría administrativa
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
-                   d.Departamentos, u.Nombre, u.Apellido, 
-                   j.Notificacion_Vista AS vista
+                   d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
+                   j.Notificacion_Vista AS vista, u.Codigo AS Emisor_ID
             FROM Justificaciones j
             JOIN Departamentos d ON j.Departamento_ID = d.Departamento_ID
             JOIN Usuarios u ON j.Codigo_Usuario = u.Codigo
             WHERE j.Justificacion_Enviada = 1
             UNION ALL
             SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, 
-                   d.Departamentos, u.Nombre, u.Apellido, 
-                   p.Notificacion_Vista AS vista
+                   d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
+                   p.Notificacion_Vista AS vista, u.Codigo AS Emisor_ID
             FROM Plantilla_Dep p
             JOIN Departamentos d ON p.Departamento_ID = d.Departamento_ID
             JOIN Usuarios u ON p.Usuario_ID = u.Codigo
+            UNION ALL
+            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, 
+                   '' AS Departamentos, e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID,
+                   n.Vista AS vista, n.Emisor_ID
+            FROM Notificaciones n
+            JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+            WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
             ORDER BY fecha DESC
             LIMIT 10";
-  } else {
-    // Consulta para jefes de departamento
-    $query = "SELECT Tipo AS tipo, ID AS id, Fecha AS fecha, Mensaje, Vista AS vista
-                  FROM Notificaciones
-                  WHERE Usuario_ID = " . $_SESSION['Codigo'] . "
-                  ORDER BY Fecha DESC
-                  LIMIT 10";
+  } else if ($rol_id == 1) { // Jefe de departamento
+    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
+              e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
+          FROM Notificaciones n
+          JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+          WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
+          ORDER BY n.Fecha DESC
+          LIMIT 10";
   }
 
   $result = mysqli_query($conn, $query);
@@ -204,22 +211,36 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
           <?php foreach ($notificaciones as $notificacion) : ?>
             <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
               <div class="imagen">
-                <div class="circulo"></div>
+                <?php if (isset($notificacion['Nombre']) && isset($notificacion['Apellido']) && isset($notificacion['IconoColor'])) : ?>
+                  <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
+                    <?php
+                    $nombreInicial = strtoupper(substr($notificacion['Nombre'], 0, 1));
+                    $apellidoInicial = strtoupper(substr($notificacion['Apellido'], 0, 1));
+                    echo $nombreInicial . $apellidoInicial;
+                    ?>
+                  </div>
+                <?php else : ?>
+                  <div class="circulo-notificaciones" style="background-color: #ccc;">
+                    <span>SA</span>
+                  </div>
+                <?php endif; ?>
               </div>
               <div class="info-notificacion">
                 <?php if ($rol_id == 2) : ?>
-                  <div class="usuario"><?php echo $notificacion['Departamentos']; ?></div>
+                  <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Secretaría Administrativa'; ?></div>
                   <div class="descripcion">
                     <?php
                     if ($notificacion['tipo'] == 'justificacion') {
-                      echo $notificacion['Nombre'] . ' ' . $notificacion['Apellido'] . ' ha enviado una justificación';
+                      echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha enviado una justificación';
+                    } elseif ($notificacion['tipo'] == 'plantilla') {
+                      echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
                     } else {
-                      echo $notificacion['Nombre'] . ' ' . $notificacion['Apellido'] . ' ha subido su Base de Datos';
+                      echo $notificacion['Mensaje'] ?? 'Nueva notificación';
                     }
                     ?>
                   </div>
                 <?php else : ?>
-                  <div class="descripcion"><?php echo $notificacion['Mensaje']; ?></div>
+                  <div class="descripcion"><?php echo $notificacion['Mensaje'] ?? 'Nueva notificación'; ?></div>
                 <?php endif; ?>
                 <div class="fecha-hora">
                   <?php echo date('d/m/Y H:i:s', strtotime($notificacion['fecha'])); ?>

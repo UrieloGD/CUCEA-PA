@@ -1,5 +1,6 @@
 <?php
 include '../config/db.php';
+include './email_functions.php';
 session_start();
 date_default_timezone_set('America/Mexico_City');
 
@@ -24,6 +25,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_query($conexion, $sql)) {
             error_log("Inserción en la base de datos exitosa");
+
+            // Obtener el correo del jefe de departamento
+            $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
+                 FROM Usuarios u 
+                 JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID 
+                 JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
+            $stmt = mysqli_prepare($conexion, $sql_jefe);
+            mysqli_stmt_bind_param($stmt, "i", $departamento_id);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $jefe = mysqli_fetch_assoc($result);
+
+            if ($jefe) {
+                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['Departamentos']}.";
+
+
+                // Insertar notificación en la tabla Notificaciones
+                $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                                     VALUES ('plantilla', ?, ?, ?)";
+                $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
+                mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $_SESSION['Codigo']);
+                mysqli_stmt_execute($stmt_notificacion);
+
+                // Enviar correo electrónico
+                $asunto = "Nueva plantilla subida - Programación Académica";
+                $cuerpo = "
+                <html>
+                <body>
+                    <h2>Nueva plantilla subida</h2>
+                    <p>{$mensaje}</p>
+                    <p>Nombre del archivo: {$nombre_archivo_dep}</p>
+                    <p>Fecha de subida: {$fecha_subida_dep}</p>
+                    <p>Por favor, ingrese al sistema para más detalles.</p>
+                </body>
+                </html>
+                ";
+
+                if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
+                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
+                } else {
+                    error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
+                }
+
+                error_log("Notificación creada para el jefe del departamento {$jefe['Departamentos']}");
+            } else {
+                error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
+            }
+
             echo 'success';
             exit();
         } else {
@@ -43,4 +93,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 mysqli_close($conexion);
-?>

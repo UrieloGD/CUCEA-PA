@@ -1,83 +1,135 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-}
+/* CSS del cuadro principal */
 
 .cuadro-principal {
     background-color: white;
     border-radius: 20px;
     width: 92vw;
     height: 90vh;
-    margin: 1vh 2vw 2vh 6vw;
-    overflow: auto;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: auto; /* Para que el contenido adicional no desborde */
     display: flex;
     flex-direction: column;
-}
-
-.encabezado {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+  
+  /* Encabezado */
+  .encabezado {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-}
-
-.titulo-bd {
+  }
+  
+  .encabezado h3 {
+    margin: 0;
+  }
+  
+  .titulo-bd {
     color: #fff;
     width: 30vw;
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 0 0 20px 20px;
+    border-radius: 0px 0px 20px 20px;
     background-color: #0071b0;
-}
+  }
 
+  /* Aquí inicia el código */
+
+/* Cuadro de actividades y eventos */  
 .calendar-container {
     display: flex;
     margin-top: 20px;
     padding: 0 20px;
+    margin-left: 40px;
 }
 
 .left-column {
-    width: 30%;
-    padding-right: 20px;
+    width: 30%; /* tamaño del cuadro "hoy" y su contenido*/
+    padding-right: 20px; 
+    border-color: #0071B0;
+    overflow-y: auto;
 }
 
 .right-column {
-    width: 70%;
+    width: 70%; /* tamaño calendario y barra */
+    padding-left: 10px;
+    
 }
 
 .header-calendar {
-    background-color: #0071b0;
+    background-color: white;
+    color: black;
+    border-radius: 15px;
+    border-style: solid;
+    border-color: #0071B0;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+
+.hoy {
+    text-align: center;
     color: white;
-    padding: 15px;
-    border-radius: 10px;
+    background-color: #0071b0;
+    border: 2px solid #0071B0;
+    border-radius: 10px 10px 0 0; /* bordes cuadro azul "hoy"*/
 }
 
 .countdown {
     text-align: center;
-    padding: 10px;
+    padding: 0 10px;
+    margin: 0;
+}
+
+.timer-label {
+    font-size: medium;
+    color: black; 
 }
 
 .timer {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 10px; /* Espacio entre los elementos del timer */
+    margin-top: 5px;
+}
+
+.timer-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .timer-box {
-    background-color: #f8f9fa;
-    color: #0071b0;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #E7E9F2;
+    color: black;
+    font-size: x-large;
+    font-display: bold;
+    padding: 12px 12px;
+    min-width: 40px;
+    text-align: center;
+    margin-bottom: 5px; /* Espacio entre el número y la etiqueta */
 }
 
-.activities, .events {
-    margin-top: 20px;
+.activities {
+    padding: 0 18px;
+    margin: 0;
 }
+
+.events {
+    padding: 0 18px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
 
 .activity, .event {
     margin-bottom: 10px;
@@ -85,19 +137,43 @@ body {
     border-left: 4px solid;
 }
 
+
 .activity {
-    border-color: #ffc107;
+    border-color: #FFC700;
 }
 
 .activity:last-child {
-    border-color: #28a745;
+    border-color: #49B053;
 }
 
 .event {
-    background-color: #f8f9fa;
+    display: flex;
+    padding: 0 0 0 0;
+    margin-bottom: 10px;
     border-radius: 5px;
+    overflow: hidden;
+    gap: 10px;
+    text-align: justify;
 }
 
+.event-time {
+    background-color: #E7E9F2;
+    color: black;
+    padding: 0px 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px; /* Ajusta este valor según tus necesidades */
+}
+
+.event-description {
+    background-color: #E7E9F2;
+    padding: 0px 10px;
+    flex-grow: 1;
+}
+
+/* Barra de la fecha */
 .date-bar {
     background-color: #0071B0;
     color: white;
@@ -106,6 +182,12 @@ body {
     align-items: center;
     padding: 10px 15px;
     border-radius: 10px 10px 0 0;
+    margin-bottom: 20px;
+    margin-right: 38px;
+    -webkit-border-radius: 10px 10px 0 0;
+    -moz-border-radius: 10px 10px 0 0;
+    -ms-border-radius: 10px 10px 0 0;
+    -o-border-radius: 10px 10px 0 0;
 }
 
 .date-selector {
@@ -144,24 +226,84 @@ body {
     padding: 0 5px;
 }
 
+/* Calendario */ 
 .calendar-table {
-    width: 100%;
+    width: 96.3%; /* tamaño tabla */
     border-collapse: collapse;
 }
 
 .calendar-table th, .calendar-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    border: 1px solid #E7E9F2;
+    padding: 28px; /* tamaño cuadros calendario */
     text-align: center;
+    font-size: medium;
 }
 
 .calendar-table th {
-    background-color: #0077be;
-    color: white;
+    background-color: white;
+    color: black;
+    font-size: large;
+    font-style: bold;
 }
 
 .calendar-table td:hover {
     background-color: #f5f5f5;
+}
+
+.calendar-table td.highlighted-day {
+    background-color: #0071B0;
+    color: white;
+    border-radius: 80%;
+    -webkit-border-radius: 80%;
+    -moz-border-radius: 80%;
+    -ms-border-radius: 80%;
+    -o-border-radius: 80%;
+}
+
+.calendar-table th, .calendar-table td {
+    border: 1px solid #E7E9F2;
+    padding: 5px;
+    text-align: center;
+    font-size: medium;
+    width: 80px; /* Tamaño de las celdas */
+    height: 80px; /* Tamaño de las celdas */
+    position: relative;
+}
+
+.calendar-table td.day-with-event {
+    position: relative;
+}
+
+.calendar-table td .event-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    color: black;
+    font-size: 8px;
+    padding: 1px 2px;
+    border-radius: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.calendar-table td .event-indicator.yellow {
+    background-color: #FFC700;
+    color: white;
+}
+
+.calendar-table td .event-indicator.green {
+    background-color: #49B053;
+    color: white;
+}
+
+.calendar-table td.multiple-events .event-indicator:nth-child(2) {
+    bottom: 18px; /* Ajusta este valor según sea necesario */
+}
+
+.calendar-table td.multiple-events {
+    font-size: smaller; /* Opcional: reduce el tamaño del número del día para dar más espacio */
 }
 
 @media (max-width: 768px) {
@@ -176,5 +318,20 @@ body {
     .left-column {
         padding-right: 0;
         margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .timer {
+        flex-wrap: wrap;
+    }
+    
+    .timer-item {
+        flex-basis: 50%;
+    }
+    
+    .calendar-table th, .calendar-table td {
+        padding: 5px;
+        font-size: smaller;
     }
 }

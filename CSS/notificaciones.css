@@ -140,12 +140,16 @@
     flex-shrink: 0; /* Para que el contenedor no se achique */
 }
 
-.circulo {
+.circulo-notificaciones {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #007bff;
-    /* Aquí es donde se agregarán las imágenes de fondo o íconos */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .info-notificacion {

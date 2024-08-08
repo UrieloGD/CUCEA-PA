@@ -86,20 +86,19 @@ function processFile(file) {
   const validExtensions = ["xlsx", "xls"];
 
   if (validExtensions.includes(fileExtension)) {
-    //archivo válido
     const fileReader = new FileReader();
     const id = `file-${Math.random().toString(32).substring(7)}`;
 
     fileReader.addEventListener("load", (e) => {
       const filePreview = `
-                <div id="${id}" class="file-container">
-                    <div class="status">
-                        <span>${file.name}</span>
-                        <span class="status-text">Listo para subir</span>
-                    </div>
-                    <button class="cancel-btn" onclick="cancelUpload('${id}')">Cancelar</button>
-                </div>
-            `;
+        <div id="${id}" class="file-container">
+          <div class="status">
+            <span>${file.name}</span>
+            <span class="status-text">Listo para subir</span>
+          </div>
+          <button class="cancel-btn" onclick="cancelUpload('${id}')">Cancelar</button>
+        </div>
+      `;
       const html = document.querySelector("#preview").innerHTML;
       document.querySelector("#preview").innerHTML = filePreview + html;
     });
@@ -107,12 +106,22 @@ function processFile(file) {
     fileReader.readAsDataURL(file);
     filesToUpload.push({ file, id });
   } else {
-    //No válido
     Swal.fire({
       icon: "error",
       title: "Archivo no válido",
       text: "Asegúrate de subir solamente archivos con extensión .xls y .xlsx",
     });
+  }
+}
+
+function cancelUpload(id) {
+  // Eliminar el archivo de filesToUpload
+  filesToUpload = filesToUpload.filter(item => item.id !== id);
+  
+  // Eliminar la vista previa del archivo
+  const fileContainer = document.getElementById(id);
+  if (fileContainer) {
+    fileContainer.remove();
   }
 }
 
