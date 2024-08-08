@@ -26,6 +26,12 @@ $departamento = $data['departamento'];
 $genero = $data['genero'];
 $password = $data['password'];
 
+// Generar un salt aleatorio
+$salt = bin2hex(random_bytes(16));
+
+// Hashear la contraseña con SHA256 y el salt
+$hashedPassword = hash('sha256', $salt . $password);
+
 // Verificar si el código ya existe
 $check_sql = "SELECT Codigo FROM Usuarios WHERE Codigo = ?";
 $check_stmt = $conn->prepare($check_sql);
@@ -40,9 +46,9 @@ if ($check_result->num_rows > 0) {
 $check_stmt->close();
 
 // Insertar el usuario en la tabla Usuarios
-$sql = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Salt, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("issssss", $codigo, $nombre, $apellido, $correo, $password, $genero, $rol);
+$stmt->bind_param("isssssss", $codigo, $nombre, $apellido, $correo, $hashedPassword, $salt, $genero, $rol);
 
 if ($stmt->execute()) {
     // Insertar la relación usuario-departamento en la tabla Usuarios_Departamentos
