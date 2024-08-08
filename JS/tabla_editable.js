@@ -108,7 +108,6 @@ function makeEditable() {
 }
 
 function updateCell(cell) {
-
     if (!cell.hasAttribute('data-original-value')) {
         cell.setAttribute('data-original-value', cell.textContent.trim());
     }
@@ -121,14 +120,38 @@ function updateCell(cell) {
     const range = selection.getRangeAt(0);
     const cursorPosition = range.startOffset;
 
-    // Convertir a mayúsculas
-    let newText = cell.textContent.toUpperCase();
-    
+    let newText = cell.textContent;
+
+    // Validar el tipo de datos por columna
+    switch (columnName) {
+        case 'CICLO':
+        case 'CRN':
+        case 'C_MIN':
+        case 'H_TOTALES':
+        case 'CODIGO_PROFESOR':
+        case 'CODIGO_DESCARGA':
+        case 'HORAS':
+        case 'CODIGO_DEPENDENCIA':
+        case 'HORA_INICIAL':
+        case 'HORA_FINAL':
+        case 'CUPO':
+            newText = newText.replace(/\D/g, ''); // Permitir solo dígitos
+            break;
+        case 'FECHA_INICIAL':
+        case 'FECHA_FINAL':
+            // No modificar el texto, se manejará con un calendario
+            break;
+        default:
+            // Convertir a mayúsculas
+            newText = newText.toUpperCase();
+            break;
+    }
+
     // Limitar la longitud
     if (newText.length > maxLength) {
         newText = newText.slice(0, maxLength);
     }
-    
+
     // Actualizar el contenido de la celda
     cell.textContent = newText;
 
@@ -137,7 +160,7 @@ function updateCell(cell) {
     range.setEnd(cell.firstChild, Math.min(cursorPosition, newText.length));
     selection.removeAllRanges();
     selection.addRange(range);
-    
+
     cell.style.backgroundColor = '#FFFACD';
     changedCells.add(cell);
     showSaveButton();
