@@ -85,7 +85,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   <h2>Plantilla</h2>
 </div> -->
 
-<div class="fechalimite">
+  <div class="fechalimite">
     <span>La fecha límite actual es <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></span>
   </div>
 
@@ -180,6 +180,60 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
         modal.style.display = 'none';
       }
     }
+  </script>
+
+  <script>
+    document.getElementById('fechaLimiteForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Mostrar Sweet Alert de procesamiento
+      Swal.fire({
+        title: 'Procesando...',
+        html: 'Por favor espere mientras se actualiza la fecha límite.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      var formData = new FormData(this);
+
+      fetch('./config/updateFechaLimite.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+          Swal.close();
+          if (data.includes("Location: ../data_departamentos.php?success=1")) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Fecha límite actualizada',
+              text: 'La fecha límite se ha actualizado correctamente.',
+              confirmButtonText: 'Aceptar'
+            }).then(() => {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un problema al actualizar la fecha límite.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        })
+        .catch(error => {
+          Swal.close();
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al procesar la solicitud.',
+            confirmButtonText: 'Aceptar'
+          });
+          console.error('Error:', error);
+        });
+    });
   </script>
 
   <style>

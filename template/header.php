@@ -271,6 +271,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
 <script src="./JS/header.js"></script>
 <script src="./JS/barra-notificaciones.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- actualizar fecha y hora en tiempo real -->
 <script>
