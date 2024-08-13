@@ -19,6 +19,8 @@ if ($conn->query($dbname) == TRUE) {
 
 mysqli_select_db($conn, "PA");
 
+include('./tabla_espacios.php');
+
 // Crear tabla Roles
 $sql = "CREATE TABLE IF NOT EXISTS Roles (
     Rol_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -301,59 +303,6 @@ if (mysqli_query($conn, $sql)) {
 } else {
     echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conn);
 }
-
-
-// Crear tabla Data_Plantilla
-// $sql = "CREATE TABLE IF NOT EXISTS Data_Plantilla (
-//     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
-//     CICLO VARCHAR(10) NOT NULL,
-//     CRN VARCHAR(15) NOT NULL,
-//     MATERIA VARCHAR(80) NOT NULL,
-//     CVE_MATERIA VARCHAR(5) NOT NULL,
-//     SECCION VARCHAR(5) NOT NULL,
-//     NIVEL VARCHAR(25) NOT NULL,
-//     NIVEL_TIPO VARCHAR(25) NOT NULL,
-//     TIPO VARCHAR(1) NOT NULL,
-//     C_MIN VARCHAR(2) NOT NULL,
-//     H_TOTALES VARCHAR(2) NOT NULL,
-//     ESTATUS VARCHAR(10) NOT NULL,
-//     TIPO_CONTRATO VARCHAR(30) NOT NULL,
-//     CODIGO_PROFESOR VARCHAR(9) NOT NULL,
-//     NOMBRE_PROFESOR VARCHAR(60) NOT NULL,
-//     CATEGORIA VARCHAR(40) NOT NULL,
-//     DESCARGA VARCHAR(2) NOT NULL,
-//     CODIGO_DESCARGA VARCHAR(9) NOT NULL,
-//     NOMBRE_DESCARGA VARCHAR(60) NOT NULL,
-//     NOMBRE_DEFINITIVO VARCHAR(60) NOT NULL,
-//     TITULAR VARCHAR(2) NOT NULL,
-//     HORAS VARCHAR(1) NULL,
-//     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
-//     L VARCHAR(5) NULL,
-//     M VARCHAR(5) NULL,
-//     I VARCHAR(5) NULL,
-//     J VARCHAR(5) NULL,
-//     V VARCHAR(5) NULL,
-//     S VARCHAR(5) NULL,
-//     D VARCHAR(5) NULL,
-//     DIA_PRESENCIAL VARCHAR(10) NULL,
-//     DIA_VIRTUAL VARCHAR(10) NULL,
-//     MODALIDAD VARCHAR(10) NULL,
-//     FECHA_INICIAL VARCHAR(10) NULL,
-//     FECHA_FINAL VARCHAR(10) NULL,
-//     HORA_INICIAL CHAR(10) NULL,
-//     HORA_FINAL CHAR(10) NULL,
-//     MODULO VARCHAR(10) NULL,
-//     AULA CHAR(10) NULL,
-//     CUPO VARCHAR (3) NOT NULL,
-//     OBSERVACIONES VARCHAR(150) NULL,
-//     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-//     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
-// )";
-// if (mysqli_query($conn, $sql)) {
-//     echo "<br>Tabla Data_Plantilla creada exitosamente";
-// } else {
-//     echo "<br>Error creando tabla Data_Plantilla: " . mysqli_error($conn) . "<br>";
-// }
 
 // Crear tabla Data_Estudios_Regionales
 $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
