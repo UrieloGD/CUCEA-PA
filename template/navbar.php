@@ -103,6 +103,36 @@ function generateColorForUser($userId)
                     <span class="link-text">Inicio</span>
                 </a>
             </li>
+
+            <li class="navbar-item flexbox-left">
+                <?php
+                    // Redirigir según el rol del usuario
+                    if ($rol_id == 1) {
+                        // Si el usuario es jefe de departamento, redirigir a subir plantilla
+                        if (isset($_SESSION['Nombre_Departamento'])) {
+                            // Obtener el nombre del departamento desde la sesión
+                            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+                            echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>";
+                        } else {
+                            // Manejar el caso en que no se encuentre asociado a ningún departamento
+                            echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                        }
+                    } elseif ($rol_id == 2) {
+                        // Si el usuario es secretaria administrativa, redirigir a plantillasPA
+                        echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
+                    } else {
+                        // Otros roles o manejo de errores aquí
+                        echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
+                    }
+                ?>
+                <div class="navbar-item-inner-icon-wrapper flexbox">
+                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                </div>
+                <span class="link-text">Plantilla</span>
+                </a>
+            </li>
+
             <li class="navbar-item flexbox-left">
                 <?php
                 // Redirigir según el rol del usuario
@@ -131,6 +161,17 @@ function generateColorForUser($userId)
                 <span class="link-text">Bases de datos</span>
                 </a>
             </li>
+
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="./espacios.php">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                    </div>
+                    <span class="link-text">Espacios</span>
+                </a>
+            </li>
+
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./dashboard_oferta.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -140,44 +181,7 @@ function generateColorForUser($userId)
                     <span class="link-text">Oferta</span>
                 </a>
             </li>
-            <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="#">
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Espacios</span>
-                </a>
-            </li>
-            <li class="navbar-item flexbox-left">
 
-                <?php
-                // Redirigir según el rol del usuario
-                if ($rol_id == 1) {
-                    // Si el usuario es jefe de departamento, redirigir a subir plantilla
-                    if (isset($_SESSION['Nombre_Departamento'])) {
-                        // Obtener el nombre del departamento desde la sesión
-                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
-                        echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>";
-                    } else {
-                        // Manejar el caso en que no se encuentre asociado a ningún departamento
-                        echo "<a class='navbar-item-inner flexbox-left' href='#'>";
-                    }
-                } elseif ($rol_id == 2) {
-                    // Si el usuario es secretaria administrativa, redirigir a plantillasPA
-                    echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
-                } else {
-                    // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
-                }
-                ?>
-                <div class="navbar-item-inner-icon-wrapper flexbox">
-                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
-                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                </div>
-                <span class="link-text">Plantilla</span>
-                </a>
-            </li>
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./guiaPA.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">

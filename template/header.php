@@ -106,13 +106,13 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             Bases de Datos</a>
           </li>
           <li>
-            <a href="dashboard_oferta.php">
+            <a href="./dashboard_oferta.php">
               <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" alt="">
               <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" alt="">
               Oferta</a>
           </li>
           <li>
-            <a href="#">
+            <a href="./espacios.php">
               <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" alt="">
               <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" alt="">
               Espacios</a>
