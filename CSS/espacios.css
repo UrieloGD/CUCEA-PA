@@ -1,0 +1,102 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.encabezado h3 {
+    margin: 0;
+}
+
+.titulo-bd {
+    color: #fff;
+    width: 30vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #0071b0;
+}
+
+/* Aquí empieza el código de Espacios */
+
+/* css de texto y desplegables */
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+}
+
+.filtro label {
+    margin-bottom: 5px;
+}
+
+.filtro select, .filtro input {
+    padding: 5px;
+    background-color: #D9EDF6;
+    border: 1px solid #D9EDF6;
+    border-radius: 4px;
+}
+
+/* Aquí empieza el código del Edificio */
+.edificio {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.piso {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.aula {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* Colores según el tipo de aula */
+.aula-ocupada { background-color: #A9A9A9; }
+.laboratorio { background-color: #90EE90; }
+.laboratorio-ocupado { background-color: #2E8B57; }
+.bodega { background-color: #DEB887; }
+.administrativo { background-color: #FFD700; }
