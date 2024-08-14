@@ -50,7 +50,7 @@ include './template/navbar.php';
                 </div>
                 <?php
                 // Consultar eventos futuros del usuario
-                $sql = "SELECT Nombre_Evento, Fecha_Inicio AS Fecha_Evento, Descripcion_Evento AS Descripcion 
+                $sql = "SELECT Nombre_Evento, Fecha_Inicio AS Fecha_Evento, Descripcion_Evento AS Descripcion, Etiqueta, Hora_Inicio
         FROM Eventos_Admin 
         WHERE Fecha_Inicio >= CURDATE() AND FIND_IN_SET('$userId', Participantes)";
 
@@ -65,7 +65,8 @@ include './template/navbar.php';
                             // Mostrar los eventos futuros
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo '<li>';
-                                echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . ':</strong> ' . '<br>';
+                                echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . ':</strong> ';
+                                echo '<i>' . htmlspecialchars($row['Etiqueta']) . '.</i> ' . '<br>';
                                 echo htmlspecialchars($row['Descripcion']) . '<br>';
                                 echo htmlspecialchars($row['Fecha_Evento']);
                                 echo '</li>';
@@ -126,12 +127,12 @@ include './template/navbar.php';
 
                         // Consultar eventos para este día y usuario
                         $fechaActual = "$year-$month-$day";
-                        $sqlEventos = "SELECT Nombre_Evento FROM Eventos_Admin WHERE '$fechaActual' BETWEEN Fecha_Inicio AND Fecha_Fin AND FIND_IN_SET('$userId', Participantes)";
+                        $sqlEventos = "SELECT ID_Evento, Nombre_Evento, Etiqueta, Descripcion_Evento, DATE(Fecha_Inicio) AS Fecha_Evento, TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio FROM Eventos_Admin WHERE '$fechaActual' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
                         $resultEventos = mysqli_query($conexion, $sqlEventos);
                         if (mysqli_num_rows($resultEventos) > 0) {
                             $class = 'day-with-event';
                             while ($rowEvento = mysqli_fetch_assoc($resultEventos)) {
-                                $events .= "<span class='event-indicator yellow'>{$rowEvento['Nombre_Evento']}</span>";
+                                $events .= "<span class='event-indicator yellow' data-event-id='{$rowEvento['ID_Evento']}'>{$rowEvento['Nombre_Evento']}</span>";
                             }
                         }
 
@@ -209,8 +210,72 @@ include './template/navbar.php';
             }
             updateCalendar(currentMonth, currentYear);
         });
+
+        // Modal
+        const modal = document.getElementById('eventModal');
+        const span = document.getElementsByClassName("close")[0];
+
+        // Cerrar el modal cuando se hace clic en la X
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Cerrar el modal cuando se hace clic fuera de él
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Función para abrir el modal y cargar la información del evento
+        function openEventModal(eventId) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `get_event_details.php?event_id=${eventId}`, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const eventDetails = JSON.parse(xhr.responseText);
+                    console.log('Event Details:', eventDetails); // Para depuración
+                    document.getElementById('eventTitle').textContent = eventDetails.Nombre_Evento;
+                    document.getElementById('eventTag').textContent = eventDetails.Etiqueta;
+                    document.getElementById('eventDescription').textContent = eventDetails.Descripcion_Evento;
+                    document.getElementById('eventDate').textContent = eventDetails.Fecha_Evento;
+                    document.getElementById('eventTime').textContent = eventDetails.Hora_Inicio;
+                    modal.style.display = "block";
+                }
+            };
+            xhr.send();
+        }
+
+        // Delegación de eventos para los indicadores de eventos
+        document.querySelector('.calendar').addEventListener('click', function(e) {
+            if (e.target.classList.contains('event-indicator')) {
+                const eventId = e.target.getAttribute('data-event-id');
+                openEventModal(eventId);
+            }
+        });
     });
 </script>
+
+<!-- Modal -->
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2 id="eventTitle"></h2>
+        </div>
+        <div class="modal-body">
+            <div class="event-time">
+                <span id="eventDate"></span> • <span id="eventTime"></span>
+            </div>
+            <div class="event-location">
+                <span id="eventTag"></span>
+            </div>
+            <div class="event-description">
+                <p id="eventDescription"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 
