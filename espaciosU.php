@@ -30,27 +30,7 @@
         </select>
         <button id="tiempoReal">Tiempo real</button>
     </div>
-    
-    <div id="edificio-container">
-        <div class="piso piso-3">
-            <!-- Aulas del tercer piso -->
-        </div>
-        <div class="piso piso-2">
-            <!-- Aulas del segundo piso -->
-        </div>
-        <div class="piso piso-1">
-            <!-- Aulas del primer piso -->
-        </div>
-    </div>
-    
-    <div class="leyenda">
-        <div class="leyenda-item"><span class="color aula"></span> Aula</div>
-        <div class="leyenda-item"><span class="color aula-ocupada"></span> Aula ocupada</div>
-        <div class="leyenda-item"><span class="color laboratorio"></span> Laboratorio</div>
-        <div class="leyenda-item"><span class="color laboratorio-ocupado"></span> Laboratorio ocupado</div>
-        <div class="leyenda-item"><span class="color bodega"></span> Bodega</div>
-        <div class="leyenda-item"><span class="color administrativo"></span> Administrativo</div>
-    </div>
-</div>
 
 <?php include './template/footer.php' ?>
+
+<script src="./JS/espacios/espacios.js"></script>
