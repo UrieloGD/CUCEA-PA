@@ -59,23 +59,22 @@ include './template/navbar.php';
 
                 <div class="events">
                     <h3>Eventos próximos</h3>
-                    <ul>
+                    <div class="events-list">
                         <?php
                         if ($result && mysqli_num_rows($result) > 0) {
-                            // Mostrar los eventos futuros
                             while ($row = mysqli_fetch_assoc($result)) {
-                                echo '<li>';
-                                echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . ':</strong> ';
-                                echo '<i>' . htmlspecialchars($row['Etiqueta']) . '.</i> ' . '<br>';
-                                echo htmlspecialchars($row['Descripcion']) . '<br>';
-                                echo htmlspecialchars($row['Fecha_Evento']);
-                                echo '</li>';
+                                echo '<div class="event-item">';
+                                echo '<div class="event-date">' . htmlspecialchars($row['Hora_Inicio']) . '</div>';
+                                echo '<div class="event-content">';
+                                echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . '</strong>';
+                                echo '</div>';
+                                echo '</div>';
                             }
                         } else {
-                            echo '<li>No tienes eventos próximos.</li>';
+                            echo '<div class="event-item">No tienes eventos próximos.</div>';
                         }
                         ?>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,13 +216,23 @@ include './template/navbar.php';
 
         // Cerrar el modal cuando se hace clic en la X
         span.onclick = function() {
-            modal.style.display = "none";
+            modal.classList.remove('show');
+            modal.classList.add('hide');
+            setTimeout(function() {
+                modal.style.display = "none";
+                modal.classList.remove('hide');
+            }, 300); // tiempo que dura la transición
         }
 
         // Cerrar el modal cuando se hace clic fuera de él
         window.onclick = function(event) {
             if (event.target == modal) {
-                modal.style.display = "none";
+                modal.classList.remove('show');
+                modal.classList.add('hide');
+                setTimeout(function() {
+                    modal.style.display = "none";
+                    modal.classList.remove('hide');
+                }, 300); // tiempo que dura la transición
             }
         }
 
@@ -240,7 +249,11 @@ include './template/navbar.php';
                     document.getElementById('eventDescription').textContent = eventDetails.Descripcion_Evento;
                     document.getElementById('eventDate').textContent = eventDetails.Fecha_Evento;
                     document.getElementById('eventTime').textContent = eventDetails.Hora_Inicio;
+
                     modal.style.display = "block";
+                    setTimeout(function() {
+                        modal.classList.add('show');
+                    }, 10); // Delay pequeño para activar la transición
                 }
             };
             xhr.send();

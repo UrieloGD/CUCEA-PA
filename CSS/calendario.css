@@ -122,9 +122,52 @@
 }
 
 .events {
-    padding: 0 18px;
+    padding: 0;
     margin: 0;
+}
+
+.events h3 {
+    padding: 0 18px;
     margin-bottom: 10px;
+    text-align: center;
+}
+
+.events-list {
+    padding: 0 18px;
+}
+
+.event-item {
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.event-date {
+    background-color: #E7E9F2;
+    padding: 10px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    margin-right: 10px; /* Añade margen a la derecha */
+}
+
+.event-content {
+    padding: 10px;
+    flex-grow: 1;
+    background-color: #E7E9F2;
+    border-radius: 0 5px 5px 0; /* Redondea las esquinas del lado derecho */
+}
+
+.event-content strong {
+    display: block;
+}
+
+.event-content strong {
+    display: block;
 }
 
 .activity, .event {
@@ -378,6 +421,8 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .modal-content {
@@ -390,6 +435,27 @@
     box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
     border-radius: 8px;
     overflow: hidden;
+    transform: translateY(-100px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content.show {
+    transform: translateY(0);
+}
+
+.modal-content.hide {
+    transform: translateY(-100px);
+    opacity: 0;
+}
+
+.modal.hide {
+    opacity: 0;
+    display: block; /* Para que se mantenga visible durante la transición */
 }
 
 .modal-header {
@@ -441,7 +507,6 @@
     margin-right: 8px;
     font-size: 20px;
 }
-
 .event-location {
     display: flex;
     align-items: center;
