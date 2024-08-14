@@ -51,11 +51,13 @@ include './template/navbar.php';
                 <?php
                 // Consultar eventos futuros del usuario
                 $sql = "SELECT Nombre_Evento, Fecha_Inicio AS Fecha_Evento, Descripcion_Evento AS Descripcion, Etiqueta, Hora_Inicio
-        FROM Eventos_Admin 
-        WHERE Fecha_Inicio >= CURDATE() AND FIND_IN_SET('$userId', Participantes)";
+                        FROM Eventos_Admin 
+                        WHERE Fecha_Inicio >= CURDATE() AND FIND_IN_SET('$userId', Participantes)";
 
                 $result = mysqli_query($conexion, $sql);
                 ?>
+
+                <hr>
 
                 <div class="events">
                     <h3>Eventos próximos</h3>
@@ -63,8 +65,12 @@ include './template/navbar.php';
                         <?php
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
+                                // Convertir la fecha al formato deseado
+                                $fecha = new DateTime($row['Fecha_Evento']);
+                                $fecha_formateada = $fecha->format('d/m/Y');
+
                                 echo '<div class="event-item">';
-                                echo '<div class="event-date">' . htmlspecialchars($row['Hora_Inicio']) . '</div>';
+                                echo '<div class="event-date">' . $fecha_formateada . '<br>' . ($row['Hora_Inicio']) . '</div>';
                                 echo '<div class="event-content">';
                                 echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . '</strong>';
                                 echo '</div>';
@@ -102,8 +108,6 @@ include './template/navbar.php';
                     $daysInMonth = date('t', $firstDay);
                     $dayOfWeek = date('w', $firstDay);
 
-                    // Día actual
-                    $today = date('j');
 
                     $calendar = "<table class='calendar-table'>";
                     $calendar .= "<tr><th>Do</th><th>Lu</th><th>Ma</th><th>Mi</th><th>Ju</th><th>Vi</th><th>Sa</th></tr>";
@@ -115,6 +119,11 @@ include './template/navbar.php';
                         $calendar .= "<td></td>";
                     }
 
+                    // Día actual
+                    $today = date('j');
+                    $currentMonth = date('n');
+                    $currentYear = date('Y');
+
                     while ($day <= $daysInMonth) {
                         if ($dayOfWeek == 7) {
                             $calendar .= "</tr><tr>";
@@ -124,6 +133,10 @@ include './template/navbar.php';
                         $class = '';
                         $events = '';
 
+                        if ($day == $today && $month == $currentMonth && $year == $currentYear) {
+                            $class .= ' current-day';
+                        }
+
                         // Consultar eventos para este día y usuario
                         $fechaActual = "$year-$month-$day";
                         $sqlEventos = "SELECT ID_Evento, Nombre_Evento, Etiqueta, Descripcion_Evento, DATE(Fecha_Inicio) AS Fecha_Evento, TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio FROM Eventos_Admin WHERE '$fechaActual' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
@@ -131,7 +144,7 @@ include './template/navbar.php';
                         if (mysqli_num_rows($resultEventos) > 0) {
                             $class = 'day-with-event';
                             while ($rowEvento = mysqli_fetch_assoc($resultEventos)) {
-                                $events .= "<span class='event-indicator yellow' data-event-id='{$rowEvento['ID_Evento']}'>{$rowEvento['Nombre_Evento']}</span>";
+                                $events .= "<span class='event-indicator lightblue' data-event-id='{$rowEvento['ID_Evento']}'>{$rowEvento['Nombre_Evento']}</span>";
                             }
                         }
 

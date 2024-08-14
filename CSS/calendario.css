@@ -410,6 +410,18 @@
     font-size: smaller;
 }
 
+.calendar-table td.current-day .date-number {
+    /* background-color: #0071B0; */
+    border-radius: 50%;
+    border: 1px solid #0071B0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
 /* Estilos para las funciones modales */
 .modal {
     display: none;
@@ -527,7 +539,13 @@
     border: none;
 }
 
+hr {
+    border: 1px solid #0071B0;
+  }
 
+  hr.actividades{
+    border: 1px solid #797979;
+  }
 
 @media (max-width: 768px) {
     .calendar-container {
