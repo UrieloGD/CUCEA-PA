@@ -122,9 +122,52 @@
 }
 
 .events {
-    padding: 0 18px;
+    padding: 0;
     margin: 0;
+}
+
+.events h3 {
+    padding: 0 18px;
     margin-bottom: 10px;
+    text-align: center;
+}
+
+.events-list {
+    padding: 0 18px;
+}
+
+.event-item {
+    display: flex;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.event-date {
+    background-color: #E7E9F2;
+    padding: 10px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    margin-right: 10px; /* Añade margen a la derecha */
+}
+
+.event-content {
+    padding: 10px;
+    flex-grow: 1;
+    background-color: #E7E9F2;
+    border-radius: 0 5px 5px 0; /* Redondea las esquinas del lado derecho */
+}
+
+.event-content strong {
+    display: block;
+}
+
+.event-content strong {
+    display: block;
 }
 
 .activity, .event {
@@ -306,6 +349,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    cursor: pointer;
 }
 
 .event-indicator {
@@ -317,6 +361,10 @@
     text-overflow: ellipsis;
     margin-bottom: 1px;
     width: 100%;
+}
+
+.event-indicator:hover {
+    background-color: #166623;
 }
 
 .calendar-table td .event-indicator.yellow {
@@ -361,6 +409,125 @@
 .calendar-table td.multiple-events {
     font-size: smaller;
 }
+
+/* Estilos para las funciones modales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    margin: 10% auto;
+    padding: 0;
+    border: none;
+    width: 90%;
+    max-width: 448px;
+    box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    transform: translateY(-100px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content.show {
+    transform: translateY(0);
+}
+
+.modal-content.hide {
+    transform: translateY(-100px);
+    opacity: 0;
+}
+
+.modal.hide {
+    opacity: 0;
+    display: block; /* Para que se mantenga visible durante la transición */
+}
+
+.modal-header {
+    background-color: #1a73e8;
+    color: white;
+    padding: 16px 24px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-body p {
+    margin: 0 0 16px 0;
+    color: #3c4043;
+}
+
+.modal-body strong {
+    color: #202124;
+}
+
+.close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -8px;
+}
+
+.close:hover,
+.close:focus {
+    color: #e8eaed;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.event-time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    border: none;
+}
+
+.event-time:before {
+    content: '\1F551'; /* Emoji de reloj */
+    margin-right: 8px;
+    font-size: 20px;
+}
+.event-location {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.event-location:before {
+    content: '\1F516'; /* Emoji para la etiqueta */
+    margin-right: 8px;
+    font-size: 20px;
+}
+
+.event-description {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #dadce0;
+    border-radius: 8px;
+    border: none;
+}
+
+
 
 @media (max-width: 768px) {
     .calendar-container {
