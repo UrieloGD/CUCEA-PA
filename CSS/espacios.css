@@ -1,0 +1,141 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.encabezado h3 {
+    margin: 0;
+}
+
+.titulo-bd {
+    color: #fff;
+    width: 30vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #0071b0;
+}
+
+/* Aquí empieza el código de Espacios */
+
+/* css de texto y desplegables */
+.filtros {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.filtro {
+    display: flex;
+    flex-direction: column;
+    margin: 0 15px 15px 15px;
+    min-width: 150px;
+}
+
+.filtro label {
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    color: black;
+    text-align: center;
+}
+
+.filtro select, .filtro input {
+    color: #0071b0;
+    padding: 5px;
+    background-color: #D9EDF6;
+    border: 1px solid #D9EDF6;
+    border-radius: 4px;
+}
+
+/* Aquí empieza el código del Edificio */
+
+.contenedor-principal {
+    display: flex;
+    width: 95%;
+    margin: 20px auto;
+    gap: 10px;
+}
+
+.columna-lateral {
+    width: 5%;
+    background-color: #0071b0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letra-piso {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.cuadro-grande {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.piso {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.numero-piso {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.salas {
+    display: flex;
+    gap: 5px;
+}
+
+.sala {
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+    flex-grow: 1;
+}
+
+.administrativo {
+    background-color: #FFE699;
+}
+
+.aula {
+    background-color: #BDD7EE;
+}
+
+.bodega {
+    background-color: #C6E0B4;
+}
