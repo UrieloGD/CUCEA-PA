@@ -56,7 +56,52 @@
 </div>
 
 <!-- Aquí empieza el código del Edificio -->
- 
+<div class="contenedor-principal">
+    <div class="columna-lateral izquierda">
+        <div class="letra-piso">A</div>
+    </div>
+
+    <div class="cuadro-grande">
+        <div class="piso">
+            <div class="numero-piso">Piso 3</div>
+            <div class="salas">
+                <div class="sala administrativo">A-309</div>
+                <div class="sala aula">A-308</div>
+                <div class="sala aula">A-307</div>
+                <div class="sala aula">A-306</div>
+                <div class="sala aula">A-305</div>
+                <div class="sala bodega">A-304</div>
+                <div class="sala aula">A-303</div>
+                <div class="sala aula">A-302</div>
+                <div class="sala aula">A-301</div>
+            </div>
+        </div>
+        <div class="piso">
+            <div class="numero-piso">Piso 2</div>
+            <div class="salas">
+                <div class="sala administrativo">A-206</div>
+                <div class="sala bodega">A-202</div>
+                <div class="sala aula">A-203</div>
+                <div class="sala administrativo">A-204</div>
+                <div class="sala administrativo">A-205</div>
+                <div class="sala administrativo">A-201</div>
+            </div>
+        </div>
+        <div class="piso">
+            <div class="numero-piso">Piso 1</div>
+            <div class="salas">
+                <div class="sala administrativo">A-204</div>
+                <div class="sala administrativo">A-203</div>
+                <div class="sala administrativo">A-202</div>
+                <div class="sala administrativo">A-201</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="columna-lateral derecha">
+        <div class="letra-piso">A</div>
+    </div>
+</div>
 
 <?php include './template/footer.php' ?>
 

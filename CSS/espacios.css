@@ -46,21 +46,30 @@
 /* css de texto y desplegables */
 .filtros {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: flex-start;
+    margin-top: 30px;
     margin-bottom: 20px;
     padding: 10px;
+    flex-wrap: wrap;
 }
 
 .filtro {
     display: flex;
     flex-direction: column;
+    margin: 0 15px 15px 15px;
+    min-width: 150px;
 }
 
 .filtro label {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    color: black;
+    text-align: center;
 }
 
 .filtro select, .filtro input {
+    color: #0071b0;
     padding: 5px;
     background-color: #D9EDF6;
     border: 1px solid #D9EDF6;
@@ -68,35 +77,65 @@
 }
 
 /* Aquí empieza el código del Edificio */
-.edificio {
+
+.contenedor-principal {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+    width: 95%;
+    margin: 20px auto;
+    gap: 10px;
 }
 
-.piso {
-    display: flex;
-    justify-content: space-between;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-.aula {
-    width: 50px;
-    height: 50px;
+.columna-lateral {
+    width: 5%;
+    background-color: #0071b0;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 12px;
 }
 
-/* Colores según el tipo de aula */
-.aula-ocupada { background-color: #A9A9A9; }
-.laboratorio { background-color: #90EE90; }
-.laboratorio-ocupado { background-color: #2E8B57; }
-.bodega { background-color: #DEB887; }
-.administrativo { background-color: #FFD700; }
+.letra-piso {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.cuadro-grande {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.piso {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+.numero-piso {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.salas {
+    display: flex;
+    gap: 5px;
+}
+
+.sala {
+    padding: 5px;
+    text-align: center;
+    font-size: 12px;
+    flex-grow: 1;
+}
+
+.administrativo {
+    background-color: #FFE699;
+}
+
+.aula {
+    background-color: #BDD7EE;
+}
+
+.bodega {
+    background-color: #C6E0B4;
+}
