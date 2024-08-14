@@ -101,8 +101,8 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
               echo "<a href='./data_departamentos.php'>";
             }
             ?>
-            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" alt="">
-            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" alt="">
+            <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" alt="">
+            <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" alt="">
             Bases de Datos</a>
           </li>
           <li>
@@ -164,14 +164,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             <a href="#">
               <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
               <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
-              <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
-              <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
               Perfil
-            </a>
-          </li>
-          <li class="profile-button">
-            <a href="./config/cerrarsesion.php">
-              <button>Cerrar sesión</button>
             </a>
           </li>
           <li class="profile-button">

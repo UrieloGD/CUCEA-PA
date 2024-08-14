@@ -155,8 +155,8 @@ function generateColorForUser($userId)
                 }
                 ?>
                 <div class="navbar-item-inner-icon-wrapper flexbox">
-                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-registro.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-registro-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                 </div>
                 <span class="link-text">Bases de datos</span>
                 </a>
