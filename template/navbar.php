@@ -163,6 +163,16 @@ function generateColorForUser($userId)
             </li>
 
             <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="./calendario.php">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                    </div>
+                    <span class="link-text">Calendario</span>
+                </a>
+            </li>
+
+            <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./espacios.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">

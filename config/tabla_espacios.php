@@ -4,7 +4,7 @@
 $sql_create = "CREATE TABLE IF NOT EXISTS Espacios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     Edificio VARCHAR(10),
-    Espacio VARCHAR(10),
+    Espacio VARCHAR(15),
     Etiqueta VARCHAR(40)
 );";
 
@@ -52,7 +52,8 @@ $espacios = "INSERT INTO Espacios (Edificio, Espacio, Etiqueta) VALUES
 ('CEDB', 'B-109', 'Oficina Administrativa'),
 ('CEDB', 'B-110', 'Oficina Administrativa'),
 ('CEDB', 'B-107', 'Bodega'),
-('CEDB', 'B-108/B108-A', 'Aula'),
+('CEDB', 'B-108', 'Aula'),
+('CEDB', 'B-108-A', 'Aula'),
 ('CEDB', 'B-109', 'Auditorio'),
 ('CEDB', 'B-110', 'Oficina Administrativa'),
 ('CEDB', 'B-201', 'Oficina Administrativa'),
@@ -197,7 +198,7 @@ $espacios = "INSERT INTO Espacios (Edificio, Espacio, Etiqueta) VALUES
 ('CEDG', 'G-102', 'Bodega'),
 ('CEDG', 'G-103', 'Laboratorio'),
 ('CEDG', 'G-106', 'Bodega'),
-('CEDG', 'G-107', 'Restaurante'),
+('CEDG', 'G-107', 'Laboratorio'),
 ('CEDG', 'G-108', 'Oficina Administrativa'),
 ('CEDG', 'G-109', 'Oficina Administrativa'),
 ('CEDG', 'G-201', 'Oficina Administrativa'),
