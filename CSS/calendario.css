@@ -410,17 +410,32 @@
     font-size: smaller;
 }
 
+.calendar-table td.current-day {
+    position: relative;
+}
+
+
+
 .calendar-table td.current-day .date-number {
-    /* background-color: #0071B0; */
+    background-color: transparent;
+    border: 2px solid #0071B0;
+    color: #0071B0;
     border-radius: 50%;
-    border: 1px solid #0071B0;
     width: 30px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
+.calendar-table td.current-day.day-with-event .date-number {
+    top: 2px;
+}
+
 
 /* Estilos para las funciones modales */
 .modal {

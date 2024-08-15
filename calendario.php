@@ -2,6 +2,10 @@
 // Iniciar la sesión
 session_start();
 // Conexión a la base de datos
+
+setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'es');
+date_default_timezone_set('America/Mexico_City');
+
 include './config/db.php';
 
 // Obtener el mes, año y usuario desde la sesión o parámetros
@@ -119,7 +123,7 @@ include './template/navbar.php';
                         $calendar .= "<td></td>";
                     }
 
-                    // Día actual
+                    // Fecha actual
                     $today = date('j');
                     $currentMonth = date('n');
                     $currentYear = date('Y');
@@ -142,7 +146,7 @@ include './template/navbar.php';
                         $sqlEventos = "SELECT ID_Evento, Nombre_Evento, Etiqueta, Descripcion_Evento, DATE(Fecha_Inicio) AS Fecha_Evento, TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio FROM Eventos_Admin WHERE '$fechaActual' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
                         $resultEventos = mysqli_query($conexion, $sqlEventos);
                         if (mysqli_num_rows($resultEventos) > 0) {
-                            $class = 'day-with-event';
+                            $class .= ' day-with-event';
                             while ($rowEvento = mysqli_fetch_assoc($resultEventos)) {
                                 $events .= "<span class='event-indicator lightblue' data-event-id='{$rowEvento['ID_Evento']}'>{$rowEvento['Nombre_Evento']}</span>";
                             }
@@ -188,20 +192,44 @@ include './template/navbar.php';
         let currentMonth = <?php echo $month; ?>;
         let currentYear = <?php echo $year; ?>;
 
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
         function updateCalendar(month, year) {
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `calendario.php?month=${month}&year=${year}&ajax=true`, true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     document.querySelector('.calendar').innerHTML = xhr.responseText;
-                    monthYearDisplay.textContent = new Date(year, month - 1).toLocaleString('default', {
-                        month: 'long',
-                        year: 'numeric'
-                    });
+                    monthYearDisplay.textContent = `${monthNames[month - 1]} ${year}`;
+                    updateEventListeners();
+                    highlightCurrentDay();
                 }
             };
             xhr.send();
         }
+
+        function highlightCurrentDay() {
+            const today = new Date();
+            if (today.getMonth() + 1 === currentMonth && today.getFullYear() === currentYear) {
+                const currentDay = today.getDate();
+                const dayElement = document.querySelector(`.calendar-table td:not(:empty):nth-child(${(currentDay + firstDayOfMonth - 1) % 7 + 1}):nth-of-type(${Math.floor((currentDay + firstDayOfMonth - 1) / 7) + 1})`);
+                if (dayElement) {
+                    dayElement.classList.add('current-day');
+                }
+            }
+        }
+
+        function updateEventListeners() {
+            document.querySelectorAll('.event-indicator').forEach(indicator => {
+                indicator.addEventListener('click', function(e) {
+                    const eventId = e.target.getAttribute('data-event-id');
+                    openEventModal(eventId);
+                });
+            });
+        }
+
 
         leftArrow.addEventListener('click', function() {
             if (currentMonth === 1) {
@@ -279,6 +307,11 @@ include './template/navbar.php';
                 openEventModal(eventId);
             }
         });
+
+        // Inicializar los event listeners
+        updateEventListeners();
+        // Inicializar el calendario
+        updateCalendar(currentMonth, currentYear);
     });
 </script>
 
