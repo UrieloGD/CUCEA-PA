@@ -118,6 +118,12 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
               Espacios</a>
           </li>
           <li>
+            <a href="./calendario.php">
+              <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png" alt="">
+              <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" alt="">
+              Calendario</a>
+          </li>
+          <li>
             <?php
             // Redirigir según el rol del usuario
             if ($rol_id == 1) {
@@ -163,7 +169,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
           <li class="profile-item">
             <a href="#">
               <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-usuario-b.png" alt="">
-              <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono=perfil.png" alt="">
+              <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-perfil.png" alt="">
               Perfil
             </a>
           </li>
