@@ -540,8 +540,13 @@
     margin-bottom: 16px;
 }
 
+.event-icon {
+    width: 20px; /* Ajusta según el tamaño de tu imagen */
+    height: 20px; /* Ajusta según el tamaño de tu imagen */
+    margin-right: 8px;
+}
+
 .event-location:before {
-    content: '\1F516'; /* Emoji para la etiqueta */
     margin-right: 8px;
     font-size: 20px;
 }

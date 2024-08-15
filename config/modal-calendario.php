@@ -10,6 +10,7 @@
                 <span id="eventDate"></span> • <span id="eventTime"></span>
             </div>
             <div class="event-location">
+                <img src="./Img/Icons/iconos-calendario/Etiqueta.png" alt="Icono de etiqueta" class="event-icon">
                 <span id="eventTag"></span>
             </div>
             <div class="event-description">
