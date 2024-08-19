@@ -1,69 +1,24 @@
 <?php
+include './template/header.php';
+include './template/navbar.php';
 include './config/db.php';
 
-// Verificar si se proporcionó un ID de evento
-if (!isset($_GET['id'])) {
-    die(json_encode(['status' => 'error', 'message' => 'No se proporcionó ID de evento']));
-}
-
-$id = $_GET['id'];
-
-// Obtener los datos del evento
-$sql = "SELECT * FROM Eventos_Admin WHERE ID_Evento = ?";
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows === 0) {
-    die(json_encode(['status' => 'error', 'message' => 'No se encontró el evento']));
-}
-
-$evento = $result->fetch_assoc();
-
-// Procesar el formulario cuando se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    header('Content-Type: application/json');
-    error_reporting(0);
-    ini_set('display_errors', 0);
-
-    try {
-        $nombre = $_POST['nombre'] ?? '';
-        $descripcion = $_POST['descripcion'] ?? '';
-        $fecha_inicio = $_POST['FechIn'] ?? '';
-        $fecha_fin = $_POST['FechFi'] ?? '';
-        $hora_inicio = $_POST['HorIn'] ?? '';
-        $hora_fin = $_POST['HorFi'] ?? '';
-        $etiqueta = $_POST['etiqueta'] ?? '';
-        $participantes = isset($_POST['participantes']) ? implode(',', $_POST['participantes']) : '';
-        $notificaciones = $_POST['notificacion'] ?? '';
-        $hora_noti = $_POST['HorNotif'] ?? '';
-
-        $sql = "UPDATE Eventos_Admin SET 
-                Nombre_Evento = ?, 
-                Descripcion_Evento = ?, 
-                Fecha_Inicio = ?, 
-                Fecha_Fin = ?, 
-                Hora_Inicio = ?, 
-                Hora_Fin = ?, 
-                Etiqueta = ?, 
-                Participantes = ?, 
-                Notificaciones = ?, 
-                Hora_Noti = ? 
-                WHERE ID_Evento = ?";
-
-        $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, $hora_inicio, $hora_fin, $etiqueta, $participantes, $notificaciones, $hora_noti, $id);
-
-        if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Cambios guardados correctamente']);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => $stmt->error]);
-        }
-    } catch (Exception $e) {
-        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+// Verificar si se está editando un evento
+$editing = false;
+$evento = null;
+if (isset($_GET['edit'])) {
+    $editing = true;
+    $id_evento = $_GET['edit'];
+    
+    // Obtener datos del evento
+    $sql = "SELECT * FROM Eventos_Admin WHERE ID_Evento = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $id_evento);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $evento = $result->fetch_assoc();
     }
-    exit();
 }
 
 // Obtener usuarios de la base de datos
@@ -87,10 +42,10 @@ if ($resultado->num_rows > 0) {
         if(empty($fila["Departamentos"])){
             $rol_departamento = $rol;
         } else{
-            $rol = $fila["Nombre_Rol"] . " - " . $fila["Departamentos"];
+            $rol= $fila["Nombre_Rol"] . " - " . $fila["Departamentos"];
         }
     
-        $checked = in_array($codigo, explode(',', $evento['Participantes'])) ? 'checked' : '';
+        $checked = $editing && in_array($codigo, explode(',', $evento['Participantes'])) ? 'checked' : '';
         $filas_usuarios .= "<tr>
             <td><input type='checkbox' name='participantes[]' value='$codigo' class='checkbox-usuario' $checked></td>
             <td>$nombre</td>
@@ -103,27 +58,26 @@ if ($resultado->num_rows > 0) {
 }
 ?>
 
-<!--header -->
-<?php include './template/header.php' ?>
-<!-- navbar -->
-<?php include './template/navbar.php' ?>
-
-<title>Editar Evento</title>
+<title><?php echo $editing ? 'Editar' : 'Crear'; ?> Evento</title>
 <link rel="stylesheet" href="./CSS/admin-crear-eventos.css" />
 
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="titulo-bd">
-            <h3>Editar evento</h3>
+            <h3><?php echo $editing ? 'Editar' : 'Crear'; ?> evento</h3>
         </div>
     </div>
     <div class="contenedor-formulario">
         <form id="eventoForm" method="post">
+            <?php if ($editing): ?>
+                <input type="hidden" name="id_evento" value="<?php echo $id_evento; ?>">
+            <?php endif; ?>
+            
             <div class="form-group">
                 <label for="nombre">
                     <i class="fas fa-pen"></i> Nombre
                 </label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo htmlspecialchars($evento['Nombre_Evento']); ?>" required>
+                <input type="text" id="nombre" name="nombre" value="<?php echo $editing ? htmlspecialchars($evento['Nombre_Evento']) : ''; ?>" required>
             </div>
 
             <div class="form-group">
@@ -131,12 +85,12 @@ if ($resultado->num_rows > 0) {
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="FechIn" name="FechIn" value="<?php echo $evento['Fecha_Inicio']; ?>" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="<?php echo $evento['Fecha_Fin']; ?>" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechIn" name="FechIn" value="<?php echo $editing ? $evento['Fecha_Inicio'] : ''; ?>" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechFi" name="FechFi" value="<?php echo $editing ? $evento['Fecha_Fin'] : ''; ?>" required  min="<?php echo date('Y-m-d'); ?>">
                     <span>a las</span>
-                    <input type="time" id="HorIn" name="HorIn" value="<?php echo $evento['Hora_Inicio']; ?>" required>
+                    <input type="time" id="HorIn" name="HorIn" value="<?php echo $editing ? $evento['Hora_Inicio'] : ''; ?>" required>
                     <span> --> </span>
-                    <input type="time" id="HorFi" name="HorFi" value="<?php echo $evento['Hora_Fin']; ?>" required>
+                    <input type="time" id="HorFin" name="HorFi" value="<?php echo $editing ? $evento['Hora_Fin'] : ''; ?>" required>
                 </div>
             </div>
 
@@ -146,14 +100,14 @@ if ($resultado->num_rows > 0) {
                 </label>
                 <div class="notificaciones-group">
                     <select id="notificacion" name="notificacion">
-                        <option value="1 hora antes" <?php echo ($evento['Notificaciones'] == '1 hora antes') ? 'selected' : ''; ?>>1 hora antes</option>
-                        <option value="2 horas antes" <?php echo ($evento['Notificaciones'] == '2 horas antes') ? 'selected' : ''; ?>>2 horas antes</option>
-                        <option value="1 día antes" <?php echo ($evento['Notificaciones'] == '1 día antes') ? 'selected' : ''; ?>>1 día antes</option>
-                        <option value="1 semana antes" <?php echo ($evento['Notificaciones'] == '1 semana antes') ? 'selected' : ''; ?>>1 semana antes</option>
-                        <option value="Sin notificación" <?php echo ($evento['Notificaciones'] == 'Sin notificación') ? 'selected' : ''; ?>>Sin notificación</option>
+                        <option value="1 hora antes" <?php echo $editing && $evento['Notificaciones'] == '1 hora antes' ? 'selected' : ''; ?>>1 hora antes</option>
+                        <option value="2 horas antes" <?php echo $editing && $evento['Notificaciones'] == '2 horas antes' ? 'selected' : ''; ?>>2 horas antes</option>
+                        <option value="1 día antes" <?php echo $editing && $evento['Notificaciones'] == '1 día antes' ? 'selected' : ''; ?>>1 día antes</option>
+                        <option value="1 semana antes" <?php echo $editing && $evento['Notificaciones'] == '1 semana antes' ? 'selected' : ''; ?>>1 semana antes</option>
+                        <option value="Sin notificación" <?php echo $editing && $evento['Notificaciones'] == 'Sin notificación' ? 'selected' : ''; ?>>Sin notificación</option>
                     </select>
                     <span>a las</span>
-                    <input type="time" id="HorNotif" name="HorNotif" value="<?php echo $evento['Hora_Noti']; ?>" required>
+                    <input type="time" id="HorNotif" name="HorNotif" value="<?php echo $editing ? $evento['Hora_Noti'] : ''; ?>" required>
                 </div>
             </div>
 
@@ -172,22 +126,22 @@ if ($resultado->num_rows > 0) {
                     </label>
                     <select id="etiqueta" name="etiqueta">
                         <option value="">Elige una etiqueta</option>
-                        <option value="Programación Académica" <?php echo ($evento['Etiqueta'] == 'Programación Académica') ? 'selected' : ''; ?>>Programación Académica</option>
-                        <option value="Oferta Académica" <?php echo ($evento['Etiqueta'] == 'Oferta Académica') ? 'selected' : ''; ?>>Oferta Académica</option>
-                        <option value="Administrativo" <?php echo ($evento['Etiqueta'] == 'Administrativo') ? 'selected' : ''; ?>>Administrativo</option>
+                        <option value="Programación Académica" <?php echo $editing && $evento['Etiqueta'] == 'Programación Académica' ? 'selected' : ''; ?>>Programación Académica</option>
+                        <option value="Oferta Académica" <?php echo $editing && $evento['Etiqueta'] == 'Oferta Académica' ? 'selected' : ''; ?>>Oferta Académica</option>
+                        <option value="Administrativo" <?php echo $editing && $evento['Etiqueta'] == 'Administrativo' ? 'selected' : ''; ?>>Administrativo</option>
                     </select>
                 </div>
             </div>
-
+            
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
                 </label>
-                <textarea id="descripcion" name="descripcion" rows="4"><?php echo htmlspecialchars($evento['Descripcion_Evento']); ?></textarea>
+                <textarea id="descripcion" name="descripcion" rows="4"><?php echo $editing ? htmlspecialchars($evento['Descripcion_Evento']) : ''; ?></textarea>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-guardar">Guardar cambios</button>
+                <button type="submit" class="btn-guardar"><?php echo $editing ? 'Actualizar' : 'Guardar'; ?></button>
                 <a href="./admin-eventos.php"><button type="button" class="btn-cancelar">Cancelar</button></a>
             </div>
         </form>
@@ -253,6 +207,7 @@ function actualizarParticipantesSeleccionados() {
     checkboxes.forEach(checkbox => {
         if (checkbox.checked) {
             const nombre = checkbox.parentElement.nextElementSibling.textContent;
+            const correo = checkbox.parentElement.nextElementSibling.nextElementSibling.textContent;
             const participanteDiv = document.createElement('div');
             participanteDiv.className = 'participante-tarjeta';
             participanteDiv.innerHTML = `
@@ -281,18 +236,18 @@ document.getElementById('eventoForm').addEventListener('submit', function(e) {
 
     Swal.fire({
         title: '¿Estás seguro?',
-        text: "¿Deseas guardar los cambios en este evento?",
+        text: "¿Deseas <?php echo $editing ? 'actualizar' : 'guardar'; ?> este evento?",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, guardar',
+        confirmButtonText: 'Sí, <?php echo $editing ? 'actualizar' : 'guardar'; ?>',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
             var formData = new FormData(this);
 
-            fetch(window.location.href, {
+            fetch('<?php echo $editing ? 'config/eventos_update.php' : 'config/eventos_upload.php'; ?>', {
                 method: 'POST',
                 body: formData
             })
@@ -300,21 +255,25 @@ document.getElementById('eventoForm').addEventListener('submit', function(e) {
             .then(data => {
                 if (data.status === 'success') {
                     Swal.fire(
-                        '¡Guardado!',
-                        data.message || 'Los cambios han sido guardados.',
+                        '¡<?php echo $editing ? 'Actualizado' : 'Guardado'; ?>!',
+                        'El evento ha sido <?php echo $editing ? 'actualizado' : 'guardado'; ?>.',
                         'success'
                     ).then(() => {
                         window.location.href = './admin-eventos.php';
                     });
                 } else {
-                    throw new Error(data.message || 'Error desconocido');
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al <?php echo $editing ? 'actualizar' : 'guardar'; ?> el evento: ' + data.message,
+                        'error'
+                    );
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
                 Swal.fire(
                     'Error',
-                    'Hubo un problema al procesar la respuesta del servidor: ' + error.message,
+                    'Hubo un problema al procesar la respuesta del servidor.',
                     'error'
                 );
             });
@@ -338,12 +297,12 @@ function ajustarTamañoModal() {
 
 window.addEventListener('resize', ajustarTamañoModal);
 
-// Inicializar los participantes seleccionados al cargar la página
+// Inicializar los participantes seleccionados si estamos editando
+<?php if ($editing): ?>
 window.addEventListener('load', function() {
     actualizarParticipantesSeleccionados();
 });
+<?php endif; ?>
 </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<?php include './template/footer.php' ?>
+<?php include './template/footer.php'; ?>

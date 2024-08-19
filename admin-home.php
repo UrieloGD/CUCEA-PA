@@ -62,7 +62,7 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
             </a>
         </div>
         <div class="recuadro" onclick="activateRecuadro(this)">
-            <a class="texto" href="./admin-visual-eventos.php">
+            <a class="texto" href="./admin-eventos.php">
                 <img src="./Img/img-admin/img-control-eventos.jpg" alt="Control de eventos">
                 <div class="texto">Control de eventos</div>
             </a>

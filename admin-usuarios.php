@@ -159,10 +159,9 @@
         <button type="submit">Guardar</button>
       </form>
     </div>
-
   </div>
 
-  <script src="./JS/admin-usuarios.js"></script>
+  <script src="./JS/admin-usuarios/admin-usuarios.js"></script>
   <script>
     const roles = <?php echo json_encode($roles); ?>;
     const departamentos = <?php echo json_encode($departamentos); ?>;

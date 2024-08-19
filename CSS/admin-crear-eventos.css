@@ -1,0 +1,317 @@
+.cuadro-principal {
+  background-color: white;
+  width: 92vw;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  align-self: flex-end;
+  overflow: auto;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
+  -webkit-border-radius: 0px 0px 20px 20px;
+  -moz-border-radius: 0px 0px 20px 20px;
+  -ms-border-radius: 0px 0px 20px 20px;
+  -o-border-radius: 0px 0px 20px 20px;
+}
+
+.contenedor-formulario {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1; /* Para que tome el espacio restante */
+  width: 100%; /* Para que tome todo el ancho */
+}
+
+form {
+  width: 92.5%;
+  margin: 40px 20px 10px 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.botones_agregar {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+  /* align-items: center; */
+  /* border: solid; */
+}
+
+.boton-agregar {
+  background: none;
+  font-weight: bold;
+  padding: 8px;
+  border: solid 1px #888;
+  border-radius: 10px;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  width: 150px;
+  margin-right: 10px;
+}
+
+label i {
+  margin-right: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.fecha-hora-group,
+.notificaciones-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.btn-agregar {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.split-group {
+  display: flex;
+  gap: 20px;
+}
+
+.split-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-guardar, .btn-cancelar {
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-guardar {
+  background-color: #0071b0;
+  border: none;
+  color: white;
+}
+
+.btn-cancelar {
+  background-color: white;
+  border: solid #0071b0 2px;
+  color: #0071b0;
+  font-weight: 600;
+}
+
+.btn-guardar:hover, .btn-cancelar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+/* css para participantes seleccionados */
+
+#participantes-seleccionados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.participante-tarjeta {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e8f0fe;
+  border: 1px solid #c2d8ff;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 14px;
+  color: #1a73e8;
+  cursor: default;
+  transition: background-color 0.3s ease;
+}
+
+.participante-tarjeta:hover {
+  background-color: #d2e3fc;
+}
+
+.participante-tarjeta .nombre {
+  margin-right: 4px;
+}
+
+.participante-tarjeta .eliminar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #c2d8ff;
+  color: #1a73e8;
+  font-size: 12px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.participante-tarjeta .eliminar:hover {
+  background-color: #b3cef9;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 1100px; 
+  max-height: 80vh; /* Limita la altura al 80% de la altura de la ventana */
+  overflow-y: auto;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-divider {
+  border: none;
+  height: 2px;
+  margin: 20px 0;
+}
+
+.modal-content table {
+  width: 92%;
+  margin: 0 auto 10px auto;
+  border: collapse;
+}
+
+.modal-content table thead th {
+  text-align: left;
+  padding: 10px 0; /* Añade algo de padding a los encabezados */
+}
+
+.modal-content table tbody td {
+  padding: 8px 0; /* Añade padding a las celdas */
+}
+
+#confirmarParticipantes {
+  margin-top: 20px; /* Añade espacio encima del botón */
+  align-self: center; /* Centra el botón horizontalmente */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover, .close:focus {
+  color: black;
+  text-decoration: none;
+}
+
+.boton-agregar-participantes {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0px 0px 0px;
+}
+
+.boton-agregar-participantes:hover {
+  background-color: #0071b0;
+}

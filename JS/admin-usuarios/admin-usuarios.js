@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Sending data to server:", { id: userId, ...data });
 
-    fetch("config/editarUsuario.php", {
+    fetch("./actions/admin-usuarios/editarUsuario.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -221,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
-          fetch("config/eliminarUsuario.php", {
+          fetch("./actions/admin-usuarios/eliminarUsuario.php", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Enviar los datos al servidor usando fetch
-    fetch("./config/guardarUsuario.php", {
+    fetch("./actions/admin-usuarios/agregarUsuario.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
