@@ -46,7 +46,7 @@ document
 
     // Crear una solicitud XMLHttpRequest
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "./actions/plantilla/extraccion_dataExcel.php", true);
+    xhr.open("POST", "./functions/plantilla/extraccion_dataExcel.php", true);
 
     xhr.onload = function () {
       Swal.close(); // Cerrar el indicador de carga

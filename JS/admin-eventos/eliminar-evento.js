@@ -10,7 +10,7 @@ function deleteEvent(eventId) {
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
-            fetch('./actions/admin-eventos/eliminarEvento.php', {
+            fetch('./functions/admin-eventos/eliminarEvento.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -46,8 +46,4 @@ function deleteEvent(eventId) {
                 });
         }
     });
-}
-
-function editEvent(eventId) {
-    window.location.href = `./editarEvento.php?id=${eventId}`;
 }

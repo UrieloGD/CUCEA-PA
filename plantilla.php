@@ -108,7 +108,7 @@ if (isset($_SESSION['usuario_id'])) {
                         </ul>
                         <p>Si deseas subir la plantilla, justifica por qué no subiste la plantilla a tiempo.</p>
                     </div>
-                    <form id="formulario-justificacion" method="post" action="./actions/plantilla/guardar_justificacion.php">
+                    <form id="formulario-justificacion" method="post" action="./functions/plantilla/guardar_justificacion.php">
                         <textarea name="justificacion" placeholder="Escribe tu justificación aquí..." rows="5" required></textarea>
                         <div id="char-count">0 / 60 caracteres</div>
                         <input type="hidden" name="departamento_id" value="<?php echo $departamento_id; ?>">

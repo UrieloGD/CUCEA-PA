@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<script src="./JS/admin-eventos/admin-eventos.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./JS/admin-eventos/eliminar-evento.js"></script>
+<script src="./JS/admin-eventos/editar-evento.js"></script>
 
 <?php include './template/footer.php' ?>

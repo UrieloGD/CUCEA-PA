@@ -150,7 +150,7 @@ function uploadFiles() {
       const formData = new FormData();
       formData.append("file", file);
 
-      fetch("./actions/plantilla/extraccion_dataExcel.php", {
+      fetch("./functions/plantilla/extraccion_dataExcel.php", {
         method: "POST",
         body: formData,
       })

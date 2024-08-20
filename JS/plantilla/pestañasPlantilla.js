@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       const formData = new FormData(this);
 
-      fetch("./actions/plantilla/guardar_justificacion.php", {
+      fetch("./functions/plantilla/guardar_justificacion.php", {
         method: "POST",
         body: formData,
       })

@@ -1,6 +1,6 @@
 function descargarArchivo(departamentoId) {
     $.ajax({
-        url: './actions/plantilla/descargarPlantilla.php',
+        url: './functions/plantilla/descargarPlantilla.php',
         method: 'GET',
         data: { departamento_id: departamentoId },
         xhrFields: {
