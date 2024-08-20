@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambiar Contraseña</title>
-    <link rel="stylesheet" href="./CSS/navbar.css">
-    <link rel="stylesheet" href="./CSS/login.css">
+    <!-- <link rel="stylesheet" href="./../../CSS/navbar.css"> -->
+    <link rel="stylesheet" href="./../../../CSS/login.css">
+    <link rel="icon" href="./../../../Img/Icons/iconos-header/pestaña.png" type="image/png">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="icon" href="./Img/Icons/iconos-header/pestaña.png" type="image/png">
 </head>
 
 <body>
@@ -21,18 +21,18 @@
         exit();
     }
     ?>
-    <form action="./config/procesarCambioContraseña.php" method="post">
+    <form action="./procesarCambioContrasena.php" method="post">
         <input type="hidden" name="codigo" value="<?php echo $codigo; ?>">
         <div class="flex items-center min-h-screen px-4">
             <div class="w-full max-w-sm mx-auto">
                 <div class="login-container">
                     <div class="space-y-4">
                         <div>
-                            <img src="./Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA">
+                            <img src="./../../../Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA">
                         </div>
                         <br>
                         <div class="text-center">
-                            <img src="./Img/logos/LogoPA-Color.png" width="100%" height="100%"></img>
+                            <img src="./../../../Img/logos/LogoPA-Color.png" width="100%" height="100%"></img>
                         </div>
                         <div class="space-y-4">
                             <div class="space-y-2">
@@ -62,7 +62,7 @@
     document.querySelector('form').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        fetch('./config/procesarCambioContraseña.php', {
+        fetch('./procesarCambioContrasena.php', {
                 method: 'POST',
                 body: new FormData(this)
             })
@@ -74,7 +74,7 @@
                         title: '¡Éxito!',
                         text: data.message,
                     }).then(() => {
-                        window.location.href = 'login.php';
+                        window.location.href = './../../../login.php';
                     });
                 } else {
                     Swal.fire({

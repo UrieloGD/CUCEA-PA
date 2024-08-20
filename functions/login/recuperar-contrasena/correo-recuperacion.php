@@ -1,5 +1,5 @@
 <?php
-require_once('./db.php');
+require_once('./../../../config/db.php');
 
 // Establecer la codificación de la conexión a la base de datos
 $conexion->set_charset('utf8');
@@ -10,7 +10,7 @@ $conexion->set_charset('utf8');
 
 $email = $_POST['email'];
 
-require './../vendor/autoload.php';
+require './../../../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -48,8 +48,8 @@ if ($result->num_rows > 0) {
         // Contenido
         $mail->isHTML(true);
         $mail->Subject = 'Solicitud de recuperación de contraseña';
-        $mail->Body = '¡Hola, ' . $row['Nombre'] . ' ' . $row['Apellido'] . '!<br> Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página <a href="http://localhost:8888/git/CUCEA-PA/cambiarContraseña.php?id=' . $codigo . '">Recuperación de contraseña</a>';
-        $mail->AltBody = 'Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página http://localhost:8888/git/CUCEA-PA/cambiarContraseña.php?id=' . $codigo;
+        $mail->Body = '¡Hola, ' . $row['Nombre'] . ' ' . $row['Apellido'] . '!<br> Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página <a href="http://localhost/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id=' . $codigo . '">Recuperación de contraseña</a>';
+        $mail->AltBody = 'Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página http://localhost/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id=' . $codigo;
 
         $mail->send();
         echo json_encode(['success' => true, 'message' => 'Correo de recuperación enviado']);

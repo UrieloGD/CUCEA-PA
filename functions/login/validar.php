@@ -25,14 +25,14 @@ if ($fila = mysqli_fetch_assoc($resultado)) {
     if ($hashedPassword === $storedHash) {
         // Contraseña correcta
         $_SESSION['user_id'] = $fila['Codigo'];
-        header("location:../home.php");
+        header("location:./../../home.php");
     } else {
         // Contraseña incorrecta
-        header("location:../login.php?error=1");
+        header("location:./../../login.php?error=1");
     }
 } else {
     // Usuario no encontrado
-    header("location:../login.php?error=1");
+    header("location:./../../login.php?error=1");
 }
 
 mysqli_stmt_close($stmt);

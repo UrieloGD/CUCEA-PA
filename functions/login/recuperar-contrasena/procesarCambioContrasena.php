@@ -1,5 +1,5 @@
 <?php
-require_once('./db.php');
+require_once('./../../../config/db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $codigo = $_POST['codigo']; // Ahora obtenemos el código correctamente desde el formulario
