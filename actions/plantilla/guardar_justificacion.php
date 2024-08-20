@@ -1,7 +1,7 @@
 <?php
 session_start();
-include './db.php';
-include './email_functions.php';
+include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php';
 
 header('Content-Type: application/json');
 

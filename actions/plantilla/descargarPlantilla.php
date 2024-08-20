@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+include './../../config/db.php';
 
 if (isset($_GET['departamento_id'])) {
     $departamento_id = $_GET['departamento_id'];

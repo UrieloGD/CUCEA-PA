@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const formData = new FormData(this);
 
-    fetch("./config/guardar_justificacion.php", {
+    fetch("./actions/plantilla/guardar_justificacion.php", {
       method: "POST",
       body: formData,
     })

@@ -1,19 +1,9 @@
 <?php
 session_start();
+include './config/db.php';
 
 function obtenerDepartamentoId($usuario_id)
 {
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-    $dbname = "pa";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        return null;
-    }
-
     $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
     $result = $conn->query($sql);
 
@@ -27,8 +17,6 @@ function obtenerDepartamentoId($usuario_id)
     $conn->close();
     return $departamento_id;
 }
-
-include './config/db.php';
 
 $codigo_usuario =  $_SESSION['Codigo'];
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
@@ -120,7 +108,7 @@ if (isset($_SESSION['usuario_id'])) {
                         </ul>
                         <p>Si deseas subir la plantilla, justifica por qué no subiste la plantilla a tiempo.</p>
                     </div>
-                    <form id="formulario-justificacion" method="post" action="./config/guardar_justificacion.php">
+                    <form id="formulario-justificacion" method="post" action="./actions/plantilla/guardar_justificacion.php">
                         <textarea name="justificacion" placeholder="Escribe tu justificación aquí..." rows="5" required></textarea>
                         <div id="char-count">0 / 60 caracteres</div>
                         <input type="hidden" name="departamento_id" value="<?php echo $departamento_id; ?>">
@@ -165,10 +153,10 @@ if (isset($_SESSION['usuario_id'])) {
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./js/guardarJustifiicacion.js"></script>
-<script src="./JS/descargar.js"></script>
+<script src="./js/plantilla/guardarJustifiicacion.js"></script>
+<script src="./JS/plantilla/descargarPlantilla.js"></script>
 <script src="./JS/drag.js"></script>
 <script src="./JS/Ajax.js"></script>
-<script src="./JS/pestañas-plantilla.js"></script>
+<script src="./JS/plantilla/pestañasPlantilla.js"></script>
 
 <?php include './template/footer.php' ?>
