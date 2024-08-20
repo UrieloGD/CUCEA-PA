@@ -1,7 +1,7 @@
 <?php
 session_start();
-require './../vendor/autoload.php';
-include './email_functions.php';
+require './../../vendor/autoload.php';
+include './../notificaciones-correos/email_functions.php';
 ob_start();
 
 use PhpOffice\PhpSpreadsheet\IOFactory;

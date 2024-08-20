@@ -153,10 +153,10 @@ if (isset($_SESSION['usuario_id'])) {
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./js/plantilla/guardarJustifiicacion.js"></script>
+<script src="./JS/plantilla/guardarJustifiicacion.js"></script>
 <script src="./JS/plantilla/descargarPlantilla.js"></script>
-<script src="./JS/drag.js"></script>
-<script src="./JS/Ajax.js"></script>
+<script src="./JS/plantilla/drag&drop.js"></script>
+<script src="./JS/plantilla/funcionAjax.js"></script>
 <script src="./JS/plantilla/pestañasPlantilla.js"></script>
 
 <?php include './template/footer.php' ?>
