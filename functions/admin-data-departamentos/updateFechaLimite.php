@@ -1,6 +1,6 @@
 <?php
-include './db.php';
-include './email_functions.php';
+include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php';
 
 session_start();
 
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <body>
                 <div class='container'>
                     <div class='header'>
-                        <img src='../Img/logos/LogoPA-Color-Rellenado.png' alt='Logo P.A'>
+                        <img src='https://imgur.com/a/jpbTl5s' alt='Logo PA'>
                     </div>
                     <div class='content'>
                         <h2>Actualización de fecha límite</h2>
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         mysqli_commit($conexion);
 
-        header("Location: ../data_departamentos.php?success=1");
+        header("Location: ../../admin-data-departamentos.php?success=1");
         exit();
     } catch (Exception $e) {
         mysqli_rollback($conexion);

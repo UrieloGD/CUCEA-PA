@@ -26,7 +26,6 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
 }
 ?>
 
-
 <?php
 // Conexión a la base de datos
 include './config/db.php';
@@ -35,7 +34,7 @@ include './config/db.php';
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-01";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-10";
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
@@ -63,7 +62,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 ?>
 
 <title>Plantillas Departamentos</title>
-<link rel="stylesheet" href="./CSS/data_departamentos.css" />
+<link rel="stylesheet" href="./CSS/admin-data-departamentos.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -137,7 +136,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
             }
           }
 
-          echo "<td style='text-align: center;'><a href='basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
+          echo "<td style='text-align: center;'><a href='./basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
           echo "</tr>";
         }
         ?>
@@ -154,7 +153,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2>Cambiar Fecha Límite</h2>
-      <form id="fechaLimiteForm" action="./config/updateFechaLimite.php" method="post">
+      <form id="fechaLimiteForm" action="./functions/admin-data-departamentos/updateFechaLimite.php" method="post">
         <label for="fecha_limite">Nueva Fecha Límite:</label>
         <input type="date" id="fecha_limite" name="fecha_limite" required>
         <button type="submit" class="btn-guardar">Guardar</button>
@@ -162,118 +161,61 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
     </div>
   </div>
 
-  <script>
-    // Función para abrir el modal
-    function openModal() {
-      document.getElementById('modalFechaLimite').style.display = 'block';
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-      document.getElementById('modalFechaLimite').style.display = 'none';
-    }
-
-    // Cerrar el modal si se hace clic fuera del contenido del modal
-    window.onclick = function(event) {
-      var modal = document.getElementById('modalFechaLimite');
-      if (event.target == modal) {
-        modal.style.display = 'none';
-      }
-    }
-  </script>
-
+  <script src="./JS/admin-data-departamentos/modalFechaLimite.js"></script>
+  <!-- Script updateFechaLimite -->
+  <!-- Por alguna razon no se puede hacer modular el codigo de abajo -->
   <script>
     document.getElementById('fechaLimiteForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      // Mostrar Sweet Alert de procesamiento
-      Swal.fire({
-        title: 'Procesando...',
-        html: 'Por favor espere mientras se actualiza la fecha límite.',
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-        }
-      });
+    // Mostrar Sweet Alert de procesamiento
+    Swal.fire({
+      title: 'Procesando...',
+      html: 'Por favor espere mientras se actualiza la fecha límite.',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
 
-      var formData = new FormData(this);
+    var formData = new FormData(this);
 
-      fetch('./config/updateFechaLimite.php', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.text())
-        .then(data => {
-          Swal.close();
-          if (data.includes("Location: ../data_departamentos.php?success=1")) {
-            Swal.fire({
-              icon: 'success',
-              title: 'Fecha límite actualizada',
-              text: 'La fecha límite se ha actualizado correctamente.',
-              confirmButtonText: 'Aceptar'
-            }).then(() => {
-              location.reload();
-            });
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Hubo un problema al actualizar la fecha límite.',
-              confirmButtonText: 'Aceptar'
-            });
-          }
-        })
-        .catch(error => {
-          Swal.close();
+    fetch('./functions/admin-data-departamentos/updateFechaLimite.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        Swal.close();
+        if (data.includes("Location: ../admin-data-departamentos.php?success=1")) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Fecha límite actualizada',
+            text: 'La fecha límite se ha actualizado correctamente.',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            location.reload();
+          });
+        } else {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Hubo un problema al procesar la solicitud.',
+            text: 'Hubo un problema al actualizar la fecha límite.',
             confirmButtonText: 'Aceptar'
           });
-          console.error('Error:', error);
+        }
+      })
+      .catch(error => {
+        Swal.close();
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al procesar la solicitud.',
+          confirmButtonText: 'Aceptar'
         });
-    });
+        console.error('Error:', error);
+      });
+  });
   </script>
-
-  <style>
-    /* Estilos para el modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgb(0, 0, 0);
-      background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content {
-      background-color: #fefefe;
-      margin: 15% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 70%;
-      max-width: 600px;
-      border-radius: 10px;
-    }
-
-    .close {
-      color: #0071b0;
-      float: right;
-      font-size: 38px;
-      font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  </style>
 
   <?php include './template/footer.php' ?>

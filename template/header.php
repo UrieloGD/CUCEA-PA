@@ -94,11 +94,11 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
                 echo "<a href='./basesdedatos.php'>";
               } else {
                 // Manejar el caso en que no se encuentre asociado a ningún departamento
-                echo "<a href='./data_departamentos.php'>";
+                echo "<a href='./admin-data-departamentos.php'>";
               }
             } else {
               // Otros roles o manejo de errores aquí
-              echo "<a href='./data_departamentos.php'>";
+              echo "<a href='./admin-data-departamentos.php'>";
             }
             ?>
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" alt="">

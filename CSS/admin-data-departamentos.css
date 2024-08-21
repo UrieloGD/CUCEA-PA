@@ -90,7 +90,9 @@ td {
   cursor: pointer;
 }
 
-.estado-entregada, .estado-atrasada, .estado-pendiente {
+.estado-entregada,
+.estado-atrasada,
+.estado-pendiente {
   display: inline;
   padding: 3px 20px;
   border-radius: 7.5px;
@@ -105,18 +107,18 @@ td {
 
 /* Mantén los estilos de color existentes */
 .estado-entregada {
-  background-color: #DFF1D8;
-  color: #3B763D;
+  background-color: #dff1d8;
+  color: #3b763d;
 }
 
 .estado-atrasada {
-  background-color: #F9D1D3;
-  color: #953D42;
+  background-color: #f9d1d3;
+  color: #953d42;
 }
 
 .estado-pendiente {
-  background-color: #FDF8E4;
-  color: #8B6E3B;
+  background-color: #fdf8e4;
+  color: #8b6e3b;
 }
 
 td:nth-child(2) {
@@ -186,7 +188,7 @@ td:nth-child(2) {
   align-items: center;
   justify-content: center;
   margin: 20px 30px 10px 30px;
-  background-color: #FDF8E4;
+  background-color: #fdf8e4;
   padding: 10px;
   font-weight: bold;
   border-radius: 10px;
@@ -216,14 +218,15 @@ td:nth-child(2) {
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 70%;
   max-width: 600px;
+  border-radius: 10px;
 }
 
 .close {
-  color: #aaa;
+  color: #0071b0;
   float: right;
-  font-size: 28px;
+  font-size: 38px;
   font-weight: bold;
 }
 
@@ -344,7 +347,7 @@ td:nth-child(2) {
   -o-border-radius: 10px;
 }
 
-.btn-guardar{
+.btn-guardar {
   padding: 10px 20px;
   border-radius: 10px;
   cursor: pointer;
