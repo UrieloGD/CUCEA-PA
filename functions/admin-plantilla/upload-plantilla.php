@@ -1,6 +1,6 @@
 <?php
-include '../config/db.php';
-include './email_functions.php';
+include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php';
 session_start();
 date_default_timezone_set('America/Mexico_City');
 

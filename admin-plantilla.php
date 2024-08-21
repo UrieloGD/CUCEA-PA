@@ -4,7 +4,7 @@ include './template/navbar.php';
 ?>
 
 <title>Progreso Plantillas</title>
-<link rel="stylesheet" href="./CSS/plantillasPA.css" />
+<link rel="stylesheet" href="./CSS/admin-plantilla.css" />
 
 <div class="cuadro-principal">
     <div class="encabezado">
@@ -83,7 +83,7 @@ include './template/navbar.php';
                             <input type="hidden" id="Nombre_Archivo_Dep-<?php echo $id; ?>" name="Nombre_Archivo_Dep">
                             <input type="hidden" id="Fecha_Subida_Dep-<?php echo $id; ?>" name="Fecha_Subida_Dep">
                             <button type="submit" class="hidden-button"></button>
-                            <a href="./config/descargar_plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
+                            <a href="./functions/admin-plantilla/descargar-plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
                             <a href="#" class="btn" onclick="eliminarPlantilla(<?php echo $id; ?>)"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
                         </div>
                     </td>
@@ -95,7 +95,6 @@ include './template/navbar.php';
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./JS/plantillasPA.js"></script>
-<script src="./JS/eliminarPlantilla.js"></script>
-<script src="./JS/descargarPlantilla.js"></script>
+<script src="./JS/admin-plantilla/uploadPlantilla.js"></script>
+<script src="./JS/admin-plantilla/eliminarPlantilla.js"></script>
+<script src="./JS/admin-plantilla/descargarPlantilla.js"></script>

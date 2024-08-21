@@ -119,10 +119,10 @@ function generateColorForUser($userId)
                         }
                     } elseif ($rol_id == 2) {
                         // Si el usuario es secretaria administrativa, redirigir a plantillasPA
-                        echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
                     } else {
                         // Otros roles o manejo de errores aquí
-                        echo "<a class='navbar-item-inner flexbox-left' href='./plantillaspa.php'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
                     }
                 ?>
                 <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -183,7 +183,7 @@ function generateColorForUser($userId)
             </li>
 
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./dashboard_oferta.php">
+                <a class="navbar-item-inner flexbox-left" href="./dashboard-oferta.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">

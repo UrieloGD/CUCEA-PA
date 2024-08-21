@@ -38,7 +38,7 @@ function subirArchivo(id) {
                 Fecha_Subida_Dep: document.getElementById(`fecha-subida-${id}`).textContent
             });
 
-            fetch('./config/upload_sa.php', {
+            fetch('./functions/admin-plantilla/upload-plantilla.php', {
                 method: 'POST',
                 body: formData
             })

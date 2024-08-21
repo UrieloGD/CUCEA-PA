@@ -106,7 +106,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
             Bases de Datos</a>
           </li>
           <li>
-            <a href="./dashboard_oferta.php">
+            <a href="./dashboard-oferta.php">
               <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" alt="">
               <img class="blue-icon" src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" alt="">
               Oferta</a>
@@ -134,11 +134,11 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
                 echo "<a href='./plantilla.php'>";
               } else {
                 // Manejar el caso en que no se encuentre asociado a ningún departamento
-                echo "<a href='./plantillaspa.php'>";
+                echo "<a href='./admin-plantilla.php'>";
               }
             } else {
               // Otros roles o manejo de errores aquí
-              echo "<a href='./plantillaspa.php'>";
+              echo "<a href='./admin-plantilla.php'>";
             }
             ?>
             <img class="white-icon" src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" alt="">

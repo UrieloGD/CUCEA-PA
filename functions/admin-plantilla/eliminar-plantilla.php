@@ -1,5 +1,5 @@
 <?php
-include '../config/db.php';
+include './../../config/db.php';
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['departamento_id'])) {

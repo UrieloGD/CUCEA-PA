@@ -22,7 +22,7 @@ function eliminarPlantilla(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             // Llamada a la función para eliminar la plantilla
-            fetch(`./config/eliminar_plantilla.php?departamento_id=${id}`)
+            fetch(`./functions/admin-plantilla/eliminar-plantilla.php?departamento_id=${id}`)
                 .then(response => response.text())
                 .then(data => {
                     if (data.includes('success')) {
