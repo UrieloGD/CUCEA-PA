@@ -68,7 +68,7 @@ function descargarExcelSeleccionado() {
     }
 
     var departamento_id = document.getElementById('departamento_id').value;
-    var url = './config/descargar_excel.php?departamento_id=' + departamento_id + '&columnas=' + JSON.stringify(columnasSeleccionadas);
+    var url = './functions/basesdedatos/descargar-data-excel.php?departamento_id=' + departamento_id + '&columnas=' + JSON.stringify(columnasSeleccionadas);
     window.location.href = url;
 
     cerrarPopupColumnas();

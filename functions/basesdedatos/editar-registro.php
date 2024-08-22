@@ -1,6 +1,6 @@
 <?php
 // Conexión a la base de datos
-include '../config/db.php';
+include './../../config/db.php';
 session_start(); // Iniciar la sesión
 
 // Obtener el ID del departamento desde el formulario

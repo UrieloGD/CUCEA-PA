@@ -37,11 +37,11 @@
 
 /* CSS Div dashboard */
 .powerbi-container {
-  width: calc(100% - 20px); /* Ancho completo menos los márgenes laterales */
+  width: calc(99% - 10px); /* Ancho completo menos los márgenes laterales */
   height: calc(
-    100% - 80px
+    98% - 80px
   ); /* Altura completa menos el encabezado y el margen superior */
-  margin: 40px 10px 0 10px; /* Margen superior de 40px y lateral de 10px */
+  margin: 20px 10px 0 10px; /* Margen superior de 40px y lateral de 10px */
   display: flex;
   justify-content: center;
   align-items: center;

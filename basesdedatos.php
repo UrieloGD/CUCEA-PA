@@ -20,14 +20,6 @@ $result = mysqli_query($conexion, $sql);
 <title>Data - <?php echo $departamento_nombre; ?></title>
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
-<style>
-    .modal input, .modal select {
-        border-radius: 5px;
-        padding: 5px;
-        border: 1px solid #ccc;
-    }
-</style>
-
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
@@ -386,12 +378,11 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<script src="./JS/tabla_editable.js"></script>
-<script src="./JS/barradebusqueda.js"></script>
-<script src="./JS/eliminarRegistro.js"></script>
-<script src="./JS/editarRegistros.js"></script>
-<script src="./JS/añadirRegistro.js"></script>
-<script src="./JS/descargarExcel&popUp.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./JS/basesdedatos/tabla-editable.js"></script>
+<script src="./JS/basesdedatos/barra-busqueda.js"></script>
+<script src="./JS/basesdedatos/eliminar-registro.js"></script>
+<script src="./JS/basesdedatos/editar-registros.js"></script>
+<script src="./JS/basesdedatos/añadir-registro.js"></script>
+<script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 
 <?php include("./template/footer.php"); ?>

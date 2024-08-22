@@ -19,7 +19,7 @@ function eliminarRegistrosSeleccionados() {
     }).then((result) => {
       if (result.isConfirmed) {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "./config/eliminar_registros.php", true);
+        xhr.open("POST", "./functions/basesdedatos/eliminar-registros.php", true);
         xhr.setRequestHeader(
           "Content-Type",
           "application/x-www-form-urlencoded"
@@ -55,7 +55,7 @@ function eliminarRegistrosSeleccionados() {
   }).then((result) => {
     if (result.isConfirmed) {
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "./config/eliminar_registros.php", true);
+      xhr.open("POST", "./functions/basesdedatos/eliminar-registros.php", true);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

@@ -1,5 +1,5 @@
 <?php
-include '../config/db.php';
+include './../../config/db.php';
 session_start();
 
 $departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';

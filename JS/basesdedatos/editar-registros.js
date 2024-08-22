@@ -124,7 +124,7 @@ function guardarCambios() {
     };
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', './config/editar_registro.php', true);
+    xhr.open('POST', './functions/basesdedatos/editar-registro.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

@@ -22,7 +22,7 @@ header('Content-Type: application/json');
 // Iniciar la sesión
 session_start();
 
-include './config/db.php';
+include './../../config/db.php';
 
 $response = ['success' => false, 'oldValue' => '', 'error' => ''];
 

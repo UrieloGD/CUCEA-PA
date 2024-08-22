@@ -271,7 +271,7 @@ function saveAllChanges() {
         
         console.log('Saving changes for column:', columnName, 'with value:', newValue); // Para depuración
 
-        promises.push(fetch('actualizar_celda.php', {
+        promises.push(fetch('./functions/basesdedatos/actualizar-celda.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

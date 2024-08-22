@@ -1,6 +1,6 @@
 <?php
-require '../vendor/autoload.php';
-include '../config/db.php';
+require './../../vendor/autoload.php';
+include './../../config/db.php';
 session_start();
 
 $departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : 0;
