@@ -171,16 +171,33 @@ if ($resultado->num_rows > 0) {
     </div>
 </div>
 
-<script src="./JS/admin-eventos/admin-crear-eventos/modal-participantes.js"></script>
 <script>
-// participantes.js
+const modal = document.getElementById('modal');
+const abrirModalBtn = document.getElementById('abrirModal');
+const cerrarModalBtn = document.querySelector('.close');
 const confirmarParticipantesBtn = document.getElementById('confirmarParticipantes');
 const participantesSeleccionados = document.getElementById('participantes-seleccionados');
 const inputParticipantes = document.getElementById('input-participantes');
 
+abrirModalBtn.onclick = function(e) {
+    e.preventDefault();
+    modal.style.display = "flex";
+    ajustarTamañoModal();
+}
+
+cerrarModalBtn.onclick = function() {
+    modal.style.display = "none";
+}
+
 confirmarParticipantesBtn.onclick = function() {
     actualizarParticipantesSeleccionados();
     modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
 
 function actualizarParticipantesSeleccionados() {
@@ -213,6 +230,72 @@ function actualizarParticipantesSeleccionados() {
         }
     });
 }
+
+document.getElementById('eventoForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¿Deseas <?php echo $editing ? 'actualizar' : 'guardar'; ?> este evento?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, <?php echo $editing ? 'actualizar' : 'guardar'; ?>',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var formData = new FormData(this);
+
+            fetch('<?php echo $editing ? 'config/eventos_update.php' : 'config/eventos_upload.php'; ?>', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Swal.fire(
+                        '¡<?php echo $editing ? 'Actualizado' : 'Guardado'; ?>!',
+                        'El evento ha sido <?php echo $editing ? 'actualizado' : 'guardado'; ?>.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = './admin-eventos.php';
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al <?php echo $editing ? 'actualizar' : 'guardar'; ?> el evento: ' + data.message,
+                        'error'
+                    );
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al procesar la respuesta del servidor.',
+                    'error'
+                );
+            });
+        }
+    });
+});
+
+function ajustarTamañoModal() {
+    const modalContent = document.querySelector('.modal-content');
+    const tabla = modalContent.querySelector('table');
+    const boton = modalContent.querySelector('#confirmarParticipantes');
+    
+    modalContent.style.maxHeight = '80vh';
+    
+    const alturaContenido = tabla.offsetHeight + boton.offsetHeight + 60;
+    
+    if (alturaContenido < window.innerHeight * 0.8) {
+        modalContent.style.maxHeight = `${alturaContenido}px`;
+    }
+}
+
+window.addEventListener('resize', ajustarTamañoModal);
 
 // Inicializar los participantes seleccionados si estamos editando
 <?php if ($editing): ?>
