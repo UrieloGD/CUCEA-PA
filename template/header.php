@@ -267,8 +267,8 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
 </div>
 
 
-<script src="./JS/header.js"></script>
-<script src="./JS/barra-notificaciones.js"></script>
+<script src="./JS/header/header.js"></script>
+<script src="./JS/notificaciones/barra-notificaciones.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

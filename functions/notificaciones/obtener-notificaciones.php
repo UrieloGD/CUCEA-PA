@@ -1,6 +1,6 @@
 <?php
 session_start();
-include './db.php';
+include './../../config/db.php';
 
 $rol_id = $_SESSION['Rol_ID'];
 $codigo_usuario = $_SESSION['Codigo'];

@@ -1,5 +1,5 @@
 function actualizarNotificaciones() {
-  fetch("./config/obtener_notificaciones.php")
+  fetch("./functions/notificaciones/obtener-notificaciones.php")
     .then((response) => response.text())
     .then((html) => {
       const sidebar = document.getElementById("mySidebar");
@@ -91,7 +91,7 @@ function manejarClicNotificacion(event) {
 }
 
 function marcarNotificacionComoVista(id, tipo) {
-  fetch("./config/marcar_vista.php", {
+  fetch("./functions/notificaciones/marcar-notificacion-vista.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -138,7 +138,7 @@ function marcarNotificacionesComoVistas() {
   actualizarBadgeNotificaciones();
 
   if (ids.length > 0) {
-    fetch("./config/marcar_vista.php", {
+    fetch("./functions/notificaciones/marcar-notificacion-vista.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
