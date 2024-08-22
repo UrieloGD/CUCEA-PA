@@ -86,36 +86,58 @@
 }
 
 .columna-lateral {
-    width: 5%;
+    width: 10%; /* ancho de las columnas */
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     padding-top: 10px;
+    flex-direction: column;
+    background-color: #D9D9D9;
+    position: relative;
 }
 
 .columna-lateral.izquierda {
-    background: linear-gradient(to right, #ffffff 50%, #808080 50%);
+    background: linear-gradient(to right, #ffffff 50%, #D9D9D9 50%);
 }
 
 .columna-lateral.derecha {
-    background: linear-gradient(to left, #ffffff 50%, #808080 50%);
+    background: linear-gradient(to left, #ffffff 50%, #D9D9D9 50%);
 }
 
 .letra-piso {
     width: 30px;
     height: 30px;
-    background-color: #0071b0;
+    background-color: #0071B0;
     color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: inherit;
     border-radius: 4px;
+    margin-bottom: 100%;
+    margin-left: 50%;
+    z-index: 2; 
 }
 
 .letra-piso span {
     color: white;
     font-size: 18px;
     font-weight: bold;
+}
+
+.escalera-izquierda, .escalera-derecha {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    background-color: #A0A0A0;
+}
+
+.escalera-izquierda {
+    clip-path: inset(30% 0 60% 0);
+}
+
+.escalera-derecha {
+    clip-path: inset(30% 0 60% 0);
 }
 
 .cuadro-grande {
@@ -127,35 +149,115 @@
 
 .piso {
     border: 1px solid #ccc;
-    padding: 50px; /* grosor de pisos */
+    padding: 30px; /* grosor de pisos */
+    
 }
 
 .numero-piso {
     font-weight: bold;
-    margin-bottom: px;
+    margin-bottom: 10px;
 }
 
 .salas {
     display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
+    flex-direction:inherit;
+    /* gap: 50px; espacio entre columnas/puertas */
+    justify-content: space-around; /*sugerencia de Luis */
+}
+
+.sala-container {
+    width: 100px;
+    height: 150;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    gap: 5px; /* Ajusta el espacio entre el texto y la sala */
+}
+
+.sala-texto {
+    font-size: 14px; /* Ajusta el tamaño del texto */
+    color: black; /* Color del texto */
+    text-align: center;
 }
 
 .sala {
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     font-size: 12px;
     flex-grow: 1;
+    min-width: 60px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    border-radius: 7px 7px 0px 0px;
+}
+
+.sala img {
+    width: 20px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 17px;
+    margin-bottom: 60px;
+    justify-content: center ;
 }
 
 .administrativo {
-    background-color: #FFE699;
+    background-color: #FFD875;
+}
+
+.administrativo img {
+    background-color: #FFD875;
+    width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 25px;
 }
 
 .aula {
-    background-color: #BDD7EE;
+    background-color: #7BC7F1;
+}
+
+.aula img {
+    background-color: #7BC7F1;
+    width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 25px;
 }
 
 .bodega {
-    background-color: #C6E0B4;
+    background-color: #CC8E60;
 }
+
+.bodega img {
+    width: 25px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 30px;
+}
+
+/* Estilos para la leyenda */
+.leyenda {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 50px;
+}
+
+.leyenda-item {
+    display: flex;
+    align-items: center;
+    font-size: large;
+    min-width: 150px;
+}
+
+.cuadrito {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 15%;
+}
+
+.aula { background-color: #7BC7F1; }
+.aula-ocupada { background-color: #84A5B8; }
+.laboratorio { background-color: #72CEA2; }
+.laboratorio-ocupado { background-color: #8AA598; }
+.bodega { background-color: #CC8E60; }
+.administrativo { background-color: #FFD875; }

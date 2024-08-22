@@ -58,51 +58,173 @@
 <!-- Aquí empieza el código del Edificio -->
 <div class="contenedor-principal">
     <div class="columna-lateral izquierda">
-        <div class="letra-piso">A</div>
+        <div class="letra-piso-izquierda">A</div>
+        <div class="escalera-izquierda"></div>
     </div>
 
     <div class="cuadro-grande">
         <div class="piso">
-            <div class="numero-piso">Piso 3</div>
+            <div class="numero-piso"></div>
             <div class="salas">
-                <div class="sala administrativo">A-309</div>
-                <div class="sala aula">A-308</div>
-                <div class="sala aula">A-307</div>
-                <div class="sala aula">A-306</div>
-                <div class="sala aula">A-305</div>
-                <div class="sala bodega">A-304</div>
-                <div class="sala aula">A-303</div>
-                <div class="sala aula">A-302</div>
-                <div class="sala aula">A-301</div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-309</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-308</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-307</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-306</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png" alt="AULA">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-305</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-304</span>
+                    <div class="sala bodega">
+                        <img src="./Img/icons/iconos-espacios/icono-bodega.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-303</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-302</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-301</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="piso">
-            <div class="numero-piso">Piso 2</div>
+            <div class="numero-piso"></div>
             <div class="salas">
-                <div class="sala administrativo">A-206</div>
-                <div class="sala bodega">A-202</div>
-                <div class="sala aula">A-203</div>
-                <div class="sala administrativo">A-204</div>
-                <div class="sala administrativo">A-205</div>
-                <div class="sala administrativo">A-201</div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-206</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-202</span>
+                    <div class="sala bodega">
+                        <img src="./Img/icons/iconos-espacios/icono-bodega.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-203</span>
+                    <div class="sala aula">
+                        <img src="./Img/icons/iconos-espacios/icono-aula.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-204</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-205</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-201</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="piso">
-            <div class="numero-piso">Piso 1</div>
+            <div class="numero-piso"></div>
             <div class="salas">
-                <div class="sala administrativo">A-204</div>
-                <div class="sala administrativo">A-203</div>
-                <div class="sala administrativo">A-202</div>
-                <div class="sala administrativo">A-201</div>
+            <div class="sala-container">
+                    <span class="sala-texto">A-104</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-103</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-102</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
+                <div class="sala-container">
+                    <span class="sala-texto">A-101</span>
+                    <div class="sala administrativo">
+                        <img src="./Img/icons/iconos-espacios/icono-administrativo.png">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="columna-lateral derecha">
-        <div class="letra-piso">A</div>
+        <div class="letra-piso-derecha">A</div>
+        <div class="escalera-derecha"></div>
+    </div>
+</div>
+
+<div class="leyenda">
+    <div class="leyenda-item">
+        <div class="cuadrito aula"></div>
+        <span>Aula</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="cuadrito aula-ocupada"></div>
+        <span>Aula ocupada</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="cuadrito laboratorio"></div>
+        <span>Laboratorio</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="cuadrito laboratorio-ocupado"></div>
+        <span>Laboratorio ocupado</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="cuadrito bodega"></div>
+        <span>Bodega</span>
+    </div>
+    <div class="leyenda-item">
+        <div class="cuadrito administrativo"></div>
+        <span>Administrativo</span>
     </div>
 </div>
 
 <?php include './template/footer.php' ?>
-
-    
