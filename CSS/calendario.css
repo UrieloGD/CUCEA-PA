@@ -236,10 +236,77 @@
     align-items: center;
 }
 
+.date-selector {
+    position: relative;
+}
+
+
 .month-year {
     font-size: 1.2em;
     margin-right: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
+
+.month-year:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#monthYearPicker {
+    background-color: #ffffff;
+    border: 2px solid #0071B0;
+    color: #0071B0;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#monthYearPicker::-webkit-calendar-picker-indicator {
+    filter: invert(23%) sepia(91%) saturate(1752%) hue-rotate(187deg) brightness(96%) contrast(101%);
+}
+
+#monthYearPicker:hover, #monthYearPicker:focus {
+    border-color: #005a8c;
+    box-shadow: 0 0 5px rgba(0, 113, 176, 0.5);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-10px); -webkit-transform: translateX(-10px); -moz-transform: translateX(-10px); -ms-transform: translateX(-10px); -o-transform: translateX(-10px); }
+}
+
+#monthYearPicker {
+    position: absolute;
+    top: -18%;
+    left: 100%;
+    z-index: 1000;
+    display: none;
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+}
+
+#monthYearPicker.fadeIn {
+    display: inline-block;
+    animation-name: fadeIn;
+}
+
+#monthYearPicker.fadeOut {
+    animation-name: fadeOut;
+}
+
+/* #monthYearPicker.show {
+    display: inline-block;
+} */
 
 .arrow-buttons {
     display: flex;
@@ -271,14 +338,16 @@
 .calendar-table {
     width: 96.3%;
     border-collapse: collapse;
+    
 }
 
+
 .calendar-table th, .calendar-table td {
-    border: 1px solid #E7E9F2;
+    border: 1px solid #b9bcc9;
     text-align: center;
     font-size: medium;
-    width: 85px;
-    height: 85px;
+    width: 15vh;
+    height: 11vh;
     position: relative;
     padding: 0;
 }
@@ -349,11 +418,17 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    cursor: pointer;
+    max-height: 60px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
+.events-container.expanded {
+    max-height: none !important;
+  }
+
 .event-indicator {
-    font-size: 8px;
+    font-size: 10px;
     padding: 1px 2px;
     border-radius: 2px;
     white-space: nowrap;
@@ -361,6 +436,18 @@
     text-overflow: ellipsis;
     margin-bottom: 1px;
     width: 100%;
+    cursor: pointer;
+}
+
+.event-more, .event-less {
+    font-size: 10px;
+    color: #0071B0;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.event-more:hover, .event-less:hover {
+    text-decoration: underline;
 }
 
 .event-indicator:hover {
@@ -458,17 +545,19 @@
     padding: 0;
     border: none;
     width: 90%;
-    max-width: 448px;
+    max-width: 600px;
     box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
     border-radius: 8px;
     overflow: hidden;
-    transform: translateY(-100px);
+    transform: translateY(-50px);
     transition: transform 0.3s ease;
 }
-
 .modal.show {
-    display: block;
     opacity: 1;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
 }
 
 .modal-content.show {
@@ -486,7 +575,7 @@
 }
 
 .modal-header {
-    background-color: #1a73e8;
+    background-color: #0071b0;
     color: white;
     padding: 16px 24px;
     font-size: 22px;
@@ -511,14 +600,13 @@
     float: right;
     font-size: 28px;
     font-weight: bold;
-    margin-top: -8px;
+    cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
     color: #e8eaed;
     text-decoration: none;
-    cursor: pointer;
 }
 
 .event-time {
@@ -566,6 +654,175 @@ hr {
   hr.actividades{
     border: 1px solid #797979;
   }
+  
+
+  /* Estilos para modal mostrar más eventos */
+
+  #eventsModal .modal-content {
+    max-width: 800px;
+}
+
+#eventsModal .modal-header {
+    background-color: #0071b0;
+    color: white;
+    padding: 16px 24px;
+    font-size: 22px;
+    font-weight: 400;
+    align-content: center;
+    text-align: center;
+}
+
+#eventsModal .modal-title {
+    margin: 0;
+    color: white;
+}
+
+#eventsModal .modal-body {
+    padding: 24px;
+}
+
+#eventsModal .modal-event {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+#eventsModal .modal-event:last-child {
+    border-bottom: none;
+}
+
+#eventsModal .modal-event h3 {
+    margin-top: 0;
+    color: #0071B0;
+    font-size: 18px;
+}
+
+#eventsModal .event-time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+#eventsModal .event-time:before {
+    content: '\1F551'; /* Emoji de reloj */
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+#eventsModal .event-description {
+    margin-top: 8px;
+    color: #3c4043;
+}
+
+#eventsModal .close {
+    color: white;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#eventsModal .close:hover,
+#eventsModal .close:focus {
+    color: #e8eaed;
+    text-decoration: none;
+}
+
+/* Estilos para botones de filtros */
+
+.filter-menu {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+
+  .filter-menu.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .filter-btn{
+    background-color: #f1f1f1;
+    border: none;
+    color: #333;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+}
+  
+  .filter-btn:hover {
+    background-color: #0071B0;
+    color: #fff;
+  }
+  
+  .filter-btn.active {
+    background-color: #0071B0;
+    color: #fff;
+  }
+  
+  .close-filter {
+    background-color: #f1f1f1;
+    border: none;
+    color: #333;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+}
+  
+  .close-filter:hover {
+    color: white;
+    background-color: #0071B0;
+  }
+
+.filter-menu .filter-btn.active {
+    background-color: #0071B0;
+    color: white;
+  }
+  
+  .filter-menu .filter-btn.active:hover {
+    background-color: #005a8c;
+  }
+
+  /* Estilos para barra de búsqueda */
+
+  .search-input{
+    background-color: #ffffff;
+    border: none;
+    outline:none;
+    height: 40px;
+    color: #333;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
 
 @media (max-width: 768px) {
     .calendar-container {

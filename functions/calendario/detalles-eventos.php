@@ -1,5 +1,9 @@
 <?php
-include './config/db.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Incluye la configuración de la base de datos
+include '../../config/db.php';
 
 if (isset($_GET['event_id'])) {
     $eventId = intval($_GET['event_id']);
@@ -13,6 +17,7 @@ if (isset($_GET['event_id'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 
+    header('Content-Type: application/json');
     if ($row = $result->fetch_assoc()) {
         echo json_encode($row);
     } else {
@@ -21,6 +26,7 @@ if (isset($_GET['event_id'])) {
 
     $stmt->close();
 } else {
+    header('Content-Type: application/json');
     echo json_encode(["error" => "ID de evento no proporcionado"]);
 }
 
