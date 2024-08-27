@@ -63,13 +63,14 @@ if (mysqli_query($conn, $sql)) {
 }
 
 // Para el hasheo de contraseñas
-function hashPassword($password) {
+function hashPassword($password)
+{
     $salt = bin2hex(random_bytes(16));
     $hashedPassword = hash('sha256', $salt . $password);
     return ['hash' => $hashedPassword, 'salt' => $salt];
 }
 // Usuarios (los necesitamos en arreglo para el hasheo de contraseñas)
-$usuarios= [
+$usuarios = [
     [2100123456, 'Juan', 'Perez', 'juan.perez@cucea.udg', '123', 'Masculino', 1],
     [2103456789, 'Ana', 'Martinez', 'ana.martinez@cucea.udg', '123', 'Femenino', 1],
     [2106789012, 'Carlos', 'Hernandez', 'carlos.hernandez@cucea.udg', '123', 'Masculino', 1],
@@ -303,6 +304,38 @@ if (mysqli_query($conn, $sql)) {
 } else {
     echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conn);
 }
+
+// Crear tabla Coord_Per_Prof
+$sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Departamento_ID INT NOT NULL,
+    Codigo_Profesor VARCHAR(12) NOT NULL,
+    Nombre  VARCHAR(35) NOT NULL,
+    Apellido VARCHAR(35) NOT NULL,
+    Edad VARCHAR(5) NOT NULL,
+    Categoria VARCHAR(35) NOT NULL,
+    Tipo_Plaza VARCHAR(35) NOT NULL, 
+    Investigacion_Nombramiento_Cambio_de_Funcion VARCHAR(35) NOT NULL,
+    SNI VARCHAR(15) NOT NULL,
+    A_partir_de_cuando  VARCHAR(15) NOT NULL,
+    Cuando_se_vence VARCHAR(15) NOT NULL,
+    Horas_definitivas VARCHAR(15) NOT NULL,
+    Horas_frente_grupo VARCHAR(15) NOT NULL,
+    Horarios_nombramiento VARCHAR (30) NOT NULL,
+    Telefono VARCHAR(12) NOT NULL,
+    IMSS VARCHAR(35) NOT NULL,
+    RFC VARCHAR(35) NOT NULL,
+    CURP VARCHAR(35) NOT NULL,
+    Correo VARCHAR(60) NOT NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+);";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Coord_Per_Prof creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Coord_Per_Prof: " . mysqli_error($conn);
+}
+
 
 // Crear tabla Data_Estudios_Regionales
 $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
