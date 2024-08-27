@@ -247,7 +247,7 @@ document.getElementById('eventoForm').addEventListener('submit', function(e) {
         if (result.isConfirmed) {
             var formData = new FormData(this);
 
-            fetch('<?php echo $editing ? 'config/eventos_update.php' : 'config/eventos_upload.php'; ?>', {
+            fetch('<?php echo $editing ? './functions/admin-eventos/guardar-evento.php' : './functions/admin-eventos/guardar-evento.php'; ?>', {
                 method: 'POST',
                 body: formData
             })
