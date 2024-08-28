@@ -25,28 +25,24 @@
         <label for="ciclo">Ciclo</label>
         <select id="ciclo" name="ciclo">
             <option value="2019A">2019A</option>
-            <!-- Agregar más opciones según sea necesario -->
         </select>
     </div>
     <div class="filtro">
         <label for="edificio">Edificio</label>
         <select id="edificio" name="edificio">
             <option value="CEDA">CEDA</option>
-            <!-- Agregar más opciones según sea necesario -->
         </select>
     </div>
     <div class="filtro">
         <label for="dia">Día</label>
         <select id="dia" name="dia">
             <option value="Lunes">Lunes</option>
-            <!-- Agregar más opciones según sea necesario -->
         </select>
     </div>
     <div class="filtro">
         <label for="horario">Horario</label>
         <select id="horario" name="horario">
             <option value="16:00-18:00">16:00 - 18:00</option>
-            <!-- Agregar más opciones según sea necesario -->
         </select>
     </div>
     <div class="filtro">
@@ -57,12 +53,15 @@
 
 <!-- Aquí empieza el código del Edificio -->
 <div class="contenedor-principal">
-    <div class="columna-lateral izquierda">
-        <div class="letra-piso-izquierda">A</div>
+<div class="columna-lateral izquierda">
+        <div class="letra-piso">
+            <span>A</span>
+        </div>
         <div class="escalera-izquierda"></div>
     </div>
 
     <div class="cuadro-grande">
+        <div class="techo"></div>
         <div class="piso">
             <div class="numero-piso"></div>
             <div class="salas">
@@ -121,6 +120,8 @@
                     </div>
                 </div>
             </div>
+            <div class="barandal"></div>
+            <div class="piso-gris"></div>
         </div>
         <div class="piso">
             <div class="numero-piso"></div>
@@ -162,6 +163,8 @@
                     </div>
                 </div>
             </div>
+            <div class="barandal"></div>
+            <div class="piso-gris"></div>
         </div>
         <div class="piso">
             <div class="numero-piso"></div>
@@ -191,11 +194,14 @@
                     </div>
                 </div>
             </div>
+            <div class="piso-gris"></div>
         </div>
     </div>
 
     <div class="columna-lateral derecha">
-        <div class="letra-piso-derecha">A</div>
+        <div class="letra-piso">
+            <span>A</span>
+        </div>
         <div class="escalera-derecha"></div>
     </div>
 </div>
