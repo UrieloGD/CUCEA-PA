@@ -53,15 +53,20 @@
 
 <!-- Aquí empieza el código del Edificio -->
 <div class="contenedor-principal">
+<div class="techo"></div>
+<div class="contenido-edificio">
 <div class="columna-lateral izquierda">
         <div class="letra-piso">
             <span>A</span>
         </div>
-        <div class="escalera-izquierda"></div>
+        <div class="escaleras-container">
+            <div class="escalera-superior"></div>
+            <div class="escalera-inferior"></div>
+        </div>
     </div>
 
     <div class="cuadro-grande">
-        <div class="techo"></div>
+       
         <div class="piso">
             <div class="numero-piso"></div>
             <div class="salas">
@@ -202,8 +207,12 @@
         <div class="letra-piso">
             <span>A</span>
         </div>
-        <div class="escalera-derecha"></div>
+        <div class="escaleras-container">
+            <div class="escalera-superior"></div>
+            <div class="escalera-inferior"></div>
+        </div>
     </div>
+</div>
 </div>
 
 <div class="leyenda">

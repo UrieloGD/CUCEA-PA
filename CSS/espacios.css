@@ -78,10 +78,27 @@
 /* Aquí empieza el código del Edificio */
 
 .contenedor-principal {
-    display: flex;
+    position: relative;
+    /* display: flex; */
     width: 95%;
     margin: 20px auto;
-    gap: 0; /**/
+    /* gap: 0; */
+}
+
+.techo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background-color: #7A7A7A;
+    z-index: 2;
+}
+
+/* agregado nuevo */
+.contenido-edificio {
+    display: flex;
+    padding-top: 10px; /* Espacio para el techo */
 }
 
 .columna-lateral { /* modificada */
@@ -106,40 +123,96 @@
 }
 
 .letra-piso {
-    width: 50%;
-    height: 30px;
+    width: 40%;
+    height: 40px;
     background-color: #0071B0;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    margin-top: 20px;
     z-index: 2;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    position: absolute;
+}
+
+.columna-lateral.izquierda .letra-piso {
+    left: 75%;
+    transform: translateX(-50%);
+}
+
+.columna-lateral.derecha .letra-piso {
+    right: 75%; 
+    transform: translateX(50%);
 }
 
 .letra-piso span {
     color: white;
-    font-size: 18px;
+    font-size: 30px;
     font-weight: bold;
 }
 
-/* .escalera-izquierda, .escalera-derecha {
-    position: inherit;
+.escaleras-container {
+    position: absolute;
     width: 100%;
-    height: calc(100% - 30px);
-    top: 30px;
+    height: calc(100% - 40px);
+    top: 40px;
+}
+
+.escalera-superior,
+.escalera-inferior {
+    position: absolute;
+    width: 100%;
+    height: 33.33%; /* Aproximadamente un tercio de la altura total */
     background-color: #A0A0A0;
-} */
+}
+
+.escalera-superior {
+    top: 33.33%; /* Posicionado al nivel del segundo piso */
+}
+
+.escalera-inferior {
+    bottom: 0; /* Posicionado al nivel del primer piso */
+}
+
+.columna-lateral.izquierda .escalera-superior {
+    clip-path: inset(20% 0 50% 0);
+}
+
+.columna-lateral.izquierda .escalera-inferior {
+    clip-path: inset(20% 0 50% 0);
+}
+
+.columna-lateral.derecha .escalera-superior {
+    clip-path: inset(20% 0 50% 0);
+}
+
+.columna-lateral.derecha .escalera-inferior {
+    clip-path: inset(20% 0 50% 0);
+}
+
+/* .escalera-izquierda, .escalera-derecha {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 40px);
+    top: 40px;
+    background-color: #A0A0A0;
+}
 
 .escalera-izquierda {
     right: 0;
-    clip-path: polygon()
+    clip-path: inset(30% 0 60% 0);
 }
 
 .escalera-derecha {
     left: 0;
-    clip-path: polygon()
-}
+    clip-path: polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%);
+} */
 
 .columna-lateral.izquierda {
     background: linear-gradient(to right, #ffffff 50%, #D9D9D9 50%);
@@ -158,16 +231,6 @@
     position: relative;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
-}
-
-.techo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 10px;
-    background-color: #7A7A7A;
-    z-index: 0;
 }
 
 .piso {
@@ -206,7 +269,6 @@
     left: 0;
     right: 0;
     z-index: 1;
-
 }
 
 .numero-piso {
