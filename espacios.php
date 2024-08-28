@@ -21,35 +21,71 @@
 
 <!-- Cuadros de texto y desplegables -->
 <div class="filtros">
-    <div class="filtro">
-        <label for="ciclo">Ciclo</label>
-        <select id="ciclo" name="ciclo">
-            <option value="2019A">2019A</option>
-        </select>
+        <div class="filtro">
+            <label for="ciclo">Ciclo</label>
+            <select id="ciclo" name="ciclo">
+                <option value="">Seleccione un ciclo</option>
+                <?php
+                $query = "SELECT DISTINCT CICLO FROM Data_Estudios_Regionales ORDER BY CICLO DESC";
+                $result = mysqli_query($conn, $query);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<option value='" . $row['CICLO'] . "'>" . $row['CICLO'] . "</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="filtro">
+            <label for="edificio">Edificio</label>
+            <select id="edificio" name="edificio">
+                <option value="">Seleccione un edificio</option>
+                <?php
+                $query = "SELECT DISTINCT Edificio FROM Espacios ORDER BY Edificio";
+                $result = mysqli_query($conn, $query);
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<option value='" . $row['Edificio'] . "'>" . $row['Edificio'] . "</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="filtro">
+            <label for="dia">Día</label>
+            <select id="dia" name="dia">
+                <option value="">Seleccione un día</option>
+                <option value="L">Lunes</option>
+                <option value="M">Martes</option>
+                <option value="I">Miércoles</option>
+                <option value="J">Jueves</option>
+                <option value="V">Viernes</option>
+                <option value="S">Sábado</option>
+                <option value="D">Domingo</option>
+            </select>
+        </div>
+        <div class="filtro">
+            <label for="horario">Hora Inicio</label>
+            <select id="horario_inicio" name="horario_inicio">
+                <option value="">Hora inicio</option>
+                <?php
+                for ($i = 7; $i <= 20; $i++) {
+                    $hour = str_pad($i, 2, "0", STR_PAD_LEFT) . ":00";
+                    echo "<option value='$hour'>$hour</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="filtro">
+        <label for="horario">Hora Fin</label>
+            <select id="horario_fin" name="horario_fin">
+                <option value="">Hora fin</option>
+                <?php
+                for ($i = 8; $i <= 21; $i++) {
+                    $hour = str_pad($i, 2, "0", STR_PAD_LEFT) . ":55";
+                    echo "<option value='$hour'>$hour</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <button id="filtrar">Filtrar</button>
     </div>
-    <div class="filtro">
-        <label for="edificio">Edificio</label>
-        <select id="edificio" name="edificio">
-            <option value="CEDA">CEDA</option>
-        </select>
-    </div>
-    <div class="filtro">
-        <label for="dia">Día</label>
-        <select id="dia" name="dia">
-            <option value="Lunes">Lunes</option>
-        </select>
-    </div>
-    <div class="filtro">
-        <label for="horario">Horario</label>
-        <select id="horario" name="horario">
-            <option value="16:00-18:00">16:00 - 18:00</option>
-        </select>
-    </div>
-    <div class="filtro">
-        <label for="tiempo-real">Tiempo real</label>
-        <input type="text" id="tiempo-real" name="tiempo-real" readonly>
-    </div>
-</div>
 
 <!-- Aquí empieza el código del Edificio -->
 <div class="contenedor-principal">
@@ -125,7 +161,7 @@
                     </div>
                 </div>
             </div>
-            <div class="barandal"></div>
+            <div class="barandal" style="bottom: 20px"></div>
             <div class="piso-gris"></div>
         </div>
         <div class="piso">
@@ -241,5 +277,35 @@
         <span>Administrativo</span>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#filtrar').click(function() {
+        var edificio = $('#edificio').val();
+        var dia = $('#dia').val();
+        var horario_inicio = $('#horario_inicio').val();
+        var horario_fin = $('#horario_fin').val();
+        var ciclo = $('#ciclo').val();
+
+        $.ajax({
+            url: './functions/espacios/obtener-espacios.php',
+            method: 'POST',
+            data: {
+                edificio: edificio,
+                dia: dia,
+                horario_inicio: horario_inicio,
+                horario_fin: horario_fin,
+                ciclo: ciclo
+            },
+            success: function(response) {
+                $('.contenedor-principal').html(response);
+            }
+        });
+    });
+});
+</script>
+
+<?php include './template/footer.php'; ?>
 
 <?php include './template/footer.php' ?>
