@@ -11,8 +11,26 @@ $row_departamento = mysqli_fetch_assoc($result_departamento);
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $departamento_nombre = $row_departamento['Departamentos'];
 
-//$tabla_departamento = "Data_" . $nombre_departamento;
+//$tabla_departamento
 $tabla_departamento = "Coord_Per_Prof";
+
+function convertExcelDate($value)
+{
+    if (!is_numeric($value)) {
+        return $value;
+    }
+    $unix_date = ($value - 25569) * 86400;
+    return date("Y-m-d", $unix_date);
+}
+
+function formatDateForDisplay($mysqlDate)
+{
+    if (!$mysqlDate || $mysqlDate == '0000-00-00') {
+        return '';
+    }
+    $date = DateTime::createFromFormat('Y-m-d', $mysqlDate);
+    return $date ? $date->format('d/m/Y') : '';
+}
 
 $sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
@@ -69,54 +87,151 @@ $result = mysqli_query($conexion, $sql);
             <tr>
                 <th></th>
                 <th>ID</th>
-                <th>CÓDIGO PROFESOR</th>
-                <th>NOMBRE</th>
-                <th>APELLIDO</th>
-                <th>EDAD</th>
-                <th>CATEGORÍA</th>
-                <th>TIPO DE PLAZA</th>
-                <th>INVESTIGACIÓN/NOMBRAMIENTO/CAMBIO DE FUNCIÓN</th>
-                <th>SNI</th>
-                <th>A PARTIR DE CUANDO</th>
-                <th>CUANDO SE VENCE</th>
-                <th>HORAS DEFINITIVAS</th>
+                <th>CODIGO</th>
+                <th>PATERNO</th>
+                <th>MATERNO</th>
+                <th>NOMBRES</th>
+                <th>NOMBRE COMPLETO </th>
+                <th>SEXO</th>
+                <th>DEPARTAMENTO</th>
+                <th>CATEGORIA ACTUAL</th>
+                <th>CATEGORIA ACTUAL</th>
                 <th>HORAS FRENTE A GRUPO</th>
-                <th>HORARIOS NOMBRAMIENTO</th>
-                <th>TÉLEFONO</th>
-                <th>IMSS</th>
-
+                <th>DIVISION</th>
+                <th>TIPO DE PLAZA</th>
+                <th>CAT.ACT.</th>
+                <th>CARGA HORARIA</th>
+                <th>HORAS DEFINITIVAS</th>
+                <th>HORARIO</th>
+                <th>TURNO</th>
+                <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION </th>
+                <th>S.N.I.</th>
+                <th>SIN DESDE</th>
+                <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR</th>
+                <th>INICIO</th>
+                <th>FIN</th>
+                <th>2024A</th> <!-- Esto cambia cada semestre -->
+                <th>TELEFONO PARTICULAR</th>
+                <th>TELEFONO OFICINA O CELULAR</th>
+                <th>DOMICILIO</th>
+                <th>COLONIA</th>
+                <th>C.P.</th>
+                <th>CIUDAD</th>
+                <th>ESTADO</th>
+                <th>NO. AFIL. I.M.S.S.</th>
+                <th>C.U.R.P.</th>
                 <th>RFC</th>
-                <th>CURP</th>
-                <th>CORREO</th>
+                <th>LUGAR DE NACIMIENTO</th>
+                <th>ESTADO CIVIL</th>
+                <th>TIPO DE SANGRE</th>
+                <th>FECHA NAC.</th>
+                <th>EDAD</th>
+                <th>NACIONALIDAD</th>
+                <th>CORREO ELECTRONICO</th>
+                <th>CORREOS OFICIALES</th>
+                <th>ULTIMO GRADO</th>
+                <th>PROGRAMA</th>
+                <th>NIVEL</th>
+                <th>INSTITUCION</th>
+                <th>ESTADO/PAIS</th>
+                <th>AÑO</th>
+                <th>GDO EXP</th>
+                <th>OTRO GRADO</th>
+                <th>PROGRAMA</th>
+                <th>NIVEL</th>
+                <th>INSTITUCION</th>
+                <th>ESTADO/PAIS</th>
+                <th>AÑO</th>
+                <th>GDO EXP</th>
+                <th>OTRO GRADO</th>
+                <th>PROGRAMA</th>
+                <th>NIVEL</th>
+                <th>INSTITUCION</th>
+                <th>ESTADO/PAIS</th>
+                <th>AÑO</th>
+                <th>GDO EXP</th>
+                <th>PROESDE 24-25</th>
+                <th>A PARTIR DE</th>
+                <th>FECHA DE INGRESO</th>
+                <th>ANTIGÜEDAD</th>
             </tr>
             <?php
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
+                    echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID"] ?? '') . "'></td>";
                     echo "<td>" . htmlspecialchars($row["ID"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Codigo_Profesor"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Nombre"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Apellido"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Edad"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Categoria"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Tipo_Plaza"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Investigacion_Nombramiento_Cambio_de_Funcion"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["SNI"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["A_partir_de_cuando"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Cuando_se_vence"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Horas_definitivas"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Codigo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Paterno"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Materno"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Nombres"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Nombre_completo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Sexo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Departamento"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Categoria_actual"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Categoria_actual_dos"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["Horas_frente_grupo"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Horarios_nombramiento"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["Telefono"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["IMSS"] ?? '') . "</td>";
-                    echo "<td>" . htmlspecialchars($row["RFC"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Division"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Tipo_plaza"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Cat_act"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Carga_horaria"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Horas_definitivas"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Horario"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Turno"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Investigacion_nombramiento_cambio_funcion"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["SNI"] ?? '') . "</td>";
+                    echo "<td>" . formatDateForDisplay($row['SIN_desde']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Cambio_dedicacion"] ?? '') . "</td>";
+                    echo "<td>" . formatDateForDisplay($row['Inicio']) . "</td>";
+                    echo "<td>" . formatDateForDisplay($row['Fin']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["2024A"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Telefono_particular"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Telefono_oficina"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Domicilio"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Colonia"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["CP"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Ciudad"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Estado"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["No_imss"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["CURP"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["RFC"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Lugar_nacimiento"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Estado_civil"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Tipo_sangre"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Fecha_nacimiento"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Edad"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Nacionalidad"] ?? '') . "</td>";
                     echo "<td>" . htmlspecialchars($row["Correo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Correos_oficiales"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Ultimo_grado"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Programa"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Nivel"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Institucion"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Estado_pais"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Año"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Gdo_exp"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_grado"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_programa"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_nivel"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_institucion"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_estado_pais"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_año"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_gdo_exp"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_grado_alternativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_programa_alternativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_nivel_altenrativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_institucion_alternativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_estado_pais_alternativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_año_alternativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Otro_gdo_exp_alternativo"] ?? '') . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Proesde_24_25"] ?? '') . "</td>";
+                    echo "<td>" . formatDateForDisplay($row['A_partir_de']) . "</td>";
+                    echo "<td>" . formatDateForDisplay($row['Fecha_ingreso']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row["Antiguedad"] ?? '') . "</td>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='43'>No hay datos disponibles</td></tr>";
+                echo "<tr><td colspan='70'>No hay datos disponibles</td></tr>";
             }
             mysqli_close($conexion);
             ?>
@@ -169,37 +284,6 @@ $result = mysqli_query($conexion, $sql);
                         <input type="email" id="email" name="email" placeholder="CORREO">
                     </div>
                 </div>
-                <!-- <div class="form-section">
-                    <h3>Profesorado</h3>
-                    <div class="form-row">
-                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código Profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre profesor" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">
-                        <input type="text" id="categoria" name="categoria" placeholder="Categoría">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="descarga" name="descarga" placeholder="Descarga" class="full-width">
-                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="Código descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="Nombre descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="Nombre definitivo" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="horas_totales" name="horas" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="titular" name="titular" placeholder="Titular">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="horas" name="horas" placeholder="Horas" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
-                    </div>
-                </div> -->
             </div>
             <div class="form-actions">
                 <button type="button" onclick="añadirRegistro()">Guardar</button>
