@@ -19,7 +19,7 @@ if ($conn->query($dbname) == TRUE) {
 
 mysqli_select_db($conn, "PA");
 
-include('./tabla_espacios.php');
+include('./td-espacios.php');
 
 // Crear tabla Roles
 $sql = "CREATE TABLE IF NOT EXISTS Roles (
@@ -89,7 +89,7 @@ $usuarios = [
     [2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1],
     [2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2],
     [2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Masculino', 2],
-    [2107890123, 'Aldo', 'Ceja', 'aldo.ceja@cucea.udg', '123', 'Femenino', 2],
+    [2107890123, 'Aldo', 'Ceja', 'aldo.ceja@cucea.udg', '123', 'Masculino', 2],
     [2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg', '123', 'Femenino', 3],
     [2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg', '123', 'Masculino', 3],
     [2108901234, 'Daniel', 'Sanchez', 'daniel.sanchez@cucea.udg', '123', 'Masculino', 3],
