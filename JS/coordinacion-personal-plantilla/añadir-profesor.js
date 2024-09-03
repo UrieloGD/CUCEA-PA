@@ -26,7 +26,11 @@ function añadirRegistro() {
   datos.append("departamento_id", departamento_id);
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "./functions/basesdedatos/añadir-registro.php", true);
+  xhr.open(
+    "POST",
+    "./functions/coord-personal-plantilla/añadir-profesor.php",
+    true
+  );
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {

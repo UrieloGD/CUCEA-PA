@@ -50,7 +50,7 @@ $result = mysqli_query($conexion, $sql);
             </div>
         </div>
         <div class="encabezado-centro">
-            <h3>Hola C:</h3>
+            <h3>Plantilla Académica</h3>
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
@@ -243,45 +243,125 @@ $result = mysqli_query($conexion, $sql);
 <div id="modal-añadir" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>Añadir nuevo profesor</h2>
+        <h2>Registrar nuevo profesor</h2>
         <hr style="border: 1px solid #0071b0; width: 99%;">
         <form id="form-añadir-registro">
             <div class="form-container">
                 <div class="form-section">
                     <h3>Datos</h3>
                     <div class="form-row">
+                        <input type="number" id="codigo" name="codigo" placeholder="Código">
+                        <input type="text" id="paterno" name="paterno" placeholder="Paterno">
+                        <input type="text" id="materno" name="materno" placeholder="Materno">
                         <input type="text" id="nombre" name="nombre" placeholder="Nombre">
-                        <input type="text" id="apellido" name="apellido" placeholder="Apellido">
-                        <input type="text" id="edad" name="edad" placeholder="Edad">
                     </div>
                     <div class="form-row">
-                        <input type="text" id="codigo" name="codigo" placeholder="Código">
-                        <input type="text" id="categoria" name="categoria" placeholder="Categoría">
+                        <input type="text" id="completo" name="completo" placeholder="Nomre Completo">
+                        <input type="text" id="sexo" name="sexo" placeholder="Sexo">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="departamento" name="departamento" placeholder="Departamento">
+                        <input type="text" id="categoria_actual" name="categoria_actual" placeholder="Categoría Actual">
+                        <input type="text" id="categoria_actual_dos" name="categoria_actual_dos" placeholder="Categoría Actual">
+                    </div>
+
+                    <div class="form-row">
+                        <input type="text" id="horas_frente_grupo" name="horas_frente_grupo" placeholder="Horas Frente a Grupo">
+                        <input type="text" id="division" name="division" placeholder="División">
+                    </div>
+                    <div class="form-row">
                         <input type="text" id="tipo_plaza" name="tipo_plaza" placeholder="Tipo de Plaza">
+                        <input type="text" id="cat_act" name="cat_act" placeholder="CAT_ACT">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="carga_horaria" name="carga_horaria" placeholder="Carga Horaria">
+                        <input type="text" id="horas_definitivas" name="horas_definitivas" placeholder="Horas Definitivas ">
+                        <input type="text" id="horario" name="horario" placeholder="Horario">
+                        <input type="text" id="turno" name="turno" placeholder="Turno">
                     </div>
                     <div class="form-row">
                         <input type="text" id="investigacion" name="investsigacion" placeholder="Investigación / Nombramiento / Cambio de función">
                     </div>
                     <div class="form-row">
-                        <input type="text" id="sni" name="sni" placeholder="SNI">
-                        <input type="text" id="cuando" name="cuando" placeholder="A partir de cuando">
-                        <input type="text" id="vencimiento" name="vencimiento" placeholder="Cuando se vence">
+                        <input type="text" id="sni" name="sni" placeholder="S.N.I">
+                        <input type="text" id="sin_desde" name="sin_desde" placeholder="SIN Desde">
                     </div>
                     <div class="form-row">
-                        <input type="text" id="horas_definitivas" name="horas_definitivas" placeholder="Horas Definitivas">
-                        <input type="text" id="horas_grupo" name="horas_grupo" placeholder="Horas frente a grupo">
-                        <input type="text" id="horarios_nombramiento" name="horarios_nombramiento" placeholder="Horas de nombramiento">
+                        <input type="text" id="cambio_dediacion" name="cambio_dediacion" placeholder="Cambio de Dedicación">
+                        <input type="text" id="inicio" name="inicio" placeholder="Inicio">
+                        <input type="text" id="fin" name="fin" placeholder="Fin">
+                        <input type="text" id="a_2024" name="a_2024" placeholder="2024A">
                     </div>
                     <div class="form-row">
-                        <input type="text" id="tel" name="tel" placeholder="Télefono">
-                        <input type="text" id="imss" name="imss" placeholder="IMSS">
+                        <input type="text" id="telefono_particular" name="telefono_particular" placeholder="Telefono Particular">
+                        <input type="text" id="telefono_oficina" name="telefono_oficina" placeholder="Telefono Oficina o Celuar">
                     </div>
                     <div class="form-row">
+                        <input type="text" id="domicilio" name="domicilio" placeholder="Domicilio">
+                        <input type="text" id="colonia" name="colonia" placeholder="Colonia">
+                        <input type="text" id="cp" name="cp" placeholder="C.P">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad">
+                        <input type="text" id="estado" name="estado" placeholder="Estado">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="no_imss" name="no_imss" placeholder="NO. AFIL. I.M.S.S.">
+                        <input type="text" id="curp" name="curp" placeholder="C.U.R.P">
                         <input type="text" id="rfc" name="rfc" placeholder="RFC">
-                        <input type="text" id="curp" name="curp" placeholder="CURP">
                     </div>
                     <div class="form-row">
-                        <input type="email" id="email" name="email" placeholder="CORREO">
+                        <input type="text" id="lugar_nacimiento" name="lugar_nacimiento" placeholder="Lugar de Nacimiento">
+                        <input type="text" id="estado_civil" name="estado_civil" placeholder="Estado Civil">
+                        <input type="text" id="tipo_sangre" name="tipo_sangre" placeholder="Tipo de Sangre">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha de Nacimiento">
+                        <input type="text" id="edad" name="edad" placeholder="Edad">
+                        <input type="text" id="nacionalidad" name="nacionalidad" placeholder="Nacionalidad">
+                    </div>
+                    <div class="form-row">
+                        <input type="email" id="correo" name="correo" placeholder="Correo Electrónico">
+                        <input type="email" id="correos_oficiales" name="correos_oficiales" placeholder="Correos Oficiales">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="ultimo_grado" name="ultimo_grado" placeholder="Último grado">
+                        <input type="text" id="programa" name="programa" placeholder="Programa">
+                        <input type="text" id="nivel" name="nivel" placeholder="Nivel">
+                        <input type="text" id="institucion" name="institucion" placeholder="Institución">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="estado_pais" name="estado_pais" placeholder="Estado/País">
+                        <input type="text" id="año" name="año" placeholder="Año">
+                        <input type="text" id="gdo_exp" name="gdo_exp" placeholder="Gdo_Exp">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="otro_grado" name="otro_grado" placeholder="Último grado">
+                        <input type="text" id="otro_programa" name="otro_programa" placeholder="Programa">
+                        <input type="text" id="otro_nivel" name="otro_nivel" placeholder="Nivel">
+                        <input type="text" id="otro_institucion" name="otro_institucion" placeholder="Institución">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="otro_estado_pais" name="otro_estado_pais" placeholder="Estado/País">
+                        <input type="text" id="otro_año" name="otro_año" placeholder="Año">
+                        <input type="text" id="otro_gdo_exp" name="otro_gdo_exp" placeholder="Gdo_Exp">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="otro_grado_alternativo" name="otro_grado_alternativo" placeholder="Último grado">
+                        <input type="text" id="otro_programa_alternativo" name="otro_programa_alternativo" placeholder="Programa">
+                        <input type="text" id="otro_nivel_alternativo" name="otro_nivel_alternativo" placeholder="Nivel">
+                        <input type="text" id="otro_institucion_alternativo" name="otro_institucion_alternativo" placeholder="Institución">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="otro_estado_pais_alternativo" name="otro_estado_pais_alternativo" placeholder="Estado/País">
+                        <input type="text" id="otro_año_alternativo" name="otro_año_alternativo" placeholder="Año">
+                        <input type="text" id="otro_gdo_exp_alternativo" name="otro_gdo_exp_alternativo" placeholder="Gdo_Exp">
+                    </div>
+                    <div class="form-row">
+                        <input type="text" id="proesde" name="proesde" placeholder="Proesde 24-25">
+                        <input type="text" id="a_partir_de" name="a_partir_de" placeholder="A Partir De">
+                        <input type="text" id="fecha_ingreso" name="fecha_ingreso" placeholder="Fecha de Ingreso">
+                        <input type="text" id="Antiguedad" name="Antiguedad" placeholder="Antigüedad">
                     </div>
                 </div>
             </div>
@@ -293,7 +373,7 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<!-- Modal para editar registros -->
+<!-- Modal para editar registros 
 <div id="modal-editar" class="modal">
     <div class="modal-content">
         <span class="close" onclick="cerrarFormularioEditar()">&times;</span>
@@ -396,13 +476,13 @@ $result = mysqli_query($conexion, $sql);
             </div>
         </form>
     </div>
-</div>
+</div> -->
 
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/barra-busqueda.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
 <script src="./JS/basesdedatos/editar-registros.js"></script>
-<script src="./JS/basesdedatos/añadir-registro.js"></script>
+<script src="./JS/coordinacion-personal-plantilla/añadir-profesor.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 
 <?php include("./template/footer.php"); ?>
