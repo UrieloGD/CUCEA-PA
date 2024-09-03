@@ -122,7 +122,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="piso">
                 <div class="numero-piso"></div>
                 <div class="salas">
-                    <?php foreach ($espacios_piso as $espacio): ?>
+                <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
+                     foreach ($espacios_piso as $espacio): ?>
                         <div class="sala-container">
                             <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
                             <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>">
