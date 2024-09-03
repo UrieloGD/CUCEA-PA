@@ -1,6 +1,10 @@
 <?php
 include './../../config/db.php';
 
+if (!$conexion) {
+    die("Error de conexión: " . mysqli_connect_error());
+}
+
 function getEspaciosFiltrados($conexion, $edificio, $dia, $hora_inicio, $hora_fin, $ciclo) {
     $departamentos = ['Estudios_Regionales', 'Finanzas', 'Ciencias_Sociales', 'PALE', 'Posgrados', 'Economia', 'Recursos_Humanos', 'Metodos_Cuantitativos', 'Politicas_Publicas', 'Administracion', 'Auditoria', 'Mercadotecnia', 'Impuestos', 'Sistemas_de_Informacion', 'Turismo', 'Contabilidad'];
     
@@ -26,6 +30,10 @@ function getEspaciosFiltrados($conexion, $edificio, $dia, $hora_inicio, $hora_fi
                 ORDER BY e.Espacio";
     
     $result = mysqli_query($conexion, $query);
+    if (!$result) {
+        die("Error en la consulta: " . mysqli_error($conexion) . "\n\nConsulta: " . $query);
+    }
+    
     $espacios = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $espacios[] = $row;

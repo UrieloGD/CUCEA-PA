@@ -242,7 +242,7 @@
 
 .barandal {
     position: absolute;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
     left: 0;
     right: 0;
     height: 6px;
@@ -254,7 +254,7 @@
 }
 
 .piso:nth-child(3) .barandal {
-    bottom: 20px; /* Ajusta para el tercer piso */
+    bottom: 402px; /* Ajusta para el tercer piso */
 }
 
 .piso:last-child {
@@ -326,11 +326,11 @@
     justify-content: center ;
 }
 
-.administrativo {
+.oficina-administrativa {
     background-color: #FFD875;
 }
 
-.administrativo img {
+.oficina-administrativa img {
     background-color: #FFD875;
     width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
     height: 25px;
@@ -344,6 +344,15 @@
     background-color: #7BC7F1;
     width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
     height: 25px;
+}
+
+.laboratorio {
+    background-color: #72CEA2;
+}
+
+.laboratorio img {
+    width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 27px;
 }
 
 .bodega {
@@ -378,9 +387,6 @@
     border-radius: 15%;
 }
 
-.aula { background-color: #7BC7F1; }
 .aula-ocupada { background-color: #84A5B8; }
-.laboratorio { background-color: #72CEA2; }
 .laboratorio-ocupado { background-color: #8AA598; }
-.bodega { background-color: #CC8E60; }
 .administrativo { background-color: #FFD875; }
