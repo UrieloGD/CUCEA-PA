@@ -305,87 +305,6 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conn);
 }
 
-// Crear tabla Coord_Per_Prof
-$sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Departamento_ID INT NOT NULL,
-    Codigo VARCHAR(12) NULL,
-    Paterno  VARCHAR(35) NULL,
-    Materno VARCHAR(35) NULL,
-    Nombres VARCHAR(60) NULL,
-    Nombre_completo VARCHAR(60) NULL,
-    Sexo VARCHAR(10) NULL,
-    Departamento VARCHAR(60) NULL,
-    Categoria_actual VARCHAR(60) NULL,
-    Categoria_actual_dos VARCHAR(60) NULL,
-    Horas_frente_grupo INT(8) NULL,
-    Division VARCHAR(60) NULL,
-    Tipo_plaza VARCHAR(60) NULL,
-    Cat_act VARCHAR(60) NULL,
-    Carga_horaria VARCHAR(60) NULL,
-    Horas_definitivas INT(60) NULL,
-    Horario VARCHAR(60) NULL,
-    Turno VARCHAR(15) NULL,
-    Investigacion_nombramiento_cambio_funcion VARCHAR(30) NULL,
-    SNI VARCHAR(15) NULL,
-    SIN_desde DATE NULL,
-    Cambio_dedicacion VARCHAR(30) NULL,
-    Inicio DATE NULL,
-    Fin DATE NULL,
-    2024A VARCHAR(15) NULL,
-    Telefono_particular INT(15) NULL,
-    Telefono_oficina INT(15) NULL,
-    Domicilio VARCHAR(60) NULL,
-    Colonia VARCHAR(60) NULL,
-    CP INT(10) NULL,
-    Ciudad VARCHAR(30) NULL,
-    Estado VARCHAR(30) NULL,
-    No_imss INT(30) NULL,
-    CURP VARCHAR(30) NULL,
-    RFC VARCHAR(30) NULL,
-    Lugar_nacimiento VARCHAR(50) NULL,
-    Estado_civil VARCHAR(15) NULL,
-    Tipo_sangre VARCHAR(5) NULL,
-    Fecha_nacimiento VARCHAR(15) NULL,
-    Edad INT(5) NULL,
-    Nacionalidad VARCHAR(20) NULL,
-    Correo VARCHAR(60) NULL,
-    Correos_oficiales VARCHAR(60) NULL,
-    Ultimo_grado VARCHAR(5) NULL,
-    Programa VARCHAR (70) NULL,
-    Nivel VARCHAR(10) NULL,
-    Institucion VARCHAR(30) NULL,
-    Estado_pais VARCHAR(25) NULL,
-    Año INT(8) NULL,
-    Gdo_exp VARCHAR(15) NULL,
-    Otro_grado VARCHAR(5) NULL,
-    Otro_programa VARCHAR(70) NULL,
-    Otro_nivel VARCHAR(10) NULL,
-    Otro_institucion VARCHAR(30) NULL,
-    Otro_estado_pais VARCHAR(25) NULL,
-    Otro_año INT(8) NULL,
-    Otro_gdo_exp VARCHAR(15) NULL,
-    Otro_grado_alternativo VARCHAR(5) NULL,
-    Otro_programa_alternativo VARCHAR(70) NULL,
-    Otro_nivel_altenrativo VARCHAR(10) NULL,
-    Otro_institucion_alternativo VARCHAR(30) NULL,
-    Otro_estado_pais_alternativo VARCHAR(25) NULL,
-    Otro_año_alternativo INT(8) NULL,
-    Otro_gdo_exp_alternativo VARCHAR(15) NULL,
-    Proesde_24_25 VARCHAR(15) NULL,
-    A_partir_de DATE NULL,
-    Fecha_ingreso DATE NULL,
-    Antiguedad VARCHAR(25) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
-);";
-
-if (mysqli_query($conn, $sql)) {
-    echo "<br>Tabla Coord_Per_Prof creada exitosamente";
-} else {
-    echo "<br>Error creando tabla Coord_Per_Prof: " . mysqli_error($conn);
-}
-
-
 // Crear tabla Data_Estudios_Regionales
 $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
@@ -1232,6 +1151,86 @@ if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Data_Contabilidad creada exitosamente";
 } else {
     echo "<br>Error creando tabla Data_Contabilidad: " . mysqli_error($conn) . "<br>";
+}
+
+// Crear tabla Coord_Per_Prof
+$sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Departamento_ID INT NOT NULL,
+    Codigo VARCHAR(12) NULL,
+    Paterno  VARCHAR(35) NULL,
+    Materno VARCHAR(35) NULL,
+    Nombres VARCHAR(60) NULL,
+    Nombre_completo VARCHAR(60) NULL,
+    Sexo VARCHAR(10) NULL,
+    Departamento VARCHAR(60) NULL,
+    Categoria_actual VARCHAR(60) NULL,
+    Categoria_actual_dos VARCHAR(60) NULL,
+    Horas_frente_grupo INT(8) NULL,
+    Division VARCHAR(60) NULL,
+    Tipo_plaza VARCHAR(60) NULL,
+    Cat_act VARCHAR(60) NULL,
+    Carga_horaria VARCHAR(60) NULL,
+    Horas_definitivas INT(60) NULL,
+    Horario VARCHAR(60) NULL,
+    Turno VARCHAR(15) NULL,
+    Investigacion_nombramiento_cambio_funcion VARCHAR(30) NULL,
+    SNI VARCHAR(15) NULL,
+    SIN_desde DATE NULL,
+    Cambio_dedicacion VARCHAR(30) NULL,
+    Inicio DATE NULL,
+    Fin DATE NULL,
+    2024A VARCHAR(15) NULL,
+    Telefono_particular INT(15) NULL,
+    Telefono_oficina INT(15) NULL,
+    Domicilio VARCHAR(60) NULL,
+    Colonia VARCHAR(60) NULL,
+    CP INT(10) NULL,
+    Ciudad VARCHAR(30) NULL,
+    Estado VARCHAR(30) NULL,
+    No_imss INT(30) NULL,
+    CURP VARCHAR(30) NULL,
+    RFC VARCHAR(30) NULL,
+    Lugar_nacimiento VARCHAR(50) NULL,
+    Estado_civil VARCHAR(15) NULL,
+    Tipo_sangre VARCHAR(5) NULL,
+    Fecha_nacimiento VARCHAR(15) NULL,
+    Edad INT(5) NULL,
+    Nacionalidad VARCHAR(20) NULL,
+    Correo VARCHAR(60) NULL,
+    Correos_oficiales VARCHAR(60) NULL,
+    Ultimo_grado VARCHAR(5) NULL,
+    Programa VARCHAR (70) NULL,
+    Nivel VARCHAR(10) NULL,
+    Institucion VARCHAR(30) NULL,
+    Estado_pais VARCHAR(25) NULL,
+    Año INT(8) NULL,
+    Gdo_exp VARCHAR(15) NULL,
+    Otro_grado VARCHAR(5) NULL,
+    Otro_programa VARCHAR(70) NULL,
+    Otro_nivel VARCHAR(10) NULL,
+    Otro_institucion VARCHAR(30) NULL,
+    Otro_estado_pais VARCHAR(25) NULL,
+    Otro_año INT(8) NULL,
+    Otro_gdo_exp VARCHAR(15) NULL,
+    Otro_grado_alternativo VARCHAR(5) NULL,
+    Otro_programa_alternativo VARCHAR(70) NULL,
+    Otro_nivel_altenrativo VARCHAR(10) NULL,
+    Otro_institucion_alternativo VARCHAR(30) NULL,
+    Otro_estado_pais_alternativo VARCHAR(25) NULL,
+    Otro_año_alternativo INT(8) NULL,
+    Otro_gdo_exp_alternativo VARCHAR(15) NULL,
+    Proesde_24_25 VARCHAR(15) NULL,
+    A_partir_de DATE NULL,
+    Fecha_ingreso DATE NULL,
+    Antiguedad VARCHAR(25) NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+);";
+
+if (mysqli_query($conn, $sql)) {
+    echo "<br>Tabla Coord_Per_Prof creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Coord_Per_Prof: " . mysqli_error($conn);
 }
 
 // Cerrar la conexión
