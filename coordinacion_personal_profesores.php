@@ -374,9 +374,9 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<script src="./JS/coordinacion-personal-plantilla/tabla-editable-coord.js"></script>
+<script src="./JS/coordinacion-personal-plantilla/tabla-editable-coord.js"></script> <!-- Listo -->
 <script src="./JS/basesdedatos/barra-busqueda.js"></script> <!-- Listo -->
-<script src="./JS/basesdedatos/eliminar-registro.js"></script>
+<script src="./JS/coordinacion-personal-plantilla/eliminar-registro-coord.js"></script>
 <script src="./JS/coordinacion-personal-plantilla/añadir-profesor.js"></script> <!-- Listo -->
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 
