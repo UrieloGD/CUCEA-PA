@@ -91,7 +91,7 @@ $result = mysqli_query($conexion, $sql);
                 <th>PATERNO</th>
                 <th>MATERNO</th>
                 <th>NOMBRES</th>
-                <th>NOMBRE COMPLETO </th>
+                <th>NOMBRE COMPLETO</th>
                 <th>SEXO</th>
                 <th>DEPARTAMENTO</th>
                 <th>CATEGORIA ACTUAL</th>
@@ -104,7 +104,7 @@ $result = mysqli_query($conexion, $sql);
                 <th>HORAS DEFINITIVAS</th>
                 <th>HORARIO</th>
                 <th>TURNO</th>
-                <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION </th>
+                <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION</th>
                 <th>S.N.I.</th>
                 <th>SIN DESDE</th>
                 <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR</th>
@@ -376,8 +376,8 @@ $result = mysqli_query($conexion, $sql);
 
 <script src="./JS/coordinacion-personal-plantilla/tabla-editable-coord.js"></script> <!-- Listo -->
 <script src="./JS/basesdedatos/barra-busqueda.js"></script> <!-- Listo -->
-<script src="./JS/coordinacion-personal-plantilla/eliminar-registro-coord.js"></script>
+<script src="./JS/coordinacion-personal-plantilla/eliminar-registro-coord.js"></script> <!-- Listo -->
 <script src="./JS/coordinacion-personal-plantilla/añadir-profesor.js"></script> <!-- Listo -->
-<script src="./JS/basesdedatos/descargar-data-excel.js"></script>
+<script src="./JS/coordinacion-personal-plantilla/descargar-data-excel-coord.js"></script>
 
 <?php include("./template/footer.php"); ?>
