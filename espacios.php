@@ -183,8 +183,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 <script>
 $(document).ready(function() {
     $('#modulo').change(function() {
-        var modulo = $(this).val();
-        window.location.href = 'espacios.php?modulo=' + modulo;
+            var modulo = $(this).val();
+            window.location.href = 'espacios.php?modulo=' + modulo;
     });
 
     $('#filtrar').click(function() {
@@ -192,6 +192,8 @@ $(document).ready(function() {
         var dia = $('#dia').val();
         var hora_inicio = $('#horario_inicio').val();
         var hora_fin = $('#horario_fin').val();
+      
+
 
         $.ajax({
             url: './functions/espacios/obtener-espacios.php',
@@ -206,11 +208,13 @@ $(document).ready(function() {
                 var espacios_ocupados = JSON.parse(response);
                 
                 // Resetear todos los espacios a no ocupados
-                $('.sala').removeClass('aula-ocupada laboratorio-ocupado ocupado');
+                $('.sala').removeClass('aula-ocupada laboratorio-ocupado ocupado').removeAttr('data-info');
                 
                 // Marcar los espacios ocupados
-                espacios_ocupados.forEach(function(espacio) {
+                Object.keys(espacios_ocupados).forEach(function(espacio) {
                     var salaElement = $('[data-espacio="' + espacio + '"]');
+                    var info = espacios_ocupados[espacio];
+                    
                     if (salaElement.hasClass('aula')) {
                         salaElement.addClass('aula-ocupada');
                     } else if (salaElement.hasClass('laboratorio')) {
@@ -218,9 +222,41 @@ $(document).ready(function() {
                     } else {
                         salaElement.addClass('ocupado');
                     }
+                    
+                    salaElement.attr('data-info', JSON.stringify(info));
                 });
             }
         });
+    });
+
+    // Agregar evento hover para mostrar información
+    $(document).on('mouseenter', '.sala[data-info]', function(e) {
+        var info = JSON.parse($(this).attr('data-info'));
+        var infoHtml = '<div class="info-hover">' +
+                    '<p><strong>CVE Materia:</strong> ' + info.cve_materia + '</p>' +
+                    '<p><strong>Materia:</strong> ' + info.materia + '</p>' +
+                    '<p><strong>Profesor:</strong> ' + info.profesor + '</p>' +
+                    '</div>';
+        var $infoElement = $(infoHtml).appendTo('body');
+        
+        var salaRect = this.getBoundingClientRect();
+        var infoRect = $infoElement[0].getBoundingClientRect();
+        
+        var top = salaRect.top - infoRect.height - 10;
+        var left = salaRect.left + (salaRect.width / 2) - (infoRect.width / 2);
+        
+        $infoElement.css({
+            position: 'fixed',
+            top: Math.max(0, top) + 'px',
+            left: Math.max(0, left) + 'px'
+        });
+        
+        $(this).data('infoElement', $infoElement);
+    }).on('mouseleave', '.sala[data-info]', function() {
+        var $infoElement = $(this).data('infoElement');
+        if ($infoElement) {
+            $infoElement.remove();
+        }
     });
 });
 </script>

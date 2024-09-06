@@ -1,6 +1,7 @@
 <?php
 include './../../config/db.php';
 
+
 $modulo = $_GET['modulo'];
 $dia = $_GET['dia'];
 $hora_inicio = $_GET['hora_inicio'];
@@ -18,7 +19,7 @@ $espacios_ocupados = array();
 foreach ($departamentos as $departamento) {
     $tabla = "Data_" . str_replace(' ', '_', $departamento);
     
-    $query = "SELECT DISTINCT AULA FROM $tabla 
+    $query = "SELECT AULA, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR FROM $tabla 
               WHERE MODULO = '$modulo' 
               AND $dia IS NOT NULL 
               AND HORA_INICIAL <= '$hora_fin' 
@@ -28,12 +29,15 @@ foreach ($departamentos as $departamento) {
 
     if ($result) {
         while ($row = mysqli_fetch_assoc($result)) {
-            if (!in_array($row['AULA'], $espacios_ocupados)) {
-                $espacios_ocupados[] = $row['AULA'];
+            if (!isset($espacios_ocupados[$row['AULA']])) {
+                $espacios_ocupados[$row['AULA']] = array(
+                    'cve_materia' => $row['CVE_MATERIA'],
+                    'materia' => $row['MATERIA'],
+                    'profesor' => $row['NOMBRE_PROFESOR']
+                );
             }
         }
     } else {
-        // Opcional: registrar error si la consulta falla
         error_log("Error en la consulta para la tabla $tabla: " . mysqli_error($conexion));
     }
 }
