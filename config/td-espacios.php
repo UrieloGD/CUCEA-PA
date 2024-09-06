@@ -3,7 +3,7 @@
 // Crear la tabla Espacios
 $sql_create = "CREATE TABLE IF NOT EXISTS Espacios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    Edificio VARCHAR(10),
+    Modulo VARCHAR(10),
     Espacio VARCHAR(15),
     Etiqueta VARCHAR(40)
 );";
@@ -15,7 +15,7 @@ if (mysqli_query($conn, $sql_create)) {
 }
 
 // Insertar datos en la tabla Espacios
-$espacios = "INSERT INTO Espacios (Edificio, Espacio, Etiqueta) VALUES
+$espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta) VALUES
 
 -- Edificio A
 

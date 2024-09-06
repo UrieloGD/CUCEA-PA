@@ -330,7 +330,6 @@
 }
 
 .oficina-administrativa img {
-    background-color: #FFD875;
     width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
     height: 25px;
 }
@@ -340,7 +339,6 @@
 }
 
 .aula img {
-    background-color: #7BC7F1;
     width: 30px; /* Ajusta el tamaño de la imagen según tus necesidades */
     height: 25px;
 }
@@ -384,6 +382,10 @@
     height: 20px;
     margin-right: 10px;
     border-radius: 15%;
+}
+
+.sala.ocupado {
+    background-color: red; /* o el color que prefieras para indicar que está ocupado */
 }
 
 .aula-ocupada { background-color: #84A5B8; }

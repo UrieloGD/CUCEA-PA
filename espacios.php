@@ -7,11 +7,11 @@
 
 <?php
 // Obtener el edificio seleccionado (por defecto CEDA)
-$edificio_seleccionado = isset($_GET['edificio']) ? $_GET['edificio'] : 'CEDA';
+$modulo_seleccionado = isset($_GET['Modulo']) ? $_GET['Modulo'] : 'CEDA';
 
 // Consulta para obtener los espacios del edificio seleccionado
-$query = "SELECT * FROM Espacios WHERE Edificio = '$edificio_seleccionado' ORDER BY Espacio";
-$result = mysqli_query($conn, $query);
+$query = "SELECT * FROM Espacios WHERE Modulo = '$modulo_seleccionado' ORDER BY Espacio";
+$result = mysqli_query($conexion, $query);
 
 // Organizar los espacios por piso
 $espacios = [
@@ -44,21 +44,16 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <!-- Cuadros de texto y desplegables -->
 <div class="filtros">
-    <!-- <div class="filtro">
-        <label for="ciclo">Ciclo</label>
-        <select id="ciclo" name="ciclo">
-            <option value="">Seleccione un ciclo</option>
-        </select>
-    </div> -->
+
     <div class="filtro">
-        <label for="edificio">Edificio</label>
-        <select id="edificio" name="edificio">
-            <option value="">Seleccione un edificio</option>
+        <label for="modulo">Módulo</label>
+        <select id="modulo" name="modulo">
+            <option value="">Seleccione un módulo</option>
             <?php
-            $query = "SELECT DISTINCT Edificio FROM Espacios ORDER BY Edificio";
-            $result = mysqli_query($conn, $query);
+            $query = "SELECT DISTINCT modulo FROM Espacios ORDER BY modulo";
+            $result = mysqli_query($conexion, $query);
             while ($row = mysqli_fetch_assoc($result)) {
-                echo "<option value='" . $row['Edificio'] . "'>" . $row['Edificio'] . "</option>";
+                echo "<option value='" . $row['modulo'] . "'>" . $row['modulo'] . "</option>";
             }
             ?>
         </select>
@@ -109,7 +104,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <div class="contenido-edificio">
         <div class="columna-lateral izquierda">
             <div class="letra-piso">
-                <span><?php echo substr($edificio_seleccionado, -1); ?></span>
+                <span><?php echo substr($modulo_seleccionado, -1); ?></span>
             </div>
             <div class="escaleras-container">
                 <div class="escalera-superior"></div>
@@ -126,7 +121,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                      foreach ($espacios_piso as $espacio): ?>
                         <div class="sala-container">
                             <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
-                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>">
+                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
                                 <img src="./Img/icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
                             </div>
                         </div>
@@ -144,7 +139,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         <div class="columna-lateral derecha">
             <div class="letra-piso">
-                <span><?php echo substr($edificio_seleccionado, -1); ?></span>
+                <span><?php echo substr($modulo_seleccionado, -1); ?></span>
             </div>
             <div class="escaleras-container">
                 <div class="escalera-superior"></div>
@@ -184,9 +179,33 @@ while ($row = mysqli_fetch_assoc($result)) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#edificio').change(function() {
-        var edificio = $(this).val();
-        window.location.href = 'espacios.php?edificio=' + edificio;
+    $('#filtrar').click(function() {
+        var modulo = $('#modulo').val();
+        var dia = $('#dia').val();
+        var hora_inicio = $('#horario_inicio').val();
+        var hora_fin = $('#horario_fin').val();
+
+        $.ajax({
+            url: './functions/espacios/obtener-espacios.php',
+            method: 'GET',
+            data: {
+                modulo: modulo,
+                dia: dia,
+                hora_inicio: hora_inicio,
+                hora_fin: hora_fin
+            },
+            success: function(response) {
+                var espacios_ocupados = JSON.parse(response);
+                
+                // Resetear todos los espacios a no ocupados
+                $('.sala').removeClass('ocupado');
+                
+                // Marcar los espacios ocupados
+                espacios_ocupados.forEach(function(espacio) {
+                    $('[data-espacio="' + espacio + '"]').addClass('ocupado');
+                });
+            }
+        });
     });
 });
 </script>
