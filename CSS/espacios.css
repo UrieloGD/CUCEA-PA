@@ -43,11 +43,11 @@
 
 /* Aquí empieza el código de Espacios */
 
-/* css de texto y desplegables */
+/* Estilos existentes */
 .filtros {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-end; /* Cambiado a flex-end para alinear todo en la parte inferior */
     margin-top: 25px;
     padding: 10px;
     flex-wrap: wrap;
@@ -73,6 +73,36 @@
     background-color: #D9EDF6;
     border: 1px solid #D9EDF6;
     border-radius: 4px;
+}
+
+/* Nuevo estilo para el botón de filtrar */
+#filtrar {
+    padding: 5px;
+    color: #ffffff;
+    font-weight: 500;
+    width: 100px;
+    background-color: #0071b0;
+    border: 1px solid #0071b0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#filtrar:hover {
+    background-color: #005a8c;
+}
+
+/* Añadir un div vacío antes del botón para simular el label y alinear correctamente */
+#filtrar-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 15px 15px 15px;
+    min-width: 150px;
+}
+
+#filtrar-container::before {
+    content: '';
+    height: 29px; /* Ajusta este valor para que coincida con la altura de tus labels */
 }
 
 /* Aquí empieza el código del Edificio */
@@ -384,7 +414,7 @@
     border-radius: 15%;
 }
 
-.sala.ocupado {
+.ocupado {
     background-color: red; /* o el color que prefieras para indicar que está ocupado */
 }
 

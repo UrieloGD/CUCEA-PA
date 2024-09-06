@@ -6,10 +6,10 @@
 <?php include './config/db.php' ?>
 
 <?php
-// Obtener el edificio seleccionado (por defecto CEDA)
-$modulo_seleccionado = isset($_GET['Modulo']) ? $_GET['Modulo'] : 'CEDA';
+// Obtener el módulo seleccionado (por defecto CEDA)
+$modulo_seleccionado = isset($_GET['modulo']) ? $_GET['modulo'] : 'CEDA';
 
-// Consulta para obtener los espacios del edificio seleccionado
+// Consulta para obtener los espacios del módulo seleccionado
 $query = "SELECT * FROM Espacios WHERE Modulo = '$modulo_seleccionado' ORDER BY Espacio";
 $result = mysqli_query($conexion, $query);
 
@@ -48,12 +48,13 @@ while ($row = mysqli_fetch_assoc($result)) {
     <div class="filtro">
         <label for="modulo">Módulo</label>
         <select id="modulo" name="modulo">
-            <option value="">Seleccione un módulo</option>
+            <!-- <option value="">Seleccione un módulo</option> -->
             <?php
             $query = "SELECT DISTINCT modulo FROM Espacios ORDER BY modulo";
             $result = mysqli_query($conexion, $query);
             while ($row = mysqli_fetch_assoc($result)) {
-                echo "<option value='" . $row['modulo'] . "'>" . $row['modulo'] . "</option>";
+                $selected = ($row['modulo'] == $modulo_seleccionado) ? 'selected' : '';
+                echo "<option value='" . $row['modulo'] . "' $selected>" . $row['modulo'] . "</option>";
             }
             ?>
         </select>
@@ -95,7 +96,9 @@ while ($row = mysqli_fetch_assoc($result)) {
             ?>
         </select>
     </div>
-    <button id="filtrar">Filtrar</button>
+    <div id="filtrar-container">
+        <button id="filtrar">Filtrar</button>
+    </div>
 </div>
 
 <!-- Aquí empieza el código del Edificio -->
@@ -118,10 +121,10 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <div class="numero-piso"></div>
                 <div class="salas">
                 <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
-                     foreach ($espacios_piso as $espacio): ?>
+                    foreach ($espacios_piso as $espacio): ?>
                         <div class="sala-container">
                             <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
-                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
                                 <img src="./Img/icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
                             </div>
                         </div>
@@ -179,6 +182,11 @@ while ($row = mysqli_fetch_assoc($result)) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+    $('#modulo').change(function() {
+        var modulo = $(this).val();
+        window.location.href = 'espacios.php?modulo=' + modulo;
+    });
+
     $('#filtrar').click(function() {
         var modulo = $('#modulo').val();
         var dia = $('#dia').val();
@@ -198,11 +206,18 @@ $(document).ready(function() {
                 var espacios_ocupados = JSON.parse(response);
                 
                 // Resetear todos los espacios a no ocupados
-                $('.sala').removeClass('ocupado');
+                $('.sala').removeClass('aula-ocupada laboratorio-ocupado ocupado');
                 
                 // Marcar los espacios ocupados
                 espacios_ocupados.forEach(function(espacio) {
-                    $('[data-espacio="' + espacio + '"]').addClass('ocupado');
+                    var salaElement = $('[data-espacio="' + espacio + '"]');
+                    if (salaElement.hasClass('aula')) {
+                        salaElement.addClass('aula-ocupada');
+                    } else if (salaElement.hasClass('laboratorio')) {
+                        salaElement.addClass('laboratorio-ocupado');
+                    } else {
+                        salaElement.addClass('ocupado');
+                    }
                 });
             }
         });
