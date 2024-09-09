@@ -41,13 +41,12 @@
     background-color: #0071b0;
 }
 
-/* Aquí empieza el código de Espacios */
+/* Estilos desplegables y checkbox */
 
-/* Estilos existentes */
 .filtros {
     display: flex;
     justify-content: center;
-    align-items: flex-end; /* Cambiado a flex-end para alinear todo en la parte inferior */
+    align-items: flex-end;
     margin-top: 25px;
     padding: 10px;
     flex-wrap: wrap;
@@ -75,7 +74,7 @@
     border-radius: 4px;
 }
 
-/* Nuevo estilo para el botón de filtrar */
+/* Estilo para el botón de filtrar */
 #filtrar {
     padding: 5px;
     color: #ffffff;
@@ -92,7 +91,6 @@
     background-color: #005a8c;
 }
 
-/* Añadir un div vacío antes del botón para simular el label y alinear correctamente */
 #filtrar-container {
     display: flex;
     flex-direction: column;
@@ -102,10 +100,72 @@
 
 #filtrar-container::before {
     content: '';
-    height: 29px; /* Ajusta este valor para que coincida con la altura de tus labels */
+    height: 29px; 
 }
 
-/* Aquí empieza el código del Edificio */
+/* Estilos para el checkbox de Tiempo Real */
+
+.tiempo-real-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: solid; */
+}
+
+.tiempo-real-container label {
+    margin-bottom: 3px; /* Mismo margen que los otros labels */
+}
+
+.toggle-switch {
+    position: relative;
+    width: 65px;
+    height: 34px;
+    top: 3px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-switch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #D9EDF6;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggle-switch label:before {
+    position: absolute;
+    content: "";
+    height: 23px;
+    width: 23px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.toggle-switch input:checked + label {
+    background-color: #0071b0;
+}
+
+.toggle-switch input:checked + label:before {
+    transform: translateX(34px);
+    -webkit-transform: translateX(34px);
+    -moz-transform: translateX(34px);
+    -ms-transform: translateX(34px);
+    -o-transform: translateX(34px);
+}
+
+/* Código de la estructura del Edificio */
 
 .contenedor-principal {
     position: relative;
@@ -122,7 +182,7 @@
     right: 0;
     height: 20px;
     background-color: #7A7A7A;
-    z-index: 2;
+    z-index: 1;
 }
 
 /* agregado nuevo */
@@ -162,7 +222,7 @@
     align-items: center;
     margin-bottom: 10px;
     margin-top: 20px;
-    z-index: 2;
+    z-index: 1;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -414,13 +474,29 @@
     border-radius: 15%;
 }
 
+/* Estilos Salas ocupapos */
+
+.aula-ocupada { 
+    background-color: #84A5B8; 
+}
+
+.laboratorio-ocupado { 
+    background-color: #8AA598; 
+}
+
+.administrativo { 
+    background-color: #FFD875; 
+}
+
 .ocupado {
-    background-color: red; /* o el color que prefieras para indicar que está ocupado */
+    background-color: red;
 }
 
 .sala {
     position: relative;
 }
+
+/* CSS hover */
 
 .info-hover {
     position: absolute;
@@ -444,7 +520,3 @@
     margin: 5px 0;
     line-height: 1.3; /* Mejora la legibilidad */
 }
-
-.aula-ocupada { background-color: #84A5B8; }
-.laboratorio-ocupado { background-color: #8AA598; }
-.administrativo { background-color: #FFD875; }

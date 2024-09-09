@@ -1,7 +1,6 @@
 <?php
 include './../../config/db.php';
 
-
 $modulo = $_GET['modulo'];
 $dia = $_GET['dia'];
 $hora_inicio = $_GET['hora_inicio'];
@@ -19,11 +18,14 @@ $espacios_ocupados = array();
 foreach ($departamentos as $departamento) {
     $tabla = "Data_" . str_replace(' ', '_', $departamento);
     
-    $query = "SELECT AULA, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR FROM $tabla 
-              WHERE MODULO = '$modulo' 
-              AND $dia IS NOT NULL 
-              AND HORA_INICIAL <= '$hora_fin' 
-              AND HORA_FINAL >= '$hora_inicio'";
+    $query = "SELECT AULA, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, HORA_INICIAL, HORA_FINAL FROM $tabla 
+          WHERE MODULO = '$modulo' 
+          AND $dia IS NOT NULL 
+          AND (
+              (HORA_INICIAL >= '$hora_inicio' AND HORA_INICIAL < '$hora_fin')
+              OR (HORA_FINAL > '$hora_inicio' AND HORA_FINAL <= '$hora_fin')
+              OR (HORA_INICIAL <= '$hora_inicio' AND HORA_FINAL >= '$hora_fin')
+          )";
 
     $result = mysqli_query($conexion, $query);
 
