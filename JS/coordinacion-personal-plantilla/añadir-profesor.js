@@ -22,9 +22,6 @@ function añadirRegistro() {
   var form = document.getElementById("form-añadir-registro");
   var datos = new FormData(form);
 
-  var departamento_id = document.getElementById("departamento_id").value;
-  datos.append("departamento_id", departamento_id);
-
   var xhr = new XMLHttpRequest();
   xhr.open(
     "POST",

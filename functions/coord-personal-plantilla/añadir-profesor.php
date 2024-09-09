@@ -4,31 +4,12 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['Codigo'])) {
-    die("Usuario no autenticado.");
+    die(json_encode(["success" => false, "message" => "Usuario no autenticado."]));
 }
-
-// Obtener el ID del departamento
-$departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
-
-if (empty($departamento_id)) {
-    die("ID de departamento no proporcionado.");
-}
-
-// Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
-$stmt = $conexion->prepare($sql_departamento);
-$stmt->bind_param("i", $departamento_id);
-$stmt->execute();
-$result_departamento = $stmt->get_result();
-$row_departamento = $result_departamento->fetch_assoc();
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
-
-// Construir el nombre de la tabla
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
 
 // Preparar la consulta SQL
 $sql = "INSERT INTO Coord_Per_Prof (
-    Departamento_ID, Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
+    Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
     Categoria_actual, Categoria_actual_dos, Horas_frente_grupo, Division, Tipo_plaza, Cat_act,
     Carga_horaria, Horas_definitivas, Horario, Turno, Investigacion_nombramiento_cambio_funcion,
     SNI, SIN_desde, Cambio_dedicacion, Inicio, Fin, `2024A`, Telefono_particular, Telefono_oficina,
@@ -39,18 +20,17 @@ $sql = "INSERT INTO Coord_Per_Prof (
     Otro_grado_alternativo, Otro_programa_alternativo, Otro_nivel_altenrativo,
     Otro_institucion_alternativo, Otro_estado_pais_alternativo, Otro_año_alternativo,
     Otro_gdo_exp_alternativo, Proesde_24_25, A_partir_de, Fecha_ingreso, Antiguedad
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conexion->prepare($sql);
 
 if ($stmt === false) {
-    die("Error en la preparación de la consulta: " . $conexion->error);
+    die(json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conexion->error]));
 }
 
 // Vincular parámetros
 $stmt->bind_param(
-    "isssssssssissssisssssssssiissississssssissssssssissssssissssssisssss",
-    $departamento_id,
+    "sssssssssissssisssssssssiissississssssissssssssissssssissssssisssss",
     $_POST['codigo'],
     $_POST['paterno'],
     $_POST['materno'],

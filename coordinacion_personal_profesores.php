@@ -3,16 +3,11 @@
 <?php
 include './config/db.php';
 
-$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
-
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
-$result_departamento = mysqli_query($conexion, $sql_departamento);
-$row_departamento = mysqli_fetch_assoc($result_departamento);
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
-$departamento_nombre = $row_departamento['Departamentos'];
-
-//$tabla_departamento
 $tabla_departamento = "Coord_Per_Prof";
+
+// Consulta SQL para obtener todos los registros de Coord_Per_Prof
+$sql = "SELECT * FROM $tabla_departamento";
+$result = mysqli_query($conexion, $sql);
 
 function convertExcelDate($value)
 {
@@ -31,12 +26,9 @@ function formatDateForDisplay($mysqlDate)
     $date = DateTime::createFromFormat('Y-m-d', $mysqlDate);
     return $date ? $date->format('d/m/Y') : '';
 }
-
-$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
-$result = mysqli_query($conexion, $sql);
 ?>
 
-<title>Data - <?php echo $departamento_nombre; ?></title>
+<title>Coordinación de Personal - Plantilla Académica</title>
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
 <div class="cuadro-principal">
@@ -50,7 +42,7 @@ $result = mysqli_query($conexion, $sql);
             </div>
         </div>
         <div class="encabezado-centro">
-            <h3>Plantilla Académica</h3>
+            <h3>Plantilla Académica - Coordinación de Personal</h3>
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
@@ -82,7 +74,6 @@ $result = mysqli_query($conexion, $sql);
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
     <div class="Tabla">
-        <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos">
             <tr>
                 <th></th>

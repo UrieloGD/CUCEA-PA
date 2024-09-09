@@ -308,7 +308,6 @@ if (mysqli_query($conn, $sql)) {
 // Crear tabla Coord_Per_Prof
 $sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
     ID INT AUTO_INCREMENT PRIMARY KEY,
-    Departamento_ID INT NOT NULL,
     Codigo VARCHAR(12) NULL,
     Paterno  VARCHAR(35) NULL,
     Materno VARCHAR(35) NULL,
@@ -375,8 +374,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
     Proesde_24_25 VARCHAR(15) NULL,
     A_partir_de DATE NULL,
     Fecha_ingreso DATE NULL,
-    Antiguedad VARCHAR(25) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    Antiguedad VARCHAR(25) NULL
 );";
 
 if (mysqli_query($conn, $sql)) {

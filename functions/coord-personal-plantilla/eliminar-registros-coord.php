@@ -2,12 +2,12 @@
 include './../../config/db.php';
 session_start();
 
-$departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
+/* $departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
 
 $sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
 $result_departamento = mysqli_query($conexion, $sql_departamento);
 $row_departamento = mysqli_fetch_assoc($result_departamento);
-//$nombre_departamento = $row_departamento['Nombre_Departamento'];
+//$nombre_departamento = $row_departamento['Nombre_Departamento']; */
 
 $tabla_departamento = "Coord_Per_Prof";
 
@@ -23,7 +23,7 @@ if (isset($_POST['truncate']) && $_POST['truncate'] == '1') {
     }
 
     // Eliminar el archivo de plantilla_dep correspondiente al departamento
-    $sql_delete_plantilla = "DELETE FROM Coord_Per_Prof WHERE Departamento_ID = ?";
+    $sql_delete_plantilla = "DELETE FROM Coord_Per_Prof";
     $stmt = mysqli_prepare($conexion, $sql_delete_plantilla);
     mysqli_stmt_bind_param($stmt, "i", $departamento_id);
     if (!mysqli_stmt_execute($stmt)) {
@@ -49,7 +49,7 @@ $ids = explode(',', $_POST['ids']);
 mysqli_autocommit($conexion, false);
 
 foreach ($ids as $id) {
-    $stmt = mysqli_prepare($conexion, "DELETE FROM Coord_Per_Prof WHERE ID = ? AND Departamento_ID = ?");
+    $stmt = mysqli_prepare($conexion, "DELETE FROM Coord_Per_Prof WHERE ID = ?");
     mysqli_stmt_bind_param($stmt, "ii", $id, $departamento_id);
     if (!mysqli_stmt_execute($stmt)) {
         mysqli_rollback($conexion);

@@ -11,7 +11,7 @@ function eliminarRegistrosSeleccionados() {
   if (ids.length === 0) {
     Swal.fire({
       title: "¿Estás seguro?",
-      text: "Estás seguro que deseas borrar toda la base de datos?",
+      text: "¿Estás seguro que deseas borrar toda la base de datos?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, borrar todo",
@@ -40,10 +40,7 @@ function eliminarRegistrosSeleccionados() {
           }
         };
 
-        var departamento_id = document.getElementById("departamento_id").value;
-        xhr.send(
-          "truncate=1&departamento_id=" + encodeURIComponent(departamento_id)
-        );
+        xhr.send("truncate=1");
       }
     });
     return;
@@ -77,24 +74,7 @@ function eliminarRegistrosSeleccionados() {
         }
       };
 
-      var departamento_id = document.getElementById("departamento_id").value;
-      var datos = { departamento_id: departamento_id };
-      xhr.send(
-        "ids=" +
-          encodeURIComponent(ids.join(",")) +
-          "&" +
-          convertirObjeto(datos)
-      );
+      xhr.send("ids=" + encodeURIComponent(ids.join(",")));
     }
   });
-}
-
-function convertirObjeto(obj) {
-  var str = [];
-  for (var p in obj) {
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-    }
-  }
-  return str.join("&");
 }

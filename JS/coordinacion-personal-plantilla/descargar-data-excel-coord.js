@@ -76,11 +76,8 @@ function descargarExcelSeleccionado() {
     return;
   }
 
-  var departamento_id = document.getElementById("departamento_id").value;
   var url =
-    "./functions/coord-personal-plantilla/descargar-data-excel-coord.php?departamento_id=" +
-    departamento_id +
-    "&columnas=" +
+    "./functions/coord-personal-plantilla/descargar-data-excel-coord.php?columnas=" +
     JSON.stringify(columnasSeleccionadas);
   window.location.href = url;
 

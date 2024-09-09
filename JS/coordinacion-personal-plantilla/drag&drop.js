@@ -50,42 +50,6 @@ function processFile(file) {
   const validExtensions = ["xlsx", "xls"];
 
   if (validExtensions.includes(fileExtension)) {
-    //archivo válido
-    const fileReader = new FileReader();
-    const id = `file-${Math.random().toString(32).substring(7)}`;
-
-    fileReader.addEventListener("load", (e) => {
-      const filePreview = `
-                <div id="${id}" class="file-container">
-                    <div class="status">
-                        <span>${file.name}</span>
-                        <span class="status-text">
-                            Cargando...
-                        </span>
-                    </div>
-                </div>
-            `;
-      const html = document.querySelector("#preview").innerHTML;
-      document.querySelector("#preview").innerHTML = filePreview + html;
-    });
-
-    fileReader.readAsDataURL(file);
-    uploadFile(file, id);
-  } else {
-    //No válido
-    alert(
-      "No es un archivo válido. Asegúrate de subir solamente archivos con extensión .xls y .xlsx"
-    );
-  }
-}
-
-let filesToUpload = [];
-
-function processFile(file) {
-  const fileExtension = file.name.split(".").pop().toLowerCase();
-  const validExtensions = ["xlsx", "xls"];
-
-  if (validExtensions.includes(fileExtension)) {
     const fileReader = new FileReader();
     const id = `file-${Math.random().toString(32).substring(7)}`;
 
@@ -115,10 +79,7 @@ function processFile(file) {
 }
 
 function cancelUpload(id) {
-  // Eliminar el archivo de filesToUpload
   filesToUpload = filesToUpload.filter((item) => item.id !== id);
-
-  // Eliminar la vista previa del archivo
   const fileContainer = document.getElementById(id);
   if (fileContainer) {
     fileContainer.remove();
@@ -135,7 +96,6 @@ function uploadFiles() {
     return;
   }
 
-  // Mostrar indicador de carga inmediatamente
   Swal.fire({
     title: "Subiendo archivo...",
     html: "Por favor, espere. Esto puede tardar varios segundos.",
@@ -185,7 +145,6 @@ function uploadFiles() {
           text: "Por favor, revise los mensajes de estado para cada archivo.",
         });
       }
-      // Limpiar la lista de archivos y la previsualización
       filesToUpload = [];
       document.querySelector("#preview").innerHTML = "";
     })
