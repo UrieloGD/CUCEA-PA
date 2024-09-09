@@ -184,12 +184,51 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 </div>
 
+<div id="claseModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Información del Aula</h2>
+    <div class="tab">
+      <button class="tablinks active" onclick="openDay(event, 'Lunes')">Lunes</button>
+      <button class="tablinks" onclick="openDay(event, 'Martes')">Martes</button>
+      <button class="tablinks" onclick="openDay(event, 'Miercoles')">Miércoles</button>
+      <button class="tablinks" onclick="openDay(event, 'Jueves')">Jueves</button>
+      <button class="tablinks" onclick="openDay(event, 'Viernes')">Viernes</button>
+      <button class="tablinks" onclick="openDay(event, 'Sabado')">Sábado</button>
+    </div>
+    <div id="Lunes" class="tabcontent">
+      <h3>Lunes</h3>
+      <div id="lunesContent"></div>
+    </div>
+    <div id="Martes" class="tabcontent">
+      <h3>Martes</h3>
+      <div id="martesContent"></div>
+    </div>
+    <div id="Miercoles" class="tabcontent">
+      <h3>Miércoles</h3>
+      <div id="miercolesContent"></div>
+    </div>
+    <div id="Jueves" class="tabcontent">
+      <h3>Jueves</h3>
+      <div id="juevesContent"></div>
+    </div>
+    <div id="Viernes" class="tabcontent">
+      <h3>Viernes</h3>
+      <div id="viernesContent"></div>
+    </div>
+    <div id="Sabado" class="tabcontent">
+      <h3>Sábado</h3>
+      <div id="sabadoContent"></div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
     $('#modulo').change(function() {
-            var modulo = $(this).val();
-            window.location.href = 'espacios.php?modulo=' + modulo;
+        var modulo = $(this).val();
+        window.location.href = 'espacios.php?modulo=' + modulo;
     });
 
     function getDiaActual() {
@@ -197,20 +236,17 @@ $(document).ready(function() {
         return dias[new Date().getDay()];
     }
 
-    // Función para obtener la hora actual en formato HH:00
     function getHoraActual() {
         var hora = new Date().getHours();
         return (hora < 10 ? '0' : '') + hora + ':00';
     }
 
-    // Función para calcular la hora fin basada en la hora inicio
     function calcularHoraFin(horaInicio) {
         var hora = parseInt(horaInicio.split(':')[0]);
         var horaFin = (hora + 1) % 24;
         return (horaFin < 10 ? '0' : '') + horaFin + ':55';
     }
 
-    // Actualizar opciones de hora fin basadas en la hora inicio seleccionada
     $('#horario_inicio').change(function() {
         var horaInicio = $(this).val();
         var $horaFin = $('#horario_fin');
@@ -243,7 +279,6 @@ $(document).ready(function() {
         }
     });
 
-
     $('#filtrar').click(function() {
         var modulo = $('#modulo').val();
         var dia = $('#dia').val();
@@ -269,10 +304,8 @@ $(document).ready(function() {
             success: function(response) {
                 var espacios_ocupados = JSON.parse(response);
                 
-                // Resetear todos los espacios a no ocupados
                 $('.sala').removeClass('aula-ocupada laboratorio-ocupado ocupado').removeAttr('data-info');
                 
-                // Marcar los espacios ocupados
                 Object.keys(espacios_ocupados).forEach(function(espacio) {
                     var salaElement = $('[data-espacio="' + espacio + '"]');
                     var info = espacios_ocupados[espacio];
@@ -291,7 +324,6 @@ $(document).ready(function() {
         });
     });
 
-    // Agregar evento hover para mostrar información
     $(document).on('mouseenter', '.sala[data-info]', function(e) {
         var info = JSON.parse($(this).attr('data-info'));
         var infoHtml = '<div class="info-hover">' +
@@ -320,7 +352,80 @@ $(document).ready(function() {
             $infoElement.remove();
         }
     });
+
+    // Evento de clic para abrir el modal
+    $(document).on('click', '.sala.aula-ocupada, .sala.laboratorio-ocupado', function() {
+    var espacio = $(this).data('espacio');
+    var modulo = $('#modulo').val();
+    
+    $.ajax({
+        url: './functions/espacios/obtener-horario-aula.php',
+        method: 'GET',
+        data: { espacio: espacio, modulo: modulo },
+        success: function(response) {
+            var horarios = JSON.parse(response);
+            mostrarModal(espacio, horarios);
+            }
+        });
+    });
+
+    // Cerrar el modal
+    $('.close').click(function() {
+        $('#claseModal').hide();
+    });
+
+    // Cerrar el modal si se hace clic fuera de él
+    $(window).click(function(event) {
+        if (event.target == document.getElementById('claseModal')) {
+            $('#claseModal').hide();
+        }
+    });
 });
+
+function mostrarModal(espacio, horarios) {
+    $('#modalTitle').text('Horarios del Aula ' + espacio);
+    
+    // Limpiar contenido previo
+    $('.tabcontent div').empty();
+    
+    // Llenar el contenido de cada pestaña
+    var dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+    dias.forEach(function(dia) {
+        var contenido = '<ul class="clase-lista">';
+        if (horarios[dia] && horarios[dia].length > 0) {
+            horarios[dia].forEach(function(clase) {
+                contenido += `<li class="clase-item">
+                                <p><strong>Horario:</strong> ${clase.hora_inicial} - ${clase.hora_final}</p>
+                                <p><strong>Materia:</strong> ${clase.materia}</p>
+                                <p><strong>Profesor:</strong> ${clase.profesor}</p>
+                                <p><strong>CVE Materia:</strong> ${clase.cve_materia}</p>
+                              </li>`;
+            });
+        } else {
+            contenido += '<li>No hay clases programadas para este día.</li>';
+        }
+        contenido += '</ul>';
+        $('#' + dia + 'Content').html(contenido);
+    });
+    
+    // Mostrar el modal y la primera pestaña
+    $('#claseModal').show();
+    openDay(null, 'Lunes');
+}
+
+function openDay(evt, dayName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(dayName).style.display = "block";
+    if (evt) evt.currentTarget.className += " active";
+}
 </script>
 
 <?php include './template/footer.php'; ?>
