@@ -1,5 +1,6 @@
 <?php
 session_start();
+ini_set('memory_limit', '256M');
 require './../../vendor/autoload.php';
 include './../notificaciones-correos/email_functions.php';
 ob_start();
@@ -50,7 +51,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $highestRow = $sheet->getHighestRow();
 
         $sql = "INSERT INTO Coord_Per_Prof (
-            Departamento_ID, Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
+            Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
             Categoria_actual, Categoria_actual_dos, Horas_frente_grupo, Division, Tipo_plaza, Cat_act,
             Carga_horaria, Horas_definitivas, Horario, Turno, Investigacion_nombramiento_cambio_funcion,
             SNI, SIN_desde, Cambio_dedicacion, Inicio, Fin, `2024A`, Telefono_particular, Telefono_oficina,
@@ -61,7 +62,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             Otro_grado_alternativo, Otro_programa_alternativo, Otro_nivel_altenrativo,
             Otro_institucion_alternativo, Otro_estado_pais_alternativo, Otro_año_alternativo,
             Otro_gdo_exp_alternativo, Proesde_24_25, A_partir_de, Fecha_ingreso, Antiguedad
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conn->prepare($sql);
 
@@ -142,8 +143,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $antiguedad = safeSubstr($sheet->getCell('BO' . $row)->getCalculatedValue(), 0, 25);
 
             $stmt->bind_param(
-                "isssssssssissssisssssssssiissississssssissssssssissssssissssssisssss",
-                $departamento_id,
+                "sssssssssissssisssssssssiissississssssissssssssissssssissssssisssss",
                 $codigo,
                 $paterno,
                 $materno,

@@ -78,14 +78,14 @@ document
           Swal.fire({
             icon: "error",
             title: "Error",
-            text: "Hubo un problema al procesar la respuesta del servidor.",
+            text: "Hubo un problema al procesar la respuesta del servidor. Por favor, contacte al administrador.",
           });
         }
       } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Error al cargar el archivo.",
+          text: "Error al cargar el archivo. Código de estado: " + xhr.status,
         });
       }
     };

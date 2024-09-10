@@ -22,11 +22,12 @@ function añadirRegistro() {
   var form = document.getElementById("form-añadir-registro");
   var datos = new FormData(form);
 
-  var departamento_id = document.getElementById("departamento_id").value;
-  datos.append("departamento_id", departamento_id);
-
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "./functions/basesdedatos/añadir-registro.php", true);
+  xhr.open(
+    "POST",
+    "./functions/coord-personal-plantilla/añadir-profesor.php",
+    true
+  );
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
