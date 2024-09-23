@@ -20,6 +20,14 @@ $result = mysqli_query($conexion, $sql);
 <title>Data - <?php echo $departamento_nombre; ?></title>
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
+<!-- CSS de DataTables
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"> -->
+
+<!-- CSS de DataTables y de Botones -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
@@ -62,9 +70,10 @@ $result = mysqli_query($conexion, $sql);
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
-    <div class="Tabla">
+    <div class="datatable-container"> 
     <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
-        <table id="tabla-datos">
+        <table id="tabla-datos" class="display">
+            <thead>
             <tr>
                 <th></th>
                 <th>ID</th>
@@ -110,6 +119,8 @@ $result = mysqli_query($conexion, $sql);
                 <th>OBSERVACIONES</th>
                 <th>EXTRAORDINARIO</th>
             </tr>
+            </thead>
+            <tbody>
             <?php
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
@@ -164,9 +175,10 @@ $result = mysqli_query($conexion, $sql);
                 }
             mysqli_close($conexion);
             ?>
+        </tbody>
         </table>
     </div>
-</div>
+</div> 
 
 <!-- Modal para añadir registros -->
 <div id="modal-añadir" class="modal">
@@ -378,11 +390,20 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
+<!-- Scripts de DataTables y Botones -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/barra-busqueda.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
 <script src="./JS/basesdedatos/editar-registros.js"></script>
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
+<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 
 <?php include("./template/footer.php"); ?>
