@@ -202,6 +202,10 @@ function updateCharacterCount(cell) {
 function getColumnName(cell) {
     const headerRow = document.querySelector('#tabla-datos tr');
     let columnName = headerRow.cells[cell.cellIndex].textContent.trim();
+    
+    // Eliminar emojis y otros caracteres especiales
+    columnName = columnName.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu, '').trim();
+    
     console.log('Column name from header:', columnName); // Para depuración
     let mappedName = columnMap[columnName] || columnName;
     console.log('Mapped column name:', mappedName); // Para depuración
@@ -262,51 +266,47 @@ function undoAllChanges() {
 }
 
 function saveAllChanges() {
-    const promises = [];
-    changedCells.forEach(cell => {
-        const row = cell.parentNode;
-        const id = row.cells[1].textContent;
-        const columnName = getColumnName(cell);
-        const newValue = cell.textContent;
-        
-        console.log('Saving changes for column:', columnName, 'with value:', newValue); // Para depuración
+    const promises = Array.from(changedCells).map(cell => {
+        const id = cell.parentNode.cells[1].textContent; // Asumiendo que el ID está en la segunda columna
+        const column = getColumnName(cell);
+        let value = cell.textContent;
 
-        promises.push(fetch('./functions/basesdedatos/actualizar-celda.php', {
+        // Limpieza básica de datos
+        value = value.replace(/[^\x00-\x7F]/g, ""); // Elimina caracteres no ASCII
+        value = encodeURIComponent(value); // Codifica el valor para su transmisión segura
+
+        return fetch('./functions/basesdedatos/actualizar-celda.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            body: `id=${encodeURIComponent(id)}&column=${encodeURIComponent(columnName)}&value=${encodeURIComponent(newValue)}`
-        }).then(response => response.json()));
+            body: new URLSearchParams({id, column, value})
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            return data;
+        });
     });
 
     Promise.all(promises)
         .then(results => {
-            results.forEach((data, index) => {
-                const cell = Array.from(changedCells)[index];
-                if (data.success) {
-                    cell.style.backgroundColor = '#90EE90';
-                    cell.removeAttribute('data-original-value');
-                    setTimeout(() => {
-                        cell.style.backgroundColor = '';
-                    }, 2000);
-                } else {
-                    cell.style.backgroundColor = '#FFB6C1';
-                    cell.textContent = data.oldValue || '';
-                    console.error('Error al actualizar:', data.error);
-                    alert(`Error al actualizar: ${data.error}`);
-                }
-            });
-            changedCells.clear();
-            hideSaveButton();
+            console.log('Todos los cambios guardados:', results);
             changedCells.clear();
             hideEditIcons();
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert(`Error de red o del servidor: ${error.message}`);
+            console.error('Error al guardar los cambios:', error);
+            // Mostrar el error al usuario
+            alert('Hubo un error al guardar los cambios. Por favor, inténtelo de nuevo.');
         });
-        hideSaveButton();
 }
 
 document.addEventListener('DOMContentLoaded', makeEditable);

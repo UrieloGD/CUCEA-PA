@@ -48,10 +48,10 @@
           }
         } elseif ($rol_id == 2) {
           // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
-          echo "<a href='data_departamentos.php'>";
+          echo "<a href='./admin-data-departamentos.php'>";
         } else {
           // Otros roles o manejo de errores aquí
-          echo "<a href='#'>";
+          echo "<a href='./basededatos-CoordPers.php'>";
         }
       ?>
         <div class="overlay">
@@ -61,7 +61,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="./dashboard_oferta.php"">
+      <a href="./dashboard-oferta.php">
         <div class="overlay">
           <h4>Oferta</h4>
         </div>
@@ -69,7 +69,7 @@
       </a>
     </div>
     <div class="cuadro-ind">
-      <a href="#">
+      <a href="./espacios.php">
         <div class="overlay">
           <h4>Espacios</h4>
         </div>
@@ -91,10 +91,10 @@
           }
         } elseif ($rol_id == 2) {
           // Si el usuario es secretaria administrativa, redirigir a plantillasPA
-          echo "<a href='./plantillaspa.php'>";
+          echo "<a href='./admin-plantilla.php'>";
         } else {
           // Otros roles o manejo de errores aquí
-          echo "<a href='#'>";
+          echo "<a href='./plantilla-coordPers.php'>";
         }
         ?>
         <div class="overlay">

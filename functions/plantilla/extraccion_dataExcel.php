@@ -69,7 +69,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 
         for ($row = 2; $row <= $highestRow; $row++) {
             $ciclo = $sheet->getCell('A' . $row)->getCalculatedValue();
-            $ciclo = $ciclo !== null ? safeSubstr($ciclo, 0, 10) : null;            
+            $ciclo = $ciclo !== null ? safeSubstr($ciclo, 0, 10) : null;
             $crn = safeSubstr($sheet->getCell('B' . $row)->getCalculatedValue(), 0, 15) ?? null;
             $materia = safeSubstr($sheet->getCell('C' . $row)->getCalculatedValue(), 0, 80) ?? null;
             $cve_materia = safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 5) ?? null;
@@ -109,9 +109,19 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $hora_final = $hora_final !== null ? str_pad(substr($hora_final, 0, 10), 4, '0', STR_PAD_LEFT) : null;
             $modulo = safeSubstr($sheet->getCell('AK' . $row)->getCalculatedValue(), 0, 10) ?? null;
             $aula = $sheet->getCell('AL' . $row)->getCalculatedValue();
-            $aula = $aula !== null ? str_pad(substr($aula, 0, 10), 4, '0', STR_PAD_LEFT) : null;            $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
+            $aula = $aula !== null ? str_pad(substr($aula, 0, 10), 4, '0', STR_PAD_LEFT) : null;
+            $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
             $cupo = safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 3) ?? null;
             $examen_extraordinario = safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 2) ?? null;
+
+
+            // Sumar las horas para cada profesor
+            //if ($codigo_profesor && $horas && $categoria !== 'PROFESOR DE ASIGNATURA "A"' && $categoria !== 'PROFESOR DE ASIGNATURA "B"' && $categoria !== 'PROFESOR DE ASIGNATURA "C"') {
+            //    if (!isset($profesores_horas[$codigo_profesor])) {
+            //        $profesores_horas[$codigo_profesor] = 0;
+            //    }
+            //    $profesores_horas[$codigo_profesor] += intval($horas);
+            //}
 
             if ($fecha_inicial) {
                 $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
@@ -173,6 +183,123 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             }
         }
 
+        function esProfesorAsignatura($categoria)
+        {
+            $categoriasAsignatura = [
+                'PROFESOR DE ASIGNATURA "A"',
+                'PROFESOR DE ASIGNATURA "B"',
+                'PROFESOR DE ASIGNATURA "C"',
+                'ASIGNATURA "A"',
+                'ASIGNATURA "B"',
+                'ASIGNATURA "C"'
+            ];
+            return in_array(trim($categoria), $categoriasAsignatura);
+        }
+
+        // Validar la carga horaria de cada profesor
+        $tablas_departamentos = [
+            'data_administración',
+            'data_auditoría',
+            'data_ciencias_sociales',
+            'data_contabilidad',
+            'data_economía',
+            'data_estudios_regionales',
+            'data_finanzas',
+            'data_impuestos',
+            'data_mercadotecnia',
+            'data_métodos_cuantitativos',
+            'data_pale',
+            'data_políticas_públicas',
+            'data_posgrados',
+            'data_recursos_humanos',
+            'data_sistemas_de_información',
+            'data_turismo'
+        ];
+
+        $profesores_horas_totales = array();
+
+        foreach ($tablas_departamentos as $tabla) {
+            $sql_horas = "SELECT t.CODIGO_PROFESOR, 
+                                 SUM(CAST(t.HORAS AS UNSIGNED)) AS total_horas, 
+                                 c.Categoria_actual,
+                                 c.Nombre_completo
+                          FROM $tabla t
+                          LEFT JOIN Coord_Per_Prof c ON t.CODIGO_PROFESOR = c.Codigo
+                          GROUP BY t.CODIGO_PROFESOR, c.Categoria_actual, c.Nombre_completo";
+
+            $result_horas = $conn->query($sql_horas);
+
+            if ($result_horas) {
+                while ($row = $result_horas->fetch_assoc()) {
+                    $codigo_profesor = $row['CODIGO_PROFESOR'];
+                    $horas = intval($row['total_horas']);
+                    $categoria = $row['Categoria_actual'];
+                    $nombre_completo = $row['Nombre_completo'];
+
+                    // Log para depuración
+                    error_log("Procesando profesor: Código=$codigo_profesor, Nombre=$nombre_completo, Categoría=$categoria, Horas=$horas");
+
+                    if (!esProfesorAsignatura($categoria)) {
+                        if (!isset($profesores_horas_totales[$codigo_profesor])) {
+                            $profesores_horas_totales[$codigo_profesor] = [
+                                'horas' => 0,
+                                'nombre' => $nombre_completo,
+                                'categoria' => $categoria
+                            ];
+                        }
+                        $profesores_horas_totales[$codigo_profesor]['horas'] += $horas;
+
+                        // Log para depuración
+                        error_log("Sumando horas: Código=$codigo_profesor, Horas totales=" . $profesores_horas_totales[$codigo_profesor]['horas']);
+                    } else {
+                        // Log para depuración
+                        error_log("Profesor de asignatura excluido: Código=$codigo_profesor, Categoría=$categoria");
+                    }
+                }
+            } else {
+                // Manejar el error si la consulta falla
+                error_log("Error al consultar la tabla $tabla: " . $conn->error);
+            }
+        }
+
+        // Ahora comparamos las horas totales con la carga horaria permitida
+        $profesores_excedidos = array();
+
+        foreach ($profesores_horas_totales as $codigo_profesor => $info) {
+            $sql_profesor = "SELECT Carga_horaria FROM Coord_Per_Prof WHERE Codigo = ?";
+            $stmt_profesor = $conn->prepare($sql_profesor);
+            $stmt_profesor->bind_param("s", $codigo_profesor);
+            $stmt_profesor->execute();
+            $result_profesor = $stmt_profesor->get_result();
+
+            if ($row_profesor = $result_profesor->fetch_assoc()) {
+                $carga_horaria_permitida = intval($row_profesor['Carga_horaria']);
+                if ($info['horas'] > $carga_horaria_permitida) {
+                    $profesores_excedidos[] = array(
+                        'codigo' => $codigo_profesor,
+                        'nombre' => $info['nombre'],
+                        'categoria' => $info['categoria'],
+                        'horas_asignadas' => $info['horas'],
+                        'carga_permitida' => $carga_horaria_permitida
+                    );
+
+                    // Log para depuración
+                    error_log("Profesor excedido: Código=$codigo_profesor, Nombre={$info['nombre']}, Horas asignadas={$info['horas']}, Carga permitida=$carga_horaria_permitida");
+                }
+            }
+            $stmt_profesor->close();
+        }
+
+        if (!empty($profesores_excedidos)) {
+            $mensaje_advertencia = "Los siguientes profesores exceden su carga horaria permitida:";
+            foreach ($profesores_excedidos as $profesor) {
+                $mensaje_advertencia .= "\n{$profesor['codigo']} - {$profesor['nombre']} ({$profesor['categoria']}) " .
+                    "(Asignadas: {$profesor['horas_asignadas']}, Permitidas: {$profesor['carga_permitida']})";
+            }
+            echo json_encode(["success" => false, "message" => $mensaje_advertencia]);
+            exit();
+        }
+
         $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
         $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
         $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
@@ -197,12 +324,34 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $asunto = "Nueva Base de Datos subida por Jefe de Departamento";
                 $cuerpo = "
                 <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                        .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                        .header { text-align: center; padding-bottom: 20px; }
+                        .header img { width: 300px; }
+                        .content { padding: 20px; }
+                        h2 { color: #2c3e50; }
+                        p { line-height: 1.5; color: #333; }
+                        .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                    </style>
+                </head>
                 <body>
-                    <h2>Nueva Base de Datos subida</h2>
-                    <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido una nueva Base de Datos.</p>
-                    <p>Nombre del archivo: {$fileName}</p>
-                    <p>Fecha de subida: " . date('d/m/Y H:i') . "</p>
-                    <p>Por favor, ingrese al sistema para más detalles.</p>
+                    <div class='container'>
+                        <div class='header'>
+                            <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                        </div>
+                        <div class='content'>
+                            <h2>Nueva Base de Datos subida</h2>
+                            <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido una nueva Base de Datos.</p>
+                            <p>Nombre del archivo: {$fileName}</p>
+                            <p>Fecha de subida: " . date('d/m/y H:i') . "</p>
+                            <p>Por favor, ingrese al sistema para más detalles.</p>
+                        </div>
+                        <div class='footer'>
+                            <p>Centro para la Sociedad Digital</p>
+                        </div>
+                    </div>
                 </body>
                 </html>
                 ";
@@ -223,6 +372,8 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 
         $stmt_departamento->close();
         $stmtInsertPlantillaDep->close();
+
+        echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
     } else {
         echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
     }

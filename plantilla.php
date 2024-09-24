@@ -5,7 +5,7 @@ include './config/db.php';
 function obtenerDepartamentoId($usuario_id)
 {
     $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
-    $result = $conn->query($sql);
+    $result = $connexion->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -14,7 +14,7 @@ function obtenerDepartamentoId($usuario_id)
         $departamento_id = null;
     }
 
-    $conn->close();
+    $connexion->close();
     return $departamento_id;
 }
 

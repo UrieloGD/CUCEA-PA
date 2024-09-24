@@ -22,6 +22,11 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
     <div class="info-subida">
         <!-- <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p> -->
     </div>
+    <div class="encabezado">
+        <div class="titulo-bd">
+            <h3>Plantilla - Coordinación de Personal</h3>
+        </div>
+    </div>
     <form id="formulario-subida" enctype="multipart/form-data">
         <div class="container-inf">
             <div class="drop-area">
@@ -42,7 +47,7 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./JS/coordinacion-personal-plantilla/drag&drop.js"></script>
+<script src="./JS/plantilla-CoordPers/drag&drop.js"></script>
 <script src="./JS/plantilla/Ajax-coordinacion-personal.js"></script>
 <script src="./JS/plantilla/pestañasPlantilla.js"></script>
 

@@ -1,16 +1,14 @@
 document
   .getElementById("formulario-subida")
   .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    event.preventDefault();
 
     let formData = new FormData();
     let fileInput = document.getElementById("input-file");
 
-    // Verificar si hay archivos seleccionados
     if (fileInput.files.length > 0) {
       let file = fileInput.files[0];
 
-      // Validar el tipo de archivo y el tamaño
       const validExtensions = ["xlsx", "xls"];
       const maxFileSize = 2 * 1024 * 1024; // 2MB
       const fileExtension = file.name.split(".").pop().toLowerCase();
@@ -34,7 +32,6 @@ document
       return;
     }
 
-    // Mostrar indicador de carga
     Swal.fire({
       title: "Subiendo archivo...",
       html: "Por favor, espere. Esto puede tardar varios segundos.",
@@ -44,12 +41,11 @@ document
       },
     });
 
-    // Crear una solicitud XMLHttpRequest
     let xhr = new XMLHttpRequest();
     xhr.open("POST", "./functions/plantilla/extraccion_dataExcel.php", true);
 
     xhr.onload = function () {
-      Swal.close(); // Cerrar el indicador de carga
+      Swal.close();
       if (xhr.status === 200) {
         try {
           let response = JSON.parse(xhr.responseText);
@@ -63,11 +59,24 @@ document
               },
             });
           } else {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: response.message,
-            });
+            if (
+              response.message.includes(
+                "Los siguientes profesores exceden su carga horaria permitida"
+              )
+            ) {
+              Swal.fire({
+                icon: "warning",
+                title: "Advertencia",
+                html: response.message.replace(/\n/g, "<br>"),
+                width: "800px", // Aumentamos el ancho para que quepa toda la información
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: response.message,
+              });
+            }
           }
         } catch (e) {
           console.error("Error parsing JSON:", xhr.responseText);
@@ -87,7 +96,7 @@ document
     };
 
     xhr.onerror = function () {
-      Swal.close(); // Cerrar el indicador de carga en caso de error
+      Swal.close();
       Swal.fire({
         icon: "error",
         title: "Error",

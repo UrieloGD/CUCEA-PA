@@ -1,4 +1,5 @@
 <?php
+// extraerdatosexcel
 session_start();
 ini_set('memory_limit', '256M');
 require './../../vendor/autoload.php';
@@ -43,7 +44,6 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
 
     $usuario_id = $_SESSION['Codigo'] ?? null;
     $rol_id = $_SESSION['Rol_ID'] ?? null;
-    $departamento_id = $_SESSION['Departamento_ID'] ?? null;
 
     if ($usuario_id !== null) {
         $spreadsheet = IOFactory::load($file);
@@ -218,61 +218,66 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             }
         }
 
-        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
+        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID) VALUES (?, ?, ?)";
         $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
-        $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
+        $stmtInsertPlantillaDep->bind_param("sii", $fileName, $fileSize, $usuario_id);
 
         if ($stmtInsertPlantillaDep->execute()) {
             // Obtener el nombre del departamento
-            $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+            $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = (SELECT Departamento_ID FROM Usuarios WHERE Codigo = ?)";
             $stmt_departamento = $conn->prepare($sql_departamento);
-            $stmt_departamento->bind_param("i", $departamento_id);
-            $stmt_departamento->execute();
-            $result_departamento = $stmt_departamento->get_result();
-            $departamento = $result_departamento->fetch_assoc();
-
-            // Obtener correos de los usuarios de secretaría administrativa
-            $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
-            $result_secretaria = $conn->query($sql_secretaria);
-
-            $envio_exitoso = true;
-
-            while ($secretaria = $result_secretaria->fetch_assoc()) {
-                $destinatario = $secretaria['Correo'];
-                $asunto = "Nuevos datos de Coordinación de Personal subidos por Jefe de Departamento";
-                $cuerpo = "
-                <html>
-                <body>
-                    <h2>Nuevos datos de Coordinación de Personal subidos</h2>
-                    <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido nuevos datos de Coordinación de Personal.</p>
-                    <p>Nombre del archivo: {$fileName}</p>
-                    <p>Fecha de subida: " . date('d/m/Y H:i') . "</p>
-                    <p>Por favor, ingrese al sistema para más detalles.</p>
-                </body>
-                </html>
-                ";
-
-                if (!enviarCorreo($destinatario, $asunto, $cuerpo)) {
-                    $envio_exitoso = false;
+            
+            if ($stmt_departamento) {
+                $stmt_departamento->bind_param("s", $usuario_id);
+                $stmt_departamento->execute();
+                $result_departamento = $stmt_departamento->get_result();
+                
+                if ($result_departamento->num_rows > 0) {
+                    $departamento = $result_departamento->fetch_assoc();
+        
+                    // Obtener correos de los usuarios de secretaría administrativa
+                    $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+                    $result_secretaria = $conn->query($sql_secretaria);
+        
+                    $envio_exitoso = true;
+        
+                    while ($secretaria = $result_secretaria->fetch_assoc()) {
+                        $destinatario = $secretaria['Correo'];
+                        $asunto = "Nuevos datos de Coordinación de Personal subidos por Jefe de Departamento";
+                        $cuerpo = "
+                        <html>
+                        <body>
+                            <h2>Nuevos datos de Coordinación de Personal subidos</h2>
+                            <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido nuevos datos de Coordinación de Personal.</p>
+                            <p>Nombre del archivo: {$fileName}</p>
+                            <p>Fecha de subida: " . date('d/m/Y H:i') . "</p>
+                            <p>Por favor, ingrese al sistema para más detalles.</p>
+                        </body>
+                        </html>
+                        ";
+        
+                        if (!enviarCorreo($destinatario, $asunto, $cuerpo)) {
+                            $envio_exitoso = false;
+                        }
+                    }
+        
+                    if ($envio_exitoso) {
+                        echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
+                    } else {
+                        echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos, pero hubo problemas al enviar algunos correos."]);
+                    }
+                } else {
+                    echo json_encode(["success" => false, "message" => "No se encontró el departamento del usuario."]);
                 }
-            }
-
-            if ($envio_exitoso) {
-                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
+            
+                $stmt_departamento->close();
             } else {
-                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos, pero hubo problemas al enviar algunos correos."]);
+                echo json_encode(["success" => false, "message" => "Error al preparar la consulta del departamento: " . $conn->error]);
             }
         } else {
             echo json_encode(["success" => false, "message" => "Error al insertar en Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
         }
-
-        $stmt_departamento->close();
-        $stmtInsertPlantillaDep->close();
-    } else {
-        echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
     }
-} else {
-    echo json_encode(["success" => false, "message" => "No se recibió ningún archivo."]);
 }
 
 $output = ob_get_clean();

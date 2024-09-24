@@ -4,13 +4,14 @@
   background-color: white;
   border-radius: 20px;
   width: 92vw;
-  height: 88vh;
+  height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  align-self: flex-end;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
@@ -41,6 +42,30 @@
   width: 7vh;
   margin-top: 3vh;
   margin-bottom: 4vh;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: -1vh;
+  margin-bottom: 2vh;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
 }
 
 /* Botón de descarga */

@@ -58,6 +58,11 @@ $result = mysqli_query($conexion, $sql);
                 <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
+                <!-- Icono agregado por Cass -->
+                 <div class="icono-buscador" id="icono-visualizar" onclick="visualizarInformacionProfesores()">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                 </div>
+                <!-- -->
                 <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
@@ -70,58 +75,61 @@ $result = mysqli_query($conexion, $sql);
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
-    <div class="datatable-container"> 
+    <div class="tabla-container">
+        <div id="tabla-controles">
+        </div>
+    <div class="Tabla">
     <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos" class="display">
             <thead>
-            <tr>
-                <th></th>
-                <th>ID</th>
-                <th>CICLO</th>
-                <th>CRN</th>
-                <th>MATERIA</th>
-                <th>CVE MATERIA</th>
-                <th>SECCIÓN</th>
-                <th>NIVEL</th>
-                <th>NIVEL TIPO</th>
-                <th>TIPO</th>
-                <th>C. MIN</th>
-                <th>H. TOTALES</th>
-                <th>STATUS</th>
-                <th>TIPO CONTRATO</th>
-                <th>CÓDIGO</th>
-                <th>NOMBRE PROFESOR</th>
-                <th>CATEGORIA</th>
-                <th>DESCARGA</th>
-                <th>CÓDIGO DESCARGA</th>
-                <th>NOMBRE DESCARGA</th>
-                <th>NOMBRE DEFINITIVO</th>
-                <th>TITULAR</th>
-                <th>HORAS</th>
-                <th>CÓDIGO DEPENDENCIA</th>
-                <th>L</th>
-                <th>M</th>
-                <th>I</th>
-                <th>J</th>
-                <th>V</th>
-                <th>S</th>
-                <th>D</th>
-                <th>DÍA PRESENCIAL</th>
-                <th>DÍA VIRTUAL</th>
-                <th>MODALIDAD</th>
-                <th>FECHA INICIAL</th>
-                <th>FECHA FINAL</th>
-                <th>HORA INICIAL</th>
-                <th>HORA FINAL</th>
-                <th>MÓDULO</th>
-                <th>AULA</th>
-                <th>CUPO</th>
-                <th>OBSERVACIONES</th>
-                <th>EXTRAORDINARIO</th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>ID <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CICLO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CRN <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>MATERIA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CVE MATERIA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>SECCIÓN <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>NIVEL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>NIVEL TIPO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>TIPO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>C. MIN <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>H. TOTALES <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>STATUS <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>TIPO CONTRATO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CÓDIGO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>NOMBRE PROFESOR <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CATEGORIA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>DESCARGA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CÓDIGO DESCARGA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>NOMBRE DESCARGA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>NOMBRE DEFINITIVO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>TITULAR <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>HORAS <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CÓDIGO DEPENDENCIA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>L <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>M <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>I <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>J <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>V <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>S <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>D <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>DÍA PRESENCIAL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>DÍA VIRTUAL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>MODALIDAD <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>FECHA INICIAL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>FECHA FINAL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>HORA INICIAL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>HORA FINAL <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>MÓDULO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>AULA <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>CUPO <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>OBSERVACIONES <span class="filter-icon">&#x1F50D;</span></th>
+                    <th>EXTRAORDINARIO <span class="filter-icon">&#x1F50D;</span></th>
+                </tr>
             </thead>
             <tbody>
-            <?php
+                <?php
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>";
@@ -173,12 +181,11 @@ $result = mysqli_query($conexion, $sql);
                 } else {
                     echo "<tr><td colspan='43'>No hay datos disponibles</td></tr>";
                 }
-            mysqli_close($conexion);
-            ?>
-        </tbody>
+                mysqli_close($conexion);
+                ?>
+            </tbody>
         </table>
     </div>
-</div> 
 
 <!-- Modal para añadir registros -->
 <div id="modal-añadir" class="modal">
@@ -390,20 +397,132 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<!-- Scripts de DataTables y Botones -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+<!-- Modal para visualizar información detallada del profesor by Cass -->
+            <!-- Referencias tomadas de los modales anteriores -->
+<div id="modal-visualizar" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalVisualizar()">&times;</span>
+       
+        <!-- código del contenido del modal -->
+        <table class="contenedor">
+            <tr>
+                <td class="left-column">
+                    <div class="profesor-header">
+                        <div class="profesor-avatar">
+                            <span class="avatar-initials">FQ</span>
+                        </div>
+                        <div class="profesor-details">
+                            <h2 id="profesor-nombre">Fabiola Quezada Limón</h2>
+                            <p id="profesor-email">fabiolaquezada@academicos.udg.mx</p>
+                        </div>
+                    </div>
+            <table class="profesor-data">
+                <tr>
+                    <th>Código</th>
+                    <td id="profesor-codigo">123456789</td>
+                </tr>
+                <tr>
+                    <th>Categoría</th>
+                    <td id="profesor-categoria">Asignatura B</td>
+                </tr>
+                <tr>
+                    <th>Horas asignadas</th>
+                    <td id=profesor-horas" class="data-value2">39/40</td>
+                </tr>
+                <tr>
+                    <th>Departamento</th>
+                    <td id="profesor-departamento" class="data-value3">Administración</td>
+                </tr>     
+            </table>
+        </td>
 
-
+        <!-- Desarrollo Emprendedores -->
+         <td class="right-column">
+            <div class="class-info">
+                <h3>Desarrollo de emprendedores</h3>
+                <table class="class-details">
+                    <tr>
+                        <th>NRC</th>
+                        <th>Horario</th>
+                        <th>Edificio/Aula</th>
+                    </tr>
+                    <tr>
+                        <td>141917</td>
+                        <!-- <td>
+                            07:00 - 8:55
+                            <div class="weekdays">
+                                <div class="day active">L</div>
+                                <div class="day">M</div>
+                                <div class="day active">I</div>
+                                <div class="day">J</div>
+                                <div class="day">V</div>
+                                <div class="day">S</div>
+                            </div>
+                        </td> -->
+                        <td>
+                            <div class="horario-container">
+                            <span class="horario-tiempo">07:00 - 8:55</span>
+                            <div class="weekdays">
+                            <div class="day active">L</div>
+                            <div class="day">M</div>
+                            <div class="day active">I</div>
+                            <div class="day">J</div>
+                            <div class="day">V</div>
+                            <div class="day">S</div>
+                        </div>
+                        </div>
+                        </td>
+                        <td>F106</td>
+                    </tr>
+                    <tr>
+                        <td>151917</td>
+                        <td>
+                            09:00 - 10:55
+                            <div class="weekdays">
+                                <div class="day">L</div>
+                                <div class="day active">M</div>
+                                <div class="day">I</div>
+                                <div class="day active">J</div>
+                                <div class="day">V</div>
+                                <div class="day">S</div>
+                            </div>
+                        </td>
+                        <td>G302</td>
+                    </tr>
+                    <tr>
+                        <td>167143</td>
+                    <td>
+                    13:00 - 14:55
+                            <div class="weekdays">
+                                <div class="day">L</div>
+                                <div class="day active">M</div>
+                                <div class="day">I</div>
+                                <div class="day active">J</div>
+                                <div class="day">V</div>
+                                <div class="day">S</div>
+                            </div>
+                        </td>
+                        <td>C101</td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+        
+        <!-- fin contenido del modal -->
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+<script src="./JS/basesdedatos/inicializar-datatable.js"></script>
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/barra-busqueda.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
 <script src="./JS/basesdedatos/editar-registros.js"></script>
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
-<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<script src="./JS/basesdedatos/visualizar-profesores.js"></script> <!-- Llama el js de visualizar by Cass -->
 
 <?php include("./template/footer.php"); ?>

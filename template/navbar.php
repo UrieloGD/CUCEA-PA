@@ -122,7 +122,7 @@ function generateColorForUser($userId)
                     echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
                 } else {
                     // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='./base-datos-coord-personal.php'>";
+                    echo "<a class='navbar-item-inner flexbox-left' href='./plantilla-coordPers.php'>";
                 }
                 ?>
                 <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -151,7 +151,7 @@ function generateColorForUser($userId)
                     echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
                 } else {
                     // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='./coordinacion_personal_profesores.php'>";
+                    echo "<a class='navbar-item-inner flexbox-left' href='./basededatos-CoordPers.php'>";
                 }
                 ?>
                 <div class="navbar-item-inner-icon-wrapper flexbox">

@@ -1,4 +1,8 @@
 <?php
+// Activar la visualización de errores
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');
@@ -14,7 +18,7 @@ $dbname = "CREATE DATABASE IF NOT EXISTS PA;";
 if ($conn->query($dbname) == TRUE) {
     echo "Base de datos creada exitosamente";
 } else {
-    echo "Error creando base de datos: " . $conn->error;
+    echo "Error creando base de datos: " . $conn->error . "<br>";
 }
 
 mysqli_select_db($conn, "PA");
@@ -48,8 +52,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     Nombre VARCHAR(45) NOT NULL,
     Apellido VARCHAR(45) NOT NULL,
     Correo VARCHAR(100) NOT NULL,
-    Pass VARCHAR(96) NOT NULL,  
-    Salt VARCHAR(32) NOT NULL,  
+    Pass VARCHAR(255) NOT NULL,
     Genero VARCHAR(20) NOT NULL,
     Rol_ID INT,
     IconoColor VARCHAR(7),
@@ -59,64 +62,71 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
 if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Usuarios creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn) . "<br>";
 }
 
-// Para el hasheo de contraseñas
-function hashPassword($password)
-{
-    $salt = bin2hex(random_bytes(16));
-    $hashedPassword = hash('sha256', $salt . $password);
-    return ['hash' => $hashedPassword, 'salt' => $salt];
+// Función para hashear contraseñas de manera segura
+function hashPassword($password) {
+    return password_hash($password, PASSWORD_BCRYPT);
 }
+
+echo "<br>Función hashPassword definida correctamente";
+
 // Usuarios (los necesitamos en arreglo para el hasheo de contraseñas)
 $usuarios = [
-    [2100123456, 'Juan', 'Perez', 'juan.perez@cucea.udg', '123', 'Masculino', 1],
-    [2103456789, 'Ana', 'Martinez', 'ana.martinez@cucea.udg', '123', 'Femenino', 1],
-    [2106789012, 'Carlos', 'Hernandez', 'carlos.hernandez@cucea.udg', '123', 'Masculino', 1],
-    [2110123456, 'Pedro', 'Gómez', 'pedro.gomez@cucea.udg', '123', 'Masculino', 1],
-    [2111234567, 'Laura', 'Torres', 'laura.torres@cucea.udg', '123', 'Femenino', 1],
-    [2112345678, 'Javier', 'Ruiz', 'javier.ruiz@cucea.udg', '123', 'Masculino', 1],
-    [2113456789, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1],
-    [2114567890, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1],
-    [2115678901, 'Mariana', 'Ponce', 'mariana.ponce@cucea.udg', '123', 'Femenino', 1],
-    [2116789012, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1],
-    [2121234567, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1],
-    [2130192837, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1],
-    [2140596871, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1],
-    [2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1],
-    [2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1],
-    [2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1],
-    [2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2],
-    [2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Masculino', 2],
-    [2107890123, 'Aldo', 'Ceja', 'aldo.ceja@cucea.udg', '123', 'Masculino', 2],
-    [2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg', '123', 'Femenino', 3],
-    [2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg', '123', 'Masculino', 3],
-    [2108901234, 'Daniel', 'Sanchez', 'daniel.sanchez@cucea.udg', '123', 'Masculino', 3],
-    [2109012345, 'Monica', 'Ramirez', 'monica.ramirez@cucea.udg', '123', 'Femenino', 3]
+    [2100123456, 'Juan', 'Perez', 'juan.perez@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2103456789, 'Ana', 'Martinez', 'ana.martinez@cucea.udg', '123', 'Femenino', 1, '#00FF00'],
+    [2106789012, 'Carlos', 'Hernandez', 'carlos.hernandez@cucea.udg', '123', 'Masculino', 1, '#0000FF'],
+    [2110123456, 'Pedro', 'Gómez', 'pedro.gomez@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2111234567, 'Laura', 'Torres', 'laura.torres@cucea.udg', '123', 'Femenino', 1, '#FF0000'],
+    [2112345678, 'Javier', 'Ruiz', 'javier.ruiz@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2113456789, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1, '#FF0000'],
+    [2114567890, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2115678901, 'Mariana', 'Ponce', 'mariana.ponce@cucea.udg', '123', 'Femenino', 1, '#FF0000'],
+    [2116789012, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2121234567, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2130192837, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2140596871, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1, '#FF0000'],
+    [2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2, '#FF0000'],
+    [2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Femenino', 2, '#FF0000'],
+    [2107890123, 'Aldo', 'Ceja', 'aldo.ceja@cucea.udg', '123', 'Masculino', 2, '#FF0000'],
+    [2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg', '123', 'Femenino', 3, '#FF0000'],
+    [2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg', '123', 'Masculino', 3, '#FF0000'],
+    [2108901234, 'Daniel', 'Sanchez', 'daniel.sanchez@cucea.udg', '123', 'Masculino', 3, '#FF0000'],
+    [2109012345, 'Monica', 'Ramirez', 'monica.ramirez@cucea.udg', '123', 'Femenino', 3, '#FF0000']
 ];
 
-$stmt = $conn->prepare("INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Salt, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+if (!$stmt) {
+    die("Error en la preparación de la consulta: " . $conn->error);
+}
 
 // Insertar usuarios
-foreach ($usuarios as $usuario) {
-    $passwordData = hashPassword($usuario[4]); // El índice 4 corresponde a la contraseña
+foreach ($usuarios as $index => $usuario) {
+    $codigo = $usuario[0]; // Codigo
+    $nombre = $usuario[1]; // Nombre
+    $apellido = $usuario[2]; // Apellido
+    $correo = $usuario[3]; // Correo
+    $pass = $pass = hashPassword($usuario[4]); // Pass hasheada
+    $genero = $usuario[5]; // Genero
+    $rol_id = $usuario[6]; // Rol_ID
+    $iconoColor = $usuario[7];  // IconoColor
 
-    $stmt->bind_param(
-        "issssssis",
-        $usuario[0], // Codigo
-        $usuario[1], // Nombre
-        $usuario[2], // Apellido
-        $usuario[3], // Correo
-        $passwordData['hash'], // Pass hasheada
-        $passwordData['salt'], // Salt
-        $usuario[5], // Genero
-        $usuario[6], // Rol_ID
-        $usuario[7]  // IconoColor
-    );
+    $stmt->bind_param("issssssi", $codigo, $nombre, $apellido, $correo, $pass, $genero, $rol_id, $iconoColor);
 
-    $stmt->execute();
+    if ($stmt->execute()) {
+        echo "<br>Usuario " . ($index + 1) . " insertado correctamente";
+    } else {
+        echo "<br>Error insertando usuario " . ($index + 1) . ": " . $stmt->error . "<br>";
+    }
 }
+
+  //  $stmt->execute();
+//}
 
 $stmt->close();
 

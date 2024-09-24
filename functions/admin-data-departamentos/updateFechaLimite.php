@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
                     .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
                     .header { text-align: center; padding-bottom: 20px; }
-                    .header img { width: 100px; }
+                    .header img { width: 300px; }
                     .content { padding: 20px; }
                     h2 { color: #2c3e50; }
                     p { line-height: 1.5; color: #333; }
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <body>
                 <div class='container'>
                     <div class='header'>
-                        <img src='https://imgur.com/a/jpbTl5s' alt='Logo PA'>
+                        <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
                     </div>
                     <div class='content'>
                         <h2>Actualización de fecha límite</h2>

@@ -2,7 +2,7 @@ const dropArea = document.querySelector(".drop-area");
 const dragText = dropArea.querySelector("p");
 const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
-let files;
+let filesToUpload = [];
 
 button.addEventListener("click", (e) => {
   input.click();
@@ -29,14 +29,15 @@ dropArea.addEventListener("dragleave", (e) => {
 
 dropArea.addEventListener("drop", (e) => {
   e.preventDefault();
-  files = e.dataTransfer.files;
-  showFile(files);
   dropArea.classList.remove("active");
   dragText.textContent = "Arrastra tus archivos a subir aquí";
+  
+  const droppedFiles = e.dataTransfer.files;
+  showFile(droppedFiles);
 });
 
 function showFile(files) {
-  if (files.length == undefined) {
+  if (files.length === undefined) {
     processFile(files);
   } else {
     for (const file of files) {
@@ -110,7 +111,7 @@ function uploadFiles() {
       const formData = new FormData();
       formData.append("file", file);
 
-      fetch("./functions/coord-personal-plantilla/extraer_datosExcel.php", {
+      fetch("./functions/plantilla-CoordPers/extraer_datosExcel.php", {
         method: "POST",
         body: formData,
       })

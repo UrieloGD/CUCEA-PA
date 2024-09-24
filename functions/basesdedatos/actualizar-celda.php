@@ -1,7 +1,9 @@
 <?php
 // Asegurarse de que los errores no se muestren en la salida
-ini_set('display_errors', 0);
+ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+try {
 
 // Función para manejar errores y devolverlos como JSON
 function handleError($errno, $errstr, $errfile, $errline) {
@@ -18,6 +20,8 @@ set_error_handler("handleError");
 
 // Asegurarse de que la salida sea JSON
 header('Content-Type: application/json');
+$value = urldecode($_POST['value']);
+$value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
 
 // Iniciar la sesión
 session_start();
@@ -135,4 +139,8 @@ error_log("SQL Query: $sql");
 error_log("Error: " . mysqli_error($conexion));
 
 echo json_encode($response);
+
+} catch (Exception $e) {
+    echo json_encode(['error' => $e->getMessage()]);
+}
 ?>

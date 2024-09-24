@@ -337,7 +337,7 @@ function saveAllChanges() {
     }
 
     promises.push(
-      fetch("./functions/coord-personal-plantilla/actualizar-celda-coord.php", {
+      fetch("./functions/plantilla-CoordPers/actualizar-celda-coord.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",

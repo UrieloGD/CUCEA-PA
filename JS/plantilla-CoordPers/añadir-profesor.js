@@ -25,7 +25,7 @@ function añadirRegistro() {
   var xhr = new XMLHttpRequest();
   xhr.open(
     "POST",
-    "./functions/coord-personal-plantilla/añadir-profesor.php",
+    "./functions/plantilla-CoordPers/añadir-profesor.php",
     true
   );
   xhr.onreadystatechange = function () {

@@ -77,7 +77,7 @@ function descargarExcelSeleccionado() {
   }
 
   var url =
-    "./functions/coord-personal-plantilla/descargar-data-excel-coord.php?columnas=" +
+    "./functions/plantilla-CoordPers/descargar-data-excel-coord.php?columnas=" +
     JSON.stringify(columnasSeleccionadas);
   window.location.href = url;
 
