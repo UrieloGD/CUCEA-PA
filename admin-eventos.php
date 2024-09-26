@@ -7,6 +7,7 @@
 
 <title>Centro de Gestión</title>
 <link rel="stylesheet" href="./CSS/admin-eventos.css" />
+<link rel="stylesheet" href="./CSS/admin-crear-eventos.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -71,11 +72,125 @@
     ?>
 
     <div class="form-actions">
-        <a href="./admin-crear-eventos.php"><button type="button" class="btn">Crear evento</button></a>
+        <button type="button" class="btn" id="btnCrearEvento">Crear evento</button>
+    </div>
+</div>
+
+<!-- Modal para crear evento -->
+<div id="modalCrearEvento" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="margin-bottom: 0;">Crear nuevo evento</h2>
+            <span class="close">&times;</span>
+        </div>
+        <hr style="border: 2px solid #0071b0; width: 99%;">
+        <form id="formCrearEvento">
+            <div class="form-group">
+                <label for="nombre">
+                    <i class="fas fa-pen"></i> Nombre
+                </label>
+                <input type="text" id="nombre" name="nombre" value="<?php echo $editing ? htmlspecialchars($evento['Nombre_Evento']) : ''; ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-calendar"></i> Fecha y hora
+                </label>
+                <div class="fecha-hora-group">
+                    <input type="date" id="FechIn" name="FechIn" value="<?php echo $editing ? $evento['Fecha_Inicio'] : ''; ?>" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechFi" name="FechFi" value="<?php echo $editing ? $evento['Fecha_Fin'] : ''; ?>" required  min="<?php echo date('Y-m-d'); ?>">
+                    <span>a las</span>
+                    <input type="time" id="HorIn" name="HorIn" value="<?php echo $editing ? $evento['Hora_Inicio'] : ''; ?>" required>
+                    <span> --> </span>
+                    <input type="time" id="HorFin" name="HorFi" value="<?php echo $editing ? $evento['Hora_Fin'] : ''; ?>" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-bell"></i> Notificaciones
+                </label>
+                <div class="notificaciones-group">
+                    <select id="notificacion" name="notificacion">
+                        <option value="1 hora antes" <?php echo $editing && $evento['Notificaciones'] == '1 hora antes' ? 'selected' : ''; ?>>1 hora antes</option>
+                        <option value="2 horas antes" <?php echo $editing && $evento['Notificaciones'] == '2 horas antes' ? 'selected' : ''; ?>>2 horas antes</option>
+                        <option value="1 día antes" <?php echo $editing && $evento['Notificaciones'] == '1 día antes' ? 'selected' : ''; ?>>1 día antes</option>
+                        <option value="1 semana antes" <?php echo $editing && $evento['Notificaciones'] == '1 semana antes' ? 'selected' : ''; ?>>1 semana antes</option>
+                        <option value="Sin notificación" <?php echo $editing && $evento['Notificaciones'] == 'Sin notificación' ? 'selected' : ''; ?>>Sin notificación</option>
+                    </select>
+                    <span>a las</span>
+                    <input type="time" id="HorNotif" name="HorNotif" value="<?php echo $editing ? $evento['Hora_Noti'] : ''; ?>" required>
+                </div>
+            </div>
+
+            <div class="form-group split-group">
+                <div class="split-item">
+                    <label for="participantes">
+                        <i class="fas fa-users"></i> Participantes
+                    </label>
+                    <button class="boton-agregar-participantes" type="button" id="abrirModalParticipantes">Añadir participantes</button>
+                    <div id="participantes-seleccionados"></div>
+                    <div id="input-participantes"></div>
+                </div>
+                <div class="split-item">
+                    <label for="etiqueta">
+                        <i class="fas fa-tag"></i> Etiqueta
+                    </label>
+                    <select id="etiqueta" name="etiqueta">
+                        <option value="">Elige una etiqueta</option>
+                        <option value="Programación Académica" <?php echo $editing && $evento['Etiqueta'] == 'Programación Académica' ? 'selected' : ''; ?>>Programación Académica</option>
+                        <option value="Oferta Académica" <?php echo $editing && $evento['Etiqueta'] == 'Oferta Académica' ? 'selected' : ''; ?>>Oferta Académica</option>
+                        <option value="Administrativo" <?php echo $editing && $evento['Etiqueta'] == 'Administrativo' ? 'selected' : ''; ?>>Administrativo</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion">
+                    <i class="fas fa-align-left"></i> Descripción
+                </label>
+                <textarea id="descripcion" name="descripcion" rows="4"><?php echo $editing ? htmlspecialchars($evento['Descripcion_Evento']) : ''; ?></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar">Guardar</button>
+                <button type="button" class="btn-cancelar" id="btnCancelarCrearEvento">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para agregar participantes -->
+<div id="modalParticipantes" class="modal">
+    <div class="modal-content-participantes">
+        <div class="modal-header">
+            <h2 style="margin-bottom: 0;">Seleccionar Participantes</h2>
+            <span class="close">&times;</span>
+        </div>
+        <hr style="border: 2px solid #0071b0; width: 99%;">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                    </tr>
+                </thead>
+                <tbody id="listaParticipantes">
+                    <!-- Los participantes se cargarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <button class="btn-guardar" type="button" id="confirmarParticipantes">Confirmar selección</button>
+        </div>    
     </div>
 </div>
 
 <script src="./JS/admin-eventos/eliminar-evento.js"></script>
 <script src="./JS/admin-eventos/editar-evento.js"></script>
+<script src="./JS/admin-eventos/modal-creacion-y-participantes.js"></script>
 
 <?php include './template/footer.php' ?>
