@@ -4,19 +4,23 @@ include './../../config/db.php';
 $espacio = $_GET['espacio'];
 $modulo = $_GET['modulo'];
 
-// Activar reporte de errores
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Imprimir variables para depuración
-error_log("Espacio: " . $espacio);
-error_log("Módulo: " . $modulo);
-
 $departamentos = [
-    'Estudios_Regionales', 'Finanzas', 'Ciencias_Sociales', 'PALE', 'Posgrados',
-    'Economía', 'Recursos_Humanos', 'Métodos_Cuantitativos', 'Políticas_Públicas',
-    'Administración', 'Auditoría', 'Mercadotecnia', 'Impuestos',
-    'Sistemas_de_Información', 'Turismo', 'Contabilidad'
+    'Estudios_Regionales',
+    'Finanzas',
+    'Ciencias_Sociales',
+    'PALE',
+    'Posgrados',
+    'Economía',
+    'Recursos_Humanos',
+    'Métodos_Cuantitativos',
+    'Políticas_Públicas',
+    'Administración',
+    'Auditoría',
+    'Mercadotecnia',
+    'Impuestos',
+    'Sistemas_de_Información',
+    'Turismo',
+    'Contabilidad'
 ];
 
 $horarios = array(
@@ -38,7 +42,7 @@ $horarios['tipo'] = $info_espacio['Etiqueta'];
 
 foreach ($departamentos as $departamento) {
     $tabla = "Data_" . str_replace(' ', '_', $departamento);
-    
+
     $query = "SELECT L, M, I, J, V, S, HORA_INICIAL, HORA_FINAL, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, CUPO 
               FROM $tabla 
               WHERE MODULO = '$modulo' AND AULA = '$espacio'
@@ -85,4 +89,3 @@ header("Pragma: no-cache");
 header('Content-Type: application/json');
 echo json_encode($horarios);
 exit;
-?>

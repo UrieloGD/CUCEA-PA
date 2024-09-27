@@ -7,17 +7,29 @@ $hora_inicio = $_GET['hora_inicio'];
 $hora_fin = $_GET['hora_fin'];
 
 $departamentos = [
-    'Estudios_Regionales', 'Finanzas', 'Ciencias_Sociales', 'PALE', 'Posgrados',
-    'Economía', 'Recursos_Humanos', 'Métodos_Cuantitativos', 'Políticas_Públicas',
-    'Administración', 'Auditoría', 'Mercadotecnia', 'Impuestos',
-    'Sistemas_de_Información', 'Turismo', 'Contabilidad'
+    'Estudios_Regionales',
+    'Finanzas',
+    'Ciencias_Sociales',
+    'PALE',
+    'Posgrados',
+    'Economía',
+    'Recursos_Humanos',
+    'Métodos_Cuantitativos',
+    'Políticas_Públicas',
+    'Administración',
+    'Auditoría',
+    'Mercadotecnia',
+    'Impuestos',
+    'Sistemas_de_Información',
+    'Turismo',
+    'Contabilidad'
 ];
 
 $espacios_ocupados = array();
 
 foreach ($departamentos as $departamento) {
     $tabla = "Data_" . str_replace(' ', '_', $departamento);
-    
+
     $query = "SELECT AULA, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, HORA_INICIAL, HORA_FINAL FROM $tabla 
           WHERE MODULO = '$modulo' 
           AND $dia IS NOT NULL 
@@ -45,4 +57,3 @@ foreach ($departamentos as $departamento) {
 }
 
 echo json_encode($espacios_ocupados);
-?>
