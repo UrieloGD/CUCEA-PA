@@ -45,12 +45,17 @@ function mostrarModal(espacio, horarios) {
     dataType: "json",
     success: function (data) {
       if (data.success) {
-        var equipoArray = data.equipo.split(",");
-        equipoArray.forEach(function (item) {
-          $(`#${item.trim().replace(" ", "_")}`).prop("checked", true);
-        });
-        $("#observaciones").val(data.observaciones);
-        $("#reportes").val(data.reportes);
+        if (data.equipo && data.equipo.trim() !== "") {
+          var equipoArray = data.equipo.split(",");
+          equipoArray.forEach(function (item) {
+            var trimmedItem = item.trim();
+            if (trimmedItem !== "") {
+              $(`#${trimmedItem.replace(" ", "_")}`).prop("checked", true);
+            }
+          });
+        }
+        $("#observaciones").val(data.observaciones || "");
+        $("#reportes").val(data.reportes || "");
       }
     },
     error: function (xhr, status, error) {
@@ -130,15 +135,18 @@ $(document).ready(function () {
       success: function (result) {
         if (result.success) {
           console.log("Información guardada con éxito");
+          console.log("Respuesta del servidor:", result);
         } else {
           console.error(
             "Error al guardar la información: " +
               (result.error || "Unknown error")
           );
+          console.log("Respuesta del servidor:", result);
         }
       },
       error: function (xhr, status, error) {
         console.error("AJAX Error:", status, error);
+        console.log("Respuesta del servidor:", xhr.responseText);
       },
     });
   }
