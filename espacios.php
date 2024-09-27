@@ -255,10 +255,6 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="modal-body">
                 <div id="tabContent"></div>
             </div>
-            <div class="modal-footer">
-                <button id="guardarCambios" class="btn btn-primary">Guardar Cambios</button>
-                <!-- <button id="cerrarModal" class="btn btn-secondary">Cerrar</button> -->
-            </div>
         </div>
     </div>
 </div>
