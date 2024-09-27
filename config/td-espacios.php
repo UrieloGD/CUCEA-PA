@@ -5,7 +5,10 @@ $sql_create = "CREATE TABLE IF NOT EXISTS Espacios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     Modulo VARCHAR(10),
     Espacio VARCHAR(15),
-    Etiqueta VARCHAR(40)
+    Etiqueta VARCHAR(40),
+    Equipo VARCHAR(255),
+    Observaciones TEXT,
+    Reportes TEXT
 );";
 
 if (mysqli_query($conn, $sql_create)) {
