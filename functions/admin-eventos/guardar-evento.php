@@ -6,6 +6,7 @@ ini_set('display_errors', 1);
 include './../../config/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = isset($_POST['id_evento']) ? $_POST['id_evento'] : null;
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
     $fechIn = $_POST['FechIn'];
@@ -43,17 +44,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             break;
     }
 
-    // Insertar datos en la tabla eventos_admin
-    $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("ssssssssss", $nombre, $descripcion, $fechIn, $fechFi, $horIn, $horFi, $etiqueta, $participantes, $notif, $horNotif);
-    
-    if ($stmt->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'Nuevo evento creado con éxito']);
+    if ($id) {
+        // Actualizar evento existente
+        $sql = "UPDATE eventos_admin SET 
+                Nombre_Evento = ?, 
+                Descripcion_Evento = ?, 
+                Fecha_Inicio = ?, 
+                Fecha_Fin = ?, 
+                Hora_Inicio = ?, 
+                Hora_Fin = ?, 
+                Etiqueta = ?, 
+                Participantes = ?, 
+                Notificaciones = ?, 
+                Hora_Noti = ?
+                WHERE ID_Evento = ?";
+        
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $fechIn, $fechFi, $horIn, $horFi, $etiqueta, $participantes, $notif, $horNotif, $id);
+        
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success', 'message' => 'Evento actualizado con éxito']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el evento: ' . $stmt->error]);
+        }
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Error al crear el evento: ' . $stmt->error]);
+        // Insertar nuevo evento
+        $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("ssssssssss", $nombre, $descripcion, $fechIn, $fechFi, $horIn, $horFi, $etiqueta, $participantes, $notif, $horNotif);
+        
+        if ($stmt->execute()) {
+            echo json_encode(['status' => 'success', 'message' => 'Nuevo evento creado con éxito']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Error al crear el evento: ' . $stmt->error]);
+        }
     }
 
     $stmt->close();

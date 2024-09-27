@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="event-actions">
-                    <button class="action-btn edit-btn" onclick="editEvent(<?php echo $row['ID_Evento']; ?>)">
+                    <button class="action-btn edit-btn" onclick="editEvent(<?php echo $row['ID_Evento']; ?>); return false;">
                         <img src="./Img/Icons/iconos-adminAU/editar2.png" alt="Editar">
                     </button>
                     <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
@@ -89,7 +89,7 @@
                 <label for="nombre">
                     <i class="fas fa-pen"></i> Nombre
                 </label>
-                <input type="text" id="nombre" name="nombre" value="<?php echo $editing ? htmlspecialchars($evento['Nombre_Evento']) : ''; ?>" required>
+                <input type="text" id="nombre" name="nombre" value="" required>
             </div>
 
             <div class="form-group">
@@ -97,12 +97,12 @@
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="FechIn" name="FechIn" value="<?php echo $editing ? $evento['Fecha_Inicio'] : ''; ?>" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="<?php echo $editing ? $evento['Fecha_Fin'] : ''; ?>" required  min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechFi" name="FechFi" value="" required  min="<?php echo date('Y-m-d'); ?>">
                     <span>a las</span>
-                    <input type="time" id="HorIn" name="HorIn" value="<?php echo $editing ? $evento['Hora_Inicio'] : ''; ?>" required>
+                    <input type="time" id="HorIn" name="HorIn" value="" required>
                     <span> --> </span>
-                    <input type="time" id="HorFin" name="HorFi" value="<?php echo $editing ? $evento['Hora_Fin'] : ''; ?>" required>
+                    <input type="time" id="HorFin" name="HorFi" value="" required>
                 </div>
             </div>
 
@@ -112,14 +112,14 @@
                 </label>
                 <div class="notificaciones-group">
                     <select id="notificacion" name="notificacion">
-                        <option value="1 hora antes" <?php echo $editing && $evento['Notificaciones'] == '1 hora antes' ? 'selected' : ''; ?>>1 hora antes</option>
-                        <option value="2 horas antes" <?php echo $editing && $evento['Notificaciones'] == '2 horas antes' ? 'selected' : ''; ?>>2 horas antes</option>
-                        <option value="1 día antes" <?php echo $editing && $evento['Notificaciones'] == '1 día antes' ? 'selected' : ''; ?>>1 día antes</option>
-                        <option value="1 semana antes" <?php echo $editing && $evento['Notificaciones'] == '1 semana antes' ? 'selected' : ''; ?>>1 semana antes</option>
-                        <option value="Sin notificación" <?php echo $editing && $evento['Notificaciones'] == 'Sin notificación' ? 'selected' : ''; ?>>Sin notificación</option>
+                        <option value="1 hora antes">1 hora antes</option>
+                        <option value="2 horas antes">2 horas antes</option>
+                        <option value="1 día antes">1 día antes</option>
+                        <option value="1 semana antes">1 semana antes</option>
+                        <option value="Sin notificación">Sin notificación</option>
                     </select>
                     <span>a las</span>
-                    <input type="time" id="HorNotif" name="HorNotif" value="<?php echo $editing ? $evento['Hora_Noti'] : ''; ?>" required>
+                    <input type="time" id="HorNotif" name="HorNotif" value="" required>
                 </div>
             </div>
 
@@ -138,9 +138,9 @@
                     </label>
                     <select id="etiqueta" name="etiqueta">
                         <option value="">Elige una etiqueta</option>
-                        <option value="Programación Académica" <?php echo $editing && $evento['Etiqueta'] == 'Programación Académica' ? 'selected' : ''; ?>>Programación Académica</option>
-                        <option value="Oferta Académica" <?php echo $editing && $evento['Etiqueta'] == 'Oferta Académica' ? 'selected' : ''; ?>>Oferta Académica</option>
-                        <option value="Administrativo" <?php echo $editing && $evento['Etiqueta'] == 'Administrativo' ? 'selected' : ''; ?>>Administrativo</option>
+                        <option value="Programación Académica">Programación Académica</option>
+                        <option value="Oferta Académica">Oferta Académica</option>
+                        <option value="Administrativo">Administrativo</option>
                     </select>
                 </div>
             </div>
@@ -149,7 +149,7 @@
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
                 </label>
-                <textarea id="descripcion" name="descripcion" rows="4"><?php echo $editing ? htmlspecialchars($evento['Descripcion_Evento']) : ''; ?></textarea>
+                <textarea id="descripcion" name="descripcion" rows="4"></textarea>
             </div>
 
             <div class="form-actions">
@@ -192,5 +192,246 @@
 <script src="./JS/admin-eventos/eliminar-evento.js"></script>
 <script src="./JS/admin-eventos/editar-evento.js"></script>
 <script src="./JS/admin-eventos/modal-creacion-y-participantes.js"></script>
+<script>
+    // Función para abrir el modal
+function abrirModal(titulo = 'Crear nuevo evento') {
+    document.querySelector('.modal-header h2').textContent = titulo;
+    document.getElementById('modalCrearEvento').style.display = 'block';
+    cargarParticipantesEnModal();
+}
+
+// Función para cerrar el modal
+function cerrarModal() {
+    document.getElementById('modalCrearEvento').style.display = 'none';
+    document.getElementById('formCrearEvento').reset();
+    document.getElementById('participantes-seleccionados').innerHTML = '';
+    document.getElementById('input-participantes').innerHTML = '';
+    // Eliminar el campo oculto de ID si existe
+    const idInput = document.querySelector('input[name="id_evento"]');
+    if (idInput) idInput.remove();
+}
+
+let participantesSeleccionadosGlobal = [];
+
+function editEvent(id) {
+    fetch(`./functions/admin-eventos/obtener-evento.php?id=${id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Llenar el formulario con los datos del evento
+                document.getElementById('nombre').value = data.evento.Nombre_Evento;
+                document.getElementById('descripcion').value = data.evento.Descripcion_Evento;
+                document.getElementById('FechIn').value = data.evento.Fecha_Inicio;
+                document.getElementById('FechFi').value = data.evento.Fecha_Fin;
+                document.getElementById('HorIn').value = data.evento.Hora_Inicio;
+                document.getElementById('HorFin').value = data.evento.Hora_Fin;
+                document.getElementById('etiqueta').value = data.evento.Etiqueta;
+                document.getElementById('notificacion').value = data.evento.Notificaciones;
+                document.getElementById('HorNotif').value = data.evento.Hora_Noti;
+
+                // Manejar los participantes
+                participantesSeleccionadosGlobal = data.evento.Participantes.split(',').map(p => p.trim());
+                console.log("Participantes cargados:", participantesSeleccionadosGlobal);
+
+                // Actualizar la visualización de participantes seleccionados
+                actualizarParticipantesSeleccionados();
+
+                // Agregar el ID del evento al formulario
+                let idInput = document.getElementById('id_evento');
+                if (!idInput) {
+                    idInput = document.createElement('input');
+                    idInput.type = 'hidden';
+                    idInput.id = 'id_evento';
+                    idInput.name = 'id_evento';
+                    document.getElementById('formCrearEvento').appendChild(idInput);
+                }
+                idInput.value = id;
+
+                // Cambiar el título del modal
+                document.querySelector('.modal-header h2').textContent = 'Editar evento';
+
+                // Abrir el modal
+                document.getElementById('modalCrearEvento').style.display = 'block';
+
+                // Cargar participantes en el modal
+                cargarParticipantesEnModal();
+            } else {
+                Swal.fire('Error', data.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire('Error', 'Hubo un problema al cargar los datos del evento', 'error');
+        });
+}
+
+function cargarParticipantesEnModal() {
+    fetch('./functions/admin-eventos/obtener-participantes.php')
+        .then(response => response.json())
+        .then(data => {
+            const listaParticipantes = document.getElementById('listaParticipantes');
+            listaParticipantes.innerHTML = '';
+            data.forEach(participante => {
+                const isChecked = participantesSeleccionadosGlobal.includes(participante.Codigo.toString());
+                const row = `
+                    <tr>
+                        <td><input type="checkbox" class="checkbox-usuario" value="${participante.Codigo}" ${isChecked ? 'checked' : ''}></td>
+                        <td>${participante.Nombre} ${participante.Apellido}</td>
+                        <td>${participante.Correo}</td>
+                        <td>${participante.Rol}</td>
+                    </tr>
+                `;
+                listaParticipantes.innerHTML += row;
+            });
+
+            // Añadir event listeners a los nuevos checkboxes
+            document.querySelectorAll('.checkbox-usuario').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        if (!participantesSeleccionadosGlobal.includes(this.value)) {
+                            participantesSeleccionadosGlobal.push(this.value);
+                        }
+                    } else {
+                        const index = participantesSeleccionadosGlobal.indexOf(this.value);
+                        if (index > -1) {
+                            participantesSeleccionadosGlobal.splice(index, 1);
+                        }
+                    }
+                    actualizarParticipantesSeleccionados();
+                });
+            });
+
+            // Actualizar la visualización de participantes seleccionados
+            actualizarParticipantesSeleccionados();
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function actualizarParticipantesSeleccionados() {
+    const participantesSeleccionados = document.getElementById('participantes-seleccionados');
+    const inputParticipantes = document.getElementById('input-participantes');
+    participantesSeleccionados.innerHTML = '';
+    inputParticipantes.innerHTML = '';
+
+    participantesSeleccionadosGlobal.forEach(participanteId => {
+        const checkbox = document.querySelector(`.checkbox-usuario[value="${participanteId}"]`);
+        if (checkbox) {
+            const nombre = checkbox.closest('tr').querySelector('td:nth-child(2)').textContent;
+            const participanteDiv = document.createElement('div');
+            participanteDiv.className = 'participante-tarjeta';
+            participanteDiv.innerHTML = `
+                <span class="nombre">${nombre}</span>
+                <span class="eliminar" title="Eliminar">&times;</span>
+            `;
+            participantesSeleccionados.appendChild(participanteDiv);
+            
+            const inputOculto = document.createElement('input');
+            inputOculto.type = 'hidden';
+            inputOculto.name = 'participantes[]';
+            inputOculto.value = participanteId;
+            inputParticipantes.appendChild(inputOculto);
+
+            participanteDiv.querySelector('.eliminar').addEventListener('click', function() {
+                participanteDiv.remove();
+                inputOculto.remove();
+                checkbox.checked = false;
+                const index = participantesSeleccionadosGlobal.indexOf(participanteId);
+                if (index > -1) {
+                    participantesSeleccionadosGlobal.splice(index, 1);
+                }
+            });
+        }
+    });
+}
+
+// Agregar este event listener para el botón de confirmar participantes
+document.getElementById('confirmarParticipantes').addEventListener('click', function() {
+    actualizarParticipantesSeleccionados();
+    document.getElementById('modalParticipantes').style.display = 'none';
+});
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Abrir modal para crear evento
+    document.getElementById('btnCrearEvento').addEventListener('click', function() {
+        abrirModal();
+    });
+
+    // Cerrar modal
+    document.querySelector('.close').addEventListener('click', cerrarModal);
+
+    // Manejar envío del formulario
+    document.getElementById('formCrearEvento').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const isEditing = formData.has('id_evento');
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: isEditing ? "¿Deseas guardar los cambios en este evento?" : "¿Deseas crear este evento?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, guardar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('guardar_evento.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Swal.fire(
+                            '¡Guardado!',
+                            data.message,
+                            'success'
+                        ).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        throw new Error(data.message || 'Error desconocido');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    Swal.fire(
+                        'Error',
+                        'Hubo un problema al procesar la respuesta del servidor: ' + error.message,
+                        'error'
+                    );
+                });
+            }
+        });
+    });
+
+    // Manejar selección de participantes
+    document.getElementById('abrirModalParticipantes').addEventListener('click', function() {
+        document.getElementById('modalParticipantes').style.display = 'block';
+    });
+
+    document.getElementById('confirmarParticipantes').addEventListener('click', function() {
+        actualizarParticipantesSeleccionados();
+        document.getElementById('modalParticipantes').style.display = 'none';
+    });
+
+    // Cerrar modal de participantes
+    document.querySelectorAll('.close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', function() {
+            this.closest('.modal').style.display = 'none';
+        });
+    });
+
+    // Cerrar modales al hacer clic fuera de ellos
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    });
+});
+</script>
 
 <?php include './template/footer.php' ?>
