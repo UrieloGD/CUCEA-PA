@@ -246,12 +246,35 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                         $asunto = "Nuevos datos de Coordinación de Personal subidos por Jefe de Departamento";
                         $cuerpo = "
                         <html>
+        
+                        <head>
+                            <style>
+                                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                                .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                                .header { text-align: center; padding-bottom: 20px; }
+                                .header img { width: 300px; }
+                                .content { padding: 20px; }
+                                h2 { color: #2c3e50; }
+                                p { line-height: 1.5; color: #333; }
+                                .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                            </style>
+                        </head>
                         <body>
-                            <h2>Nuevos datos de Coordinación de Personal subidos</h2>
-                            <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido nuevos datos de Coordinación de Personal.</p>
-                            <p>Nombre del archivo: {$fileName}</p>
-                            <p>Fecha de subida: " . date('d/m/Y H:i') . "</p>
-                            <p>Por favor, ingrese al sistema para más detalles.</p>
+                            <div class='container'>
+                                <div class='header'>
+                                    <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                                </div>
+                                <div class='content'>
+                                    <h2>Nuevos datos de Coordinación de Personal subidos</h2>
+                                    <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido nuevos datos de Coordinación de Personal.</p>
+                                    <p>Nombre del archivo: {$fileName}</p>
+                                    <p>Fecha de subida: " . date('d/m/y H:i') . "</p>
+                                    <p>Por favor, ingrese al sistema para más detalles.</p>
+                                </div>
+                                <div class='footer'>
+                                    <p>Centro para la Sociedad Digital</p>
+                                </div>
+                            </div>
                         </body>
                         </html>
                         ";
