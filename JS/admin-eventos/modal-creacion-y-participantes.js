@@ -9,6 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const formCrearEvento = document.getElementById('formCrearEvento');
     const listaParticipantes = document.getElementById('listaParticipantes');
 
+    const modalEditarEvento = document.getElementById('modalEditarEvento');
+    const formEditarEvento = document.getElementById('formEditarEvento');
+    const btnCancelarEditarEvento = document.getElementById('btnCancelarEditarEvento');
+
     btnCrearEvento.onclick = function() {
         modalCrearEvento.style.display = 'block';
     }
@@ -37,6 +41,125 @@ document.addEventListener('DOMContentLoaded', function() {
             participantesSeleccionados.add(input.value);
         });
     }
+
+    // Función para abrir el modal de edición
+    function editEvent(eventId) {
+        console.log('Editando evento con ID:', eventId);
+        fetch(`./functions/admin-eventos/obtener-evento.php?id=${eventId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Datos del evento recibidos:', data);
+                if (data.error) {
+                    console.error('Error al obtener el evento:', data.error);
+                    return;
+                }
+                
+                // Función auxiliar para establecer el valor de forma segura
+                const setValueSafely = (id, value) => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.value = value || '';
+                    } else {
+                        console.warn(`Elemento con ID '${id}' no encontrado`);
+                    }
+                };
+    
+                // Rellenar el formulario con los datos del evento
+                setValueSafely('editEventId', data.ID_Evento);
+                setValueSafely('editNombre', data.Nombre_Evento);
+                setValueSafely('editDescripcion', data.Descripcion_Evento);
+                setValueSafely('editFechIn', data.Fecha_Inicio);
+                setValueSafely('editFechFi', data.Fecha_Fin);
+                setValueSafely('editHorIn', data.Hora_Inicio);
+                setValueSafely('editHorFin', data.Hora_Fin);
+                setValueSafely('editEtiqueta', data.Etiqueta);
+                setValueSafely('editNotificacion', data.Notificaciones);
+                setValueSafely('editHorNotif', data.Hora_Noti);
+                setValueSafely('editDescripcion', data.Descripcion_Evento);
+                    
+                // Cargar participantes
+                cargarParticipantesEdicion(data.Participantes);
+    
+                // Mostrar el modal
+                const modalEditarEvento = document.getElementById('modalEditarEvento');
+                if (modalEditarEvento) {
+                    modalEditarEvento.style.display = 'block';
+                } else {
+                    console.error('Modal de edición no encontrado');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error', 'Hubo un problema al cargar los datos del evento.', 'error');
+            });
+    }
+
+    function cargarParticipantesEdicion(participantes) {
+        participantesSeleccionados.clear();
+        
+        if (participantes && typeof participantes === 'string' && participantes.trim() !== '') {
+            const participantesArray = participantes.split(',');
+            participantesArray.forEach(codigo => {
+                if (codigo.trim() !== '') {
+                    participantesSeleccionados.add(codigo.trim());
+                }
+            });
+        }
+    
+        actualizarParticipantesSeleccionados();
+    }
+
+    formEditarEvento.onsubmit = function(e) {
+        e.preventDefault();
+        const formData = new FormData(formEditarEvento);
+        
+        console.log('Datos a enviar:', Object.fromEntries(formData)); // Para depuración
+    
+        fetch('./functions/admin-eventos/guardar-evento.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Respuesta del servidor:', data); // Para depuración
+            if (data.status === 'success') {
+                Swal.fire(
+                    '¡Actualizado!',
+                    'El evento ha sido actualizado.',
+                    'success'
+                ).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al actualizar el evento: ' + data.message,
+                    'error'
+                );
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            Swal.fire(
+                'Error',
+                'Hubo un problema al procesar la respuesta del servidor.',
+                'error'
+            );
+        });
+    }
+
+    btnCancelarEditarEvento.onclick = function() {
+        modalEditarEvento.style.display = 'none';
+    }
+
+    // Asignar la función editEvent a los botones de edición
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.onclick = function() {
+            const eventId = this.getAttribute('data-event-id');
+            console.log('Editando evento con ID:', eventId); // Para depuración
+            editEvent(eventId);
+        }
+    });
 
     // Llamar a restaurarParticipantesSeleccionados cuando se carga la página
     restaurarParticipantesSeleccionados();

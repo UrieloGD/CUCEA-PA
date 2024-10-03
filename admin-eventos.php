@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="event-actions">
-                    <button class="action-btn edit-btn" onclick="editEvent(<?php echo $row['ID_Evento']; ?>); return false;">
+                    <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
                         <img src="./Img/Icons/iconos-adminAU/editar2.png" alt="Editar">
                     </button>
                     <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
@@ -111,15 +111,15 @@
                     <i class="fas fa-bell"></i> Notificaciones
                 </label>
                 <div class="notificaciones-group">
-                    <select id="notificacion" name="notificacion">
-                        <option value="1 hora antes">1 hora antes</option>
+                    <select id="editNotificacion" name="notificacion">
+                        <option valuNe="1 hora antes">1 hora antes</option>
                         <option value="2 horas antes">2 horas antes</option>
                         <option value="1 día antes">1 día antes</option>
                         <option value="1 semana antes">1 semana antes</option>
                         <option value="Sin notificación">Sin notificación</option>
                     </select>
                     <span>a las</span>
-                    <input type="time" id="HorNotif" name="HorNotif" value="" required>
+                    <input type="time" id="editHorNotif" name="HorNotif" value="" required>
                 </div>
             </div>
 
@@ -157,6 +157,92 @@
             <div class="form-actions">
                 <button type="submit" class="btn-guardar">Guardar</button>
                 <button type="button" class="btn-cancelar" id="btnCancelarCrearEvento">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para editar evento -->
+<div id="modalEditarEvento" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 style="margin-bottom: 0;">Editar evento</h2>
+            <span class="close">&times;</span>
+        </div>
+        <hr style="border: 2px solid #0071b0; width: 99%;">
+        <form id="formEditarEvento">
+            <input type="hidden" id="editEventId" name="id_evento">
+            <div class="form-group">
+                <label for="nombre">
+                    <i class="fas fa-pen"></i> Nombre
+                </label>
+                <input type="text" id="editNombre" name="nombre" value="" required>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-calendar"></i> Fecha y hora
+                </label>
+                <div class="fecha-hora-group">
+                    <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="editFechFi" name="FechFi" value="" required  min="<?php echo date('Y-m-d'); ?>">
+                    <span>a las</span>
+                    <input type="time" id="editHorIn" name="HorIn" value="" required>
+                    <span> --> </span>
+                    <input type="time" id="editHorFin" name="HorFi" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <i class="fas fa-bell"></i> Notificaciones
+                </label>
+                <div class="notificaciones-group">
+                    <select id="notificacion" name="notificacion">
+                        <option value="1 hora antes">1 hora antes</option>
+                        <option value="2 horas antes">2 horas antes</option>
+                        <option value="1 día antes">1 día antes</option>
+                        <option value="1 semana antes">1 semana antes</option>
+                        <option value="Sin notificación">Sin notificación</option>
+                    </select>
+                    <span>a las</span>
+                    <input type="time" id="editHorNotif" name="HorNotif" value="" required>
+                </div>
+            </div>
+
+            <div class="form-group split-group">
+                <div class="split-item">
+                    <label for="participantes">
+                        <i class="fas fa-users"></i> Participantes
+                    </label>
+                    <button class="boton-agregar-participantes" type="button" id="abrirModalParticipantes">Añadir participantes</button>
+                    <div id="participantes-seleccionados"></div>
+                    <div id="input-participantes"></div>
+                    <!-- Agregamos un input oculto para asegurar que siempre se envíe algo, incluso vacío -->
+                    <input type="hidden" name="participantes[]" value="">
+                </div>
+                <div class="split-item">
+                    <label for="etiqueta">
+                        <i class="fas fa-tag"></i> Etiqueta
+                    </label>
+                    <select id="editEtiqueta" name="etiqueta">
+                        <option value="">Elige una etiqueta</option>
+                        <option value="Programación Académica">Programación Académica</option>
+                        <option value="Oferta Académica">Oferta Académica</option>
+                        <option value="Administrativo">Administrativo</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcion">
+                    <i class="fas fa-align-left"></i> Descripción
+                </label>
+                <textarea id="editDescripcion" name="descripcion" rows="4"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-guardar">Actualizar</button>
+                <button type="button" class="btn-cancelar" id="btnCancelarEditarEvento">Cancelar</button>
             </div>
         </form>
     </div>
