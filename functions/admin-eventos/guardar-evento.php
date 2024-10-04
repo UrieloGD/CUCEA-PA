@@ -22,6 +22,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fechaInicio = new DateTime($fechIn . ' ' . $horIn);
     $fechaNotificacion = null;
 
+    // Manejo específico para participantes
+    $participantes = '';
+    if (isset($_POST['participantes']) && is_array($_POST['participantes'])) {
+        // Filtrar valores vacíos y unir con comas
+        $participantesArray = array_filter($_POST['participantes'], function($value) {
+            return !empty($value);
+        });
+        $participantes = implode(",", $participantesArray);
+    }
+    
+    // Depuración
+    error_log("Participantes recibidos: " . print_r($_POST['participantes'], true));
+    error_log("Participantes procesados: " . $participantes);
+
     switch ($notif) {
         case '1 hora antes':
             $fechaNotificacion = clone $fechaInicio;
@@ -68,21 +82,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el evento: ' . $stmt->error]);
         }
     } else {
-        // Insertar nuevo evento
-        $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
+        $sql = "INSERT INTO eventos_admin (Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, 
+                Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("ssssssssss", $nombre, $descripcion, $fechIn, $fechFi, $horIn, $horFi, $etiqueta, $participantes, $notif, $horNotif);
+        $stmt->bind_param("ssssssssss", $nombre, $descripcion, $fechIn, $fechFi, $horIn, 
+                         $horFi, $etiqueta, $participantes, $notif, $horNotif);
         
         if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Nuevo evento creado con éxito']);
+            echo json_encode([
+                'status' => 'success', 
+                'message' => 'Nuevo evento creado con éxito',
+                'participantes' => $participantes // Para depuración
+            ]);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Error al crear el evento: ' . $stmt->error]);
+            echo json_encode([
+                'status' => 'error', 
+                'message' => 'Error al crear el evento: ' . $stmt->error
+            ]);
         }
     }
-
-    $stmt->close();
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Método de solicitud no válido']);
 }

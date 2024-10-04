@@ -35,6 +35,9 @@ $periodo_actual = "2025A";
         <div class="titulo-bd"> 
             <h3>Reporte de entrega</h3>
         </div>
+        <div class="export-button">
+            <a href="./functions/admin-reportes/generar-pdf.php" class="btn-exportar">Exportar a PDF</a>
+        </div>
     </div>
 
     <div class="reporte-container">

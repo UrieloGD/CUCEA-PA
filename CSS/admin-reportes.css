@@ -137,3 +137,23 @@
   margin-top: 10px;
   border: 1px solid #E0E0E0;
 }
+
+.export-button {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn-exportar {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.btn-exportar:hover {
+  background-color: #0056b3;
+}
