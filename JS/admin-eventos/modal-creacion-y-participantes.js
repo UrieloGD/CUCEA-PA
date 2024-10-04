@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnCrearEvento = document.getElementById('btnCrearEvento');
     const btnCancelarCrearEvento = document.getElementById('btnCancelarCrearEvento');
     const btnAbrirModalParticipantes = document.getElementById('abrirModalParticipantes');
+    const btnAbrirModalParticipantesEdicion = document.getElementById('abrirModalParticipantesEdicion');
     const btnConfirmarParticipantes = document.getElementById('confirmarParticipantes');
     const spans = document.getElementsByClassName('close');
     const formCrearEvento = document.getElementById('formCrearEvento');
@@ -28,10 +29,20 @@ document.addEventListener('DOMContentLoaded', function() {
         modalParticipantes.style.display = 'block';
     }
 
-    // Modificar el evento de confirmar selección
-    btnConfirmarParticipantes.onclick = function() {
-        actualizarParticipantesSeleccionados();
-        modalParticipantes.style.display = 'none';
+    if (btnAbrirModalParticipantes) {
+        btnAbrirModalParticipantes.onclick = function(e) {
+            e.preventDefault();
+            cargarParticipantes();
+            modalParticipantes.style.display = 'block';
+        }
+    }
+
+    if (btnAbrirModalParticipantesEdicion) {
+        btnAbrirModalParticipantesEdicion.onclick = function(e) {
+            e.preventDefault();
+            cargarParticipantes();
+            modalParticipantes.style.display = 'block';
+        }
     }
 
     // Función para restaurar participantes al abrir el modal
@@ -76,9 +87,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 setValueSafely('editNotificacion', data.Notificaciones);
                 setValueSafely('editHorNotif', data.Hora_Noti);
                 setValueSafely('editDescripcion', data.Descripcion_Evento);
-                    
+
                 // Cargar participantes
                 cargarParticipantesEdicion(data.Participantes);
+
+
+                // Llamar a una nueva función para manejar los participantes
+                mostrarParticipantesEdicion(data.Participantes);
     
                 // Mostrar el modal
                 const modalEditarEvento = document.getElementById('modalEditarEvento');
@@ -94,6 +109,33 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     }
 
+    function mostrarParticipantesEdicion(participantes) {
+        participantesSeleccionados.clear();
+        
+        if (participantes && typeof participantes === 'string' && participantes.trim() !== '') {
+            const participantesArray = participantes.split(',');
+            participantesArray.forEach(codigo => {
+                if (codigo.trim() !== '') {
+                    participantesSeleccionados.add(codigo.trim());
+                }
+            });
+        }
+    
+        // Cargar los datos de los participantes
+        fetch('./functions/admin-eventos/obtener-participantes.php')
+            .then(response => response.json())
+            .then(data => {
+                participantesData = {}; // Reiniciar el objeto
+                data.forEach(usuario => {
+                    participantesData[usuario.Codigo] = usuario;
+                });
+                
+                // Actualizar las tarjetas de participantes
+                actualizarParticipantesSeleccionados();
+            })
+            .catch(error => console.error('Error al cargar participantes:', error));
+    }
+
     function cargarParticipantesEdicion(participantes) {
         participantesSeleccionados.clear();
         
@@ -106,12 +148,35 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     
-        actualizarParticipantesSeleccionados();
+        // Cargar los datos de los participantes
+        fetch('./functions/admin-eventos/obtener-participantes.php')
+            .then(response => response.json())
+            .then(data => {
+                participantesData = {}; // Reiniciar el objeto
+                data.forEach(usuario => {
+                    participantesData[usuario.Codigo] = usuario;
+                });
+                
+                // Actualizar las tarjetas de participantes
+                actualizarParticipantesSeleccionados();
+                
+                // Marcar los checkboxes correspondientes en el modal de participantes
+                const checkboxes = document.querySelectorAll('.checkbox-usuario');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = participantesSeleccionados.has(checkbox.value);
+                });
+            })
+            .catch(error => console.error('Error al cargar participantes:', error));
     }
 
     formEditarEvento.onsubmit = function(e) {
         e.preventDefault();
         const formData = new FormData(formEditarEvento);
+
+         // Agregar participantes al formData
+        participantesSeleccionados.forEach(codigo => {
+            formData.append('participantes[]', codigo);
+        });
         
         console.log('Datos a enviar:', Object.fromEntries(formData)); // Para depuración
     
@@ -205,72 +270,78 @@ document.addEventListener('DOMContentLoaded', function() {
      let participantesSeleccionados = new Set();
 
      function cargarParticipantes() {
-         fetch('./functions/admin-eventos/obtener-participantes.php')
-             .then(response => response.json())
-             .then(data => {
-                 listaParticipantes.innerHTML = data.map(usuario => {
-                     // Verifica si el usuario ya estaba seleccionado
-                     const isChecked = participantesSeleccionados.has(usuario.Codigo) ? 'checked' : '';
-                     return `
-                         <tr>
-                             <td><input type="checkbox" name="participantes[]" value="${usuario.Codigo}" 
-                                 class="checkbox-usuario" ${isChecked}></td>
-                             <td>${usuario.Nombre} ${usuario.Apellido}</td>
-                             <td>${usuario.Correo}</td>
-                             <td>${usuario.Nombre_Rol}</td>
-                         </tr>
-                     `;
-                 }).join('');
-             })
-             .catch(error => console.error('Error:', error));
-     }
+        fetch('./functions/admin-eventos/obtener-participantes.php')
+            .then(response => response.json())
+            .then(data => {
+                participantesData = {}; // Reiniciar el objeto
+                listaParticipantes.innerHTML = data.map(usuario => {
+                    participantesData[usuario.Codigo] = usuario; // Almacenar datos del participante
+                    const isChecked = participantesSeleccionados.has(usuario.Codigo) ? 'checked' : '';
+                    return `
+                        <tr>
+                            <td><input type="checkbox" name="participantes[]" value="${usuario.Codigo}" 
+                                class="checkbox-usuario" ${isChecked}></td>
+                            <td>${usuario.Nombre} ${usuario.Apellido}</td>
+                            <td>${usuario.Correo}</td>
+                            <td>${usuario.Nombre_Rol}</td>
+                        </tr>
+                    `;
+                }).join('');
+            })
+            .catch(error => console.error('Error al cargar participantes:', error));
+    }
 
-     function actualizarParticipantesSeleccionados() {
+    let participantesData = {};
+
+    function actualizarParticipantesSeleccionados() {
         const participantesSeleccionadosDiv = document.getElementById('participantes-seleccionados');
         const inputParticipantes = document.getElementById('input-participantes');
+        
+        // Limpiar contenedores existentes
         participantesSeleccionadosDiv.innerHTML = '';
         inputParticipantes.innerHTML = '';
         
-        // Limpiar el Set antes de actualizarlo
-        participantesSeleccionados.clear();
-        
-        const checkboxes = document.querySelectorAll('.checkbox-usuario:checked');
-        checkboxes.forEach(checkbox => {
-            const codigo = checkbox.value;
-            const nombre = checkbox.parentElement.nextElementSibling.textContent;
-            
-            // Agregar al Set de participantes seleccionados
-            participantesSeleccionados.add(codigo);
-            
-            // Crear tarjeta visual
-            const participanteDiv = document.createElement('div');
-            participanteDiv.className = 'participante-tarjeta';
-            participanteDiv.innerHTML = `
-                <span class="nombre">${nombre}</span>
-                <span class="eliminar" title="Eliminar">&times;</span>
-            `;
-            participantesSeleccionadosDiv.appendChild(participanteDiv);
-            
-            // Crear input oculto
-            const inputOculto = document.createElement('input');
-            inputOculto.type = 'hidden';
-            inputOculto.name = 'participantes[]';
-            inputOculto.value = codigo;
-            inputParticipantes.appendChild(inputOculto);
-
-            // Manejador para eliminar participante
-            participanteDiv.querySelector('.eliminar').addEventListener('click', function() {
-                participantesSeleccionados.delete(codigo);
-                participanteDiv.remove();
-                inputOculto.remove();
+        participantesSeleccionados.forEach(codigo => {
+            const participante = participantesData[codigo];
+            if (participante) {
+                const nombre = `${participante.Nombre} ${participante.Apellido}`;
                 
-                // Actualizar el checkbox en el modal si está abierto
-                const checkbox = document.querySelector(`.checkbox-usuario[value="${codigo}"]`);
-                if (checkbox) {
-                    checkbox.checked = false;
-                }
-            });
+                // Crear tarjeta visual
+                const participanteDiv = document.createElement('div');
+                participanteDiv.className = 'participante-tarjeta';
+                participanteDiv.innerHTML = `
+                    <span class="nombre">${nombre}</span>
+                    <span class="eliminar" title="Eliminar">&times;</span>
+                `;
+                participantesSeleccionadosDiv.appendChild(participanteDiv);
+                
+                // Crear input oculto
+                const inputOculto = document.createElement('input');
+                inputOculto.type = 'hidden';
+                inputOculto.name = 'participantes[]';
+                inputOculto.value = codigo;
+                inputParticipantes.appendChild(inputOculto);
+    
+                // Manejador para eliminar participante
+                participanteDiv.querySelector('.eliminar').addEventListener('click', function() {
+                    participantesSeleccionados.delete(codigo);
+                    participanteDiv.remove();
+                    inputOculto.remove();
+                });
+            }
         });
+    
+        console.log('Participantes actualizados:', participantesSeleccionados);
+    }
+
+    // Modificar el evento de confirmar selección
+    btnConfirmarParticipantes.onclick = function() {
+        participantesSeleccionados.clear();
+        document.querySelectorAll('.checkbox-usuario:checked').forEach(checkbox => {
+            participantesSeleccionados.add(checkbox.value);
+        });
+        actualizarParticipantesSeleccionados();
+        modalParticipantes.style.display = 'none';
     }
 
     formCrearEvento.onsubmit = function(e) {
