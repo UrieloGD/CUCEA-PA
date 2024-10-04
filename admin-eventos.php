@@ -216,8 +216,8 @@
                         <i class="fas fa-users"></i> Participantes
                     </label>
                     <button class="boton-agregar-participantes" type="button" id="abrirModalParticipantesEdicion">Añadir participantes</button>
-                    <div id="participantes-seleccionados"></div>
-                    <div id="input-participantes"></div>
+                    <div id="participantes-seleccionados-edicion"></div>
+                    <div id="input-participantes-edicion"></div>
                     <!-- Agregamos un input oculto para asegurar que siempre se envíe algo, incluso vacío -->
                     <input type="hidden" name="participantes[]" value="">
                 </div>

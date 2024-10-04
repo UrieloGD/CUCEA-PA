@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function mostrarParticipantesEdicion(participantes) {
+        console.log('Mostrando participantes:', participantes);
         participantesSeleccionados.clear();
         
         if (participantes && typeof participantes === 'string' && participantes.trim() !== '') {
@@ -120,18 +121,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+        
+        console.log('Participantes seleccionados:', Array.from(participantesSeleccionados));
     
         // Cargar los datos de los participantes
         fetch('./functions/admin-eventos/obtener-participantes.php')
             .then(response => response.json())
             .then(data => {
+                console.log('Datos de todos los participantes:', data);
                 participantesData = {}; // Reiniciar el objeto
                 data.forEach(usuario => {
                     participantesData[usuario.Codigo] = usuario;
                 });
                 
+                console.log('Datos de participantes procesados:', participantesData);
+                
                 // Actualizar las tarjetas de participantes
-                actualizarParticipantesSeleccionados();
+                actualizarParticipantesEdicion();
             })
             .catch(error => console.error('Error al cargar participantes:', error));
     }
@@ -294,14 +300,29 @@ document.addEventListener('DOMContentLoaded', function() {
     let participantesData = {};
 
     function actualizarParticipantesSeleccionados() {
-        const participantesSeleccionadosDiv = document.getElementById('participantes-seleccionados');
-        const inputParticipantes = document.getElementById('input-participantes');
+        console.log('Actualizando participantes seleccionados');
+        actualizarTarjetasParticipantes('participantes-seleccionados', 'input-participantes', Array.from(participantesSeleccionados));
+    }
+
+    function actualizarParticipantesEdicion() {
+        console.log('Actualizando participantes en edición');
+        actualizarTarjetasParticipantes('participantes-seleccionados-edicion', 'input-participantes-edicion', Array.from(participantesSeleccionados));
+    }
+
+    function actualizarTarjetasParticipantes(containerId, inputContainerId, participantes) {
+        const participantesContainer = document.getElementById(containerId);
+        const inputContainer = document.getElementById(inputContainerId);
         
+        if (!participantesContainer || !inputContainer) {
+            console.error('No se encontraron los elementos necesarios para mostrar los participantes');
+            return;
+        }
+    
         // Limpiar contenedores existentes
-        participantesSeleccionadosDiv.innerHTML = '';
-        inputParticipantes.innerHTML = '';
+        participantesContainer.innerHTML = '';
+        inputContainer.innerHTML = '';
         
-        participantesSeleccionados.forEach(codigo => {
+        participantes.forEach(codigo => {
             const participante = participantesData[codigo];
             if (participante) {
                 const nombre = `${participante.Nombre} ${participante.Apellido}`;
@@ -313,14 +334,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     <span class="nombre">${nombre}</span>
                     <span class="eliminar" title="Eliminar">&times;</span>
                 `;
-                participantesSeleccionadosDiv.appendChild(participanteDiv);
+                participantesContainer.appendChild(participanteDiv);
                 
                 // Crear input oculto
                 const inputOculto = document.createElement('input');
                 inputOculto.type = 'hidden';
                 inputOculto.name = 'participantes[]';
                 inputOculto.value = codigo;
-                inputParticipantes.appendChild(inputOculto);
+                inputContainer.appendChild(inputOculto);
     
                 // Manejador para eliminar participante
                 participanteDiv.querySelector('.eliminar').addEventListener('click', function() {
@@ -330,8 +351,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-    
-        console.log('Participantes actualizados:', participantesSeleccionados);
     }
 
     // Modificar el evento de confirmar selección
@@ -343,6 +362,15 @@ document.addEventListener('DOMContentLoaded', function() {
         actualizarParticipantesSeleccionados();
         modalParticipantes.style.display = 'none';
     }
+
+    document.getElementById('confirmarParticipantes').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('.checkbox-usuario:checked');
+        checkboxes.forEach(checkbox => {
+            participantesSeleccionados.add(checkbox.value);
+        });
+        actualizarParticipantesEdicion();
+        modalParticipantes.style.display = 'none';
+    });
 
     formCrearEvento.onsubmit = function(e) {
         e.preventDefault();
