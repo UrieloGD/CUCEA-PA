@@ -13,6 +13,9 @@
  */
 
 $(document).ready(function() {
+    // Verificar si hay un orden de columnas guardado en localStorage
+    var savedOrder = localStorage.getItem('columnOrder');
+    
     var table = $('#tabla-datos').DataTable({
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
@@ -33,6 +36,10 @@ $(document).ready(function() {
         scrollX: true,
         scrollCollapse: true,
         fixedHeader: true,
+        rowReorder: {
+            selector: 'td:first-child',  // La primera columna se usa para reordenar las filas
+            update: false // No actualizar los datos automáticamente
+        }, 
         columnDefs: [
             { orderable: false, targets: 0 },  // La columna de selección (índice 0) no es ordenable
             { reorderable: false, targets: 0 }, // La columna de selección (índice 0) no es reordenable
@@ -41,8 +48,22 @@ $(document).ready(function() {
         order: [[1, 'asc']],
         colReorder: {
             fixedColumnsLeft: 1,  // Solo se fija la primera columna (índice 0) a la izquierda
-            fixedColumnsRight: 0  // No se fija ninguna columna a la derecha
-        }
+            fixedColumnsRight: 0,  // No se fija ninguna columna a la derecha
+            order: savedOrder ? JSON.parse(savedOrder) : null  // Aplica el orden guardado si existe
+        },
+    });
+
+    // Guardar el nuevo orden de las columnas en localStorage al reordenarlas
+    table.on('column-reorder', function (e, settings, details) {
+        var newOrder = table.colReorder.order();
+        localStorage.setItem('columnOrder', JSON.stringify(newOrder));
+    });
+
+    // Guardar el nuevo orden de las filas en el backend o localStorage
+    table.on('row-reorder', function (e, diff, edit) {
+        // Aquí podrías implementar la lógica para guardar el nuevo orden
+        console.log('Nuevos índices de fila:', diff);
+        // Podrías guardar el nuevo orden en el backend o en localStorage si es necesario
     });
 
     // Inicialización del plugin FixedColumns para mantener fija la primera columna
