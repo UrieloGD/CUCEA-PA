@@ -42,23 +42,23 @@ $result = mysqli_query($conexion, $sql);
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
+                <div class="icono-buscador" id="icono-visibilidad">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                    <i class="fa fa-add" aria-hidden="true"></i>
-                </div>
-                <!-- <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </div> -->
-                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
-                    <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
@@ -69,58 +69,58 @@ $result = mysqli_query($conexion, $sql);
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
-    <div class="datatable-container"> 
-    <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
+    <div class="datatable-container">
+        <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos" class="display">
             <thead>
-            <tr>
-                <th></th>
-                <th>ID</th>
-                <th>CICLO</th>
-                <th>CRN</th>
-                <th>MATERIA</th>
-                <th>CVE MATERIA</th>
-                <th>SECCIÓN</th>
-                <th>NIVEL</th>
-                <th>NIVEL TIPO</th>
-                <th>TIPO</th>
-                <th>C. MIN</th>
-                <th>H. TOTALES</th>
-                <th>STATUS</th>
-                <th>TIPO CONTRATO</th>
-                <th>CÓDIGO</th>
-                <th>NOMBRE PROFESOR</th>
-                <th>CATEGORIA</th>
-                <th>DESCARGA</th>
-                <th>CÓDIGO DESCARGA</th>
-                <th>NOMBRE DESCARGA</th>
-                <th>NOMBRE DEFINITIVO</th>
-                <th>TITULAR</th>
-                <th>HORAS</th>
-                <th>CÓDIGO DEPENDENCIA</th>
-                <th>L</th>
-                <th>M</th>
-                <th>I</th>
-                <th>J</th>
-                <th>V</th>
-                <th>S</th>
-                <th>D</th>
-                <th>DÍA PRESENCIAL</th>
-                <th>DÍA VIRTUAL</th>
-                <th>MODALIDAD</th>
-                <th>FECHA INICIAL</th>
-                <th>FECHA FINAL</th>
-                <th>HORA INICIAL</th>
-                <th>HORA FINAL</th>
-                <th>MÓDULO</th>
-                <th>AULA</th>
-                <th>CUPO</th>
-                <th>OBSERVACIONES</th>
-                <th>EXTRAORDINARIO</th>
-            </tr>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>CICLO</th>
+                    <th>CRN</th>
+                    <th>MATERIA</th>
+                    <th>CVE MATERIA</th>
+                    <th>SECCIÓN</th>
+                    <th>NIVEL</th>
+                    <th>NIVEL TIPO</th>
+                    <th>TIPO</th>
+                    <th>C. MIN</th>
+                    <th>H. TOTALES</th>
+                    <th>STATUS</th>
+                    <th>TIPO CONTRATO</th>
+                    <th>CÓDIGO</th>
+                    <th>NOMBRE PROFESOR</th>
+                    <th>CATEGORIA</th>
+                    <th>DESCARGA</th>
+                    <th>CÓDIGO DESCARGA</th>
+                    <th>NOMBRE DESCARGA</th>
+                    <th>NOMBRE DEFINITIVO</th>
+                    <th>TITULAR</th>
+                    <th>HORAS</th>
+                    <th>CÓDIGO DEPENDENCIA</th>
+                    <th>L</th>
+                    <th>M</th>
+                    <th>I</th>
+                    <th>J</th>
+                    <th>V</th>
+                    <th>S</th>
+                    <th>D</th>
+                    <th>DÍA PRESENCIAL</th>
+                    <th>DÍA VIRTUAL</th>
+                    <th>MODALIDAD</th>
+                    <th>FECHA INICIAL</th>
+                    <th>FECHA FINAL</th>
+                    <th>HORA INICIAL</th>
+                    <th>HORA FINAL</th>
+                    <th>MÓDULO</th>
+                    <th>AULA</th>
+                    <th>CUPO</th>
+                    <th>OBSERVACIONES</th>
+                    <th>EXTRAORDINARIO</th>
+                </tr>
             </thead>
             <tbody>
-            <?php
+                <?php
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<tr>";
@@ -172,12 +172,12 @@ $result = mysqli_query($conexion, $sql);
                 } else {
                     echo "<tr><td colspan='43'>No hay datos disponibles</td></tr>";
                 }
-            mysqli_close($conexion);
-            ?>
-        </tbody>
+                mysqli_close($conexion);
+                ?>
+            </tbody>
         </table>
     </div>
-</div> 
+</div>
 
 <!-- Modal para añadir registros -->
 <div id="modal-añadir" class="modal">

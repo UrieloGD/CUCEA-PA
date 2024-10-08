@@ -62,7 +62,7 @@
   /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
-}
+} 
 
 /* Tabla */
 .tabla {
@@ -164,7 +164,26 @@ th {
   border-radius: 10px 10px; /* Redondea solo las esquinas izquierdas */
   color: #fff;
   margin-right: 0; /* Quita el margen derecho */
-  z-index: 1;
+  /* z-index: 1; */
+}
+
+.icono-buscador i {
+  font-size: 18px;
+}
+
+/* Asegúrate de que todos los iconos tengan el mismo tamaño */
+.iconos-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Ajustar el espacio entre los iconos */
+.iconos-container > div {
+  margin-right: 10px;
+}
+
+.iconos-container > div:last-child {
+  margin-right: 0;
 }
 
 .barra-buscador {
