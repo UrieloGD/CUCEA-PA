@@ -1,4 +1,5 @@
-/* Cuadro principal */
+/* CSS del cuadro principal */
+
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
@@ -8,8 +9,7 @@
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   -webkit-border-radius: 20px;
@@ -21,41 +21,13 @@
 /* Encabezado */
 .encabezado {
   display: flex;
-  width: auto; /* Permitir que se ajuste automáticamente */
   justify-content: center;
   align-items: center;
   text-align: center;
-  flex-grow: 1; /* Ocupa el espacio disponible */
 }
 
 .encabezado h3 {
   margin: 0;
-}
-
-/* Encabezado derecha */
-.encabezado-derecha {
-  display: flex; /* Asegura que los iconos se alineen en fila */
-  justify-content: flex-end; /* Alinea los íconos a la derecha */
-  align-items: center; /* Alinea verticalmente los íconos */
-  margin-right: 20px; /* Ajusta la distancia del borde derecho si es necesario */
-}
-
-.iconos-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  gap: 15px; 
-}
-
-.icono-buscador {
-  cursor: pointer;
-  background-color: #0071b0;
-  padding: 12px;
-  border-radius: 10px;
-  color: #fff;
-  position: relative;
-  left: 20vw;
-  top: 7px;
 }
 
 .titulo-bd {
@@ -69,421 +41,113 @@
   background-color: #0071b0;
 }
 
-/* Departamento || Estado de revision || Valores coincidientes || Valores no coincidentes. */
-.horas-descripcion p {
-  display: inline-flex;
-  font-size: 1.1rem;
-  margin-left: 10vw;
-  top: 1.5vh;
-  position: relative;
-}
+/* Cards */
 
-/* Borde gris inferior. */
-.horas-descripcion {
-  border-bottom: 5px solid rgba(223, 228, 241, 0.637); 
-  padding-top: 10px; 
-  margin-top: 10px; 
-  padding-bottom: 10px;
-}
-
-/* Cuadritos de color a lado de la descripcion. */
-.cuadro-azul {
-  display: inline-flex;
-  width: 18px;
-  height: 18px;
-  background-color: rgb(67, 159, 202);
-  position: relative;
-  top: 1.9vh;
-  left: 9.5vw;
-  border-radius: 3px;
-}
-.cuadro-rojo {
-  display: inline-flex;
-  width: 18px;
-  height: 18px;
-  background-color: rgb(255, 99, 99);
-  position: relative;
-  top: 1.9vh;
-  left: 9.5vw;
-  border-radius: 3px;
-}
-
-
-/* Contenedores de los departamentos y la revision de horas asignadas. */
-/* Tome las medidas del contenedor principal para adaptarlo. */
-.contenedor-departamentos {
-  background-color: white;
-  height: 60px;
-  padding-top: 2vh;
-  position: relative;
-  border-bottom: 3px solid rgba(223, 228, 241, 0.637); 
-  padding-top: 10px; 
-  margin-top: 10px; 
-}
-
-/* Quitar el color azul del hipervinculo */
-.contenedor-departamentos a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Texto de que departamento es. */
-.dept {
-  font-size: 1.15rem;
-  left: 2vw;
-  bottom: 90px;
-  position: relative;
-}
-
-/* Texto de << ultima modificacion. >> */
-.modif {
-  opacity: 60%;
-  font-size: 0.85rem;
-  left: 2vw;
-  bottom: 105px;
-  position: relative;
-}
-
-/* Contenedor final de lista de departamentos. */
-#con-final-dept {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-/* Corregir el ultimo texto del ultimo contenedor. */
-#con-final-dept .dept {
-  margin-top: 15px;
-}
-
-/* Barras de estadisticos. */
-.color-izquierdo {
-  background: rgb(67, 159, 202);
-  width: 30vw;
-  top: 3px;
-  left: 25vw;
-  height: 35px;
-  align-items: center;
-  position: relative;
-  border-bottom-left-radius: 5px;
-  border-top-left-radius: 5px;
-}
-
-.color-derecho {
-  background: rgb(255, 99, 99);
-  width: 30vw;
-  bottom: 32px;
-  left: 55vw;
-  height: 35px;
-  align-items: center;
-  position: relative;
-  border-bottom-right-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-/* Estilos del modal */
-.principal {
-  position: fixed; 
-  top: 50%; 
-  left: 50%; 
-  transform: translate(-50%, -50%); 
-  width: 60%;
-  height: auto;
-  padding: 5px;
-  background-color: #fff;
-  padding-top: 60px;
-  box-shadow: 0px 0px 1px 1px rgb(0, 0, 0);
-  font-family: "Dm Sans", sans-serif;
-  font-size: 14px;
-  overflow-x: hidden;
-  z-index: 1000;
-}
-
-/* Texto del departamento */
-.titulo-modal {
-  text-align: center;
-  margin-bottom: 15px;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-/* Barra de decoración */
-.barra-busqueda {
-  padding: 10px;
-  margin-left: 2vw;
-  margin-right: 8vw;
-  margin-bottom: 20px;
-  background-color: rgba(223, 228, 241, 0.637);
-  border-radius: 8px;
-}
-
-/* Barra de escribir */
-.input-barra-hidden {
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 0.9rem;
-  padding-right: 50vw;
-  box-sizing: border-box; /* Incluye el padding en el tamaño total */
-}
-
-/* Iconos */
-.iconos-container {
-  display: flex;
-  align-items: center;
-}
-
-.icono-barra {
-  cursor: pointer;
-  padding: 1px;
-  margin-left: 0.5vw;
-  color: #000000;
-}
-
-.icono-filtros {
-  cursor: pointer;
-  color: #0071b0;
-  font-size: 24px;
-  position: absolute;
-  right: 4.5vw;
-  top: 127px;
-}
-
-.icono-check {
-  cursor: pointer;
-  color: #74d49c;
-  font-size: 24px;
-  position: absolute;
-  right: 4.5vw;
-}
-
-.icono-cross {
-  cursor: pointer;
-  color: #d47474;
-  font-size: 24px;
-  position: absolute;
-  right: 4.5vw;
-}
-
-/* DIV de fondo, datos de profesores */
-.cuadro-datos {
-  margin: 0 2vw;
-  background-color: rgba(223, 228, 241, 0.637);
-  border-radius: 8px;
-  height: 50vh;
-  overflow-y: auto;
-  max-width: 100%;
-}
-
-/* Lista descriptiva */
-.cuadro-datos li {
-  list-style: none;
-  display: inline-block;
-  font-size: 1rem;
-  padding: 10px 0;
-}
-
-/* Scroll */
-.scroll-y {
-  overflow-y: auto;
-  height: auto;
-  min-width: 800px; 
-}
-
-/* DIV de cada dato */
-.todo-datos {
-  background-color: #fff;
-  width: 99%;
-  border-radius: 3px;
-  position: relative;
-  display: inline-flex; /* Usa flexbox para alinear los elementos */
-  align-items: center; /* Centra verticalmente los elementos */
-  margin-top: 2px;
-  margin-left: 5px;
-  margin-right: 5px;
-  overflow-x: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-/* Estilos del texto de la lista descriptiva */
-
-.codigo, .nombre, .plaza, .estado {
-  position: static;
-  font-weight: bold;
-  margin-left: 50px;
-}
-
-/* Estilos de los textos de la información de profesores */
-.datos-codigo, .datos-nombre, .datos-plaza, .datos-estado {
-  position: static;
-  margin: 0 20px;
-  flex: 1;
-}
-
-.datos-codigo {
-  position: relative;
-  left: 27.5px;
-}
-
-.datos-nombre {
-  position: relative;
-  right: 100.5px;
-}
-
-.datos-plaza {
-  position: relative;
-  right: 80.5px;
-}
-
-.datos-estado {
-  position: relative;
-  right: 135.5px;
-  flex: 0 0 60px;
-  height: 25px;
-  background-color: #cdd7dd;
-  border-radius: 3px;
-  text-align: center;
-  place-items: center;
+.grid-departamentos {
   display: grid;
-  font-weight: bold;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 20px;
 }
 
-.cuadro-datos ul {
-  display: flex;
-  padding: 0;
-  margin: 0;
-  background-color: rgba(223, 228, 241, 0.637);
-  position: sticky;
+.departamento-card {
+  position: relative;
+  height: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.departamento-card:hover {
+  transform: scale(1.02);
+}
+
+.departamento-overlay {
+  position: absolute;
   top: 0;
-  z-index: 1;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.cuadro-datos li {
-  list-style: none;
-  flex: 1;
+.departamento-nombre {
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  text-align: center;
   padding: 10px;
-  text-align: left;
+  width: 100%;
+  line-height: 1.3; /* Mejora el espaciado entre líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limita el texto a 3 líneas si es necesario */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* Elimina los estilos de posicionamiento absoluto para los elementos de la lista */
-.codigo, .nombre, .plaza, .estado {
-  position: static;
+.departamento-card:hover .departamento-nombre {
+  transform: scale(1.1);
 }
 
-/* Overlay del modal */
-.overlay {
+/* Estilos para la card de "Todos los departamentos" */
+.departamento-card.todos {
+  grid-column: span 4;
+  height: 180px;
+}
+
+/* Estilos para el modal */
+.modal {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); 
-  display: none;
-  z-index: 1001; 
+  background-color: rgba(0,0,0,0.5);
+  z-index: 1000;
 }
 
-/* Estilos del boton final */
-.modificar-datos-button {
-  font-size: 1.1rem;
-  margin: 0 auto;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  width: 10vw;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border-radius: 7px;
-  background-color: #0071b0;
-  font-weight: bold;
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
 }
 
-.modificar-datos-button a {
-  text-decoration: none;
-  color: #fff;
+.close {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 28px;
+  cursor: pointer;
 }
 
-@media screen and (max-width: 1600px) and (min-width: 1401px) {
-  .cuadro-principal, .contenedor-departamentos {
-    background-color: white;
-    width: 92vw;
-    margin-left: 6vw;
-    margin-right: 2vw;
-  }
-  .contenedor-departamentos {
-    height: 60px;
-  }
+.tabla-personal {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
-@media screen and (max-width: 1400px) and (min-width: 1201px) {
-  .cuadro-principal, .contenedor-departamentos {
-    width: 92vw;
-    margin-left: 6vw;
-  }
-  .contenedor-departamentos {
-    height: 60px;
-  }
+.tabla-personal th, .tabla-personal td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 }
 
-@media screen and (max-width: 1200px) and (min-width: 993px) {
-  .cuadro-principal, .contenedor-departamentos {
-    width: 91vw;
-    margin-left: 7vw;
-    font-size: smaller;
-  }
-  .contenedor-departamentos {
-    height: 110px;
-  }
-  .color-izquierdo {
-    top: 60px;
-    left: 5vw;
-  }
-  .color-derecho {
-    top: 25px;
-    left: 35vw;
-  }
+.tabla-personal th {
+  background-color: #f4f4f4;
 }
 
-@media screen and (max-width: 992px) and (min-width: 769px) {
-  .cuadro-principal, .contenedor-departamentos {
-    width: 90vw;
-    margin-left: 8vw;
-    font-size: smaller;
-  }
-  .contenedor-departamentos {
-    height: 110px;
-  }
-  .color-izquierdo {
-    top: 60px;
-    left: 5vw;
-  }
-  .color-derecho {
-    top: 25px;
-    left: 35vw;
-  }
-}
-
-@media screen and (max-width: 768px) and (min-width: 450px) {
-  .cuadro-principal, .contenedor-departamentos {
-    width: 96vw;
-    height: fit-content;
-    margin-left: 2vw;
-    margin-right: 2vw;
-    font-size: smaller;
-  }
-  .contenedor-departamentos {
-    height: 110px;
-  }
-  .color-izquierdo {
-    top: 60px;
-    left: 5vw;
-  }
-  .color-derecho {
-    top: 25px;
-    left: 35vw;
-  }
-  .titulo-bd {
-    white-space: normal;
-  }
+.tabla-personal tr:nth-child(even) {
+  background-color: #f9f9f9;
 }

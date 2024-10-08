@@ -34,7 +34,7 @@ include './config/db.php';
 $sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10-10";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-11-10";
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
