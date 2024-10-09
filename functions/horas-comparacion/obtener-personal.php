@@ -1,69 +1,65 @@
 <?php
+
+// Evitar que se muestren errores en la salida
+error_reporting(0);
+ini_set('display_errors', 0);
+
 include './../../config/db.php';
-if (!isset($_GET['departamento'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Parámetro departamento no proporcionado']);
+
+// Verificar la conexión
+if (!$conexion) {
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Error de conexión a la base de datos']);
     exit;
 }
 
-$departamento = $_GET['departamento'];
+// Obtener el departamento
+$departamento = isset($_POST['departamento']) ? $_POST['departamento'] : '';
 
 try {
+    // Construir la consulta base
     if ($departamento === 'todos') {
-        $query = "SELECT 
-            Codigo,
-            Nombre_completo,
-            Tipo_plaza,
-            Horas_frente_grupo,
-            Carga_horaria,
-            Horas_definitivas
-        FROM Coord_Per_Prof
-        ORDER BY Nombre_completo";
-
-        $result = mysqli_query($conn, $query);
-        
-        if (!$result) {
-            throw new Exception(mysqli_error($conn));
-        }
+        $query = "SELECT Codigo, Nombre_completo, Tipo_plaza, Horas_frente_grupo, 
+                         Carga_horaria, Horas_definitivas 
+                  FROM Coord_Per_Prof 
+                  ORDER BY Nombre_completo";
+        $stmt = $conexion->prepare($query);
     } else {
-        $query = "SELECT 
-            Codigo,
-            Nombre_completo,
-            Tipo_plaza,
-            Horas_frente_grupo,
-            Carga_horaria,
-            Horas_definitivas
-        FROM Coord_Per_Prof
-        WHERE LOWER(Departamento) = LOWER(?)
-        ORDER BY Nombre_completo";
-        
-        $stmt = mysqli_prepare($conn, $query);
-        if (!$stmt) {
-            throw new Exception(mysqli_error($conn));
-        }
-        
-        mysqli_stmt_bind_param($stmt, "s", $departamento);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        $query = "SELECT Codigo, Nombre_completo, Tipo_plaza, Horas_frente_grupo, 
+                         Carga_horaria, Horas_definitivas 
+                  FROM Coord_Per_Prof 
+                  WHERE Departamento = ? 
+                  ORDER BY Nombre_completo";
+        $stmt = $conexion->prepare($query);
+        $stmt->bind_param("s", $departamento);
     }
 
-    $data = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $data[] = [
-            'codigo' => $row['Codigo'] ?? '',
-            'nombre_completo' => $row['Nombre_completo'] ?? '',
-            'tipo_plaza' => $row['Tipo_plaza'] ?? '',
-            'horas_frente_grupo' => $row['Horas_frente_grupo'] ?? '0',
-            'carga_horaria' => $row['Carga_horaria'] ?? '',
-            'horas_definitivas' => $row['Horas_definitivas'] ?? '0'
-        ];
+    // Ejecutar la consulta
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Obtener los resultados
+    $personal = array();
+    while ($row = $result->fetch_assoc()) {
+        // Asegurarse de que los valores numéricos sean números
+        $row['Horas_frente_grupo'] = intval($row['Horas_frente_grupo']);
+        $row['Horas_definitivas'] = intval($row['Horas_definitivas']);
+        $personal[] = $row;
     }
 
+    // Enviar la respuesta
     header('Content-Type: application/json');
-    echo json_encode($data);
+    echo json_encode($personal);
 
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Error en la consulta: ' . $e->getMessage()]);
 }
-?>
+
+// Cerrar la conexión y el statement
+if (isset($stmt)) {
+    $stmt->close();
+}
+if (isset($conexion)) {
+    $conexion->close();
+}

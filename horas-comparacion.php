@@ -28,14 +28,14 @@
 
         <?php
         // Consulta para obtener los departamentos
-        $query = "SELECT * FROM Departamentos ORDER BY Nombre_Departamento";
+        $query = "SELECT * FROM Departamentos ORDER BY Departamentos";
         $result = mysqli_query($conn, $query);
 
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="departamento-card" data-departamento="' . $row['Nombre_Departamento'] . '">';
+                echo '<div class="departamento-card" data-departamento="' . htmlspecialchars($row['Departamentos']) . '">';
                 echo '<div class="departamento-overlay">';
-                echo '<span class="departamento-nombre">' . $row['Departamentos'] . '</span>';
+                echo '<span class="departamento-nombre">' . htmlspecialchars($row['Departamentos']) . '</span>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -69,82 +69,105 @@
     </div>
 </div>
 
-<!-- JavaScript para manejar el modal -->
 <script>
-const modal = document.getElementById('modalPersonal');
-const span = document.getElementsByClassName('close')[0];
-const modalTitle = document.getElementById('modalTitle');
-const tablaBody = document.getElementById('tablaBody');
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtener elementos del DOM
+    const modal = document.getElementById('modalPersonal');
+    const span = document.getElementsByClassName('close')[0];
+    const modalTitle = document.getElementById('modalTitle');
+    const tablaBody = document.getElementById('tablaBody');
+    const departamentoCards = document.querySelectorAll('.departamento-card');
 
-// Mapping de departamentos
-const departamentoMapping = <?php echo json_encode($departamento_mapping); ?>;
-
-document.querySelectorAll('.departamento-card').forEach(card => {
-    card.addEventListener('click', function() {
-        const departamento = this.dataset.departamento;
-        cargarDatosPersonal(departamento);
+    // Función para abrir el modal
+    function openModal(departamento) {
         modal.style.display = 'block';
-    });
-});
+        modalTitle.textContent = departamento === 'todos' 
+            ? 'Personal de Todos los Departamentos' 
+            : `Personal del Departamento ${departamento}`;
+        
+        // Realizar la petición AJAX
+        fetchPersonalData(departamento);
+    }
 
-span.onclick = function() {
-    modal.style.display = 'none';
-}
-
-window.onclick = function(event) {
-    if (event.target == modal) {
+    // Función para cerrar el modal
+    function closeModal() {
         modal.style.display = 'none';
     }
-}
 
-function cargarDatosPersonal(departamento) {
-    const departamentoEncoded = encodeURIComponent(departamento);
-    
-    // Ajusta esta ruta a donde realmente está tu archivo PHP
-    fetch(`obtener-personal.php?departamento=${departamentoEncoded}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    // Función para mostrar mensaje de error
+    function showError(message) {
+        tablaBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red;">
+            ${message}</td></tr>`;
+    }
+
+    // Función para obtener los datos del personal
+    function fetchPersonalData(departamento) {
+        // Mostrar mensaje de carga
+        tablaBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Cargando...</td></tr>';
+
+        fetch('./functions/horas-comparacion/obtener-personal.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `departamento=${encodeURIComponent(departamento)}`
+        })
+        .then(response => response.text())
+        .then(text => {
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error('Error parsing JSON:', text);
+                throw new Error('Error al procesar la respuesta del servidor');
             }
-            return response.json();
         })
         .then(data => {
             if (data.error) {
-                console.error('Error:', data.error);
-                tablaBody.innerHTML = '<tr><td colspan="6">No se encontraron registros para este departamento</td></tr>';
+                throw new Error(data.error);
+            }
+            
+            if (!Array.isArray(data) || data.length === 0) {
+                showError('No se encontraron datos para mostrar');
                 return;
             }
 
             tablaBody.innerHTML = ''; // Limpiar tabla
             
-            // Actualizar título del modal
-            modalTitle.textContent = departamento === 'todos' ? 
-                'Personal de Todos los Departamentos' : 
-                `Personal del Departamento de ${departamento}`;
-            
-            // Llenar la tabla con los datos
-            if (data.length === 0) {
-                tablaBody.innerHTML = '<tr><td colspan="6">No hay registros disponibles</td></tr>';
-            } else {
-                data.forEach(persona => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${persona.codigo || ''}</td>
-                        <td>${persona.nombre_completo || ''}</td>
-                        <td>${persona.tipo_plaza || ''}</td>
-                        <td>${persona.horas_frente_grupo || '0'}</td>
-                        <td>${persona.carga_horaria || ''}</td>
-                        <td>${persona.horas_definitivas || '0'}</td>
-                    `;
-                    tablaBody.appendChild(row);
-                });
-            }
+            data.forEach(persona => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${persona.Codigo || ''}</td>
+                    <td>${persona.Nombre_completo || ''}</td>
+                    <td>${persona.Tipo_plaza || ''}</td>
+                    <td>${persona.Horas_frente_grupo || '0'}</td>
+                    <td>${persona.Carga_horaria || ''}</td>
+                    <td>${persona.Horas_definitivas || '0'}</td>
+                `;
+                tablaBody.appendChild(row);
+            });
         })
         .catch(error => {
             console.error('Error:', error);
-            tablaBody.innerHTML = '<tr><td colspan="6">Error al cargar los datos</td></tr>';
+            showError(error.message || 'Error al cargar los datos');
         });
-}
+    }
+
+    // Event Listeners
+    departamentoCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const departamento = this.dataset.departamento;
+            openModal(departamento);
+        });
+    });
+
+    span.onclick = closeModal;
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+});
 </script>
 
 <?php include ("./template/footer.php"); ?>
