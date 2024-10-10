@@ -482,6 +482,27 @@ th {
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Deja la columna de los checkbox fija a la izquierda */
+.dataTables_scroll {
+    overflow: visible !important;
+}
+
+.DTFC_LeftWrapper, .DTFC_RightWrapper {
+    z-index: 2;
+}
+
+.DTFC_LeftBodyWrapper, .DTFC_RightBodyWrapper {
+    top: 0 !important;
+}
+
+.DTFC_LeftHeadWrapper, .DTFC_RightHeadWrapper {
+    z-index: 3;
+}
+
+.DTFC_LeftBodyLiner, .DTFC_RightBodyLiner {
+    overflow-y: visible !important;
+}
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
