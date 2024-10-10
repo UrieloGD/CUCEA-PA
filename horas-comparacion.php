@@ -44,27 +44,34 @@
     </div>
 </div>
 
-    <!-- Modal -->
-    <div id="modalPersonal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="modalTitle">Personal del Departamento</h2>
-            <div id="modalBody">
-                <table class="tabla-personal">
-                    <thead>
-                        <tr>
-                            <th>Código</th>
-                            <th>Nombre Completo</th>
-                            <th>Tipo Plaza</th>
-                            <th>Horas Frente Grupo</th>
-                            <th>Carga Horaria</th>
-                            <th>Horas Definitivas</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tablaBody">
-                    </tbody>
-                </table>
-            </div>
+<!-- Modal -->
+<div id="modalPersonal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Personal del Departamento</h2>
+        
+        <!-- Agregar barra de búsqueda -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar personal...">
+        </div>
+
+        <!-- Contenedor con scroll para la tabla -->
+        <div class="table-container">
+            <table class="tabla-personal">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre Completo</th>
+                        <th>Departamento</th>
+                        <th>Tipo Plaza</th>
+                        <th>Horas Frente Grupo</th>
+                        <th>Carga Horaria</th>
+                        <th>Horas Definitivas</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody">
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -85,6 +92,23 @@ document.addEventListener('DOMContentLoaded', function() {
             ? 'Personal de Todos los Departamentos' 
             : `Personal del Departamento ${departamento}`;
         
+        // Actualizar estructura de la tabla según el departamento
+        const thead = document.querySelector('.tabla-personal thead tr');
+        thead.innerHTML = departamento === 'todos' 
+            ? `<th>Código</th>
+               <th>Nombre Completo</th>
+               <th>Departamento</th>
+               <th>Tipo Plaza</th>
+               <th>Horas Frente Grupo</th>
+               <th>Carga Horaria</th>
+               <th>Horas Definitivas</th>`
+            : `<th>Código</th>
+               <th>Nombre Completo</th>
+               <th>Tipo Plaza</th>
+               <th>Horas Frente Grupo</th>
+               <th>Carga Horaria</th>
+               <th>Horas Definitivas</th>`;
+        
         // Realizar la petición AJAX
         fetchPersonalData(departamento);
     }
@@ -100,10 +124,28 @@ document.addEventListener('DOMContentLoaded', function() {
             ${message}</td></tr>`;
     }
 
+    // Funcionalidad de búsqueda
+    const searchInput = document.getElementById('searchInput');
+    
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = tablaBody.getElementsByTagName('tr');
+        
+        Array.from(rows).forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+
+
     // Función para obtener los datos del personal
     function fetchPersonalData(departamento) {
+        // Limpiar la búsqueda al cargar nuevos datos
+        searchInput.value = '';
+        
         // Mostrar mensaje de carga
-        tablaBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Cargando...</td></tr>';
+        const colSpan = departamento === 'todos' ? 7 : 6;
+        tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Cargando...</td></tr>`;
 
         fetch('./functions/horas-comparacion/obtener-personal.php', {
             method: 'POST',
@@ -127,7 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             if (!Array.isArray(data) || data.length === 0) {
-                showError('No se encontraron datos para mostrar');
+                const colSpan = departamento === 'todos' ? 7 : 6;
+                tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">No se encontraron datos para mostrar</td></tr>`;
                 return;
             }
 
@@ -135,20 +178,34 @@ document.addEventListener('DOMContentLoaded', function() {
             
             data.forEach(persona => {
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${persona.Codigo || ''}</td>
-                    <td>${persona.Nombre_completo || ''}</td>
-                    <td>${persona.Tipo_plaza || ''}</td>
-                    <td>${persona.Horas_frente_grupo || '0'}</td>
-                    <td>${persona.Carga_horaria || ''}</td>
-                    <td>${persona.Horas_definitivas || '0'}</td>
-                `;
+                if (departamento === 'todos') {
+                    row.innerHTML = `
+                        <td>${persona.Codigo || ''}</td>
+                        <td>${persona.Nombre_completo || ''}</td>
+                        <td>${persona.Departamento || ''}</td>
+                        <td>${persona.Tipo_plaza || ''}</td>
+                        <td>${persona.Horas_frente_grupo || '0'}</td>
+                        <td>${persona.Carga_horaria || ''}</td>
+                        <td>${persona.Horas_definitivas || '0'}</td>
+                    `;
+                } else {
+                    row.innerHTML = `
+                        <td>${persona.Codigo || ''}</td>
+                        <td>${persona.Nombre_completo || ''}</td>
+                        <td>${persona.Tipo_plaza || ''}</td>
+                        <td>${persona.Horas_frente_grupo || '0'}</td>
+                        <td>${persona.Carga_horaria || ''}</td>
+                        <td>${persona.Horas_definitivas || '0'}</td>
+                    `;
+                }
                 tablaBody.appendChild(row);
             });
         })
         .catch(error => {
             console.error('Error:', error);
-            showError(error.message || 'Error al cargar los datos');
+            const colSpan = departamento === 'todos' ? 7 : 6;
+            tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: red;">
+                ${error.message || 'Error al cargar los datos'}</td></tr>`;
         });
     }
 

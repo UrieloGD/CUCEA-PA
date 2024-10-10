@@ -16,23 +16,63 @@ if (!$conexion) {
 // Obtener el departamento
 $departamento = isset($_POST['departamento']) ? $_POST['departamento'] : '';
 
-try {
-    // Construir la consulta base
-    if ($departamento === 'todos') {
-        $query = "SELECT Codigo, Nombre_completo, Tipo_plaza, Horas_frente_grupo, 
-                         Carga_horaria, Horas_definitivas 
-                  FROM Coord_Per_Prof 
-                  ORDER BY Nombre_completo";
-        $stmt = $conexion->prepare($query);
-    } else {
-        $query = "SELECT Codigo, Nombre_completo, Tipo_plaza, Horas_frente_grupo, 
-                         Carga_horaria, Horas_definitivas 
-                  FROM Coord_Per_Prof 
-                  WHERE Departamento = ? 
-                  ORDER BY Nombre_completo";
-        $stmt = $conexion->prepare($query);
-        $stmt->bind_param("s", $departamento);
+    function getDepartamentoQuery($departamento) {
+        $departamentosMap = [
+            'Administración'  => ['Administracion'],
+            'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA'],
+            'Auditoría'  => ['Auditoria', 'SECRETARIA ADMINISTRATIVA/AUDITORIA'],
+            'Ciencias_Sociales'  => ['CERI/CIENCIAS SOCIALES', 'CIENCIAS SOCIALES'],
+            'Politicas_Públicas'  => ['POLITICAS PUBLICAS'],
+            'Contabilidad'  => ['CONTABILIDAD'],
+            'Economía'  => ['ECONOMIA'],
+            'Estudios_Regionales'  => ['ESTUDIOS REGIONALES'],
+            'Finanzas'  => ['Finanzas'],
+            'Impuestos'  => ['IMPUESTOS'],
+            'Mercadotecnia y Negocios Internacionales'  => ['MERCADOTECNIA'],
+            'Métodos_Cuantitativos'  => ['METODOS CUANTITATIVOS'],
+            'Recursos_Humanos'  => ['RECURSOS_HUMANOS'],
+            'Mercadotecnia'  => ['MERCADOTECNIA'],
+            'Sistemas_de_Información'  => ['SISTEMAS DE INFORMACION'],
+            'Turismo' => ['Turismo', 'Turismo R. y S.']
+        ];
+
+        if (isset($departamentosMap[$departamento])) {
+            $conditions = array_map(function($dep) {
+                return "Departamento = ?";
+            }, $departamentosMap[$departamento]);
+            return [
+                'query' => "WHERE " . implode(" OR ", $conditions),
+                'valores' => $departamentosMap[$departamento]
+            ];
+        }
+
+        return [
+            'query' => "WHERE Departamento = ?",
+            'valores' => [$departamento]
+        ];
     }
+
+    try {
+        // Modificar la consulta base
+        if ($departamento === 'todos') {
+            $query = "SELECT Codigo, Nombre_completo, Departamento, Tipo_plaza, 
+                             Horas_frente_grupo, Carga_horaria, Horas_definitivas 
+                      FROM Coord_Per_Prof 
+                      ORDER BY Nombre_completo";
+            $stmt = $conexion->prepare($query);
+        } else {
+            $queryInfo = getDepartamentoQuery($departamento);
+            $query = "SELECT Codigo, Nombre_completo, Departamento, Tipo_plaza, 
+                             Horas_frente_grupo, Carga_horaria, Horas_definitivas 
+                      FROM Coord_Per_Prof " . 
+                      $queryInfo['query'] . " 
+                      ORDER BY Nombre_completo";
+            $stmt = $conexion->prepare($query);
+            
+            // Bind dinámico de parámetros
+            $types = str_repeat("s", count($queryInfo['valores']));
+            $stmt->bind_param($types, ...$queryInfo['valores']);
+        }
 
     // Ejecutar la consulta
     $stmt->execute();
