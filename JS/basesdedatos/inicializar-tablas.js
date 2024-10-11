@@ -12,42 +12,52 @@
  * - "fixedHeader": Mantiene visible el encabezado de la tabla mientras se desplaza verticalmente.
  */
 
-$(document).ready(function() {
-    var table = $('#tabla-datos').DataTable({
-        language: {
-            url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json"
-        },
-        pageLength: 10,
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
-        responsive: true,
-        ordering: true,
-        info: true,
-        dom: '<"top"fB>rt<"bottom"ip><"clear">',
-        buttons: [
-            {
-                extend: 'colvis',
-                collectionLayout: 'fixed columns',
-                popoverTitle: 'Control de visibilidad de columnas'
-            }
-        ],
-        scrollX: true,
-        scrollCollapse: true,
-        fixedHeader: true,
-        columnDefs: [
-            { orderable: false, targets: 0 },  // La columna de selección (índice 0) no es ordenable
-            { reorderable: false, targets: 0 }, // La columna de selección (índice 0) no es reordenable
-            { orderable: false, targets: -1 }  // La última columna tampoco es ordenable
-        ],
-        order: [[1, 'asc']],
-        colReorder: {
-            fixedColumnsLeft: 1,  // Solo se fija la primera columna (índice 0) a la izquierda
-            fixedColumnsRight: 0  // No se fija ninguna columna a la derecha
-        }
-    });
+$(document).ready(function () {
+  var table = $("#tabla-datos").DataTable({
+    language: {
+      url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+    },
+    pageLength: 10,
+    lengthMenu: [
+      [10, 25, 50, -1],
+      [10, 25, 50, "Todos"],
+    ],
+    responsive: true,
+    ordering: false,
+    info: true,
+    dom: '<"top"f>rt<"bottom"ip><"clear">',
+    scrollX: true,
+    scrollCollapse: true,
+    fixedHeader: true,
+    columnDefs: [
+      { orderable: false, targets: 0 },
+      { reorderable: false, targets: 0 },
+      { orderable: false, targets: -1 },
+    ],
+    order: [[1, "asc"]],
+    colReorder: {
+      fixedColumnsLeft: 1,
+      fixedColumnsRight: 0,
+    },
+    buttons: [
+      {
+        extend: "colvis",
+        text: '<i class="fa fa-eye"></i>',
+        titleAttr: "Column visibility",
+        collectionLayout: "fixed columns",
+        columns: ":not(:first-child)", // Excluye la primera columna (checkbox)
+      },
+    ],
+  });
 
-    // Inicialización del plugin FixedColumns para mantener fija la primera columna
-    new $.fn.dataTable.FixedColumns(table, {
-        leftColumns: 1, // La primera columna queda fija
-        rightColumns: 0 // No se fija ninguna columna en el lado derecho
-    });
+  // Vincula la funcionalidad del botón de visibilidad al icono en el encabezado
+  $("#icono-visibilidad").on("click", function () {
+    table.button(".buttons-colvis").trigger();
+  });
+
+  // Inicialización del plugin FixedColumns
+  new $.fn.dataTable.FixedColumns(table, {
+    leftColumns: 1,
+    rightColumns: 0,
+  });
 });

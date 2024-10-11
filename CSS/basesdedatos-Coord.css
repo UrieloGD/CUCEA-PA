@@ -62,7 +62,7 @@
   /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
-} 
+}
 
 /* Tabla */
 .tabla {
@@ -164,26 +164,7 @@ th {
   border-radius: 10px 10px; /* Redondea solo las esquinas izquierdas */
   color: #fff;
   margin-right: 0; /* Quita el margen derecho */
-  /* z-index: 1; */
-}
-
-.icono-buscador i {
-  font-size: 18px;
-}
-
-/* Asegúrate de que todos los iconos tengan el mismo tamaño */
-.iconos-container {
-  display: flex;
-  align-items: center;
-}
-
-/* Ajustar el espacio entre los iconos */
-.iconos-container > div {
-  margin-right: 10px;
-}
-
-.iconos-container > div:last-child {
-  margin-right: 0;
+  z-index: 1;
 }
 
 .barra-buscador {
@@ -456,6 +437,70 @@ th {
   /* box-sizing: border-box; */
   padding: 5px; /* Opcional: ajustar el padding según sea necesario */
   border: none;
+}
+
+/* Estilos para mantener la columan de estado anclada */
+.table-container {
+  position: relative;
+  overflow-x: auto;
+  overflow-y: visible;
+  max-height: 80vh;
+}
+
+#tabla-datos {
+  position: relative;
+}
+
+.estado-column,
+.estado-cell {
+  position: sticky;
+  right: 0;
+  background-color: #f5f5f5;
+  z-index: 1;
+}
+
+.estado-column {
+  top: 0;
+  z-index: 2;
+}
+
+#tabla-datos thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 10;
+}
+
+#tabla-datos thead th.estado-column {
+  z-index: 11;
+  /* Asegura que esté por encima de las otras cabeceras */
+}
+
+/* Añade una sombra sutil para distinguir la columna anclada */
+.estado-column,
+.estado-cell {
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Deja la columna de los checkbox fija a la izquierda */
+.dataTables_scroll {
+    overflow: visible !important;
+}
+
+.DTFC_LeftWrapper, .DTFC_RightWrapper {
+    z-index: 2;
+}
+
+.DTFC_LeftBodyWrapper, .DTFC_RightBodyWrapper {
+    top: 0 !important;
+}
+
+.DTFC_LeftHeadWrapper, .DTFC_RightHeadWrapper {
+    z-index: 3;
+}
+
+.DTFC_LeftBodyLiner, .DTFC_RightBodyLiner {
+    overflow-y: visible !important;
 }
 
 /* Media Queries para diferentes resoluciones */

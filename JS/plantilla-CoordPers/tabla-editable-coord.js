@@ -143,7 +143,8 @@ function makeEditable() {
   for (let i = 1; i < rows.length; i++) {
     const cells = rows[i].getElementsByTagName("td");
     for (let j = 1; j < cells.length; j++) {
-      if (j !== 1) {
+      // Excluir la columna de estado y la columna de ID
+      if (j !== 1 && !cells[j].classList.contains("estado-cell")) {
         cells[j].setAttribute(
           "data-original-value",
           cells[j].textContent.trim()
