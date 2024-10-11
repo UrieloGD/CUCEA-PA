@@ -141,19 +141,20 @@
 .export-button {
   position: absolute;
   right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 9.5%;
+  left: 78%;
 }
 
 .btn-exportar {
-  background-color: #007bff;
+  background-color: #0071b0; /* Mismo color del encabezado */
   color: white;
   padding: 8px 15px;
   border-radius: 5px;
   text-decoration: none;
   font-size: 14px;
+  transition: background-color 0.3s;
 }
 
 .btn-exportar:hover {
-  background-color: #0056b3;
+  background-color: #005d91; /* Un tono más oscuro para el hover */
 }

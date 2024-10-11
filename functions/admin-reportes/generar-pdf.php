@@ -2,33 +2,38 @@
 require_once('./../../library/tcpdf.php'); // Ajusta la ruta según donde hayas instalado TCPDF
 include './../../config/db.php';
 
-// Crear nuevo documento PDF con orientación horizontal
-$pdf = new TCPDF('L', 'mm', 'A4', true, 'UTF-8', false);
+// Crea un nuevo documento PDF - 'P' significa orientación vertical, 'mm' es la unidad de medida, 'A4' es el tamaño
+$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
-// Configurar márgenes (izquierda, arriba, derecha)
-$pdf->SetMargins(15, 15, 15);
+// Establece los márgenes del documento (izquierda, arriba, derecha)
+$pdf->SetMargins(5, 5, 15);
 
-// Establecer información del documento
-$pdf->SetCreator('Tu Sistema');
-$pdf->SetAuthor('Nombre de tu organización');
-$pdf->SetTitle('Reporte de Entrega');
-
-// Eliminar encabezados y pies de página predeterminados
+// Desactiva el encabezado y pie de página predeterminados
 $pdf->setPrintHeader(false);
 $pdf->setPrintFooter(false);
 
-// Agregar una página
+// Agrega una nueva página
 $pdf->AddPage();
 
-// Título del reporte con estilo similar
-$pdf->SetFillColor(0, 113, 176); // Color #0071b0
-$pdf->SetTextColor(255, 255, 255);
-$pdf->SetFont('helvetica', 'B', 16);
-$pdf->Cell(0, 12, 'Reporte de Entrega', 0, 1, 'C', true);
-$pdf->Ln(10);
+// Configura el color de relleno para el encabezado (RGB: 0,113,176 - el color azul #0071b0)
+$pdf->SetFillColor(0, 113, 176);
 
-// Restablecer color de texto
-$pdf->SetTextColor(0, 0, 0);
+// Crea un rectángulo redondeado para el título
+// Parámetros: (posición X, posición Y, ancho, alto, radio de esquinas, esquinas a redondear, estilo)
+// '0010' significa que solo redondea las esquinas inferiores
+$pdf->RoundedRect(($pdf->GetPageWidth() - 90) / 2, 5, 90, 12, 3, '0110', 'F');
+
+// Establece el color del texto a blanco
+$pdf->SetTextColor(255, 255, 255);
+
+// Configura la fuente (familia, estilo [B=negrita], tamaño)
+$pdf->SetFont('helvetica', 'B', 16);
+
+// Crea una celda con el título (ancho, alto, texto, borde, salto de línea, alineación)
+$pdf->Cell(0, 12, 'Reporte de Entrega', 0, 1, 'C');
+
+// Agrega espacio vertical
+$pdf->Ln(10);
 
 // Obtener datos
 $sql_departamentos = "SELECT d.*, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
@@ -47,9 +52,16 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
 
 $periodo_actual = "2025A";
 
+// Función para crear una celda con fondo blanco y borde
+function createWhiteCell($pdf, $text, $width, $align = 'L') {
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell($width, 8, $text, 1, 0, $align, true);
+}
+
 while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
     $fecha_subida = $departamento['Fecha_Subida_Dep'];
-    $fecha_actual = date("Y-m-d");
+    $fecha_actual = date("d-m-Y");
     
     // Buscar justificación
     $sql_justificacion = "SELECT Justificacion FROM Justificaciones 
@@ -86,68 +98,67 @@ while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
         $notas_justificacion .= "\nJustificación: " . $justificacion;
     }
     
-    // Dibujar el "cuadro" del departamento
+    // Dibujar el cuadro del departamento
     $pdf->SetFillColor(231, 233, 242); // Color #E7E9F2
-    $pdf->Rect($pdf->GetX(), $pdf->GetY(), 260, 50, 'F');
+    $startY = $pdf->GetY();
+    $pdf->RoundedRect($pdf->GetX(), $startY, 260, 50, 3, '1111', 'F');
     
-    // Información del departamento
-    $pdf->SetFont('helvetica', 'B', 12);
-    $pdf->SetXY($pdf->GetX() + 5, $pdf->GetY() + 5);
-    
-    // Primera fila de información
+    // Primera fila
+    $pdf->SetXY($pdf->GetX() + 5, $startY + 5);
     $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(40, 7, 'Departamento:', 0, 0);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->Cell(80, 7, $departamento['Departamentos'], 0, 0);
+    $pdf->Cell(30, 5, 'Departamento', 0, 0);
+    $pdf->SetX($pdf->GetX() + 45);
+    $pdf->Cell(30, 5, 'Periodo', 0, 0);
+    $pdf->SetX($pdf->GetX() + 45);
+    $pdf->Cell(30, 5, 'Estado de la entrega', 0, 1);
     
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(40, 7, 'Periodo:', 0, 0);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->Cell(40, 7, $periodo_actual, 0, 0);
-    
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(40, 7, 'Estado:', 0, 0);
+    // Valores de la primera fila
+    $pdf->SetX($pdf->GetX() + 5);
+    createWhiteCell($pdf, $departamento['Departamentos'], 70);
+    $pdf->SetX($pdf->GetX() + 5);
+    createWhiteCell($pdf, $periodo_actual, 70);
+    $pdf->SetX($pdf->GetX() + 5);
     
     // Estilo del estado según su valor
     switch(strtolower($estado_entrega)) {
         case 'entregada':
-            $pdf->SetFillColor(223, 241, 216); // Verde claro
+            $pdf->SetFillColor(223, 241, 216);
             $pdf->SetTextColor(59, 118, 61);
             break;
         case 'pendiente':
-            $pdf->SetFillColor(253, 248, 228); // Amarillo claro
+            $pdf->SetFillColor(253, 248, 228);
             $pdf->SetTextColor(139, 110, 59);
             break;
         case 'atrasada':
-            $pdf->SetFillColor(249, 209, 211); // Rojo claro
+            $pdf->SetFillColor(249, 209, 211);
             $pdf->SetTextColor(149, 61, 66);
             break;
     }
-    
-    $pdf->Cell(40, 7, $estado_entrega, 0, 1, 'C', true);
-    
-    // Restablecer colores
-    $pdf->SetTextColor(0, 0, 0);
+    $pdf->Cell(70, 8, $estado_entrega, 1, 1, 'C', true);
     
     // Segunda fila
-    $pdf->SetXY($pdf->GetX() + 5, $pdf->GetY() + 5);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetX($pdf->GetX() + 5);
     $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(40, 7, 'Fecha límite:', 0, 0);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->Cell(80, 7, ($fecha_limite ? date("d/m/Y", strtotime($fecha_limite)) : "-"), 0, 0);
+    $pdf->Cell(30, 5, 'Fecha límite', 0, 0);
+    $pdf->SetX($pdf->GetX() + 45);
+    $pdf->Cell(30, 5, 'Fecha de entrega', 0, 1);
     
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(40, 7, 'Fecha de entrega:', 0, 0);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->Cell(80, 7, $fecha_entrega, 0, 1);
+    // Valores de la segunda fila
+    $pdf->SetX($pdf->GetX() + 5);
+    createWhiteCell($pdf, ($fecha_limite ? date("d/m/Y", strtotime($fecha_limite)) : "-"), 70);
+    $pdf->SetX($pdf->GetX() + 5);
+    createWhiteCell($pdf, $fecha_entrega, 70, 'L');
+    $pdf->Ln();
     
     // Notas/Justificación
-    $pdf->SetXY($pdf->GetX() + 5, $pdf->GetY() + 5);
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(40, 7, 'Notas/Justificación:', 0, 1);
-    $pdf->SetFont('helvetica', '', 10);
     $pdf->SetX($pdf->GetX() + 5);
-    $pdf->MultiCell(250, 7, strip_tags($notas_justificacion), 0, 'L');
+    $pdf->SetFont('helvetica', 'B', 10);
+    $pdf->Cell(30, 5, 'Notas/Justificación', 0, 1);
+    $pdf->SetX($pdf->GetX() + 5);
+    $pdf->SetFillColor(255, 255, 255);
+    $pdf->SetFont('helvetica', '', 10);
+    $pdf->MultiCell(250, 8, strip_tags($notas_justificacion), 1, 'L', true);
     
     $pdf->Ln(10);
 }
