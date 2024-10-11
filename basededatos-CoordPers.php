@@ -462,8 +462,8 @@ function formatDateForDisplay($mysqlDate)
                     [1, 'asc']
                 ],
                 "fixedColumns": {
-                    left: 1,
-                    right: 1
+                    leftColumns: 2, // Fija las 2 primeras columnas (checkbox e ID)
+                    rightColumns: 1 // Mantiene fijada la última columna
                 },
                 "scrollX": true
             });
