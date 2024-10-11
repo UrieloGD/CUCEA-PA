@@ -545,3 +545,10 @@ th {
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
   }
 }
+
+/* Ensure that the demo table scrolls */
+    th, td { white-space: nowrap; }
+    div.dataTables_wrapper {
+        width: 600px;
+        margin: 0 auto;
+    }
