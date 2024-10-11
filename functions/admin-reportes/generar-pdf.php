@@ -11,10 +11,9 @@ class MYPDF extends TCPDF {
 }
 
 $pdf = new MYPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-$pdf->SetMargins(15, 15, 15);
+$pdf->SetMargins(15, 5, 15);
 $pdf->setPrintHeader(false);
 $pdf->setFooterFont(Array('helvetica', '', 8));
-// Establecer alias para número de páginas
 $pdf->setFontSubsetting(false);
 $pdf->AddPage();
 
@@ -23,11 +22,11 @@ function createHeader($pdf) {
     $pdf->SetFillColor(0, 113, 176);
     $rectWidth = 120;
     $rectX = ($pdf->GetPageWidth() - $rectWidth) / 2;
-    $pdf->RoundedRect($rectX, 15, $rectWidth, 12, 3, '0110', 'F');
+    $pdf->RoundedRect($rectX, 5, $rectWidth, 12, 3, '0110', 'F'); // Posición Y cambiada a 5
     
     $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFont('helvetica', 'B', 16);
-    $pdf->SetXY($rectX, 15);
+    $pdf->SetXY($rectX, 5); // Posición Y cambiada a 5
     $pdf->Cell($rectWidth, 12, 'Reporte de Entrega', 0, 1, 'C');
     $pdf->Ln(5);
 }
@@ -53,10 +52,19 @@ $max_recuadros_por_pagina = 4; // Cambiado a 4 recuadros por página
 
 createHeader($pdf);
 
+// Función modificada para crear celda sin bordes
 function createWhiteCell($pdf, $text, $width, $align = 'L') {
+    $startX = $pdf->GetX();
+    $startY = $pdf->GetY();
+    
+    // Dibuja el fondo redondeado blanco
     $pdf->SetFillColor(255, 255, 255);
+    $pdf->RoundedRect($startX, $startY, $width, 8, 1, '1111', 'F');
+    
+    // Coloca el texto
     $pdf->SetTextColor(0, 0, 0);
-    $pdf->Cell($width, 8, $text, 1, 0, $align, true);
+    $pdf->SetXY($startX, $startY);
+    $pdf->Cell($width, 8, $text, 0, 0, $align, false);
 }
 
 while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
@@ -98,29 +106,31 @@ while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
         $notas_justificacion .= "\nJustificación: " . $justificacion;
     }
     
-    // Dibujar el recuadro (ajustado para 4 por página)
+    // Dibujar el recuadro principal
     $startY = $pdf->GetY();
     $pdf->SetFillColor(231, 233, 242);
-    $pdf->RoundedRect(15, $startY, 180, 50, 3, '1111', 'F'); // Reducido el alto a 50
-    
-    // Contenido del recuadro
-    $pdf->SetXY(20, $startY + 5);
-    $pdf->SetFont('helvetica', 'B', 9); // Reducido el tamaño de la fuente
+    $pdf->RoundedRect(15, $startY, 180, 50, 3, '1111', 'F');
     
     // Primera fila
+    $pdf->SetXY(20, $startY + 5);
+    $pdf->SetFont('helvetica', 'B', 9);
+    $pdf->SetTextColor(0, 0, 0);
     $pdf->Cell(35, 5, 'Departamento:', 0, 0);
     createWhiteCell($pdf, $departamento['Departamentos'], 135);
     $pdf->Ln();
     
     // Segunda fila
     $pdf->SetXY(20, $pdf->GetY() + 3);
+    $pdf->SetTextColor(0, 0, 0);
     $pdf->Cell(35, 5, 'Periodo:', 0, 0);
     createWhiteCell($pdf, $periodo_actual, 60);
     
     $pdf->SetX($pdf->GetX() + 5);
     $pdf->Cell(20, 5, 'Estado:', 0, 0);
     
-    // Estado con color
+    // Estado con color y bordes redondeados (1mm)
+    $estadoX = $pdf->GetX();
+    $estadoY = $pdf->GetY();
     switch(strtolower($estado_entrega)) {
         case 'entregada':
             $pdf->SetFillColor(223, 241, 216);
@@ -135,7 +145,9 @@ while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
             $pdf->SetTextColor(149, 61, 66);
             break;
     }
-    $pdf->Cell(50, 8, $estado_entrega, 1, 1, 'C', true);
+    $pdf->RoundedRect($estadoX, $estadoY, 50, 8, 1, '1111', 'F'); // Radio reducido a 1mm
+    $pdf->SetXY($estadoX, $estadoY);
+    $pdf->Cell(50, 8, $estado_entrega, 0, 1, 'C', false);
     
     // Tercera fila
     $pdf->SetTextColor(0, 0, 0);
@@ -148,13 +160,22 @@ while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
     createWhiteCell($pdf, $fecha_entrega, 50);
     $pdf->Ln();
     
-    // Justificación
+    // Justificación en línea
     $pdf->SetXY(20, $pdf->GetY() + 3);
-    $pdf->SetFillColor(255, 255, 255);
-    $pdf->SetFont('helvetica', '', 8); // Reducido el tamaño para la justificación
-    $pdf->MultiCell(170, 6, strip_tags($notas_justificacion), 1, 'L', true);
+    $pdf->SetTextColor(0, 0, 0);
+    $pdf->SetFont('helvetica', 'B', 9);
+    $pdf->Cell(35, 5, 'Justificación:', 0, 0);
     
-    $pdf->Ln(15); // Reducido el espacio entre recuadros
+    // Recuadro blanco redondeado para la justificación (a la derecha del texto)
+    $pdf->SetFillColor(255, 255, 255);
+    $justX = $pdf->GetX();
+    $justY = $pdf->GetY();
+    $pdf->RoundedRect($justX, $justY, 135, 8, 1, '1111', 'F'); // Radio reducido a 1mm
+    $pdf->SetXY($justX, $justY);
+    $pdf->SetFont('helvetica', '', 8);
+    $pdf->MultiCell(135, 8, strip_tags($notas_justificacion), 0, 'L', false);
+    
+    $pdf->Ln(15);
     $recuadros_por_pagina++;
 }
 
