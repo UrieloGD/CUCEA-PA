@@ -152,6 +152,7 @@
 .btn {
   padding: 10px 20px;
   border-radius: 10px;
+  margin-bottom: 20px;
   cursor: pointer;
   background-color: #0071b0;
   border: none;

@@ -201,6 +201,14 @@ textarea {
   width: 100%;
 }
 
+#participantes-seleccionados-edicion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  width: 100%;
+}
+
 .participante-tarjeta {
   display: inline-flex;
   align-items: center;
