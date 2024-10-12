@@ -19,7 +19,7 @@ function safeSubstr($string, $start, $length = null)
         return null;
     }
     return $length === null ? substr($string, $start) : substr($string, $start, $length);
-}   
+}
 
 if ($conn->connect_error) {
     echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conn->connect_error]);
@@ -39,7 +39,6 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $spreadsheet = IOFactory::load($file);
         $sheet = $spreadsheet->getActiveSheet();
         $highestRow = $sheet->getHighestRow();
-        $highestColumn = $sheet->getHighestColumn();
 
         $tabla_destino = 'Data_' . str_replace(' ', '_', $_SESSION['Nombre_Departamento']);
 
@@ -50,74 +49,15 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             exit();
         }
 
-        // Obtener los encabezados del Excel
-        $headers = [];
-        foreach ($sheet->getRowIterator(1, 1) as $row) {
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(false);
-            foreach ($cellIterator as $cell) {
-                $headers[] = $cell->getValue();
-            }
-        }
+        $sql = "INSERT INTO $tabla_destino (
+            Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO,
+            C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR,
+            CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO,
+            TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL,
+            DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL,
+            MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Mapeo de nombres de columnas del Excel a nombres de columnas de las base de datos
-        $columnMap = [
-            'CICLO' => 'CICLO',
-            'CRN' => 'CRN',
-            'MATERIA' => 'MATERIA',
-            'CVE. MATERIA' => 'CVE_MATERIA',
-            'SECCION' => 'SECCION',
-            'NIVEL' => 'NIVEL',
-            'NIVEL TIPO' => 'NIVEL_TIPO',
-            'TIPO' => 'TIPO',
-            'C. MIN.' => 'C_MIN',
-            'H. TOTALES' => 'H_TOTALES',
-            'STATUS' => 'ESTATUS',
-            'TIPO CONTRATO' => 'TIPO_CONTRATO',
-            'CODIGO PROFESOR' => 'CODIGO_PROFESOR',
-            'NOMBRE PROFESOR' => 'NOMBRE_PROFESOR',
-            'CATEGORIA' => 'CATEGORIA',
-            'DESCARGA' => 'DESCARGA',
-            'CODIGO DESCARGA' => 'CODIGO_DESCARGA',
-            'NOMBRE DESCARGA' => 'NOMBRE_DESCARGA',
-            'NOMBRE DEFINITIVO' => 'NOMBRE_DEFINITIVO',
-            'TITULAR' => 'TITULAR',
-            'HORAS' => 'HORAS',
-            'CODIGO DEPENDENCIA' => 'CODIGO_DEPENDENCIA',
-            'L' => 'L',
-            'M' => 'M',
-            'I' => 'I',
-            'J' => 'J',
-            'V' => 'V',
-            'S' => 'S',
-            'D' => 'D',
-            'DIA PRESENCIAL' => 'DIA_PRESENCIAL',
-            'DIA VIRTUAL' => 'DIA_VIRTUAL',
-            'MODALIDAD' => 'MODALIDAD',
-            'FECHA INICIAL' => 'FECHA_INICIAL',
-            'FECHA FINAL' => 'FECHA_FINAL',
-            'HORA INICIAL' => 'HORA_INICIAL',
-            'HORA FINAL' => 'HORA_FINAL',
-            'MODULO' => 'MODULO',
-            'AULA' => 'AULA',
-            'CUPO' => 'CUPO',
-            'OBSERVACIONES' => 'OBSERVACIONES',
-            'EXAMEN EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
-        ];
-
-        // Crea una asignación del indice de columna del Excel al campo de la Base de Datos
-        $fieldMap = [];
-        foreach ($headers as $index => $header) {
-            if (isset($columnMap[$header])) {
-                $fieldMap[$index] = $columnMap[$header];
-            }
-        }
-        
-        // Prepara consulta SQL dinamica en función de los campos presentes en el Excel
-        $presentFields = array_merge(['Departamento_ID'], array_values($fieldMap));
-        $fields = implode(', ', $presentFields);
-        $placeholders = implode(', ', array_fill(0, count($presentFields), '?'));
-        $sql = "INSERT INTO $tabla_destino ($fields) VALUES ($placeholders)";
         $stmt = $conn->prepare($sql);
 
         if ($stmt === false) {
@@ -126,92 +66,121 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         }
 
         $errores = array();
-        $profesores_horas = array();
 
-        for ($row = 2; $row <= $highestRow; $row++) { 
-            $rowData = ['Departamento_ID' => $departamento_id];
-            foreach ($fieldMap as $columnIndex => $field) {
-                $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnIndex + 1);
-                $cellValue = safeSubstr($sheet->getCell($columnLetter . $row)->getCalculatedValue(), 0, 80);
+        for ($row = 2; $row <= $highestRow; $row++) {
+            $ciclo = $sheet->getCell('A' . $row)->getCalculatedValue();
+            $ciclo = $ciclo !== null ? safeSubstr($ciclo, 0, 10) : null;
+            $crn = safeSubstr($sheet->getCell('B' . $row)->getCalculatedValue(), 0, 15) ?? null;
+            $materia = safeSubstr($sheet->getCell('C' . $row)->getCalculatedValue(), 0, 80) ?? null;
+            $cve_materia = safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $seccion = safeSubstr($sheet->getCell('E' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $nivel = safeSubstr($sheet->getCell('F' . $row)->getCalculatedValue(), 0, 25) ?? null;
+            $nivel_tipo = safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 25) ?? null;
+            $tipo = safeSubstr($sheet->getCell('H' . $row)->getCalculatedValue(), 0, 1) ?? null;
+            $c_min = safeSubstr($sheet->getCell('I' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $h_totales = safeSubstr($sheet->getCell('J' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $estatus = safeSubstr($sheet->getCell('K' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $tipo_contrato = safeSubstr($sheet->getCell('L' . $row)->getCalculatedValue(), 0, 30) ?? null;
+            $codigo_profesor = safeSubstr($sheet->getCell('M' . $row)->getCalculatedValue(), 0, 7) ?? null;
+            $nombre_profesor = safeSubstr($sheet->getCell('N' . $row)->getCalculatedValue(), 0, 60) ?? null;
+            $categoria = safeSubstr($sheet->getCell('O' . $row)->getCalculatedValue(), 0, 40) ?? null;
+            $descarga = safeSubstr($sheet->getCell('P' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $codigo_descarga = safeSubstr($sheet->getCell('Q' . $row)->getCalculatedValue(), 0, 7) ?? null;
+            $nombre_descarga = safeSubstr($sheet->getCell('R' . $row)->getCalculatedValue(), 0, 60) ?? null;
+            $nombre_definitivo = safeSubstr($sheet->getCell('S' . $row)->getCalculatedValue(), 0, 60) ?? null;
+            $titular = safeSubstr($sheet->getCell('T' . $row)->getCalculatedValue(), 0, 2) ?? null;
+            $horas = safeSubstr($sheet->getCell('U' . $row)->getCalculatedValue(), 0, 1) ?? null;
+            $codigo_dependencia = safeSubstr($sheet->getCell('V' . $row)->getCalculatedValue(), 0, 4) ?? null;
+            $l = safeSubstr($sheet->getCell('W' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $m = safeSubstr($sheet->getCell('X' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $i = safeSubstr($sheet->getCell('Y' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $j = safeSubstr($sheet->getCell('Z' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $v = safeSubstr($sheet->getCell('AA' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $s = safeSubstr($sheet->getCell('AB' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $d = safeSubstr($sheet->getCell('AC' . $row)->getCalculatedValue(), 0, 5) ?? null;
+            $dia_presencial = safeSubstr($sheet->getCell('AD' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $dia_virtual = safeSubstr($sheet->getCell('AE' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $modalidad = safeSubstr($sheet->getCell('AF' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $fecha_inicial = $sheet->getCell('AG' . $row)->getCalculatedValue() ?? null;
+            $fecha_final = $sheet->getCell('AH' . $row)->getCalculatedValue() ?? null;
+            $hora_inicial = $sheet->getCell('AI' . $row)->getCalculatedValue();
+            $hora_inicial = $hora_inicial !== null ? str_pad(substr($hora_inicial, 0, 10), 4, '0', STR_PAD_LEFT) : null;
+            $hora_final = $sheet->getCell('AJ' . $row)->getCalculatedValue();
+            $hora_final = $hora_final !== null ? str_pad(substr($hora_final, 0, 10), 4, '0', STR_PAD_LEFT) : null;
+            $modulo = safeSubstr($sheet->getCell('AK' . $row)->getCalculatedValue(), 0, 10) ?? null;
+            $aula = $sheet->getCell('AL' . $row)->getCalculatedValue();
+            $aula = $aula !== null ? str_pad(substr($aula, 0, 10), 4, '0', STR_PAD_LEFT) : null;
+            $observaciones = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 150) ?? null;
+            $cupo = safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 3) ?? null;
+            $examen_extraordinario = safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 2) ?? null;
 
-                // Lista de campos que deben ser tratados como fechas
-                $dateFields = ['FECHA_INICIAL', 'FECHA_FINAL'];
-                
-                if (in_array($field, $dateFields)) {
-                    // Verificar si es un valor numérico (fecha de Excel)
-                    if (is_numeric($cellValue)) {
-                        try {
-                            $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($cellValue);
-                            $cellValue = $dateValue->format('Y-m-d'); // Formato MySQL
-                        } catch (Exception $e) {
-                            $cellValue = null;
-                        }
-                    } else if ($cellValue !== null) {
-                        // Intentar convertir otros formatos de fecha
-                        try {
-                            $dateValue = new DateTime($cellValue);
-                            $cellValue = $dateValue->format('Y-m-d');
-                        } catch (Exception $e) {
-                            $cellValue = null;
-                        }
-                    }
-                } else {
-                    // Para campos que no son fecha ni hora, mantener el procesamiento original
-                    $cellValue = safeSubstr($cellValue, 0, 150);
-                }
 
-                $rowData[$field] = $cellValue !== null ? safeSubstr($cellValue, 0, 150) : null;
+            // Sumar las horas para cada profesor
+            //if ($codigo_profesor && $horas && $categoria !== 'PROFESOR DE ASIGNATURA "A"' && $categoria !== 'PROFESOR DE ASIGNATURA "B"' && $categoria !== 'PROFESOR DE ASIGNATURA "C"') {
+            //    if (!isset($profesores_horas[$codigo_profesor])) {
+            //        $profesores_horas[$codigo_profesor] = 0;
+            //    }
+            //    $profesores_horas[$codigo_profesor] += intval($horas);
+            //}
+
+            if ($fecha_inicial) {
+                $fecha_inicial = DateTime::createFromFormat('d/m/Y', $fecha_inicial);
+                $fecha_inicial = $fecha_inicial ? $fecha_inicial->format('d/m/Y') : null;
+            }
+            if ($fecha_final) {
+                $fecha_final = DateTime::createFromFormat('d/m/Y', $fecha_final);
+                $fecha_final = $fecha_final ? $fecha_final->format('d/m/Y') : null;
             }
 
-            // Procesar fechas, horas y aula
-            if (isset($rowData['FECHA_INICIAL'])) {
-                $rowData['FECHA_INICIAL'] = $rowData['FECHA_INICIAL'] instanceof \PhpOffice\PhpSpreadsheet\Shared\Date 
-                    ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($rowData['FECHA_INICIAL'])->format('d/m/Y')
-                    : $rowData['FECHA_INICIAL'];
-            }
-            if (isset($rowData['FECHA_FINAL'])) {
-                $rowData['FECHA_FINAL'] = $rowData['FECHA_FINAL'] instanceof \PhpOffice\PhpSpreadsheet\Shared\Date 
-                    ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($rowData['FECHA_FINAL'])->format('d/m/Y')
-                    : $rowData['FECHA_FINAL'];
-            }
-            if (isset($rowData['HORA_INICIAL'])) {
-                $rowData['HORA_INICIAL'] = $rowData['HORA_INICIAL'] !== null ? str_pad(substr($rowData['HORA_INICIAL'], 0, 10), 4, '0', STR_PAD_LEFT) : null;
-            }
-            if (isset($rowData['HORA_FINAL'])) {
-                $rowData['HORA_FINAL'] = $rowData['HORA_FINAL'] !== null ? str_pad(substr($rowData['HORA_FINAL'], 0, 10), 4, '0', STR_PAD_LEFT) : null;
-            }
-            if (isset($rowData['AULA'])) {
-                $rowData['AULA'] = $rowData['AULA'] !== null ? str_pad(substr($rowData['AULA'], 0, 10), 4, '0', STR_PAD_LEFT) : null;
-            }
+            $stmt->bind_param(
+                "isssssssssssssssssssssssssssssssssssssssss",
+                $departamento_id,
+                $ciclo,
+                $crn,
+                $materia,
+                $cve_materia,
+                $seccion,
+                $nivel,
+                $nivel_tipo,
+                $tipo,
+                $c_min,
+                $h_totales,
+                $estatus,
+                $tipo_contrato,
+                $codigo_profesor,
+                $nombre_profesor,
+                $categoria,
+                $descarga,
+                $codigo_descarga,
+                $nombre_descarga,
+                $nombre_definitivo,
+                $titular,
+                $horas,
+                $codigo_dependencia,
+                $l,
+                $m,
+                $i,
+                $j,
+                $v,
+                $s,
+                $d,
+                $dia_presencial,
+                $dia_virtual,
+                $modalidad,
+                $fecha_inicial,
+                $fecha_final,
+                $hora_inicial,
+                $hora_final,
+                $modulo,
+                $aula,
+                $cupo,
+                $observaciones,
+                $examen_extraordinario
+            );
 
-            // Sum hours for each professor
-            /*
-            if (isset($rowData['CODIGO_PROFESOR']) && isset($rowData['HORAS']) && isset($rowData['CATEGORIA']) &&
-                $rowData['CATEGORIA'] !== 'Asignatura A' && $rowData['CATEGORIA'] !== 'Asignatura B' && $rowData['CATEGORIA'] !== 'Asignatura C') {
-                if (!isset($profesores_horas[$rowData['CODIGO_PROFESOR']])) {
-                    $profesores_horas[$rowData['CODIGO_PROFESOR']] = 0;
-                }
-                $profesores_horas[$rowData['CODIGO_PROFESOR']] += intval($rowData['HORAS']);
+            if (!$stmt->execute()) {
+                $errores[] = "Error en la fila $row: " . $stmt->error;
             }
-            */
-
-            //Preparar datos para la inserción a la Base de datos
-            $dataToInsert = array_map(function($field) use ($rowData) {
-                return $rowData[$field] ?? null;
-            }, $presentFields);
-
-            $types = str_repeat('s', count($dataToInsert));
-            $stmt->bind_param($types, ...$dataToInsert);
-
-            try {
-                if (!$stmt->execute()) {
-                    $errores[] = "Error en la fila $row: " . $stmt->error;
-                }
-            } catch (Exception $e) {
-                $errores[] = "Error en la fila $row: " .$e->getMessage();
-            }
-
-            
         }
 
         function esProfesorAsignatura($categoria)
