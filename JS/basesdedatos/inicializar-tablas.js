@@ -57,7 +57,7 @@ $(document).ready(function () {
 
   // Inicialización del plugin FixedColumns
   new $.fn.dataTable.FixedColumns(table, {
-    leftColumns: 1,
+    leftColumns: 2,
     rightColumns: 0,
   });
 });
