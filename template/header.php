@@ -12,7 +12,7 @@ if ($rol_id == 1 || $rol_id == 2) { // Mostrar notificaciones para jefes de depa
   $username = "root";
   $password = "root";
   $dbname = "pa";
-  $conn = mysqli_connect($servername, $username, $password, 'PA');
+  $conn = mysqli_connect($servername, $username, $password, 'PA'); // que el rol id 2 mande notificaciones al crear un evento
 
   if ($rol_id == 2) { // Secretaría administrativa
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
