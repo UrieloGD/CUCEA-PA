@@ -61,4 +61,3 @@ $(document).ready(function () {
     rightColumns: 0,
   });
 });
-
