@@ -3,7 +3,7 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Solicitudes de modificaciones</title>
-<link rel="stylesheet" href="./CSS/personal-solicitud-cambios.css?=v1.0">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios.css">
 
 <!--Cuadro principal del home -->
 <div class="cuadro-principal">
@@ -309,10 +309,114 @@
     <div class="container-boton-nueva-solicitud">
         <button class="boton-nueva-solicitud" id="nueva-solicitud-btn">Nueva solicitud</button>
         <ul class="lista-opciones" id="lista-opciones">
-            <li><a href="./solicitud-baja.php">Solicitud de baja</a></li>
-            <li><a href="./solicitud-propuesta.php">Solicitud de propuesta</a></li>
-            <li><a href="./solicitud-baja-propuesta.php">Solicitud de baja-propuesta</a></li>
+            <li>Solicitud de baja</li>
+            <li>Solicitud de propuesta</li>
+            <li>Solicitud de baja-propuesta</li>
         </ul>
+    </div>
+</div>
+
+<!-- Modal para las solicitudes de baja-propuesta -->
+
+<div id="solicitud-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-button" id="boton-cancelar">&times;</span>
+        <h2 class="titulo-modal">Solicitud de baja-propuesta</h2>
+<!-- Campos relacionados a la materia -->
+        <div class="campos-materia">
+            <div class="borde-CRN">
+                <p>CRN</p>
+                <input class="texto-CRN" id="texto-CRN" type="text">
+            </div>
+            <div class="borde-materia">
+                <p>Materia</p>
+                <input class="texto-materia" id="texto-materia" type="text"> 
+            </div>
+            <div class="borde-clave">
+                <p>Clave</p>
+                <input class="texto-clave" id="texto-clave" type="text"> 
+            </div>
+            <div class="borde-SEC">
+                <p>SEC</p>
+                <input class="texto-SEC" id="texto-SEC" type="text">  
+            </div>
+            <div class="borde-folio">
+                <p>Folio de solicitud</p>
+                <input class="texto-folio" id="texto-folio" type="text"> 
+            </div>
+        </div>
+
+        <!-- Encabezado para profesor actual -->
+        <h3 class="titulo-profesor">Profesor actual</h3>
+
+        <!-- Campos relacionados al profesor actual -->
+        <div class="campos-profesor">
+            <div class="borde-apellido-paterno">
+                <p>Apellido paterno</p>
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text">
+            </div>
+            <div class="borde-apellido-materno">
+                <p>Apellido materno</p>
+                <input class="texto-apellido-materno" id="texto-apellido-materno" type="text"> 
+            </div>
+            <div class="borde-nombres">
+                <p>Nombre(s)</p>
+                <input class="texto-nombres" id="texto-nombres" type="text"> 
+            </div>
+            <div class="borde-codigo">
+                <p>Código</p>
+                <input class="texto-codigo" id="texto-codigo" type="text">  
+            </div>
+        </div>
+
+        <!-- Campos relacionados al motivo de la baja -->
+        <div class="campos-motivos">
+            <div class="borde-motivo">
+                <p>Motivo</p> 
+                <select name="texto-motivo" class="texto-motivo" id="texto-motivo">
+                    <!-- Ejemplos muy equis de xd -->
+                    <option value="" disabled selected>Seleccione el motivo de baja</option>
+                    <option value="no-asistir">No asiste a clases con regularidad</option>
+                    <option value="no-respetar">No respeta a los alumnos de la clase</option>
+                    <option value="no-vive">Fallecimiento del profesor</option>
+                    <option value="no-trabaja">Jubilacion del profesor</option>
+                </select>
+            </div>
+            <div class="borde-otro">
+                <p>Otro</p>
+                <input class="texto-otro" id="texto-otro" type="text"> 
+            </div>
+        </div>
+
+        <!-- Encabezado para profesor propuesto -->
+        <h3 class="titulo-profesor">Profesor propuesto</h3>
+
+        <!-- Campos relacionados al profesor propuesto (Mismos campos y estilos de profesor CSS) 
+        a excepcion de los ID's -->
+        <div class="campos-profesor">
+            <div class="borde-apellido-paterno">
+                <p>Apellido paterno</p>
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno_propuesto" type="text">
+            </div>
+            <div class="borde-apellido-materno">
+                <p>Apellido materno</p>
+                <input class="texto-apellido-materno" id="texto-apellido-materno_propuesto" type="text"> 
+            </div>
+            <div class="borde-nombres">
+                <p>Nombre(s)</p>
+                <input class="texto-nombres" id="texto-nombres_propuesto" type="text"> 
+            </div>
+            <div class="borde-codigo">
+                <p>Código</p>
+                <input class="texto-codigo" id="texto-codigo_propuesto" type="text">  
+            </div>
+        </div>
+
+        <!-- Botones finales -->
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar">Guardar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;">Cancelar</button></a>
+        </div>
     </div>
 </div>
 
@@ -325,25 +429,216 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
             lista.classList.toggle('show');
-            console.log('Botón clickeado, toggle aplicado');
         });
 
         lista.addEventListener('click', function(e) {
             if (e.target.tagName === 'A') {
-                console.log('Enlace clickeado:', e.target.href);
-                // Si quieres prevenir la navegación y manejarlo tú mismo, descomenta la siguiente línea:
-                // e.preventDefault();
+                e.preventDefault();
             }
         });
 
         document.addEventListener('click', function(e) {
             if (!btn.contains(e.target) && !lista.contains(e.target)) {
                 lista.classList.remove('show');
-                console.log('Clic fuera del menú, menú cerrado');
             }
         });
     });
 </script>
+
+<!-- Estilos del modal -->
+<style>
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1000; 
+  left: 0;
+  bottom: 0;
+  width: 100%; 
+  overflow: hidden; 
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Contenido del modal */
+.modal-content {
+  position: relative;
+  background-color: #fff; 
+  margin: 15% auto; 
+  padding: 20px; 
+  top: 21vh;
+  border: 1px solid #888; 
+  width: 80%;
+  max-width: 1600px; 
+  border-radius: 10px; 
+}
+
+.titulo-modal {
+  margin-left: 1.1vw;
+  margin-bottom: 45px;
+}
+
+/* Botón de cerrar */
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px; 
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black; 
+  text-decoration: none; 
+  cursor: pointer; 
+}
+
+/* Contenedor para los campos de la materia */
+.campos-materia,
+.campos-profesor,
+.campos-motivos {
+  display: inline-flex;
+  width: 76vw;
+  margin-left: 55px;
+  height: 100px;
+}
+.campos-materia {
+  margin-top: 15px;
+}
+
+/* Estilos del texto-titulo del campo */
+.campos-materia p,
+.campos-profesor p,
+.campos-motivos p {
+  position: relative;
+  bottom: 43px;
+}
+
+.titulo-profesor {
+  display: inline-flex;
+  margin-left: 1.1vw;
+  margin-bottom: 40px;
+  color: rgb(148, 144, 144);
+}
+
+/* Estilos de los bordes de todos los campos de la pagina */
+.borde-CRN,
+.borde-materia,
+.borde-clave,
+.borde-SEC,
+.borde-folio,
+.borde-apellido-paterno,
+.borde-apellido-materno,
+.borde-nombres,
+.borde-codigo,
+.borde-motivo,
+.borde-otro {
+  position: relative;
+  right: 33px;
+  margin-left: 1.1vw;
+  height: 50px;
+  border-style: ridge;
+  border-color: rgb(174, 170, 170, 0.3);
+  border-width: 2px;
+  border-radius: 12px;
+}
+
+/* Estilos de los bordes especificos */
+.borde-CRN,
+.borde-clave,
+.borde-SEC {
+  width: 120px;
+}
+.borde-materia {
+  width: 700px;
+}
+.borde-folio {
+  width: 240px;
+}
+.borde-apellido-paterno,
+.borde-apellido-materno,
+.borde-codigo,
+.borde-otro {
+  width: 290px;
+}
+.borde-nombres {
+  width: 500px;
+}
+.borde-motivo {
+  width: 640px;
+}
+
+/* Estilos de todos los input type text para escribir */
+.texto-CRN,
+.texto-materia,
+.texto-clave,
+.texto-SEC,
+.texto-folio,
+.texto-apellido-paterno,
+.texto-apellido-materno,
+.texto-nombres,
+.texto-codigo,
+.texto-motivo,
+.texto-otro {
+  position: relative;
+  bottom: 40px;
+  left: 10px;
+  font-size: 1rem;
+  outline: none;
+  border-style: none;
+}
+
+/* Estilos especificos de los input */
+.texto-CRN,
+.texto-clave,
+.texto-SEC {
+  width: 83%;
+}
+.texto-materia {
+  width: 97%;
+}
+.texto-folio {
+  width: 91%;
+}
+.texto-apellido-materno,
+.texto-apellido-paterno,
+.texto-codigo {
+  width: 93%;
+}
+.texto-nombres {
+  width: 96%;
+}
+.texto-motivo {
+  outline: none;
+  border-style: none;
+  width: 97%;
+}
+.texto-otro {
+  width: 93%;
+}
+
+/* Estilos de botones del final (Cancelar o guardar) */
+.contenedor-botones {
+  display: flex; 
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  margin-bottom: 30px;
+  height: 50px;
+}
+.contenedor-botones button {
+  margin: 0 20px; 
+  border-radius: 10px;
+  border-style: none;
+  padding: 1vh 2.5vw 1vh;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #0071b0;
+  border-color: #0071b0;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px rgb(185, 174, 174);
+}
+</style>
+
 <!-- Script para las funciones del despliegue de contenedor hacia abajo al hacer click -->
 <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
 <script src="./JS/pestañas-plantilla.js"></>
