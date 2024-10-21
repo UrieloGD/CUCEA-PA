@@ -25,6 +25,8 @@ $result = mysqli_query($conexion, $sql);
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.2/css/fixedColumns.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
 
 
 <div class="cuadro-principal">
@@ -42,23 +44,24 @@ $result = mysqli_query($conexion, $sql);
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <div class="icono-buscador" id="icono-visibilidad">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
-                    <i class="fa fa-download" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                    <i class="fa fa-add" aria-hidden="true"></i>
-                </div>
+
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-visibilidad">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
@@ -399,6 +402,10 @@ $result = mysqli_query($conexion, $sql);
 <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+<script></script>
 
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/barra-busqueda.js"></script>

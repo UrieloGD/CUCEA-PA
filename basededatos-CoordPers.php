@@ -440,6 +440,8 @@ function formatDateForDisplay($mysqlDate)
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
+
     <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
     <script src="./JS/basesdedatos/barra-busqueda.js"></script>
     <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
@@ -458,7 +460,12 @@ function formatDateForDisplay($mysqlDate)
                 }],
                 "order": [
                     [1, 'asc']
-                ]
+                ],
+                "fixedColumns": {
+                    leftColumns: 2, // Fija las 2 primeras columnas (checkbox e ID)
+                    rightColumns: 1 // Mantiene fijada la última columna
+                },
+                "scrollX": true
             });
         });
     </script>
