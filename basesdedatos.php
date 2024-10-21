@@ -54,14 +54,14 @@ $result = mysqli_query($conexion, $sql);
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
-                    <i class="fa fa-download" aria-hidden="true"></i>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                    <i class="fa fa-add" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                    <i class="fa fa-add" aria-hidden="true"></i>
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
+                    <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
