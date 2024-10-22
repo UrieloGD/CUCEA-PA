@@ -99,18 +99,18 @@
             const thead = document.querySelector('.tabla-personal thead tr');
             thead.innerHTML = departamento === 'todos' ?
                 `<th>Código</th>
-               <th>Nombre Completo</th>
-               <th>Departamento</th>
-               <th>Tipo Plaza</th>
-               <th>Horas Frente Grupo</th>
-               <th>Carga Horaria</th>
-               <th>Horas Definitivas</th>` :
+                <th>Nombre Completo</th>
+                <th>Departamento</th>
+                <th>Categoría Actual</th>
+                <th>Horas Frente Grupo</th>
+                <th>Carga Horaria</th>
+                <th>Horas Definitivas</th>` :
                 `<th>Código</th>
-               <th>Nombre Completo</th>
-               <th>Tipo Plaza</th>
-               <th>Horas Frente Grupo</th>
-               <th>Carga Horaria</th>
-               <th>Horas Definitivas</th>`;
+                <th>Nombre Completo</th>
+                <th>Categoría Actual</th>
+                <th>Horas Frente Grupo</th>
+                <th>Carga Horaria</th>
+                <th>Horas Definitivas</th>`;
 
             // Realizar la petición AJAX
             fetchPersonalData(departamento);
@@ -178,35 +178,35 @@
                     // Actualizar encabezados de la tabla
                     const thead = document.querySelector('.tabla-personal thead tr');
                     thead.innerHTML = `
-                <th>Código</th>
-                <th>Nombre Completo</th>
-                <th>Departamento</th>
-                <th>Tipo Plaza</th>
-                <th>Horas Frente Grupo</th>
-                <th>Carga Horaria</th>
-                <th>Horas Definitivas</th>
-                <th>Suma Horas</th>
-                <th>Comparación de Horas</th>
-            `;
+                        <th>Código</th>
+                        <th>Nombre Completo</th>
+                        <th>Departamento</th>
+                        <th>Categoría Actual</th>
+                        <th>Horas Frente Grupo</th>
+                        <th>Carga Horaria</th>
+                        <th>Horas Definitivas</th>
+                        <th>Suma Horas</th>
+                        <th>Comparación de Horas</th>
+                    `;
 
                     tablaBody.innerHTML = ''; // Limpiar tabla
 
                     data.forEach(persona => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                    <td>${persona.Codigo || ''}</td>
-                    <td>${persona.Nombre_completo || ''}</td>
-                    <td>${persona.Departamento || ''}</td>
-                    <td>${persona.Tipo_plaza || ''}</td>
-                    <td>${persona.Horas_frente_grupo || '0'}</td>
-                    <td>${persona.Carga_horaria || ''}</td>
-                    <td>${persona.Horas_definitivas || '0'}</td>
-                    <td>${persona.suma_horas}</td>
-                    <td>
-                        ${persona.comparacion}<br>
-                        <small>${persona.horas_otros_departamentos}</small>
-                    </td>
-                `;
+                            <td>${persona.Codigo || ''}</td>
+                            <td>${persona.Nombre_completo || ''}</td>
+                            <td>${persona.Departamento || ''}</td>
+                            <td>${persona.Categoria_actual || ''}</td>
+                            <td>${persona.Horas_frente_grupo || 'N/A'}</td>
+                            <td>${persona.Carga_horaria || ''}</td>
+                            <td>${persona.Horas_definitivas || '0'}</td>
+                            <td>${persona.suma_horas}</td>
+                            <td>
+                                ${persona.comparacion}<br>
+                                <small>${persona.horas_otros_departamentos}</small>
+                            </td>
+                        `;
                         tablaBody.appendChild(row);
                     });
                 })

@@ -1,5 +1,5 @@
 <?php
-
+//obtener_personal.php
 // Evitar que se muestren errores en la salida
 error_reporting(0);
 ini_set('display_errors', 0);
@@ -83,14 +83,14 @@ function getSumaHorasPorProfesor($codigo, $conexion)
 try {
     // Modificar la consulta base
     if ($departamento === 'todos') {
-        $query = "SELECT Codigo, Nombre_completo, Departamento, Tipo_plaza, 
+        $query = "SELECT Codigo, Nombre_completo, Departamento, Categoria_actual, 
                              Horas_frente_grupo, Carga_horaria, Horas_definitivas 
                       FROM Coord_Per_Prof 
                       ORDER BY Nombre_completo";
         $stmt = $conexion->prepare($query);
     } else {
         $queryInfo = getDepartamentoQuery($departamento);
-        $query = "SELECT Codigo, Nombre_completo, Departamento, Tipo_plaza, 
+        $query = "SELECT Codigo, Nombre_completo, Departamento, Categoria_actual, 
                              Horas_frente_grupo, Carga_horaria, Horas_definitivas 
                       FROM Coord_Per_Prof " .
             $queryInfo['query'] . " 
@@ -119,7 +119,7 @@ try {
         $row['horas_otros_departamentos'] = $horas_otros_departamentos;
 
         // Calcular la comparación
-        if ($row['Tipo_plaza'] == 'cargo a plaza') {
+        if ($row['Categoria_actual'] == 'cargo a plaza') { // Si necesitas mantener esta lógica
             $row['comparacion'] = $row['suma_horas'] - $row['Horas_frente_grupo'];
         } else {
             $row['comparacion'] = $row['suma_horas'] - $row['Horas_definitivas'];
