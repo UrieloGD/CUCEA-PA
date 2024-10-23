@@ -6,6 +6,244 @@ ob_start();
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
+// Configuración inicial de logging
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+error_reporting(E_ALL);
+$logFile = __DIR__ . '/import_log.txt';
+
+function writeLog($message) {
+    global $logFile;
+    $timestamp = date('Y-m-d H:i:s');
+    file_put_contents($logFile, "[$timestamp] $message\n", FILE_APPEND);
+}
+
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "pa";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+function safeSubstr($string, $start, $length = null)
+{
+    if ($string === null) {
+        return null;
+    }
+    return $length === null ? substr($string, $start) : substr($string, $start, $length);
+}   
+
+if ($conn->connect_error) {
+    writeLog("Error de conexión a la base de datos: " . $conn->connect_error);
+    echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conn->connect_error]);
+    exit();
+}
+
+if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
+    writeLog("Archivo recibido: " . $_FILES["file"]["name"]);
+    
+    $file = $_FILES["file"]["tmp_name"];
+    $fileName = $_FILES["file"]["name"];
+    $fileSize = $_FILES["file"]["size"];
+
+    $usuario_id = $_SESSION['Codigo'] ?? null;
+    $rol_id = $_SESSION['Rol_ID'] ?? null;
+    $departamento_id = $_SESSION['Departamento_ID'] ?? null;
+
+    writeLog("Usuario ID: $usuario_id, Rol ID: $rol_id, Departamento ID: $departamento_id");
+
+    if ($usuario_id !== null) {
+        try {
+            $spreadsheet = IOFactory::load($file);
+            $sheet = $spreadsheet->getActiveSheet();
+            writeLog("Excel cargado exitosamente");
+
+            $tabla_destino = 'Data_' . str_replace(' ', '_', $_SESSION['Nombre_Departamento']);
+            writeLog("Tabla destino: $tabla_destino");
+
+            // Verificar si la tabla existe
+            $tabla_existe = $conn->query("SHOW TABLES LIKE '$tabla_destino'");
+            if ($tabla_existe->num_rows == 0) {
+                writeLog("Error: La tabla $tabla_destino no existe");
+                echo json_encode(["success" => false, "message" => "La tabla $tabla_destino no existe en la base de datos."]);
+                exit();
+            }
+
+            // Obtener y verificar los encabezados
+            $headers = [];
+            foreach ($sheet->getRowIterator(1, 1) as $row) {
+                $cellIterator = $row->getCellIterator();
+                $cellIterator->setIterateOnlyExistingCells(false);
+                foreach ($cellIterator as $cell) {
+                    $headers[] = $cell->getValue();
+                }
+            }
+            writeLog("Encabezados encontrados: " . implode(", ", $headers));
+
+            // Verificar la estructura de la tabla
+            $result = $conn->query("DESCRIBE $tabla_destino");
+            $table_columns = [];
+            while ($row = $result->fetch_assoc()) {
+                $table_columns[] = $row['Field'];
+            }
+            writeLog("Columnas en la tabla: " . implode(", ", $table_columns));
+
+            // Resto del código del mapeo de columnas...
+            $columnMap = [
+                'CICLO' => 'CICLO',
+                'CRN' => 'CRN',
+                'MATERIA' => 'MATERIA',
+                'CVE. MATERIA' => 'CVE_MATERIA',
+                'SECCION' => 'SECCION',
+                'NIVEL' => 'NIVEL',
+                'NIVEL TIPO' => 'NIVEL_TIPO',
+                'TIPO' => 'TIPO',
+                'C. MIN.' => 'C_MIN',
+                'H. TOTALES' => 'H_TOTALES',
+                'STATUS' => 'ESTATUS',
+                'TIPO CONTRATO' => 'TIPO_CONTRATO',
+                'CODIGO PROFESOR' => 'CODIGO_PROFESOR',
+                'NOMBRE PROFESOR' => 'NOMBRE_PROFESOR',
+                'CATEGORIA' => 'CATEGORIA',
+                'DESCARGA' => 'DESCARGA',
+                'CODIGO DESCARGA' => 'CODIGO_DESCARGA',
+                'NOMBRE DESCARGA' => 'NOMBRE_DESCARGA',
+                'NOMBRE DEFINITIVO' => 'NOMBRE_DEFINITIVO',
+                'TITULAR' => 'TITULAR',
+                'HORAS' => 'HORAS',
+                'CODIGO DEPENDENCIA' => 'CODIGO_DEPENDENCIA',
+                'L' => 'L',
+                'M' => 'M',
+                'I' => 'I',
+                'J' => 'J',
+                'V' => 'V',
+                'S' => 'S',
+                'D' => 'D',
+                'DIA PRESENCIAL' => 'DIA_PRESENCIAL',
+                'DIA VIRTUAL' => 'DIA_VIRTUAL',
+                'MODALIDAD' => 'MODALIDAD',
+                'FECHA INICIAL' => 'FECHA_INICIAL',
+                'FECHA FINAL' => 'FECHA_FINAL',
+                'HORA INICIAL' => 'HORA_INICIAL',
+                'HORA FINAL' => 'HORA_FINAL',
+                'MODULO' => 'MODULO',
+                'AULA' => 'AULA',
+                'CUPO' => 'CUPO',
+                'OBSERVACIONES' => 'OBSERVACIONES',
+                'EXAMEN EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
+            ];
+
+            $fieldMap = [];
+            foreach ($headers as $index => $header) {
+                if (isset($columnMap[$header])) {
+                    $fieldMap[$index] = $columnMap[$header];
+                }
+            }
+            writeLog("Mapeo de campos: " . print_r($fieldMap, true));
+
+            // Preparar la consulta SQL
+            $presentFields = array_merge(['Departamento_ID'], array_values($fieldMap));
+            $fields = implode(', ', $presentFields);
+            $placeholders = implode(', ', array_fill(0, count($presentFields), '?'));
+            $sql = "INSERT INTO $tabla_destino ($fields) VALUES ($placeholders)";
+            writeLog("SQL preparado: $sql");
+
+            $stmt = $conn->prepare($sql);
+            if ($stmt === false) {
+                writeLog("Error en la preparación de la consulta: " . $conn->error);
+                echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
+                exit();
+            }
+
+            // Procesar cada fila
+            $processed_rows = 0;
+            $successful_inserts = 0;
+            
+            for ($row = 2; $row <= $sheet->getHighestRow(); $row++) {
+                $rowData = ['Departamento_ID' => $departamento_id];
+                foreach ($fieldMap as $columnIndex => $field) {
+                    $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnIndex + 1);
+                    $cellValue = $sheet->getCell($columnLetter . $row)->getCalculatedValue();
+                    
+                    // Procesar el valor según el tipo de campo
+                    if (in_array($field, ['FECHA_INICIAL', 'FECHA_FINAL'])) {
+                        if (is_numeric($cellValue)) {
+                            try {
+                                $dateValue = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($cellValue);
+                                $cellValue = $dateValue->format('Y-m-d');
+                            } catch (Exception $e) {
+                                $cellValue = null;
+                                writeLog("Error al procesar fecha en fila $row, columna $field: " . $e->getMessage());
+                            }
+                        }
+                    }
+                    
+                    $rowData[$field] = $cellValue;
+                }
+
+                // Preparar los datos para la inserción
+                $dataToInsert = array_map(function($field) use ($rowData) {
+                    return $rowData[$field] ?? null;
+                }, $presentFields);
+
+                $types = str_repeat('s', count($dataToInsert));
+                
+                try {
+                    $stmt->bind_param($types, ...$dataToInsert);
+                    $result = $stmt->execute();
+                    if ($result) {
+                        $successful_inserts++;
+                    } else {
+                        writeLog("Error en la inserción de la fila $row: " . $stmt->error);
+                    }
+                } catch (Exception $e) {
+                    writeLog("Excepción en la fila $row: " . $e->getMessage());
+                }
+                
+                $processed_rows++;
+            }
+
+            writeLog("Filas procesadas: $processed_rows, Inserciones exitosas: $successful_inserts");
+
+            if ($successful_inserts > 0) {
+                echo json_encode(["success" => true, "message" => "Se insertaron $successful_inserts registros exitosamente"]);
+            } else {
+                echo json_encode(["success" => false, "message" => "No se pudo insertar ningún registro. Revise el log para más detalles."]);
+            }
+
+        } catch (Exception $e) {
+            writeLog("Error general: " . $e->getMessage());
+            echo json_encode(["success" => false, "message" => "Error al procesar el archivo: " . $e->getMessage()]);
+        }
+    } else {
+        writeLog("Error: Usuario no autenticado");
+        echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
+    }
+} else {
+    writeLog("Error: No se recibió ningún archivo");
+    echo json_encode(["success" => false, "message" => "No se recibió ningún archivo."]);
+}
+
+$output = ob_get_clean();
+if (json_decode($output) === null) {
+    writeLog("Error en la salida JSON: $output");
+    echo json_encode(["success" => false, "message" => $output]);
+} else {
+    echo $output;
+}
+
+$conn->close();
+
+
+////////////////////////////////////////////////////////////
+/*
+session_start();
+require './../../vendor/autoload.php';
+include './../notificaciones-correos/email_functions.php';
+ob_start();
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -194,6 +432,11 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $profesores_horas[$rowData['CODIGO_PROFESOR']] += intval($rowData['HORAS']);
             }
             */
+
+
+                ////////////////////////////////////////////////////////////////////////////////////
+
+            /*
 
             //Preparar datos para la inserción a la Base de datos
             $dataToInsert = array_map(function($field) use ($rowData) {
@@ -420,3 +663,4 @@ if (json_decode($output) === null) {
 }
 
 $conn->close();
+*/
