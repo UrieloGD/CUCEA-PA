@@ -84,14 +84,16 @@ try {
     // Modificar la consulta base
     if ($departamento === 'todos') {
         $query = "SELECT Codigo, Nombre_completo, Departamento, Categoria_actual, 
-                             Horas_frente_grupo, Carga_horaria, Horas_definitivas 
+                             Tipo_plaza, Carga_horaria, Horas_frente_grupo, 
+                             Horas_definitivas 
                       FROM Coord_Per_Prof 
                       ORDER BY Nombre_completo";
         $stmt = $conexion->prepare($query);
     } else {
         $queryInfo = getDepartamentoQuery($departamento);
         $query = "SELECT Codigo, Nombre_completo, Departamento, Categoria_actual, 
-                             Horas_frente_grupo, Carga_horaria, Horas_definitivas 
+                             Tipo_plaza, Carga_horaria, Horas_frente_grupo, 
+                             Horas_definitivas 
                       FROM Coord_Per_Prof " .
             $queryInfo['query'] . " 
                       ORDER BY Nombre_completo";

@@ -120,13 +120,17 @@
   margin: 1% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 90%;
-  max-width: 1200px;
-  max-height: 90vh; /* Altura máxima del modal */
-  border-radius: 5px;
+  width: 100%;
+  max-width: 1400px;
+  max-height: 90vh;
+  border-radius: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
 }
 
 /* Estilos para la barra de búsqueda */

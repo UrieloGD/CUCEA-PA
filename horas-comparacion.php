@@ -102,15 +102,21 @@
                 <th>Nombre Completo</th>
                 <th>Departamento</th>
                 <th>Categoría Actual</th>
-                <th>Horas Frente Grupo</th>
+                <th>Tipo Plaza</th>
                 <th>Carga Horaria</th>
-                <th>Horas Definitivas</th>` :
+                <th>Horas Frente Grupo</th>
+                <th>Horas Definitivas</th>
+                <th>Suma Horas Totales</th>
+                <th>Horas p/Departamento</th>` :
                 `<th>Código</th>
                 <th>Nombre Completo</th>
                 <th>Categoría Actual</th>
-                <th>Horas Frente Grupo</th>
+                <th>Tipo Plaza</th>
                 <th>Carga Horaria</th>
-                <th>Horas Definitivas</th>`;
+                <th>Horas Frente Grupo</th>
+                <th>Horas Definitivas</th>
+                <th>Suma Horas Totales</th>
+                <th>Horas por Departamento</th>`;
 
             // Realizar la petición AJAX
             fetchPersonalData(departamento);
@@ -182,11 +188,12 @@
                         <th>Nombre Completo</th>
                         <th>Departamento</th>
                         <th>Categoría Actual</th>
-                        <th>Horas Frente Grupo</th>
+                        <th>Tipo Plaza</th>
                         <th>Carga Horaria</th>
+                        <th>Horas Frente Grupo</th>
                         <th>Horas Definitivas</th>
-                        <th>Suma Horas</th>
-                        <th>Comparación de Horas</th>
+                        <th>Suma Horas Totales</th>
+                        <th>Horas por Departamento</th>
                     `;
 
                     tablaBody.innerHTML = ''; // Limpiar tabla
@@ -198,8 +205,9 @@
                             <td>${persona.Nombre_completo || ''}</td>
                             <td>${persona.Departamento || ''}</td>
                             <td>${persona.Categoria_actual || ''}</td>
-                            <td>${persona.Horas_frente_grupo || 'N/A'}</td>
+                            <td>${persona.Tipo_plaza || ''}</td>
                             <td>${persona.Carga_horaria || ''}</td>
+                            <td>${persona.Horas_frente_grupo || 'N/A'}</td>
                             <td>${persona.Horas_definitivas || '0'}</td>
                             <td>${persona.suma_horas}</td>
                             <td>
