@@ -448,7 +448,7 @@ document.addEventListener('DOMContentLoaded', function() {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 1499;
 }
 
@@ -487,7 +487,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .create-event-btn:hover {
     background-color: rgba(0, 113, 176, 0.5);
-    transform: translateY(-50%) scale(1.05);
 }
 
 .calendar td {

@@ -1,4 +1,5 @@
 /* CSS del cuadro principal */
+/* NOTA: Los estilos del modal estan en el PHP: Debido a que no los detectaba desde el CSS. */
 
 .cuadro-principal {
   /*border: solid black 1px;*/
