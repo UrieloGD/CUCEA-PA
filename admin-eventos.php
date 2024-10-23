@@ -89,7 +89,7 @@
                 <label for="nombre">
                     <i class="fas fa-pen"></i> Nombre
                 </label>
-                <input type="text" id="nombre" name="nombre" value="" required>
+                <input type="text" id="nombre" name="nombre" value="" required placeholder="Ingresa el nombre del evento">
             </div>
 
             <div class="form-group">
@@ -151,7 +151,7 @@
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
                 </label>
-                <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+                <textarea id="descripcion" name="descripcion" rows="4" placeholder="Proporciona detalles sobre el evento, incluyendo los temas principales y actividades"></textarea>
             </div>
 
             <div class="form-actions">

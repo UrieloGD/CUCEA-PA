@@ -34,10 +34,32 @@ try {
         $asunto = "Evento eliminado";
         $cuerpo = "
             <html>
+            <head>
+                <style>
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                    .header { text-align: center; padding-bottom: 20px; }
+                    .header img { width: 300px; }
+                    .content { padding: 20px; }
+                    h2 { color: #2c3e50; text-align: center; }
+                    p { line-height: 1.5; color: #333; }
+                    .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                </style>
+            </head>
             <body>
-                <p>Estimado usuario,</p>
-                <p>Se ha eliminado el evento con ID: $eventId.</p>
-                <p>Si tienes preguntas, no dudes en contactarnos.</p>
+                <div class='container'>
+                    <div class='header'>
+                        <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                    </div>
+                    <div class='content'>
+                        <h2>Evento eliminado</h2>
+                        <p>Estimado usuario,</p>
+                        <p>El evento en el que participas ha sido eliminado.</p>
+                    </div>
+                    <div class='footer'>
+                        <p>Centro para la Sociedad Digital</p>
+                    </div>
+                </div>
             </body>
             </html>
         ";

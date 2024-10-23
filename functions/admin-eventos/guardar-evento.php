@@ -103,13 +103,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $asunto = "Nuevo evento: $nombre";
             $cuerpo = "
                 <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                        .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                        .header { text-align: center; padding-bottom: 20px; }
+                        .header img { width: 300px; }
+                        .content { padding: 20px; }
+                        h2 { color: #2c3e50; text-align: center; }
+                        p { line-height: 1.5; color: #333; }
+                        .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                    </style>
+                </head>
                 <body>
-                    <p>Se ha creado un nuevo evento: $nombre.</p>
-                    <p>Descripción: $descripcion</p>
-                    <p>Fecha de inicio: $fechIn $horIn</p>
+                    <div class='container'>
+                        <div class='header'>
+                            <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                        </div>
+                        <div class='content'>
+                            <h2>Se ha creado un nuevo evento</h2>
+                            <p>Nombre del evento: <strong>$nombre</strong>.</p>
+                            <p>Descripción: $descripcion</p>
+                            <p>Fecha de inicio: $fechIn $horIn.</p>
+                            <p>Fecha de fin: $fechFi $horFi.</p>
+                            <p>Por favor, ingresa al sistema para más detalles.</p>
+                        </div>
+                        <div class='footer'>
+                            <p>Centro para la Sociedad Digital</p>
+                        </div>
+                    </div>
                 </body>
                 </html>
-            ";
+                ";
             foreach ($participantesArray as $participante) {
                 // Obtener correo del participante
                 $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
