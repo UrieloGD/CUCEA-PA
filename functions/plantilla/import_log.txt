@@ -10814,3 +10814,1763 @@
 [2024-10-23 20:34:29] Excepción en la fila 318: Column 'C_MIN' cannot be null
 [2024-10-23 20:34:29] Excepción en la fila 319: Column 'C_MIN' cannot be null
 [2024-10-23 20:34:29] Filas procesadas: 318, Inserciones exitosas: 0
+[2024-10-24 16:58:01] Archivo recibido: ADMINISTRACION.xlsx
+[2024-10-24 16:58:01] Usuario ID: 2116789012, Rol ID: 1, Departamento ID: 10
+[2024-10-24 16:58:02] Excel cargado exitosamente
+[2024-10-24 16:58:02] Tabla destino: Data_Administración
+[2024-10-24 16:58:02] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta, 
+[2024-10-24 16:58:02] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 16:58:02] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 16:58:02] SQL preparado: INSERT INTO Data_Administración (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 16:58:03] Excepción en la fila 274: Data too long for column 'HORAS' at row 1
+[2024-10-24 16:58:03] Excepción en la fila 275: Data too long for column 'HORAS' at row 1
+[2024-10-24 16:58:03] Excepción en la fila 278: Data too long for column 'HORAS' at row 1
+[2024-10-24 16:58:03] Excepción en la fila 279: Data too long for column 'HORAS' at row 1
+[2024-10-24 16:58:04] Filas procesadas: 1128, Inserciones exitosas: 1124
+[2024-10-24 16:59:04] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[2024-10-24 16:59:04] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[2024-10-24 16:59:04] Excel cargado exitosamente
+[2024-10-24 16:59:04] Tabla destino: Data_Estudios_Regionales
+[2024-10-24 16:59:04] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 16:59:04] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 16:59:04] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 16:59:04] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 16:59:04] Filas procesadas: 141, Inserciones exitosas: 141
+[2024-10-24 17:17:47] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[2024-10-24 17:17:47] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[2024-10-24 17:17:47] Excel cargado exitosamente
+[2024-10-24 17:17:47] Tabla destino: Data_Estudios_Regionales
+[2024-10-24 17:17:47] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 17:17:47] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 17:17:47] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 17:17:47] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 17:17:47] Filas procesadas: 141, Inserciones exitosas: 141
+[2024-10-24 17:27:17] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[2024-10-24 17:27:17] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[2024-10-24 17:27:17] Excel cargado exitosamente
+[2024-10-24 17:27:17] Tabla destino: Data_Estudios_Regionales
+[2024-10-24 17:27:17] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 17:27:17] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 17:27:17] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 17:27:17] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 17:27:17] Filas procesadas: 141, Inserciones exitosas: 141
+[2024-10-24 17:28:00] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[2024-10-24 17:28:00] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[2024-10-24 17:28:00] Excel cargado exitosamente
+[2024-10-24 17:28:00] Tabla destino: Data_Estudios_Regionales
+[2024-10-24 17:28:00] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 17:28:00] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 17:28:00] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 17:28:00] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 17:28:01] Filas procesadas: 141, Inserciones exitosas: 141
+[2024-10-24 17:28:29] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[2024-10-24 17:28:29] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[2024-10-24 17:28:29] Excel cargado exitosamente
+[2024-10-24 17:28:29] Tabla destino: Data_Estudios_Regionales
+[2024-10-24 17:28:29] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 17:28:29] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 17:28:29] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 17:28:29] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 17:28:29] Filas procesadas: 141, Inserciones exitosas: 141
+[2024-10-24 17:59:02] Archivo recibido: ADMINISTRACION.xlsx
+[2024-10-24 17:59:02] Usuario ID: 2116789012, Rol ID: 1, Departamento ID: 10
+[2024-10-24 17:59:04] Excel cargado exitosamente
+[2024-10-24 17:59:04] Tabla destino: Data_Administración
+[2024-10-24 17:59:04] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta, 
+[2024-10-24 17:59:04] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 17:59:04] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 17:59:04] SQL preparado: INSERT INTO Data_Administración (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 17:59:04] Excepción en la fila 274: Data too long for column 'HORAS' at row 1
+[2024-10-24 17:59:04] Excepción en la fila 275: Data too long for column 'HORAS' at row 1
+[2024-10-24 17:59:04] Excepción en la fila 278: Data too long for column 'HORAS' at row 1
+[2024-10-24 17:59:04] Excepción en la fila 279: Data too long for column 'HORAS' at row 1
+[2024-10-24 17:59:05] Filas procesadas: 1128, Inserciones exitosas: 1124
+[2024-10-24 18:00:12] Archivo recibido: FINANZAS.xlsx
+[2024-10-24 18:00:12] Usuario ID: 2103456789, Rol ID: 1, Departamento ID: 2
+[2024-10-24 18:00:13] Excel cargado exitosamente
+[2024-10-24 18:00:13] Tabla destino: Data_Finanzas
+[2024-10-24 18:00:13] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 18:00:13] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 18:00:13] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 18:00:13] SQL preparado: INSERT INTO Data_Finanzas (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 18:00:13] Filas procesadas: 398, Inserciones exitosas: 398
+[2024-10-24 18:02:34] Archivo recibido: FINANZAS.xlsx
+[2024-10-24 18:02:34] Usuario ID: 2103456789, Rol ID: 1, Departamento ID: 2
+[2024-10-24 18:02:34] Excel cargado exitosamente
+[2024-10-24 18:02:34] Tabla destino: Data_Finanzas
+[2024-10-24 18:02:34] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 18:02:34] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 18:02:34] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 18:02:34] SQL preparado: INSERT INTO Data_Finanzas (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 18:02:34] Filas procesadas: 398, Inserciones exitosas: 398
+[2024-10-24 18:09:18] Archivo recibido: CIENCIAS SOCIALES.xlsx
+[2024-10-24 18:09:18] Usuario ID: 2106789012, Rol ID: 1, Departamento ID: 3
+[2024-10-24 18:09:19] Excel cargado exitosamente
+[2024-10-24 18:09:19] Tabla destino: Data_Ciencias_Sociales
+[2024-10-24 18:09:19] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 18:09:19] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 18:09:19] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 18:09:19] SQL preparado: INSERT INTO Data_Ciencias_Sociales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 18:09:19] Excepción en la fila 62: Column 'CODIGO_PROFESOR' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 63: Column 'CODIGO_PROFESOR' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 138: Column 'CODIGO_PROFESOR' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 139: Column 'CODIGO_PROFESOR' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 144: Column 'TIPO' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 145: Column 'TIPO' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 148: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 149: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 150: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 151: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 152: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 153: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 154: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 155: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 156: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 157: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 158: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 159: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 160: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 161: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 162: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 163: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 164: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 165: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 166: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 167: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 168: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 169: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 170: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 171: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 172: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 173: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 174: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 175: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 176: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 177: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 178: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 179: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 180: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 181: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 182: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 183: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 184: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 185: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 186: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 187: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 188: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 189: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 190: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 191: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 192: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 193: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 194: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 195: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 196: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 197: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 198: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 199: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 200: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 201: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 202: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 203: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 204: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 205: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 206: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 207: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 208: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 209: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 210: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 211: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 212: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 213: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 214: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 215: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 216: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 217: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 218: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 219: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 220: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 221: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 222: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 223: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 224: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 225: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 226: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 227: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 228: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 229: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 230: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 231: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 232: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 233: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 234: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 235: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 236: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 237: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 238: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 239: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 240: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 241: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 242: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 243: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 244: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 245: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 246: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 247: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 248: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 249: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 250: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 251: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 252: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 253: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 254: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 255: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 256: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 257: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 258: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 259: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 260: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 261: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 262: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 263: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 264: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 265: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 266: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 267: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 268: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 269: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 270: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 271: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 272: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 273: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 274: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 275: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 276: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 277: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 278: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 279: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 280: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 281: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 282: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 283: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 284: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 285: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 286: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 287: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 288: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 289: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 290: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 291: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 292: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 293: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 294: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 295: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 296: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 297: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 298: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 299: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 300: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 301: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 302: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 303: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 304: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 305: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 306: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 307: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 308: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 309: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 310: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 311: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 312: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 313: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 314: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 315: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 316: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 317: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 318: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 319: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 320: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 321: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 322: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 323: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 324: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 325: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 326: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 327: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 328: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 329: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 330: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 331: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 332: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 333: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 334: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 335: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 336: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 337: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 338: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 339: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 340: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 341: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 342: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 343: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 344: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 345: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 346: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 347: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 348: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 349: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 350: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 351: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 352: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 353: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 354: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 355: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 356: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 357: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 358: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 359: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 360: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 361: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 362: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 363: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 364: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 365: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 366: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 367: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 368: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 369: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 370: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 371: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 372: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 373: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 374: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 375: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 376: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 377: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 378: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 379: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 380: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 381: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 382: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 383: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 384: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 385: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 386: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 387: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 388: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 389: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 390: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 391: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 392: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 393: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 394: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 395: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 396: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 397: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 398: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 399: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 400: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 401: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 402: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 403: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 404: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 405: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 406: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 407: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 408: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 409: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 410: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 411: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 412: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 413: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 414: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 415: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 416: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 417: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 418: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 419: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 420: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 421: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 422: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 423: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 424: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 425: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 426: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 427: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 428: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 429: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 430: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 431: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 432: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 433: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 434: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 435: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 436: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 437: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 438: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 439: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 440: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 441: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 442: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 443: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 444: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 445: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 446: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 447: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 448: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 449: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 450: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 451: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 452: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 453: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 454: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 455: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 456: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 457: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 458: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 459: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 460: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 461: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 462: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 463: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 464: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 465: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 466: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 467: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 468: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 469: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 470: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 471: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 472: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 473: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 474: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 475: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 476: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 477: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 478: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 479: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 480: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 481: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 482: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 483: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 484: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 485: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 486: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 487: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 488: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 489: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 490: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 491: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 492: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 493: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 494: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 495: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 496: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 497: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 498: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 499: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 500: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 501: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 502: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 503: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 504: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 505: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 506: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 507: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 508: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 509: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 510: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 511: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 512: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 513: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 514: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 515: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 516: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 517: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 518: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 519: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 520: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 521: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 522: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 523: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 524: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 525: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 526: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 527: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 528: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 529: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 530: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 531: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 532: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 533: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 534: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 535: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 536: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 537: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 538: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 539: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 540: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 541: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 542: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 543: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 544: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 545: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 546: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 547: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 548: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 549: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 550: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 551: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 552: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 553: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 554: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 555: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 556: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 557: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 558: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 559: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 560: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 561: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 562: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 563: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 564: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 565: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 566: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 567: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 568: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 569: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 570: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 571: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 572: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 573: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 574: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 575: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 576: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 577: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 578: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 579: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 580: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 581: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 582: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 583: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 584: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 585: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 586: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 587: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 588: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 589: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 590: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 591: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 592: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 593: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 594: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 595: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 596: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 597: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 598: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 599: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 600: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 601: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 602: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 603: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 604: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 605: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 606: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 607: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 608: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 609: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 610: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 611: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 612: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 613: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 614: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 615: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 616: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 617: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 618: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 619: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 620: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 621: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 622: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 623: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 624: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 625: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 626: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 627: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 628: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 629: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 630: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 631: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 632: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 633: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 634: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 635: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 636: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 637: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 638: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 639: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 640: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 641: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 642: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 643: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 644: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 645: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 646: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 647: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 648: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 649: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 650: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 651: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 652: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 653: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 654: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 655: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 656: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 657: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 658: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 659: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 660: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 661: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 662: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 663: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 664: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 665: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 666: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 667: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 668: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 669: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 670: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 671: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 672: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 673: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 674: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 675: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 676: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 677: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 678: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 679: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 680: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 681: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 682: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 683: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 684: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 685: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 686: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 687: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 688: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 689: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 690: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 691: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 692: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 693: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 694: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 695: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 696: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 697: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 698: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 699: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 700: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 701: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 702: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 703: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 704: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 705: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 706: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 707: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 708: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 709: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 710: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 711: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 712: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 713: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 714: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 715: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 716: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 717: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 718: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 719: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 720: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 721: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 722: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 723: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 724: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 725: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 726: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 727: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 728: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 729: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 730: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 731: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 732: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 733: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 734: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 735: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 736: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 737: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 738: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 739: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 740: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 741: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 742: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 743: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 744: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 745: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 746: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 747: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 748: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 749: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 750: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 751: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 752: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 753: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 754: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 755: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 756: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 757: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 758: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 759: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 760: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 761: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 762: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 763: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 764: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 765: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 766: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 767: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 768: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 769: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 770: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 771: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 772: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 773: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 774: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 775: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 776: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 777: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 778: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 779: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 780: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 781: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 782: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 783: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 784: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 785: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 786: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 787: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 788: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 789: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 790: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 791: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 792: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 793: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 794: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 795: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 796: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 797: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 798: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 799: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 800: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 801: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 802: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 803: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 804: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 805: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 806: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 807: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 808: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 809: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 810: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 811: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 812: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 813: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 814: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 815: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 816: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 817: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 818: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 819: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 820: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 821: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 822: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 823: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 824: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 825: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 826: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 827: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 828: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 829: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 830: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 831: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 832: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 833: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 834: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 835: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 836: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 837: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 838: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 839: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 840: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 841: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 842: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 843: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 844: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 845: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 846: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 847: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 848: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 849: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 850: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 851: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 852: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 853: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 854: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 855: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 856: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 857: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 858: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 859: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 860: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 861: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 862: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 863: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 864: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 865: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 866: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 867: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 868: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 869: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 870: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 871: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 872: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 873: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 874: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 875: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 876: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 877: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 878: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 879: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 880: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 881: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 882: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 883: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 884: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 885: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 886: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 887: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 888: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 889: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 890: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 891: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 892: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 893: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 894: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 895: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 896: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 897: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 898: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 899: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 900: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 901: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 902: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 903: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 904: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 905: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 906: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 907: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 908: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 909: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 910: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 911: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 912: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 913: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 914: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 915: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 916: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 917: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 918: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 919: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 920: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 921: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 922: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 923: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 924: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 925: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 926: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 927: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 928: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 929: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 930: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 931: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 932: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 933: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 934: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 935: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 936: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 937: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 938: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 939: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 940: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 941: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 942: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 943: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 944: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 945: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 946: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 947: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 948: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 949: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 950: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 951: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 952: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 953: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 954: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 955: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 956: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 957: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 958: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 959: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 960: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 961: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 962: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 963: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 964: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 965: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 966: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 967: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 968: Column 'SECCION' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 969: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 970: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 971: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 972: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 973: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Excepción en la fila 974: Column 'CVE_MATERIA' cannot be null
+[2024-10-24 18:09:19] Filas procesadas: 973, Inserciones exitosas: 140
+[2024-10-24 18:18:33] Archivo recibido: PROGRAMA DE LENGUAS.xlsx
+[2024-10-24 18:18:33] Usuario ID: 2110123456, Rol ID: 1, Departamento ID: 4
+[2024-10-24 18:18:34] Excel cargado exitosamente
+[2024-10-24 18:18:34] Tabla destino: Data_PALE
+[2024-10-24 18:18:34] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 18:18:34] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 18:18:34] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 18:18:34] SQL preparado: INSERT INTO Data_PALE (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 18:18:34] Excepción en la fila 64: Data too long for column 'MODULO' at row 1
+[2024-10-24 18:18:34] Excepción en la fila 128: Data too long for column 'MODULO' at row 1
+[2024-10-24 18:18:34] Excepción en la fila 200: Data too long for column 'MODULO' at row 1
+[2024-10-24 18:18:34] Excepción en la fila 284: Column 'CUPO' cannot be null
+[2024-10-24 18:18:34] Excepción en la fila 287: Column 'CUPO' cannot be null
+[2024-10-24 18:18:34] Excepción en la fila 318: Column 'CUPO' cannot be null
+[2024-10-24 18:18:34] Filas procesadas: 318, Inserciones exitosas: 312
+[2024-10-24 18:49:12] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[2024-10-24 18:49:12] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[2024-10-24 18:49:12] Excel cargado exitosamente
+[2024-10-24 18:49:12] Tabla destino: Data_Estudios_Regionales
+[2024-10-24 18:49:12] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[2024-10-24 18:49:12] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 18:49:12] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 18:49:12] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 18:49:12] Filas procesadas: 141, Inserciones exitosas: 141
+[2024-10-24 18:49:18] Error en la salida JSON: {"success":true,"message":"Se insertaron 141 registros exitosamente"}{"success":true,"message":"Archivo cargado y datos insertados en la base de datos."}{"success":true,"message":"Archivo cargado y datos insertados en la base de datos."}
+[2024-10-24 18:53:24] Archivo recibido: ADMINISTRACION.xlsx
+[2024-10-24 18:53:24] Usuario ID: 2116789012, Rol ID: 1, Departamento ID: 10
+[2024-10-24 18:53:26] Excel cargado exitosamente
+[2024-10-24 18:53:26] Tabla destino: Data_Administración
+[2024-10-24 18:53:26] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta, 
+[2024-10-24 18:53:26] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[2024-10-24 18:53:26] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[2024-10-24 18:53:26] SQL preparado: INSERT INTO Data_Administración (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[2024-10-24 18:53:26] Excepción en la fila 274: Data too long for column 'HORAS' at row 1
+[2024-10-24 18:53:26] Excepción en la fila 275: Data too long for column 'HORAS' at row 1
+[2024-10-24 18:53:26] Excepción en la fila 278: Data too long for column 'HORAS' at row 1
+[2024-10-24 18:53:26] Excepción en la fila 279: Data too long for column 'HORAS' at row 1
+[2024-10-24 18:53:27] Filas procesadas: 1128, Inserciones exitosas: 1124
+[2024-10-24 18:53:31] Error en la salida JSON: {"success":true,"message":"Se insertaron 1124 registros exitosamente"}{"success":true,"message":"Archivo cargado y datos insertados en la base de datos."}{"success":true,"message":"Archivo cargado y datos insertados en la base de datos."}
+[24/10/2024 19:00:45] Archivo recibido: AUDITORIA.xlsx
+[24/10/2024 19:00:45] Usuario ID: 2121234567, Rol ID: 1, Departamento ID: 11
+[24/10/2024 19:00:46] Excel cargado exitosamente
+[24/10/2024 19:00:46] Tabla destino: Data_Auditoría
+[24/10/2024 19:00:46] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[24/10/2024 19:00:46] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[24/10/2024 19:00:46] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[24/10/2024 19:00:46] SQL preparado: INSERT INTO Data_Auditoría (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[24/10/2024 19:00:46] Filas procesadas: 220, Inserciones exitosas: 220
+[24/10/2024 19:00:50] Error en la salida JSON: {"success":true,"message":"Se insertaron 220 registros exitosamente"}{"success":true,"message":"Archivo cargado y datos insertados en la base de datos."}{"success":true,"message":"Archivo cargado y datos insertados en la base de datos."}
+[24/10/2024 19:07:19] Archivo recibido: AUDITORIA.xlsx
+[24/10/2024 19:07:19] Usuario ID: 2121234567, Rol ID: 1, Departamento ID: 11
+[24/10/2024 19:07:20] Excel cargado exitosamente
+[24/10/2024 19:07:20] Tabla destino: Data_Auditoría
+[24/10/2024 19:07:20] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[24/10/2024 19:07:20] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[24/10/2024 19:07:20] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[24/10/2024 19:07:20] SQL preparado: INSERT INTO Data_Auditoría (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[24/10/2024 19:07:20] Filas procesadas: 220, Inserciones exitosas: 220
+[24/10/2024 19:07:24] Error en la salida JSON: 
+[24/10/2024 19:12:14] Archivo recibido: AUDITORIA.xlsx
+[24/10/2024 19:12:14] Usuario ID: 2121234567, Rol ID: 1, Departamento ID: 11
+[24/10/2024 19:12:14] Excel cargado exitosamente
+[24/10/2024 19:12:14] Tabla destino: Data_Auditoría
+[24/10/2024 19:12:14] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[24/10/2024 19:12:14] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[24/10/2024 19:12:14] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[24/10/2024 19:12:14] SQL preparado: INSERT INTO Data_Auditoría (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[24/10/2024 19:12:14] Filas procesadas: 220, Inserciones exitosas: 220
+[24/10/2024 19:12:21] Output antes de JSON: 
+[24/10/2024 19:12:21] Mensaje final enviado: Se insertaron 220 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[24/10/2024 19:13:11] Archivo recibido: FINANZAS.xlsx
+[24/10/2024 19:13:11] Usuario ID: 2103456789, Rol ID: 1, Departamento ID: 2
+[24/10/2024 19:13:12] Excel cargado exitosamente
+[24/10/2024 19:13:12] Tabla destino: Data_Finanzas
+[24/10/2024 19:13:12] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[24/10/2024 19:13:12] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[24/10/2024 19:13:12] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[24/10/2024 19:13:12] SQL preparado: INSERT INTO Data_Finanzas (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[24/10/2024 19:13:12] Filas procesadas: 398, Inserciones exitosas: 398
+[24/10/2024 19:13:17] Output antes de JSON: 
+[24/10/2024 19:13:17] Mensaje final enviado: Se insertaron 398 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
