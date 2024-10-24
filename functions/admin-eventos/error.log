@@ -1,0 +1,6 @@
+[24-Oct-2024 20:00:56 UTC] Error en eliminarEvento.php: Archivo de configuración de base de datos no encontrado
+[24-Oct-2024 20:04:07 UTC] Error en eliminarEvento.php: Archivo de configuración de base de datos no encontrado
+[24-Oct-2024 20:05:42 UTC] Ruta actual: C:\wamp64\www\git\CUCEA-PA\functions\admin-eventos
+[24-Oct-2024 20:05:42 UTC] Ruta intentada para db.php: C:\wamp64\www\git\CUCEA-PA/config/db.php
+[24-Oct-2024 20:05:42 UTC] Intentando ruta: C:\wamp64\www\git\CUCEA-PA/config/db.php
+[24-Oct-2024 20:05:42 UTC] ¡Archivo encontrado en: C:\wamp64\www\git\CUCEA-PA/config/db.php
