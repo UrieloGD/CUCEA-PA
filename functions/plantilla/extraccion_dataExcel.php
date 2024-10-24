@@ -181,6 +181,27 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                     $rowData[$field] = $cellValue;
                 }
 
+                // Procesar fechas, horas y aula
+                if (isset($rowData['FECHA_INICIAL'])) {
+                    $rowData['FECHA_INICIAL'] = $rowData['FECHA_INICIAL'] instanceof \PhpOffice\PhpSpreadsheet\Shared\Date 
+                        ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($rowData['FECHA_INICIAL'])->format('d/m/Y')
+                        : $rowData['FECHA_INICIAL'];
+                }
+                if (isset($rowData['FECHA_FINAL'])) {
+                    $rowData['FECHA_FINAL'] = $rowData['FECHA_FINAL'] instanceof \PhpOffice\PhpSpreadsheet\Shared\Date 
+                        ? \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($rowData['FECHA_FINAL'])->format('d/m/Y')
+                        : $rowData['FECHA_FINAL'];
+                }
+                if (isset($rowData['HORA_INICIAL'])) {
+                    $rowData['HORA_INICIAL'] = $rowData['HORA_INICIAL'] !== null ? str_pad(substr($rowData['HORA_INICIAL'], 0, 10), 4, '0', STR_PAD_LEFT) : null;
+                }
+                if (isset($rowData['HORA_FINAL'])) {
+                    $rowData['HORA_FINAL'] = $rowData['HORA_FINAL'] !== null ? str_pad(substr($rowData['HORA_FINAL'], 0, 10), 4, '0', STR_PAD_LEFT) : null;
+                }
+                if (isset($rowData['AULA'])) {
+                    $rowData['AULA'] = $rowData['AULA'] !== null ? str_pad(substr($rowData['AULA'], 0, 10), 4, '0', STR_PAD_LEFT) : null;
+                }
+
                 // Preparar los datos para la inserción
                 $dataToInsert = array_map(function($field) use ($rowData) {
                     return $rowData[$field] ?? null;
