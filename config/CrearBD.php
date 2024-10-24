@@ -488,11 +488,12 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
 if (mysqli_query($conn, $sql)) {
     echo "<br>Tabla Data_Ciencias_Sociales creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Ciencias_Sociales: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Ciencistaas_Sociales: " . mysqli_error($conn) . "<br>";
 }
 
 // Crear tabla Data_PALE
 $sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
+
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
