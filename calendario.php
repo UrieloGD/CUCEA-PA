@@ -209,8 +209,7 @@ include './template/navbar.php';
                         }
 
                         $calendar .= "<td class='$class'>";
-                        $calendar .= "<div class='date-number'>$day</div>";
-                        $calendar .= "<button class='create-event-btn' style='display:none;'>Crear nuevo evento</button>"; // Boton clic derecho -> nuevo evento.
+                        $calendar .= "<div class='date-number' style='cursor: pointer;'>$day</div>"; /* cursor pointer para denotar que puede ser clickeado */
                         $calendar .= $events;
                         $calendar .= "</td>";
 
@@ -361,38 +360,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateCurrentMonthYear(); // Llamar esto al inicio y cada vez que cambie el mes
 
-    calendar.addEventListener('contextmenu', function(e) {
-        e.preventDefault();
-        const cell = e.target.closest('td');
-        if (cell && cell.querySelector('.date-number')) {
-            if (activeCell) {
-                activeCell.classList.remove('highlighted');
-                const prevBtn = activeCell.querySelector('.create-event-btn');
-                if (prevBtn) prevBtn.style.display = 'none';
-            }
-
-            const btn = cell.querySelector('.create-event-btn');
-            if (btn) {
-                btn.style.display = 'block';
-                cell.classList.add('highlighted');
-                activeCell = cell;
-            }
-        }
-    });
-
     calendar.addEventListener('click', function(e) {
-        if (e.target.classList.contains('create-event-btn')) {
+        const dateNumber = e.target.closest('.date-number');
+        if (dateNumber) {
             modal.style.display = 'block';
             modalOverlay.style.display = 'block';
-            e.target.style.display = 'none';
 
+            if (activeCell) {
+                activeCell.classList.remove('highlighted');
+            }
+
+            // Obtener la celda que contiene la fecha
+            activeCell = dateNumber.closest('td');
             if (activeCell) {
                 activeCell.classList.add('highlighted');
             }
 
             // Obtener la fecha seleccionada
-            const dateNumber = activeCell.querySelector('.date-number').textContent;
-            const selectedDate = new Date(currentYear, currentMonth, parseInt(dateNumber));
+            const selectedDateNumber = dateNumber.textContent;
+            const selectedDate = new Date(currentYear, currentMonth, parseInt(selectedDateNumber));
             
             // Formatear la fecha como YYYY-MM-DD
             const formattedDate = selectedDate.toISOString().split('T')[0];
@@ -448,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1499;
 }
 
@@ -464,29 +450,6 @@ document.addEventListener('DOMContentLoaded', function() {
     background-color: #e0e0e0; /* o el color que prefieras */
     box-shadow: #fff;
     z-index: 1500;
-}
-
-.create-event-btn {
-    position: absolute;
-    left: 17px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #0071B0;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: none;
-    font-size: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 10;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.create-event-btn:hover {
-    background-color: rgba(0, 113, 176, 0.5);
 }
 
 .calendar td {

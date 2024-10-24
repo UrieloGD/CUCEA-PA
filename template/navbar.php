@@ -202,15 +202,20 @@ function generateColorForUser($userId)
                 </a>
             </li>
             
-            <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./personal-solicitud-cambios.php">
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+            <?php
+            // Redirigir a esta opcion, unicamente si es jefe de departamento o coordinador de personal
+            if ($rol_id == 1 || $rol_id == 3) {
+            echo "<li class='navbar-item flexbox-left'>
+                <a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'>
+                    <div class='navbar-item-inner-icon-wrapper flexbox'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
                     </div>
-                    <span class="link-text">Solicitudes</span>
+                    <span class='link-text'>Solicitudes</span>
                 </a>
-            </li>
+            </li>";
+            }
+            ?>
 
             <li class="navbar-item flexbox-left">
                 <a href="#">
