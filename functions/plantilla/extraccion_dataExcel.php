@@ -236,6 +236,82 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             writeLog("Error general: " . $e->getMessage());
             echo json_encode(["success" => false, "message" => "Error al procesar el archivo: " . $e->getMessage()]);
         }
+
+        /////////////////////////////////////////////////////////////
+        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
+        $stmtInsertPlantillaDep = $conn->prepare($sqlInsertPlantillaDep);
+        $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
+
+        if ($stmtInsertPlantillaDep->execute()) {
+            // Obtener el nombre del departamento
+            $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+            $stmt_departamento = $conn->prepare($sql_departamento);
+            $stmt_departamento->bind_param("i", $departamento_id);
+            $stmt_departamento->execute();
+            $result_departamento = $stmt_departamento->get_result();
+            $departamento = $result_departamento->fetch_assoc();
+
+            // Obtener correos de los usuarios de secretaría administrativa
+            $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+            $result_secretaria = $conn->query($sql_secretaria);
+
+            $envio_exitoso = true;
+
+            while ($secretaria = $result_secretaria->fetch_assoc()) {
+                $destinatario = $secretaria['Correo'];
+                $asunto = "Nueva Base de Datos subida por Jefe de Departamento";
+                $cuerpo = "
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                        .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                        .header { text-align: center; padding-bottom: 20px; }
+                        .header img { width: 300px; }
+                        .content { padding: 20px; }
+                        h2 { color: #2c3e50; }
+                        p { line-height: 1.5; color: #333; }
+                        .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                        </div>
+                        <div class='content'>
+                            <h2>Nueva Base de Datos subida</h2>
+                            <p>El Jefe del Departamento de {$departamento['Departamentos']} ha subido una nueva Base de Datos.</p>
+                            <p>Nombre del archivo: {$fileName}</p>
+                            <p>Fecha de subida: " . date('d/m/y H:i') . "</p>
+                            <p>Por favor, ingrese al sistema para más detalles.</p>
+                        </div>
+                        <div class='footer'>
+                            <p>Centro para la Sociedad Digital</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+                ";
+
+                if (!enviarCorreo($destinatario, $asunto, $cuerpo)) {
+                    $envio_exitoso = false;
+                }
+            }
+
+            if ($envio_exitoso) {
+                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
+            } else {
+                echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos, pero hubo problemas al enviar algunos correos."]);
+            }
+        } else {
+            echo json_encode(["success" => false, "message" => "Error al insertar en Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
+        }
+
+        $stmt_departamento->close();
+        $stmtInsertPlantillaDep->close();
+
+        echo json_encode(["success" => true, "message" => "Archivo cargado y datos insertados en la base de datos."]);
     } else {
         writeLog("Error: Usuario no autenticado");
         echo json_encode(["success" => false, "message" => "Usuario no autenticado."]);
