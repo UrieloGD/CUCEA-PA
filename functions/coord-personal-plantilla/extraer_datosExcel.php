@@ -4,17 +4,11 @@ session_start();
 ini_set('memory_limit', '256M');
 require './../../vendor/autoload.php';
 include './../notificaciones-correos/email_functions.php';
+include './../../config/db.php';
+
 ob_start();
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
-
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "pa";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-$conn->set_charset("utf8mb4");
 
 function convertExcelDate($value)
 {
@@ -33,8 +27,8 @@ function safeSubstr($string, $start, $length = null)
     return $length === null ? mb_substr($string, $start) : mb_substr($string, $start, $length);
 }
 
-if ($conn->connect_error) {
-    echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conn->connect_error]);
+if ($conexion->connect_error) {
+    echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos: " . $conexion->connect_error]);
     exit();
 }
 
@@ -65,10 +59,10 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             Otro_gdo_exp_alternativo, Proesde_24_25, A_partir_de, Fecha_ingreso, Antiguedad
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($sql);
 
         if ($stmt === false) {
-            echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conn->error]);
+            echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conexion->error]);
             exit();
         }
 
@@ -220,14 +214,14 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         }
 
         $sqlInsertPlantillaCoordP = "INSERT INTO Plantilla_CoordP (Nombre_Archivo_CoordP, Tamaño_Archivo_CoordP, Usuario_ID) VALUES (?, ?, ?)";
-        $stmtInsertPlantillaCoordP = $conn->prepare($sqlInsertPlantillaCoordP);
+        $stmtInsertPlantillaCoordP = $conexion->prepare($sqlInsertPlantillaCoordP);
         $stmtInsertPlantillaCoordP->bind_param("sii", $fileName, $fileSize, $usuario_id);
 
         if ($stmtInsertPlantillaCoordP->execute()) {
             /*
             // Obtener el nombre del departamento
             $sql_coordinacion = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = (SELECT Departamento_ID FROM Usuarios WHERE Codigo = ?)";
-            $stmt_departamento = $conn->prepare($sql_coordinacion);
+            $stmt_departamento = $conexion->prepare($sql_coordinacion);
             
             if ($stmt_departamento) {
                 $stmt_departamento->bind_param("s", $usuario_id);
@@ -239,7 +233,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         
                     // Obtener correos de los usuarios de secretaría administrativa
                     $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
-                    $result_secretaria = $conn->query($sql_secretaria);
+                    $result_secretaria = $conexion->query($sql_secretaria);
         
                     $envio_exitoso = true;
         
@@ -274,20 +268,33 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             
                 $stmt_departamento->close();
             } else {
-                echo json_encode(["success" => false, "message" => "Error al preparar la consulta del departamento: " . $conn->error]);
+                echo json_encode(["success" => false, "message" => "Error al preparar la consulta del departamento: " . $conexion->error]);
             }
             */
+            echo json_encode([
+                "success" => true, 
+                "message" => "Archivo cargado y datos insertados correctamente en la base de datos."
+            ]);
         } else {
-            echo json_encode(["success" => false, "message" => "Error al insertar en Plantilla_Dep: " . $stmtInsertPlantillaDep->error]);
+            // Si hubo un error en la inserción
+            echo json_encode([
+                "success" => false, 
+                "message" => "Error al insertar en Plantilla_CoordP: " . $stmtInsertPlantillaCoordP->error
+            ]);
         }
     }
 }
 
 $output = ob_get_clean();
-if (json_decode($output) === null) {
-    echo json_encode(["success" => false, "message" => $output]);
-} else {
-    echo $output;
+if (!empty($output)) {
+    if (json_decode($output) === null) {
+        echo json_encode([
+            "success" => false, 
+            "message" => "Error en el proceso: " . $output
+        ]);
+    } else {
+        echo $output;
+    }
 }
 
-$conn->close();
+$conexion->close();
