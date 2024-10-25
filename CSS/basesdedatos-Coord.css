@@ -102,6 +102,13 @@ th {
   max-width: 150px; /* Ajusta este valor según tus necesidades */
 }
 
+/* Ensure that the demo table scrolls */
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 600px;
+    margin: 0 auto;
+}
+
 /* Icono y Boton Buscar */
 
 .iconos-container {
