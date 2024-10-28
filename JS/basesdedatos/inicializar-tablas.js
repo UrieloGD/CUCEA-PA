@@ -25,7 +25,6 @@ $(document).ready(function () {
     responsive: true,
     ordering: false,
     info: true,
-    dom: '<"top"f>rt<"bottom"ip><"clear">',
     scrollX: true,
     scrollCollapse: true,
     fixedHeader: true,

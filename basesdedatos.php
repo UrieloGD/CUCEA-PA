@@ -20,14 +20,15 @@ $result = mysqli_query($conexion, $sql);
 <title>Data - <?php echo $departamento_nombre; ?></title>
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
-<!-- CSS de DataTables, buttons y colReorder -->
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+<!-- CSS de la librería DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.2/css/fixedColumns.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
-
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/4.0.1/css/fixedHeader.dataTables.css">
 
 <div class="cuadro-principal">
     <div class="encabezado">
@@ -287,114 +288,9 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<!-- Modal para editar registros -->
-<div id="modal-editar" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="cerrarFormularioEditar()">&times;</span>
-        <h2>Editar registro</h2>
-        <hr style="border: 1px solid #0071b0; width: 99%;">
-        <form id="form-editar-registro">
-            <input type="hidden" id="edit-id" name="id">
-            <div class="form-container">
-                <div class="form-section">
-                    <h3>Materia</h3>
-                    <div class="form-row">
-                        <input type="text" id="edit-ciclo" name="ciclo" placeholder="Ciclo">
-                        <input type="text" id="edit-crn" name="crn" placeholder="CRN">
-                        <input type="text" id="edit-cve_materia" name="cve_materia" placeholder="CVE Materia">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-materia" name="materia" placeholder="Materia" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-nivel" name="nivel" placeholder="Nivel">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-tipo" name="tipo" placeholder="Tipo">
-                        <input type="text" id="edit-nivel_tipo" name="nivel_tipo" placeholder="Nivel tipo">
-                        <input type="text" id="edit-seccion" name="seccion" placeholder="Sección">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-c_min" name="c_min" placeholder="C. Min" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="edit-h_totales" name="h_totales" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="edit-estatus" name="estatus" placeholder="Status">
-                    </div>
-                    <div class="form-row weekdays">
-                        <input type="text" id="edit-l" name="l" placeholder="L" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'L') this.value = '';">
-                        <input type="text" id="edit-m" name="m" placeholder="M" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'M') this.value = '';">
-                        <input type="text" id="edit-i" name="i" placeholder="I" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'I') this.value = '';">
-                        <input type="text" id="edit-j" name="j" placeholder="J" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'J') this.value = '';">
-                        <input type="text" id="edit-v" name="v" placeholder="V" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'V') this.value = '';">
-                        <input type="text" id="edit-s" name="s" placeholder="S" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'S') this.value = '';">
-                        <input type="text" id="edit-d" name="d" placeholder="D" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'D') this.value = '';">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-dia_presencial" name="dia_presencial" placeholder="Día presencial">
-                        <input type="text" id="edit-dia_virtual" name="dia_virtual" placeholder="Día virtual">
-                        <input type="text" id="edit-modalidad" name="modalidad" placeholder="Modalidad">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-fecha_inicial" name="fecha_inicial" placeholder="Fecha inicial">
-                        <input type="text" id="edit-fecha_final" name="fecha_final" placeholder="Fecha final">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-hora_inicial" name="hora_inicial" placeholder="Hora inicial" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="edit-hora_final" name="hora_final" placeholder="Hora final" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-modulo" name="modulo" placeholder="Módulo">
-                        <input type="text" id="edit-aula" name="aula" placeholder="Aula">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-cupo" name="cupo" placeholder="Cupo" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="edit-examen_extraordinario" name="examen_extraordinario" placeholder="Examen extraordinario">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-observaciones" name="observaciones" placeholder="Observaciones" class="full-width">
-                    </div>
-                </div>
-                <div class="form-section">
-                    <h3>Profesorado</h3>
-                    <div class="form-row">
-                        <input type="text" id="edit-codigo_profesor" name="codigo_profesor" placeholder="Código Profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-nombre_profesor" name="nombre_profesor" placeholder="Nombre profesor" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">
-                        <input type="text" id="edit-categoria" name="categoria" placeholder="Categoría">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-descarga" name="descarga" placeholder="Descarga" class="full-width">
-                        <input type="text" id="edit-codigo_descarga" name="codigo_descarga" placeholder="Código descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-nombre_descarga" name="nombre_descarga" placeholder="Nombre descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-nombre_definitivo" name="nombre_definitivo" placeholder="Nombre definitivo" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-horas" name="horas" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="edit-titular" name="titular" placeholder="Titular">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="edit-codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
-                    </div>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button type="button" onclick="guardarCambios()">Guardar cambios</button>
-                <button type="button" onclick="cerrarFormularioEditar()">Cancelar</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Scripts de DataTables y extensiones -->
+<!-- Scripts de la librería DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.1.7/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
 <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
 <script src="https://cdn.datatables.net/colreorder/2.0.4/js/colReorder.dataTables.js"></script>
@@ -405,7 +301,6 @@ $result = mysqli_query($conexion, $sql);
 <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
-<script></script>
 
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/barra-busqueda.js"></script>
