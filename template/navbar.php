@@ -75,8 +75,7 @@ function generateColorForUser($userId)
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./CSS/navbar.css" />
-    <link rel="stylesheet" href="./CSS/header.css">
+    <link rel="stylesheet" href="./CSS/navbar.css?=v1.0" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-">
     </link>
@@ -267,3 +266,44 @@ function generateColorForUser($userId)
             </li>
         </ul>
     </nav>
+
+<script>
+    /* JavaScript para manejar el toggle */
+const navbar = document.getElementById('navbar');
+let isExpanded = false;
+
+function toggleNavbar() {
+  if (window.innerWidth <= 768) {
+    isExpanded = !isExpanded;
+    if (isExpanded) {
+      navbar.classList.add('nav-expanded');
+    } else {
+      navbar.classList.remove('nav-expanded');
+    }
+  }
+}
+
+// Evento click para el navbar
+navbar.addEventListener('click', (event) => {
+  // Solo toggle si el click fue directamente en el navbar o en el logo
+  if (event.target.closest('.navbar-logo') || event.target === navbar) {
+    toggleNavbar();
+  }
+});
+
+// Cerrar el navbar cuando se hace click fuera de él
+document.addEventListener('click', (event) => {
+  if (window.innerWidth <= 768 && !navbar.contains(event.target)) {
+    navbar.classList.remove('nav-expanded');
+    isExpanded = false;
+  }
+});
+
+// Opcional: Cerrar el navbar cuando se hace scroll
+document.addEventListener('scroll', () => {
+  if (window.innerWidth <= 768 && isExpanded) {
+    navbar.classList.remove('nav-expanded');
+    isExpanded = false;
+  }
+});
+</script>
