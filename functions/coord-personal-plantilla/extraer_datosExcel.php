@@ -16,7 +16,7 @@ function convertExcelDate($value)
         return $value;
     }
     $unix_date = ($value - 25569) * 86400;
-    return date("Y-m-d", $unix_date);
+    return date("d/m/Y", $unix_date);
 }
 
 function safeSubstr($string, $start, $length = null)

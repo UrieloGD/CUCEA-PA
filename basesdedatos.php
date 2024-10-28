@@ -45,13 +45,15 @@ $result = mysqli_query($conexion, $sql);
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
+                <div class="icono-buscador" id="icono-visualizar" onclick="visualizarInformacionProfesores()">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                 </div>
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
@@ -288,6 +290,117 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
+<!-- Modal para visualizar información detallada del profesor by Cass -->
+<div id="modal-visualizar" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalVisualizar()">&times;</span>
+        
+        <!-- Barra de búsqueda -->
+        <div class="search-bar">
+            <div class="search-input-container">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" placeholder="Buscar profesor..." id="buscar-profesor">
+            </div>
+        </div>
+
+        <!-- Contenido del profesor -->
+        <div class="profesor-container">
+            <!-- Columna izquierda -->
+            <div class="left-column">
+                <div class="profesor-header">
+                    <div class="profesor-avatar">
+                        <span class="avatar-initials">FQ</span>
+                    </div>
+                    <div class="profesor-details">
+                        <h2>Fabiola Quezada Limón</h2>
+                        <p>fabiolaquezada@academicos.udg.mx</p>
+                    </div>
+                </div>
+                
+                <table class="profesor-data">
+                    <tr>
+                        <th>Código</th>
+                        <td>123456789</td>
+                    </tr>
+                    <tr>
+                        <th>Categoría</th>
+                        <td>Asignatura B</td>
+                    </tr>
+                    <tr>
+                        <th>Horas asignadas</th>
+                        <td><span class="data-value2">36/40</span></td>
+                    </tr>
+                    <tr>
+                        <th>Departamento</th>
+                        <td><span class="data-value3">Administración</span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="right-column">
+                <!-- Sección de Administración I -->
+                <div class="class-info">
+                    <h3>Administración I</h3>
+                    <table class="class-details">
+                        <tr>
+                            <th>NRC</th>
+                            <th>Horario</th>
+                            <th>Edificio/Aula</th>
+                        </tr>
+                        <tr>
+                            <td>141917</td>
+                            <td>
+                                <div class="horario-container">
+                                    <span class="horario-tiempo">07:00 - 8:55</span>
+                                    <div class="weekdays">
+                                        <div class="day active">L</div>
+                                        <div class="day">M</div>
+                                        <div class="day active">I</div>
+                                        <div class="day">J</div>
+                                        <div class="day">V</div>
+                                        <div class="day">S</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>D103</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Sección de Desarrollo de emprendedores -->
+                <div class="class-info">
+                    <h3>Desarrollo de emprendedores</h3>
+                    <table class="class-details">
+                        <tr>
+                            <th>NRC</th>
+                            <th>Horario</th>
+                            <th>Edificio/Aula</th>
+                        </tr>
+                        <tr>
+                            <td>141917</td>
+                            <td>
+                                <div class="horario-container">
+                                    <span class="horario-tiempo">07:00 - 8:55</span>
+                                    <div class="weekdays">
+                                        <div class="day active">L</div>
+                                        <div class="day">M</div>
+                                        <div class="day active">I</div>
+                                        <div class="day">J</div>
+                                        <div class="day">V</div>
+                                        <div class="day">S</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>F106</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Scripts de la librería DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
@@ -309,5 +422,6 @@ $result = mysqli_query($conexion, $sql);
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<script src="./JS/basesdedatos/visualizar-profesores.js"></script>
 
 <?php include("./template/footer.php"); ?>
