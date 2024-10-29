@@ -51,7 +51,7 @@ $result = mysqli_query($conexion, $sql);
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-visualizar" onclick="visualizarInformacionProfesores()">
+                <div class="icono-buscador" id="icono-visualizar" onclick="abrirModalProfesores()">
                     <i class="fa fa-user" aria-hidden="true"></i>
                  </div>
                 <div class="icono-buscador" id="icono-visibilidad">
@@ -290,58 +290,104 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<!-- Modal para visualizar información detallada del profesor by Cass -->
-<div id="modal-visualizar" class="modal">
+<!-- Modal para listar profesores del departamento -->
+<div id="modal-profesores" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="cerrarModalVisualizar()">&times;</span>
+        <span class="close" onclick="cerrarModalProfesores()">&times;</span>
         
         <!-- Barra de búsqueda -->
         <div class="search-bar">
             <div class="search-input-container">
                 <i class="fa fa-search" aria-hidden="true"></i>
-                <input type="text" placeholder="Buscar profesor..." id="buscar-profesor">
+                <input type="text" placeholder="Buscar profesor..." id="buscar-profesor" onkeyup="filtrarProfesores()">
             </div>
         </div>
 
+        <!-- Tabla de profesores -->
+        <div class="profesores-container">
+            <h2 id="nombre-departamento">Departamento: </h2>
+            <table class="profesores-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Código</th>
+                        <th>Tipo de Contrato</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-profesores">
+                <?php
+                    include './config/db.php';
+                    
+                    $sql = "SELECT DISTINCT 
+                            NOMBRE_PROFESOR,
+                            CODIGO_PROFESOR,
+                            TIPO_CONTRATO
+                           FROM $tabla_departamento 
+                           WHERE Departamento_ID = $departamento_id
+                           GROUP BY NOMBRE_PROFESOR, CODIGO_PROFESOR, TIPO_CONTRATO";
+                    
+                    $result = mysqli_query($conexion, $sql);
+                    
+                    while($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['NOMBRE_PROFESOR']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['CODIGO_PROFESOR']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['TIPO_CONTRATO']) . "</td>";
+                        echo "<td><button onclick='verDetalleProfesor(" . $row['CODIGO_PROFESOR'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para visualizar información detallada del profesor -->
+<div id="modal-detalle-profesor" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalDetalle()">&times;</span>
+        
         <!-- Contenido del profesor -->
         <div class="profesor-container">
             <!-- Columna izquierda -->
             <div class="left-column">
                 <div class="profesor-header">
                     <div class="profesor-avatar">
-                        <span class="avatar-initials">FQ</span>
+                        <span class="avatar-initials" id="profesor-iniciales">FD</span>
                     </div>
                     <div class="profesor-details">
-                        <h2>Fabiola Quezada Limón</h2>
-                        <p>fabiolaquezada@academicos.udg.mx</p>
+                        <h2 id="profesor-nombre">Nombre del profesor</h2>
+                        <p id="profesor-email">Correo electronico</p>
                     </div>
                 </div>
                 
                 <table class="profesor-data">
                     <tr>
                         <th>Código</th>
-                        <td>123456789</td>
+                        <td id="profesor-codigo">Codigo del profesor</td>
                     </tr>
                     <tr>
                         <th>Categoría</th>
-                        <td>Asignatura B</td>
+                        <td id="profesor-categoria">categoria del profesor</td>
                     </tr>
                     <tr>
                         <th>Horas asignadas</th>
-                        <td><span class="data-value2">36/40</span></td>
+                        <td id="profesor-horas"><span class="data-value2">36/40</span></td>
                     </tr>
                     <tr>
                         <th>Departamento</th>
-                        <td><span class="data-value3">Administración</span></td>
+                        <td id="profesor-departamento"><span class="data-value3">Departamento del profesor</span></td>
                     </tr>
                 </table>
             </div>
 
             <!-- Columna derecha -->
-            <div class="right-column">
+            <div class="right-column" id="materias-container">
                 <!-- Sección de Administración I -->
                 <div class="class-info">
-                    <h3>Administración I</h3>
+                    <h3>Nombre de la Materia</h3>
                     <table class="class-details">
                         <tr>
                             <th>NRC</th>
@@ -349,10 +395,10 @@ $result = mysqli_query($conexion, $sql);
                             <th>Edificio/Aula</th>
                         </tr>
                         <tr>
-                            <td>141917</td>
+                            <td>NRC de la clase</td>
                             <td>
                                 <div class="horario-container">
-                                    <span class="horario-tiempo">07:00 - 8:55</span>
+                                    <span class="horario-tiempo">Horario de la clase</span>
                                     <div class="weekdays">
                                         <div class="day active">L</div>
                                         <div class="day">M</div>
@@ -363,36 +409,7 @@ $result = mysqli_query($conexion, $sql);
                                     </div>
                                 </div>
                             </td>
-                            <td>D103</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <!-- Sección de Desarrollo de emprendedores -->
-                <div class="class-info">
-                    <h3>Desarrollo de emprendedores</h3>
-                    <table class="class-details">
-                        <tr>
-                            <th>NRC</th>
-                            <th>Horario</th>
-                            <th>Edificio/Aula</th>
-                        </tr>
-                        <tr>
-                            <td>141917</td>
-                            <td>
-                                <div class="horario-container">
-                                    <span class="horario-tiempo">07:00 - 8:55</span>
-                                    <div class="weekdays">
-                                        <div class="day active">L</div>
-                                        <div class="day">M</div>
-                                        <div class="day active">I</div>
-                                        <div class="day">J</div>
-                                        <div class="day">V</div>
-                                        <div class="day">S</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>F106</td>
+                            <td>Aula</td>
                         </tr>
                     </table>
                 </div>
@@ -400,6 +417,7 @@ $result = mysqli_query($conexion, $sql);
         </div>
     </div>
 </div>
+
 
 <!-- Scripts de la librería DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -423,5 +441,6 @@ $result = mysqli_query($conexion, $sql);
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 <script src="./JS/basesdedatos/visualizar-profesores.js"></script>
+<script src="./JS/basesdedatos/detalle-profesor.js"></script>
 
 <?php include("./template/footer.php"); ?>
