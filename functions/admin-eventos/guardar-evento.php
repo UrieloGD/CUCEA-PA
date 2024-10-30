@@ -66,7 +66,7 @@ try {
                                 VALUES (?, ?, ?, 0, ?)";
             $stmt = $conexion->prepare($sql_notificacion);
 
-            // Notificar a participantes actuales
+            // Notificar a participantes actuales sobre la actualización
             foreach ($participantes_nuevos as $participante_id) {
                 if (!empty($participante_id)) {
                     $tipo = 'evento_actualizado';
@@ -78,12 +78,41 @@ try {
             // Notificar a participantes removidos
             $participantes_removidos = array_diff($participantes_antiguos, $participantes_nuevos);
             if (!empty($participantes_removidos)) {
-                $mensaje_removido = "Has sido removido del evento: $nombre_evento";
+                // Obtener información del evento para el mensaje
+                $mensaje_removido = "Has sido removido del evento: $nombre_evento (programado para el " .
+                    date('d/m/Y', strtotime($fecha_inicio)) . " a las " .
+                    date('H:i', strtotime($hora_inicio)) . ")";
+
                 foreach ($participantes_removidos as $participante_id) {
                     if (!empty($participante_id)) {
                         $tipo = 'evento_removido';
                         $stmt->bind_param("ssii", $tipo, $mensaje_removido, $participante_id, $emisor_id);
-                        $stmt->execute();
+                        if (!$stmt->execute()) {
+                            throw new Exception("Error al insertar notificación de remoción: " . $stmt->error);
+                        }
+
+                        // Enviar correo al usuario removido
+                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                        $stmt_email = $conexion->prepare($sql_email);
+                        $stmt_email->bind_param("i", $participante_id);
+                        $stmt_email->execute();
+                        $result_email = $stmt_email->get_result();
+                        $row_email = $result_email->fetch_assoc();
+
+                        if ($row_email) {
+                            $asunto = "Removido del evento: $nombre_evento";
+                            $cuerpo = "
+                                <html>
+                                <body>
+                                    <p>Has sido removido del siguiente evento:</p>
+                                    <p><strong>Evento:</strong> $nombre_evento</p>
+                                    <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fecha_inicio)) . "</p>
+                                    <p><strong>Hora:</strong> " . date('H:i', strtotime($hora_inicio)) . "</p>
+                                </body>
+                                </html>
+                            ";
+                            enviarCorreo($row_email['Correo'], $asunto, $cuerpo);
+                        }
                     }
                 }
             }
@@ -94,6 +123,7 @@ try {
             throw $e;
         }
     }
+
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = isset($_POST['id_evento']) ? $_POST['id_evento'] : null;
@@ -107,14 +137,70 @@ try {
         $notif = $_POST['notificacion'];
         $horNotif = $_POST['HorNotif'];
 
+        // Procesar participantes
         $participantes = '';
+        $participantesArray = [];
         if (isset($_POST['participantes']) && is_array($_POST['participantes'])) {
             $participantesArray = array_filter($_POST['participantes'], 'strlen');
             $participantes = implode(",", $participantesArray);
         }
 
         if ($id) {
-            // Actualizar evento existente
+            // Obtener participantes actuales antes de la actualización
+            $sql_current = "SELECT Participantes FROM eventos_admin WHERE ID_Evento = ?";
+            $stmt_current = $conexion->prepare($sql_current);
+            $stmt_current->bind_param("i", $id);
+            $stmt_current->execute();
+            $result_current = $stmt_current->get_result();
+            $row_current = $result_current->fetch_assoc();
+            $participantes_actuales = !empty($row_current['Participantes']) ? explode(',', $row_current['Participantes']) : [];
+
+            // Identificar usuarios eliminados antes de la actualización
+            $usuarios_eliminados = array_diff($participantes_actuales, $participantesArray);
+
+            // Preparar notificaciones para usuarios eliminados
+            if (!empty($usuarios_eliminados)) {
+                $mensaje_eliminado = "Has sido removido del evento: $nombre (programado para el " .
+                    date('d/m/Y', strtotime($fechIn)) . " a las " .
+                    date('H:i', strtotime($horIn)) . ")";
+
+                $sql_notif = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+                             VALUES (?, ?, ?, 0, ?)";
+                $stmt_notif = $conexion->prepare($sql_notif);
+
+                foreach ($usuarios_eliminados as $usuario_id) {
+                    if (!empty($usuario_id)) {
+                        $tipo = 'evento_removido';
+                        $stmt_notif->bind_param("ssii", $tipo, $mensaje_eliminado, $usuario_id, $_SESSION['Codigo']);
+                        $stmt_notif->execute();
+
+                        // Enviar correo al usuario eliminado
+                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                        $stmt_email = $conexion->prepare($sql_email);
+                        $stmt_email->bind_param("i", $usuario_id);
+                        $stmt_email->execute();
+                        $result_email = $stmt_email->get_result();
+                        $row_email = $result_email->fetch_assoc();
+
+                        if ($row_email) {
+                            $asunto = "Removido del evento: $nombre";
+                            $cuerpo = "
+                                <html>
+                                <body>
+                                    <p>Has sido removido del siguiente evento:</p>
+                                    <p><strong>Evento:</strong> $nombre</p>
+                                    <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fechIn)) . "</p>
+                                    <p><strong>Hora:</strong> " . date('H:i', strtotime($horIn)) . "</p>
+                                </body>
+                                </html>
+                            ";
+                            enviarCorreo($row_email['Correo'], $asunto, $cuerpo);
+                        }
+                    }
+                }
+            }
+
+            // Actualizar el evento
             $sql = "UPDATE eventos_admin SET 
                     Nombre_Evento = ?, 
                     Descripcion_Evento = ?, 
@@ -149,6 +235,7 @@ try {
             );
 
             if ($stmt->execute()) {
+                // Notificar a los participantes actuales sobre la actualización
                 actualizarNotificacionEvento(
                     $conexion,
                     $id,
@@ -159,31 +246,6 @@ try {
                     $participantes,
                     $_SESSION['Codigo']
                 );
-
-                // Enviar correos de actualización
-                if (!empty($participantesArray)) {
-                    $asunto = "Evento actualizado: $nombre";
-                    $cuerpo = "
-                        <html>
-                        <body>
-                            <p>Se ha actualizado el evento: $nombre</p>
-                            <p>Descripción: $descripcion</p>
-                            <p>Nueva fecha: $fechIn $horIn</p>
-                        </body>
-                        </html>
-                    ";
-
-                    foreach ($participantesArray as $participante) {
-                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
-                        $stmt_email = $conexion->prepare($sql_email);
-                        $stmt_email->bind_param("i", $participante);
-                        $stmt_email->execute();
-                        $result_email = $stmt_email->get_result();
-                        $row_email = $result_email->fetch_assoc();
-
-                        enviarCorreo($row_email['Correo'], $asunto, $cuerpo);
-                    }
-                }
 
                 echo json_encode(['status' => 'success', 'message' => 'Evento actualizado con éxito']);
             } else {
