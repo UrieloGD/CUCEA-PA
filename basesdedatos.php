@@ -51,9 +51,9 @@ $result = mysqli_query($conexion, $sql);
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-visualizar" onclick="abrirModalProfesores()">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                 </div>
+                <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
@@ -290,54 +290,48 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
-<!-- Modal para listar profesores del departamento -->
-<div id="modal-profesores" class="modal">
+<!-- Modal para listar todos los profesores del departamento -->
+<div id="modal-todos-profesores" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="cerrarModalProfesores()">&times;</span>
+        <span class="close" onclick="cerrarModalTodosProfesores()">&times;</span>
         
         <!-- Barra de búsqueda -->
         <div class="search-bar">
             <div class="search-input-container">
                 <i class="fa fa-search" aria-hidden="true"></i>
-                <input type="text" placeholder="Buscar profesor..." id="buscar-profesor" onkeyup="filtrarProfesores()">
+                <input type="text" placeholder="Buscar profesor..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
             </div>
         </div>
 
         <!-- Tabla de profesores -->
         <div class="profesores-container">
-            <h2 id="nombre-departamento">Departamento: </h2>
+            <h2>Todos los Profesores - <?php echo $departamento_nombre; ?></h2>
             <table class="profesores-table">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
                         <th>Código</th>
-                        <th>Tipo de Contrato</th>
+                        <th>Nombre Completo</th>
                         <th>Acción</th>
                     </tr>
                 </thead>
-                <tbody id="lista-profesores">
+                <tbody id="lista-todos-profesores">
                 <?php
-                    include './config/db.php';
-                    
-                    $sql = "SELECT DISTINCT 
-                            NOMBRE_PROFESOR,
-                            CODIGO_PROFESOR,
-                            TIPO_CONTRATO
-                           FROM $tabla_departamento 
-                           WHERE Departamento_ID = $departamento_id
-                           GROUP BY NOMBRE_PROFESOR, CODIGO_PROFESOR, TIPO_CONTRATO";
-                    
-                    $result = mysqli_query($conexion, $sql);
-                    
-                    while($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['NOMBRE_PROFESOR']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['CODIGO_PROFESOR']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['TIPO_CONTRATO']) . "</td>";
-                        echo "<td><button onclick='verDetalleProfesor(" . $row['CODIGO_PROFESOR'] . ")' class='btn-detalle'>Ver detalle</button></td>";
-                        echo "</tr>";
-                    }
-                    ?>
+                include './config/db.php';
+                
+                $sql_todos_profesores = "SELECT Codigo, Nombre_Completo 
+                                         FROM Coord_Per_Prof 
+                                         WHERE Departamento = 'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA'";
+                
+                $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
+                
+                while($row = mysqli_fetch_assoc($result_todos_profesores)) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row['Codigo']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
+                    echo "<td><button onclick='verDetalleProfesorTodos(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                    echo "</tr>";
+                }
+                ?>
                 </tbody>
             </table>
         </div>

@@ -88,7 +88,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $turno = safeSubstr($sheet->getCell('Q' . $row)->getCalculatedValue(), 0, 5);
             $investigacion_nombramiento_cambio_funcion = safeSubstr($sheet->getCell('R' . $row)->getCalculatedValue(), 0, 50);
             $sni = safeSubstr($sheet->getCell('S' . $row)->getCalculatedValue(), 0, 10);
-            $sin_desde = convertExcelDate($sheet->getCell('T' . $row)->getCalculatedValue());
+            $sni_desde = convertExcelDate($sheet->getCell('T' . $row)->getCalculatedValue());
             $cambio_dedicacion = safeSubstr($sheet->getCell('U' . $row)->getCalculatedValue(), 0, 40);
             $inicio = convertExcelDate($sheet->getCell('V' . $row)->getCalculatedValue());
             $fin = convertExcelDate($sheet->getCell('W' . $row)->getCalculatedValue());
@@ -158,7 +158,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $turno,
                 $investigacion_nombramiento_cambio_funcion,
                 $sni,
-                $sin_desde,
+                $sni_desde,
                 $cambio_dedicacion,
                 $inicio,
                 $fin,
