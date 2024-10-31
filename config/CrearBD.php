@@ -223,7 +223,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     Etiqueta VARCHAR(100),
     Participantes TEXT NOT NULL,
     Notificaciones TEXT,
-    Hora_Noti TIME NOT NULL
+    Hora_Noti TIME NOT NULL,
+    Estado VARCHAR(20) DEFAULT 'activo'
 )";
 
 if (mysqli_query($conn, $sql)) {

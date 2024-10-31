@@ -47,7 +47,7 @@ try {
     $conexion->autocommit(false);
     $conexion->begin_transaction();
 
-    // Obtener información del evento antes de eliminarlo
+    // Obtener información del evento antes de marcarlo como inactivo
     $query = "SELECT ID_Evento, Nombre_Evento, Fecha_Inicio, Hora_Inicio, Participantes 
               FROM Eventos_Admin 
               WHERE ID_Evento = ?";
@@ -76,7 +76,7 @@ try {
     $horaEvento = $evento['Hora_Inicio'];
     $participantes = !empty($evento['Participantes']) ? explode(',', $evento['Participantes']) : [];
 
-    // Crear notificaciones en el sistema ANTES de eliminar el evento
+    // Crear notificaciones en el sistema ANTES de marcar el evento como inactivo
     if (!empty($participantes)) {
         $mensaje = "El evento '$nombreEvento' programado para el " .
             date('d/m/Y', strtotime($fechaEvento)) . " a las " .
@@ -136,34 +136,34 @@ try {
         $notif_stmt->close();
     }
 
-    // Ahora sí, eliminar el evento
-    $delete_stmt = $conexion->prepare("DELETE FROM Eventos_Admin WHERE ID_Evento = ?");
-    if (!$delete_stmt) {
-        throw new Exception('Error al preparar la consulta de eliminación: ' . $conexion->error);
+    // En lugar de eliminar, actualizar el estado del evento a 'inactivo'
+    $update_stmt = $conexion->prepare("UPDATE Eventos_Admin SET Estado = 'inactivo' WHERE ID_Evento = ?");
+    if (!$update_stmt) {
+        throw new Exception('Error al preparar la consulta de actualización: ' . $conexion->error);
     }
 
-    $delete_stmt->bind_param("i", $eventId);
-    if (!$delete_stmt->execute()) {
-        throw new Exception('Error al ejecutar la eliminación: ' . $delete_stmt->error);
+    $update_stmt->bind_param("i", $eventId);
+    if (!$update_stmt->execute()) {
+        throw new Exception('Error al ejecutar la actualización: ' . $update_stmt->error);
     }
 
-    $affected_rows = $delete_stmt->affected_rows;
-    $delete_stmt->close();
+    $affected_rows = $update_stmt->affected_rows;
+    $update_stmt->close();
 
     if ($affected_rows == 0) {
-        throw new Exception('No se eliminó ningún registro');
+        throw new Exception('No se actualizó ningún registro');
     }
 
     // Confirmar la transacción
     $conexion->commit();
 
-    sendJsonResponse(true, 'Evento eliminado exitosamente', ['affected_rows' => $affected_rows]);
+    sendJsonResponse(true, 'Evento marcado como inactivo exitosamente', ['affected_rows' => $affected_rows]);
 } catch (Exception $e) {
     if (isset($conexion) && !$conexion->connect_error) {
         $conexion->rollback();
     }
     error_log("Error en eliminarEvento.php: " . $e->getMessage());
-    sendJsonResponse(false, 'Error al eliminar evento: ' . $e->getMessage());
+    sendJsonResponse(false, 'Error al marcar evento como inactivo: ' . $e->getMessage());
 } finally {
     if (isset($conexion) && !$conexion->connect_error) {
         $conexion->close();

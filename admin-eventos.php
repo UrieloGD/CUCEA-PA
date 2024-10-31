@@ -24,12 +24,13 @@
     <?php
     // Consulta modificada para obtener los nombres de los participantes
     $sql = "SELECT e.*, GROUP_CONCAT(CONCAT(u.Nombre, ' ', u.Apellido) SEPARATOR ', ') AS NombresParticipantes
-            FROM Eventos_Admin e
-            LEFT JOIN Usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
-            WHERE (e.Fecha_Fin >= CURDATE() OR (e.Fecha_Inicio <= CURDATE() AND e.Fecha_Fin >= CURDATE()))
-            GROUP BY e.ID_Evento
-            ORDER BY e.Fecha_Inicio, e.Hora_Inicio 
-            LIMIT 5";
+    FROM Eventos_Admin e
+    LEFT JOIN Usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
+    WHERE (e.Fecha_Fin >= CURDATE() OR (e.Fecha_Inicio <= CURDATE() AND e.Fecha_Fin >= CURDATE()))
+    AND e.Estado = 'activo'/* Mostrar solo eventos que no han sido cancelados */
+    GROUP BY e.ID_Evento
+    ORDER BY e.Fecha_Inicio, e.Hora_Inicio 
+    LIMIT 5";
 
     $result = mysqli_query($conexion, $sql);
 
@@ -98,7 +99,7 @@
                 </label>
                 <div class="fecha-hora-group">
                     <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="" required  min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
                     <span>a las</span>
                     <input type="time" id="HorIn" name="HorIn" value="" required>
                     <span> --> </span>
@@ -146,7 +147,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
@@ -185,7 +186,7 @@
                 </label>
                 <div class="fecha-hora-group">
                     <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="editFechFi" name="FechFi" value="" required  min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
                     <span>a las</span>
                     <input type="time" id="editHorIn" name="HorIn" value="" required>
                     <span> --> </span>
@@ -233,7 +234,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label for="descripcion">
                     <i class="fas fa-align-left"></i> Descripción
@@ -273,7 +274,7 @@
         </div>
         <div class="button-container">
             <button class="btn-guardar" type="button" id="confirmarParticipantes">Confirmar selección</button>
-        </div>    
+        </div>
     </div>
 </div>
 
