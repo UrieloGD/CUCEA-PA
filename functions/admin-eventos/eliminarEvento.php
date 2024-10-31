@@ -4,10 +4,12 @@ ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/error.log');
 
 header('Content-Type: application/json');
 header('X-Content-Type-Options: nosniff');
+
+require_once dirname(dirname(dirname(__FILE__))) . '/config/db.php';
+require_once '../notificaciones-correos/email_functions.php';
 
 function sendJsonResponse($success, $message, $additionalData = [])
 {
@@ -21,50 +23,6 @@ function sendJsonResponse($success, $message, $additionalData = [])
 }
 
 try {
-    // Debug: Imprimir rutas actuales
-    $currentPath = __DIR__;
-    $dbPath = dirname(dirname(dirname(__FILE__))) . '/config/db.php';
-
-    // Log de información de rutas
-    error_log("Ruta actual: " . $currentPath);
-    error_log("Ruta intentada para db.php: " . $dbPath);
-
-    // Intentar con rutas alternativas
-    $possiblePaths = [
-        dirname(dirname(dirname(__FILE__))) . '/config/db.php',
-        dirname(dirname(__FILE__)) . '/config/db.php',
-        __DIR__ . '/../../config/db.php',
-        __DIR__ . '/../config/db.php',
-        __DIR__ . '/config/db.php'
-    ];
-
-    $dbPathFound = false;
-    foreach ($possiblePaths as $path) {
-        error_log("Intentando ruta: " . $path);
-        if (file_exists($path)) {
-            $dbPath = $path;
-            $dbPathFound = true;
-            error_log("¡Archivo encontrado en: " . $path);
-            break;
-        }
-    }
-
-    if (!$dbPathFound) {
-        throw new Exception('Archivo de base de datos no encontrado. Rutas intentadas: ' . implode(', ', $possiblePaths));
-    }
-
-    // Incluir el archivo de la base de datos
-    require_once $dbPath;
-
-    // Verificar la conexión
-    if (!isset($conexion)) {
-        throw new Exception('Variable de conexión no definida después de incluir db.php');
-    }
-
-    if ($conexion->connect_error) {
-        throw new Exception('Error de conexión a la base de datos: ' . $conexion->connect_error);
-    }
-
     // Leer y validar input
     $input = file_get_contents("php://input");
     if (empty($input)) {
@@ -89,23 +47,96 @@ try {
     $conexion->autocommit(false);
     $conexion->begin_transaction();
 
-    // Verificar si el evento existe
-    $check_stmt = $conexion->prepare("SELECT COUNT(*) as count FROM Eventos_Admin WHERE ID_Evento = ?");
-    if (!$check_stmt) {
-        throw new Exception('Error al preparar la consulta de verificación: ' . $conexion->error);
+    // Obtener información del evento antes de eliminarlo
+    $query = "SELECT ID_Evento, Nombre_Evento, Fecha_Inicio, Hora_Inicio, Participantes 
+              FROM Eventos_Admin 
+              WHERE ID_Evento = ?";
+
+    $stmt = $conexion->prepare($query);
+    if (!$stmt) {
+        throw new Exception('Error al preparar la consulta: ' . $conexion->error);
     }
 
-    $check_stmt->bind_param("i", $eventId);
-    $check_stmt->execute();
-    $result = $check_stmt->get_result();
-    $row = $result->fetch_assoc();
-    $check_stmt->close();
+    $stmt->bind_param("i", $eventId);
+    if (!$stmt->execute()) {
+        throw new Exception('Error al ejecutar la consulta: ' . $stmt->error);
+    }
 
-    if ($row['count'] == 0) {
+    $result = $stmt->get_result();
+    $evento = $result->fetch_assoc();
+    $stmt->close();
+
+    if (!$evento) {
         throw new Exception('El evento no existe');
     }
 
-    // Eliminar el evento
+    // Guardar información del evento
+    $nombreEvento = $evento['Nombre_Evento'];
+    $fechaEvento = $evento['Fecha_Inicio'];
+    $horaEvento = $evento['Hora_Inicio'];
+    $participantes = !empty($evento['Participantes']) ? explode(',', $evento['Participantes']) : [];
+
+    // Crear notificaciones en el sistema ANTES de eliminar el evento
+    if (!empty($participantes)) {
+        $mensaje = "El evento '$nombreEvento' programado para el " .
+            date('d/m/Y', strtotime($fechaEvento)) . " a las " .
+            date('H:i', strtotime($horaEvento)) . " ha sido cancelado.";
+
+        // Preparar la consulta de notificación
+        $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID, Fecha) 
+                            VALUES (?, ?, ?, 0, ?, NOW())";
+        $notif_stmt = $conexion->prepare($sql_notificacion);
+
+        if (!$notif_stmt) {
+            throw new Exception('Error al preparar la notificación: ' . $conexion->error);
+        }
+
+        $tipo = 'evento_cancelado';
+        $emisor_id = isset($_SESSION['Codigo']) ? $_SESSION['Codigo'] : null;
+
+        foreach ($participantes as $participante_id) {
+            if (!empty($participante_id)) {
+                // Insertar notificación en el sistema
+                $notif_stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id);
+                if (!$notif_stmt->execute()) {
+                    throw new Exception('Error al crear notificación: ' . $notif_stmt->error);
+                }
+
+                // Enviar correo
+                $email_stmt = $conexion->prepare("SELECT Correo FROM Usuarios WHERE Codigo = ?");
+                if (!$email_stmt) {
+                    throw new Exception('Error al preparar consulta de correo: ' . $conexion->error);
+                }
+
+                $email_stmt->bind_param("i", $participante_id);
+                if (!$email_stmt->execute()) {
+                    throw new Exception('Error al obtener correo: ' . $email_stmt->error);
+                }
+
+                $email_result = $email_stmt->get_result();
+                $usuario = $email_result->fetch_assoc();
+
+                if ($usuario && $usuario['Correo']) {
+                    $asunto = "Evento Cancelado: $nombreEvento";
+                    $cuerpo = "
+                        <html>
+                        <body>
+                            <p>El siguiente evento ha sido cancelado:</p>
+                            <p><strong>Evento:</strong> $nombreEvento</p>
+                            <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fechaEvento)) . "</p>
+                            <p><strong>Hora:</strong> " . date('H:i', strtotime($horaEvento)) . "</p>
+                        </body>
+                        </html>
+                    ";
+                    enviarCorreo($usuario['Correo'], $asunto, $cuerpo);
+                }
+                $email_stmt->close();
+            }
+        }
+        $notif_stmt->close();
+    }
+
+    // Ahora sí, eliminar el evento
     $delete_stmt = $conexion->prepare("DELETE FROM Eventos_Admin WHERE ID_Evento = ?");
     if (!$delete_stmt) {
         throw new Exception('Error al preparar la consulta de eliminación: ' . $conexion->error);
