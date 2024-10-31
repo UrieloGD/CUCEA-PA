@@ -1,4 +1,4 @@
-<?php
+<?
 session_start();
 include './../../config/db.php';
 
@@ -9,7 +9,7 @@ if ($rol_id == 1) { // Jefe de departamento
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
               e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
           FROM Notificaciones n
-          JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+          LEFT JOIN Usuarios e ON n.Emisor_ID = e.Codigo
           WHERE n.Usuario_ID = $codigo_usuario
           ORDER BY n.Fecha DESC
           LIMIT 10";
@@ -33,7 +33,7 @@ if ($rol_id == 1) { // Jefe de departamento
                    '' AS Departamentos, e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID,
                    n.Vista AS vista, n.Emisor_ID
             FROM Notificaciones n
-            JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+            LEFT JOIN Usuarios e ON n.Emisor_ID = e.Codigo
             WHERE n.Usuario_ID = $codigo_usuario
             ORDER BY fecha DESC
             LIMIT 10";
@@ -61,6 +61,8 @@ foreach ($notificaciones as $notificacion) :
                     echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha enviado una justificación';
                 } elseif ($notificacion['tipo'] == 'plantilla') {
                     echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
+                } elseif ($notificacion['tipo'] == 'evento_cancelado') {
+                    echo $notificacion['Mensaje'] ?? 'Evento cancelado';
                 } else {
                     echo $notificacion['Mensaje'] ?? 'Nueva notificación';
                 }

@@ -1,5 +1,6 @@
 <?php
 ob_start();
+session_start(); // Añadido inicio de sesión
 
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
@@ -76,11 +77,25 @@ try {
     $horaEvento = $evento['Hora_Inicio'];
     $participantes = !empty($evento['Participantes']) ? explode(',', $evento['Participantes']) : [];
 
-    // Crear notificaciones en el sistema ANTES de marcar el evento como inactivo
+    // Asegurarse de que tenemos un emisor_id válido
+    $emisor_id = isset($_SESSION['Codigo']) ? $_SESSION['Codigo'] : null;
+    if (!$emisor_id) {
+        error_log("Advertencia: No se encontró ID del emisor en la sesión");
+        // Podrías asignar un ID por defecto o manejarlo de otra manera
+        $emisor_id = 0; // O algún ID de sistema por defecto
+    }
+
+    // Crear notificaciones en el sistema
     if (!empty($participantes)) {
         $mensaje = "El evento '$nombreEvento' programado para el " .
             date('d/m/Y', strtotime($fechaEvento)) . " a las " .
             date('H:i', strtotime($horaEvento)) . " ha sido cancelado.";
+
+        // Debug log
+        error_log("Creando notificaciones para evento cancelado:");
+        error_log("Mensaje: " . $mensaje);
+        error_log("Emisor ID: " . $emisor_id);
+        error_log("Participantes: " . print_r($participantes, true));
 
         // Preparar la consulta de notificación
         $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID, Fecha) 
@@ -92,17 +107,23 @@ try {
         }
 
         $tipo = 'evento_cancelado';
-        $emisor_id = isset($_SESSION['Codigo']) ? $_SESSION['Codigo'] : null;
 
         foreach ($participantes as $participante_id) {
             if (!empty($participante_id)) {
                 // Insertar notificación en el sistema
                 $notif_stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id);
+
                 if (!$notif_stmt->execute()) {
-                    throw new Exception('Error al crear notificación: ' . $notif_stmt->error);
+                    error_log("Error al crear notificación para usuario $participante_id: " . $notif_stmt->error);
+                    continue;
                 }
 
-                // Enviar correo
+                // Verificar si la notificación se insertó correctamente
+                if ($notif_stmt->affected_rows <= 0) {
+                    error_log("No se pudo crear la notificación para el usuario $participante_id");
+                }
+
+                // Enviar correo electrónico
                 $email_stmt = $conexion->prepare("SELECT Correo FROM Usuarios WHERE Codigo = ?");
                 if (!$email_stmt) {
                     throw new Exception('Error al preparar consulta de correo: ' . $conexion->error);
@@ -136,7 +157,7 @@ try {
         $notif_stmt->close();
     }
 
-    // En lugar de eliminar, actualizar el estado del evento a 'inactivo'
+    // Actualizar el estado del evento a 'inactivo'
     $update_stmt = $conexion->prepare("UPDATE Eventos_Admin SET Estado = 'inactivo' WHERE ID_Evento = ?");
     if (!$update_stmt) {
         throw new Exception('Error al preparar la consulta de actualización: ' . $conexion->error);
