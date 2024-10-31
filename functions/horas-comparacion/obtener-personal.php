@@ -53,31 +53,44 @@ function getDepartamentoQuery($departamento)
     ];
 }
 
-function getSumaHorasPorProfesor($codigo, $conexion)
-{
+function getSumaHorasPorProfesor($codigo, $conexion) {
     $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento FROM Departamentos");
     $suma_horas = 0;
+    $suma_cargo_plaza = 0;
     $horas_otros_departamentos = array();
 
     while ($dept = mysqli_fetch_assoc($departamentos)) {
         $tabla = "Data_" . $dept['Nombre_Departamento'];
-        $query = "SELECT SUM(HORAS) as suma FROM $tabla WHERE CODIGO_PROFESOR = ?";
+        
+        // Consulta para suma total de horas
+        $query = "SELECT HORAS, TIPO_CONTRATO FROM $tabla WHERE CODIGO_PROFESOR = ?";
         $stmt = $conexion->prepare($query);
         $stmt->bind_param("s", $codigo);
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-
-        if ($row['suma'] > 0) {
-            if ($tabla != "Data_" . $departamento) {
-                $horas_otros_departamentos[] = $dept['Nombre_Departamento'] . ": " . $row['suma'];
+        
+        while($row = $result->fetch_assoc()) {
+            // Suma total de horas
+            $horas = !empty($row['HORAS']) ? intval($row['HORAS']) : 2;
+            $suma_horas += $horas;
+            
+            // Suma específica para cargo a plaza
+            if ($row['TIPO_CONTRATO'] === 'Cargo a Plaza') {
+                $suma_cargo_plaza += $horas;
             }
-            $suma_horas += $row['suma'];
+            
+            if ($tabla != "Data_" . $departamento) {
+                $horas_otros_departamentos[] = $dept['Nombre_Departamento'] . ": " . $horas;
+            }
         }
         $stmt->close();
     }
 
-    return [$suma_horas, implode(", ", $horas_otros_departamentos)];
+    return [
+        $suma_horas, 
+        implode(", ", $horas_otros_departamentos),
+        $suma_cargo_plaza
+    ];
 }
 
 try {
@@ -111,17 +124,19 @@ try {
     // Obtener los resultados
     $personal = array();
     while ($row = $result->fetch_assoc()) {
-        // Asegurarse de que los valores numéricos sean números
         $row['Horas_frente_grupo'] = intval($row['Horas_frente_grupo']);
         $row['Horas_definitivas'] = intval($row['Horas_definitivas']);
 
-        // Calcular suma de horas y horas en otros departamentos
-        list($suma_horas, $horas_otros_departamentos) = getSumaHorasPorProfesor($row['Codigo'], $conexion);
+        // Obtener las sumas de horas
+        list($suma_horas, $horas_otros_departamentos, $suma_cargo_plaza) = 
+            getSumaHorasPorProfesor($row['Codigo'], $conexion);
+            
         $row['suma_horas'] = $suma_horas > 0 ? $suma_horas : 2;
+        $row['suma_cargo_plaza'] = $suma_cargo_plaza;
         $row['horas_otros_departamentos'] = $horas_otros_departamentos;
 
         // Calcular la comparación
-        if ($row['Categoria_actual'] == 'cargo a plaza') { // Si necesitas mantener esta lógica
+        if ($row['Categoria_actual'] == 'cargo a plaza') {
             $row['comparacion'] = $row['suma_horas'] - $row['Horas_frente_grupo'];
         } else {
             $row['comparacion'] = $row['suma_horas'] - $row['Horas_definitivas'];

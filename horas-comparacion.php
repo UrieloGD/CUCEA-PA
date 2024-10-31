@@ -192,7 +192,8 @@
                         <th>Carga Horaria</th>
                         <th>Horas Frente Grupo</th>
                         <th>Horas Definitivas</th>
-                        <th>Suma Horas Totales</th>
+                        <th>Suma Horas Cargo Plaza</th>
+                        <th>Suma Horas Definitivas</th>
                         <th>Horas por Departamento</th>
                     `;
 
@@ -209,6 +210,7 @@
                             <td>${persona.Carga_horaria || ''}</td>
                             <td>${persona.Horas_frente_grupo || 'N/A'}</td>
                             <td>${persona.Horas_definitivas || '0'}</td>
+                            <td>${persona.suma_cargo_plaza || '0'}</td>
                             <td>${persona.suma_horas}</td>
                             <td>
                                 ${persona.comparacion}<br>
