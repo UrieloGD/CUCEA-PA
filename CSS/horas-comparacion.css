@@ -178,6 +178,16 @@
   background-color: #f4f4f4;
 }
 
+.tabla-personal td {
+  vertical-align: center;
+  padding: 8px;
+}
+
+.tabla-personal td small {
+  display: block;
+  line-height: 1.4;
+}
+
 /* Estilos para el botón de cerrar */
 .close {
   position: absolute;

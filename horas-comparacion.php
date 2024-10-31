@@ -181,7 +181,7 @@
                         return;
                     }
 
-                    // Actualizar encabezados de la tabla
+                    //Encabezados de la tabla
                     const thead = document.querySelector('.tabla-personal thead tr');
                     thead.innerHTML = `
                         <th>Código</th>
@@ -192,31 +192,44 @@
                         <th>Carga Horaria</th>
                         <th>Horas Frente Grupo</th>
                         <th>Horas Definitivas</th>
-                        <th>Suma Horas Cargo Plaza</th>
-                        <th>Suma Horas Definitivas</th>
-                        <th>Horas por Departamento</th>
+                        <th>Horas Frente Grupo por Departamento</th>
+                        <th>Horas Definitivas por Departamento</th>
                     `;
 
                     tablaBody.innerHTML = ''; // Limpiar tabla
 
                     data.forEach(persona => {
                         const row = document.createElement('tr');
-                        row.innerHTML = `
+                        
+                        // Formatear las horas frente a grupo
+                        const horasFrenteGrupo = `${persona.suma_cargo_plaza || '0'}/${persona.Horas_frente_grupo || '0'}`;
+                        
+                        // Formatear las horas definitivas
+                        const horasDefinitivas = `${persona.suma_horas_definitivas || '0'}/${persona.Horas_definitivas || '0'}`;
+                        
+                        // Manejar casos vacíos para horas por departamento
+                        const horasCargoDeptos = persona.horas_cargo_por_departamento && 
+                                                persona.horas_cargo_por_departamento.trim() !== '' ? 
+                                                persona.horas_cargo_por_departamento : 'N/A';
+                                                
+                        const horasDefinitivasDeptos = persona.horas_definitivas_por_departamento && 
+                                                    persona.horas_definitivas_por_departamento.trim() !== '' ? 
+                                                    persona.horas_definitivas_por_departamento : 'N/A';
+                        
+                        const tdContent = `
                             <td>${persona.Codigo || ''}</td>
                             <td>${persona.Nombre_completo || ''}</td>
                             <td>${persona.Departamento || ''}</td>
                             <td>${persona.Categoria_actual || ''}</td>
                             <td>${persona.Tipo_plaza || ''}</td>
                             <td>${persona.Carga_horaria || ''}</td>
-                            <td>${persona.Horas_frente_grupo || 'N/A'}</td>
-                            <td>${persona.suma_horas_definitivas || '0'}</td>
-                            <td>${persona.suma_cargo_plaza || '0'}</td>
-                            <td>${persona.suma_horas}</td>
-                            <td>
-                                ${persona.comparacion}<br>
-                                <small>${persona.horas_otros_departamentos}</small>
-                            </td>
+                            <td>${horasFrenteGrupo}</td>
+                            <td>${horasDefinitivas}</td>
+                            <td style="white-space: pre-line;"><small>${horasCargoDeptos}</small></td>
+                            <td style="white-space: pre-line;"><small>${horasDefinitivasDeptos}</small></td>
                         `;
+                        
+                        row.innerHTML = tdContent;
                         tablaBody.appendChild(row);
                     });
                 })
