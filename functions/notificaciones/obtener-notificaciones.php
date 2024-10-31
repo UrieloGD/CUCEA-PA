@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 include './../../config/db.php';
 
@@ -42,7 +42,7 @@ if ($rol_id == 1) { // Jefe de departamento
 $result = mysqli_query($conexion, $query);
 $notificaciones = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-foreach ($notificaciones as $notificacion) :
+foreach ($notificaciones as $notificacion) {
 ?>
     <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
         <div class="imagen">
@@ -73,4 +73,6 @@ foreach ($notificaciones as $notificacion) :
             </div>
         </div>
     </div>
-<?php endforeach; ?>
+<?php
+}
+?>
