@@ -58,7 +58,8 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
     $suma_horas = 0;
     $suma_cargo_plaza = 0;
     $suma_horas_definitivas = 0;
-    $horas_por_departamento = array(); // Cambio aquí para agrupar horas
+    $horas_por_departamento = array();
+    $profesor_encontrado = false; // Nueva variable para verificar si el profesor existe en alguna Data_
 
     while ($dept = mysqli_fetch_assoc($departamentos)) {
         $tabla = "Data_" . $dept['Nombre_Departamento'];
@@ -69,16 +70,17 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
         $stmt->execute();
         $result = $stmt->get_result();
         
-        $suma_dept = 0; // Variable para sumar horas por departamento
+        $suma_dept = 0;
         
         while($row = $result->fetch_assoc()) {
+            $profesor_encontrado = true; // Marcamos que encontramos al profesor
+            
+            // Solo asignamos horas si realmente hay un registro
             $horas = !empty($row['HORAS']) ? intval($row['HORAS']) : 2;
             $suma_horas += $horas;
             
-            // Convertir a minúsculas para comparación
             $tipo_contrato = strtolower(trim($row['TIPO_CONTRATO']));
             
-            // Comparar usando strtolower para hacer insensible a mayúsculas/minúsculas
             if (strtolower(trim($tipo_contrato)) === strtolower('cargo a plaza')) {
                 $suma_cargo_plaza += $horas;
             }
@@ -87,10 +89,9 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
                 $suma_horas_definitivas += $horas;
             }
             
-            $suma_dept += $horas; // Sumar horas para este departamento
+            $suma_dept += $horas;
         }
         
-        // Solo agregar al array si hay horas en este departamento
         if ($suma_dept > 0 && $tabla != "Data_" . $departamento) {
             if (isset($horas_por_departamento[$dept['Nombre_Departamento']])) {
                 $horas_por_departamento[$dept['Nombre_Departamento']] += $suma_dept;
@@ -102,7 +103,13 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
         $stmt->close();
     }
 
-    // Convertir el array de horas por departamento a string
+    // Si el profesor no fue encontrado en ninguna tabla Data_, establecemos todo en 0
+    if (!$profesor_encontrado) {
+        $suma_horas = 0;
+        $suma_cargo_plaza = 0;
+        $suma_horas_definitivas = 0;
+    }
+
     $horas_otros_departamentos = array();
     foreach ($horas_por_departamento as $dept => $horas) {
         $horas_otros_departamentos[] = "$dept: $horas";
@@ -149,11 +156,11 @@ try {
     while ($row = $result->fetch_assoc()) {
         $row['Horas_frente_grupo'] = intval($row['Horas_frente_grupo']);
         
-        // Obtener las sumas de horas
         list($suma_horas, $horas_otros_departamentos, $suma_cargo_plaza, $suma_horas_definitivas) = 
             getSumaHorasPorProfesor($row['Codigo'], $conexion);
             
-        $row['suma_horas'] = $suma_horas > 0 ? $suma_horas : 2;
+        // Solo asignamos suma_horas si realmente hay horas
+        $row['suma_horas'] = $suma_horas;
         $row['suma_cargo_plaza'] = $suma_cargo_plaza;
         $row['suma_horas_definitivas'] = $suma_horas_definitivas;
         $row['horas_otros_departamentos'] = $horas_otros_departamentos;
