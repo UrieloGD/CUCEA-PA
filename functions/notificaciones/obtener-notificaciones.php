@@ -46,10 +46,10 @@ foreach ($notificaciones as $notificacion) {
 ?>
     <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
         <div class="imagen">
-            <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
+            <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor'] ?? '#808080'; ?>">
                 <?php
-                $nombreInicial = strtoupper(substr($notificacion['Nombre'], 0, 1));
-                $apellidoInicial = strtoupper(substr($notificacion['Apellido'], 0, 1));
+                $nombreInicial = !empty($notificacion['Nombre']) ? strtoupper(substr($notificacion['Nombre'], 0, 1)) : 'U';
+                $apellidoInicial = !empty($notificacion['Apellido']) ? strtoupper(substr($notificacion['Apellido'], 0, 1)) : '';
                 echo $nombreInicial . $apellidoInicial;
                 ?>
             </div>
