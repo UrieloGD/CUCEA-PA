@@ -57,39 +57,62 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
     $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento FROM Departamentos");
     $suma_horas = 0;
     $suma_cargo_plaza = 0;
-    $horas_otros_departamentos = array();
+    $suma_horas_definitivas = 0;
+    $horas_por_departamento = array(); // Cambio aquí para agrupar horas
 
     while ($dept = mysqli_fetch_assoc($departamentos)) {
         $tabla = "Data_" . $dept['Nombre_Departamento'];
         
-        // Consulta para suma total de horas
         $query = "SELECT HORAS, TIPO_CONTRATO FROM $tabla WHERE CODIGO_PROFESOR = ?";
         $stmt = $conexion->prepare($query);
         $stmt->bind_param("s", $codigo);
         $stmt->execute();
         $result = $stmt->get_result();
         
+        $suma_dept = 0; // Variable para sumar horas por departamento
+        
         while($row = $result->fetch_assoc()) {
-            // Suma total de horas
             $horas = !empty($row['HORAS']) ? intval($row['HORAS']) : 2;
             $suma_horas += $horas;
             
-            // Suma específica para cargo a plaza
-            if ($row['TIPO_CONTRATO'] === 'Cargo a Plaza') {
+            // Convertir a minúsculas para comparación
+            $tipo_contrato = strtolower(trim($row['TIPO_CONTRATO']));
+            
+            // Comparar usando strtolower para hacer insensible a mayúsculas/minúsculas
+            if (strtolower(trim($tipo_contrato)) === strtolower('cargo a plaza')) {
                 $suma_cargo_plaza += $horas;
             }
             
-            if ($tabla != "Data_" . $departamento) {
-                $horas_otros_departamentos[] = $dept['Nombre_Departamento'] . ": " . $horas;
+            if (strtolower(trim($tipo_contrato)) === strtolower('horas definitivas')) {
+                $suma_horas_definitivas += $horas;
+            }
+            
+            $suma_dept += $horas; // Sumar horas para este departamento
+        }
+        
+        // Solo agregar al array si hay horas en este departamento
+        if ($suma_dept > 0 && $tabla != "Data_" . $departamento) {
+            if (isset($horas_por_departamento[$dept['Nombre_Departamento']])) {
+                $horas_por_departamento[$dept['Nombre_Departamento']] += $suma_dept;
+            } else {
+                $horas_por_departamento[$dept['Nombre_Departamento']] = $suma_dept;
             }
         }
+        
         $stmt->close();
+    }
+
+    // Convertir el array de horas por departamento a string
+    $horas_otros_departamentos = array();
+    foreach ($horas_por_departamento as $dept => $horas) {
+        $horas_otros_departamentos[] = "$dept: $horas";
     }
 
     return [
         $suma_horas, 
         implode(", ", $horas_otros_departamentos),
-        $suma_cargo_plaza
+        $suma_cargo_plaza,
+        $suma_horas_definitivas
     ];
 }
 
@@ -125,21 +148,21 @@ try {
     $personal = array();
     while ($row = $result->fetch_assoc()) {
         $row['Horas_frente_grupo'] = intval($row['Horas_frente_grupo']);
-        $row['Horas_definitivas'] = intval($row['Horas_definitivas']);
-
+        
         // Obtener las sumas de horas
-        list($suma_horas, $horas_otros_departamentos, $suma_cargo_plaza) = 
+        list($suma_horas, $horas_otros_departamentos, $suma_cargo_plaza, $suma_horas_definitivas) = 
             getSumaHorasPorProfesor($row['Codigo'], $conexion);
             
         $row['suma_horas'] = $suma_horas > 0 ? $suma_horas : 2;
         $row['suma_cargo_plaza'] = $suma_cargo_plaza;
+        $row['suma_horas_definitivas'] = $suma_horas_definitivas;
         $row['horas_otros_departamentos'] = $horas_otros_departamentos;
 
         // Calcular la comparación
         if ($row['Categoria_actual'] == 'cargo a plaza') {
             $row['comparacion'] = $row['suma_horas'] - $row['Horas_frente_grupo'];
         } else {
-            $row['comparacion'] = $row['suma_horas'] - $row['Horas_definitivas'];
+            $row['comparacion'] = $row['suma_horas'] - $row['suma_horas_definitivas'];
         }
 
         $personal[] = $row;

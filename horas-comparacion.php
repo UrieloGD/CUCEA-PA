@@ -209,7 +209,7 @@
                             <td>${persona.Tipo_plaza || ''}</td>
                             <td>${persona.Carga_horaria || ''}</td>
                             <td>${persona.Horas_frente_grupo || 'N/A'}</td>
-                            <td>${persona.Horas_definitivas || '0'}</td>
+                            <td>${persona.suma_horas_definitivas || '0'}</td>
                             <td>${persona.suma_cargo_plaza || '0'}</td>
                             <td>${persona.suma_horas}</td>
                             <td>
