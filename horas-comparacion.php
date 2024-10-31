@@ -146,6 +146,17 @@
             });
         });
 
+        // Función para determinar la clase de las horas
+        function getHorasClass(actual, requerido) {
+            actual = parseInt(actual) || 0;
+            requerido = parseInt(requerido) || 0;
+            
+            if (actual === 0 && requerido === 0) return 'horas-cero';
+            if (actual < requerido) return 'horas-faltantes';
+            if (actual === requerido) return 'horas-correctas';
+            return 'horas-excedidas';
+        }
+
         // Función para obtener los datos del personal
         function fetchPersonalData(departamento) {
             // Limpiar la búsqueda al cargar nuevos datos
@@ -201,11 +212,20 @@
                     data.forEach(persona => {
                         const row = document.createElement('tr');
                         
-                        // Formatear las horas frente a grupo
-                        const horasFrenteGrupo = `${persona.suma_cargo_plaza || '0'}/${persona.Horas_frente_grupo || '0'}`;
+                        // Procesar horas frente a grupo
+                        const horasCargoActual = persona.suma_cargo_plaza || 0;
+                        const horasFrenteRequeridas = persona.Horas_frente_grupo || 0;
+                        const claseFrenteGrupo = getHorasClass(horasCargoActual, horasFrenteRequeridas);
                         
-                        // Formatear las horas definitivas
-                        const horasDefinitivas = `${persona.suma_horas_definitivas || '0'}/${persona.Horas_definitivas || '0'}`;
+                        // Procesar horas definitivas
+                        const horasDefActual = persona.suma_horas_definitivas || 0;
+                        const horasDefRequeridas = persona.Horas_definitivas || 0;
+                        const claseDefinitivas = getHorasClass(horasDefActual, horasDefRequeridas);
+                        
+                        // Formatear las horas con sus respectivas clases
+                        const horasFrenteGrupo = `<span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>`;
+                        const horasDefinitivas = `<span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>`;
+                        
                         
                         // Manejar casos vacíos para horas por departamento
                         const horasCargoDeptos = persona.horas_cargo_por_departamento && 
