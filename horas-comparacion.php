@@ -146,6 +146,17 @@
             });
         });
 
+        // Función para determinar la clase de las horas
+        function getHorasClass(actual, requerido) {
+            actual = parseInt(actual) || 0;
+            requerido = parseInt(requerido) || 0;
+            
+            if (actual === 0 && requerido === 0) return 'horas-cero';
+            if (actual < requerido) return 'horas-faltantes';
+            if (actual === requerido) return 'horas-correctas';
+            return 'horas-excedidas';
+        }
+
         // Función para obtener los datos del personal
         function fetchPersonalData(departamento) {
             // Limpiar la búsqueda al cargar nuevos datos
@@ -181,7 +192,7 @@
                         return;
                     }
 
-                    // Actualizar encabezados de la tabla
+                    //Encabezados de la tabla
                     const thead = document.querySelector('.tabla-personal thead tr');
                     thead.innerHTML = `
                         <th>Código</th>
@@ -192,29 +203,53 @@
                         <th>Carga Horaria</th>
                         <th>Horas Frente Grupo</th>
                         <th>Horas Definitivas</th>
-                        <th>Suma Horas Totales</th>
-                        <th>Horas por Departamento</th>
+                        <th>Horas Frente Grupo por Departamento</th>
+                        <th>Horas Definitivas por Departamento</th>
                     `;
 
                     tablaBody.innerHTML = ''; // Limpiar tabla
 
                     data.forEach(persona => {
                         const row = document.createElement('tr');
-                        row.innerHTML = `
+                        
+                        // Procesar horas frente a grupo
+                        const horasCargoActual = persona.suma_cargo_plaza || 0;
+                        const horasFrenteRequeridas = persona.Horas_frente_grupo || 0;
+                        const claseFrenteGrupo = getHorasClass(horasCargoActual, horasFrenteRequeridas);
+                        
+                        // Procesar horas definitivas
+                        const horasDefActual = persona.suma_horas_definitivas || 0;
+                        const horasDefRequeridas = persona.Horas_definitivas || 0;
+                        const claseDefinitivas = getHorasClass(horasDefActual, horasDefRequeridas);
+                        
+                        // Formatear las horas con sus respectivas clases
+                        const horasFrenteGrupo = `<span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>`;
+                        const horasDefinitivas = `<span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>`;
+                        
+                        
+                        // Manejar casos vacíos para horas por departamento
+                        const horasCargoDeptos = persona.horas_cargo_por_departamento && 
+                                                persona.horas_cargo_por_departamento.trim() !== '' ? 
+                                                persona.horas_cargo_por_departamento : 'N/A';
+                                                
+                        const horasDefinitivasDeptos = persona.horas_definitivas_por_departamento && 
+                                                    persona.horas_definitivas_por_departamento.trim() !== '' ? 
+                                                    persona.horas_definitivas_por_departamento : 'N/A';
+                        
+                        const tdContent = `
                             <td>${persona.Codigo || ''}</td>
                             <td>${persona.Nombre_completo || ''}</td>
                             <td>${persona.Departamento || ''}</td>
                             <td>${persona.Categoria_actual || ''}</td>
                             <td>${persona.Tipo_plaza || ''}</td>
                             <td>${persona.Carga_horaria || ''}</td>
-                            <td>${persona.Horas_frente_grupo || 'N/A'}</td>
-                            <td>${persona.Horas_definitivas || '0'}</td>
-                            <td>${persona.suma_horas}</td>
-                            <td>
-                                ${persona.comparacion}<br>
-                                <small>${persona.horas_otros_departamentos}</small>
-                            </td>
+                            <td>${horasFrenteGrupo}</td>
+                            <td>${horasDefinitivas}</td>
+                            <td style="white-space: pre-line;"><small>${horasCargoDeptos}</small></td>
+                            <td style="white-space: pre-line;"><small>${horasDefinitivasDeptos}</small></td>
                         `;
+                        
+                        row.innerHTML = tdContent;
                         tablaBody.appendChild(row);
                     });
                 })
