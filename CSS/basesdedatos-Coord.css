@@ -113,7 +113,6 @@ div.dataTables_wrapper {
 .table-container {
   margin: 0 auto;
   border-radius: 10px;
-  border: 2px solid #005a8c;
   margin-bottom: 30px;
 }
 
@@ -343,7 +342,6 @@ div.dataTables_wrapper {
 }
 
 .columns-container div {
-  border: 1px solid rgba(173, 173, 173, 0.397);
   margin-top: -5px;
 }
 
@@ -868,7 +866,7 @@ div.dataTables_wrapper {
     font-size: 1rem;
   }
   #popup-columnas {
-    width: 100vw;
+    width: 85vw;
   }
 }
 
@@ -902,7 +900,7 @@ div.dataTables_wrapper {
     font-size: 1rem;
   }
   #popup-columnas {
-    width: 100vw;
+    width: 85vw;
   }
 }
 

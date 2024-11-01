@@ -277,3 +277,45 @@
 [01/11/2024 09:44:35] Filas procesadas: 10, Inserciones exitosas: 10
 [01/11/2024 09:44:38] Output antes de JSON: 
 [01/11/2024 09:44:38] Mensaje final enviado: Se insertaron 10 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[01/11/2024 16:07:51] Archivo recibido: Tabla Colas.xlsx
+[01/11/2024 16:07:51] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[01/11/2024 16:07:53] Excel cargado exitosamente
+[01/11/2024 16:07:53] Tabla destino: Data_Estudios_Regionales
+[01/11/2024 16:07:53] Encabezados encontrados: NIVEL DE CONFIANZA, , NIVEL DE SIGNIFICANCIA          , , DOS COLAS, , COLA DERECHA, , COLA IZQUIERDA, 
+[01/11/2024 16:07:53] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[01/11/2024 16:07:53] Mapeo de campos: Array
+(
+)
+
+[01/11/2024 16:07:53] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[01/11/2024 16:07:53] Filas procesadas: 10, Inserciones exitosas: 10
+[01/11/2024 16:07:57] Output antes de JSON: 
+[01/11/2024 16:07:57] Mensaje final enviado: Se insertaron 10 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[01/11/2024 17:46:50] Archivo recibido: Tabla Colas.xlsx
+[01/11/2024 17:46:50] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[01/11/2024 17:46:50] Excel cargado exitosamente
+[01/11/2024 17:46:50] Tabla destino: Data_Estudios_Regionales
+[01/11/2024 17:46:50] Encabezados encontrados: NIVEL DE CONFIANZA, , NIVEL DE SIGNIFICANCIA          , , DOS COLAS, , COLA DERECHA, , COLA IZQUIERDA, 
+[01/11/2024 17:46:50] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[01/11/2024 17:46:50] Mapeo de campos: Array
+(
+)
+
+[01/11/2024 17:46:50] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[01/11/2024 17:46:50] Filas procesadas: 10, Inserciones exitosas: 10
+[01/11/2024 17:46:53] Output antes de JSON: 
+[01/11/2024 17:46:53] Mensaje final enviado: Se insertaron 10 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[01/11/2024 18:05:40] Archivo recibido: Tabla Colas.xlsx
+[01/11/2024 18:05:40] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[01/11/2024 18:05:41] Excel cargado exitosamente
+[01/11/2024 18:05:41] Tabla destino: Data_Estudios_Regionales
+[01/11/2024 18:05:41] Encabezados encontrados: NIVEL DE CONFIANZA, , NIVEL DE SIGNIFICANCIA          , , DOS COLAS, , COLA DERECHA, , COLA IZQUIERDA, 
+[01/11/2024 18:05:41] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[01/11/2024 18:05:41] Mapeo de campos: Array
+(
+)
+
+[01/11/2024 18:05:41] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[01/11/2024 18:05:41] Filas procesadas: 10, Inserciones exitosas: 10
+[01/11/2024 18:05:44] Output antes de JSON: 
+[01/11/2024 18:05:44] Mensaje final enviado: Se insertaron 10 registros exitosamente y el archivo fue cargado correctamente en la base de datos.

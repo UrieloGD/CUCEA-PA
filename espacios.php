@@ -29,7 +29,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 ?>
 
 <title>Espacios</title>
-<link rel="stylesheet" href="./CSS/espacios.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/espacios.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

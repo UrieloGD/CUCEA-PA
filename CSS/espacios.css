@@ -415,7 +415,7 @@
   align-items: center;
   white-space: nowrap;
   border-radius: 7px 7px 0px 0px;
-  box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+  box-shadow: 0px 1px 1px 1px rgb(180, 180, 180);
 }
 
 .sala img {
@@ -468,6 +468,7 @@
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 50px;
+  margin-bottom: 100px;
 }
 
 .leyenda-item {
@@ -709,12 +710,42 @@ textarea {
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+  .contenedor-principal {
+    width: 95%;
+  }
+  .letra-piso span {
+    font-size: 1.5rem;
+  }
+  .cuadro-grande {
+    width: 50%;
+  }
+  .sala-container {
+    width: 1%;
+  }
+  .sala {
+    box-shadow: 0px 1px 1px 1px rgb(180, 180, 180);
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
     width: 92vw;
     margin-left: 6vw;
+  }
+  .contenedor-principal {
+    width: 95%;
+  }
+  .letra-piso span {
+    font-size: 1.5rem;
+  }
+  .cuadro-grande {
+    width: 50%;
+  }
+  .sala-container {
+    width: 1%;
+  }
+  .sala {
+    box-shadow: 0px 1px 1px 1px rgb(180, 180, 180);
   }
 }
 
@@ -737,7 +768,7 @@ textarea {
     width: 1%;
   }
   .sala {
-    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+    box-shadow: 0px 1px 1px 1px rgb(180, 180, 180);
   }
 }
 
@@ -766,7 +797,7 @@ textarea {
   .sala {
     font-size: 12px;
     min-width: 35px;
-    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+    box-shadow: 0px 1px 1px 1px rgb(180, 180, 180);
   }
   .sala-texto {
     font-size: 0.65rem;
@@ -824,10 +855,73 @@ textarea {
   .techo,
   .escaleras-container,
   .columna-lateral.derecha,
-  .columna-lateral.izquierda
+  .columna-lateral.izquierda,
+  .barandal,
+  .piso-gris
   {
     display: none;
   }
+
+  .cuadro-grande {
+    padding-left: 15px;
+  }
+
+  .piso, .salas {
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+
+  .sala-container {
+    width: 100%;
+    height: 20px;
+    margin-top: 100px;
+    border-radius: 5px;
+  }
+
+  .sala, .aula {
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .sala-container img {
+    width: 30px;
+    height: 30px;
+    margin-top: 15px;
+  }
+
+  .sala-texto {
+    position: relative;
+    top: 75px;
+    z-index: 5;
+    font-size: 1rem;
+  }
+
+  .salas {
+    position: relative;
+    top: -150px;
+  }
+
+  .leyenda {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex: 1;
+    margin-bottom: 100px;
+  }
+
+  .leyenda-item {
+    width: 30%;
+    padding-left: 50;
+    margin-top: -10px;
+    margin-bottom: -10px;
+  }
+
+  .cuadrito {
+    width: 20px;
+  }
+
   .letra-moviles .letra-piso {
     display: inline-block;
     position: relative;
@@ -847,5 +941,11 @@ textarea {
     margin: 0 auto;
     font-size: 1.5rem;
     margin-left: 25px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #filtrar-container #filtrar {
+    margin: 0 auto;
   }
 }

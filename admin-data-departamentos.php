@@ -61,14 +61,14 @@ $departamentos_entregados = count($departamentos_subidos);
 $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 ?>
 
-<title>Plantillas Departamentos</title>
+<title>Datas Departamentos</title>
 <link rel="stylesheet" href="./CSS/admin-data-departamentos.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
   <div class="encabezado">
     <div class="titulo-bd">
-      <h3>Plantillas Programación Academica</h3>
+      <h3>Datas Departamentos</h3>
     </div>
   </div>
 

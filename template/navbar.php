@@ -171,6 +171,16 @@ function generateColorForUser($userId)
                 </a>
             </li>
 
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="./espacios.php">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
+                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                    </div>
+                    <span class="link-text">Espacios</span>
+                </a>
+            </li>
+
             <?php
             // Redirigir a esta opcion, unicamente si es jefe de departamento o coordinador de personal
             if ($rol_id == 1 || $rol_id == 3) {
@@ -185,16 +195,6 @@ function generateColorForUser($userId)
             </li>";
             }
             ?>
-
-            <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./espacios.php">
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Espacios</span>
-                </a>
-            </li>
 
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./dashboard-oferta.php">

@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<!-- Estilos del modal -->
+<!-- Estilos del modal (No funcionan en el .css) -->
 <style>
 .modal {
   display: none; 
@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
   background-color: #fff; 
   margin: 15% auto; 
   padding: 20px; 
-  top: 21vh;
+  top: 20vh;
   border: 1px solid #888; 
   width: 80%;
   max-width: 1600px; 
@@ -636,6 +636,92 @@ document.addEventListener('DOMContentLoaded', function() {
   border-color: #0071b0;
   cursor: pointer;
   box-shadow: 0px 2px 2px rgb(185, 174, 174);
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+    .modal-content {
+    top: 15vh;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+    .modal-content {
+    top: 15vh;
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+    .modal-content {
+    top: 7vh;
+    }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+    .modal-content {
+    top: 7vh;
+    }
+}
+
+@media screen and (max-width: 768px) and (min-width: 481px) {
+    .modal-content {
+    top: 4vh;
+    }
+}
+
+@media screen and (max-width: 480px) {
+  .cuadro-principal {
+    width: 96vw;
+    /*height: fit-content;*/
+    margin-left: 2vw;
+    margin-right: 2vw;
+    font-size: smaller;
+    
+  }
+  .solicitud-contenedor-principal {
+    min-width: 97%;
+    height: 150px;
+  }
+  .solicitud-contenedor-principal input {
+    max-width: 70vw;
+  }
+  .texto-superior {
+    margin-top: -30px;
+    position: relative;
+    height: 0;
+    width: 50vw;
+  }
+  .texto-inferior {
+    height: 0;
+  }
+  .texto-inferior p,
+  .texto-medio p,
+  .texto-superior p {
+    width: 10px;
+    font-size: 0.5rem;
+    white-space: break-word;
+  }
+  .estado-solicitud,
+  .circulo-aprobado,
+  .circulo-en_revision,
+  .circulo-pendiente,
+  .circulo-rechazado {
+    display: inline-block;
+    margin-top: 20px;
+  }
+  .icono-despliegue {
+    margin-top: 77px;
+    right: 5vw;
+  }
+  .estado-solicitud,
+  .circulo-aprobado,
+  .circulo-en_revision,
+  .circulo-pendiente,
+  .circulo-rechazado {
+    right: 245px;
+  }
+  .modal-content {
+    top: 1vh;
+    }
 }
 </style>
 

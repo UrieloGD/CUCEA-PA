@@ -131,6 +131,11 @@
 }
 
 .notas-justificacion {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  white-space: break-word;
+  flex: 1;
   background-color: white;
   border-radius: 5px;
   padding: 10px;
