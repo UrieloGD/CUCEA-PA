@@ -75,7 +75,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $nombres = safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 70);
             $nombre_completo = safeSubstr($sheet->getCell('E' . $row)->getCalculatedValue(), 0, 80);
             $sexo = safeSubstr($sheet->getCell('F' . $row)->getCalculatedValue(), 0, 5);
-            $departamento = safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 50);
+            $departamento = safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 70);
             $categoria_actual = safeSubstr($sheet->getCell('H' . $row)->getCalculatedValue(), 0, 60);
             $categoria_actual_dos = safeSubstr($sheet->getCell('I' . $row)->getCalculatedValue(), 0, 20);
             $horas_frente_grupo = intval($sheet->getCell('J' . $row)->getCalculatedValue());
