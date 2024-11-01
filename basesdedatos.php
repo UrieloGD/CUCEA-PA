@@ -424,7 +424,7 @@ $result = mysqli_query($conexion, $sql);
                         echo "<tr>";
                         echo "<td>" . htmlspecialchars($row['Codigo']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
-                        echo "<td><button onclick='verDetalleProfesorTodos(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                        echo "<td><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                         echo "</tr>";
                     }
                 } else {
@@ -441,76 +441,12 @@ $result = mysqli_query($conexion, $sql);
 <div id="modal-detalle-profesor" class="modal">
     <div class="modal-content">
         <span class="close" onclick="cerrarModalDetalle()">&times;</span>
-        
-        <!-- Contenido del profesor -->
-        <div class="profesor-container">
-            <!-- Columna izquierda -->
-            <div class="left-column">
-                <div class="profesor-header">
-                    <div class="profesor-avatar">
-                        <span class="avatar-initials" id="profesor-iniciales">FD</span>
-                    </div>
-                    <div class="profesor-details">
-                        <h2 id="profesor-nombre">Nombre del profesor</h2>
-                        <p id="profesor-email">Correo electronico</p>
-                    </div>
-                </div>
-                
-                <table class="profesor-data">
-                    <tr>
-                        <th>Código</th>
-                        <td id="profesor-codigo">Codigo del profesor</td>
-                    </tr>
-                    <tr>
-                        <th>Categoría</th>
-                        <td id="profesor-categoria">categoria del profesor</td>
-                    </tr>
-                    <tr>
-                        <th>Horas asignadas</th>
-                        <td id="profesor-horas"><span class="data-value2">36/40</span></td>
-                    </tr>
-                    <tr>
-                        <th>Departamento</th>
-                        <td id="profesor-departamento"><span class="data-value3">Departamento del profesor</span></td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Columna derecha -->
-            <div class="right-column" id="materias-container">
-                <!-- Sección de Administración I -->
-                <div class="class-info">
-                    <h3>Nombre de la Materia</h3>
-                    <table class="class-details">
-                        <tr>
-                            <th>NRC</th>
-                            <th>Horario</th>
-                            <th>Edificio/Aula</th>
-                        </tr>
-                        <tr>
-                            <td>NRC de la clase</td>
-                            <td>
-                                <div class="horario-container">
-                                    <span class="horario-tiempo">Horario de la clase</span>
-                                    <div class="weekdays">
-                                        <div class="day active">L</div>
-                                        <div class="day">M</div>
-                                        <div class="day active">I</div>
-                                        <div class="day">J</div>
-                                        <div class="day">V</div>
-                                        <div class="day">S</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>Aula</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+        <h2>Detalle del Profesor</h2>
+        <div id="detalle-profesor-contenido">
+            <!-- El contenido se cargará dinámicamente -->
         </div>
     </div>
 </div>
-
 
 <!-- Scripts de la librería DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
