@@ -69,6 +69,15 @@ function formatDateForDisplay($mysqlDate)
 }
 ?>
 
+<!-- CSS de la librería DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.2/css/fixedColumns.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
+
 <title>Coordinación de Personal - Plantilla Académica</title>
 <link rel="stylesheet" href="./CSS/basesdedatos-Coord.css">
 
@@ -437,37 +446,25 @@ function formatDateForDisplay($mysqlDate)
         </div>
     </div>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
+<!-- Scripts de la librería DataTables-->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
+<script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
+<script src="https://cdn.datatables.net/colreorder/2.0.4/js/colReorder.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
-    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-    <script src="./JS/basesdedatos/barra-busqueda.js"></script>
-    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
-    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#tabla-datos').DataTable({
-                "pageLength": 25,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-                },
-                "columnDefs": [{
-                    "orderable": false,
-                    "targets": 0
-                }],
-                "order": [
-                    [1, 'asc']
-                ],
-                "fixedColumns": {
-                    leftColumns: 2, // Fija las 2 primeras columnas (checkbox e ID)
-                    rightColumns: 1 // Mantiene fijada la última columna
-                },
-                "scrollX": true
-            });
-        });
-    </script>
+<script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
+<script src="./JS/basesdedatos/barra-busqueda.js"></script>
+<script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
+<script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
+<script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
+<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 
-    <?php include("./template/footer.php"); ?>
+<?php include("./template/footer.php"); ?>
