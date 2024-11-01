@@ -141,7 +141,7 @@
 .export-button {
   position: absolute;
   right: 20px;
-  top: 9.5%;
+  top: 9.5px;
   left: 78%;
 }
 
@@ -157,4 +157,137 @@
 
 .btn-exportar:hover {
   background-color: #005d91; /* Un tono más oscuro para el hover */
+}
+
+/* Media Queries para diferentes resoluciones */
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92vw;
+    margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: small;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+  .encabezado {
+    margin: 0 auto;
+    position: relative;
+  }
+  .btn-exportar {
+    margin: 0 auto;
+    position: relative;
+  }
+  .export-button {
+    margin-top: 1vh;
+    width: 30vw;
+  }
+  
+  .titulo-bd {
+    width: 250px;
+  }
+  
+  .reporte-container {
+    margin-top: 50px;
+    right: 50vw;
+  }
+}
+
+@media screen and (max-width: 491px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+  .encabezado {
+    margin: 0 auto;
+    position: relative;
+    bottom: 0;
+  }
+  .btn-exportar {
+    margin: 0 auto;
+    position: relative;
+    right: 150px;
+  }
+  .export-button {
+    margin-top: 50px;
+    width: 35vw;
+  }
+
+  .titulo-bd {
+    width: 250px;
+  }
+  
+  .reporte-container {
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 423px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+  .btn-exportar {
+    margin: 0 auto;
+    position: relative;
+  }
+  .export-button {
+    margin-top: 50px;
+    width: 40vw;
+  }
+  
+  .reporte-container {
+    margin-top: 50px;
+  }
+
+  .titulo-bd {
+    width: 250px;
+  }
+
+  .info-value-entrega,
+  .estado-atrasada,
+  .estado-entregada,
+  .estado-pendiente {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
 }

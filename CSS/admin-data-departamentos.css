@@ -63,7 +63,7 @@ th {
 }
 
 td {
-  padding: 7.5px;
+  padding: 5.5px;
   text-align: left;
   border: 2px solid #e7e9f2;
 }
@@ -203,7 +203,7 @@ td:nth-child(2) {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
@@ -216,6 +216,8 @@ td:nth-child(2) {
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
+  position: relative;
+  top: 150;
   padding: 20px;
   border: 1px solid #888;
   width: 70%;
@@ -316,13 +318,34 @@ td:nth-child(2) {
     padding: 10px 20px;
   }
 
-  th,
-  td {
-    font-size: medium;
+  td,
+  th {
+    font-size: 0.8rem;
+  }
+
+  .estado-atrasada,
+  .estado-entregada,
+  .estado-pendiente {
+    padding: 5px;
+  }
+
+  .form-actions .btn {
+    padding: 15px;
+    font-size: 0.8rem;
   }
 
   .btn-ir {
     font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  #fechaLimiteForm .btn-guardar {
+    position: relative;
+
+    margin: 15 auto;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -369,3 +392,5 @@ td:nth-child(2) {
   justify-content: center;
   margin-top: 20px;
 }
+
+

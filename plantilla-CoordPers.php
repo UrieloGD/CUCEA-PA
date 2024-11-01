@@ -15,7 +15,7 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css" />
+<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

@@ -45,7 +45,7 @@
   border-radius: 0px 0px 20px 20px;
 }
 
-.encabezado-izquierda{
+.encabezado-izquierda {
   /* border: solid; */
   align-items: start;
   justify-content: left;
@@ -62,6 +62,7 @@
   /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
+  width: 10%;
 } 
 
 /* Tabla */
@@ -100,6 +101,27 @@ th {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 150px; /* Ajusta este valor según tus necesidades */
+}
+
+/* Estilos-dimensiones de tabla completa */
+.datatable-container {
+  margin: 0 auto;
+  width: 97.5%;
+  border-radius: 10px;
+  border: 2px solid #005a8c;
+  margin-bottom: 30px;
+}
+
+/* Texto donde dice: mostrar [10>] registros */
+.dt-layout-start {
+  margin-left: 15px;
+}
+.dt-layout-end {
+  margin-right: 15px;
+}
+#dt-length-0,
+#dt-search-0 {
+  border: 1px solid #a7a5a5;
 }
 
 /* Icono y Boton Buscar */
@@ -157,6 +179,11 @@ th {
   -o-transition: visibility 0.2s, opacity 0.2s;
 }
 
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+
 .icono-buscador {
   cursor: pointer;
   background-color: #0071b0;
@@ -167,6 +194,12 @@ th {
   /* z-index: 1; */
 }
 
+/* Unicamente icono de lupa */
+#icono-buscador {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .icono-buscador i {
   font-size: 18px;
 }
@@ -175,6 +208,7 @@ th {
 .iconos-container {
   display: flex;
   align-items: center;
+  margin-right: 1vw;
 }
 
 /* Ajustar el espacio entre los iconos */
@@ -197,7 +231,7 @@ th {
 #input-buscador {
   flex-grow: 1;
   margin-left: -4px;
-  padding: 12.5px;
+  padding: 15.5px;
   border: none;
   border-radius: 0 10px 10px 0;
   background-color: #f0f0f0;
@@ -285,15 +319,29 @@ th {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  max-width: 80%;
-  max-height: 80%;
+  width: 50vw;
+  height: 80vh;
   overflow-y: auto;
-  border: 1px solid black;
+  border: 1px solid rgb(173, 173, 173);
 }
 
 #popup-columnas h3 {
   margin-top: 0;
   margin-bottom: 20px;
+}
+
+.columns-container {
+  padding: 0;
+}
+
+.columns-container div label,
+.select-all-div label {
+  padding-left: 10px;
+}
+
+.columns-container div {
+  border: 1px solid rgba(173, 173, 173, 0.397);
+  margin-top: -5px;
 }
 
 .select-all-div {
@@ -469,12 +517,40 @@ th {
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+  .iconos-container {
+    margin-right: 4vw;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
     width: 92vw;
     margin-left: 6vw;
+  }
+  .iconos-container {
+    margin-right: 7vw;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
   }
 }
 
@@ -484,21 +560,99 @@ th {
     margin-left: 7vw;
     font-size: smaller;
   }
+  .iconos-container {
+    margin-right: 4.5vw;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+  .iconos-container > div,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 5px;
+  }
+  #input-buscador {
+    height: 39px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 70vw;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 93vw;
-    height: fit-content;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
     font-size: smaller;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .iconos-container {
+    position: relative;
+    margin-right: 12vw;
+    margin-bottom: 25px;
+    top: 50px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    top: 37px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 370px;
+    height: 39px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > div,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 5px;
+  }
+  
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+    max-width: 300px; 
+  }
+
+  .form-row input {
+    width: 5vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
   }
 }
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 93vw;
+    width: 96vw;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -543,6 +697,136 @@ th {
     background-color: white; /* Fondo blanco para que el encabezado sea legible */
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
   }
+
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+    font-size: small;
+  }
+
+  .datatable-container {
+    margin-top: 40px;
+  }
+
+  .iconos-container {
+    position: relative;
+    margin-right: 18vw;
+    margin-bottom: 50px;
+    top: 100px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    margin-top: 50px;
+    top: 5px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 86vw;
+    height: 39px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > div,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 5px;
+  }
+
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+    max-width: 300px; 
+  }
+
+  .form-row input {
+    width: 5vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .iconos-container {
+    margin-right: 30vw;
+  }
+  #input-buscador {
+    width: 80vw;
+  }
+
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+    max-width: 300px; 
+  }
+
+  .form-row input {
+    width: 10vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .iconos-container {
+    margin-right: 45vw;
+  }
+  #input-buscador {
+    width: 75vw;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+    font-size: x-small;
+  }
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+    max-width: 300px; 
+  }
+
+  .form-row input {
+    width: 10vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
 }
 
 /* Ensure that the demo table scrolls */
@@ -551,3 +835,5 @@ th {
         width: 600px;
         margin: 0 auto;
     }
+/* ------------------------------------- */
+    

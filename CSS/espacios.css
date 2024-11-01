@@ -176,6 +176,14 @@
   /* gap: 0; */
 }
 
+.letra-moviles .letra-piso { /* letra que aparece solo para dispositivos moviles */
+  display: none;
+}
+
+.texto-prev-piso {
+  display: none;
+}
+
 .techo {
   position: absolute;
   top: 0;
@@ -407,6 +415,7 @@
   align-items: center;
   white-space: nowrap;
   border-radius: 7px 7px 0px 0px;
+  box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
 }
 
 .sala img {
@@ -685,4 +694,158 @@ textarea {
 
 .horario-table tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+/* Media Queries para diferentes resoluciones */
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92vw;
+    margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+  .contenedor-principal {
+    width: 95%;
+  }
+  .letra-piso span {
+    font-size: 1.5rem;
+  }
+  .cuadro-grande {
+    width: 50%;
+  }
+  .sala-container {
+    width: 1%;
+  }
+  .sala {
+    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+  .contenedor-principal {
+    width: 100%;
+  }
+  .letra-piso span {
+    font-size: 1.5rem;
+  }
+  .cuadro-grande {
+    width: 50%;
+  }
+  .piso {
+    padding-left: 15px;
+  }
+  .sala-container {
+    height: 110;
+  }
+  .sala {
+    font-size: 12px;
+    min-width: 35px;
+    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+  }
+  .sala-texto {
+    font-size: 0.65rem;
+  }
+  .sala img {
+    width: 18px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 15px;
+    margin-bottom: 40px;
+    justify-content: center;
+  }
+  .piso:nth-child(3) .barandal {
+    bottom: 322px; /* Ajusta para el tercer piso */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+  .contenedor-principal {
+    width: 98%;
+  }
+  .letra-piso span {
+    font-size: 1.5rem;
+  }
+  .cuadro-grande {
+    width: 50%;
+  }
+  .piso {
+    padding-left: 10px;
+  }
+  .sala-container {
+    height: 110;
+  }
+  .sala {
+    font-size: 12px;
+    min-width: 35px;
+    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+  }
+  .sala-texto {
+    font-size: 0.65rem;
+  }
+  .sala img {
+    width: 18px; /* Ajusta el tamaño de la imagen según tus necesidades */
+    height: 15px;
+    margin-bottom: 40px;
+    justify-content: center;
+  }
+  .piso:nth-child(3) .barandal {
+    bottom: 322px; /* Ajusta para el tercer piso */
+  }
+  .techo,
+  .escaleras-container,
+  .columna-lateral.derecha,
+  .columna-lateral.izquierda
+  {
+    display: none;
+  }
+  .letra-moviles .letra-piso {
+    display: inline-block;
+    position: relative;
+    top: 25px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 36px;
+    padding-top: 5px;
+    margin-left: 10px;
+  }
+  .texto-prev-piso {
+    display: inline-block;
+    position: relative;
+    top: 25px;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    margin-left: 25px;
+  }
 }

@@ -62,7 +62,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 ?>
 
 <title>Plantillas Departamentos</title>
-<link rel="stylesheet" href="./CSS/admin-data-departamentos.css" />
+<link rel="stylesheet" href="./CSS/admin-data-departamentos.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

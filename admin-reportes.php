@@ -26,7 +26,7 @@ $periodo_actual = "2025A";
 ?>
 
 <title>Reporte de entrega</title>
-<link rel="stylesheet" href="./CSS/admin-reportes.css" />
+<link rel="stylesheet" href="./CSS/admin-reportes.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

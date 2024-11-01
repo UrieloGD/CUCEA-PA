@@ -37,7 +37,7 @@ if (isset($_SESSION['usuario_id'])) {
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css" />
+<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

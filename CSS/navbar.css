@@ -670,11 +670,8 @@ Responsividad para distintas resoluciones
     margin-top: -5px;
   }
 
-  #navbar.nav-expanded .navbar-logo img {
-    content: url(../Img/logos/LogoPA-Extendido.png);
-    width: 85%;
-    height: 45px;
-    bottom: 0px;
+  #navbar.nav-expanded:hover .navbar-logo img {
+    content: url(../Img/logos/LogoPA_Extendido.png);
   }
   
   .navbar-logo-container {
@@ -759,7 +756,7 @@ Responsividad para distintas resoluciones
     -ms-border-radius: 10px;
     -o-border-radius: 10px;
   }
-  
+
   .navbar-item-inner-icon-wrapper {
     width: calc(5rem - 1em - 8px);
     position: relative;
@@ -1011,7 +1008,6 @@ hr {
     height: 40px; /* Ajusta el margen inferior del botón de cerrar sesión */
   }
 
-  /* no DELETE */
   .navbar-item-inner-icon-wrapper {
     right: 0.8vw;
   }
@@ -1045,22 +1041,4 @@ hr {
   span {
     font-size: smaller;
   }
-
-  #navbar.nav-expanded .navbar-logo-container {
-    width: 200px;
-    height: 50px;
-  }
-
-  #navbar.nav-expanded .navbar-profile-icon {
-    width: 3.625rem;
-    height: 3.625rem;
-    font-size: 2.5rem;
-  }
-
-  #navbar.nav-expanded .profile-icon-transition {
-    width: 5.625rem;
-    height: 5.625rem;
-    bottom: 5%;
-  }
-
 }

@@ -75,7 +75,7 @@ function generateColorForUser($userId)
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./CSS/navbar.css?=v1.0" />
+    <link rel="stylesheet" href="./CSS/navbar.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-">
     </link>
@@ -171,6 +171,21 @@ function generateColorForUser($userId)
                 </a>
             </li>
 
+            <?php
+            // Redirigir a esta opcion, unicamente si es jefe de departamento o coordinador de personal
+            if ($rol_id == 1 || $rol_id == 3) {
+            echo "<li class='navbar-item flexbox-left'>
+                <a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'>
+                    <div class='navbar-item-inner-icon-wrapper flexbox'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
+                    </div>
+                    <span class='link-text'>Solicitudes</span>
+                </a>
+            </li>";
+            }
+            ?>
+
             <li class="navbar-item flexbox-left">
                 <a class="navbar-item-inner flexbox-left" href="./espacios.php">
                     <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -200,21 +215,6 @@ function generateColorForUser($userId)
                     <span class="link-text">Guía</span>
                 </a>
             </li>
-            
-            <?php
-            // Redirigir a esta opcion, unicamente si es jefe de departamento o coordinador de personal
-            if ($rol_id == 1 || $rol_id == 3) {
-            echo "<li class='navbar-item flexbox-left'>
-                <a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'>
-                    <div class='navbar-item-inner-icon-wrapper flexbox'>
-                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>
-                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
-                    </div>
-                    <span class='link-text'>Solicitudes</span>
-                </a>
-            </li>";
-            }
-            ?>
 
             <li class="navbar-item flexbox-left">
                 <a href="#">

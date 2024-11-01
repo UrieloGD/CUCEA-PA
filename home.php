@@ -4,7 +4,7 @@
 <?php include './template/navbar.php' ?>
 <!-- css del home -->
 <title>Home PA</title>
-<link rel="stylesheet" href="./CSS/home.css" />
+<link rel="stylesheet" href="./CSS/home.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

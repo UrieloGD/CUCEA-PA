@@ -123,3 +123,157 @@
 [25/10/2024 20:47:01] Filas procesadas: 512, Inserciones exitosas: 505
 [25/10/2024 20:47:05] Output antes de JSON: 
 [25/10/2024 20:47:05] Mensaje final enviado: Se insertaron 505 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 16:41:48] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 16:41:48] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 16:41:49] Excel cargado exitosamente
+[30/10/2024 16:41:49] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 16:41:49] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 16:41:49] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 16:41:49] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 16:41:49] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 16:41:49] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 16:41:53] Output antes de JSON: 
+[30/10/2024 16:41:53] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 16:59:49] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 16:59:49] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 16:59:49] Excel cargado exitosamente
+[30/10/2024 16:59:49] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 16:59:49] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 16:59:49] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 16:59:49] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 16:59:49] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 16:59:49] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 16:59:53] Output antes de JSON: 
+[30/10/2024 16:59:53] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 17:01:17] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 17:01:17] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 17:01:17] Excel cargado exitosamente
+[30/10/2024 17:01:17] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 17:01:17] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 17:01:17] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 17:01:17] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 17:01:17] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 17:01:17] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 17:01:21] Output antes de JSON: 
+[30/10/2024 17:01:21] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 17:02:33] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 17:02:33] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 17:02:33] Excel cargado exitosamente
+[30/10/2024 17:02:33] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 17:02:33] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 17:02:33] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 17:02:33] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 17:02:33] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 17:02:33] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 17:02:37] Output antes de JSON: 
+[30/10/2024 17:02:37] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 17:02:44] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 17:02:44] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 17:02:44] Excel cargado exitosamente
+[30/10/2024 17:02:44] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 17:02:44] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 17:02:44] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 17:02:44] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 17:02:44] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 17:02:44] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 17:02:48] Output antes de JSON: 
+[30/10/2024 17:02:48] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 17:03:15] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 17:03:15] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 17:03:15] Excel cargado exitosamente
+[30/10/2024 17:03:15] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 17:03:15] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 17:03:15] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 17:03:15] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 17:03:15] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 17:03:15] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 17:03:18] Output antes de JSON: 
+[30/10/2024 17:03:18] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 17:33:51] Archivo recibido: Control Semestral.xlsx
+[30/10/2024 17:33:51] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 17:33:51] Excel cargado exitosamente
+[30/10/2024 17:33:51] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 17:33:51] Encabezados encontrados: PRIMER SEMESTRE, , , , , , COMPLETADO (P. FINAL 85.0), , FORMATO PARA AGENDA DE SEMESTRE, , , , , , , , , , , , , 
+[30/10/2024 17:33:51] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 17:33:51] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 17:33:51] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 17:33:51] Filas procesadas: 94, Inserciones exitosas: 94
+[30/10/2024 17:33:55] Output antes de JSON: 
+[30/10/2024 17:33:55] Mensaje final enviado: Se insertaron 94 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 20:29:17] Archivo recibido: Semana Asincronica ACT2 - RCE CONTABILIDAD I.xlsx
+[30/10/2024 20:29:17] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 20:29:18] Excel cargado exitosamente
+[30/10/2024 20:29:18] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 20:29:18] Encabezados encontrados: SEMANA ASINCRONICA ACT. 2 / CONTABILIDAD I, , , , , , , , , , , 1.-Compramos monitores de 32” para su venta con un valor de $145,000.00 + IVA acredito: Equipo computo, Banco, IVA acreditar, proveedores, , , , , , , , , , , 
+[30/10/2024 20:29:18] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 20:29:18] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 20:29:18] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 20:29:18] Filas procesadas: 135, Inserciones exitosas: 135
+[30/10/2024 20:29:21] Output antes de JSON: 
+[30/10/2024 20:29:21] Mensaje final enviado: Se insertaron 135 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[30/10/2024 20:29:55] Archivo recibido: U4A1_CastanedoEscobedo_Rafael.xlsx
+[30/10/2024 20:29:55] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[30/10/2024 20:29:55] Excel cargado exitosamente
+[30/10/2024 20:29:55] Tabla destino: Data_Estudios_Regionales
+[30/10/2024 20:29:55] Encabezados encontrados:  ,   ,    ,     ,      ,        
+[30/10/2024 20:29:55] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[30/10/2024 20:29:55] Mapeo de campos: Array
+(
+)
+
+[30/10/2024 20:29:55] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[30/10/2024 20:29:55] Filas procesadas: 64, Inserciones exitosas: 64
+[30/10/2024 20:29:59] Output antes de JSON: 
+[30/10/2024 20:29:59] Mensaje final enviado: Se insertaron 64 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[01/11/2024 03:01:07] Archivo recibido: Tabla Colas.xlsx
+[01/11/2024 03:01:07] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[01/11/2024 03:01:08] Excel cargado exitosamente
+[01/11/2024 03:01:08] Tabla destino: Data_Estudios_Regionales
+[01/11/2024 03:01:08] Encabezados encontrados: NIVEL DE CONFIANZA, , NIVEL DE SIGNIFICANCIA          , , DOS COLAS, , COLA DERECHA, , COLA IZQUIERDA, 
+[01/11/2024 03:01:08] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[01/11/2024 03:01:08] Mapeo de campos: Array
+(
+)
+
+[01/11/2024 03:01:08] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[01/11/2024 03:01:08] Filas procesadas: 10, Inserciones exitosas: 10
+[01/11/2024 03:01:12] Output antes de JSON: 
+[01/11/2024 03:01:12] Mensaje final enviado: Se insertaron 10 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[01/11/2024 09:44:35] Archivo recibido: Tabla Colas.xlsx
+[01/11/2024 09:44:35] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[01/11/2024 09:44:35] Excel cargado exitosamente
+[01/11/2024 09:44:35] Tabla destino: Data_Estudios_Regionales
+[01/11/2024 09:44:35] Encabezados encontrados: NIVEL DE CONFIANZA, , NIVEL DE SIGNIFICANCIA          , , DOS COLAS, , COLA DERECHA, , COLA IZQUIERDA, 
+[01/11/2024 09:44:35] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[01/11/2024 09:44:35] Mapeo de campos: Array
+(
+)
+
+[01/11/2024 09:44:35] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID) VALUES (?)
+[01/11/2024 09:44:35] Filas procesadas: 10, Inserciones exitosas: 10
+[01/11/2024 09:44:38] Output antes de JSON: 
+[01/11/2024 09:44:38] Mensaje final enviado: Se insertaron 10 registros exitosamente y el archivo fue cargado correctamente en la base de datos.

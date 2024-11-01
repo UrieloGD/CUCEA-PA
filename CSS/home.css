@@ -423,7 +423,7 @@
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
     width: 91vw;
-    /* margin-left: 7vw;         */
+    margin-left: 7vw;
     font-size: smaller;
   }
 
@@ -470,8 +470,8 @@
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
     width: 90vw;
-    height: 91vh; /* Mantener altura fija */
-    margin-left: 2vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
     font-size: smaller;
   }
 
@@ -525,10 +525,9 @@
 
 @media screen and (max-width: 768px) and (min-width: 481px) {
   .cuadro-principal {
-    width: 93vw;
-    height: fit-content;
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
-    margin-right: 2vw;
     font-size: smaller;
   }
 

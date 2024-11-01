@@ -4,7 +4,7 @@ include './template/navbar.php';
 ?>
 
 <title>Progreso Plantillas</title>
-<link rel="stylesheet" href="./CSS/admin-plantilla.css" />
+<link rel="stylesheet" href="./CSS/admin-plantilla.css?=v1.0" />
 
 <div class="cuadro-principal">
     <div class="encabezado">
@@ -18,7 +18,7 @@ include './template/navbar.php';
             <tr>
                 <th style="text-align: center;">Departamento</th>
                 <th style="text-align: center;">Archivo</th>
-                <th style="text-align: center;">Última Actualización</th>
+                <th style="text-align: center;">Último cambio</th>
                 <th style="text-align: center;">Acciones</th>
             </tr>
 

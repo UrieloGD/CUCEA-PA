@@ -127,7 +127,7 @@ include './template/navbar.php';
                 <div class="view-options">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Buscar eventos...">
-                        <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png" style="margin-right: 40px;"></button>
+                        <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png" style="margin-right: 25px;"></button>
                     </div>
                     <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png" style="margin-right: 30px;"></button>
                     <!-- <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button> -->
@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
     display: none;
     position: fixed;
     top: 100px;
-    left: 9vw;
+    left: 7.8vw;
     z-index: 1500;
 }
 
@@ -454,6 +454,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .calendar td {
     position: relative;
+}
+
+@media (max-width: 535px) {
+    .side-modal {
+        top: 50px;
+    }
 }
 </style>
 

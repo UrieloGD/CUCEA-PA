@@ -480,6 +480,11 @@
   width: fit-content;  /* Ajusta el ancho del botón al contenido */
 }
 
+#preview button {
+  position: relative;
+  top: 7px;
+}
+
 .boton-continuar:hover {
   background-color: #005a8e;
 }
@@ -507,6 +512,13 @@
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+
+  .swal2-x-mark-line-left,
+  .swal2-x-mark-line-right,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
@@ -514,13 +526,27 @@
     width: 92vw;
     margin-left: 6vw;
   }
+
+  .swal2-x-mark-line-left,
+  .swal2-x-mark-line-right,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
     width: 91vw;
     margin-left: 7vw;
-    font-size: smaller;
+    font-size: small;
+  }
+
+  .swal2-x-mark-line-left,
+  .swal2-x-mark-line-right,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
   }
 }
 
@@ -529,15 +555,44 @@
     width: 90vw;
     margin-left: 8vw;
     margin-bottom: 2vh;
-    font-size: smaller;
+    font-size: 1rem;
   }
 
   .tab-content p {
-    font-size: medium;
+    font-size: 1rem;
+  }
+
+  .div-boton-descargar button,
+  .container-inf button {
+    font-size: 0.9rem;
+  }
+
+  .info-subida p {
+    font-size: 1rem;
+  }
+  
+  .drop-area p,
+  .drop-area button {
+    font-size: 1rem;
+  }
+
+  .container-peso h3 {
+    font-size: 1rem;
+  }
+
+  .swal2-x-mark-line-left,
+  .swal2-x-mark-line-right,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+
+  .titulo-bd {
+    width: 350px;
   }
 }
 
-@media screen and (max-width: 768px) and (min-width: 481px) {
+@media screen and (max-width: 768px) {
   .cuadro-principal {
     width: 96vw;
     height: 91vh; /* Mantener altura fija */
@@ -546,6 +601,39 @@
   }
 
   .tab-content p span {
-    font-size: small;
+    font-size: smaller;
+  }
+
+  .tab-buttons button {
+    font-size: 0.9rem;
+  }
+
+  .info-descarga p {
+    font-size: 1rem;
+  }
+
+  .div-boton-descargar button,
+  .container-inf button {
+    font-size: 0.9rem;
+  }
+
+  .info-subida p {
+    font-size: 1rem;
+  }
+
+  .drop-area p,
+  .drop-area button {
+    font-size: 1rem;
+  }
+
+  .swal2-x-mark-line-left,
+  .swal2-x-mark-line-right,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+
+  .titulo-bd {
+    width: 350px;
   }
 }
