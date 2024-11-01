@@ -33,12 +33,12 @@ $result = mysqli_query($conexion, $sql);
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <div class="barra-buscador" id="barra-buscador">
+            <!--<div class="barra-buscador" id="barra-buscador">
                 <div class="icono-buscador" id="icono-buscador">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </div>
                 <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div>
+            </div> -->
         </div>
         <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>

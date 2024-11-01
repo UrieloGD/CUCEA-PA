@@ -14,15 +14,38 @@
 
 $(document).ready(function () {
   var table = $("#tabla-datos").DataTable({
+    dom: '<"top"<"custom-search-container">f>rt<"bottom"lip>',
     language: {
       url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+      search: "_INPUT_",
+      searchPlaceholder: "Buscar...",
     },
+    
+    initComplete: function() {
+      // Mover la barra de búsqueda al contenedor personalizado
+      $('.dataTables_filter').appendTo('.custom-search-container');
+      
+      // Añadir la clase personalizada al input
+      $('.dataTables_filter input').addClass('custom-search-input');
+    },
+
     pageLength: 10,
     lengthMenu: [
       [10, 25, 50, -1],
       [10, 25, 50, "Todos"],
     ],
     responsive: true,
+    
+    stateSave: true,
+    stateDuration: -1,
+    stateSaveCallback: function(settings, data) {
+      localStorage.setItem('DataTables_' + settings.sInstance, JSON.stringify(data));
+    },
+    
+    stateLoadCallback: function(settings) {
+      return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
+    },
+
     ordering: false,
     info: true,
     scrollX: true,

@@ -84,23 +84,27 @@ function formatDateForDisplay($mysqlDate)
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <div class="barra-buscador" id="barra-buscador">
+            <!-- <div class="barra-buscador" id="barra-buscador">
                 <div class="icono-buscador" id="icono-buscador">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </div>
                 <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div>
+            </div> -->
         </div>
         <div class="encabezado-centro">
             <h3>Plantilla Académica - Coordinación de Personal</h3>
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
+
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-visibilidad">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
                     <i class="fa fa-add" aria-hidden="true"></i>
