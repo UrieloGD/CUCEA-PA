@@ -195,7 +195,7 @@
                     //Encabezados de la tabla
                     const thead = document.querySelector('.tabla-personal thead tr');
                     thead.innerHTML = `
-                        <th>Código</th>
+                        <th>C....................................ódigo</th>
                         <th>Nombre Completo</th>
                         <th>Departamento</th>
                         <th>Categoría Actual</th>
@@ -212,8 +212,89 @@
                     data.forEach(persona => {
                         const row = document.createElement('tr');
                         
+                        // Función para obtener la clase del departamento
+                        function getDepartamentoClass(departamento) {
+                            // Normalizar el texto del departamento
+                            const normalizedDept = departamento.toLowerCase()
+                                .normalize("NFD")
+                                .replace(/[\u0300-\u036f]/g, "")
+                                .replace(/[^a-z\s]/g, "")
+                                .trim();
+
+                                const mapping = {
+                                    'administracion': 'administracion',
+                                    'programa de aprendizaje de lengua extranjera': 'pale',
+                                    'pale': 'pale',
+                                    'administracion/programa de aprendizaje de lengua extranjera': 'pale',
+                                    'auditoria': 'auditoria',
+                                    'secretaria administrativa': 'auditoria',
+                                    'ciencias sociales': 'ciencias-sociales',
+                                    'politicas publicas': 'politicas-publicas',
+                                    'contabilidad': 'contabilidad',
+                                    'economia': 'economia',
+                                    'estudios regionales': 'estudios-regionales',
+                                    'finanzas': 'finanzas',
+                                    'impuestos': 'impuestos',
+                                    'mercadotecnia': 'mercadotecnia',
+                                    'metodos cuantitativos': 'metodos-cuantitativos',
+                                    'recursos humanos': 'recursos-humanos',
+                                    'sistemas de informacion': 'sistemas-informacion',
+                                    'turismo': 'turismo'
+                                };
+
+                                // Buscar coincidencia exacta primero
+                                for (let [key, value] of Object.entries(mapping)) {
+                                    if (normalizedDept === key) {
+                                        return value;
+                                    }
+                                }
+
+                                // Si no hay coincidencia exacta, buscar coincidencia parcial
+                                for (let [key, value] of Object.entries(mapping)) {
+                                    // Para PALE, buscar coincidencias específicas
+                                    if (value === 'pale' && 
+                                        (normalizedDept.includes('pale') || 
+                                        normalizedDept.includes('programa de aprendizaje') || 
+                                        normalizedDept.includes('lengua extranjera'))) {
+                                        return 'pale';
+                                    }
+                                    if (normalizedDept.includes(key)) {
+                                        return value;
+                                    }
+                                }
+                            
+                            console.log('Departamento no encontrado:', departamento); // Para debug
+                            return 'default';
+                        }
+
+                        // Función para formatear las horas por departamento
+                        function formatearHorasDepartamento(horasStr) {
+                            if (!horasStr || horasStr.trim() === '' || horasStr === 'N/A') {
+                                return '<div class="horas-cero">N/A</div>';
+                            }
+
+                            return horasStr.split('\n')
+                                .map(linea => {
+                                    // Asegurarnos de que la línea tenga el formato correcto
+                                    if (!linea.includes(':')) {
+                                        return ''; // Saltarse líneas mal formateadas
+                                    }
+
+                                    // Dividir por el primer ':' solamente
+                                    const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                    if (!dept || !horas) {
+                                        return ''; // Saltarse si falta departamento u horas
+                                    }
+
+                                    const deptClass = getDepartamentoClass(dept);
+                                    return `<div class="departamento-tag tag-${deptClass}">${dept}: ${horas}</div>`;
+                                })
+                                .filter(tag => tag) // Eliminar elementos vacíos
+                                .join('');
+                        }
+
                         // Procesar horas frente a grupo
-                        const horasCargoActual = persona.suma_cargo_plaza || 0;
+                         const horasCargoActual = persona.suma_cargo_plaza || 0;
                         const horasFrenteRequeridas = persona.Horas_frente_grupo || 0;
                         const claseFrenteGrupo = getHorasClass(horasCargoActual, horasFrenteRequeridas);
                         
@@ -226,16 +307,9 @@
                         const horasFrenteGrupo = `<span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>`;
                         const horasDefinitivas = `<span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>`;
                         
-                        
-                        // Manejar casos vacíos para horas por departamento
-                        const horasCargoDeptos = persona.horas_cargo_por_departamento && 
-                                                persona.horas_cargo_por_departamento.trim() !== '' ? 
-                                                persona.horas_cargo_por_departamento : 'N/A';
-                                                
-                        const horasDefinitivasDeptos = persona.horas_definitivas_por_departamento && 
-                                                    persona.horas_definitivas_por_departamento.trim() !== '' ? 
-                                                    persona.horas_definitivas_por_departamento : 'N/A';
-                        
+                        const horasCargoDeptos = formatearHorasDepartamento(persona.horas_cargo_por_departamento);
+                        const horasDefinitivasDeptos = formatearHorasDepartamento(persona.horas_definitivas_por_departamento);
+
                         const tdContent = `
                             <td>${persona.Codigo || ''}</td>
                             <td>${persona.Nombre_completo || ''}</td>
@@ -245,8 +319,8 @@
                             <td>${persona.Carga_horaria || ''}</td>
                             <td>${horasFrenteGrupo}</td>
                             <td>${horasDefinitivas}</td>
-                            <td style="white-space: pre-line;"><small>${horasCargoDeptos}</small></td>
-                            <td style="white-space: pre-line;"><small>${horasDefinitivasDeptos}</small></td>
+                            <td style="white-space: normal;">${horasCargoDeptos}</td>
+                            <td style="white-space: normal;">${horasDefinitivasDeptos}</td>
                         `;
                         
                         row.innerHTML = tdContent;

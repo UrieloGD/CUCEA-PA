@@ -180,8 +180,16 @@
 }
 
 .tabla-personal td {
-  vertical-align: center;
   padding: 8px;
+  vertical-align: middle;
+  position: relative;
+}
+
+/* Contenedor para las etiquetas */
+.tabla-personal td[style*="white-space: normal"] {
+  padding: 4px;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .tabla-personal td small {
@@ -258,7 +266,119 @@
   color: #5f5f5f;
   padding: 4px 8px;
   border-radius: 4px;
-  display: inline-block;
+  display: block;
   min-width: 60px;
   text-align: center;
 }
+
+/* Estilos para las etiquetas de departamentos */
+.departamento-tag {
+  padding: 6px 8px;
+  margin: 4px 0;
+  border-radius: 4px;
+  display: block;
+  color: white;
+  font-size: 0.9em;
+  text-align: center;
+  width: auto;
+  box-sizing: border-box;
+  word-break: break-word;
+}
+
+/* Espacio entre múltiples etiquetas */
+.departamento-tag + .departamento-tag {
+  margin-top: 6px;
+}
+
+/* Clase por defecto para departamentos no mapeados */
+.tag-default {
+  background-color: gray;
+}
+
+/* Ajuste para el espaciado entre etiquetas */
+td[style*="white-space: pre-line"] .departamento-tag {
+  margin: 2px 0;
+}
+
+/* Ajuste específico para etiquetas múltiples */
+td[style*="white-space: pre-line"] .departamento-tag:not(:last-child) {
+  margin-bottom: 4px;
+}
+
+/* Asegurar que las etiquetas no sobresalgan */
+td[style*="white-space: pre-line"] {
+  overflow: hidden;
+}
+
+/* Colores para cada departamento */
+.tag-administracion {
+  background-color: #46ACC2; /* Color celeste de Administración */
+}
+
+.tag-contabilidad {
+  background-color: #F6BC55; /* Color amarillo de Contabilidad */
+}
+
+.tag-impuestos {
+  background-color: #F0914E; /* Color naranja de Impuestos */
+}
+
+.tag-ciencias-sociales {
+  background-color: #2ACD9C; /* Color verde de Ciencias Sociales */
+}
+
+.tag-pale {
+  background-color: #FB4D79; /* Color rosa de PALE */
+}
+
+.tag-economia {
+  background-color: #39CA2C; /* Color verde de Economía */
+}
+
+.tag-posgrados {
+  background-color: #3B596F; /* Color azul oscuro de Posgrados */
+}
+
+.tag-turismo {
+  background-color: #43AB8D; /* Color verde azulado de Turismo */
+}
+
+.tag-estudios-regionales {
+  background-color: #B794C6; /* Color morado de Estudios Regionales */
+}
+
+.tag-politicas-publicas {
+  background-color: #806D90; /* Color morado de Políticas Públicas */
+}
+
+.tag-sistemas-informacion {
+  background-color: #4B8FBC; /* Color azul de Sistemas de Información */
+}
+
+.tag-finanzas {
+  background-color: #F8775E; /* Color rojo suave de Finanzas */
+}
+
+.tag-auditoria {
+  background-color: #F2545E; /* Color rojo de Auditoría */
+}
+
+.tag-recursos-humanos {
+  background-color: #F27BB5; /* Color rosa de Recursos Humanos */
+}
+
+.tag-mercadotecnia {
+  background-color: #5676A9; /* Color azul de Mercadotecnia */
+}
+
+.tag-metodos-cuantitativos {
+  background-color: #F7C941; /* Color amarillo de Métodos Cuantitativos */
+}
+
+.na-tag {
+  background-color: #f5f5f5; /* Estilo para N/A */
+  color: #5f5f5f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+} 
