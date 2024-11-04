@@ -120,6 +120,21 @@ div.dataTables_wrapper {
   padding: 0px 40px;
 }
 
+/* Asegúrate de que todos los iconos tengan el mismo tamaño */
+.iconos-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Ajustar el espacio entre los iconos */
+.iconos-container > div {
+  margin-right: 10px;
+}
+
+.iconos-container > div:last-child {
+  margin-right: 0;
+}
+
 #icono-deshacer {
   visibility: hidden;
   opacity: 0;
@@ -171,16 +186,16 @@ div.dataTables_wrapper {
   border-radius: 10px 10px; /* Redondea solo las esquinas izquierdas */
   color: #fff;
   margin-right: 0; /* Quita el margen derecho */
-  z-index: 1;
+  /* z-index: 1; */
 }
 
-.barra-buscador {
+/* .barra-buscador {
   display: flex;
   align-items: center;
   width: 95%; /* Ocupa el 70% del div contenedor */
-  border: none; /* Quita el borde azul */
-  margin-top: 10px;
-}
+  /*border: none; /* Quita el borde azul */
+  /*margin-top: 10px;
+} */
 
 #input-buscador {
   flex-grow: 1;
@@ -277,8 +292,6 @@ div.dataTables_wrapper {
   max-height: 80%;
   overflow-y: auto;
   border: 1px solid black; 
-  z-index: 1000;
-  ;
 }
 
 #popup-columnas h3 {
@@ -596,4 +609,98 @@ div.dataTables_wrapper {
     background-color: white; /* Fondo blanco para que el encabezado sea legible */
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
   }
+}
+
+/* Estilos para el contenedor de búsqueda */
+.dt-search {
+width: 33.33%; /* Un tercio del ancho de la pantalla */
+margin: 10px 0;
+position: relative;
+}
+
+/* Estilos para el input de búsqueda */
+.dt-input {
+width: 100%;
+padding: 8px 12px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 14px;
+outline: none;
+transition: border-color 0.2s ease-in-out;
+box-sizing: border-box;
+}
+
+.dt-input:focus {
+border-color: #0071b0;
+box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
+}
+
+/* Ocultar la etiqueta */
+.dt-search label {
+display: none;
+}
+
+/* Asegurar que el contenedor padre no restrinja el ancho */
+.dataTables_wrapper .dataTables_filter {
+width: 33.33%;
+float: none;
+text-align: left;
+}
+
+/* Ajustes adicionales para mantener el layout */
+.dataTables_wrapper {
+position: relative;
+}
+
+/* Ajuste específico para el input dentro del contenedor */
+#dt-search-0 {
+width: 100%;
+margin-left: 0;
+}
+
+/* Estilos para el contenedor de longitud */
+.dt-length {
+margin: 10px 0;
+display: inline-block;
+}
+
+/* Estilos para el label */
+.dt-length label {
+display: flex;
+align-items: center;
+gap: 5px;
+font-size: 14px;
+}
+
+/* Estilos específicos para el select */
+.dt-length select.dt-input {
+width: auto;
+padding: 6px 24px 6px 8px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 14px;
+outline: none;
+margin: 0 5px;
+/* Asegurar que el select no se estire */
+display: inline-block;
+min-width: 70px;
+max-width: 100px;
+}
+
+/* Estilo para el hover y focus del select */
+.dt-length select.dt-input:hover,
+.dt-length select.dt-input:focus {
+border-color: #0071b0;
+}
+
+/* Asegurar que el contenedor no se estire demasiado */
+.dataTables_length {
+width: auto;
+white-space: nowrap;
+}
+
+nav[aria-label="pagination"] {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
