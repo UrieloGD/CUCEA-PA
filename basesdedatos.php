@@ -71,6 +71,7 @@ $result = mysqli_query($conexion, $sql);
         <h3>Selecciona las columnas a descargar</h3>
         <div id="opciones-columnas"></div>
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
+        <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
     <div class="datatable-container">
