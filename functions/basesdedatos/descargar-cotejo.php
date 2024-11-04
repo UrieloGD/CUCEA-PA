@@ -63,9 +63,34 @@ $columnas_exportar = [
 ];
 
 // Construir la consulta SQL para obtener registros únicos
-$sql_select = "SELECT " . implode(", ", array_unique(array_merge($columnas_cotejo, $columnas_exportar)));
-$sql_select .= " FROM `$tabla_departamento` WHERE Departamento_ID = ?";
-$sql_select .= " GROUP BY " . implode(", ", $columnas_cotejo);
+$sql_select = "
+SELECT
+    t1.CICLO,
+    t1.CRN,
+    t1.MATERIA,
+    t1.CVE_MATERIA,
+    t1.SECCION,
+    t1.L,
+    t1.M,
+    t1.I,
+    t1.J,
+    t1.V,
+    t1.S,
+    t1.D,
+    t1.MODALIDAD,
+    t1.HORA_INICIAL,
+    t1.HORA_FINAL,
+    t1.MODULO,
+    t1.CUPO
+FROM (
+    SELECT
+        MAX(CICLO) AS CICLO,
+        " . implode(", ", $columnas_cotejo) . "
+    FROM `$tabla_departamento`
+    WHERE Departamento_ID = ?
+    GROUP BY " . implode(", ", $columnas_cotejo) . "
+) t1
+";
 
 $stmt = $conexion->prepare($sql_select);
 if ($stmt === false) {
