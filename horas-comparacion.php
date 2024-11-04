@@ -195,7 +195,7 @@
                     //Encabezados de la tabla
                     const thead = document.querySelector('.tabla-personal thead tr');
                     thead.innerHTML = `
-                        <th>C....................................ódigo</th>
+                        <th>Código</th>
                         <th>Nombre Completo</th>
                         <th>Departamento</th>
                         <th>Categoría Actual</th>

@@ -20,7 +20,7 @@ function getDepartamentoQuery($departamento)
 {
     $departamentosMap = [
         'Administración'  => ['Administracion'],
-        'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA', 'PALE', 'Programa de Aprendizaje de Lengua Extranjera'],
+        'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA E', 'PALE', 'Programa de Aprendizaje de Lengua Extranjera'],
         'Auditoría'  => ['Auditoria', 'SECRETARIA ADMINISTRATIVA/AUDITORIA'],
         'Ciencias_Sociales'  => ['CERI/CIENCIAS SOCIALES', 'CIENCIAS SOCIALES'],
         'Politicas_Públicas'  => ['POLITICAS PUBLICAS'],
