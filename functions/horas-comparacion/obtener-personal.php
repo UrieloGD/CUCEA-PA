@@ -20,7 +20,7 @@ function getDepartamentoQuery($departamento)
 {
     $departamentosMap = [
         'Administración'  => ['Administracion'],
-        'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA'],
+        'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA', 'PALE', 'Programa de Aprendizaje de Lengua Extranjera'],
         'Auditoría'  => ['Auditoria', 'SECRETARIA ADMINISTRATIVA/AUDITORIA'],
         'Ciencias_Sociales'  => ['CERI/CIENCIAS SOCIALES', 'CIENCIAS SOCIALES'],
         'Politicas_Públicas'  => ['POLITICAS PUBLICAS'],
@@ -53,31 +53,112 @@ function getDepartamentoQuery($departamento)
     ];
 }
 
-function getSumaHorasPorProfesor($codigo, $conexion)
-{
-    $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento FROM Departamentos");
+function getSumaHorasPorProfesor($codigo, $conexion) {
+    // Modificamos la consulta inicial para obtener ambos nombres
+    $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento, Departamentos FROM Departamentos");
     $suma_horas = 0;
-    $horas_otros_departamentos = array();
+    $suma_cargo_plaza = 0;
+    $suma_horas_definitivas = 0;
+    $horas_por_departamento_definitivas = array();
+    $horas_por_departamento_cargo = array();
+    $profesor_encontrado = false;
+
+    // Crear un mapeo de nombres técnicos a nombres de visualización
+    $dept_mapping = array();
+    while ($dept = mysqli_fetch_assoc($departamentos)) {
+        $dept_mapping[$dept['Nombre_Departamento']] = $dept['Departamentos'];
+    }
+
+    // Reiniciar el puntero del resultado
+    mysqli_data_seek($departamentos, 0);
 
     while ($dept = mysqli_fetch_assoc($departamentos)) {
         $tabla = "Data_" . $dept['Nombre_Departamento'];
-        $query = "SELECT SUM(HORAS) as suma FROM $tabla WHERE CODIGO_PROFESOR = ?";
+        
+        $query = "SELECT HORAS, TIPO_CONTRATO FROM $tabla WHERE CODIGO_PROFESOR = ?";
         $stmt = $conexion->prepare($query);
         $stmt->bind_param("s", $codigo);
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-
-        if ($row['suma'] > 0) {
-            if ($tabla != "Data_" . $departamento) {
-                $horas_otros_departamentos[] = $dept['Nombre_Departamento'] . ": " . $row['suma'];
+        
+        $suma_dept_definitivas = 0;
+        $suma_dept_cargo = 0;
+        
+        while($row = $result->fetch_assoc()) {
+            $profesor_encontrado = true;
+            
+            $horas = !empty($row['HORAS']) ? intval($row['HORAS']) : 2;
+            $suma_horas += $horas;
+            
+            $tipo_contrato = strtolower(trim($row['TIPO_CONTRATO']));
+            
+            if (strtolower(trim($tipo_contrato)) === strtolower('cargo a plaza')) {
+                $suma_cargo_plaza += $horas;
+                $suma_dept_cargo += $horas;
             }
-            $suma_horas += $row['suma'];
+            
+            if (strtolower(trim($tipo_contrato)) === strtolower('horas definitivas')) {
+                $suma_horas_definitivas += $horas;
+                $suma_dept_definitivas += $horas;
+            }
         }
+        
+        // Usar el nombre de visualización del departamento
+        $nombre_dept_mostrar = $dept_mapping[$dept['Nombre_Departamento']];
+        
+        // Agregar horas definitivas por departamento
+        if ($suma_dept_definitivas > 0 && $tabla != "Data_" . $departamento) {
+            if (isset($horas_por_departamento_definitivas[$nombre_dept_mostrar])) {
+                $horas_por_departamento_definitivas[$nombre_dept_mostrar] += $suma_dept_definitivas;
+            } else {
+                $horas_por_departamento_definitivas[$nombre_dept_mostrar] = $suma_dept_definitivas;
+            }
+        }
+        
+        // Agregar horas cargo a plaza por departamento
+        if ($suma_dept_cargo > 0 && $tabla != "Data_" . $departamento) {
+            if (isset($horas_por_departamento_cargo[$nombre_dept_mostrar])) {
+                $horas_por_departamento_cargo[$nombre_dept_mostrar] += $suma_dept_cargo;
+            } else {
+                $horas_por_departamento_cargo[$nombre_dept_mostrar] = $suma_dept_cargo;
+            }
+        }
+        
         $stmt->close();
     }
 
-    return [$suma_horas, implode(", ", $horas_otros_departamentos)];
+    if (!$profesor_encontrado) {
+        $suma_horas = 0;
+        $suma_cargo_plaza = 0;
+        $suma_horas_definitivas = 0;
+        $horas_definitivas_str = ['N/A'];
+        $horas_cargo_str = ['N/A'];
+    } else {
+        // Formatear strings de horas por departamento
+        $horas_definitivas_str = array();
+        foreach ($horas_por_departamento_definitivas as $dept => $horas) {
+            $horas_definitivas_str[] = "$dept: $horas";
+        }
+        if (empty($horas_definitivas_str)) {
+            $horas_definitivas_str = ['N/A'];
+        }
+
+        $horas_cargo_str = array();
+        foreach ($horas_por_departamento_cargo as $dept => $horas) {
+            $horas_cargo_str[] = "$dept: $horas";
+        }
+        if (empty($horas_cargo_str)) {
+            $horas_cargo_str = ['N/A'];
+        }
+    }
+
+    return [
+        $suma_horas, 
+        implode("<br>", $horas_definitivas_str),
+        implode("<br>", $horas_cargo_str),
+        $suma_cargo_plaza,
+        $suma_horas_definitivas
+    ];
 }
 
 try {
@@ -111,20 +192,23 @@ try {
     // Obtener los resultados
     $personal = array();
     while ($row = $result->fetch_assoc()) {
-        // Asegurarse de que los valores numéricos sean números
         $row['Horas_frente_grupo'] = intval($row['Horas_frente_grupo']);
-        $row['Horas_definitivas'] = intval($row['Horas_definitivas']);
-
-        // Calcular suma de horas y horas en otros departamentos
-        list($suma_horas, $horas_otros_departamentos) = getSumaHorasPorProfesor($row['Codigo'], $conexion);
-        $row['suma_horas'] = $suma_horas > 0 ? $suma_horas : 2;
-        $row['horas_otros_departamentos'] = $horas_otros_departamentos;
+        
+        list($suma_horas, $horas_definitivas_por_departamento, $horas_cargo_por_departamento, 
+             $suma_cargo_plaza, $suma_horas_definitivas) = 
+            getSumaHorasPorProfesor($row['Codigo'], $conexion);
+            
+        $row['suma_horas'] = $suma_horas;
+        $row['suma_cargo_plaza'] = $suma_cargo_plaza;
+        $row['suma_horas_definitivas'] = $suma_horas_definitivas;
+        $row['horas_definitivas_por_departamento'] = $horas_definitivas_por_departamento;
+        $row['horas_cargo_por_departamento'] = $horas_cargo_por_departamento;
 
         // Calcular la comparación
-        if ($row['Categoria_actual'] == 'cargo a plaza') { // Si necesitas mantener esta lógica
+        if ($row['Categoria_actual'] == 'cargo a plaza') {
             $row['comparacion'] = $row['suma_horas'] - $row['Horas_frente_grupo'];
         } else {
-            $row['comparacion'] = $row['suma_horas'] - $row['Horas_definitivas'];
+            $row['comparacion'] = $row['suma_horas'] - $row['suma_horas_definitivas'];
         }
 
         $personal[] = $row;
