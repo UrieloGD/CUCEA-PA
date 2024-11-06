@@ -342,7 +342,7 @@ $result = mysqli_query($conexion, $sql);
                         'CIENCIAS SOCIALES',
                         'Ciencias Sociales'
                     ],
-                    'Politicas_Públicas' => [
+                    'Políticas_Públicas' => [
                         'POLITICAS PUBLICAS',
                         'Políticas Públicas',
                         'Politicas Publicas'

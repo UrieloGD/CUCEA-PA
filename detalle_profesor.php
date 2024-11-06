@@ -144,7 +144,7 @@ if(isset($_POST['codigo_profesor'])) {
                                 <th>Aula</th>
                             </tr>
                             <tr>
-                                <td><?php echo htmlspecialchars($materia['CRN']); ?></td>
+                                <td><?php echo isset($materia['CRN']) ? htmlspecialchars($materia['CRN']) : ''; ?></td>
                                 <td>
                                 <?php 
                                     $dias = '';
@@ -155,11 +155,13 @@ if(isset($_POST['codigo_profesor'])) {
                                     if($materia['V'] == 'V') $dias .= 'V';
                                     if($materia['S'] == 'S') $dias .= 'S';
                                     if($materia['D'] == 'D') $dias .= 'D';
-                                    echo $dias . ' ' . 
-                                        substr($materia['HORA_INICIAL'], 0, 2) . ':' . 
-                                        substr($materia['HORA_INICIAL'], 2, 2) . ' - ' . 
-                                        substr($materia['HORA_FINAL'], 0, 2) . ':' . 
-                                        substr($materia['HORA_FINAL'], 2, 2);
+                                    if($dias == '') $dias .= 'N';
+                                    $horaInicial = $materia['HORA_INICIAL'] ?? '0000';
+                                    $horaFinal = $materia['HORA_FINAL'] ?? '0000';
+
+                                    $horarioFormateado = sprintf('%s %s - %s', $dias, substr($horaInicial, 0, 2) . ':' . 
+                                    substr($horaInicial, 2, 2), substr($horaFinal, 0, 2) . ':' . substr($horaFinal, 2, 2));
+                                    echo $horarioFormateado;
                                 ?>
                                 </td>
                                 <td><?php echo isset($materia['MODULO']) ? htmlspecialchars($materia['MODULO']) : ''; ?></td>
