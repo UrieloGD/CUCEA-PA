@@ -105,18 +105,14 @@
                 <th>Tipo Plaza</th>
                 <th>Carga Horaria</th>
                 <th>Horas Frente Grupo</th>
-                <th>Horas Definitivas</th>
-                <th>Suma Horas Totales</th>
-                <th>Horas p/Departamento</th>` :
+                <th>Horas Definitivas</th>` :
                 `<th>Código</th>
                 <th>Nombre Completo</th>
                 <th>Categoría Actual</th>
                 <th>Tipo Plaza</th>
                 <th>Carga Horaria</th>
                 <th>Horas Frente Grupo</th>
-                <th>Horas Definitivas</th>
-                <th>Suma Horas Totales</th>
-                <th>Horas por Departamento</th>`;
+                <th>Horas Definitivas</th>`;
 
             // Realizar la petición AJAX
             fetchPersonalData(departamento);
@@ -195,16 +191,14 @@
                     //Encabezados de la tabla
                     const thead = document.querySelector('.tabla-personal thead tr');
                     thead.innerHTML = `
-                        <th>Código</th>
-                        <th>Nombre Completo</th>
-                        <th>Departamento</th>
-                        <th>Categoría Actual</th>
-                        <th>Tipo Plaza</th>
-                        <th>Carga Horaria</th>
-                        <th>Horas Frente Grupo</th>
-                        <th>Horas Definitivas</th>
-                        <th>Horas Frente Grupo por Departamento</th>
-                        <th>Horas Definitivas por Departamento</th>
+                    <th>Código</th>
+                    <th>Nombre Completo</th>
+                    <th>Departamento</th>
+                    <th>Categoría Actual</th>
+                    <th>Tipo Plaza</th>
+                    <th>Carga Horaria</th>
+                    <th>Horas Frente Grupo</th>
+                    <th>Horas Definitivas</th>
                     `;
 
                     tablaBody.innerHTML = ''; // Limpiar tabla
@@ -268,59 +262,79 @@
                         }
 
                         // Función para formatear las horas por departamento
-                        function formatearHorasDepartamento(horasStr) {
-                            if (!horasStr || horasStr.trim() === '' || horasStr === 'N/A') {
-                                return '<div class="horas-cero">N/A</div>';
+                        function formatearHorasDepartamento(horasString, tipoHoras) {
+                            if (!horasString || horasString.trim() === '') {
+                                return '';
                             }
 
-                            return horasStr.split('\n')
-                                .map(linea => {
-                                    // Asegurarnos de que la línea tenga el formato correcto
-                                    if (!linea.includes(':')) {
-                                        return ''; // Saltarse líneas mal formateadas
-                                    }
+                            let formattedHoras = '';
+                            let horasArray = horasString.split('\n');
 
-                                    // Dividir por el primer ':' solamente
-                                    const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
-                                    if (!dept || !horas) {
-                                        return ''; // Saltarse si falta departamento u horas
-                                    }
+                            for (let i = 0; i < horasArray.length; i++) {
+                                let linea = horasArray[i].trim();
+                                if (linea === '') continue; // Saltar líneas vacías
 
-                                    const deptClass = getDepartamentoClass(dept);
-                                    return `<div class="departamento-tag tag-${deptClass}">${dept}: ${horas}</div>`;
-                                })
-                                .filter(tag => tag) // Eliminar elementos vacíos
-                                .join('');
+                                // Dividir por el primer ':' solamente
+                                const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                if (!dept || !horas) continue; // Saltar si falta departamento u horas
+
+                                const [horasActual, horasRequeridas] = horas.split('/').map(h => parseInt(h.trim()));
+
+                                // Si las horas son 0/0, no mostrar la burbuja
+                                if (horasActual === 0 && horasRequeridas === 0) {
+                                    continue;
+                                }
+
+                                const horasClass = getHorasClass(horasActual, tipoHoras === 'definitivas' ? parseInt(persona.Horas_definitivas) : parseInt(persona.Horas_frente_grupo));
+
+                                formattedHoras += `
+                                    <div class="departamento-tag tag-${getDepartamentoClass(dept)} ${horasClass}" style="position: relative; display: inline-block; max-width: 100%;">
+                                        ${dept}: ${horas}
+                                    </div>
+                                `;
+                            }
+
+                            return formattedHoras;
+                            row.setAttribute('style', 'white-space: pre-line;');
                         }
-
+                        
                         // Procesar horas frente a grupo
-                         const horasCargoActual = persona.suma_cargo_plaza || 0;
+                        const horasCargoActual = persona.suma_cargo_plaza || 0;
                         const horasFrenteRequeridas = persona.Horas_frente_grupo || 0;
                         const claseFrenteGrupo = getHorasClass(horasCargoActual, horasFrenteRequeridas);
-                        
+
                         // Procesar horas definitivas
                         const horasDefActual = persona.suma_horas_definitivas || 0;
                         const horasDefRequeridas = persona.Horas_definitivas || 0;
                         const claseDefinitivas = getHorasClass(horasDefActual, horasDefRequeridas);
-                        
+
                         // Formatear las horas con sus respectivas clases
-                        const horasFrenteGrupo = `<span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>`;
-                        const horasDefinitivas = `<span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>`;
-                        
-                        const horasCargoDeptos = formatearHorasDepartamento(persona.horas_cargo_por_departamento);
-                        const horasDefinitivasDeptos = formatearHorasDepartamento(persona.horas_definitivas_por_departamento);
+                        const horasFrenteGrupoHTML = `
+                        <div class="tooltip">
+                            <span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>
+                            <div class="tooltiptext">${persona.horas_cargo_por_departamento || ''}</div>
+                        </div>
+                        `;
+
+                        const horasDefinitivasHTML = `
+                        <div class="tooltip">
+                            <span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>
+                            <div class="tooltiptext">${persona.horas_definitivas_por_departamento || ''}</div>
+                        </div>
+                        `;
+
+                        const horasCargoDeptos = formatearHorasDepartamento(persona.horas_cargo_por_departamento, 'cargo');
+                        const horasDefinitivasDeptos = formatearHorasDepartamento(persona.horas_definitivas_por_departamento, 'definitivas');
 
                         const tdContent = `
-                            <td>${persona.Codigo || ''}</td>
-                            <td>${persona.Nombre_completo || ''}</td>
-                            <td>${persona.Departamento || ''}</td>
-                            <td>${persona.Categoria_actual || ''}</td>
-                            <td>${persona.Tipo_plaza || ''}</td>
-                            <td>${persona.Carga_horaria || ''}</td>
-                            <td>${horasFrenteGrupo}</td>
-                            <td>${horasDefinitivas}</td>
-                            <td style="white-space: normal;">${horasCargoDeptos}</td>
-                            <td style="white-space: normal;">${horasDefinitivasDeptos}</td>
+                        <td>${persona.Codigo || ''}</td>
+                        <td>${persona.Nombre_completo || ''}</td>
+                        <td>${persona.Departamento || ''}</td>
+                        <td>${persona.Categoria_actual || ''}</td>
+                        <td>${persona.Tipo_plaza || ''}</td>
+                        <td>${persona.Carga_horaria || ''}</td>
+                        <td>${horasFrenteGrupoHTML}</td>
+                        <td>${horasDefinitivasHTML}</td>
                         `;
                         
                         row.innerHTML = tdContent;

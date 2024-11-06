@@ -131,24 +131,28 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
         $suma_horas = 0;
         $suma_cargo_plaza = 0;
         $suma_horas_definitivas = 0;
-        $horas_definitivas_str = ['N/A'];
-        $horas_cargo_str = ['N/A'];
+        $horas_definitivas_str = ['Sin secciones registradas'];
+        $horas_cargo_str = ['Sin secciones registradas'];
     } else {
         // Formatear strings de horas por departamento
         $horas_definitivas_str = array();
         foreach ($horas_por_departamento_definitivas as $dept => $horas) {
-            $horas_definitivas_str[] = "$dept: $horas";
+            if ($horas > 0) {
+                $horas_definitivas_str[] = "$dept: $horas";
+            }
         }
         if (empty($horas_definitivas_str)) {
-            $horas_definitivas_str = ['N/A'];
+            $horas_definitivas_str = ['Sin secciones registradas'];
         }
-
+    
         $horas_cargo_str = array();
         foreach ($horas_por_departamento_cargo as $dept => $horas) {
-            $horas_cargo_str[] = "$dept: $horas";
+            if ($horas > 0) {
+                $horas_cargo_str[] = "$dept: $horas";
+            }
         }
         if (empty($horas_cargo_str)) {
-            $horas_cargo_str = ['N/A'];
+            $horas_cargo_str = ['Sin secciones registradas'];
         }
     }
 
