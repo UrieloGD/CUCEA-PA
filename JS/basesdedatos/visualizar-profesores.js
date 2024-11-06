@@ -35,15 +35,11 @@ function filtrarTodosProfesores() {
 }
 
 function verDetalleProfesorTodos(codigoProfesor) {
-    // Similar a la función verDetalleProfesor existente, 
-    // pero adaptada para consultar en Coord_Per_Prof
     $.ajax({
-        url: './ajax/obtener-detalle-profesor-todos.php', // Necesitarás crear este archivo
+        url: './ajax/obtener-detalle-profesor-todos.php',
         method: 'POST',
         data: { codigo: codigoProfesor },
         success: function(response) {
-            // Poblar el modal de detalle-profesor con la respuesta
-            // Similar a la función existente
         }
     });
 }

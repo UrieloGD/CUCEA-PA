@@ -735,7 +735,7 @@ th {
 
     /*------------------------------------------------*/
     .search-bar {
-      margin-bottom: 20px;
+      margin-bottom: 20px 0;
   }
   
   .search-input-container {
@@ -751,6 +751,14 @@ th {
       transform: translateY(-50%);
       color: #666;
   }
+
+  .search-input-container input {
+    width: 100%;
+    padding: 8px 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
   
   #buscar-profesor {
       width: 100%;
@@ -821,3 +829,18 @@ th {
   .close:hover {
       color: #0071b0;
   }
+
+  /* Estilos para el modal */
+  #modal-todos-profesores {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Posición fija */
+    z-index: 1; /* Por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho del modal */
+    height: 100%; /* Altura del modal */
+    overflow: auto; /* Habilitar scroll si el contenido lo requiere */
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+  }
+
+  

@@ -392,6 +392,10 @@ $result = mysqli_query($conexion, $sql);
                         'TURISMO',
                         'Turismo',
                         'Turismo R. y S.'
+                    ],
+                    'Posgrados' => [
+                        'POSGRADOS',
+                        'Posgrados'
                     ]
                 ];
 

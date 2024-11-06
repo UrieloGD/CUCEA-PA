@@ -24,7 +24,6 @@ function verDetalleProfesor(codigo_profesor) {
         data: {
             codigo_profesor: codigo_profesor,
             departamento_id: $('#departamento_id').val(),
-            tabla_departamento: 'Data_' + $('#departamento_id').val()
         },
         success: function(response) {
             $('#detalle-profesor-contenido').html(response);
