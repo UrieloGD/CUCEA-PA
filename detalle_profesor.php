@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 <?php
+include './config/db.php';
 
 if(isset($_POST['codigo_profesor'])) {
-    include './config/db.php';
+    
     
     $codigo_profesor = (int)$_POST['codigo_profesor'];
     $departamento_id = (int)$_POST['departamento_id'];
@@ -41,9 +42,11 @@ if(isset($_POST['codigo_profesor'])) {
     }
 
     // Función modificada para obtener materias de todas las tablas
+    // Función modificada para eliminar los registros duplicados
     function obtenerTodasLasMaterias($codigo_profesor, $tablas) {
         global $conexion;
         $todas_las_materias = [];
+        $materias_unicas = [];
         
         foreach($tablas as $tabla) {
             // Verificar si la tabla existe
@@ -59,7 +62,11 @@ if(isset($_POST['codigo_profesor'])) {
                 $result = mysqli_stmt_get_result($stmt);
                 
                 while($row = mysqli_fetch_assoc($result)) {
-                    $todas_las_materias[] = $row;
+                    $unique_key = $row['CRN'] . '-' . $row['MATERIA'] . '-' . $row['AULA'];
+                    if(!isset($materias_unicas[$unique_key])) {
+                        $materias_unicas[$unique_key] = $row;
+                        $todas_las_materias[] = $row;
+                    }
                 }
             }
         }
@@ -155,7 +162,7 @@ if(isset($_POST['codigo_profesor'])) {
                                     if($materia['V'] == 'V') $dias .= 'V';
                                     if($materia['S'] == 'S') $dias .= 'S';
                                     if($materia['D'] == 'D') $dias .= 'D';
-                                    if($dias == '') $dias .= 'N';
+                                    if($dias == '') $dias .= 'Sin Datos';
                                     $horaInicial = $materia['HORA_INICIAL'] ?? '0000';
                                     $horaFinal = $materia['HORA_FINAL'] ?? '0000';
 
@@ -164,8 +171,8 @@ if(isset($_POST['codigo_profesor'])) {
                                     echo $horarioFormateado;
                                 ?>
                                 </td>
-                                <td><?php echo isset($materia['MODULO']) ? htmlspecialchars($materia['MODULO']) : ''; ?></td>
-                                <td><?php echo isset($materia['AULA']) ? htmlspecialchars($materia['AULA']) : 'CVIRTU'; ?></td>
+                                <td><?php echo isset($materia['MODULO']) ? htmlspecialchars($materia['MODULO']) : '-'; ?></td>
+                                <td><?php echo isset($materia['AULA']) ? htmlspecialchars($materia['AULA']) : '-'; ?></td>
                             </tr>
                         </table>
                     </div>

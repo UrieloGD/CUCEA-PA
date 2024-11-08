@@ -36,10 +36,11 @@ function filtrarTodosProfesores() {
 
 function verDetalleProfesorTodos(codigoProfesor) {
     $.ajax({
-        url: './ajax/obtener-detalle-profesor-todos.php',
+        url: '/functions/basesdedatos/modal-profesores-materias/obtener-detalle-profesor-todos.php',
         method: 'POST',
         data: { codigo: codigoProfesor },
         success: function(response) {
         }
     });
 }
+//./ajax/obtener-detalle-profesor-todos.php
