@@ -364,6 +364,117 @@ hr {
   display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
 }
 
+/* Desplegable en opcion Bases de Datos */
+
+.dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-trigger {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  display: block; /* Cambiamos a block por defecto */
+  position: static;
+  background-color: transparent;
+  padding-left: 0;
+  margin-top: 0; /* Iniciamos sin margen */
+  max-height: 0; /* Iniciamos con altura 0 */
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.dropdown-menu.show {
+  max-height: 200px; /* Altura máxima suficiente para el contenido */
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 5px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  color: #fff;
+  gap: 5px;
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown-menu.show .dropdown-item {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Retardo en la animación para cada item */
+.dropdown-menu.show .dropdown-item:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.dropdown-menu.show .dropdown-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.tree-line {
+  color: #fff;
+  padding-left: 15px;
+  font-size: 16px;
+}
+
+.dropdown-item-inner {
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  color: #fff;
+  text-decoration: none;
+  width: calc(100% - 40px); /* Ajusta el ancho considerando el espacio de la línea */
+  margin-right: 10px;
+}
+
+.dropdown-item-inner:hover {
+  background: #fff;
+  color: #0071b0;
+}
+
+/* Ocultar el menú desplegable cuando el navbar está minimizado */
+#navbar:not(:hover) .dropdown-menu {
+  display: none !important;
+}
+
+/* Asegurarse de que no haya íconos duplicados */
+.dropdown-item .navbar-item-inner-icon-wrapper {
+  display: none;
+}
+
+/* Ajuste para el espaciado cuando el menú está abierto */
+.dropdown-menu.show ~ .navbar-item {
+  margin-top: 10px;
+}
+
+/* Ajustes específicos para el hover */
+.dropdown-item:hover .tree-line {
+  color: #fff; /* Mantiene el color de la línea blanco incluso en hover */
+}
+
+/* Ajuste para mobile */
+@media screen and (max-width: 768px) {
+  .dropdown-menu {
+      padding-left: 10px;
+  }
+  
+  .dropdown-item-inner {
+      width: calc(100% - 30px);
+      margin-right: 5px;
+  }
+}
 /* =========
 Responsividad para distintas resoluciones
 ========= */

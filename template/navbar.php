@@ -141,34 +141,51 @@ function generateColorForUser($userId)
 
             <li class="navbar-item flexbox-left">
                 <?php
-                // Redirigir según el rol del usuario
-                if ($rol_id == 1) {
-                    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
-                    if (isset($_SESSION['Nombre_Departamento'])) {
-                        // Obtener el nombre del departamento desde la sesión
-                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
-                        if (basename($_SERVER['PHP_SELF']) == 'basesdedatos.php') { echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'><div class='indicador'></div>"; }
-                        else { echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>"; } 
+                    if ($rol_id == 3) { // Para Coordinación de Personal
+                        echo '<div class="dropdown-container">';
+                        echo '<a class="navbar-item-inner flexbox-left dropdown-trigger">
+                                <div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Bases de datos</span>
+                            </a>';
+                        echo '<div class="dropdown-menu">
+                                <div class="dropdown-item">
+                                    <span class="tree-line">└</span>
+                                    <a href="./admin-data-departamentos.php" class="dropdown-item-inner">
+                                        BD Jefes de Departamento
+                                    </a>
+                                </div>
+                                <div class="dropdown-item">
+                                    <span class="tree-line">└</span>
+                                    <a href="./basededatos-CoordPers.php" class="dropdown-item-inner">
+                                        BD Coordinación de Personal
+                                    </a>
+                                </div>
+                            </div>';
+                        echo '</div>';
                     } else {
-                        // Manejar el caso en que no se encuentre asociado a ningún departamento
-                        echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                        // Mantener el código original para otros roles
+                        if ($rol_id == 1) {
+                            if (isset($_SESSION['Nombre_Departamento'])) {
+                                if (basename($_SERVER['PHP_SELF']) == 'basesdedatos.php') {
+                                    echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'><div class='indicador'></div>";
+                                } else {
+                                    echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
+                                }
+                            } else {
+                                echo "<a class='navbar-item-inner flexbox-left' href='#'>";
+                            }
+                        } elseif ($rol_id == 2) {
+                            if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php') {
+                                echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'><div class='indicador'></div>";
+                            } else {
+                                echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
+                            }
+                        }
                     }
-                } elseif ($rol_id == 2) {
-                    // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
-                    if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php') { echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'><div class='indicador'></div>"; }
-                    else { echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>"; }
-                } else {
-                    // Otros roles o manejo de errores aquí
-                    if (basename($_SERVER['PHP_SELF']) == 'basededatos-CoordPers.php') { echo "<a class='navbar-item-inner flexbox-left' href='./basededatos-CoordPers.php'><div class='indicador'></div>"; }
-                    else { echo "<a class='navbar-item-inner flexbox-left' href='./basededatos-CoordPers.php'>"; }
-                }
                 ?>
-                <div class="navbar-item-inner-icon-wrapper flexbox">
-                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                </div>
-                <span class="link-text">Bases de datos</span>
-                </a>
             </li>
 
             <li class="navbar-item flexbox-left">
@@ -332,5 +349,53 @@ document.addEventListener('scroll', () => {
     navbar.classList.remove('nav-expanded');
     isExpanded = false;
   }
+});
+
+// Funcion para desplegable en icono BD
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
+    const navbar = document.getElementById('navbar');
+    
+    dropdownTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const menu = this.nextElementSibling;
+            const isExpanded = menu.classList.contains('show');
+            
+            // Primero removemos la clase show de todos los menús
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) {
+                    m.classList.remove('show');
+                }
+            });
+            
+            // Toggle de la clase show en el menú actual
+            if (!isExpanded) {
+                menu.classList.add('show');
+            } else {
+                menu.classList.remove('show');
+            }
+        });
+    });
+    
+    // Cerrar el menú si se hace clic fuera
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown-container')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+
+    // Cerrar el menú cuando el navbar se minimiza
+    navbar.addEventListener('mouseleave', function() {
+        if (!navbar.matches(':hover')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
 });
 </script>
