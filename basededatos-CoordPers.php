@@ -208,7 +208,7 @@ function formatDateForDisplay($mysqlDate)
                     <?php
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
+                            echo "<tr data-id='" . htmlspecialchars($row["ID"] ?? '') . "'>";
                             echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . htmlspecialchars($row["ID"] ?? '') . "'></td>";
                             echo "<td>" . htmlspecialchars($row["ID"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Codigo"] ?? '') . "</td>";
@@ -450,25 +450,25 @@ function formatDateForDisplay($mysqlDate)
         </div>
     </div>
 
-<!-- Scripts de la librería DataTables-->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
-<script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
-<script src="https://cdn.datatables.net/colreorder/2.0.4/js/colReorder.dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+    <!-- Scripts de la librería DataTables-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/2.0.4/js/colReorder.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
-<script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-<script src="./JS/basesdedatos/barra-busqueda.js"></script>
-<script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-<script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
-<script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
+    <script src="./JS/basesdedatos/barra-busqueda.js"></script>
+    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
+    <script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
+    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
+    <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 
-<?php include("./template/footer.php"); ?>
+    <?php include("./template/footer.php"); ?>

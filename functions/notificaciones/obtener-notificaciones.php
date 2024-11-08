@@ -37,6 +37,14 @@ if ($rol_id == 1) { // Jefe de departamento
             WHERE n.Usuario_ID = $codigo_usuario
             ORDER BY fecha DESC
             LIMIT 10";
+} else if ($rol_id == 3) { // Coordinacion de Personal
+    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
+              e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
+          FROM Notificaciones n
+          LEFT JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+          WHERE n.Usuario_ID = $codigo_usuario
+          ORDER BY n.Fecha DESC
+          LIMIT 10";
 }
 
 $result = mysqli_query($conexion, $query);

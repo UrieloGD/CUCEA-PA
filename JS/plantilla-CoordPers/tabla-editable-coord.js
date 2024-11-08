@@ -159,6 +159,14 @@ function makeEditable() {
 }
 
 function updateCell(cell) {
+  const row = cell.closest("tr");
+  const id = row.getAttribute("data-id");
+
+  if (!id) {
+    console.error("No se pudo obtener el ID para la fila:", row);
+    return;
+  }
+
   if (!cell.hasAttribute("data-original-value")) {
     cell.setAttribute("data-original-value", cell.textContent.trim());
   }
@@ -338,7 +346,7 @@ function saveAllChanges() {
     }
 
     promises.push(
-      fetch("./functions/plantilla-CoordPers/actualizar-celda-coord.php", {
+      fetch("./functions/coord-personal-plantilla/actualizar-celda-coord.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
