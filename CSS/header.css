@@ -187,6 +187,10 @@ body {
   .rol {
     margin-left: -1vw;
   }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
@@ -202,6 +206,10 @@ body {
   .rol {
     margin-left: -1vw;
   }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
@@ -214,7 +222,10 @@ body {
   .rol {
     margin-left: -3vw;
   }
-  /* Aplica ajustes similares para otros elementos según sea necesario */
+  
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -229,6 +240,9 @@ body {
 
   .rol {
     margin-left: -5vw;
+  }
+  .icono-notificaciones {
+    margin-left: 1px;
   }
 }
 
@@ -250,11 +264,18 @@ body {
   }
 
   .rol {
-    margin-left: -10vw;
+    position: relative;
+    left: -1vw;
+  }
+
+  .icono-notificaciones {
+    position: relative;
+    left: -1vw;
+    margin-left: 1px;
   }
 }
 
-@media screen and (max-width: 768px) and (min-width: 481px) {
+@media screen and (max-width: 768px) {
   .header {
     margin-left: 2vw;
     font-size: small;
@@ -271,7 +292,32 @@ body {
   }
 
   .rol {
-    margin-left: -3vw;
+    margin-left: -1vw;
   }
-  /* Aplica ajustes similares para otros elementos según sea necesario */
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .rol {
+    width: 100%;
+    margin-left: 5vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .rol {
+    width: 100%;
+    margin-left: -15vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
 }

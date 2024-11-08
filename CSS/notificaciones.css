@@ -172,3 +172,12 @@
 }
 
 /**/
+  
+@media screen and (max-width: 768px) {
+   .fecha,
+   .marcar-leido,
+   .descripcion {
+    font-size: 0.8rem;
+   }
+}
+  

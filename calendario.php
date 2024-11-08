@@ -441,8 +441,9 @@ document.addEventListener('DOMContentLoaded', function() {
 .side-modal {
     display: none;
     position: fixed;
-    top: 100px;
-    left: 7.8vw;
+    height: 90vh;
+    top: 73px;
+    left: 7.5vw;
     z-index: 1500;
 }
 
@@ -456,9 +457,49 @@ document.addEventListener('DOMContentLoaded', function() {
     position: relative;
 }
 
-@media (max-width: 535px) {
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
     .side-modal {
-        top: 50px;
+        top: 55px;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+    .side-modal {
+        top: 60px;
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+    .side-modal {
+        top: 65px;
+    }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+    .side-modal {
+        left: 25vw;
+        top: 60.1px;
+    }
+}
+
+@media (max-width: 768px) {
+    .side-modal {
+        left: 15vw;
+        top: 59px;
+    }
+}
+
+@media (max-width: 660px) {
+    .side-modal {
+        left: 10vw;
+        top: 60px;
+    }
+}
+
+@media (max-width: 565px) {
+    .side-modal {
+        left: 7vw;
+        top: 60px;
     }
 }
 </style>

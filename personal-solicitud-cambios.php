@@ -16,14 +16,10 @@
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
         <div class="color-en_revision"></div> <!-- Color de estado de solicitud al extremo izquierdo -->
         <div class="texto-superior"> <!-- Contenedor del titulo de solicitud -->
-            <p class="nombre-solicitud">
-                <input type="text" id="solicitud" value="Solicitud de baja">
-            </p>
+            <p class="nombre-solicitud" id="solicitud">Solicitud de baja</p>
         </div>
         <div class="texto-medio"> <!-- Contenedor del nombre del departamento -->
-            <p class="nombre-departamento"> 
-                <input type="text" id="departamento" value="Departamento de contaduria.">
-            </p>
+            <p class="nombre-departamento" id="departamento">Departamento de contaduria</p>
         </div>
         <ul class="texto-inferior"> <!-- Informacion en la parte inferior de la solicitud: Fecha y hora de solicitud -->
             <li class="fecha-solicitud">
@@ -44,45 +40,71 @@
     </div>
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-1">
-        <div class="info">
-            <p class="CRN">CRN:</p>
-            <p id="info-CRN">154875</p>
-            <p class="materia">Materia:</p>
-            <p id="info-materia">Competividad de la actividad gastronomica</p>
-            <p class="clave">Clave:</p>
-            <p id="info-clave">IC366</p>
-            <p class="SEC">SEC:</p>
-            <p id="info-SEC">C02</p>
-            <p class="folio">Folio de solicitud:</p>
-            <p id="info-folio">54440216</p>
+    <div class="info">
+            <div class="contenedor-izquierdo">
+                <p class="CRN">CRN:
+                    <p id="info-CRN">154875</p>
+                </p>
+                <p class="materia">Materia:
+                    <p id="info-materia">Competividad de la actividad gastronomica</p>
+                </p>
+                <p class="clave">Clave:
+                    <p id="info-clave">IC366</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="SEC">SEC:
+                    <p id="info-SEC">C02</p>
+                </p>
+                <p class="folio">Folio de solicitud:
+                    <p id="info-folio">54440216</p>
+                </p>
+            </div> 
         </div>
         <div class="titulo-info">
             <p>Profesor actual</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno">Castanedo</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno">Escobedo</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres">Rafael Eduardo Alfonso</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo">215195673</p>
-            <p class="motivo">Motivo:</p>
-            <p id="info-motivo">Jubilacion del profesor</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno">Castanedo</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno">Escobedo</p>
+                </p>
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="codigo">Código:
+                    <p id="info-codigo">215195673</p>
+                </p>
+                <p class="motivo">Motivo:
+                    <p id="info-motivo">Jubilacion del profesor</p>
+                </p>
+            </div>
         </div>
         <div class="titulo-info">
             <p>Profesor propuesto</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno-propuesto">Gomez</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno-propuesto">Alcantara</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo-propuesto">123456789</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno-propuesto">Gomez</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno-propuesto">Alcantara</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
+                </p>
+                <p class="codigo">Código:
+                    <p id="info-codigo-propuesto">123456789</p>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -90,14 +112,10 @@
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
         <div class="color-rechazado"></div>
         <div class="texto-superior">
-            <p class="nombre-solicitud">
-                <input type="text" id="solicitud" value="Solicitud de propuesta">
-            </p>
+            <p class="nombre-solicitud" id="solicitud">Solicitud de propuesta</p>
         </div>
         <div class="texto-medio">
-            <p class="nombre-departamento"> 
-                <input type="text" id="departamento" value="Departamento de negocios internacionales.">
-            </p>
+            <p class="nombre-departamento" id="departamento">Departamento de negocios internacionales</p>
         </div>
         <ul class="texto-inferior">
             <li class="fecha-solicitud">
@@ -118,44 +136,70 @@
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-2">
     <div class="info">
-            <p class="CRN">CRN:</p>
-            <p id="info-CRN">154875</p>
-            <p class="materia">Materia:</p>
-            <p id="info-materia">Competividad de la actividad gastronomica</p>
-            <p class="clave">Clave:</p>
-            <p id="info-clave">IC366</p>
-            <p class="SEC">SEC:</p>
-            <p id="info-SEC">C02</p>
-            <p class="folio">Folio de solicitud:</p>
-            <p id="info-folio">54440216</p>
+            <div class="contenedor-izquierdo">
+                <p class="CRN">CRN:
+                    <p id="info-CRN">154875</p>
+                </p>
+                <p class="materia">Materia:
+                    <p id="info-materia">Competividad de la actividad gastronomica</p>
+                </p>
+                <p class="clave">Clave:
+                    <p id="info-clave">IC366</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="SEC">SEC:
+                    <p id="info-SEC">C02</p>
+                </p>
+                <p class="folio">Folio de solicitud:
+                    <p id="info-folio">54440216</p>
+                </p>
+            </div> 
         </div>
         <div class="titulo-info">
             <p>Profesor actual</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno">Castanedo</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno">Escobedo</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres">Rafael Eduardo Alfonso</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo">215195673</p>
-            <p class="motivo">Motivo:</p>
-            <p id="info-motivo">Jubilacion del profesor</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno">Castanedo</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno">Escobedo</p>
+                </p>
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="codigo">Código:
+                    <p id="info-codigo">215195673</p>
+                </p>
+                <p class="motivo">Motivo:
+                    <p id="info-motivo">Jubilacion del profesor</p>
+                </p>
+            </div>
         </div>
         <div class="titulo-info">
             <p>Profesor propuesto</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno-propuesto">Gomez</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno-propuesto">Alcantara</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo-propuesto">123456789</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno-propuesto">Gomez</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno-propuesto">Alcantara</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
+                </p>
+                <p class="codigo">Código:
+                    <p id="info-codigo-propuesto">123456789</p>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -163,14 +207,10 @@
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
         <div class="color-aprobado"></div>
         <div class="texto-superior">
-            <p class="nombre-solicitud">
-                <input type="text" id="solicitud" value="Solicitud de baja-propuesta">
-            </p>
+            <p class="nombre-solicitud" id="solicitud">Solicitud de baja-propuesta</p>
         </div>
         <div class="texto-medio">
-            <p class="nombre-departamento"> 
-                <input type="text" id="departamento" value="Departamento de administracion.">
-            </p>
+            <p class="nombre-departamento" id="departamento">Departamento de administracion</p>
         </div>
         <ul class="texto-inferior">
             <li class="fecha-solicitud">
@@ -191,44 +231,70 @@
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-3">
     <div class="info">
-            <p class="CRN">CRN:</p>
-            <p id="info-CRN">154875</p>
-            <p class="materia">Materia:</p>
-            <p id="info-materia">Competividad de la actividad gastronomica</p>
-            <p class="clave">Clave:</p>
-            <p id="info-clave">IC366</p>
-            <p class="SEC">SEC:</p>
-            <p id="info-SEC">C02</p>
-            <p class="folio">Folio de solicitud:</p>
-            <p id="info-folio">54440216</p>
+            <div class="contenedor-izquierdo">
+                <p class="CRN">CRN:
+                    <p id="info-CRN">154875</p>
+                </p>
+                <p class="materia">Materia:
+                    <p id="info-materia">Competividad de la actividad gastronomica</p>
+                </p>
+                <p class="clave">Clave:
+                    <p id="info-clave">IC366</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="SEC">SEC:
+                    <p id="info-SEC">C02</p>
+                </p>
+                <p class="folio">Folio de solicitud:
+                    <p id="info-folio">54440216</p>
+                </p>
+            </div> 
         </div>
         <div class="titulo-info">
             <p>Profesor actual</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno">Castanedo</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno">Escobedo</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres">Rafael Eduardo Alfonso</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo">215195673</p>
-            <p class="motivo">Motivo:</p>
-            <p id="info-motivo">Jubilacion del profesor</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno">Castanedo</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno">Escobedo</p>
+                </p>
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="codigo">Código:
+                    <p id="info-codigo">215195673</p>
+                </p>
+                <p class="motivo">Motivo:
+                    <p id="info-motivo">Jubilacion del profesor</p>
+                </p>
+            </div>
         </div>
         <div class="titulo-info">
             <p>Profesor propuesto</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno-propuesto">Gomez</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno-propuesto">Alcantara</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo-propuesto">123456789</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno-propuesto">Gomez</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno-propuesto">Alcantara</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
+                </p>
+                <p class="codigo">Código:
+                    <p id="info-codigo-propuesto">123456789</p>
+                </p>
+            </div>
         </div>
     </div>
 
@@ -236,14 +302,10 @@
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
         <div class="color-pendiente"></div>
         <div class="texto-superior">
-            <p class="nombre-solicitud">
-                <input type="text" id="solicitud" value="Solicitud de baja-propuesta">
-            </p>
+            <p class="nombre-solicitud" id="solicitud">Solicitud de baja-propuesta</p>
         </div>
         <div class="texto-medio">
-            <p class="nombre-departamento"> 
-                <input type="text" id="departamento" value="Departamento de sistemas de la informacion.">
-            </p>
+            <p class="nombre-departamento" id="departamento">Departamento de sistemas de la informacion</p>
         </div>
         <ul class="texto-inferior">
             <li class="fecha-solicitud">
@@ -264,44 +326,70 @@
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-4">
     <div class="info">
-            <p class="CRN">CRN:</p>
-            <p id="info-CRN">154875</p>
-            <p class="materia">Materia:</p>
-            <p id="info-materia">Competividad de la actividad gastronomica</p>
-            <p class="clave">Clave:</p>
-            <p id="info-clave">IC366</p>
-            <p class="SEC">SEC:</p>
-            <p id="info-SEC">C02</p>
-            <p class="folio">Folio de solicitud:</p>
-            <p id="info-folio">54440216</p>
+            <div class="contenedor-izquierdo">
+                <p class="CRN">CRN:
+                    <p id="info-CRN">154875</p>
+                </p>
+                <p class="materia">Materia:
+                    <p id="info-materia">Competividad de la actividad gastronomica</p>
+                </p>
+                <p class="clave">Clave:
+                    <p id="info-clave">IC366</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="SEC">SEC:
+                    <p id="info-SEC">C02</p>
+                </p>
+                <p class="folio">Folio de solicitud:
+                    <p id="info-folio">54440216</p>
+                </p>
+            </div> 
         </div>
         <div class="titulo-info">
             <p>Profesor actual</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno">Castanedo</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno">Escobedo</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres">Rafael Eduardo Alfonso</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo">215195673</p>
-            <p class="motivo">Motivo:</p>
-            <p id="info-motivo">Jubilacion del profesor</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno">Castanedo</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno">Escobedo</p>
+                </p>
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="codigo">Código:
+                    <p id="info-codigo">215195673</p>
+                </p>
+                <p class="motivo">Motivo:
+                    <p id="info-motivo">Jubilacion del profesor</p>
+                </p>
+            </div>
         </div>
         <div class="titulo-info">
             <p>Profesor propuesto</p>
         </div>
         <div class="info">
-            <p class="paterno">Apellido paterno:</p>
-            <p id="info-paterno-propuesto">Gomez</p>
-            <p class="materno">Apellido materno:</p>
-            <p id="info-materno-propuesto">Alcantara</p>
-            <p class="nombres">Nombre(s):</p>
-            <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-            <p class="codigo">Código:</p>
-            <p id="info-codigo-propuesto">123456789</p>
+            <div class="contenedor-izquierdo">
+                <p class="paterno">Apellido paterno:
+                    <p id="info-paterno-propuesto">Gomez</p>
+                </p>
+                <p class="materno">Apellido materno:
+                    <p id="info-materno-propuesto">Alcantara</p>
+                </p>
+            </div>
+            <div class="contenedor-derecho">
+                <p class="nombres">Nombre(s):
+                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
+                </p>
+                <p class="codigo">Código:
+                    <p id="info-codigo-propuesto">123456789</p>
+                </p>
+            </div>
         </div>
     </div>
 

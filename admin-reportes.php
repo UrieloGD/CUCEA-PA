@@ -35,9 +35,10 @@ $periodo_actual = "2025A";
         <div class="titulo-bd"> 
             <h3>Reporte de entrega</h3>
         </div>
-        <div class="export-button">
-            <a href="./functions/admin-reportes/generar-pdf.php" class="btn-exportar">Exportar a PDF</a>
-        </div>
+    </div>
+
+    <div class="export-button">
+        <a href="./functions/admin-reportes/generar-pdf.php" class="btn-exportar">Exportar a PDF</a>
     </div>
 
     <div class="reporte-container">
@@ -92,7 +93,7 @@ $periodo_actual = "2025A";
                         <div class="info-value"><?php echo $periodo_actual; ?></div>
                     </div>
                     <div class="info-col">
-                        <div class="info-label">Estado de la entrega</div>
+                        <div class="info-label">Estado</div>
                         <div class="info-value-entrega">
                             <span class="estado-<?php echo strtolower($estado_entrega); ?>"><?php echo $estado_entrega; ?></span>
                         </div>

@@ -9,7 +9,7 @@
   margin-top: 1vh;
   margin-bottom: 2vh;
   align-self: flex-end;
-  overflow: auto;
+  overflow-x: hidden;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
@@ -17,25 +17,123 @@
   -o-border-radius: 20px;
 }
 
+.container-banner-bienvenida {
+  width: 60%;
+  display: inline-flex;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
 .bienvenida {
+  width: 61vw;
+  height: 150px;
+  display: inline-flexbox;
+  padding-left: 60px; 
+  margin: -20;
+  color: #000000;
+}
+
+.bienvenida h2 {
+  position: relative;
+  top: 15px;
+  font-size: 3rem;
+}
+
+.bienvenida p {
+  position: relative;
+  bottom: 50px;
+  font-size: 1.3rem;
+  font-style: italic;
+}
+
+/* Estilos del carrusel */
+.banner {
+  background-color: #0092e0;
+  height: 330px;
+  width: 96.9%;
+  margin-left: 20px;
+  margin-top: 63px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.carrusel {
   display: flex;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.diapositiva {
+  min-width: 100%;
+  height: 100%;
+}
+
+.diapositiva img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.boton-carrusel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #000000;
+  opacity: 50%;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  width: 50px;
+  height: 100%;
+  display: flex;
   align-items: center;
-  text-align: center;
-  border-radius: 20px 20px 0px 0px;
-  background-color: #0071b0;
-  color: #fff;
-  -webkit-border-radius: 20px 20px 0px 0px;
-  -moz-border-radius: 20px 20px 0px 0px;
-  -ms-border-radius: 20px 20px 0px 0px;
-  -o-border-radius: 20px 20px 0px 0px;
+  justify-content: center;
+}
+
+.boton-carrusel:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#botonAnterior {
+  left: 1px;
+}
+
+#botonSiguiente {
+  right: 1px;
+}
+
+.contenedor-puntos {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.punto {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 20%;
+  cursor: pointer;
+}
+
+.punto.activo {
+  background: white;
 }
 
 .cuadros-nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 20px 10px;
+  margin: 55px 10px;
 }
 
 .cuadro-ind {
@@ -57,6 +155,7 @@
 
 .cuadro-ind img {
   width: 100%;
+  opacity: 70%;
   object-fit: cover;
   transition: transform 0.4s;
   transform-origin: center;
@@ -88,7 +187,7 @@
 }
 
 .cuadro-ind:hover .overlay h4 {
-  font-size: 20px;
+  font-size: 1.5rem;
   transition: ease-in-out 0.4s;
   transform-origin: center;
   object-fit: contain;
@@ -119,6 +218,7 @@
 
 .overlay h4 {
   margin: 0;
+  font-size: 1.3rem;
   color: white; /* Cambiar color a blanco */
   font-weight: bold; /* Hacer el texto en negrita */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Efecto de sombreado */
@@ -138,9 +238,12 @@
 
 /* Contenedor de Progreso y Siguientes Eventos */
 .container-eventos-progreso {
-  display: flex;
-  margin: 20px 0px 20px 0px;
-  padding: 0px 20px 0px 20px;
+  display: inline-flex;
+  position: fixed;
+  width: 36.3vw;
+  margin-left: 5px;
+  margin-top: 27px;
+  /* padding: 0px 20px 0px 0px; */
   /* height: auto; */
   justify-content: space-between;
   align-items: stretch;
@@ -153,7 +256,7 @@
 .eventos {
   border: solid 5px #e7e9f2;
   flex: 1;
-  width: 45%;
+  /* width: 45%; */
   height: auto;
   margin-right: 1vw;
   border-radius: 10px;
@@ -163,6 +266,7 @@
   border: none;
   border-top: 5px solid #e7e9f2;
   width: 100%;
+  cursor: pointer;
 }
 .evento-item {
   display: flex;
@@ -170,6 +274,27 @@
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.cuadro-numero {
+  background-color: rgb(161, 81, 121);
+  padding: 13px;
+  border-radius: 10px;
+  margin: 0px 10px 0px 10px;
+  cursor: pointer;
+}
+
+.cuadro-numero input {
+  background-color: inherit;
+  color: #fff;
+  width: 40px;
+  border-style: none;
+  outline: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
 }
 
 .evento-icono {
@@ -417,6 +542,13 @@
   .cuadro-ind {
     width: 15%;
     margin: 10px;
+  }
+}
+
+@media screen and (max-width: 1300) {
+  #filtrar-container #button {
+    padding: 0;
+    margin: 0;
   }
 }
 

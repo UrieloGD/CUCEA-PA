@@ -828,15 +828,16 @@ hr {
 /* Estilos para modal: Crear nuevo evento. */
 .crearevento-principal {
     margin: 0 auto;
-    width: 454px;
-    height: 804px;
+    width: 460px;
+    height: 95%;
     border-radius: 15px;
     background-color: white;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
-    box-shadow: 0px 0px 5px 1px rgb(53, 52, 52);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .crearevento-encabezado {
@@ -1020,7 +1021,7 @@ hr {
 /* Tabs de etiquetas (mas border-radius)  */
 .tab-etiqueta {
     background-color: #fff;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 3px;
     padding-left: 13px;
     padding-right: 30px;
@@ -1076,7 +1077,7 @@ hr {
 .boton-finalizar {
     font-size: 0.8rem;
     margin: 0 auto;
-    left: 177px;
+    left: 40%;
     bottom: 155px;
     position: relative;
     width: 100px;
@@ -1320,7 +1321,9 @@ hr {
 
     .crearevento-principal {
         width: 85vw;
-        height: 804px;
+        height: 95%;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .seleccionar-fecha input {

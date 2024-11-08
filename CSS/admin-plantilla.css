@@ -240,7 +240,8 @@ td .btn-container .btn {
   }
 
   .btn-container {
-    width: 10px;
+    margin-left: 2.3vw;
+    width: 50px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;

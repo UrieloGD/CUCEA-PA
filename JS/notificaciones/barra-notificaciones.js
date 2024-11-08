@@ -52,9 +52,17 @@ function toggleNav() {
   if (isNavOpen) {
     sidebar.style.width = "0";
     sidebar.style.right = "-400px";
+    if (window.innerWidth <= 768) {
+      sidebar.style.width = "0";
+      sidebar.style.right = "-250px";
+    }
   } else {
     sidebar.style.width = "400px";
     sidebar.style.right = "0";
+    if (window.innerWidth <= 768) {
+      sidebar.style.width = "250px";
+      sidebar.style.right = "0";
+    }
   }
   isNavOpen = !isNavOpen;
 }

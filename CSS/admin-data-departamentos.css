@@ -314,6 +314,10 @@ td:nth-child(2) {
     background-color: #0071b0;
   }
 
+  .progress-bar::after {
+    font-size: 10px; /* Tamaño de fuente */
+  }
+
   .tabla {
     padding: 10px 20px;
   }
@@ -330,8 +334,8 @@ td:nth-child(2) {
   }
 
   .form-actions .btn {
-    padding: 15px;
-    font-size: 0.8rem;
+    padding-top: 10px;
+    font-size: 0.9rem;
   }
 
   .btn-ir {

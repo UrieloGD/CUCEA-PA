@@ -135,6 +135,8 @@
   flex-direction: column;
   flex-wrap: wrap;
   white-space: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
   flex: 1;
   background-color: white;
   border-radius: 5px;
@@ -144,10 +146,9 @@
 }
 
 .export-button {
-  position: absolute;
-  right: 20px;
-  top: 9.5px;
-  left: 78%;
+  position: relative;
+  left: 38.7%;
+  bottom: 15.5px;
 }
 
 .btn-exportar {
@@ -177,12 +178,18 @@
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+  .export-button {
+    left: 38%;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
     width: 92vw;
     margin-left: 6vw;
+  }
+  .export-button {
+    left: 37%;
   }
 }
 
@@ -192,6 +199,9 @@
     margin-left: 7vw;
     font-size: small;
   }
+  .export-button {
+    left: 35.8%;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -200,6 +210,9 @@
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: 1rem;
+  }
+  .export-button {
+    left: 34%;
   }
 }
 
@@ -219,8 +232,8 @@
     position: relative;
   }
   .export-button {
-    margin-top: 1vh;
-    width: 30vw;
+    top: 14px;
+    left: 32%;
   }
   
   .titulo-bd {
@@ -228,8 +241,11 @@
   }
   
   .reporte-container {
-    margin-top: 50px;
+    margin-top: 30px;
     right: 50vw;
+  }
+  .info-label {
+    text-overflow:clip;
   }
 }
 
@@ -245,22 +261,14 @@
     position: relative;
     bottom: 0;
   }
-  .btn-exportar {
-    margin: 0 auto;
-    position: relative;
-    right: 150px;
-  }
   .export-button {
-    margin-top: 50px;
-    width: 35vw;
+    margin-top: 15px;
+    top: 14px;
+    left: 27%;
   }
 
   .titulo-bd {
     width: 250px;
-  }
-  
-  .reporte-container {
-    margin-top: 50px;
   }
 }
 
@@ -271,17 +279,10 @@
     margin-left: 2vw;
     font-size: smaller;
   }
-  .btn-exportar {
-    margin: 0 auto;
-    position: relative;
-  }
   .export-button {
-    margin-top: 50px;
-    width: 40vw;
-  }
-  
-  .reporte-container {
-    margin-top: 50px;
+    margin-top: 15px;
+    top: 14px;
+    left: 24%;
   }
 
   .titulo-bd {

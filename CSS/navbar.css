@@ -105,6 +105,15 @@
   -o-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
 }
 
+.indicador {
+  position: absolute;
+  right: 1px;
+  background-color: #ffffff;
+  width: 10px;
+  height: 100%;
+  border-radius: 10px;
+}
+
 .navbar-item-inner:hover {
   /* margin-left: -5px; */
   color: hsl(var(--white));
@@ -631,7 +640,7 @@ Responsividad para distintas resoluciones
     padding: 0;
     margin: 0 auto;
     width: 4em;
-    height: 3.5em;
+    height: 3.14em;
     margin-left: 5vw;
     position: fixed;
     background-color: #0071b0;
@@ -651,6 +660,17 @@ Responsividad para distintas resoluciones
     border-bottom-right-radius: 10px;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    transition: all 0.3s ease;
+  }
+
+  #navbar:hover {
+    width: 4em;
+    height: 3.45em;
+    margin-left: 5vw;
+    border: 0;
+    cursor: pointer;
+    content:initial;
+    content: url(../Img/Icons/iconos-navbar/menu-min.png);
   }
 
   .navbar-logo img {
@@ -658,8 +678,12 @@ Responsividad para distintas resoluciones
     content: url(../Img/logos/LogoPA.png);
     width: 60%;
     height: 10%;
-    bottom: 37px;
+    bottom: 41px;
     transition: all 0.3s ease;
+  }
+
+  #navbar.nav-expanded:hover {
+    content:normal;
   }
 
   #navbar.nav-expanded {
@@ -670,38 +694,11 @@ Responsividad para distintas resoluciones
     margin-top: -5px;
   }
 
-  #navbar.nav-expanded:hover .navbar-logo img {
-    content: url(../Img/logos/LogoPA_Extendido.png);
-  }
-  
-  .navbar-logo-container {
-    width: 60px;
-    height: 80px;
-    overflow: hidden;
-  }
-  
-  #navbar:hover .navbar-logo-container {
-    width: 200px;
-    height: 50px;
-  }
-  
-  #navbar::-webkit-scrollbar-track {
-    background-color: hsl(var(--background-secondary));
-  }
-  
-  #navbar::-webkit-scrollbar {
-    width: 8px;
-    background-color: hsl(var(--background-secondary));
-  }
-  
-  #navbar::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--primary));
-  }
-  
-  .navbar-items {
-    flex-grow: 1;
-    list-style-type: none;
-    position: relative; /* Agrega esta línea para posicionar elementos hijos relativamente */
+  #navbar.nav-expanded .navbar-logo img {
+    content: url(../Img/logos/LogoPA-Extendido.png);
+    width: 85%;
+    height: 45px;
+    margin-top: 125px;
   }
   
   /* Navbar Logo */
@@ -710,334 +707,41 @@ Responsividad para distintas resoluciones
     width: 100%;
     height: 7em;
     background: #0071b0;
-  }
-  
-  .navbar-logo > .navbar-item-inner {
-    width: calc(50rem - 8px);
-  }
-  
-  .navbar-logo > .navbar-item-inner:hover {
-    background-color: transparent;
-  }
-  
+  }  
   /* Navbar Items */
   .navbar-item {
     padding: 0 0.5em;
     width: 100%;
     cursor: pointer;
   }
-  
-  .navbar-item-inner {
-    padding: 1em 0;
-    width: 94%;
-    position: relative;
-    color: #0071B0(255, 255, 255);
-    text-decoration: none;
-    transition: all 0.2s cubic-bezier(var(--transition-main), 1);
-    -webkit-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
-    -moz-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
-    -ms-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
-    -o-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
-  }
-  
-  .navbar-item-inner:hover {
-    /* margin-left: -5px; */
-    color: hsl(var(--white));
-    background: #fff;
-    border-radius: 10px;
-    transform: scale(100%);
-    /* padding: -100px; */
-    -webkit-transform: scale(100%);
-    -moz-transform: scale(100%);
-    -ms-transform: scale(100%);
-    -o-transform: scale(100%);
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    -ms-border-radius: 10px;
-    -o-border-radius: 10px;
-  }
-
-  .navbar-item-inner-icon-wrapper {
-    width: calc(5rem - 1em - 8px);
-    position: relative;
-    margin-left: 3px;
-  }
-  
-  .navbar-item-inner-icon-wrapper ion-icon {
-    position: relative;
-    font-size: calc(var(--navbar-buttons) - 1rem);
-  }
-  
+ 
   .link-text {
-    margin: 0;
-    width: 0;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: all 0.35s cubic-bezier(var(--transition-main), 1);
-    overflow: hidden;
-    opacity: 0;
-    color: #fff;
-  }
-  
-  #navbar.nav-expanded .link-text {
     width: calc(100% - calc(5rem - 8px));
     opacity: 1;
   }
-  
-  /* 
-  .icono-home{
-      content: url(../Icons/Home.png);
-      width: 220px;
-      height: 60px;
-  } */
-  
-  .navbar-profile-icon {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    /*border: 4px solid white;*/
-    overflow: hidden;
-    position: absolute;
-    font-weight: bold;
-    color: white;
-    font-size: 1.5rem;
-    bottom: 5%;
-    left: 50%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -o-transform: translateX(-50%);
-  }
-  
-  .navbar-profile-icon span {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
   #navbar:hover .navbar-profile-icon {
     width: 3.625rem;
     height: 3.625rem;
     font-size: 2.5rem;
   }
-  
-  .navbar-profile-icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .profile-icon-transition {
-    width: 3.125rem;
-    height: 3.125rem;
-    border-radius: 50%;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    margin-bottom: 20%;
-  }
-  
-  #navbar:hover .profile-icon-transition {
-    width: 5.625rem;
-    /* 90px / 16px = 5.625rem */
-    height: 5.625rem;
-    bottom: 5%;
-    /* Ajusta este valor según tus necesidades */
-  }
-  
-  .profile-menu {
-    display: none;
+  /* Boton de cerrar sesion */
+  .logout-container {
     position: absolute;
-    background-color: #0071b0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    z-index: 1;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el botón horizontalmente */
   }
-  
-  .navbar-profile-icon:hover .profile-menu {
+  .logout-container {
     display: block;
   }
-  
-  :root {
-    --primary: 237, 94%, 81%;
-    --background: 266, 16%, 92%;
-    --background-secondary: 256, 12%, 12%;
-    --background-secondary-dark: 256, 10%, 10%;
-    --background-secondary-light: 257, 11%, 16%;
-    --text-primary: 0, 0%, 0%;
-  
-    /* misc */
-    --transition-main: 0.175, 0.685, 0.32;
-  }
-  
-  /* =========
-Flexbox
-========= */
-
-.flexbox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flexbox-left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: auto;
-}
-
-.flexbox-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-hr {
-  margin-top: 0px; /* justa el margen superior del hr */
-  border: none; /* Elimina el borde del hr */
-  border-top: 2px solid #fff; /* Agrega un borde superior de 1px sólido */
-  width: 90%; /* Ajusta el ancho al 100% */
-}
-
-/* Cambio de color en el texto y el icono al pasar el mouse sobre las opciones */
-.navbar-item-inner:hover .link-text,
-.navbar-item-inner:hover .navbar-item-inner-icon-wrapper img {
-  color: #0071b0; /* Cambia el color del texto a blanco */
-}
-
-.navbar-item-inner-icon-wrapper .hover-icon {
-  display: none; /* Oculta el icono de hover por defecto */
-}
-
-.navbar-item-inner:hover .original-icon {
-  display: none; /* Oculta el icono original cuando se activa el hover */
-}
-
-.navbar-item-inner:hover .hover-icon {
-  display: inline-block; /* Muestra el icono de hover cuando se activa el hover */
-}
-
-/* Boton de cerrar sesion */
-
-.logout-container {
-  position: absolute;
-  bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-  left: 50%;
-  transform: translateX(-50%); /* Centra el botón horizontalmente */
-}
-
-.logout-item {
-  margin-top: auto; /* Empuja el elemento hacia abajo */
-}
-
-.logout-button {
-  font-family: "Kanit", sans-serif;
-  font-size: 16px;
-  padding: 8px 8px;
-  background-color: #0071b0;
-  color: #fff;
-  border: 2px solid #0071b0;
-  border-radius: 5px;
-  border: #fff solid 2px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-}
-
-* a {
-  text-decoration: none;
-}
-
-.logout-button:hover {
-  background-color: #fff; /* Cambia el color de fondo cuando se pasa sobre el botón */
-  color: #0071b0; /* Cambia el color del texto cuando se pasa sobre el botón */
-  border-color: #0071b0; /* Cambia el color del borde cuando se pasa sobre el botón */
-}
-
-.logout-container {
-  display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
-}
-
-#navbar.nav-expanded .logout-container {
-  display: block;
-}
-
-.logout-container {
-  display: none; /* Oculta el botón de "Cerrar sesión" por defecto */
-  margin-bottom: 2vh; /* Agrega un margen superior de 2vh */
-}
-
-#navbar:hover .logout-container {
-  display: block; /* Muestra el botón de "Cerrar sesión" cuando se extiende la barra de navegación */
-}
-
-  .navbar-logo-container {
-    width: 60px;
-    height: 80px;
-    overflow: hidden;
-  }
-
   span {
     font-size: small;
   }
-
-  .logout-container {
-    margin-bottom: 0.3vh; /* Ajusta el margen inferior del botón de cerrar sesión */
-  }
-
-  .logout-button {
-    height: 40px; /* Ajusta el margen inferior del botón de cerrar sesión */
-  }
-
-  .navbar-item-inner-icon-wrapper {
-    right: 0.8vw;
-  }
-
-  #navbar:hover .link-text {
-    display: inline;
-    width: auto;
-    opacity: 1;
-  }
-
-  .navbar-profile-icon,
-  .profile-icon-transition {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
   .logout-container {
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
   }
-
-  .logout-button {
-    font-size: 0.6rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1px;
-    padding-bottom: 1px;
-  }
-
   span {
     font-size: smaller;
   }
