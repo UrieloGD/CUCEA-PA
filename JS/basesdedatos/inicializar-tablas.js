@@ -52,6 +52,7 @@ $(document).ready(function () {
     scrollCollapse: true,
     fixedHeader: true,
     columnDefs: [
+      { targets: "_all", defaultContent: "" }, // Reemplaza los valores nulos por un string vacío
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
       { orderable: false, targets: -1 },

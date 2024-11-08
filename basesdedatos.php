@@ -304,7 +304,6 @@ $result = mysqli_query($conexion, $sql);
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
-<script src="./JS/basesdedatos/barra-busqueda.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
 <script src="./JS/basesdedatos/editar-registros.js"></script>
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
