@@ -107,6 +107,14 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 
     <!-- Aquí empieza el código del Edificio -->
+
+    <div class="letra-moviles"> <!-- Solo dispositivos moviles -->
+        <p class="texto-prev-piso">Módulo</p>
+        <div class="letra-piso">
+            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
+        </div>
+    </div> <!-- Solo dispositivos moviles -->
+
     <div class="contenedor-principal">
         <div class="techo"></div>
         <div class="contenido-edificio">

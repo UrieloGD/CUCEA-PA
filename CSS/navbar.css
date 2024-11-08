@@ -45,7 +45,7 @@
 
 #navbar:hover .navbar-logo-container {
   width: 200px;
-  height: 100px;
+  height: 50px;
 }
 
 #navbar::-webkit-scrollbar-track {
@@ -105,6 +105,15 @@
   -o-transition: all 0.2s cubic-bezier(var(--transition-main), 1);
 }
 
+.indicador {
+  position: absolute;
+  right: 1px;
+  background-color: #ffffff;
+  width: 10px;
+  height: 100%;
+  border-radius: 10px;
+}
+
 .navbar-item-inner:hover {
   /* margin-left: -5px; */
   color: hsl(var(--white));
@@ -125,6 +134,7 @@
 .navbar-item-inner-icon-wrapper {
   width: calc(5rem - 1em - 8px);
   position: relative;
+  margin-left: 3px;
 }
 
 .navbar-item-inner-icon-wrapper ion-icon {
@@ -368,7 +378,7 @@ Responsividad para distintas resoluciones
   }
 
   .navbar-item-inner-icon-wrapper {
-    width: calc(3.5rem - 0.5em - 1px);
+    margin-left: 0px;
   }
 
   #navbar:hover .link-text {
@@ -377,17 +387,17 @@ Responsividad para distintas resoluciones
     opacity: 1;
   }
 
-  .navbar-profile-icon,
+  /*.navbar-profile-icon,
   .profile-icon-transition {
     width: 2rem;
     height: 2rem;
-  }
+  }*/
 
-  #navbar:hover .profile-icon-transition {
+  /*#navbar:hover .profile-icon-transition {
     width: 3rem;
     height: 3rem;
     margin-bottom: 30%;
-  }
+  }*/
 
   .logout-container {
     flex-direction: column;
@@ -434,7 +444,7 @@ Responsividad para distintas resoluciones
   }
 
   .navbar-item-inner-icon-wrapper {
-    width: calc(3.5rem - 0.5em - 1px);
+    right: 0.1vw;
   }
 
   #navbar:hover .link-text {
@@ -443,17 +453,17 @@ Responsividad para distintas resoluciones
     opacity: 1;
   }
 
-  .navbar-profile-icon,
+  /*.navbar-profile-icon,
   .profile-icon-transition {
     width: 2rem;
     height: 2rem;
-  }
+  }*/
 
-  #navbar:hover .profile-icon-transition {
+  /*#navbar:hover .profile-icon-transition {
     width: 3rem;
     height: 3rem;
     margin-bottom: 30%;
-  }
+  }*/
 
   .logout-container {
     flex-direction: column;
@@ -500,7 +510,7 @@ Responsividad para distintas resoluciones
   }
 
   .navbar-item-inner-icon-wrapper {
-    width: calc(3rem - 0.5em - 1px);
+    right: 0.6vw;
   }
 
   #navbar:hover .link-text {
@@ -509,17 +519,17 @@ Responsividad para distintas resoluciones
     opacity: 1;
   }
 
-  .navbar-profile-icon,
+  /*.navbar-profile-icon,
   .profile-icon-transition {
     width: 1.8rem;
     height: 1.8rem;
-  }
+  }*/
 
-  #navbar:hover .profile-icon-transition {
+  /*#navbar:hover .profile-icon-transition {
     width: 2.8rem;
     height: 2.8rem;
     margin-bottom: 25%;
-  }
+  }*/
 
   .logout-container {
     flex-direction: column;
@@ -536,13 +546,13 @@ Responsividad para distintas resoluciones
     font-size: smaller;
   }
 
-  .navbar-logo img {
+  /*.navbar-logo img {
     max-width: 40%;
     max-height: 40%;
     object-fit: contain;
-  }
+  }*/
 
-  #navbar:hover .navbar-logo img {
+  /*#navbar:hover .navbar-logo img {
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
@@ -553,7 +563,7 @@ Responsividad para distintas resoluciones
       align-items: center;
       margin-bottom: auto;
     }
-  }
+  }*/
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -562,11 +572,11 @@ Responsividad para distintas resoluciones
   }
 
   #navbar:hover {
-    width: 10em;
+    width: 14em;
   }
 
   .navbar-item-inner-icon-wrapper {
-    width: calc(3rem - 0.5em - 5px);
+    right: 0.8vw;
   }
 
   #navbar:hover .link-text {
@@ -577,15 +587,15 @@ Responsividad para distintas resoluciones
 
   .navbar-profile-icon,
   .profile-icon-transition {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
-  #navbar:hover .profile-icon-transition {
+  /*#navbar:hover .profile-icon-transition {
     width: 2.5rem;
     height: 2.5rem;
     margin-bottom: 20%;
-  }
+  }*/
 
   .logout-container {
     flex-direction: column;
@@ -602,7 +612,7 @@ Responsividad para distintas resoluciones
     font-size: smaller;
   }
 
-  .navbar-logo img {
+  /*.navbar-logo img {
     max-width: 40%;
     max-height: 40%;
     object-fit: contain;
@@ -619,7 +629,7 @@ Responsividad para distintas resoluciones
     justify-content: flex-start;
     align-items: center;
     margin-bottom: auto;
-  }
+  }*/
 }
 
 /*Responsividad del navbar*/
@@ -627,27 +637,112 @@ Responsividad para distintas resoluciones
 /*Esconde el navbar después de alcanzar una resolución de 768px */
 @media screen and (max-width: 768px) {
   #navbar {
-    display: none;
-  }
-
-  span {
-    font-size: smaller;
-  }
-
-  .menu-icon {
-    display: block;
+    padding: 0;
+    margin: 0 auto;
+    width: 4em;
+    height: 3.14em;
+    margin-left: 5vw;
     position: fixed;
-    left: 20px;
-    /* top: 20px; */
-    font-size: 18px;
+    background-color: #0071b0;
+    /*transition: width 0.35s cubic-bezier(var(--transition-main), 1);*/
+    overflow-y: hidden;
+    overflow-x: hidden;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    flex-flow: column;
+    justify-content: space-between;
+    /*-webkit-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+    -moz-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+    -ms-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
+    -o-transition: width 0.35s cubic-bezier(var(--transition-main), 1);*/
+    z-index: 1000;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    transition: all 0.3s ease;
+  }
+
+  #navbar:hover {
+    width: 4em;
+    height: 3.45em;
+    margin-left: 5vw;
+    border: 0;
+    cursor: pointer;
+    content:initial;
+    content: url(../Img/Icons/iconos-navbar/menu-min.png);
+  }
+
+  .navbar-logo img {
+    position: relative;
+    content: url(../Img/logos/LogoPA.png);
+    width: 60%;
+    height: 10%;
+    bottom: 41px;
+    transition: all 0.3s ease;
+  }
+
+  #navbar.nav-expanded:hover {
+    content:normal;
+  }
+
+  #navbar.nav-expanded {
+    width: 15em;
+    height: 100vh;
+    border: solid 5px #e7e9f2;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+
+  #navbar.nav-expanded .navbar-logo img {
+    content: url(../Img/logos/LogoPA-Extendido.png);
+    width: 85%;
+    height: 45px;
+    margin-top: 125px;
+  }
+  
+  /* Navbar Logo */
+  .navbar-logo {
+    margin: 10 0 2em 0;
+    width: 100%;
+    height: 7em;
+    background: #0071b0;
+  }  
+  /* Navbar Items */
+  .navbar-item {
+    padding: 0 0.5em;
+    width: 100%;
     cursor: pointer;
   }
-
-  .logout-container {
-    margin-bottom: 0.5vh; /* Ajusta el margen inferior del botón de cerrar sesión */
+ 
+  .link-text {
+    width: calc(100% - calc(5rem - 8px));
+    opacity: 1;
   }
-
-  .logout-button {
-    height: 60px; /* Ajusta el margen inferior del botón de cerrar sesión */
+  #navbar:hover .navbar-profile-icon {
+    width: 3.625rem;
+    height: 3.625rem;
+    font-size: 2.5rem;
+  }
+  /* Boton de cerrar sesion */
+  .logout-container {
+    position: absolute;
+    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
+    left: 50%;
+    transform: translateX(-50%); /* Centra el botón horizontalmente */
+  }
+  .logout-container {
+    display: block;
+  }
+  span {
+    font-size: small;
+  }
+  .logout-container {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  span {
+    font-size: smaller;
   }
 }

@@ -61,14 +61,14 @@ $departamentos_entregados = count($departamentos_subidos);
 $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 ?>
 
-<title>Plantillas Departamentos</title>
-<link rel="stylesheet" href="./CSS/admin-data-departamentos.css" />
+<title>Datas Departamentos</title>
+<link rel="stylesheet" href="./CSS/admin-data-departamentos.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
   <div class="encabezado">
     <div class="titulo-bd">
-      <h3>Plantillas Programación Academica</h3>
+      <h3>Datas Departamentos</h3>
     </div>
   </div>
 
@@ -101,9 +101,10 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
         <?php
         // Consulta para obtener los departamentos y la fecha de subida más reciente
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                        FROM Departamentos d
-                        LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
-                        GROUP BY d.Departamento_ID, d.Departamentos";
+          FROM Departamentos d
+          LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
+          GROUP BY d.Departamento_ID, d.Departamentos
+          ORDER BY d.Departamentos";
         $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
         while ($row = mysqli_fetch_assoc($result_departamentos)) {

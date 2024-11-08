@@ -69,6 +69,7 @@ $result = mysqli_query($conexion, $sql);
     </div>
     <div id="popup-columnas">
         <h3>Selecciona las columnas a descargar</h3>
+        <hr style="border: 1px solid #0071b0; width: 99%;"></hr>
         <div id="opciones-columnas"></div>
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
@@ -249,6 +250,7 @@ $result = mysqli_query($conexion, $sql);
                         <input type="text" id="observaciones" name="observaciones" placeholder="Observaciones" class="full-width">
                     </div>
                 </div>
+            <div class="form-movil">
                 <div class="form-section">
                     <h3>Profesorado</h3>
                     <div class="form-row">
@@ -280,6 +282,7 @@ $result = mysqli_query($conexion, $sql);
                         <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
                     </div>
                 </div>
+            </div>
             </div>
             <div class="form-actions">
                 <button type="button" onclick="añadirRegistro()">Guardar</button>

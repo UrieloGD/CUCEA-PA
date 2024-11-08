@@ -37,7 +37,7 @@ if (isset($_SESSION['usuario_id'])) {
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css" />
+<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -61,7 +61,7 @@ if (isset($_SESSION['usuario_id'])) {
                     <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
                 </div>
                 <div class="info-descarga">
-                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="./guia.php">aquí.</a></p>
+                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="./guiaPA.php">aquí.</a></p>
                 </div>
             </div>
         </div>
