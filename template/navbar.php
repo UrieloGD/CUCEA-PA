@@ -141,50 +141,53 @@ function generateColorForUser($userId)
 
             <li class="navbar-item flexbox-left">
                 <?php
-                    if ($rol_id == 3) { // Para Coordinación de Personal
-                        echo '<div class="dropdown-container">';
-                        echo '<a class="navbar-item-inner flexbox-left dropdown-trigger">
-                                <div class="navbar-item-inner-icon-wrapper flexbox">
-                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                                </div>
-                                <span class="link-text">Bases de datos</span>
-                            </a>';
-                        echo '<div class="dropdown-menu">
-                                <div class="dropdown-item">
-                                    <span class="tree-line">└</span>
-                                    <a href="./admin-data-departamentos.php" class="dropdown-item-inner">
-                                        BD Jefes de Departamento
-                                    </a>
-                                </div>
-                                <div class="dropdown-item">
-                                    <span class="tree-line">└</span>
-                                    <a href="./basededatos-CoordPers.php" class="dropdown-item-inner">
-                                        BD Coordinación de Personal
-                                    </a>
-                                </div>
-                            </div>';
-                        echo '</div>';
+                if ($rol_id == 3) { // Para Coordinación de Personal
+                    echo '<div class="dropdown-container">';
+                    echo '<a class="navbar-item-inner flexbox-left dropdown-trigger">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                            </div>
+                            <span class="link-text">Bases de datos</span>
+                        </a>';
+                    echo '<div class="dropdown-menu">
+                            <div class="dropdown-item">
+                                <span class="tree-line">└</span>
+                                <a href="./admin-data-departamentos.php" class="dropdown-item-inner">
+                                    BD Jefes de Departamento
+                                </a>
+                            </div>
+                            <div class="dropdown-item">
+                                <span class="tree-line">└</span>
+                                <a href="./basededatos-CoordPers.php" class="dropdown-item-inner">
+                                    BD Coordinación de Personal
+                                </a>
+                            </div>
+                        </div>';
+                    echo '</div>';
+                } elseif ($rol_id == 1) { // Para Jefe de Departamento
+                    if (isset($_SESSION['Nombre_Departamento'])) {
+                        echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
                     } else {
-                        // Mantener el código original para otros roles
-                        if ($rol_id == 1) {
-                            if (isset($_SESSION['Nombre_Departamento'])) {
-                                if (basename($_SERVER['PHP_SELF']) == 'basesdedatos.php') {
-                                    echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'><div class='indicador'></div>";
-                                } else {
-                                    echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
-                                }
-                            } else {
-                                echo "<a class='navbar-item-inner flexbox-left' href='#'>";
-                            }
-                        } elseif ($rol_id == 2) {
-                            if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php') {
-                                echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'><div class='indicador'></div>";
-                            } else {
-                                echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
-                            }
-                        }
+                        echo "<a class='navbar-item-inner flexbox-left' href='#'>";
                     }
+                    echo '
+                        <div class="navbar-item-inner-icon-wrapper flexbox">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        </div>
+                        <span class="link-text">Bases de datos</span>
+                    </a>';
+                } elseif ($rol_id == 2) { // Para Secretaria Administrativa
+                    echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
+                    echo '
+                        <div class="navbar-item-inner-icon-wrapper flexbox">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        </div>
+                        <span class="link-text">Bases de datos</span>
+                    </a>';
+                }
                 ?>
             </li>
 
@@ -312,7 +315,7 @@ function generateColorForUser($userId)
     </nav>
 
 <script>
-    /* JavaScript para manejar el toggle */
+/* JavaScript para manejar el toggle */
 const navbar = document.getElementById('navbar');
 let isExpanded = false;
 
