@@ -1,200 +1,199 @@
+// ============ CONFIGURACIÓN INICIAL ============ //
 const dropArea = document.querySelector(".drop-area");
 const dragText = dropArea.querySelector("p");
 const button = dropArea.querySelector("button");
 const input = dropArea.querySelector("#input-file");
-let files;
+const form = document.getElementById("formulario-subida");
+let filesToUpload = []; // Almacenará solo un archivo
 
-button.addEventListener("click", (e) => {
-  input.click();
-});
+// Configuración centralizada
+const CONFIG = {
+    maxFileSize: 2 * 1024 * 1024, // 2MB en bytes
+    validExtensions: ["xlsx", "xls"],
+    uploadUrl: "./functions/plantilla/extraccion_dataExcel.php"
+};
 
-input.addEventListener("change", (e) => {
-  files = input.files;
-  dropArea.classList.add("active");
-  showFile(files);
-  dropArea.classList.remove("active");
-});
+// ============ EVENT LISTENERS ============ //
+button.addEventListener("click", () => input.click());
+input.addEventListener("change", (e) => handleFiles(e.target.files));
+dropArea.addEventListener("dragover", handleDragOver);
+dropArea.addEventListener("dragleave", handleDragLeave);
+dropArea.addEventListener("drop", handleDrop);
+form.addEventListener("submit", handleSubmit);
 
-dropArea.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  dropArea.classList.add("active");
-  dragText.textContent = "Suelta para subir tus archivos";
-});
+// ============ MANEJADORES DE EVENTOS ============ //
+function handleDragOver(e) {
+    e.preventDefault();
+    updateDropArea(true, "Suelta para subir tu archivo");
+}
 
-dropArea.addEventListener("dragleave", (e) => {
-  e.preventDefault();
-  dropArea.classList.remove("active");
-  dragText.textContent = "Arrastra tus archivos a subir aquí";
-});
+function handleDragLeave(e) {
+    e.preventDefault();
+    updateDropArea(false, "Arrastra tu archivo a subir aquí");
+}
 
-dropArea.addEventListener("drop", (e) => {
-  e.preventDefault();
-  files = e.dataTransfer.files;
-  showFile(files);
-  dropArea.classList.remove("active");
-  dragText.textContent = "Arrastra tus archivos a subir aquí";
-});
+function handleDrop(e) {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    handleFiles(files);
+    updateDropArea(false, "Arrastra tu archivo a subir aquí");
+}
 
-function showFile(files) {
-  if (files.length == undefined) {
-    processFile(files);
-  } else {
-    for (const file of files) {
-      processFile(file);
+// Actualiza el estado visual del área de drop
+function updateDropArea(active, text) {
+    dropArea.classList.toggle("active", active);
+    dragText.textContent = text;
+}
+
+// ============ PROCESAMIENTO DE ARCHIVOS ============ //
+function handleFiles(files) {
+    if (files.length === 0) {
+        showError("No se ha seleccionado ningún archivo", 
+                 "Por favor, selecciona un archivo para subir.");
+        return;
     }
-  }
+    // Procesar solo el primer archivo
+    processFile(files[0]);
 }
 
 function processFile(file) {
-  const fileExtension = file.name.split(".").pop().toLowerCase();
-  const validExtensions = ["xlsx", "xls"];
+    if (!validateFile(file)) return;
 
-  if (validExtensions.includes(fileExtension)) {
-    //archivo válido
-    const fileReader = new FileReader();
     const id = `file-${Math.random().toString(32).substring(7)}`;
-
-    fileReader.addEventListener("load", (e) => {
-      const filePreview = `
-                <div id="${id}" class="file-container">
-                    <div class="status">
-                        <span>${file.name}</span>
-                        <span class="status-text">
-                            Cargando...
-                        </span>
-                    </div>
-                </div>
-            `;
-      const html = document.querySelector("#preview").innerHTML;
-      document.querySelector("#preview").innerHTML = filePreview + html;
-    });
-
-    fileReader.readAsDataURL(file);
-    uploadFile(file, id);
-  } else {
-    //No válido
-    alert(
-      "No es un archivo válido. Asegúrate de subir solamente archivos con extensión .xls y .xlsx"
-    );
-  }
+    filesToUpload = [{ file, id }]; // Reemplaza cualquier archivo anterior
+    updateFilePreview(file, id);
 }
 
-let filesToUpload = [];
+function validateFile(file) {
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    
+    if (!CONFIG.validExtensions.includes(fileExtension)) {
+        showError("Archivo no válido", 
+                 "Asegúrate de subir solamente archivos con extensión .xls y .xlsx");
+        return false;
+    }
+    
+    if (file.size > CONFIG.maxFileSize) {
+        showError("Archivo demasiado grande", 
+                 "El archivo excede el tamaño máximo permitido de 2MB");
+        return false;
+    }
+    
+    return true;
+}
 
-function processFile(file) {
-  const fileExtension = file.name.split(".").pop().toLowerCase();
-  const validExtensions = ["xlsx", "xls"];
-
-  if (validExtensions.includes(fileExtension)) {
-    const fileReader = new FileReader();
-    const id = `file-${Math.random().toString(32).substring(7)}`;
-
-    fileReader.addEventListener("load", (e) => {
-      const filePreview = `
+function updateFilePreview(file, id) {
+    const filePreview = `
         <div id="${id}" class="file-container">
-          <div class="status">
-            <span>${file.name}</span>
-            <span class="status-text">Listo para subir</span>
-          </div>
-          <button class="cancel-btn" onclick="cancelUpload('${id}')">Cancelar</button>
+            <div class="status">
+                <span>${file.name}</span>
+                <span class="status-text">Listo para subir</span>
+            </div>
+            <button type="button" class="cancel-btn" onclick="cancelUpload('${id}')">Cancelar</button>
         </div>
-      `;
-      const html = document.querySelector("#preview").innerHTML;
-      document.querySelector("#preview").innerHTML = filePreview + html;
-    });
-
-    fileReader.readAsDataURL(file);
-    filesToUpload.push({ file, id });
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Archivo no válido",
-      text: "Asegúrate de subir solamente archivos con extensión .xls y .xlsx",
-    });
-  }
+    `;
+    document.querySelector("#preview").innerHTML = filePreview;
 }
 
+// ============ MANEJO DE SUBIDA ============ //
+async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (filesToUpload.length === 0) {
+        showError("No hay archivos para subir", 
+                 "Por favor, selecciona un archivo para subir.");
+        return;
+    }
+
+    showLoading();
+
+    try {
+        const { file } = filesToUpload[0];
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch(CONFIG.uploadUrl, {
+            method: "POST",
+            body: formData
+        });
+
+        // Verificar si la respuesta HTTP es exitosa
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Si la respuesta incluye un mensaje de carga horaria, mostrar como advertencia
+        if (result.message && result.message.includes("Los siguientes profesores exceden su carga horaria permitida")) {
+            await showWarning("Advertencia", result.message);
+            // A pesar de la advertencia, el archivo se subió correctamente
+            resetUploadState();
+            window.location.reload();
+            return;
+        }
+
+        // Si hay un mensaje de éxito explícito o la operación fue exitosa
+        if (result.success || response.ok) {
+            await showSuccess("Archivo subido exitosamente", 
+                            result.message || "El archivo ha sido procesado correctamente");
+            resetUploadState();
+            window.location.reload();
+        } else {
+            showError("Error", result.message || "Hubo un error al procesar el archivo");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        showError("Error al subir el archivo", 
+                 "Ocurrió un error durante la subida del archivo.");
+    }
+}
+
+// ============ FUNCIONES AUXILIARES ============ //
 function cancelUpload(id) {
-  // Eliminar el archivo de filesToUpload
-  filesToUpload = filesToUpload.filter(item => item.id !== id);
-  
-  // Eliminar la vista previa del archivo
-  const fileContainer = document.getElementById(id);
-  if (fileContainer) {
-    fileContainer.remove();
-  }
+    filesToUpload = filesToUpload.filter(item => item.id !== id);
+    document.getElementById(id).remove();
+    input.value = ''; // Limpiar el input file
 }
 
-function uploadFiles() {
-  if (filesToUpload.length === 0) {
-    Swal.fire({
-      icon: "warning",
-      title: "No hay archivos para subir",
-      text: "Por favor, seleccione al menos un archivo.",
+function resetUploadState() {
+    filesToUpload = [];
+    document.querySelector("#preview").innerHTML = "";
+    input.value = "";
+}
+
+function showLoading() {
+    return Swal.fire({
+        title: "Subiendo archivo...",
+        html: "Por favor, espere. Esto puede tardar varios segundos.",
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
     });
-    return;
-  }
+}
 
-  // Mostrar indicador de carga inmediatamente
-  Swal.fire({
-    title: "Subiendo archivo...",
-    html: "Por favor, espere. Esto puede tardar varios segundos.",
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading();
-    },
-  });
-
-  const promises = filesToUpload.map(({ file, id }) => {
-    return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      fetch("./functions/plantilla/extraccion_dataExcel.php", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.text())
-        .then((result) => {
-          console.log(result);
-          resolve(result);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          reject(error);
-        });
-    });
-  });
-
-  Promise.all(promises)
-    .then((results) => {
-      Swal.close();
-      const success = results.every((result) =>
-        result.includes("cargado y guardado")
-      );
-      if (success) {
-        Swal.fire({
-          icon: "success",
-          title: "Archivos subidos exitosamente",
-          text: "Todos los archivos han sido cargados y guardados en la base de datos.",
-        });
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Algunos archivos no se pudieron subir",
-          text: "Por favor, revise los mensajes de estado para cada archivo.",
-        });
-      }
-      // Limpiar la lista de archivos y la previsualización
-      filesToUpload = [];
-      document.querySelector("#preview").innerHTML = "";
-    })
-    .catch((error) => {
-      Swal.close();
-      Swal.fire({
+function showError(title, text) {
+    return Swal.fire({
         icon: "error",
-        title: "Error al subir los archivos",
-        text: "Ocurrió un error durante la subida de archivos.",
-      });
+        title,
+        text
+    });
+}
+
+function showSuccess(title, text) {
+    return Swal.fire({
+        icon: "success",
+        title,
+        text
+    });
+}
+
+function showWarning(title, message) {
+    return Swal.fire({
+        icon: "warning",
+        title,
+        html: message.replace(/\n/g, "<br>"),
+        width: "800px" // Para mensajes largos de advertencia
     });
 }
