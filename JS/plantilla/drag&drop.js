@@ -10,7 +10,7 @@ let filesToUpload = []; // Almacenará solo un archivo
 const CONFIG = {
     maxFileSize: 2 * 1024 * 1024, // 2MB en bytes
     validExtensions: ["xlsx", "xls"],
-    uploadUrl: "./functions/plantilla2/extraccion_dataExcel.php"
+    uploadUrl: "./functions/plantilla/extraccion_dataExcel.php"
 };
 
 // ============ EVENT LISTENERS ============ //
