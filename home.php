@@ -177,9 +177,12 @@
         } elseif ($rol_id == 2) {
           // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
           echo "<a href='./admin-data-departamentos.php'>";
+        } elseif ($rol_id == 3) {
+          // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
+          echo "<a href='./basededatos-CoordPers.php'>";
         } else {
           // Otros roles o manejo de errores aquí
-          echo "<a href='./basededatos-CoordPers.php'>";
+          echo "Sin acceso a este apartado";
         }
       ?>
         <div class="overlay">
