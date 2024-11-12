@@ -108,3 +108,58 @@
 [11/11/2024 17:24:25] Filas procesadas: 220, Inserciones exitosas: 220
 [11/11/2024 17:24:30] Output antes de JSON: 
 [11/11/2024 17:24:30] Mensaje final enviado: Se insertaron 220 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
+[11/11/2024 17:37:34] Archivo recibido: ESTUDIOS REGIONALES.xlsx
+[11/11/2024 17:37:34] Usuario ID: 2100123456, Rol ID: 1, Departamento ID: 1
+[11/11/2024 17:37:35] Excel cargado exitosamente
+[11/11/2024 17:37:35] Tabla destino: Data_Estudios_Regionales
+[11/11/2024 17:37:35] Encabezados encontrados: CICLO, CRN, MATERIA, CVE. MATERIA, SECCION, NIVEL, NIVEL TIPO, TIPO, C. MIN., H. TOTALES, STATUS, TIPO CONTRATO, CODIGO PROFESOR, NOMBRE PROFESOR, CATEGORIA, DESCARGA, CODIGO DESCARGA, NOMBRE DESCARGA, NOMBRE DEFINITIVO, TITULAR, HORAS, CODIGO DEPENDENCIA, L, M, I, J, V, S, D, DIA PRESENCIAL, DIA VIRTUAL, MODALIDAD, FECHA INICIAL, FECHA FINAL, HORA INICIAL, HORA FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN EXTRAORDINARIO, Dia Presencial en caso de que la modalidad sea mixta
+[11/11/2024 17:37:35] Columnas en la tabla: ID_Plantilla, Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+[11/11/2024 17:37:35] Mapeo de campos: Array
+(
+    [0] => CICLO
+    [1] => CRN
+    [2] => MATERIA
+    [3] => CVE_MATERIA
+    [4] => SECCION
+    [5] => NIVEL
+    [6] => NIVEL_TIPO
+    [7] => TIPO
+    [8] => C_MIN
+    [9] => H_TOTALES
+    [10] => ESTATUS
+    [11] => TIPO_CONTRATO
+    [12] => CODIGO_PROFESOR
+    [13] => NOMBRE_PROFESOR
+    [14] => CATEGORIA
+    [15] => DESCARGA
+    [16] => CODIGO_DESCARGA
+    [17] => NOMBRE_DESCARGA
+    [18] => NOMBRE_DEFINITIVO
+    [19] => TITULAR
+    [20] => HORAS
+    [21] => CODIGO_DEPENDENCIA
+    [22] => L
+    [23] => M
+    [24] => I
+    [25] => J
+    [26] => V
+    [27] => S
+    [28] => D
+    [29] => DIA_PRESENCIAL
+    [30] => DIA_VIRTUAL
+    [31] => MODALIDAD
+    [32] => FECHA_INICIAL
+    [33] => FECHA_FINAL
+    [34] => HORA_INICIAL
+    [35] => HORA_FINAL
+    [36] => MODULO
+    [37] => AULA
+    [38] => CUPO
+    [39] => OBSERVACIONES
+    [40] => EXAMEN_EXTRAORDINARIO
+)
+
+[11/11/2024 17:37:35] SQL preparado: INSERT INTO Data_Estudios_Regionales (Departamento_ID, CICLO, CRN, MATERIA, CVE_MATERIA, SECCION, NIVEL, NIVEL_TIPO, TIPO, C_MIN, H_TOTALES, ESTATUS, TIPO_CONTRATO, CODIGO_PROFESOR, NOMBRE_PROFESOR, CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO, TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL, MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+[11/11/2024 17:37:35] Filas procesadas: 141, Inserciones exitosas: 141
+[11/11/2024 17:37:41] Output antes de JSON: 
+[11/11/2024 17:37:41] Mensaje final enviado: Se insertaron 141 registros exitosamente y el archivo fue cargado correctamente en la base de datos.
