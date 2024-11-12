@@ -1,10 +1,24 @@
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
+
+<script>
+function actualizarDiasActivos(dias, crnId, modulo) {
+    const diasSemana = document.querySelectorAll(`#weekdays-${crnId}-${modulo} .day`);
+    
+    diasSemana.forEach(dia => {
+        const letraDia = dia.textContent;
+        if (dias.includes(letraDia)) {
+            dia.classList.add('active');
+        } else {
+            dia.classList.remove('active');
+        }
+    });
+}
+</script>
+
 <?php
 include './config/db.php';
 
 if(isset($_POST['codigo_profesor'])) {
-    
-    
     $codigo_profesor = (int)$_POST['codigo_profesor'];
     $departamento_id = (int)$_POST['departamento_id'];
 
@@ -62,7 +76,7 @@ if(isset($_POST['codigo_profesor'])) {
                 $result = mysqli_stmt_get_result($stmt);
                 
                 while($row = mysqli_fetch_assoc($result)) {
-                    $unique_key = $row['CRN'] . '-' . $row['MATERIA'] . '-' . $row['AULA'];
+                    $unique_key = $row['CRN'] . '-' . $row['MATERIA'] . '-' . $row['AULA'] . '-' . $row['MODULO'];
                     if(!isset($materias_unicas[$unique_key])) {
                         $materias_unicas[$unique_key] = $row;
                         $todas_las_materias[] = $row;
@@ -85,7 +99,6 @@ if(isset($_POST['codigo_profesor'])) {
         ?>
         <!-- Contenido del profesor -->
         <div class="profesor-container">
-            <h3></h3>
             <!-- Columna izquierda -->
             <div class="left-column">
                 <div class="profesor-header">
@@ -123,8 +136,8 @@ if(isset($_POST['codigo_profesor'])) {
                 </table>
             </div>
 
-             <!-- Columna derecha -->
-             <div class="right-column">
+            <!-- Columna derecha -->
+            <div class="right-column">
                 <?php 
                 // Agrupar materias por departamento
                 $materias_por_departamento = [];
@@ -136,13 +149,24 @@ if(isset($_POST['codigo_profesor'])) {
                     $materias_por_departamento[$dept][] = $materia;
                 }
 
+                // Modificar la sección donde se muestran las materias
                 foreach($materias_por_departamento as $dept => $materias_dept): 
                     $dept_nombre = str_replace('Data_', '', $dept);
+                    
+                    // Agrupar materias por nombre
+                    $materias_agrupadas = [];
+                    foreach($materias_dept as $materia) {
+                        $nombre_materia = $materia['MATERIA'];
+                        if(!isset($materias_agrupadas[$nombre_materia])) {
+                            $materias_agrupadas[$nombre_materia] = [];
+                        }
+                        $materias_agrupadas[$nombre_materia][] = $materia;
+                    }
                 ?>
                     <h3>Materias en <?php echo htmlspecialchars($dept_nombre); ?></h3>
-                    <?php foreach($materias_dept as $materia): ?>
-                    <div class="class-info">
-                        <h4><?php echo htmlspecialchars($materia['MATERIA']); ?></h4>
+                    <?php foreach($materias_agrupadas as $nombre_materia => $secciones): ?>
+                        <div class="class-info">
+                        <h3><?php echo htmlspecialchars($nombre_materia); ?></h3>
                         <table class="class-details">
                             <tr>
                                 <th>NRC</th>
@@ -150,10 +174,11 @@ if(isset($_POST['codigo_profesor'])) {
                                 <th>Edificio</th>
                                 <th>Aula</th>
                             </tr>
+                            <?php foreach($secciones as $materia): ?>
                             <tr>
                                 <td><?php echo isset($materia['CRN']) ? htmlspecialchars($materia['CRN']) : ''; ?></td>
                                 <td>
-                                <?php 
+                                    <?php 
                                     $dias = '';
                                     if($materia['L'] == 'L') $dias .= 'L';
                                     if($materia['M'] == 'M') $dias .= 'M';
@@ -163,17 +188,32 @@ if(isset($_POST['codigo_profesor'])) {
                                     if($materia['S'] == 'S') $dias .= 'S';
                                     if($materia['D'] == 'D') $dias .= 'D';
                                     if($dias == '') $dias .= 'Sin Datos';
+                                    
                                     $horaInicial = $materia['HORA_INICIAL'] ?? '0000';
                                     $horaFinal = $materia['HORA_FINAL'] ?? '0000';
-
-                                    $horarioFormateado = sprintf('%s %s - %s', $dias, substr($horaInicial, 0, 2) . ':' . 
-                                    substr($horaInicial, 2, 2), substr($horaFinal, 0, 2) . ':' . substr($horaFinal, 2, 2));
+                                    
+                                    $horarioFormateado = sprintf('%s %s', 
+                                        substr($horaInicial, 0, 2) . ':' . substr($horaInicial, 2, 2),
+                                        substr($horaFinal, 0, 2) . ':' . substr($horaFinal, 2, 2)
+                                    );
                                     echo $horarioFormateado;
-                                ?>
+                                    ?>
+                                    <div class="weekdays" id="weekdays-<?php echo $materia['CRN']; ?>-<?php echo $materia['MODULO']; ?>">
+                                        <div class="day">L</div>
+                                        <div class="day">M</div>
+                                        <div class="day">I</div>
+                                        <div class="day">J</div>
+                                        <div class="day">V</div>
+                                        <div class="day">S</div>
+                                    </div>
+                                    <script>
+                                        actualizarDiasActivos('<?php echo $dias; ?>', '<?php echo $materia['CRN']; ?>', '<?php echo $materia['MODULO']; ?>');
+                                    </script>
                                 </td>
                                 <td><?php echo isset($materia['MODULO']) ? htmlspecialchars($materia['MODULO']) : '-'; ?></td>
                                 <td><?php echo isset($materia['AULA']) ? htmlspecialchars($materia['AULA']) : '-'; ?></td>
                             </tr>
+                            <?php endforeach; ?>
                         </table>
                     </div>
                     <?php endforeach; ?>

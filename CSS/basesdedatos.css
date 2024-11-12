@@ -831,7 +831,7 @@ th {
   }
 
   /* Estilos para el modal */
-  #modal-todos-profesores {
+  #modal-todos-profesores{
     display: none; /* Oculto por defecto */
     position: fixed; /* Posición fija */
     z-index: 1; /* Por encima de otros elementos */
@@ -842,5 +842,6 @@ th {
     overflow: auto; /* Habilitar scroll si el contenido lo requiere */
     background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
   }
+
 
   

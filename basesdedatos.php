@@ -445,10 +445,10 @@ $result = mysqli_query($conexion, $sql);
 <div id="modal-detalle-profesor" class="modal">
     <div class="modal-content">
         <span class="close" onclick="cerrarModalDetalle()">&times;</span>
-        <h2>Detalle del Profesor</h2>
+        <!--<h2>Detalle del Profesor</h2>-->
         <div id="detalle-profesor-contenido">
-            <!-- El contenido se cargará dinámicamente -->
-        </div>
+            <!--El contenido se cargará dinámicamente -->
+        </div> 
     </div>
 </div>
 
