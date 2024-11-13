@@ -6,8 +6,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Conexión a la base de datos
-$conexion = mysqli_connect("localhost", "root", "root", "pa");
+// Conexion a Base de datos
+include './../../config/db.php';
 
 try {
     // Verificar la conexión

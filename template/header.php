@@ -1,16 +1,10 @@
 <?php
 include('./config/sesionIniciada.php');
-?>
-<?php
+include './config/db.php';
+
 date_default_timezone_set('America/Mexico_City');
 if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones para los tres roles
   $notificaciones = [];
-  $servername = "localhost";
-  $username = "root";
-  $password = "root";
-  $dbname = "pa";
-  $conn = mysqli_connect($servername, $username, $password, 'PA');
-
   $codigo_usuario = $_SESSION['Codigo'];
 
   if ($rol_id == 2) { // Secretaría administrativa
@@ -61,11 +55,11 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
               LIMIT 10";
   }
 
-  $result = mysqli_query($conn, $query);
+  $result = mysqli_query($conexion, $query);
   while ($row = mysqli_fetch_assoc($result)) {
     $notificaciones[] = $row;
   }
-  mysqli_close($conn);
+  mysqli_close($conexion);
 }
 ?>
 
