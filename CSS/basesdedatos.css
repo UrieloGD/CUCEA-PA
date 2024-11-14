@@ -74,6 +74,7 @@
   position: relative; /* Para controlar el contenido interno */
   margin-top: -5px;
   overflow-x: auto; /* Permite desplazamiento horizontal */
+  padding-top: 10px; /* Reducimos el padding superior */
 }
 
 table {
@@ -93,22 +94,26 @@ th {
   margin-top: -50px;
   color: black;
   border-bottom: 3px solid #0071b0;
-  position: sticky; /* Hacer que el encabezado sea fijo */
-  top: -20px; /* Posición fija en la parte superior */
-  background-color: white; /* Fondo blanco para que el encabezado sea legible */
-  z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 2;
+  padding: 15px 8px;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 150px; /* Ajusta este valor según tus necesidades */
+  max-width: 150px;
 }
 
 /* Estilos-dimensiones de tabla completa */
 .datatable-container {
+  position: relative;
   margin: 0 auto;
   width: 97.5%;
   border-radius: 10px;
   margin-bottom: 30px;
+  margin-top: 40px;
 }
 
 /* Texto donde dice: mostrar [10>] registros */
@@ -441,9 +446,9 @@ th {
   border-radius: 4px;
 }
 
-/* .full-width {
+.full-width {
   width: 100% !important;
-} */
+}
 
 .weekdays {
   justify-content: space-between;
@@ -508,6 +513,12 @@ th {
   width: 33.33%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
   position: relative;
+  z-index: 3;
+}
+
+/* Ocultar la etiqueta */
+.dt-search label {
+  display: none;
 }
 
 /* Estilos para el input de búsqueda */
@@ -525,11 +536,6 @@ th {
 .dt-input:focus {
   border-color: #0071b0;
   box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
-}
-
-/* Ocultar la etiqueta */
-.dt-search label {
-  display: none;
 }
 
 /* Asegurar que el contenedor padre no restrinja el ancho */
@@ -763,11 +769,6 @@ nav[aria-label="pagination"] {
 
   /* Tabla */
 
-  .tabla {
-    padding: 20px;
-    border-radius: 20px 20px 0px 0px;
-  }
-
   table {
     width: 100%;
     border-collapse: collapse;
@@ -781,23 +782,10 @@ nav[aria-label="pagination"] {
     font-size: smaller;
   }
 
-  th {
-    color: black;
-    border-bottom: solid #0071b0;
-    position: sticky; /* Hacer que el encabezado sea fijo */
-    top: 0; /* Posición fija en la parte superior */
-    background-color: white; /* Fondo blanco para que el encabezado sea legible */
-    z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
-  }
-
   .encabezado-centro {
     position: relative;
     margin-bottom: 50px;
     font-size: small;
-  }
-
-  .datatable-container {
-    margin-top: 40px;
   }
 
   .iconos-container {
@@ -926,46 +914,4 @@ nav[aria-label="pagination"] {
     div.dataTables_wrapper {
         width: 600px;
         margin: 0 auto;
-    }
-
-    th {
-      position: sticky;
-      top: 0;
-      background-color: white;
-      z-index: 2; /* Aumentamos el z-index */
-      padding: 15px 8px; /* Aumentamos el padding vertical */
-      text-align: left;
-      border-bottom: 3px solid #0071b0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 150px;
-    }
-    
-    /* Estilo específico para los íconos de ordenamiento */
-    table.dataTable thead .sorting,
-    table.dataTable thead .sorting_asc,
-    table.dataTable thead .sorting_desc {
-      background-position: center right 5px;
-      padding-right: 20px; /* Espacio para el ícono de ordenamiento */
-    }
-    
-    /* Ajustamos el contenedor de la tabla */
-    .tabla {
-      position: relative;
-      padding-top: 10px; /* Reducimos el padding superior */
-      margin-top: 0; /* Eliminamos el margen negativo */
-      overflow: auto;
-    }
-    
-    /* Ajustamos el contenedor del DataTable */
-    .datatable-container {
-      margin-top: 20px; /* Ajustamos el margen superior */
-      position: relative;
-    }
-    
-    /* Aseguramos que la barra de búsqueda esté por encima */
-    .dt-search {
-      position: relative;
-      z-index: 3;
     }
