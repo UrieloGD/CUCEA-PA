@@ -441,9 +441,9 @@ th {
   border-radius: 4px;
 }
 
-.full-width {
+/* .full-width {
   width: 100% !important;
-}
+} */
 
 .weekdays {
   justify-content: space-between;
