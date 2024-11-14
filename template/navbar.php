@@ -8,9 +8,7 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Incluir el archivo de sesión iniciada
-require_once './config/sesioniniciada.php';
-
-include './config/db.php';
+include './config/sesioniniciada.php';
 
 // Obtener el rol del usuario de la sesión
 $rol_id = $_SESSION['Rol_ID'];
@@ -39,7 +37,7 @@ function generateColorForUser($userId)
     $color = $colors[$colorIndex];
 
     // Actualizar el color en la base de datos
-    $stmt = $conexion->prepare("UPDATE Usuarios SET IconoColor = ? WHERE Codigo = ?");
+    $stmt = $conexion->prepare("UPDATE usuarios SET IconoColor = ? WHERE Codigo = ?");
     if ($stmt === false) {
         die("Error preparing statement: " . $conexion->error);
     }
@@ -99,9 +97,9 @@ function generateColorForUser($userId)
                 // Redirigir según el rol del usuario
                 if ($rol_id == 1) {
                     // Si el usuario es jefe de departamento, redirigir a subir plantilla
-                    if (isset($_SESSION['Nombre_Departamento'])) {
+                    if (isset($_SESSION['nombre_departamento'])) {
                         // Obtener el nombre del departamento desde la sesión
-                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
+                        $nombre_departamento = $_SESSION['nombre_departamento'];
                             if (basename($_SERVER['PHP_SELF']) == 'plantilla.php') { echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'><div class='indicador'></div>"; }
                             else { echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>"; } 
                     } else {
@@ -153,7 +151,7 @@ function generateColorForUser($userId)
                         </div>';
                     echo '</div>';
                 } elseif ($rol_id == 1) { // Para Jefe de Departamento
-                    if (isset($_SESSION['Nombre_Departamento'])) {
+                    if (isset($_SESSION['nombre_departamento'])) {
                         echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='#'>";
@@ -271,10 +269,10 @@ function generateColorForUser($userId)
                 <a href="#">
                     <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
                         <?php
-                        $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
-                        $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
+                        $nombreInicial = strtoupper(substr($_SESSION['nombre'], 0, 1));
+                        $apellidoInicial = strtoupper(substr($_SESSION['apellido'], 0, 1));
                         $iniciales = $nombreInicial . $apellidoInicial;
-                        $userId = $_SESSION['Codigo'];
+                        $userId = $_SESSION['codigo'];
                         $backgroundColor = generateColorForUser($userId);
                         echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
                         ?>
@@ -303,10 +301,10 @@ function generateColorForUser($userId)
                 <a href="#">
                     <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
                         <?php
-                        $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
-                        $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
+                        $nombreInicial = strtoupper(substr($_SESSION['nombre'], 0, 1));
+                        $apellidoInicial = strtoupper(substr($_SESSION['apellido'], 0, 1));
                         $iniciales = $nombreInicial . $apellidoInicial;
-                        $userId = $_SESSION['Codigo'];
+                        $userId = $_SESSION['codigo'];
                         $backgroundColor = generateColorForUser($userId);
                         echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
                         ?>

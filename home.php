@@ -29,7 +29,7 @@
     <?php
     
       if ($rol_id == 1) {
-        echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
+        echo "<br>", $nombre_rol, " - ", $_SESSION['departamentos'];
       } 
       else {
         echo "<br>", $nombre_rol;
@@ -139,9 +139,9 @@
         // Redirigir según el rol del usuario
         if ($rol_id == 1) {
           // Si el usuario es jefe de departamento, redirigir a subir plantilla
-          if (isset($_SESSION['Nombre_Departamento'])) {
+          if (isset($_SESSION['nombre_departamento'])) {
             // Obtener el nombre del departamento desde la sesión
-            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            $nombre_departamento = $_SESSION['nombre_departamento'];
             echo "<a href='./plantilla.php'>";
           } else {
             // Manejar el caso en que no se encuentre asociado a ningún departamento
@@ -166,9 +166,9 @@
         // Redirigir según el rol del usuario
         if ($rol_id == 1) {
     	    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
-          if (isset($_SESSION['Nombre_Departamento'])) {
+          if (isset($_SESSION['nombre_departamento'])) {
             // Obtener el nombre del departamento desde la sesión
-            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            $nombre_departamento = $_SESSION['nombre_departamento'];
             echo "<a href='./basesdedatos.php'>";
           } else {
             // Manejar el caso en que no se encuentre asociado a ningún departamento

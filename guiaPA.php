@@ -24,6 +24,6 @@
      </div>
 </div>
 
-<script src="./JS/pestañas-plantilla.js"></script>
+<script src="./JS/pestanas-plantilla.js"></script>
 
 <?php include ("./template/footer.php"); ?>
