@@ -2,8 +2,12 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+<!-- Conexion a base de datos -->
+<?php include './config/db.php' ?>
+
 <title>Añadir Usuarios</title>
 <link rel="stylesheet" href="./CSS/admin-usuarios.css" />
+
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -41,18 +45,6 @@
       </tr>
 
       <?php
-      // Conexión a la base de datos
-      $servername = "localhost";
-      $username = "root";
-      $password = "root";
-      $dbname = "pa";
-
-      $conn = new mysqli($servername, $username, $password, $dbname);
-
-      // Verificar la conexión
-      if ($conn->connect_error) {
-        die("Error de conexión: " . $conn->connect_error);
-      }
 
       // Consulta para obtener usuarios y departamentos
       $sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, COALESCE(d.Departamentos, r.Nombre_Rol) AS Departamento
@@ -61,12 +53,12 @@
         LEFT JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID
         LEFT JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID";
 
-      $result = $conn->query($sql);
+      $result = $conexion->query($sql);
 
 
       // Consulta para obtener los roles
       $roles_sql = "SELECT Rol_ID, Nombre_Rol FROM Roles";
-      $roles_result = $conn->query($roles_sql);
+      $roles_result = $conexion->query($roles_sql);
 
       $roles = [];
       if ($roles_result->num_rows > 0) {
@@ -77,7 +69,7 @@
 
       // Consulta para obtener los departamentos
       $departamentos_sql = "SELECT Departamento_ID, Departamentos FROM Departamentos";
-      $departamentos_result = $conn->query($departamentos_sql);
+      $departamentos_result = $conexion->query($departamentos_sql);
 
       $departamentos = [];
       if ($departamentos_result->num_rows > 0) {
@@ -107,7 +99,7 @@
         echo "<tr><td colspan='6'>No hay usuarios registrados</td></tr>";
       }
 
-      $conn->close();
+      $conexion->close();
       ?>
     </table>
   </div>

@@ -133,7 +133,7 @@ td {
 .modal {
   display: none; /* Ocultar el modal por defecto */
   position: fixed; /* Posición fija */
-  z-index: 1; /* Colocar el modal en la parte superior */
+  z-index: 9999; /* Colocar el modal en la parte superior */
   left: 0;
   top: 0;
   width: 100%;
