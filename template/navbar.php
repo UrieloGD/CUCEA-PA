@@ -7,11 +7,6 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-// Incluir el archivo de sesión iniciada
-require_once './config/sesioniniciada.php';
-
-include './config/db.php';
-
 // Obtener el rol del usuario de la sesión
 $rol_id = $_SESSION['Rol_ID'];
 $userId = $_SESSION['Codigo'];

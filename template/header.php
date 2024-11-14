@@ -59,7 +59,6 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
   while ($row = mysqli_fetch_assoc($result)) {
     $notificaciones[] = $row;
   }
-  mysqli_close($conexion);
 }
 ?>
 
