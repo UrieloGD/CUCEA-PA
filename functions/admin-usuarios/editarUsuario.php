@@ -24,7 +24,7 @@ try {
     error_log("Datos recibidos: " . print_r($data, true));
 
     // Actualizar datos del usuario en la tabla Usuarios
-    $sql = "UPDATE Usuarios SET Nombre = ?, Apellido = ?, Correo = ?, Rol_ID = ? WHERE Codigo = ?";
+    $sql = "UPDATE usuarios SET Nombre = ?, Apellido = ?, Correo = ?, Rol_ID = ? WHERE Codigo = ?";
     $stmt = $conexion->prepare($sql);
 
     if ($stmt === false) {
@@ -35,7 +35,7 @@ try {
     $stmt->bind_param("sssii", $nombre, $apellido, $correo, $rol, $userId);
 
     // Preparamos la consulta para actualizar el departamento en Usuarios_Departamentos
-    $sql_departamento = "UPDATE Usuarios_Departamentos SET Departamento_ID = ? WHERE Usuario_ID = ?";
+    $sql_departamento = "UPDATE usuarios_departamentos SET Departamento_ID = ? WHERE Usuario_ID = ?";
     $stmt_departamento = $conexion->prepare($sql_departamento);
 
     if ($stmt === false) {
@@ -48,7 +48,7 @@ try {
     // Ejecutar la consulta para actualizar los datos del usuario
     if ($stmt->execute()) {
         // Verificar si el rol requiere un departamento
-        $sql_check_rol = "SELECT Nombre_Rol FROM Roles WHERE Rol_ID = ?";
+        $sql_check_rol = "SELECT Nombre_Rol FROM roles WHERE Rol_ID = ?";
         $stmt_check_rol = $conexion->prepare($sql_check_rol);
         $stmt_check_rol->bind_param("i", $rol);
         $stmt_check_rol->execute();
@@ -57,7 +57,7 @@ try {
         
         if ($row_rol['Nombre_Rol'] != "Coordinación de Personal" && $row_rol['Nombre_Rol'] != "Secretaría Administrativa") {
             // Actualizar o insertar la relación usuario-departamento solo si no es un rol especial
-            $sql_departamento = "INSERT INTO Usuarios_Departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?) ON DUPLICATE KEY UPDATE Departamento_ID = VALUES(Departamento_ID)";
+            $sql_departamento = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?) ON DUPLICATE KEY UPDATE Departamento_ID = VALUES(Departamento_ID)";
             $stmt_departamento = $conexion->prepare($sql_departamento);
             $stmt_departamento->bind_param("ii", $userId, $departamento);
             if (!$stmt_departamento->execute()) {
@@ -67,7 +67,7 @@ try {
             $stmt_departamento->close();
         } else {
             // Si es un rol especial, eliminar cualquier relación usuario-departamento existente
-            $sql_delete_departamento = "DELETE FROM Usuarios_Departamentos WHERE Usuario_ID = ?";
+            $sql_delete_departamento = "DELETE FROM usuarios_departamentos WHERE Usuario_ID = ?";
             $stmt_delete_departamento = $conexion->prepare($sql_delete_departamento);
             $stmt_delete_departamento->bind_param("i", $userId);
             $stmt_delete_departamento->execute();

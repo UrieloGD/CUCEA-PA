@@ -2,12 +2,9 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<!-- Conexion a base de datos -->
-<?php include './config/db.php' ?>
 
 <title>Añadir Usuarios</title>
 <link rel="stylesheet" href="./CSS/admin-usuarios.css" />
-
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -47,17 +44,17 @@
       <?php
 
       // Consulta para obtener usuarios y departamentos
-      $sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, COALESCE(d.Departamentos, r.Nombre_Rol) AS Departamento
-        FROM Usuarios u
-        LEFT JOIN Roles r ON u.Rol_ID = r.Rol_ID
-        LEFT JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID
-        LEFT JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID";
+      $sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, COALESCE(d.departamentos, r.Nombre_Rol) AS departamento
+        FROM usuarios u
+        LEFT JOIN roles r ON u.Rol_ID = r.Rol_ID
+        LEFT JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+        LEFT JOIN departamentos d ON ud.departamento_id = d.departamento_id";
 
       $result = $conexion->query($sql);
 
 
       // Consulta para obtener los roles
-      $roles_sql = "SELECT Rol_ID, Nombre_Rol FROM Roles";
+      $roles_sql = "SELECT Rol_ID, Nombre_Rol FROM roles";
       $roles_result = $conexion->query($roles_sql);
 
       $roles = [];
@@ -68,7 +65,7 @@
       }
 
       // Consulta para obtener los departamentos
-      $departamentos_sql = "SELECT Departamento_ID, Departamentos FROM Departamentos";
+      $departamentos_sql = "SELECT Departamento_ID, Departamentos FROM departamentos";
       $departamentos_result = $conexion->query($departamentos_sql);
 
       $departamentos = [];
@@ -86,7 +83,7 @@
           echo "<td class='editable' data-field='Apellido' style='text-align: center;'>" . $row["Apellido"] . "</td>";
           echo "<td class='editable' data-field='Correo' style='text-align: center;'>" . $row["Correo"] . "</td>";
           echo "<td class='editable' data-field='Rol' style='text-align: center;'>" . $row["Nombre_Rol"] . "</td>";
-          echo "<td class='editable' data-field='Departamento' style='text-align: center;'>" . $row["Departamento"] . "</td>";
+          echo "<td class='editable' data-field='Departamento' style='text-align: center;'>" . $row["departamento"] . "</td>";
           echo "<td style='text-align: center;'>
                           <a href='#' class='btn edit'><img src='./Img/Icons/iconos-adminAU/editar2.png'></a>
                           <a href='#' class='btn save' style='display:none;'><img src='./Img/Icons/iconos-adminAU/guardar.png'></a>

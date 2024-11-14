@@ -22,7 +22,7 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
             SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, d.departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
                    p.Notificacion_Vista AS vista, u.Codigo AS Emisor_ID,
                    NULL AS Mensaje
-            FROM Plantilla_Dep p
+            FROM plantilla_dep p
             JOIN departamentos d ON p.Departamento_ID = d.Departamento_ID
             JOIN usuarios u ON p.Usuario_ID = u.Codigo
             

@@ -269,10 +269,10 @@ function generateColorForUser($userId)
                 <a href="#">
                     <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
                         <?php
-                        $nombreInicial = strtoupper(substr($_SESSION['nombre'], 0, 1));
-                        $apellidoInicial = strtoupper(substr($_SESSION['apellido'], 0, 1));
+                        $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
+                        $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
                         $iniciales = $nombreInicial . $apellidoInicial;
-                        $userId = $_SESSION['codigo'];
+                        $userId = $_SESSION['Codigo'];
                         $backgroundColor = generateColorForUser($userId);
                         echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
                         ?>
@@ -301,10 +301,10 @@ function generateColorForUser($userId)
                 <a href="#">
                     <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
                         <?php
-                        $nombreInicial = strtoupper(substr($_SESSION['nombre'], 0, 1));
-                        $apellidoInicial = strtoupper(substr($_SESSION['apellido'], 0, 1));
+                        $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
+                        $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
                         $iniciales = $nombreInicial . $apellidoInicial;
-                        $userId = $_SESSION['codigo'];
+                        $userId = $_SESSION['Codigo'];
                         $backgroundColor = generateColorForUser($userId);
                         echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
                         ?>

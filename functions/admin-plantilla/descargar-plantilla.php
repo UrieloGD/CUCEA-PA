@@ -5,7 +5,7 @@ if (isset($_GET['departamento_id'])) {
     $departamento_id = $_GET['departamento_id'];
 
     // Consulta a la base de datos para obtener el nombre y contenido del archivo correspondiente al departamento
-    $sql = "SELECT Nombre_Archivo_Dep, Contenido_Archivo_Dep FROM Plantilla_SA WHERE Departamento_ID = '$departamento_id'";
+    $sql = "SELECT Nombre_Archivo_Dep, Contenido_Archivo_Dep FROM plantilla_sa WHERE Departamento_ID = '$departamento_id'";
     $result = mysqli_query($conexion, $sql);
 
     if ($result === false) {

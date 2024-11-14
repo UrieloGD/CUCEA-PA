@@ -1,3 +1,27 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -43,7 +67,7 @@
   <div class="banner">
     <div class="carrusel">
       <div class="diapositiva">
-        <img src="https://scontent.fgdl3-1.fna.fbcdn.net/v/t39.30808-6/461571086_969357248539781_4132834341755255182_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=CsBPgUF0bdkQ7kNvgFUcFCf&_nc_zt=23&_nc_ht=scontent.fgdl3-1.fna&_nc_gid=A5g41yPKNWxu3ZxKVaC9QAh&oh=00_AYAEVPoF8qxDwlBsL-kiKPtDYr5ZlhLHgkAEmvTqkR065A&oe=6730C9D1" alt="Imagen 3">
+        <img src="https://www.gaceta.udg.mx/wp-content/uploads/2022/06/DSC_1927-scaled.jpg" alt="Imagen 3">
       </div>
       <div class="diapositiva">
         <img src="https://comsoc.udg.mx/sites/default/files/img_noticias/160816_cucea_aa_3.jpg" alt="Imagen 1">
@@ -158,7 +182,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Plantilla</h4>
         </div>
-        <img src="./img/img-home/plantilla.png" alt="Imagen de un pasillo arbolado de CUCEA" />
+        <img src="./Img/img-home/plantilla.png" alt="Imagen de un pasillo arbolado de CUCEA" />
       </a>
     </div>
     <div class="cuadro-ind">
