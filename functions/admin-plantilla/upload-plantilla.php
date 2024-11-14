@@ -4,7 +4,7 @@ include './../notificaciones-correos/email_functions.php';
 date_default_timezone_set('America/Mexico_City');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $departamento_id = $_POST['departamento_id'];
+    $departamento_id = $_POST['Departamento_ID'];
     error_log("Departamento ID: $departamento_id");
 
     if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
@@ -19,18 +19,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         error_log("Archivo temporal: $archivo_temporal");
 
         // Insertar los datos en la base de datos
-        $sql = "INSERT INTO plantilla_sa (departamento_id, nombre_archivo_dep, fecha_subida_dep, contenido_archivo_dep)
+        $sql = "INSERT INTO plantilla_sa (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
             VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
         
         if (mysqli_query($conexion, $sql)) {
             error_log("Inserción en la base de datos exitosa");
 
             // Obtener el correo del jefe de departamento
-            $sql_jefe = "SELECT u.codigo, u.correo, d.departamentos 
+            $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
                  FROM usuarios u 
-                 JOIN usuarios_departamentos ud ON u.codigo = ud.usuario_id
-                 JOIN departamentos d ON ud.departamento_id = d.departamento_id 
-                 WHERE d.departamento_id = ? AND u.rol_id = 1";
+                 JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+                 JOIN departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
             $stmt = mysqli_prepare($conexion, $sql_jefe);
             mysqli_stmt_bind_param($stmt, "i", $departamento_id);
             mysqli_stmt_execute($stmt);
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                 // Insertar notificación en la tabla Notificaciones
-                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, usuario_ID, emisor_ID) 
+                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
                                      VALUES ('plantilla', ?, ?, ?)";
                 $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
                 mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $_SESSION['Codigo']);

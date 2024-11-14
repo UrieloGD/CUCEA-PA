@@ -2,8 +2,6 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<!-- Conexión a la base de datos -->
-<?php include './config/db.php' ?>
 
 <title>Centro de Gestión</title>
 <link rel="stylesheet" href="./CSS/admin-eventos.css" />
@@ -24,8 +22,8 @@
     <?php
     // Consulta modificada para obtener los nombres de los participantes
     $sql = "SELECT e.*, GROUP_CONCAT(CONCAT(u.Nombre, ' ', u.Apellido) SEPARATOR ', ') AS NombresParticipantes
-    FROM Eventos_Admin e
-    LEFT JOIN Usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
+    FROM eventos_admin e
+    LEFT JOIN usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
     WHERE (e.Fecha_Fin >= CURDATE() OR (e.Fecha_Inicio <= CURDATE() AND e.Fecha_Fin >= CURDATE()))
     AND e.Estado = 'activo'/* Mostrar solo eventos que no han sido cancelados */
     GROUP BY e.ID_Evento
@@ -87,10 +85,10 @@
         <hr style="border: 2px solid #0071b0; width: 99%;">
         <form id="formCrearEvento">
             <div class="form-group">
-                <label for="nombre">
+                <label for="Nombre_Evento">
                     <i class="fas fa-pen"></i> Nombre
                 </label>
-                <input type="text" id="nombre" name="nombre" value="" required>
+                <input type="text" id="Nombre_Evento" name="Nombre_Evento" value="" required>
             </div>
 
             <div class="form-group">
@@ -98,8 +96,8 @@
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('d/m/Y'); ?>">
+                    <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('d/m/Y'); ?>">
                     <span>a las</span>
                     <input type="time" id="HorIn" name="HorIn" value="" required>
                     <span> --> </span>
@@ -112,34 +110,32 @@
                     <i class="fas fa-bell"></i> Notificaciones
                 </label>
                 <div class="notificaciones-group">
-                    <select id="editNotificacion" name="notificacion">
+                    <select id="editNotificacion" name="Notificacion">
                         <option valuNe="1 hora antes">1 hora antes</option>
-                        <option value="2 horas antes">2 horas antes</option>
+                        <!-- <option value="2 horas antes">2 horas antes</option> -->
                         <option value="1 día antes">1 día antes</option>
-                        <option value="1 semana antes">1 semana antes</option>
+                        <!-- <option value="1 semana antes">1 semana antes</option> -->
                         <option value="Sin notificación">Sin notificación</option>
                     </select>
-                    <span>a las</span>
-                    <input type="time" id="editHorNotif" name="HorNotif" value="" required>
                 </div>
             </div>
 
             <div class="form-group split-group">
                 <div class="split-item">
-                    <label for="participantes">
+                    <label for="Participantes">
                         <i class="fas fa-users"></i> Participantes
                     </label>
                     <button class="boton-agregar-participantes" type="button" id="abrirModalParticipantes">Añadir participantes</button>
                     <div id="participantes-seleccionados"></div>
                     <div id="input-participantes"></div>
                     <!-- Agregamos un input oculto para asegurar que siempre se envíe algo, incluso vacío -->
-                    <input type="hidden" name="participantes[]" value="">
+                    <input type="hidden" name="Participantes[]" value="">
                 </div>
                 <div class="split-item">
-                    <label for="etiqueta">
+                    <label for="Etiqueta">
                         <i class="fas fa-tag"></i> Etiqueta
                     </label>
-                    <select id="etiqueta" name="etiqueta">
+                    <select id="Etiqueta" name="Etiqueta">
                         <option value="">Elige una etiqueta</option>
                         <option value="Programación Académica">Programación Académica</option>
                         <option value="Oferta Académica">Oferta Académica</option>
@@ -149,10 +145,10 @@
             </div>
 
             <div class="form-group">
-                <label for="descripcion">
+                <label for="Descripcion">
                     <i class="fas fa-align-left"></i> Descripción
                 </label>
-                <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+                <textarea id="Descripcion" name="Descripcion" rows="4"></textarea>
             </div>
 
             <div class="form-actions">
@@ -174,10 +170,10 @@
         <form id="formEditarEvento">
             <input type="hidden" id="editEventId" name="id_evento">
             <div class="form-group">
-                <label for="nombre">
+                <label for="Nombre_evento">
                     <i class="fas fa-pen"></i> Nombre
                 </label>
-                <input type="text" id="editNombre" name="nombre" value="" required>
+                <input type="text" id="editNombre_Evento" name="Nombre_Evento" value="" required>
             </div>
 
             <div class="form-group">
@@ -185,8 +181,8 @@
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('d/m/Y'); ?>">
+                    <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('d/m/Y'); ?>">
                     <span>a las</span>
                     <input type="time" id="editHorIn" name="HorIn" value="" required>
                     <span> --> </span>
@@ -199,34 +195,32 @@
                     <i class="fas fa-bell"></i> Notificaciones
                 </label>
                 <div class="notificaciones-group">
-                    <select id="notificacion" name="notificacion">
+                    <select id="Notificacion" name="Notificacion">
                         <option value="1 hora antes">1 hora antes</option>
-                        <option value="2 horas antes">2 horas antes</option>
+                        <!-- <option value="2 horas antes">2 horas antes</option> -->
                         <option value="1 día antes">1 día antes</option>
-                        <option value="1 semana antes">1 semana antes</option>
+                        <!-- <option value="1 semana antes">1 semana antes</option> -->
                         <option value="Sin notificación">Sin notificación</option>
                     </select>
-                    <span>a las</span>
-                    <input type="time" id="editHorNotif" name="HorNotif" value="" required>
                 </div>
             </div>
 
             <div class="form-group split-group">
                 <div class="split-item">
-                    <label for="participantes">
+                    <label for="Participantes">
                         <i class="fas fa-users"></i> Participantes
                     </label>
                     <button class="boton-agregar-participantes" type="button" id="abrirModalParticipantesEdicion">Añadir participantes</button>
                     <div id="participantes-seleccionados-edicion"></div>
                     <div id="input-participantes-edicion"></div>
                     <!-- Agregamos un input oculto para asegurar que siempre se envíe algo, incluso vacío -->
-                    <input type="hidden" name="participantes[]" value="">
+                    <input type="hidden" name="Participantes[]" value="">
                 </div>
                 <div class="split-item">
-                    <label for="etiqueta">
+                    <label for="Etiqueta">
                         <i class="fas fa-tag"></i> Etiqueta
                     </label>
-                    <select id="editEtiqueta" name="etiqueta">
+                    <select id="editEtiqueta" name="Etiqueta">
                         <option value="">Elige una etiqueta</option>
                         <option value="Programación Académica">Programación Académica</option>
                         <option value="Oferta Académica">Oferta Académica</option>
@@ -236,10 +230,10 @@
             </div>
 
             <div class="form-group">
-                <label for="descripcion">
+                <label for="Descripcion">
                     <i class="fas fa-align-left"></i> Descripción
                 </label>
-                <textarea id="editDescripcion" name="descripcion" rows="4"></textarea>
+                <textarea id="editDescripcion" name="Descripcion" rows="4"></textarea>
             </div>
             <div class="form-actions">
                 <button type="submit" class="btn-guardar">Actualizar</button>

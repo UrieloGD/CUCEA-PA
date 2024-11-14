@@ -9,8 +9,8 @@ ini_set('log_errors', 1);
 header('Content-Type: application/json');
 header('X-Content-Type-Options: nosniff');
 
-require_once dirname(dirname(dirname(__FILE__))) . '/config/db.php';
-require_once '../notificaciones-correos/email_functions.php';
+include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php';
 
 function sendJsonResponse($success, $message, $additionalData = [])
 {
@@ -50,7 +50,7 @@ try {
 
     // Obtener información del evento antes de marcarlo como inactivo
     $query = "SELECT ID_Evento, Nombre_Evento, Fecha_Inicio, Hora_Inicio, Participantes 
-              FROM Eventos_Admin 
+              FROM eventos_admin 
               WHERE ID_Evento = ?";
 
     $stmt = $conexion->prepare($query);
@@ -98,7 +98,7 @@ try {
         error_log("Participantes: " . print_r($participantes, true));
 
         // Preparar la consulta de notificación
-        $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID, Fecha) 
+        $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID, Fecha) 
                             VALUES (?, ?, ?, 0, ?, NOW())";
         $notif_stmt = $conexion->prepare($sql_notificacion);
 
@@ -124,7 +124,7 @@ try {
                 }
 
                 // Enviar correo electrónico
-                $email_stmt = $conexion->prepare("SELECT Correo FROM Usuarios WHERE Codigo = ?");
+                $email_stmt = $conexion->prepare("SELECT Correo FROM usuarios WHERE Codigo = ?");
                 if (!$email_stmt) {
                     throw new Exception('Error al preparar consulta de correo: ' . $conexion->error);
                 }
@@ -158,7 +158,7 @@ try {
     }
 
     // Actualizar el estado del evento a 'inactivo'
-    $update_stmt = $conexion->prepare("UPDATE Eventos_Admin SET Estado = 'inactivo' WHERE ID_Evento = ?");
+    $update_stmt = $conexion->prepare("UPDATE eventos_admin SET Estado = 'inactivo' WHERE ID_Evento = ?");
     if (!$update_stmt) {
         throw new Exception('Error al preparar la consulta de actualización: ' . $conexion->error);
     }

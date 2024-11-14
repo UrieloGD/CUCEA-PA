@@ -64,19 +64,23 @@ function subirArchivo(id) {
 
 function actualizarNombreArchivo(input, id) {
     if (input.files.length > 0) {
-        var nombreArchivo = input.files[0].name;
-        document.getElementById(`nombre-archivo-${id}`).innerText = nombreArchivo;
-        document.getElementById(`Nombre_Archivo_Dep-${id}`).value = nombreArchivo;
-        console.log(`Nombre de archivo actualizado para departamento ${id}: ${nombreArchivo}`);
+        const nombreArchivo = input.files[0].name;
+        const nombreArchivoElement = document.getElementById(`Nombre_Archivo_Dep-${id}`);
+
+        if (nombreArchivoElement) {
+            nombreArchivoElement.value = nombreArchivo;
+            console.log(`Nombre de archivo actualizado para departamento ${id}: ${nombreArchivo}`);
+        } else {
+            console.error(`No se encontró el elemento con ID "Nombre_Archivo_Dep-${id}" para actualizar el nombre de archivo.`);
+        }
     } else {
-        document.getElementById(`nombre-archivo-${id}`).innerText = 'No se ha subido un archivo';
         console.log(`No se ha subido un archivo para departamento ${id}`);
     }
 }
 
 function actualizarFechaSubida(id) {
     var fechaFormateada = obtenerFechaHoraActual();
-    document.getElementById(`fecha-subida-${id}`).innerText = fechaFormateada;
+    document.getElementById(`Fecha-Subida-${id}`).innerText = fechaFormateada;
     document.getElementById(`Fecha_Subida_Dep-${id}`).value = fechaFormateada;
     console.log(`Fecha de subida actualizada para departamento ${id}: ${fechaFormateada}`);
 }
