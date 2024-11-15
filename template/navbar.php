@@ -7,24 +7,6 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
-// Incluir el archivo de sesión iniciada
-require_once './config/sesioniniciada.php';
-
-
-// Configuración de la base de datos
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "pa";
-
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 // Obtener el rol del usuario de la sesión
 $rol_id = $_SESSION['Rol_ID'];
 $userId = $_SESSION['Codigo'];
@@ -45,16 +27,16 @@ function getColorPalette()
 
 function generateColorForUser($userId)
 {
-    global $conn;
+    global $conexion;
 
     $colors = getColorPalette();
     $colorIndex = $userId % count($colors);
     $color = $colors[$colorIndex];
 
     // Actualizar el color en la base de datos
-    $stmt = $conn->prepare("UPDATE Usuarios SET IconoColor = ? WHERE Codigo = ?");
+    $stmt = $conexion->prepare("UPDATE Usuarios SET IconoColor = ? WHERE Codigo = ?");
     if ($stmt === false) {
-        die("Error preparing statement: " . $conn->error);
+        die("Error preparing statement: " . $conexion->error);
     }
 
     $stmt->bind_param("si", $color, $userId);
@@ -76,7 +58,6 @@ function generateColorForUser($userId)
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./CSS/navbar.css" />
-    <link rel="stylesheet" href="./CSS/header.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-">
     </link>
@@ -89,18 +70,22 @@ function generateColorForUser($userId)
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
-                <a class="navbar-item-inner flexbox" href="./home.php">
+                <a class="navbar-item-inner flexbox" href="#">
                     <img src="./Img/logos/LogoPA-Vertical.png" width="37" height="75" alt="LogoPA-Vertical">
                 </a>
             </li>
             <hr>
+            
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./home.php">
+            <?php 
+                if (basename($_SERVER['PHP_SELF']) == 'home.php') { echo "<a class='navbar-item-inner flexbox-left' href='./home.php'><div class='indicador'></div>"; }
+                else { echo "<a class='navbar-item-inner flexbox-left' href='./home.php'>"; } 
+            ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox ">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-home.png' width='50%' height='50%' alt='icono-home' class='hover-icon'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
                     </div>
-                    <span class="link-text">Inicio</span>
+                    <span class='link-text'>Inicio</span>
                 </a>
             </li>
 
@@ -112,17 +97,20 @@ function generateColorForUser($userId)
                     if (isset($_SESSION['Nombre_Departamento'])) {
                         // Obtener el nombre del departamento desde la sesión
                         $nombre_departamento = $_SESSION['Nombre_Departamento'];
-                        echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>";
+                            if (basename($_SERVER['PHP_SELF']) == 'plantilla.php') { echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'><div class='indicador'></div>"; }
+                            else { echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>"; } 
                     } else {
                         // Manejar el caso en que no se encuentre asociado a ningún departamento
                         echo "<a class='navbar-item-inner flexbox-left' href='#'>";
                     }
                 } elseif ($rol_id == 2) {
                     // Si el usuario es secretaria administrativa, redirigir a plantillasPA
-                    echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
+                    if (basename($_SERVER['PHP_SELF']) == 'admin-plantilla.php') { echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'><div class='indicador'></div>"; }
+                    else { echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>"; }
                 } else {
                     // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='./plantilla-coordPers.php'>";
+                    if (basename($_SERVER['PHP_SELF']) == 'plantilla-CoordPers.php') { echo "<a class='navbar-item-inner flexbox-left' href='./plantilla-CoordPers.php'><div class='indicador'></div>"; }
+                    else { echo "<a class='navbar-item-inner flexbox-left' href='./plantilla-CoordPers.php'>"; }
                 }
                 ?>
                 <div class="navbar-item-inner-icon-wrapper flexbox">
@@ -135,35 +123,61 @@ function generateColorForUser($userId)
 
             <li class="navbar-item flexbox-left">
                 <?php
-                // Redirigir según el rol del usuario
-                if ($rol_id == 1) {
-                    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
+                if ($rol_id == 3) { // Para Coordinación de Personal
+                    echo '<div class="dropdown-container">';
+                    echo '<a class="navbar-item-inner flexbox-left dropdown-trigger">
+                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                            </div>
+                            <span class="link-text">Bases de datos</span>
+                        </a>';
+                    echo '<div class="dropdown-menu">
+                            <div class="dropdown-item">
+                                <span class="tree-line">└</span>
+                                <a href="./admin-data-departamentos.php" class="dropdown-item-inner">
+                                    BD Jefes de Departamento
+                                </a>
+                            </div>
+                            <div class="dropdown-item">
+                                <span class="tree-line">└</span>
+                                <a href="./basededatos-CoordPers.php" class="dropdown-item-inner">
+                                    BD Coordinación de Personal
+                                </a>
+                            </div>
+                        </div>';
+                    echo '</div>';
+                } elseif ($rol_id == 1) { // Para Jefe de Departamento
                     if (isset($_SESSION['Nombre_Departamento'])) {
-                        // Obtener el nombre del departamento desde la sesión
-                        $nombre_departamento = $_SESSION['Nombre_Departamento'];
                         echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
                     } else {
-                        // Manejar el caso en que no se encuentre asociado a ningún departamento
                         echo "<a class='navbar-item-inner flexbox-left' href='#'>";
                     }
-                } elseif ($rol_id == 2) {
-                    // Si el usuario es secretaria administrativa, redirigir al archivo data_departamento.php
+                    echo '
+                        <div class="navbar-item-inner-icon-wrapper flexbox">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        </div>
+                        <span class="link-text">Bases de datos</span>
+                    </a>';
+                } elseif ($rol_id == 2) { // Para Secretaria Administrativa
                     echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
-                } else {
-                    // Otros roles o manejo de errores aquí
-                    echo "<a class='navbar-item-inner flexbox-left' href='./basededatos-CoordPers.php'>";
+                    echo '
+                        <div class="navbar-item-inner-icon-wrapper flexbox">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                        </div>
+                        <span class="link-text">Bases de datos</span>
+                    </a>';
                 }
                 ?>
-                <div class="navbar-item-inner-icon-wrapper flexbox">
-                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                </div>
-                <span class="link-text">Bases de datos</span>
-                </a>
             </li>
 
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./calendario.php">
+            <?php 
+                if (basename($_SERVER['PHP_SELF']) == 'calendario.php') { echo "<a class='navbar-item-inner flexbox-left' href='./calendario.php'><div class='indicador'></div>"; }
+                else { echo "<a class='navbar-item-inner flexbox-left' href='./calendario.php'>"; } 
+            ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
@@ -173,7 +187,10 @@ function generateColorForUser($userId)
             </li>
 
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./espacios.php">
+            <?php 
+                if (basename($_SERVER['PHP_SELF']) == 'espacios.php') { echo "<a class='navbar-item-inner flexbox-left' href='./espacios.php'><div class='indicador'></div>"; }
+                else { echo "<a class='navbar-item-inner flexbox-left' href='./espacios.php'>"; } 
+            ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
@@ -182,8 +199,48 @@ function generateColorForUser($userId)
                 </a>
             </li>
 
+            <?php
+            // Mostrar el ícono de "Horas" solo si el usuario tiene el rol 3 (Coordinación de Personal)
+            if ($rol_id == 3) {
+                echo "<li class='navbar-item flexbox-left'>";
+                if (basename($_SERVER['PHP_SELF']) == './horas-comparacion.php') { 
+                    echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'><div class='indicador'></div>";
+                } else {
+                    echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'>";
+                }
+                echo "
+                    <div class='navbar-item-inner-icon-wrapper flexbox'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-horas.png' width='50%' height='50%' alt='icono-horas' class='hover-icon'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-horas-b.png' width='50%' height='50%' alt='icono-horas-hover' class='original-icon'>
+                    </div>
+                    <span class='link-text'>Revisión de horas</span>
+                    </a>
+                </li>";
+            }
+            ?>
+
+            <?php
+            // Redirigir a esta opcion, unicamente si es jefe de departamento o coordinador de personal
+            if ($rol_id == 1 || $rol_id == 3) {
+            echo "<li class='navbar-item flexbox-left'>";
+                if (basename($_SERVER['PHP_SELF']) == 'personal-solicitud-cambios.php') { echo "<a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'><div class='indicador'></div>"; }
+                else { echo "<a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'>"; } 
+                echo
+                    "<div class='navbar-item-inner-icon-wrapper flexbox'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>
+                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
+                    </div>
+                    <span class='link-text'>Solicitudes</span>
+                </a>
+            </li>";
+            }
+            ?>
+
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./dashboard-oferta.php">
+            <?php 
+                if (basename($_SERVER['PHP_SELF']) == 'dashboard-oferta.php') { echo "<a class='navbar-item-inner flexbox-left' href='./dashboard-oferta.php'><div class='indicador'></div>"; }
+                else { echo "<a class='navbar-item-inner flexbox-left' href='./dashboard-oferta.php'>"; } 
+            ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
@@ -193,22 +250,15 @@ function generateColorForUser($userId)
             </li>
 
             <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./guiaPA.php">
+            <?php 
+                if (basename($_SERVER['PHP_SELF']) == 'guiaPA.php') { echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'><div class='indicador'></div>"; }
+                else { echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>"; } 
+            ?>
                     <div class="navbar-item-inner-icon-wrapper flexbox">
                         <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
                         <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                     </div>
                     <span class="link-text">Guía</span>
-                </a>
-            </li>
-            
-            <li class="navbar-item flexbox-left">
-                <a class="navbar-item-inner flexbox-left" href="./personal-solicitud-cambios.php">
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Solicitudes</span>
                 </a>
             </li>
 
@@ -230,7 +280,10 @@ function generateColorForUser($userId)
             if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
             ?>
                 <li class="navbar-item flexbox-left">
-                    <a class="navbar-item-inner flexbox-left" href="./admin-home.php">
+                <?php 
+                    if (basename($_SERVER['PHP_SELF']) == 'admin-home.php') { echo "<a class='navbar-item-inner flexbox-left' href='./admin-home.php'><div class='indicador'></div>"; }
+                    else { echo "<a class='navbar-item-inner flexbox-left' href='./admin-home.php'>"; } 
+                ?>
                         <div class="navbar-item-inner-icon-wrapper flexbox">
                             <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" width="50%" height="50%" alt="icono-admin" class="hover-icon">
                             <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-admin-b.png" width="50%" height="50%" alt="icono-admin-hover" class="original-icon">
@@ -262,3 +315,92 @@ function generateColorForUser($userId)
             </li>
         </ul>
     </nav>
+
+<script>
+/* JavaScript para manejar el toggle */
+const navbar = document.getElementById('navbar');
+let isExpanded = false;
+
+function toggleNavbar() {
+  if (window.innerWidth <= 768) {
+    isExpanded = !isExpanded;
+    if (isExpanded) {
+      navbar.classList.add('nav-expanded');
+    } else {
+      navbar.classList.remove('nav-expanded');
+    }
+  }
+}
+
+// Evento click para el navbar
+navbar.addEventListener('click', (event) => {
+  // Solo toggle si el click fue directamente en el navbar o en el logo
+  if (event.target.closest('.navbar-logo') || event.target === navbar) {
+    toggleNavbar();
+  }
+});
+
+// Cerrar el navbar cuando se hace click fuera de él
+document.addEventListener('click', (event) => {
+  if (window.innerWidth <= 768 && !navbar.contains(event.target)) {
+    navbar.classList.remove('nav-expanded');
+    isExpanded = false;
+  }
+});
+
+// Opcional: Cerrar el navbar cuando se hace scroll
+document.addEventListener('scroll', () => {
+  if (window.innerWidth <= 768 && isExpanded) {
+    navbar.classList.remove('nav-expanded');
+    isExpanded = false;
+  }
+});
+
+// Funcion para desplegable en icono BD
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
+    const navbar = document.getElementById('navbar');
+    
+    dropdownTriggers.forEach(trigger => {
+        trigger.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const menu = this.nextElementSibling;
+            const isExpanded = menu.classList.contains('show');
+            
+            // Primero removemos la clase show de todos los menús
+            document.querySelectorAll('.dropdown-menu').forEach(m => {
+                if (m !== menu) {
+                    m.classList.remove('show');
+                }
+            });
+            
+            // Toggle de la clase show en el menú actual
+            if (!isExpanded) {
+                menu.classList.add('show');
+            } else {
+                menu.classList.remove('show');
+            }
+        });
+    });
+    
+    // Cerrar el menú si se hace clic fuera
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown-container')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+
+    // Cerrar el menú cuando el navbar se minimiza
+    navbar.addEventListener('mouseleave', function() {
+        if (!navbar.matches(':hover')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+});
+</script>

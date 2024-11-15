@@ -15,7 +15,7 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css" />
+<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -30,7 +30,7 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
     <form id="formulario-subida" enctype="multipart/form-data">
         <div class="container-inf">
             <div class="drop-area">
-                <p>Arrastra tus archivos a subir aquí</p>
+                <p>Arrastra tu archivo a subir aquí</p>
                 <p>o</p>
                 <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
                 <input type="file" name="file" id="input-file" hidden>
@@ -48,6 +48,5 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./JS/plantilla-CoordPers/drag&drop.js"></script>
-<script src="./JS/plantilla-CoordPers/Ajax-coordinacion-personal.js"></script>
 
 <?php include './template/footer.php' ?>

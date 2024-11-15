@@ -66,6 +66,8 @@
                         icon: 'success',
                         title: '¡Éxito!',
                         text: data.message,
+                    }).then(() => {
+                        window.location.href = './../../login.php';
                     });
                 } else {
                     Swal.fire({

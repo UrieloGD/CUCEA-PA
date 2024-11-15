@@ -9,7 +9,6 @@
  * - "dom": Personaliza la estructura de los elementos visibles en la tabla
  * - "scrollX": Habilita el desplazamiento horizontal para manejar tablas más anchas que el viewport.
  * - "scrollCollapse": Habilita la reducción del área de scroll cuando los datos son menos que el espacio disponible.
- * - "fixedHeader": Mantiene visible el encabezado de la tabla mientras se desplaza verticalmente.
  */
 
 $(document).ready(function () {
@@ -45,13 +44,13 @@ $(document).ready(function () {
     stateLoadCallback: function(settings) {
       return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
     },
-
-    ordering: false,
+    ordering: true, // Opción para ordenar alfabéticamente las columnas de la tabla
     info: true,
     scrollX: true,
     scrollCollapse: true,
     fixedHeader: true,
     columnDefs: [
+      { targets: "_all", defaultContent: "" }, // Reemplaza los valores nulos por un string vacío
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
       { orderable: false, targets: -1 },

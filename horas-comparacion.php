@@ -29,7 +29,7 @@
         <?php
         // Consulta para obtener los departamentos
         $query = "SELECT * FROM Departamentos ORDER BY Departamentos";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($conexion, $query);
 
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {

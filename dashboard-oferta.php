@@ -6,7 +6,7 @@
 <?php include './config/db.php' ?>
 
 <title>Oferta Académica</title>
-<link rel="stylesheet" href="./CSS/dashboard-oferta.css" />
+<link rel="stylesheet" href="./CSS/dashboard-oferta.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

@@ -2,10 +2,10 @@
 session_start();
 include './config/db.php';
 
-function obtenerDepartamentoId($usuario_id)
-{
+function obtenerDepartamentoId($usuario_id) {
+    global $conexion; // Usar la variable de conexión global
     $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
-    $result = $connexion->query($sql);
+    $result = $conexion->query($sql);
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -14,7 +14,7 @@ function obtenerDepartamentoId($usuario_id)
         $departamento_id = null;
     }
 
-    $connexion->close();
+    $conexion->close();
     return $departamento_id;
 }
 
@@ -37,7 +37,7 @@ if (isset($_SESSION['usuario_id'])) {
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css" />
+<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -61,7 +61,7 @@ if (isset($_SESSION['usuario_id'])) {
                     <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
                 </div>
                 <div class="info-descarga">
-                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="./guia.php">aquí.</a></p>
+                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="./guiaPA.php">aquí.</a></p>
                 </div>
             </div>
         </div>
@@ -127,20 +127,21 @@ if (isset($_SESSION['usuario_id'])) {
                         <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>
                     </div>
                 <?php } ?>
-                <form id="formulario-subida" enctype="multipart/form-data">
+                <form id="formulario-subida" enctype="multipart/form-data" class="upload-form">
                     <div class="container-inf">
                         <div class="drop-area">
-                            <p>Arrastra tus archivos a subir aquí</p>
+                            <p>Arrastra tu archivo a subir aquí</p>
                             <p>o</p>
-                            <button type="button" class="boton-seleccionar-archivo" role="button" id="seleccionar-archivo-btn">Selecciona archivo</button>
-                            <input type="file" name="file" id="input-file" hidden>
+                            <button type="button" class="boton-seleccionar-archivo" role="button">
+                            Selecciona archivo
+                            </button>
+                            <input type="file" name="file" id="input-file" accept=".xlsx,.xls" hidden>
                         </div>
                         <div id="preview"></div>
-                        <div id="mensaje"></div>
                         <div class="container-peso">
-                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
                         </div>
-                        <button type="submit" class="boton-descargar" role="button" id="guardar-btn">Guardar</button>
+                        <button type="submit" class="boton-descargar" role="button">Guardar</button>
                     </div>
                 </form>
             <?php
@@ -156,7 +157,6 @@ if (isset($_SESSION['usuario_id'])) {
 <script src="./JS/plantilla/guardarJustifiicacion.js"></script>
 <script src="./JS/plantilla/descargarPlantilla.js"></script>
 <script src="./JS/plantilla/drag&drop.js"></script>
-<script src="./JS/plantilla/funcionAjax.js"></script>
 <script src="./JS/plantilla/pestañasPlantilla.js"></script>
 
 <?php include './template/footer.php' ?>

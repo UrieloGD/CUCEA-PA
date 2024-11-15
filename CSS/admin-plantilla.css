@@ -66,7 +66,7 @@ th {
 
 td {
   flex: auto;
-  padding: 7.5px;
+  padding: 5.5px;
   flex: auto;
   text-align: left;
   border: 2px solid #e7e9f2;
@@ -156,12 +156,24 @@ td .btn-container .btn {
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
     width: 92vw;
     margin-left: 6vw;
+  }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
   }
 }
 
@@ -171,6 +183,12 @@ td .btn-container .btn {
     margin-left: 7vw;
     font-size: smaller;
   }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -179,6 +197,12 @@ td .btn-container .btn {
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
+  }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
   }
 }
 
@@ -203,5 +227,43 @@ td .btn-container .btn {
     align-items: center;
     border-radius: 0px 0px 20px 20px;
     background-color: #0071b0;
+  }
+
+  td,
+  th {
+    font-size: 0.8rem;
+  }
+
+  td img {
+    display: flex;
+    gap: 0;
+  }
+
+  .btn-container {
+    margin-left: 2.3vw;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100px;
+    gap: 2px;
+  }
+
+  .estado-atrasada,
+  .estado-entregada,
+  .estado-pendiente {
+    padding: 5px;
+  }
+
+  .form-actions .btn {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
   }
 }

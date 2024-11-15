@@ -46,7 +46,8 @@
     display: flex;
     margin-top: 20px;
     padding: 0 20px;
-    margin-left: 40px;
+    margin-left: 10px;
+    width: 97%;
 }
 
 .left-column {
@@ -824,48 +825,19 @@ hr {
     -o-border-radius: 10px;
 }
 
-@media (max-width: 768px) {
-    .calendar-container {
-        flex-direction: column;
-    }
-    
-    .left-column, .right-column {
-        width: 100%;
-    }
-    
-    .left-column {
-        padding-right: 0;
-        margin-bottom: 20px;
-    }
-}
-
-@media (max-width: 480px) {
-    .timer {
-        flex-wrap: wrap;
-    }
-    
-    .timer-item {
-        flex-basis: 50%;
-    }
-    
-    .calendar-table th, .calendar-table td {
-        padding: 5px;
-        font-size: smaller;
-    }
-}
-
 /* Estilos para modal: Crear nuevo evento. */
 .crearevento-principal {
     margin: 0 auto;
-    width: 454px;
-    height: 804px;
+    width: 460px;
+    height: 95%;
     border-radius: 15px;
     background-color: white;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
     -o-border-radius: 15px;
-    box-shadow: 0px 0px 5px 1px rgb(53, 52, 52);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .crearevento-encabezado {
@@ -1049,7 +1021,7 @@ hr {
 /* Tabs de etiquetas (mas border-radius)  */
 .tab-etiqueta {
     background-color: #fff;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 3px;
     padding-left: 13px;
     padding-right: 30px;
@@ -1105,7 +1077,7 @@ hr {
 .boton-finalizar {
     font-size: 0.8rem;
     margin: 0 auto;
-    left: 177px;
+    left: 40%;
     bottom: 155px;
     position: relative;
     width: 100px;
@@ -1116,4 +1088,250 @@ hr {
     background-color: #0071B0;
     color: white;
     cursor: pointer;
+}
+
+/* Media Queries para diferentes resoluciones */
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+    .cuadro-principal {
+      background-color: white;
+      border-radius: 20px;
+      width: 92vw;
+      height: 90vh;
+      margin-left: 6vw;
+      margin-right: 2vw;
+      margin-top: 1vh;
+      margin-bottom: 2vh;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+    .cuadro-principal {
+      width: 92vw;
+      margin-left: 6vw;
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+    .cuadro-principal {
+      width: 91vw;
+      margin-left: 7vw;
+      font-size: smaller;
+    }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+    .cuadro-principal {
+      width: 90vw;
+      margin-left: 8vw;
+      margin-bottom: 2vh;
+      font-size: smaller;
+    }
+    .calendar-container {
+        flex-direction: column;
+        width: 95%;
+        margin: 0;
+        padding: 15;
+        margin-top: 20px;
+    }
+    
+    .left-column, .right-column {
+        width: 100%;
+    }
+    
+    .left-column {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cuadro-principal {
+        width: 96vw;
+        height: 91vh; 
+        margin-left: 2vw;
+        font-size: smaller;
+    }
+    .calendar-container {
+        flex-direction: column;
+        width: 99%;
+        margin: 0;
+        padding: 5;
+        margin-top: 20px;
+    }
+    
+    .left-column, .right-column {
+        width: 100%;
+    }
+    
+    .left-column {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .date-bar,
+    .filter-menu.show {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+}
+
+@media (max-width: 535px) {
+    .cuadro-principal {
+        width: 96vw;
+        height: 91vh; 
+        margin-left: 2vw;
+        font-size: smaller;
+    }
+    .timer {
+        flex-wrap: wrap;
+    }
+    
+    .timer-item {
+        flex-basis: 50%;
+    }
+    
+    .calendar-table th, .calendar-table td {
+        padding: 5px;
+        font-size: smaller;
+    }
+    .calendar-container {
+        flex-direction: column;
+        width: 99%;
+        margin: 0;
+        padding: 5;
+        margin-top: 20px;
+    }
+
+    .date-bar,
+    .filter-menu.show {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+    
+    .view-options button {
+        padding-left: 15px;
+        width: 40px;
+        position: relative;
+        justify-content: space-between;
+        left: 1;
+    }
+
+    .view-options img {
+        width: 100%;
+    }
+    
+    .left-column, .right-column {
+        width: 100%;
+    }
+    
+    .left-column {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .crearevento-principal {
+        width: 85vw;
+        height: 804px;
+    }
+
+    .seleccionar-fecha input {
+        width: 100px;
+    }
+
+    .seleccionar-fecha .date {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .boton-finalizar {
+        left: 28vw;
+    }
+
+    .escribir-titulo {
+        width: 57vw;
+    }
+
+    .escribir-icono {
+        left: 58vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .cuadro-principal {
+        width: 96vw;
+        height: 91vh; 
+        margin-left: 2vw;
+        font-size: smaller;
+    }
+    .timer {
+        flex-wrap: wrap;
+    }
+    
+    .timer-item {
+        flex-basis: 50%;
+    }
+    
+    .calendar-table th, .calendar-table td {
+        padding: 5px;
+        font-size: smaller;
+    }
+    .calendar-container {
+        flex-direction: column;
+        width: 99%;
+        margin: 0;
+        padding: 5;
+        margin-top: 20px;
+    }
+
+    .date-bar,
+    .filter-menu.show {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+    
+    .view-options button {
+        padding-left: 15px;
+        width: 40px;
+        position: relative;
+        justify-content: space-between;
+        left: 1;
+    }
+
+    .view-options img {
+        width: 100%;
+    }
+    
+    .left-column, .right-column {
+        width: 100%;
+    }
+    
+    .left-column {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .crearevento-principal {
+        width: 85vw;
+        height: 95%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .seleccionar-fecha input {
+        width: 100px;
+    }
+
+    .seleccionar-fecha .date {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
 }

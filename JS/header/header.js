@@ -13,14 +13,16 @@ const notificationMenu = document.getElementById("notification-menu");
  }
 }); */
 
-//Java Script: Convierte "Programación Académica" a "PA" alineado con menú hamburguesa
+//Java Script: Convierte "Programación Académica" a "PA"
 
 window.addEventListener("resize", function () {
   var tituloContainer = document.querySelector(".titulo");
   if (window.innerWidth <= 768) {
-    tituloContainer.innerHTML = "<h3>PA</h3>";
-  } else {
+    tituloContainer.innerHTML = "";
+  } else if (window.innerWidth >= 768) {
     tituloContainer.innerHTML = "<h3>Programación Académica</h3>";
+  } else {
+    tituloContainer.innerHTML = "";
   }
 });
 
@@ -37,7 +39,7 @@ window.addEventListener("resize", function () {
      mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
  });
 }); */
-
+ /*
 document.addEventListener("DOMContentLoaded", function () {
   // Selecciona el botón del menú hamburguesa y el menú móvil
   var menuToggle = document.querySelector(".menu-toggle");
@@ -65,4 +67,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Oculta el menú hamburguesa inicialmente
   mobileMenu.style.display = "none";
-});
+});*/
