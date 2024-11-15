@@ -41,6 +41,13 @@ function actualizarDiasHibridos(crnId, modulo, diasPresenciales, diasVirtuales) 
             } else if (diasVirtuales.includes(letraDia)) {
                 dia.classList.add('active');
                 dia.classList.add('virtual');
+
+                dia.addEventListener('mouseenter', () => {
+                    dia.classList.add('show-message');
+                });
+                dia.addEventListener('mouseleave', () => {
+                    dia.classList.remove('show-message');
+                });
             }
         });
     });
