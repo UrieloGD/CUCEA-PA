@@ -7,7 +7,7 @@ include './config/db.php';
 // Obtener el total de horas asignadas
 $tabla_departamento = "Coord_Per_Prof";
 
-function getTotalAssignedHours($conn, $codigo_profesor)
+function getTotalAssignedHours($conexion, $codigo_profesor)
 {
     $tablas_departamentos = [
         'data_administración',
@@ -34,7 +34,7 @@ function getTotalAssignedHours($conn, $codigo_profesor)
         $sql = "SELECT SUM(CAST(HORAS AS UNSIGNED)) AS horas 
                 FROM $tabla 
                 WHERE CODIGO_PROFESOR = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($sql);
         $stmt->bind_param("s", $codigo_profesor);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -280,7 +280,7 @@ function formatDateForDisplay($mysqlDate)
                             echo "<td>" . htmlspecialchars($row["Fecha_ingreso"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Antiguedad"] ?? '') . "</td>";
 
-                            $total_assigned_hours = getTotalAssignedHours($conn, $row['Codigo']);
+                            $total_assigned_hours = getTotalAssignedHours($conexion, $row['Codigo']);
                             $carga_horaria = intval($row['Carga_horaria']);
                             $comparison = $total_assigned_hours . "/" . $carga_horaria;
 
