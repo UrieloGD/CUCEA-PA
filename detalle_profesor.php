@@ -1,16 +1,48 @@
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 
 <script>
-function actualizarDiasActivos(dias, crnId, modulo) {
-    const diasSemana = document.querySelectorAll(`#weekdays-${crnId}-${modulo} .day`);
-    
-    diasSemana.forEach(dia => {
-        const letraDia = dia.textContent;
-        if (dias.includes(letraDia)) {
-            dia.classList.add('active');
-        } else {
-            dia.classList.remove('active');
-        }
+// Función para actualizar los días activos
+function actualizarDiasActivos(dias, crnId, modulo, esvirtual) {
+    requestAnimationFrame(() => {
+        const contenedor = document.getElementById(`weekdays-${crnId}-${modulo}`);
+        if (!contenedor) return;
+
+        const diasSemana = contenedor.querySelectorAll('.day');
+        diasSemana.forEach(dia => {
+            const letraDia = dia.textContent;
+            if (dias.includes(letraDia)) {
+                dia.classList.add('active');
+                if (esvirtual === 'true') {
+                    dia.classList.add('virtual');
+                } else {
+                    dia.classList.remove('virtual');
+                }
+            } else {
+                dia.classList.remove('active');
+                dia.classList.remove('virtual');
+            }
+        });
+    });
+}
+
+// Función para actualizar los días en materias híbridas
+function actualizarDiasHibridos(crnId, modulo, diasPresenciales, diasVirtuales) {
+    requestAnimationFrame(() => {
+        const contenedor = document.getElementById(`weekdays-${crnId}-${modulo}`);
+        if (!contenedor) return;
+
+        const diasSemana = contenedor.querySelectorAll('.day');
+        diasSemana.forEach(dia => {
+            const letraDia = dia.textContent;
+            dia.classList.remove('active', 'virtual');
+            
+            if (diasPresenciales.includes(letraDia)) {
+                dia.classList.add('active');
+            } else if (diasVirtuales.includes(letraDia)) {
+                dia.classList.add('active');
+                dia.classList.add('virtual');
+            }
+        });
     });
 }
 </script>
@@ -61,6 +93,7 @@ if(isset($_POST['codigo_profesor'])) {
         global $conexion;
         $todas_las_materias = [];
         $materias_unicas = [];
+        $materias_temp = [];
         
         foreach($tablas as $tabla) {
             // Verificar si la tabla existe
@@ -76,16 +109,58 @@ if(isset($_POST['codigo_profesor'])) {
                 $result = mysqli_stmt_get_result($stmt);
                 
                 while($row = mysqli_fetch_assoc($result)) {
+                    $materias_temp[] = $row;
+                    /*
                     $unique_key = $row['CRN'] . '-' . $row['MATERIA'] . '-' . $row['AULA'] . '-' . $row['MODULO'];
                     if(!isset($materias_unicas[$unique_key])) {
                         $materias_unicas[$unique_key] = $row;
                         $todas_las_materias[] = $row;
                     }
+                    */
+                }
+            }
+        }
+        // Procesar y combinar materias
+        foreach($materias_temp as $materia) {
+            $crn = $materia['CRN'];
+            $nombre_materia = $materia['MATERIA'];
+            
+            // Crear una clave única basada en CRN y nombre de materia
+            $unique_key = $crn . '-' . $nombre_materia;
+            
+            if (!isset($materias_unicas[$unique_key])) {
+                // Primera vez que vemos esta materia
+                $materias_unicas[$unique_key] = $materia;
+            } else {
+                // Ya existe una entrada para esta materia
+                $existing = $materias_unicas[$unique_key];
+                
+                // Si una es virtual y la otra tiene aula física, combinarlas
+                if (($existing['MODULO'] === 'CVIRTU' && $materia['MODULO'] !== 'CVIRTU') ||
+                    ($existing['MODULO'] !== 'CVIRTU' && $materia['MODULO'] === 'CVIRTU')) {
+                    
+                    // Mantener la información del aula física
+                    $aula_fisica = ($existing['MODULO'] !== 'CVIRTU') ? $existing : $materia;
+                    $virtual = ($existing['MODULO'] === 'CVIRTU') ? $existing : $materia;
+                    
+                    // Combinar la información
+                    $materias_unicas[$unique_key] = array_merge($aula_fisica, [
+                        'es_hibrida' => true,
+                        'dias_virtuales' => [
+                            'L' => $virtual['L'],
+                            'M' => $virtual['M'],
+                            'I' => $virtual['I'],
+                            'J' => $virtual['J'],
+                            'V' => $virtual['V'],
+                            'S' => $virtual['S'],
+                            'D' => $virtual['D']
+                        ]
+                    ]);
                 }
             }
         }
         
-        return $todas_las_materias;
+        return array_values($materias_unicas);
     }
     
     // Obtener todas las tablas de departamentos
@@ -205,10 +280,36 @@ if(isset($_POST['codigo_profesor'])) {
                                         <div class="day">J</div>
                                         <div class="day">V</div>
                                         <div class="day">S</div>
-                                    </div>
-                                    <script>
-                                        actualizarDiasActivos('<?php echo $dias; ?>', '<?php echo $materia['CRN']; ?>', '<?php echo $materia['MODULO']; ?>');
-                                    </script>
+                                    </div>   
+                                    <?php if(isset($materia['es_hibrida']) && $materia['es_hibrida']): ?>
+                                        <?php
+                                        $diasVirtuales = '';
+                                        if($materia['dias_virtuales']['L'] == 'L') $diasVirtuales .= 'L';
+                                        if($materia['dias_virtuales']['M'] == 'M') $diasVirtuales .= 'M';
+                                        if($materia['dias_virtuales']['I'] == 'I') $diasVirtuales .= 'I';
+                                        if($materia['dias_virtuales']['J'] == 'J') $diasVirtuales .= 'J';
+                                        if($materia['dias_virtuales']['V'] == 'V') $diasVirtuales .= 'V';
+                                        if($materia['dias_virtuales']['S'] == 'S') $diasVirtuales .= 'S';
+                                        if($materia['dias_virtuales']['D'] == 'D') $diasVirtuales .= 'D';
+                                        ?>
+                                        <script>
+                                            actualizarDiasHibridos(
+                                                '<?php echo $materia['CRN']; ?>', 
+                                                '<?php echo $materia['MODULO']; ?>', 
+                                                '<?php echo $dias; ?>', 
+                                                '<?php echo $diasVirtuales; ?>'
+                                            );
+                                        </script>
+                                    <?php else: ?>
+                                        <script>
+                                            actualizarDiasActivos(
+                                                '<?php echo $dias; ?>', 
+                                                '<?php echo $materia['CRN']; ?>', 
+                                                '<?php echo $materia['MODULO']; ?>', 
+                                                '<?php echo $materia['MODULO'] === 'CVIRTU' ? 'true' : 'false'; ?>'
+                                            );
+                                        </script>
+                                    <?php endif; ?>
                                 </td>
                                 <td><?php echo isset($materia['MODULO']) ? htmlspecialchars($materia['MODULO']) : '-'; ?></td>
                                 <td><?php echo isset($materia['AULA']) ? htmlspecialchars($materia['AULA']) : '-'; ?></td>

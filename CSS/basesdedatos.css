@@ -571,11 +571,18 @@ th {
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 15px;
+  /* ---------------------------- */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .class-info h3 {
   margin-top: 0;
   font-size: 16px;
+  /* ----------------------------- */
+  color: #2c3e50;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #eee;
 }
 
 .class-details {
@@ -593,11 +600,16 @@ th {
 
 .class-details th {
   font-weight: bold;
+  /* -------------------------------- */
+  background: #f8f9fa;
+    padding: 10px;
+    text-align: left;
 }
 
 .class-details td {
   vertical-align: middle;
   padding: 10px 5px;
+  background: #33A4C4;
 }
 
 .horario-container {
@@ -630,7 +642,12 @@ th {
 }
 
 .day.active {
-  background-color: #4a90e2;
+  background-color: #0071B0;
+  color: white;
+}
+
+.day.virtual {
+  background-color: #4BAEE6;
   color: white;
 }
 
