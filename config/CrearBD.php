@@ -4,24 +4,21 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', 'root');
-$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+include './../config/db.php';
 
-if (!$conn) {
+if (!$conexion) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
 $dbname = "CREATE DATABASE IF NOT EXISTS PA;";
 
-if ($conn->query($dbname) == TRUE) {
+if ($conexion->query($dbname) == TRUE) {
     echo "Base de datos creada exitosamente";
 } else {
-    echo "Error creando base de datos: " . $conn->error . "<br>";
+    echo "Error creando base de datos: " . $conexion->error . "<br>";
 }
 
-mysqli_select_db($conn, "PA");
+mysqli_select_db($conexion, "PA");
 
 include('./td-espacios.php');
 
@@ -31,19 +28,19 @@ $sql = "CREATE TABLE IF NOT EXISTS Roles (
     Nombre_Rol VARCHAR(80) NOT NULL
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Roles creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Roles: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Roles: " . mysqli_error($conexion);
 }
 
 // Insertar roles
 $insert_roles = "INSERT INTO Roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal')";
 
-if (mysqli_query($conn, $insert_roles)) {
+if (mysqli_query($conexion, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";
 } else {
-    echo "<br>Error insertando roles: " . mysqli_error($conn);
+    echo "<br>Error insertando roles: " . mysqli_error($conexion);
 }
 
 // Crear tabla Usuarios
@@ -59,10 +56,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     FOREIGN KEY (Rol_ID) REFERENCES Roles(Rol_ID)
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Usuarios creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Usuarios: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Usuarios: " . mysqli_error($conexion) . "<br>";
 }
 
 // Función para hashear contraseñas de manera segura
@@ -100,10 +97,10 @@ $usuarios = [
     [2109012345, 'Monica', 'Ramirez', 'monica.ramirez@cucea.udg', '123', 'Femenino', 3, '#FF0000']
 ];
 
-$stmt = $conn->prepare("INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conexion->prepare("INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 if (!$stmt) {
-    die("Error en la preparación de la consulta: " . $conn->error);
+    die("Error en la preparación de la consulta: " . $conexion->error);
 }
 
 // Insertar usuarios
@@ -138,10 +135,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Departamentos (
     Departamentos VARCHAR(100) NOT NULL
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Departamentos creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Departamentos: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Departamentos: " . mysqli_error($conexion);
 }
 
 // Insertar departamentos
@@ -165,10 +162,10 @@ $insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departa
     -- ('Secretaría_Administrativa', 'Secretaría Administrativa')
     ";
 
-if (mysqli_query($conn, $insert_departamentos)) {
+if (mysqli_query($conexion, $insert_departamentos)) {
     echo "<br>Departamentos insertados exitosamente";
 } else {
-    echo "<br>Error insertando departamentos: " . mysqli_error($conn);
+    echo "<br>Error insertando departamentos: " . mysqli_error($conexion);
 }
 
 // Crear tabla Usuarios_Departamentos
@@ -180,10 +177,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios_Departamentos (
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID) ON DELETE CASCADE
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Usuarios_Departamentos creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Usuarios_Departamentos: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Usuarios_Departamentos: " . mysqli_error($conexion);
 }
 
 // Insertar relación de usuarios con departamentos (jefes de departamento)
@@ -205,10 +202,10 @@ $insert_usuarios_departamentos = "INSERT INTO Usuarios_Departamentos (Usuario_ID
     (2161098234, 15), -- Carlos Flores es jefe del Departamento 15 (Turismo)
     (2176859401, 16); -- Javier Ramirez es jefe del Departamento 16 (Contabilidad)";
 
-if (mysqli_query($conn, $insert_usuarios_departamentos)) {
+if (mysqli_query($conexion, $insert_usuarios_departamentos)) {
     echo "<br>Relación de usuarios y departamentos insertada exitosamente";
 } else {
-    echo "<br>Error insertando relación de usuarios y departamentos: " . mysqli_error($conn);
+    echo "<br>Error insertando relación de usuarios y departamentos: " . mysqli_error($conexion);
 }
 
 // Crear tabla Eventos_Admin
@@ -227,10 +224,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
     Estado VARCHAR(20) DEFAULT 'activo'
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Eventos_Admin creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Eventos_Admin: " . mysqli_error($conexion);
 }
 
 // Crear tabla Plantilla_SA
@@ -243,10 +240,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Plantilla_SA creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Plantilla_SA: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Plantilla_SA: " . mysqli_error($conexion);
 }
 
 // Crear tabla Plantilla_CoordP
@@ -259,10 +256,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_CoordP (
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Plantilla_CoordP creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Plantilla_CoordP: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Plantilla_CoordP: " . mysqli_error($conexion);
 }
 
 // Crear tabla Plantilla_Dep
@@ -278,10 +275,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Plantilla_Dep creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Plantilla_Dep: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Plantilla_Dep: " . mysqli_error($conexion);
 }
 
 $sql = "CREATE TABLE Fechas_Limite (
@@ -292,10 +289,10 @@ $sql = "CREATE TABLE Fechas_Limite (
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Fechas_limite creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conexion);
 }
 
 $sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
@@ -310,10 +307,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
     FOREIGN KEY (Codigo_Usuario) REFERENCES Usuarios(Codigo)
 )";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Justificaciones creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conexion);
 }
 
 $sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
@@ -327,10 +324,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
     FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
 );";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Notificaciones creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conexion);
 }
 
 // Crear tabla Data_Estudios_Regionales
@@ -380,10 +377,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Estudios_Regionales creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Estudios_Regionales: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Estudios_Regionales: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Finanzas
@@ -433,10 +430,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Finanzas (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Finanzas creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Finanzas: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Finanzas: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Ciencias_Sociales
@@ -486,10 +483,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Ciencias_Sociales creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Ciencistaas_Sociales: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Ciencistaas_Sociales: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_PALE
@@ -539,10 +536,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_PALE creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_PALE: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_PALE: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Posgrados
@@ -592,10 +589,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Posgrados (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Posgrados creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Posgrados: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Posgrados: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Economia
@@ -645,10 +642,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Economía (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Economia creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Economia: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Economia: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Recursos_Humanos
@@ -698,10 +695,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Recursos_Humanos creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Recursos_Humanos: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Recursos_Humanos: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Metodos_Cuantitativos
@@ -751,10 +748,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Métodos_Cuantitativos (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Metodos_Cuantitativos creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Metodos_Cuantitativos: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Metodos_Cuantitativos: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Politicas_Publicas
@@ -804,10 +801,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Políticas_Públicas (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Politicas_Publicas creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Politicas_Publicas: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Politicas_Publicas: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Administracion
@@ -857,10 +854,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Administración (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Administracion creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Administracion: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Administracion: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Auditoria
@@ -910,10 +907,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Auditoría (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Auditoría creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Auditoría: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Auditoría: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Mercadotecnia
@@ -963,10 +960,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Mercadotecnia (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Mercadotecnia creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Mercadotecnia: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Mercadotecnia: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Impuestos
@@ -1016,10 +1013,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Impuestos (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Impuestos creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Impuestos: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Impuestos: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Sistemas_de_Información
@@ -1069,10 +1066,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Sistemas_de_Información (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Sistemas_de_Información creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Sistemas_de_Información: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Sistemas_de_Información: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Turismo
@@ -1122,10 +1119,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Turismo (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Turismo creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Turismo: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Turismo: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Data_Contabilidad
@@ -1175,10 +1172,10 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Contabilidad (
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
 )";
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Data_Contabilidad creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Contabilidad: " . mysqli_error($conn) . "<br>";
+    echo "<br>Error creando tabla Data_Contabilidad: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Coord_Per_Prof
@@ -1253,11 +1250,11 @@ $sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
     Antiguedad VARCHAR(5) NULL
 );";
 
-if (mysqli_query($conn, $sql)) {
+if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Coord_Per_Prof creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Coord_Per_Prof: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Coord_Per_Prof: " . mysqli_error($conexion);
 }
 
 // Cerrar la conexión
-mysqli_close($conn);
+mysqli_close($conexion);

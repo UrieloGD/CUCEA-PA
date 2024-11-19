@@ -60,11 +60,11 @@
   margin-top: 10px;
   padding-left: 0;
   height: 95px;
-  border-style: ridge;
-  border-color: rgb(174, 170, 170, 0.5);
-  border-width: 1px;
+  border-color: #E7E9F2;
+  border-width: 5px;
+  border-style: solid;
+  box-shadow: 0px 3px 7px rgb(161, 161, 161);
   border-radius: 12px;
-  box-shadow: 1px 0px 1px rgb(174, 170, 170);
   cursor: pointer;
   justify-content: space-around;
 }
@@ -317,13 +317,13 @@
   width: 82.3vw;
   height: 85%;
   padding-top: 10px;
-  border-style: ridge;
-  border-color: rgb(174, 170, 170, 0.5);
-  border-width: 1px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
-  box-shadow: 1px 1px 1px rgb(174, 170, 170);
   background-color: #e7e9f2;
+  border-color: #E7E9F2;
+  border-width: 5px;
+  border-style: solid;
+  box-shadow: 0px 3px 7px rgb(161, 161, 161);
 }
 
 /* Estilos del contenedor de la materia, en el contenedor desplegable */

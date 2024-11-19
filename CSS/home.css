@@ -239,8 +239,8 @@
 /* Contenedor de Progreso y Siguientes Eventos */
 .container-eventos-progreso {
   display: inline-flex;
-  position: fixed;
-  width: 36.3vw;
+  position: relative;
+  width: 35.3vw;
   margin-left: 5px;
   margin-top: 27px;
   /* padding: 0px 20px 0px 0px; */
@@ -430,15 +430,17 @@
   }
 }
 
-@media screen and (max-width: 1300) {
+@media screen and (max-width: 1300px) {
   #filtrar-container #button {
     padding: 0;
     margin: 0;
   }
 }
 
-@media screen and (max-width: 1200px) and (min-width: 993px) {
+@media screen and (max-width: 1200px) and (min-width: 992px) {
   .cuadro-principal {
+    display: flex;
+    flex-direction: column;
     width: 91vw;
     margin-left: 7vw;
     font-size: smaller;
@@ -482,6 +484,17 @@
     transform-origin: center;
     object-fit: contain;
   }
+
+  /* Nuevo home */
+  .container-eventos-progreso,
+  .container-banner-bienvenida,
+  .eventos,
+  .banner,
+  .bienvenida {
+    width: 89vw;
+  }
+  .container-eventos-progreso { position: relative; margin-top: -830px; margin-bottom: 350px; }
+  .banner { margin-top: 550px; margin-left: 5px; width: 99%;}
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -538,9 +551,34 @@
     transform-origin: center;
     object-fit: contain;
   }
+
+  /* Nuevo home */
+  .container-eventos-progreso,
+  .container-banner-bienvenida,
+  .eventos,
+  .banner,
+  .bienvenida {
+    width: 86vw;
+  }
+  .container-eventos-progreso { 
+    position: relative; 
+    margin-top: -830px; 
+    margin-bottom: 350px; 
+  }
+  .banner { 
+    margin-top: 550px; 
+    margin-left: 15px; 
+    width: 100%;
+  }
+  .cuadro-nav div {  
+    gap: 0;
+    justify-content: center;
+  }
+  .cuadro-ind img { height: 130px; width: 300px; }
+  .overlay h4 { font-size: 0.9rem; }
 }
 
-@media screen and (max-width: 768px) and (min-width: 481px) {
+@media screen and (max-width: 769px) {
   .cuadro-principal {
     width: 96vw;
     height: 91vh; /* Mantener altura fija */
@@ -573,5 +611,97 @@
   .cuadros-nav {
     display: none;
   }
+  /* Nuevo home */
+  .container-eventos-progreso,
+  .container-banner-bienvenida,
+  .eventos,
+  .banner,
+  .bienvenida {
+    width: 90vw;
+  }
+  .bienvenida { 
+    margin-left: 30px;
+  }
+  .container-eventos-progreso { 
+    position: relative; 
+    margin-top: -830px; 
+    margin-bottom: 450px; 
+  }
+  .banner { 
+    margin-top: 550px; 
+    margin-left: 15px; 
+    width: 100%;
+  }
+  .cuadro-nav div {  
+    gap: 0;
+    justify-content: center;
+  }
+  .cuadro-ind img { height: 130px; width: 300px; }
+  .overlay h4 { font-size: 0.9rem; }
 }
 
+@media screen and (max-width: 640px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .bienvenida {
+    font-size: small;
+    padding: 10px;
+  }
+
+  .container-eventos-progreso {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .eventos,
+  .progreso {
+    width: 100%;
+    /* margin-right: 20px; */
+    margin-bottom: 20px;
+  }
+
+  .progreso span {
+    font-size: medium;
+    margin-bottom: 10px;
+  }
+
+  .cuadros-nav {
+    display: none;
+  }
+  /* Nuevo home */
+  .container-eventos-progreso,
+  .container-banner-bienvenida,
+  .eventos,
+  .banner,
+  .bienvenida {
+    width: 90vw;
+  }
+  .bienvenida { 
+    margin-left: 30px;
+  }
+  .container-eventos-progreso { 
+    position: relative; 
+    margin-top: -770px; 
+    margin-bottom: 450px; 
+  }
+  .banner { 
+    position: relative;
+    top: 50px; 
+    margin-left: 15px; 
+    width: 100%;
+  }
+  .cuadro-nav div {  
+    gap: 0;
+    justify-content: center;
+  }
+  .cuadro-ind img { height: 130px; width: 300px; }
+  .overlay h4 { font-size: 0.9rem; }
+  .cuadro-ind div {
+    display: block;
+  }
+}

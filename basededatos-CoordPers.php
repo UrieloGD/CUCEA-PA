@@ -5,9 +5,9 @@ include './config/db.php';
 
 
 // Obtener el total de horas asignadas
-$tabla_departamento = "Coord_Per_Prof";
+$tabla_departamento = "coord_per_prof";
 
-function getTotalAssignedHours($conn, $codigo_profesor)
+function getTotalAssignedHours($conexion, $codigo_profesor)
 {
     $tablas_departamentos = [
         'data_administración',
@@ -34,7 +34,7 @@ function getTotalAssignedHours($conn, $codigo_profesor)
         $sql = "SELECT SUM(CAST(HORAS AS UNSIGNED)) AS horas 
                 FROM $tabla 
                 WHERE CODIGO_PROFESOR = ?";
-        $stmt = $conn->prepare($sql);
+        $stmt = $conexion->prepare($sql);
         $stmt->bind_param("s", $codigo_profesor);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -123,7 +123,8 @@ function formatDateForDisplay($mysqlDate)
     </div>
     <div id="popup-columnas">
         <h3>Selecciona las columnas a descargar</h3>
-        <hr style="border: 1px solid #0071b0; width: 99%;"></hr>
+        <hr style="border: 1px solid #0071b0; width: 99%;">
+        </hr>
         <div id="opciones-columnas"></div>
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
@@ -280,7 +281,7 @@ function formatDateForDisplay($mysqlDate)
                             echo "<td>" . htmlspecialchars($row["Fecha_ingreso"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Antiguedad"] ?? '') . "</td>";
 
-                            $total_assigned_hours = getTotalAssignedHours($conn, $row['Codigo']);
+                            $total_assigned_hours = getTotalAssignedHours($conexion, $row['Codigo']);
                             $carga_horaria = intval($row['Carga_horaria']);
                             $comparison = $total_assigned_hours . "/" . $carga_horaria;
 
@@ -327,8 +328,8 @@ function formatDateForDisplay($mysqlDate)
                 <div class="form-container">
                     <div class="form-section">
                         <div class="form-movil">
-                        <h3>Datos</h3>
-                        
+                            <h3>Datos</h3>
+
                             <input type="number" id="codigo" name="codigo" placeholder="Código">
                             <input type="text" id="paterno" name="paterno" placeholder="Paterno">
                             <input type="text" id="materno" name="materno" placeholder="Materno">
@@ -361,7 +362,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="inicio" name="inicio" placeholder="Inicio">
                             <input type="text" id="fin" name="fin" placeholder="Fin">
                             <input type="text" id="a_2024" name="a_2024" placeholder="2024A">
- 
+
                             <input type="text" id="telefono_particular" name="telefono_particular" placeholder="Telefono Particular">
                             <input type="text" id="telefono_oficina" name="telefono_oficina" placeholder="Telefono Oficina o Celuar">
 
@@ -395,7 +396,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="estado_pais" name="estado_pais" placeholder="Estado/País">
                             <input type="text" id="año" name="año" placeholder="Año">
                             <input type="text" id="gdo_exp" name="gdo_exp" placeholder="Gdo_Exp">
- 
+
                             <input type="text" id="otro_grado" name="otro_grado" placeholder="Último grado">
                             <input type="text" id="otro_programa" name="otro_programa" placeholder="Programa">
                             <input type="text" id="otro_nivel" name="otro_nivel" placeholder="Nivel">
@@ -413,12 +414,12 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="otro_estado_pais_alternativo" name="otro_estado_pais_alternativo" placeholder="Estado/País">
                             <input type="text" id="otro_año_alternativo" name="otro_año_alternativo" placeholder="Año">
                             <input type="text" id="otro_gdo_exp_alternativo" name="otro_gdo_exp_alternativo" placeholder="Gdo_Exp">
-                        
+
                             <input type="text" id="proesde" name="proesde" placeholder="Proesde 24-25">
                             <input type="text" id="a_partir_de" name="a_partir_de" placeholder="A Partir De">
                             <input type="text" id="fecha_ingreso" name="fecha_ingreso" placeholder="Fecha de Ingreso">
                             <input type="text" id="Antiguedad" name="Antiguedad" placeholder="Antigüedad">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -444,24 +445,23 @@ function formatDateForDisplay($mysqlDate)
     <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
     <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
-<script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-<script src="./JS/basesdedatos/barra-busqueda.js"></script>
-<script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-<script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
-<script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
+    <script src="./JS/basesdedatos/barra-busqueda.js"></script>
+    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
+    <script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
+    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
+    <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 
-<!-- Script para cambiar el encabezado por responsividad -->
-<script>
-window.addEventListener("resize", function () {
-  var tituloContainer = document.querySelector(".encabezado-centro");
-  if (window.innerWidth <= 768) {
-    tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
-  }
-  else {
-    tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
-  }
-});
-</script>
+    <!-- Script para cambiar el encabezado por responsividad -->
+    <script>
+        window.addEventListener("resize", function() {
+            var tituloContainer = document.querySelector(".encabezado-centro");
+            if (window.innerWidth <= 768) {
+                tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
+            } else {
+                tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
+            }
+        });
+    </script>
 
     <?php include("./template/footer.php"); ?>

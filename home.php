@@ -43,13 +43,13 @@
   <div class="banner">
     <div class="carrusel">
       <div class="diapositiva">
-        <img src="https://scontent.fgdl3-1.fna.fbcdn.net/v/t39.30808-6/461571086_969357248539781_4132834341755255182_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=CsBPgUF0bdkQ7kNvgFUcFCf&_nc_zt=23&_nc_ht=scontent.fgdl3-1.fna&_nc_gid=A5g41yPKNWxu3ZxKVaC9QAh&oh=00_AYAEVPoF8qxDwlBsL-kiKPtDYr5ZlhLHgkAEmvTqkR065A&oe=6730C9D1" alt="Imagen 3">
-      </div>
-      <div class="diapositiva">
-        <img src="https://comsoc.udg.mx/sites/default/files/img_noticias/160816_cucea_aa_3.jpg" alt="Imagen 1">
-      </div>
-      <div class="diapositiva">
-        <img src="https://www.eloccidental.com.mx/local/wve80k-cucea/ALTERNATES/LANDSCAPE_1140/Cucea" alt="Imagen 2">
+        <img src="https://scontent-dfw5-2.xx.fbcdn.net/v/t39.30808-6/215358320_4033136953402520_8974225234675619499_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=VzHBBXByFQgQ7kNvgHthuTa&_nc_zt=23&_nc_ht=scontent-dfw5-2.xx&_nc_gid=AfFIT3ZPPTOtqc0HUPDPD2H&oh=00_AYDtsRFj_NWpHs6vPclABe1_BA90y1faB0Q9WP2_HJrpAA&oe=67428083" alt="Imagen 1">
+        </div>
+        <div class="diapositiva">
+          <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+        </div>
+        <div class="diapositiva">
+        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
       </div>
     </div>
         

@@ -11,10 +11,10 @@ $sql_create = "CREATE TABLE IF NOT EXISTS Espacios (
     Reportes TEXT
 );";
 
-if (mysqli_query($conn, $sql_create)) {
+if (mysqli_query($conexion, $sql_create)) {
     echo "<br>Tabla Espacios creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Espacios: " . mysqli_error($conn);
+    echo "<br>Error creando tabla Espacios: " . mysqli_error($conexion);
 }
 
 // Insertar datos en la tabla Espacios
@@ -392,8 +392,8 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta) VALUES
 ('CEDAA', '0006', 'Aula Amplia')";
 
 
-if (mysqli_query($conn, $espacios)) {
+if (mysqli_query($conexion, $espacios)) {
     echo "<br>Datos insertados exitosamente en la tabla Espacios";
 } else {
-    echo "<br>Error insertando Espacios: " . mysqli_error($conn);
+    echo "<br>Error insertando Espacios: " . mysqli_error($conexion);
 }
