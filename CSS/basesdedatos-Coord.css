@@ -59,9 +59,9 @@
 }
 
 .encabezado-derecha {
-  /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
+  margin-right: 50px; /* Agrega este margen derecho */
 }
 
 /* Tabla */
