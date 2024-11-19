@@ -842,7 +842,7 @@ textarea {
   .sala {
     font-size: 12px;
     min-width: 35px;
-    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+    border: 5px solid #E7E9F2;
   }
   .sala-texto {
     font-size: 0.65rem;
