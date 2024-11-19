@@ -75,7 +75,7 @@ if ($result->num_rows > 0) {
                         <p>Hemos recibido una solicitud para recuperar tu contraseña. Si no has sido tú quien ha solicitado este cambio, por favor ignora este correo.</p>
                         <p>Para continuar con el proceso de recuperación de contraseña, por favor haz clic en el siguiente botón: </p>
                         <p style='text-align: center;'>
-                            <a href='http://localhost/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id={$codigo}' class='button'>Recuperar Contraseña</a>
+                            <a href='http://localhost:8888/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id={$codigo}' class='button'>Recuperar Contraseña</a>
                         </p>
                         <p> Este enlace expirará en 24 horas.</p>
                     </div>
@@ -87,7 +87,7 @@ if ($result->num_rows > 0) {
             </html>
         ";
         $mail->Body = $cuerpo;
-        $mail->AltBody = 'Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página http://localhost/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id=' . $codigo;
+        $mail->AltBody = 'Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página http://localhost:8888/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id=' . $codigo;
 
         $mail->send();
         echo json_encode(['success' => true, 'message' => 'Correo de recuperación enviado']);
