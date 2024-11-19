@@ -43,13 +43,13 @@
   <div class="banner">
     <div class="carrusel">
       <div class="diapositiva">
-        <img src="https://scontent.fgdl1-3.fna.fbcdn.net/v/t39.30808-6/454464607_482340304555355_6771553890836410347_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEOQvsRZIcrgKCynMsTB4KFeLXdiuX64Ht4td2K5frgewxjSFOPAyuAhLdDdOVGc5Ldh28J_DEeRfGBHqg7LRYM&_nc_ohc=uA1dIpflXpYQ7kNvgGKLn_H&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fgdl1-3.fna&_nc_gid=Ac44kFHKNuf3kg2AvaaIzlR&oh=00_AYD8QlfyOoGB2rEcpDiYsJSjstmn8fiIv0uxATX26QLvwA&oe=673BF740" alt="Imagen 3">
+        <img src="https://scontent-dfw5-2.xx.fbcdn.net/v/t39.30808-6/215358320_4033136953402520_8974225234675619499_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=VzHBBXByFQgQ7kNvgHthuTa&_nc_zt=23&_nc_ht=scontent-dfw5-2.xx&_nc_gid=AfFIT3ZPPTOtqc0HUPDPD2H&oh=00_AYDtsRFj_NWpHs6vPclABe1_BA90y1faB0Q9WP2_HJrpAA&oe=67428083" alt="Imagen 1">
         </div>
         <div class="diapositiva">
           <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
         </div>
         <div class="diapositiva">
-        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 1">
+        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
       </div>
     </div>
         
