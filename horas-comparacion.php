@@ -906,10 +906,19 @@
         const span = document.getElementsByClassName('close')[0];
         const modalTitle = document.getElementById('modalTitle');
         const tablaBody = document.getElementById('tablaBody');
-        const departamentoCards = document.querySelectorAll('.desglose-button-dpto');
-
+        const desgloseGeneralButton = document.querySelector('.desglose-button');
+        if (desgloseGeneralButton) {
+            desgloseGeneralButton.addEventListener('click', function() {
+                openModal('todos');
+            });
+        }
+        const departamentoButtons = document.querySelectorAll('.desglose-button-dpto, .boton-todos-departamentos');
+        
         // Función para abrir el modal
         function openModal(departamento) {
+            // Si no se pasa departamento, usar 'todos'
+            departamento = departamento || 'todos';
+
             modal.style.display = 'block';
             modalTitle.textContent = departamento === 'todos' ?
                 'Personal de Todos los Departamentos' :
@@ -937,7 +946,6 @@
             // Realizar la petición AJAX
             fetchPersonalData(departamento);
         }
-
         // Función para cerrar el modal
         function closeModal() {
             modal.style.display = 'none';
@@ -979,7 +987,7 @@
             searchInput.value = '';
 
             // Mostrar mensaje de carga
-            const colSpan = 9; // Ajustado para las nuevas columnas
+            const colSpan = departamento === 'todos' ? 8 : 7; // Ajustar según el caso
             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Cargando...</td></tr>`;
 
             fetch('./functions/horas-comparacion/obtener-personal.php', {
@@ -987,7 +995,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `departamento=${encodeURIComponent(departamento)}`
+                    body: `departamento=${encodeURIComponent(departamento === 'todos' ? '' : departamento)}`
                 })
                 .then(response => response.text())
                 .then(text => {
@@ -1026,9 +1034,8 @@
                     data.forEach(persona => {
                         const row = document.createElement('tr');
                         
-                        // Función para obtener la clase del departamento
+                        // Función para obtener la clase del departamento (mejorada)
                         function getDepartamentoClass(departamento) {
-                            // Normalizar el texto del departamento
                             const normalizedDept = departamento.toLowerCase()
                                 .normalize("NFD")
                                 .replace(/[\u0300-\u036f]/g, "")
@@ -1050,34 +1057,41 @@
                                     'finanzas': 'finanzas',
                                     'impuestos': 'impuestos',
                                     'mercadotecnia': 'mercadotecnia',
+                                    'mercadotecnia y negocios internacionales': 'mercadotecnia',
                                     'metodos cuantitativos': 'metodos-cuantitativos',
                                     'recursos humanos': 'recursos-humanos',
-                                    'sistemas de informacion': 'sistemas-informacion',
+                                    'sistemas de información': 'sistemas-información',
+                                    'sistemas de la información': 'sistemas-información',
                                     'turismo': 'turismo'
                                 };
 
-                                // Buscar coincidencia exacta primero
-                                for (let [key, value] of Object.entries(mapping)) {
-                                    if (normalizedDept === key) {
-                                        return value;
-                                    }
+                            // Buscar coincidencia exacta
+                            for (let [key, value] of Object.entries(mapping)) {
+                                const normalizedKey = key.toLowerCase()
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, "")
+                                    .replace(/[^a-z\s]/g, "")
+                                    .trim();
+                                
+                                if (normalizedDept === normalizedKey) {
+                                    return value;
                                 }
+                            }
 
-                                // Si no hay coincidencia exacta, buscar coincidencia parcial
-                                for (let [key, value] of Object.entries(mapping)) {
-                                    // Para PALE, buscar coincidencias específicas
-                                    if (value === 'pale' && 
-                                        (normalizedDept.includes('pale') || 
-                                        normalizedDept.includes('programa de aprendizaje') || 
-                                        normalizedDept.includes('lengua extranjera'))) {
-                                        return 'pale';
-                                    }
-                                    if (normalizedDept.includes(key)) {
-                                        return value;
-                                    }
+                            // Buscar coincidencia parcial
+                            for (let [key, value] of Object.entries(mapping)) {
+                                const normalizedKey = key.toLowerCase()
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, "")
+                                    .replace(/[^a-z\s]/g, "")
+                                    .trim();
+                                
+                                if (normalizedDept.includes(normalizedKey)) {
+                                    return value;
                                 }
-                            
-                            console.log('Departamento no encontrado:', departamento); // Para debug
+                            }
+
+                            console.log('Departamento no encontrado:', departamento);
                             return 'default';
                         }
 
@@ -1169,10 +1183,25 @@
         }
 
         // Event Listeners
-        departamentoCards.forEach(card => {
-            card.addEventListener('click', function() {
-                const departamento = this.dataset.departamento;
-                openModal(departamento);
+        departamentoButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Si es un botón de desglose dentro de un contenedor de departamento
+                if (this.classList.contains('desglose-button-dpto')) {
+                    const departamentoElement = this.closest('.contenedor-informacion')
+                        ?.previousElementSibling // Buscar el banner del departamento
+                        ?.querySelector('.titulo-dpto p');
+                    
+                    const departamento = departamentoElement 
+                        ? departamentoElement.textContent.trim() 
+                        : 'default';
+
+                    console.log('Departamento seleccionado:', departamento);
+                    openModal(departamento);
+                } 
+                // Si es un botón para todos los departamentos
+                else if (this.classList.contains('boton-todos-departamentos')) {
+                    openModal('todos');
+                }
             });
         });
 
