@@ -23,10 +23,10 @@ require_once './config/sesioniniciada.php';
 ?>
 
 <?php
-//session_start();
-//include './config/db.php';
 
-function obtenerDepartamentoId($usuario_id) {
+
+function obtenerDepartamentoId($usuario_id)
+{
     global $conexion; // Usar la variable de conexión global
     $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
     $result = $conexion->query($sql);
@@ -46,7 +46,7 @@ $codigo_usuario =  $_SESSION['Codigo'];
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-11-01 23:50";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-12-25 23:50";
 
 $departamento_id = null;
 if (isset($_SESSION['usuario_id'])) {
@@ -157,13 +157,13 @@ if (isset($_SESSION['usuario_id'])) {
                             <p>Arrastra tu archivo a subir aquí</p>
                             <p>o</p>
                             <button type="button" class="boton-seleccionar-archivo" role="button">
-                            Selecciona archivo
+                                Selecciona archivo
                             </button>
                             <input type="file" name="file" id="input-file" accept=".xlsx,.xls" hidden>
                         </div>
                         <div id="preview"></div>
                         <div class="container-peso">
-                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
                         </div>
                         <button type="submit" class="boton-descargar" role="button">Guardar</button>
                     </div>
