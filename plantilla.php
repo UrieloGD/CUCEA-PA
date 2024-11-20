@@ -1,6 +1,30 @@
 <?php
-session_start();
-include './config/db.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
+<?php
+//session_start();
+//include './config/db.php';
 
 function obtenerDepartamentoId($usuario_id) {
     global $conexion; // Usar la variable de conexión global
@@ -19,7 +43,7 @@ function obtenerDepartamentoId($usuario_id) {
 }
 
 $codigo_usuario =  $_SESSION['Codigo'];
-$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
 $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-11-01 23:50";

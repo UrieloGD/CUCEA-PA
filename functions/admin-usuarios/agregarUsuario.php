@@ -6,8 +6,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Conexión a la base de datos
-$conexion = mysqli_connect("localhost", "root", "root", "pa");
+// Conexion a Base de datos
+include './../../config/db.php';
 
 try {
     // Verificar la conexión
@@ -42,7 +42,7 @@ try {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
     // Verificar si el código ya existe
-    $check_sql = "SELECT Codigo FROM Usuarios WHERE Codigo = ?";
+    $check_sql = "SELECT Codigo FROM usuarios WHERE Codigo = ?";
     $check_stmt = $conexion->prepare($check_sql);
     if ($check_stmt === false) {
         throw new Exception("Error en la preparación de la consulta: " . $conexion->error);
@@ -60,7 +60,7 @@ try {
     $check_stmt->close();
 
     // Insertar el usuario en la tabla Usuarios
-    $sql = "INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
     if ($stmt === false) {
         throw new Exception("Error en la preparación de la consulta de inserción: " . $conexion->error);
@@ -72,7 +72,7 @@ try {
     }
 
     // Verificar si el rol requiere un departamento
-    $sql_check_rol = "SELECT Nombre_Rol FROM Roles WHERE Rol_ID = ?";
+    $sql_check_rol = "SELECT Nombre_Rol FROM roles WHERE Rol_ID = ?";
     $stmt_check_rol = $conexion->prepare($sql_check_rol);
     if ($stmt_check_rol === false) {
         throw new Exception("Error en la preparación de la consulta de roles: " . $conexion->error);
@@ -86,7 +86,7 @@ try {
     
     if ($row_rol['Nombre_Rol'] != "Coordinación de Personal" && $row_rol['Nombre_Rol'] != "Secretaría Administrativa") {
         // Insertar la relación usuario-departamento solo si no es un rol especial
-        $sql_departamento = "INSERT INTO Usuarios_Departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?)";
+        $sql_departamento = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?)";
         $stmt_departamento = $conexion->prepare($sql_departamento);
         if ($stmt_departamento === false) {
             throw new Exception("Error en la preparación de la consulta de departamento: " . $conexion->error);

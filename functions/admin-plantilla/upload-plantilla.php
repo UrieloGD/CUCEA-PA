@@ -1,7 +1,6 @@
 <?php
-include './../../config/db.php';
+// include './../../config/db.php';
 include './../notificaciones-correos/email_functions.php';
-session_start();
 date_default_timezone_set('America/Mexico_City');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -20,17 +19,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         error_log("Archivo temporal: $archivo_temporal");
 
         // Insertar los datos en la base de datos
-        $sql = "INSERT INTO Plantilla_SA (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
-                VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
-
+        $sql = "INSERT INTO plantilla_sa (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
+            VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
+        
         if (mysqli_query($conexion, $sql)) {
             error_log("Inserción en la base de datos exitosa");
 
             // Obtener el correo del jefe de departamento
             $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
-                 FROM Usuarios u 
-                 JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID 
-                 JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 FROM usuarios u 
+                 JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+                 JOIN departamentos d ON ud.Departamento_ID = d.Departamento_ID 
                  WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
             $stmt = mysqli_prepare($conexion, $sql_jefe);
             mysqli_stmt_bind_param($stmt, "i", $departamento_id);
@@ -39,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $jefe = mysqli_fetch_assoc($result);
 
             if ($jefe) {
-                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['Departamentos']}.";
+                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['departamentos']}.";
 
 
                 // Insertar notificación en la tabla Notificaciones
-                $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
                                      VALUES ('plantilla', ?, ?, ?)";
                 $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
                 mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $_SESSION['Codigo']);
@@ -86,12 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ";
 
                 if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
-                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
+                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['departamentos']}");
                 } else {
-                    error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
+                    error_log("Error al enviar correo al jefe del departamento {$jefe['departamentos']}");
                 }
 
-                error_log("Notificación creada para el jefe del departamento {$jefe['Departamentos']}");
+                error_log("Notificación creada para el jefe del departamento {$jefe['departamentos']}");
             } else {
                 error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
             }

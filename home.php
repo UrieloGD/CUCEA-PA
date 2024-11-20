@@ -1,3 +1,27 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -29,7 +53,7 @@
     <?php
     
       if ($rol_id == 1) {
-        echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
+        echo "<br>", $nombre_rol, " - ", $_SESSION['departamentos'];
       } 
       else {
         echo "<br>", $nombre_rol;
@@ -43,13 +67,13 @@
   <div class="banner">
     <div class="carrusel">
       <div class="diapositiva">
-        <img src="https://scontent.fgdl3-1.fna.fbcdn.net/v/t39.30808-6/461571086_969357248539781_4132834341755255182_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=CsBPgUF0bdkQ7kNvgFUcFCf&_nc_zt=23&_nc_ht=scontent.fgdl3-1.fna&_nc_gid=A5g41yPKNWxu3ZxKVaC9QAh&oh=00_AYAEVPoF8qxDwlBsL-kiKPtDYr5ZlhLHgkAEmvTqkR065A&oe=6730C9D1" alt="Imagen 3">
-      </div>
-      <div class="diapositiva">
-        <img src="https://comsoc.udg.mx/sites/default/files/img_noticias/160816_cucea_aa_3.jpg" alt="Imagen 1">
-      </div>
-      <div class="diapositiva">
-        <img src="https://www.eloccidental.com.mx/local/wve80k-cucea/ALTERNATES/LANDSCAPE_1140/Cucea" alt="Imagen 2">
+        <img src="https://scontent.fgdl1-3.fna.fbcdn.net/v/t39.30808-6/454464607_482340304555355_6771553890836410347_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEOQvsRZIcrgKCynMsTB4KFeLXdiuX64Ht4td2K5frgewxjSFOPAyuAhLdDdOVGc5Ldh28J_DEeRfGBHqg7LRYM&_nc_ohc=uA1dIpflXpYQ7kNvgGKLn_H&_nc_pt=1&_nc_zt=23&_nc_ht=scontent.fgdl1-3.fna&_nc_gid=Ac44kFHKNuf3kg2AvaaIzlR&oh=00_AYD8QlfyOoGB2rEcpDiYsJSjstmn8fiIv0uxATX26QLvwA&oe=673BF740" alt="Imagen 3">
+        </div>
+        <div class="diapositiva">
+          <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+        </div>
+        <div class="diapositiva">
+        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 1">
       </div>
     </div>
         
@@ -139,9 +163,9 @@
         // Redirigir según el rol del usuario
         if ($rol_id == 1) {
           // Si el usuario es jefe de departamento, redirigir a subir plantilla
-          if (isset($_SESSION['Nombre_Departamento'])) {
+          if (isset($_SESSION['nombre_departamento'])) {
             // Obtener el nombre del departamento desde la sesión
-            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            $nombre_departamento = $_SESSION['nombre_departamento'];
             echo "<a href='./plantilla.php'>";
           } else {
             // Manejar el caso en que no se encuentre asociado a ningún departamento
@@ -158,7 +182,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Plantilla</h4>
         </div>
-        <img src="./img/img-home/plantilla.png" alt="Imagen de un pasillo arbolado de CUCEA" />
+        <img src="./Img/img-home/plantilla.png" alt="Imagen de un pasillo arbolado de CUCEA" />
       </a>
     </div>
     <div class="cuadro-ind">
@@ -166,9 +190,9 @@
         // Redirigir según el rol del usuario
         if ($rol_id == 1) {
     	    // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
-          if (isset($_SESSION['Nombre_Departamento'])) {
+          if (isset($_SESSION['nombre_departamento'])) {
             // Obtener el nombre del departamento desde la sesión
-            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            $nombre_departamento = $_SESSION['nombre_departamento'];
             echo "<a href='./basesdedatos.php'>";
           } else {
             // Manejar el caso en que no se encuentre asociado a ningún departamento

@@ -1,84 +1,96 @@
 <?php
-// Incluir el archivo de conexión a la base de datos
-require_once './config/db.php';
-
-// Verificar si una sesión ya está activa
+// Iniciar sesión de forma segura
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+// Verificar si el usuario está logueado
 if (!isset($_SESSION['email'])) {
-    // Re-derigir al usuario en caso de que no haya iniciado sesión
     header("Location: login.php");
     exit();
 }
 
-// Obtener email del usuario loggeado desde la sesión
+// Obtener la conexión
+require_once './config/db.php';
+$conexion = getConnection();
+
+// Obtener email del usuario desde la sesión
 $email = $_SESSION['email'];
 $correo_usuario = $_SESSION['email'];
 
-// Consulta SQL para obtener el nombre del usuario loggeado
-$sql = "SELECT Nombre, Rol_ID, Genero, Apellido, Codigo FROM Usuarios WHERE Correo = ?";
+// Consulta SQL para obtener datos del usuario
+$sql = "SELECT Nombre, Rol_ID, Genero, Apellido, Codigo FROM usuarios WHERE Correo = ?";
 $stmt = $conexion->prepare($sql);
-$stmt->bind_param("s", $correo_usuario);
-$stmt->execute();
-$result = $stmt->get_result();
 
-// Verificar si se obtuvo un resultado
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $nombre = $row['Nombre'];
-    $rol_id = $row['Rol_ID'];
-    $genero = $row['Genero'];
-    $apellido = $row['Apellido'];
-    $codigo = $row['Codigo'];
+if ($stmt) {
+    $stmt->bind_param("s", $correo_usuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Guardar el código de usuario y el ID de rol en la sesión (por si acaso)
-    $_SESSION['Codigo'] = $codigo;
-    $_SESSION['Rol_ID'] = $rol_id;
-    $_SESSION['Nombre'] = $nombre;
-    $_SESSION['Apellido'] = $apellido;
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        
+        // Guardar datos en sesión
+        $_SESSION['Codigo'] = $row['Codigo'];
+        $_SESSION['Rol_ID'] = $row['Rol_ID'];
+        $_SESSION['Nombre'] = $row['Nombre'];
+        $_SESSION['Apellido'] = $row['Apellido'];
+        
+        $nombre = $row['Nombre'];
+        $rol_id = $row['Rol_ID'];
+        $genero = $row['Genero'];
+        $apellido = $row['Apellido'];
+        $codigo = $row['Codigo'];
 
-    // Consulta SQL para obtener el nombre del rol
-    $sql_rol = "SELECT Nombre_Rol FROM Roles WHERE Rol_ID = ?";
-    $stmt_rol = $conexion->prepare($sql_rol);
-    $stmt_rol->bind_param("i", $rol_id);
-    $stmt_rol->execute();
-    $result_rol = $stmt_rol->get_result();
+        // Consulta para obtener el nombre del rol
+        $sql_rol = "SELECT Nombre_Rol FROM roles WHERE Rol_ID = ?";
+        $stmt_rol = $conexion->prepare($sql_rol);
+        
+        if ($stmt_rol) {
+            $stmt_rol->bind_param("i", $rol_id);
+            $stmt_rol->execute();
+            $result_rol = $stmt_rol->get_result();
+            
+            if ($result_rol->num_rows > 0) {
+                $row_rol = $result_rol->fetch_assoc();
+                $nombre_rol = $row_rol['Nombre_Rol'];
+                $_SESSION['Nombre_rol'] = $nombre_rol;
+            } else {
+                $nombre_rol = 'Rol no disponible';
+            }
+            $stmt_rol->close();
+        }
 
-    if ($result_rol->num_rows > 0) {
-        $row_rol = $result_rol->fetch_assoc();
-        $nombre_rol = $row_rol['Nombre_Rol'];
+        // Si es jefe de departamento, obtener información adicional
+        if ($rol_id == 1) {
+            $sql_departamento = "SELECT 
+                departamentos.departamento_ID,
+                departamentos.nombre_departamento,
+                departamentos.departamentos
+            FROM usuarios_departamentos
+            INNER JOIN departamentos ON usuarios_departamentos.departamento_ID = departamentos.departamento_ID
+            WHERE usuario_ID = ?";
+            
+            $stmt_departamento = $conexion->prepare($sql_departamento);
+            
+            if ($stmt_departamento) {
+                $stmt_departamento->bind_param("i", $codigo);
+                $stmt_departamento->execute();
+                $result_departamento = $stmt_departamento->get_result();
+                
+                if ($result_departamento->num_rows > 0) {
+                    $row_departamento = $result_departamento->fetch_assoc();
+                    $_SESSION['nombre_departamento'] = $row_departamento['nombre_departamento'];
+                    $_SESSION['departamento_ID'] = $row_departamento['departamento_ID'];
+                    $_SESSION['departamentos'] = $row_departamento['departamentos'];
+                }
+                $stmt_departamento->close();
+            }
+        }
+        $stmt->close();
     } else {
+        $nombre = 'Nombre no disponible';
         $nombre_rol = 'Rol no disponible';
     }
-
-    // Verificar si el usuario es un jefe de departamento
-    if ($rol_id == 1) {
-        // Consulta SQL para obtener el departamento del usuario
-        $sql_departamento = "SELECT Departamentos.Departamento_ID, Departamentos.Nombre_Departamento, Departamentos.Departamentos
-            FROM Usuarios_Departamentos
-            INNER JOIN Departamentos ON Usuarios_Departamentos.Departamento_ID = Departamentos.Departamento_ID
-            WHERE Usuario_ID = ?";
-        $stmt_departamento = $conexion->prepare($sql_departamento);
-        $stmt_departamento->bind_param("i", $codigo);
-        $stmt_departamento->execute();
-        $result_departamento = $stmt_departamento->get_result();
-
-        if ($result_departamento->num_rows > 0) {
-            $row_departamento = $result_departamento->fetch_assoc();
-            $departamento_id = $row_departamento['Departamento_ID'];
-            $nombre_departamento = $row_departamento['Nombre_Departamento'];
-            $departamentos = $row_departamento['Departamentos'];
-            $_SESSION['Nombre_Departamento'] = $nombre_departamento; // Guardar el nombre del departamento en la sesión
-            $_SESSION['Departamento_ID'] = $departamento_id; // Guardar el ID del departamento en la sesión
-            $_SESSION['Departamentos'] = $departamentos; // Guardar el departamento del usuario
-
-        } else {
-            echo "El usuario no está asociado a ningún departamento.";
-        }
-    }
-} else {
-    $nombre = 'Nombre no disponible';
-    $nombre_rol = 'Rol no disponible';
 }
+?>

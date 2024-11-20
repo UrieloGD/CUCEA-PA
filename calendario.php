@@ -1,12 +1,43 @@
 <?php
-// Iniciar la sesión
-session_start();
-// Conexión a la base de datos
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
+<?php
 setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'es');
 date_default_timezone_set('America/Mexico_City');
 
-include './config/db.php';
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
 
 // Obtener el mes, año y usuario desde la sesión o parámetros
 $month = isset($_GET['month']) ? intval($_GET['month']) : date('n');
@@ -55,7 +86,7 @@ include './template/navbar.php';
                 <?php
                 // Consultar eventos futuros o en curso del usuario
                 $sql = "SELECT Nombre_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Etiqueta
-                        FROM Eventos_Admin 
+                        FROM eventos_admin 
                         WHERE (Fecha_Inicio >= CURDATE() OR (Fecha_Inicio <= CURDATE() AND Fecha_Fin >= CURDATE()))
                         AND FIND_IN_SET(?, Participantes)
                         ORDER BY Fecha_Inicio ASC, Hora_Inicio ASC
@@ -182,7 +213,7 @@ include './template/navbar.php';
                         $fechaActual = sprintf('%04d-%02d-%02d', $year, $month, $day);
 
                         // Marcar el día como con eventos si hay al menos un evento
-                        $sqlEventos = "SELECT 1 FROM Eventos_Admin WHERE '$year-$month-$day' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
+                        $sqlEventos = "SELECT 1 FROM eventos_admin WHERE '$year-$month-$day' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
                         $resultEventos = mysqli_query($conexion, $sqlEventos);
                         if (mysqli_num_rows($resultEventos) > 0) {
                             $class .= ' day-with-event';
@@ -190,7 +221,7 @@ include './template/navbar.php';
 
                         // Consultar eventos para este día y usuario
                         $fechaActual = "$year-$month-$day";
-                        $sqlEventos = "SELECT ID_Evento, Nombre_Evento, Etiqueta, Descripcion_Evento, DATE(Fecha_Inicio) AS Fecha_Evento, TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio FROM Eventos_Admin WHERE '$fechaActual' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
+                        $sqlEventos = "SELECT ID_Evento, Nombre_Evento, Etiqueta, Descripcion_Evento, DATE(Fecha_Inicio) AS Fecha_Evento, TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio FROM eventos_admin WHERE '$fechaActual' BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET('$userId', Participantes)";
                         $resultEventos = mysqli_query($conexion, $sqlEventos);
                         if (mysqli_num_rows($resultEventos) > 0) {
                             $class .= ' day-with-event';

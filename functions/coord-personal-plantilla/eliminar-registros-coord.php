@@ -2,13 +2,6 @@
 include './../../config/db.php';
 session_start();
 
-/* $departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
-
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = $departamento_id";
-$result_departamento = mysqli_query($conexion, $sql_departamento);
-$row_departamento = mysqli_fetch_assoc($result_departamento);
-//$nombre_departamento = $row_departamento['Nombre_Departamento']; */
-
 $tabla_departamento = "Coord_Per_Prof";
 
 if (isset($_POST['truncate']) && $_POST['truncate'] == '1') {

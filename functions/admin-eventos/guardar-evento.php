@@ -14,7 +14,7 @@ try {
         try {
             $mensaje = "Nuevo evento: $nombre_evento - " . date('d/m/Y', strtotime($fecha_inicio)) . " a las " . date('H:i', strtotime($hora_inicio));
 
-            $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+            $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                                 VALUES (?, ?, ?, 0, ?)";
 
             $stmt = $conexion->prepare($sql_notificacion);
@@ -47,7 +47,7 @@ try {
             $mensaje = "Evento actualizado: $nombre_evento - " . date('d/m/Y', strtotime($fecha_inicio)) . " a las " . date('H:i', strtotime($hora_inicio));
 
             // Obtener participantes anteriores
-            $sql_antiguos = "SELECT Participantes FROM Eventos_Admin WHERE ID_Evento = ?";
+            $sql_antiguos = "SELECT Participantes FROM eventos_admin WHERE ID_Evento = ?";
             $stmt_antiguos = $conexion->prepare($sql_antiguos);
             if (!$stmt_antiguos) {
                 throw new Exception("Error al preparar consulta: " . $conexion->error);
@@ -62,7 +62,7 @@ try {
             // Nuevos participantes
             $participantes_nuevos = !empty($participantes) ? explode(',', $participantes) : [];
 
-            $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+            $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                                 VALUES (?, ?, ?, 0, ?)";
             $stmt = $conexion->prepare($sql_notificacion);
 
@@ -92,7 +92,7 @@ try {
                         }
 
                         // Enviar correo al usuario removido
-                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                        $sql_email = "SELECT Correo FROM usuarios WHERE Codigo = ?";
                         $stmt_email = $conexion->prepare($sql_email);
                         $stmt_email->bind_param("i", $participante_id);
                         $stmt_email->execute();
@@ -124,24 +124,22 @@ try {
         }
     }
 
-
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id = isset($_POST['id_evento']) ? $_POST['id_evento'] : null;
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
+        $id = isset($_POST['ID_Evento']) ? $_POST['ID_Evento'] : null;
+        $nombre = $_POST['Nombre_Evento'];
+        $descripcion = $_POST['Descripcion'];
         $fechIn = $_POST['FechIn'];
         $fechFi = $_POST['FechFi'];
         $horIn = $_POST['HorIn'];
         $horFi = $_POST['HorFi'];
-        $etiqueta = $_POST['etiqueta'];
-        $notif = $_POST['notificacion'];
-        $horNotif = $_POST['HorNotif'];
+        $etiqueta = $_POST['Etiqueta'];
+        $notif = $_POST['Notificacion'];
 
         // Procesar participantes
         $participantes = '';
         $participantesArray = [];
-        if (isset($_POST['participantes']) && is_array($_POST['participantes'])) {
-            $participantesArray = array_filter($_POST['participantes'], 'strlen');
+        if (isset($_POST['Participantes']) && is_array($_POST['Participantes'])) {
+            $participantesArray = array_filter($_POST['Participantes'], 'strlen');
             $participantes = implode(",", $participantesArray);
         }
 
@@ -164,7 +162,7 @@ try {
                     date('d/m/Y', strtotime($fechIn)) . " a las " .
                     date('H:i', strtotime($horIn)) . ")";
 
-                $sql_notif = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+                $sql_notif = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                              VALUES (?, ?, ?, 0, ?)";
                 $stmt_notif = $conexion->prepare($sql_notif);
 
@@ -211,7 +209,6 @@ try {
                     Etiqueta = ?, 
                     Participantes = ?, 
                     Notificaciones = ?, 
-                    Hora_Noti = ?
                     WHERE ID_Evento = ?";
 
             $stmt = $conexion->prepare($sql);
@@ -220,7 +217,7 @@ try {
             }
 
             $stmt->bind_param(
-                "ssssssssssi",
+                "ssssssssi",
                 $nombre,
                 $descripcion,
                 $fechIn,
@@ -230,7 +227,6 @@ try {
                 $etiqueta,
                 $participantes,
                 $notif,
-                $horNotif,
                 $id
             );
 
@@ -254,9 +250,9 @@ try {
         } else {
             // Crear nuevo evento
             $sql = "INSERT INTO eventos_admin (
-                    Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, 
-                    Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, 
+                Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conexion->prepare($sql);
             if (!$stmt) {
@@ -264,7 +260,7 @@ try {
             }
 
             $stmt->bind_param(
-                "ssssssssss",
+                "sssssssss",
                 $nombre,
                 $descripcion,
                 $fechIn,
@@ -273,8 +269,7 @@ try {
                 $horFi,
                 $etiqueta,
                 $participantes,
-                $notif,
-                $horNotif
+                $notif
             );
 
             if ($stmt->execute()) {
@@ -305,7 +300,7 @@ try {
                     ";
 
                     foreach ($participantesArray as $participante) {
-                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                        $sql_email = "SELECT Correo FROM usuarios WHERE Codigo = ?";
                         $stmt_email = $conexion->prepare($sql_email);
                         $stmt_email->bind_param("i", $participante);
                         $stmt_email->execute();

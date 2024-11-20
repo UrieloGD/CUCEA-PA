@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 // Rellenar el formulario con los datos del evento
                 setValueSafely('editEventId', data.ID_Evento);
-                setValueSafely('editNombre', data.Nombre_Evento);
+                setValueSafely('editNombre_Evento', data.Nombre_Evento);
                 setValueSafely('editDescripcion', data.Descripcion_Evento);
                 setValueSafely('editFechIn', data.Fecha_Inicio);
                 setValueSafely('editFechFi', data.Fecha_Fin);
@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 setValueSafely('editHorFin', data.Hora_Fin);
                 setValueSafely('editEtiqueta', data.Etiqueta);
                 setValueSafely('editNotificacion', data.Notificaciones);
-                setValueSafely('editHorNotif', data.Hora_Noti);
                 setValueSafely('editDescripcion', data.Descripcion_Evento);
 
                 // Cargar participantes
@@ -181,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
          // Agregar participantes al formData
         participantesSeleccionados.forEach(codigo => {
-            formData.append('participantes[]', codigo);
+            formData.append('Participantes[]', codigo);
         });
         
         console.log('Datos a enviar:', Object.fromEntries(formData)); // Para depuración
@@ -285,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const isChecked = participantesSeleccionados.has(usuario.Codigo) ? 'checked' : '';
                     return `
                         <tr>
-                            <td><input type="checkbox" name="participantes[]" value="${usuario.Codigo}" 
+                            <td><input type="checkbox" name="Participantes[]" value="${usuario.Codigo}" 
                                 class="checkbox-usuario" ${isChecked}></td>
                             <td>${usuario.Nombre} ${usuario.Apellido}</td>
                             <td>${usuario.Correo}</td>
@@ -339,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Crear input oculto
                 const inputOculto = document.createElement('input');
                 inputOculto.type = 'hidden';
-                inputOculto.name = 'participantes[]';
+                inputOculto.name = 'Participantes[]';
                 inputOculto.value = codigo;
                 inputContainer.appendChild(inputOculto);
     
@@ -377,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(formCrearEvento);
         
         // Verificar si hay participantes seleccionados
-        const participantes = formData.getAll('participantes[]');
+        const participantes = formData.getAll('Participantes[]');
         console.log('Participantes seleccionados:', participantes); // Para depuración
     
         fetch('./functions/admin-eventos/guardar-evento.php', {

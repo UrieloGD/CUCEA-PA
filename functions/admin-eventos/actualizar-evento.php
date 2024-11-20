@@ -3,18 +3,17 @@ include '../../config/db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
-    $descripcion = $_POST['descripcion'];
+    $nombre = $_POST['Nombre_Evento'];
+    $descripcion = $_POST['Descripcion'];
     $fecha_inicio = $_POST['FechIn'];
     $fecha_fin = $_POST['FechFi'];
     $hora_inicio = $_POST['HorIn'];
     $hora_fin = $_POST['HorFi'];
-    $etiqueta = $_POST['etiqueta'];
-    $participantes = isset($_POST['participantes']) ? implode(',', $_POST['participantes']) : '';
-    $notificaciones = $_POST['notificacion'];
-    $hora_noti = $_POST['HorNotif'];
+    $etiqueta = $_POST['Etiqueta'];
+    $participantes = isset($_POST['Participantes']) ? implode(',', $_POST['Participantes']) : '';
+    $notificaciones = $_POST['Notificacion'];
 
-    $sql = "UPDATE Eventos_Admin SET 
+    $sql = "UPDATE eventos_admin SET 
             Nombre_Evento = ?, 
             Descripcion_Evento = ?, 
             Fecha_Inicio = ?, 
@@ -24,11 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Etiqueta = ?, 
             Participantes = ?, 
             Notificaciones = ?, 
-            Hora_Noti = ? 
             WHERE ID_Evento = ?";
 
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, $hora_inicio, $hora_fin, $etiqueta, $participantes, $notificaciones, $hora_noti, $id);
+    $stmt->bind_param("sssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, $hora_inicio, $hora_fin, $etiqueta, $participantes, $notificaciones, $id);
 
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success', 'message' => 'Evento actualizado correctamente']);
