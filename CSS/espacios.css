@@ -909,15 +909,14 @@ textarea {
 
   .leyenda {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     flex: 1;
-    margin-bottom: 100px;
   }
 
   .leyenda-item {
-    width: 30%;
-    padding-left: 50;
+    width: 40%;
+    padding-left: 0;
     margin-top: -10px;
     margin-bottom: -10px;
   }

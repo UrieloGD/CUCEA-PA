@@ -368,7 +368,7 @@ hr {
 
 .dropdown-container {
   position: relative;
-  width: 100%;
+  width: 94%; /* Ajuste el width para que coincidiera el indicador */
 }
 
 .dropdown-trigger {
@@ -543,6 +543,8 @@ Responsividad para distintas resoluciones
     align-items: center;
     margin-bottom: auto;
   }
+  
+  .dropdown-item { font-size: smaller; }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
@@ -609,6 +611,8 @@ Responsividad para distintas resoluciones
     align-items: center;
     margin-bottom: auto;
   }
+
+  .dropdown-item { font-size: smaller; }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
@@ -656,6 +660,8 @@ Responsividad para distintas resoluciones
   span {
     font-size: smaller;
   }
+
+  .dropdown-item { font-size: smaller; }
 
   /*.navbar-logo img {
     max-width: 40%;
@@ -722,6 +728,8 @@ Responsividad para distintas resoluciones
   span {
     font-size: smaller;
   }
+
+  .dropdown-item { font-size: smaller; }
 
   /*.navbar-logo img {
     max-width: 40%;
@@ -856,4 +864,6 @@ Responsividad para distintas resoluciones
   span {
     font-size: smaller;
   }
+
+  .dropdown-item { font-size: smaller; }
 }

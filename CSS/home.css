@@ -278,17 +278,23 @@
 }
 
 .cuadro-numero {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   background-color: rgb(161, 81, 121);
-  padding: 13px;
+  padding: 5px;
+  width: 50px;
+  height: 50px;
   border-radius: 10px;
   margin: 0px 10px 0px 10px;
   cursor: pointer;
 }
 
-.cuadro-numero input {
+.cuadro-numero span {
+  position: relative;
+  top: 10px;
   background-color: inherit;
   color: #fff;
-  width: 40px;
   border-style: none;
   outline: none;
   font-size: 1.5rem;

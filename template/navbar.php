@@ -123,10 +123,12 @@ function generateColorForUser($userId)
 
             <li class="navbar-item flexbox-left">
                 <?php
-                if ($rol_id == 3) { // Para Coordinación de Personal
+                if ($rol_id == 3) { // Para Coordinación de Personal     
                     echo '<div class="dropdown-container">';
-                    echo '<a class="navbar-item-inner flexbox-left dropdown-trigger">
-                            <div class="navbar-item-inner-icon-wrapper flexbox">
+                    if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php' || basename($_SERVER['PHP_SELF']) == 'basededatos-CoordPers.php') { 
+                        echo "<a class='navbar-item-inner flexbox-left dropdown-trigger'><div class='indicador'></div>"; }
+                    else { echo "<a class='navbar-item-inner flexbox-left dropdown-trigger'>"; } 
+                    echo '<div class="navbar-item-inner-icon-wrapper flexbox">
                                 <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
                                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
                             </div>
@@ -149,7 +151,8 @@ function generateColorForUser($userId)
                     echo '</div>';
                 } elseif ($rol_id == 1) { // Para Jefe de Departamento
                     if (isset($_SESSION['Nombre_Departamento'])) {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
+                        if (basename($_SERVER['PHP_SELF']) == 'basesdedatos.php') { echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'><div class='indicador'></div>"; }
+                        else { echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>"; } 
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='#'>";
                     }
@@ -161,7 +164,8 @@ function generateColorForUser($userId)
                         <span class="link-text">Bases de datos</span>
                     </a>';
                 } elseif ($rol_id == 2) { // Para Secretaria Administrativa
-                    echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
+                    if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php') { echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'><div class='indicador'></div>"; }
+                    else { echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>"; } 
                     echo '
                         <div class="navbar-item-inner-icon-wrapper flexbox">
                             <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
@@ -203,7 +207,7 @@ function generateColorForUser($userId)
             // Mostrar el ícono de "Horas" solo si el usuario tiene el rol 3 (Coordinación de Personal)
             if ($rol_id == 3) {
                 echo "<li class='navbar-item flexbox-left'>";
-                if (basename($_SERVER['PHP_SELF']) == './horas-comparacion.php') { 
+                if (basename($_SERVER['PHP_SELF']) == 'horas-comparacion.php') { 
                     echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'><div class='indicador'></div>";
                 } else {
                     echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'>";

@@ -66,10 +66,10 @@
 .cuadro-resumen {
   display: flex;
   flex-direction: column;
-  height: 813px;
+  height: 753px;
   width: 25vw;
   margin-left: 2.5vw;
-  margin-top: 35px;
+  margin-top: 10px;
   border-radius: 15px;
   border-color: #E7E9F2;
   border-width: 5px;
@@ -140,6 +140,7 @@
 .circulo-progreso {
   width: 200px;
   height: 200px;
+  background-color: #C03760;
   border-radius: 50%;
   position: relative;
   display: flex;
@@ -149,19 +150,16 @@
 }
 
 .circulo {
-  width: 200px;
-  height: 200px;
-  background-color: #C03760;
+  width: 150px;
+  height: 150px;
+  background-color: #ffffff;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#porcentaje-general {
-  color: #fff;
-}
-
+#porcentaje-general,
 #horas-comp-general {
   color: #C03760;
 }
@@ -252,7 +250,7 @@
   align-items: center;
   margin-top: 10px;
   padding-left: 0;
-  height: 85px;
+  height: 70px;
   width: 100%;
   border-radius: 15px;
   border-color: #E7E9F2;
@@ -272,7 +270,7 @@
   position: relative;
   font-size: 35px;
   right: 5px;
-  top: 27px;
+  top: 17px;
   text-align: right;
   color: #E7E9F2;
 }
@@ -283,7 +281,7 @@
 
 .icono-dpto {
   position: relative;
-  top: 23px;
+  top: 15px;
   left: 20px;
   width: 80%;
   height: 100%;
@@ -292,7 +290,7 @@
 .titulo-dpto {
   width: 60%;
   position: relative;
-  top: 14.5px;
+  top: 7.5px;
   font-size: 1.1rem;
   font-weight: bold;
 }
@@ -878,7 +876,7 @@ td[style*="white-space: pre-line"] {
   }
 }
 
-@media screen and (max-width: 992px) and (min-width: 768px) {
+@media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
     width: 90vw;
     margin-left: 8vw;

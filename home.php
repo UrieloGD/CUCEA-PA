@@ -73,7 +73,7 @@
       </div>
       <div class="evento-item">
         <div class="evento-icono">
-          <div class="cuadro-numero"><input type="text" id="cuadro-numero" value="04"></div>
+          <div class="cuadro-numero"><span id="cuadro-numero">04</span></div>
           <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flag.png" alt="Icono"> -->
         </div>
         <div class="evento-detalle">
@@ -87,7 +87,7 @@
       <hr>
       <div class="evento-item">
         <div class="evento-icono">
-          <div class="cuadro-numero"><input type="text" id="cuadro-numero" value="21"></div>
+          <div class="cuadro-numero"><span id="cuadro-numero">21</span></div>
           <!-- <img src="./Img/Icons/iconos-eventosPA/icono-bd.png" alt="Icono"> -->
         </div>
         <div class="evento-detalle">
@@ -101,7 +101,7 @@
       <hr>
       <div class="evento-item">
         <div class="evento-icono">
-          <div class="cuadro-numero"><input type="text" id="cuadro-numero" value="02"></div>
+          <div class="cuadro-numero"><span id="cuadro-numero">02</span></div>
           <!-- <img src="./Img/Icons/iconos-eventosPA/icono-reunion.png" alt="Icono"> -->
         </div>
         <div class="evento-detalle">
@@ -115,7 +115,7 @@
       <hr>
       <div class="evento-item">
         <div class="evento-icono">
-          <div class="cuadro-numero"><input type="text" id="cuadro-numero" value="19"></div>
+          <div class="cuadro-numero"><span id="cuadro-numero">19</span></div>
           <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flag.png" alt="Icono"> -->
         </div>
         <div class="evento-detalle">
