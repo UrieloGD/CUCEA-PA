@@ -1,17 +1,105 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Asegurarse que la sesión está iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
+
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
-include './config/db.php';
 
-$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
+// Check if user is logged in
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
 
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+// Get user's code from session
+$usuario_codigo = $_SESSION['Codigo'];
+
+// Query to find department for the user
+$sql_departamento = "SELECT d.Departamento_ID, d.Nombre_Departamento, d.Departamentos 
+                     FROM usuarios_departamentos ud
+                     JOIN departamentos d ON ud.departamento_ID = d.Departamento_ID
+                     WHERE ud.usuario_ID = ?";
+
+$stmt = $conexion->prepare($sql_departamento);
+if (!$stmt) {
+    die("Prepare failed: " . $conexion->error);
+}
+
+$stmt->bind_param("i", $usuario_codigo);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $departamento = $result->fetch_assoc();
+
+    // Store department information in session
+    $_SESSION['Departamento_ID'] = $departamento['Departamento_ID'];
+    $_SESSION['Nombre_Departamento'] = $departamento['Nombre_Departamento'];
+    $_SESSION['Departamentos'] = $departamento['Departamentos'];
+} else {
+    die("No se encontró un departamento para este usuario.");
+}
+
+$stmt->close();
+
+$departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : $_SESSION['Departamento_ID'];
+
+// Verify the session variable exists
+if (!isset($_SESSION['Departamento_ID'])) {
+    die("Error: Departamento_ID not set in session");
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
+if (!$stmt) {
+    die("Prepare failed: " . $conexion->error);
+}
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result_departamento = $stmt->get_result();
+
+if (!$result_departamento) {
+    die("Query failed: " . $conexion->error);
+}
+
+if (!$conexion) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
 $result_departamento = mysqli_query($conexion, $sql_departamento);
 $row_departamento = mysqli_fetch_assoc($result_departamento);
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $departamento_nombre = $row_departamento['Departamentos'];
 
-$tabla_departamento = "Data_" . $nombre_departamento;
+$tabla_departamento = "data_" . $nombre_departamento;
 
 $sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
@@ -69,7 +157,8 @@ $result = mysqli_query($conexion, $sql);
     </div>
     <div id="popup-columnas">
         <h3>Selecciona las columnas a descargar</h3>
-        <hr style="border: 1px solid #0071b0; width: 99%;"></hr>
+        <hr style="border: 1px solid #0071b0; width: 99%;">
+        </hr>
         <div id="opciones-columnas"></div>
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
@@ -250,39 +339,39 @@ $result = mysqli_query($conexion, $sql);
                         <input type="text" id="observaciones" name="observaciones" placeholder="Observaciones" class="full-width">
                     </div>
                 </div>
-            <div class="form-movil">
-                <div class="form-section">
-                    <h3>Profesorado</h3>
-                    <div class="form-row">
-                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código Profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre profesor" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">
-                        <input type="text" id="categoria" name="categoria" placeholder="Categoría">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="descarga" name="descarga" placeholder="Descarga" class="full-width">
-                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="Código descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="Nombre descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="Nombre definitivo" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="horas_totales" name="horas" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="titular" name="titular" placeholder="Titular">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="horas" name="horas" placeholder="Horas" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
+                <div class="form-movil">
+                    <div class="form-section">
+                        <h3>Profesorado</h3>
+                        <div class="form-row">
+                            <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código Profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre profesor" class="full-width">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">
+                            <input type="text" id="categoria" name="categoria" placeholder="Categoría">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="descarga" name="descarga" placeholder="Descarga" class="full-width">
+                            <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="Código descarga" class="full-width">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="Nombre descarga" class="full-width">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="Nombre definitivo" class="full-width">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="horas_totales" name="horas" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            <input type="text" id="titular" name="titular" placeholder="Titular">
+                        </div>
+                        <div class="form-row">
+                            <input type="text" id="horas" name="horas" placeholder="Horas" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
             <div class="form-actions">
                 <button type="button" onclick="añadirRegistro()">Guardar</button>
