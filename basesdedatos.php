@@ -3,6 +3,7 @@
 <?php
 include './config/db.php';
 
+$rol = $_SESSION['Rol_ID'];
 $departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
 
 $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
@@ -45,24 +46,28 @@ $result = mysqli_query($conexion, $sql);
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
+                <?php if($rol == 1): ?>
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
+                <?php endif;?>
                 <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
                     <i class="fa fa-users" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
+                <?php if($rol == 1): ?>
                 <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
                     <i class="fa fa-add" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
+                <?php endif;?>
                 <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
@@ -74,7 +79,9 @@ $result = mysqli_query($conexion, $sql);
         <hr style="border: 1px solid #0071b0; width: 99%;"></hr>
         <div id="opciones-columnas"></div>
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
+        <?php if($_SESSION['Rol_ID'] == 2): ?>
         <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
+        <?php endif; ?>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
     <div class="datatable-container">

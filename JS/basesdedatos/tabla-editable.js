@@ -90,6 +90,13 @@ const maxLengths = {
 };
 
 function makeEditable() {
+  // Check the user's role before making the table editable
+  const userRole = <?php echo $_SESSION['Rol_ID']; ?>;
+  
+  if (userRole !== 1) {
+    return; // Exit the function if the role is not 1 (admin)
+  }
+
   const table = document.getElementById("tabla-datos");
   const rows = table.getElementsByTagName("tr");
 
@@ -325,14 +332,11 @@ function saveAllChanges() {
       hideEditIcons();
     })
     .catch((error) => {
-      console.error("Error al guardar los cambios:", error);
-      alert(
-        "Hubo un error al guardar los cambios. Por favor, inténtelo de nuevo."
-      );
-
-      // Opcional: Mostrar color rojo en caso de error
-      changedCells.forEach((cell) => {
-        cell.style.backgroundColor = "#fe726c";
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No tienes los permisos necesarios para realizar cambios en la base de datos',
+        confirmButtonText: 'Entendido'
       });
     });
 }
