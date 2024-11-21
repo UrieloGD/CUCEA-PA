@@ -8,14 +8,14 @@ if (!isset($_SESSION['Codigo'])) {
 }
 
 // Obtener el ID del departamento
-$departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
+$departamento_id = isset($_POST['Departamento_ID']) ? $_POST['Departamento_ID'] : '';
 
 if (empty($departamento_id)) {
     die("ID de departamento no proporcionado.");
 }
 
 // Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
@@ -24,7 +24,7 @@ $row_departamento = $result_departamento->fetch_assoc();
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 
 // Construir el nombre de la tabla
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
 // Preparar la consulta SQL
 $sql = "INSERT INTO `$tabla_departamento` (
@@ -45,8 +45,9 @@ if ($stmt === false) {
 }
 
 // Vincular parámetros
-$stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
-    $departamento_id, 
+$stmt->bind_param(
+    "isssssssssssssssssssssssssssssssssssssssss",
+    $departamento_id,
     $_POST['ciclo'],
     $_POST['crn'],
     $_POST['materia'],

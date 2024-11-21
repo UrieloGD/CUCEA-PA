@@ -17,7 +17,7 @@ foreach ($required_files as $file) {
     }
 }
 
-// Asegurarse que la sesión está iniciada
+// Ensure session is started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -31,6 +31,7 @@ require_once './config/sesioniniciada.php';
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
+//include './config/db.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['email'])) {
