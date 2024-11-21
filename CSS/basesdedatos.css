@@ -62,8 +62,9 @@
   /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
+  margin-right: 25px;
   width: 10%;
-} 
+}
 
 /* Tabla */
 .tabla {
@@ -138,7 +139,7 @@ th {
   visibility: hidden;
   opacity: 0;
   cursor: pointer;
-  background-color: #FFD951;
+  background-color: #ffd951;
   padding: 15px;
   color: #fff;
   margin-right: 0;
@@ -162,7 +163,7 @@ th {
   visibility: hidden;
   opacity: 0;
   cursor: pointer;
-  background-color: #57B661;
+  background-color: #57b661;
   border-radius: 10px;
   padding: 15px;
   color: #fff;
@@ -178,10 +179,10 @@ th {
   -o-transition: visibility 0.2s, opacity 0.2s;
 }
 
-  .iconos-container > #icono-deshacer,
-  .iconos-container > #icono-guardar {
-    margin-right: 10px;
-  }
+.iconos-container > #icono-deshacer,
+.iconos-container > #icono-guardar {
+  margin-right: 10px;
+}
 
 .icono-buscador {
   cursor: pointer;
@@ -223,8 +224,8 @@ th {
   display: flex;
   align-items: center;
   width: 95%; /* Ocupa el 70% del div contenedor */
-  /*border: none; /* Quita el borde azul */
-  /*margin-top: 10px;
+/*border: none; /* Quita el borde azul */
+/*margin-top: 10px;
 } */
 
 #input-buscador {
@@ -297,7 +298,7 @@ th {
 }
 
 .popup-active::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
@@ -308,7 +309,7 @@ th {
 }
 
 #popup-columnas {
-  display:none;
+  display: none;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -375,25 +376,15 @@ th {
   z-index: 1000;
   left: 0;
   top: 0;
+  margin: auto;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 90%;
-  max-width: 1000px;
-  max-height: 80vh;
-  overflow-y: auto;
-  border-radius: 10px;
-}
-
-.modal input, .modal select {
+.modal input,
+.modal select {
   border-radius: 5px;
   padding: 5px;
   border: 1px solid #ccc;
@@ -401,13 +392,18 @@ th {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto;
+  margin: 3% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 90%;
   max-width: 1000px;
   max-height: 80vh;
   overflow-y: auto;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
 }
 
 .modal-content h2 {
@@ -501,6 +497,220 @@ th {
   /* box-sizing: border-box; */
   padding: 5px; /* Opcional: ajustar el padding según sea necesario */
   border: none;
+}
+
+/* CSS contenido del modal de profesores */
+
+.contenedor {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+.left-column {
+  flex: 0 0 350px;
+}
+
+.left-column,
+.right-column {
+  padding: 30px;
+  vertical-align: top;
+}
+
+.right-column {
+  background-color: white; /* fondo */
+  padding: 50px;
+  flex: 1;
+}
+
+.profesor-container {
+  display: flex;
+  gap: 20px;
+}
+
+.profesor-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profesor-avatar {
+  width: 60px;
+  height: 60px;
+  background-color: #7d43c6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+
+.avatar-initials {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.profesor-details h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.profesor-details p {
+  margin: 5px 0 0;
+  color: #666;
+}
+
+.profesor-data {
+  margin-left: 70px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profesor-data th {
+  border: none;
+  font-weight: bold;
+  text-align: left;
+  padding: 5px 10px;
+}
+
+.profesor-data td {
+  border: none;
+  padding: 5px 10px;
+}
+
+.data-value2 {
+  color: #8b6e3b;
+  background-color: #fdf8e4;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  font-weight: bold;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.data-value3 {
+  color: #164d64;
+  background-color: #67cbe9;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block; /* solo subraya el texto */
+  font-weight: bold;
+}
+
+.class-info {
+  background-color: #f4f5f9; /* Cuadro */
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.class-info h3 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #eee;
+}
+
+.class-details {
+  width: 100%;
+  font-size: 14px;
+  border-collapse: collapse;
+}
+
+.class-details th,
+.class-details td {
+  border: none;
+  padding: 5px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.class-details th {
+  font-weight: bold;
+  /* -------------------------------- */
+  background: #f8f9fa;
+  padding: 10px;
+  text-align: center;
+}
+
+.class-details td {
+  vertical-align: middle;
+  padding: 10px 5px;
+  /* background: #33A4C4; */
+}
+
+.horario-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espacio entre el horario y los días */
+}
+
+.horario-tiempo {
+  white-space: nowrap;
+}
+
+.weekdays {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.day {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #b0b0b0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.day.active {
+  background-color: #0071b0;
+  color: white;
+}
+
+.day.virtual {
+  background-color: #4baee6;
+  color: white;
+  position: relative;
+}
+
+.day.virtual::after {
+  content: "Virtual";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.day.virtual:hover::after {
+  opacity: 1;
 }
 
 /* Estilos para el contenedor de búsqueda de Js */
@@ -718,16 +928,16 @@ nav[aria-label="pagination"] {
   .iconos-container > #icono-guardar {
     margin-right: 5px;
   }
-  
+
   .form-container {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
-  
+
   .form-movil {
     flex: 1;
-    max-width: 300px; 
+    max-width: 300px;
   }
 
   .form-row input {
@@ -835,12 +1045,12 @@ nav[aria-label="pagination"] {
   .form-container {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
-  
+
   .form-movil {
     flex: 1;
-    max-width: 300px; 
+    max-width: 300px;
   }
 
   .form-row input {
@@ -866,12 +1076,12 @@ nav[aria-label="pagination"] {
   .form-container {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
-  
+
   .form-movil {
     flex: 1;
-    max-width: 300px; 
+    max-width: 300px;
   }
 
   .form-row input {
@@ -901,12 +1111,12 @@ nav[aria-label="pagination"] {
   .form-container {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
-  
+
   .form-movil {
     flex: 1;
-    max-width: 300px; 
+    max-width: 300px;
   }
 
   .form-row input {
@@ -922,50 +1132,161 @@ nav[aria-label="pagination"] {
 }
 
 /* Ensure that the demo table scrolls */
-    th, td { white-space: nowrap; }
-    div.dataTables_wrapper {
-        width: 600px;
-        margin: 0 auto;
-    }
+th,
+td {
+  white-space: nowrap;
+}
+div.dataTables_wrapper {
+  width: 600px;
+  margin: 0 auto;
+}
+/*------------------------------------------------*/
+.search-bar {
+  margin-bottom: 20px 0;
+}
 
-    th {
-      position: sticky;
-      top: 0;
-      background-color: white;
-      z-index: 2; /* Aumentamos el z-index */
-      padding: 15px 8px; /* Aumentamos el padding vertical */
-      text-align: left;
-      border-bottom: 3px solid #0071b0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 150px;
-    }
-    
-    /* Estilo específico para los íconos de ordenamiento */
-    table.dataTable thead .sorting,
-    table.dataTable thead .sorting_asc,
-    table.dataTable thead .sorting_desc {
-      background-position: center right 5px;
-      padding-right: 20px; /* Espacio para el ícono de ordenamiento */
-    }
-    
-    /* Ajustamos el contenedor de la tabla */
-    .tabla {
-      position: relative;
-      padding-top: 10px; /* Reducimos el padding superior */
-      margin-top: 0; /* Eliminamos el margen negativo */
-      overflow: auto;
-    }
-    
-    /* Ajustamos el contenedor del DataTable */
-    .datatable-container {
-      margin-top: 20px; /* Ajustamos el margen superior */
-      position: relative;
-    }
-    
-    /* Aseguramos que la barra de búsqueda esté por encima */
-    .dt-search {
-      position: relative;
-      z-index: 3;
-    }
+.search-input-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input-container i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.search-input-container input {
+  width: 100%;
+  padding: 8px 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+#buscar-profesor {
+  width: 100%;
+  padding: 8px 8px 8px 35px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.tabla-profesores {
+  margin-top: 20px;
+}
+
+.btn-detalle {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-detalle:hover {
+  background-color: #005a8c;
+}
+
+/* Estilos para el detalle del profesor */
+.detalle-profesor {
+  padding: 20px;
+}
+
+.info-general {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 15px 0;
+}
+
+.tabla-materias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-materias th,
+.tabla-materias td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabla-materias th {
+  background-color: #0071b0;
+  color: white;
+}
+
+.tabla-materias tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #0071b0;
+}
+
+/* Estilos para el modal */
+#modal-todos-profesores {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Posición fija */
+  z-index: 1000; /* Por encima de otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%; /* Ancho del modal */
+  height: 100%; /* Altura del modal */
+  overflow: auto; /* Habilitar scroll si el contenido lo requiere */
+  background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 15px 8px; /* Aumentamos el padding vertical */
+  text-align: left;
+  border-bottom: 3px solid #0071b0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+/* Estilo específico para los íconos de ordenamiento */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  background-position: center right 5px;
+  padding-right: 20px; /* Espacio para el ícono de ordenamiento */
+}
+
+/* Ajustamos el contenedor de la tabla */
+.tabla {
+  position: relative;
+  padding-top: 10px; /* Reducimos el padding superior */
+  margin-top: 0; /* Eliminamos el margen negativo */
+  overflow: auto;
+}
+
+/* Ajustamos el contenedor del DataTable */
+.datatable-container {
+  margin-top: 20px; /* Ajustamos el margen superior */
+  position: relative;
+}
+
+/* Aseguramos que la barra de búsqueda esté por encima */
+.dt-search {
+  position: relative;
+  /* z-index: 3; */
+}

@@ -16,7 +16,7 @@ function convertExcelDate($value)
         return $value;
     }
     $unix_date = ($value - 25569) * 86400;
-    return date("Y-m-d", $unix_date);
+    return date("d/m/Y", $unix_date);
 }
 
 function safeSubstr($string, $start, $length = null)
@@ -75,7 +75,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $nombres = safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 70);
             $nombre_completo = safeSubstr($sheet->getCell('E' . $row)->getCalculatedValue(), 0, 80);
             $sexo = safeSubstr($sheet->getCell('F' . $row)->getCalculatedValue(), 0, 5);
-            $departamento = safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 50);
+            $departamento = safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 70);
             $categoria_actual = safeSubstr($sheet->getCell('H' . $row)->getCalculatedValue(), 0, 60);
             $categoria_actual_dos = safeSubstr($sheet->getCell('I' . $row)->getCalculatedValue(), 0, 20);
             $horas_frente_grupo = intval($sheet->getCell('J' . $row)->getCalculatedValue());
@@ -88,7 +88,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $turno = safeSubstr($sheet->getCell('Q' . $row)->getCalculatedValue(), 0, 5);
             $investigacion_nombramiento_cambio_funcion = safeSubstr($sheet->getCell('R' . $row)->getCalculatedValue(), 0, 50);
             $sni = safeSubstr($sheet->getCell('S' . $row)->getCalculatedValue(), 0, 10);
-            $sin_desde = convertExcelDate($sheet->getCell('T' . $row)->getCalculatedValue());
+            $sni_desde = convertExcelDate($sheet->getCell('T' . $row)->getCalculatedValue());
             $cambio_dedicacion = safeSubstr($sheet->getCell('U' . $row)->getCalculatedValue(), 0, 40);
             $inicio = convertExcelDate($sheet->getCell('V' . $row)->getCalculatedValue());
             $fin = convertExcelDate($sheet->getCell('W' . $row)->getCalculatedValue());
@@ -158,7 +158,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $turno,
                 $investigacion_nombramiento_cambio_funcion,
                 $sni,
-                $sin_desde,
+                $sni_desde,
                 $cambio_dedicacion,
                 $inicio,
                 $fin,

@@ -1,32 +1,46 @@
-// Código tomado de añadir registro editado a visualizar
-function mostrarFormularioVisualizar() {
-    document.getElementById('modal-visualizar').style.display = 'block';
+function mostrarModalTodosProfesores() {
+    var modal = document.getElementById('modal-todos-profesores');
+    modal.style.display = 'block';
 }
 
-function cerrarFormularioVisualizar() {
-    document.getElementById('modal-visualizar').style.display = 'none';
+function cerrarModalTodosProfesores() {
+    var modal = document.getElementById('modal-todos-profesores');
+    modal.style.display = 'none';
 }
 
-// Cerrar el modal al hacer clic en la X
-document.querySelector('.close').onclick = function() {
-    cerrarFormularioVisualizar();
-}
+function filtrarTodosProfesores() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("buscar-todos-profesores");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("lista-todos-profesores");
+    tr = table.getElementsByTagName("tr");
 
-// Cerrar el modal al hacer clic fuera de él
-window.onclick = function(event) {
-    if (event.target == document.getElementById('modal-visualizar')) {
-        cerrarFormularioVisualizar();
+    for (i = 0; i < tr.length; i++) {
+        // Buscar en la columna de código y nombre
+        var tdCodigo = tr[i].getElementsByTagName("td")[0];
+        var tdNombre = tr[i].getElementsByTagName("td")[1];
+        
+        if (tdCodigo && tdNombre) {
+            var txtValueCodigo = tdCodigo.textContent || tdCodigo.innerText;
+            var txtValueNombre = tdNombre.textContent || tdNombre.innerText;
+            
+            if (txtValueCodigo.toUpperCase().indexOf(filter) > -1 || 
+                txtValueNombre.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
     }
 }
 
-// js by Cass
-// Para que el Modal se pueda visualizar: 
-
-function visualizarInformacionProfesores() {
-
-document.getElementById('modal-visualizar').style.display = 'block';
+function verDetalleProfesorTodos(codigoProfesor) {
+    $.ajax({
+        url: '/functions/basesdedatos/modal-profesores-materias/obtener-detalle-profesor-todos.php',
+        method: 'POST',
+        data: { codigo: codigoProfesor },
+        success: function(response) {
+        }
+    });
 }
-
-function cerrarModalVisualizar() {
-    document.getElementById('modal-visualizar').style.display = 'none';
-}
+//./ajax/obtener-detalle-profesor-todos.php
