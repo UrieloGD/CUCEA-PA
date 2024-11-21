@@ -1,92 +1,85 @@
 function eliminarRegistrosSeleccionados() {
-  var checkboxes = document.querySelectorAll(
+  const checkboxes = document.querySelectorAll(
     'input[name="registros_seleccionados[]"]:checked'
   );
-  var ids = [];
-
-  checkboxes.forEach(function (checkbox) {
-    ids.push(checkbox.value);
-  });
+  const ids = Array.from(checkboxes).map((checkbox) => checkbox.value);
+  const departamento_id = document.getElementById("departamento_id").value;
 
   if (ids.length === 0) {
+    // Confirmar eliminación completa
     Swal.fire({
       title: "¿Estás seguro?",
-      text: "Estás seguro que deseas borrar toda la base de datos?",
+      text: "¿Estás seguro que deseas borrar toda la base de datos?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, borrar todo",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "./functions/basesdedatos/eliminar-registros.php", true);
-        xhr.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            Swal.fire({
-              title: "¡Éxito!",
-              text: "La base de datos ha sido borrada correctamente.",
-              icon: "success",
-            }).then(() => {
-              location.reload();
-            });
-          }
-        };
-
-        var departamento_id = document.getElementById("departamento_id").value;
-        xhr.send(
-          "truncate=1&departamento_id=" + encodeURIComponent(departamento_id)
-        );
+        enviarSolicitudEliminacion({
+          truncate: "1",
+          departamento_id: departamento_id,
+        });
       }
     });
     return;
   }
 
+  // Confirmar eliminación de registros seleccionados
   Swal.fire({
     title: "¿Desea continuar?",
-    text: "Se eliminarán " + ids.length + " registro(s)",
+    text: `Se eliminarán ${ids.length} registro(s)`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
-      var xhr = new XMLHttpRequest();
-      xhr.open("POST", "./functions/basesdedatos/eliminar-registros.php", true);
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      enviarSolicitudEliminacion({
+        ids: ids.join(","),
+        departamento_id: departamento_id,
+      });
+    }
+  });
+}
+
+function enviarSolicitudEliminacion(datos) {
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "./functions/basesdedatos/eliminar-registros.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      try {
+        const response = JSON.parse(xhr.responseText);
+
+        if (response.error) {
+          Swal.fire({
+            title: "Error",
+            text: response.error,
+            icon: "error",
+          });
+          return;
+        }
+
+        if (response.success) {
           Swal.fire({
             title: "¡Éxito!",
-            text: "Los registros se han eliminado correctamente.",
+            text: response.message,
             icon: "success",
           }).then(() => {
             location.reload();
           });
         }
-      };
-
-      var departamento_id = document.getElementById("departamento_id").value;
-      var datos = { departamento_id: departamento_id };
-      xhr.send(
-        "ids=" +
-          encodeURIComponent(ids.join(",")) +
-          "&" +
-          convertirObjeto(datos)
-      );
+      } catch (e) {
+        Swal.fire({
+          title: "Error",
+          text: "Ocurrió un error al procesar la respuesta del servidor",
+          icon: "error",
+        });
+      }
     }
-  });
-}
+  };
 
-function convertirObjeto(obj) {
-  var str = [];
-  for (var p in obj) {
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-    }
-  }
-  return str.join("&");
+  xhr.send(new URLSearchParams(datos).toString());
 }
