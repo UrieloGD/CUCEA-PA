@@ -1,5 +1,5 @@
 <?php
-// include './../../config/db.php';
+include './../../config/db.php';
 include './../notificaciones-correos/email_functions.php';
 date_default_timezone_set('America/Mexico_City');
 

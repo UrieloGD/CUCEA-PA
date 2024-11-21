@@ -19,6 +19,9 @@ function subirArchivo(id) {
 
                 console.log("Archivo seleccionado:", file.name);
 
+                // Modificación aquí
+                document.getElementById(`nombre-archivo-${id}`).textContent = file.name;
+                
                 actualizarNombreArchivo(inputFileElement, id);
                 actualizarFechaSubida(id);
             }
@@ -65,13 +68,15 @@ function subirArchivo(id) {
 function actualizarNombreArchivo(input, id) {
     if (input.files.length > 0) {
         const nombreArchivo = input.files[0].name;
-        const nombreArchivoElement = document.getElementById(`Nombre_Archivo_Dep-${id}`);
+        
+        // Modificación aquí: usar querySelector en lugar de getElementById
+        const nombreArchivoElement = document.querySelector(`#nombre-archivo-${id}`);
 
         if (nombreArchivoElement) {
-            nombreArchivoElement.value = nombreArchivo;
+            nombreArchivoElement.textContent = nombreArchivo;
             console.log(`Nombre de archivo actualizado para departamento ${id}: ${nombreArchivo}`);
         } else {
-            console.error(`No se encontró el elemento con ID "Nombre_Archivo_Dep-${id}" para actualizar el nombre de archivo.`);
+            console.error(`No se encontró el elemento con ID "nombre-archivo-${id}" para actualizar el nombre de archivo.`);
         }
     } else {
         console.log(`No se ha subido un archivo para departamento ${id}`);
@@ -80,8 +85,13 @@ function actualizarNombreArchivo(input, id) {
 
 function actualizarFechaSubida(id) {
     var fechaFormateada = obtenerFechaHoraActual();
-    document.getElementById(`Fecha-Subida-${id}`).innerText = fechaFormateada;
-    document.getElementById(`Fecha_Subida_Dep-${id}`).value = fechaFormateada;
+    
+    // Modificación aquí: usar querySelector y verificar existencia
+    const fechaSubidaElement = document.querySelector(`#fecha-subida-${id}`);
+    if (fechaSubidaElement) {
+        fechaSubidaElement.textContent = fechaFormateada;
+    }
+
     console.log(`Fecha de subida actualizada para departamento ${id}: ${fechaFormateada}`);
 }
 

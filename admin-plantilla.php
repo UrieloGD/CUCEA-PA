@@ -3,26 +3,6 @@ include './template/header.php';
 include './template/navbar.php';
 ?>
 
-<?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-// Verificar que los archivos existan
-$required_files = [
-    './config/sesioniniciada.php',
-    './config/db.php',
-    './template/header.php',
-    './template/navbar.php'
-];
-
-foreach ($required_files as $file) {
-    if (!file_exists($file)) {
-        die("Error: No se encuentra el archivo $file");
-    }
-}
-?>
-
 <title>Progreso Plantillas</title>
 <link rel="stylesheet" href="./CSS/admin-plantilla.css?=v1.0" />
 
