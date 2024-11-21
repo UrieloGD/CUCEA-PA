@@ -281,7 +281,7 @@ function saveAllChanges() {
 
     // Limpieza básica de datos
     value = value.replace(/[^\x00-\x7F]/g, "");
-    value = encodeURIComponent(value);
+    // value = encodeURIComponent(value);
 
     return fetch("./functions/basesdedatos/actualizar-celda.php", {
       method: "POST",
