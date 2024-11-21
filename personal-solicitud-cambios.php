@@ -14,25 +14,20 @@
     </div>
     <!-- Contenedor principal de cada solicitud. -->
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
-        <div class="color-en_revision"></div> <!-- Color de estado de solicitud al extremo izquierdo -->
-        <div class="texto-superior"> <!-- Contenedor del titulo de solicitud -->
-            <p class="nombre-solicitud" id="solicitud">Solicitud de baja</p>
-        </div>
-        <div class="texto-medio"> <!-- Contenedor del nombre del departamento -->
-            <p class="nombre-departamento" id="departamento">Departamento de contaduria</p>
-        </div>
-        <ul class="texto-inferior"> <!-- Informacion en la parte inferior de la solicitud: Fecha y hora de solicitud -->
-            <li class="fecha-solicitud">
-                <input type="date" id="campo-fecha" value="2024-01-01" />
-            </li>
-            <li class="hora-solicitud">
-                <input type="time" id="campo-hora" value="00:00" />
-            </li>
-            <li class="circulo-en_revision"> • </li>
-            <li class="estado-solicitud">
-                <input type="text" id="en-revision" value="En revisión" />
-            </li>
-        </ul>
+        <!-- Color de estado de solicitud al extremo izquierdo -->
+        <div class="color-en_revision"></div> 
+            <!-- Informacion resumida de solicitud -->
+            <div class="info-sup">
+                <p class="nombre-solicitud" id="solicitud">Solicitud de baja</p>
+                <p class="nombre-departamento" id="departamento">Departamento de contaduria</p>
+            </div>
+            <div class="info-inf">
+                <input class="fecha-solicitud" type="date" id="campo-fecha" value="2024-01-01" />
+                <input class="hora-solicitud" type="time" id="campo-hora" value="00:00" />
+                <p class="circulo-en_revision"> • </p>
+                <input class="estado-solicitud" type="text" id="en-revision" value="En revisión" />
+            </div>
+            <!--------------------------------------->
         <!-- Icono al extremo derecho, para el despliegue de ventana inferior -->
         <div class="icono-despliegue">
             <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
@@ -108,7 +103,7 @@
         </div>
     </div>
 
-    <!-- Prueba para solicitudes rechazadas -->
+<!--
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
         <div class="color-rechazado"></div>
         <div class="texto-superior">
@@ -133,7 +128,7 @@
             <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
         </div>
     </div>
-    <!-- Contenedor que se desplegara. -->
+    
     <div class="contenedor-informacion" id="contenedor-informacion-2">
         <div class="info">
             <div class="contenedor-izquierdo">
@@ -203,7 +198,7 @@
         </div>
     </div>
 
-    <!-- Prueba para solicitudes aprobadas -->
+   
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
         <div class="color-aprobado"></div>
         <div class="texto-superior">
@@ -228,7 +223,7 @@
             <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
         </div>
     </div>
-    <!-- Contenedor que se desplegara. -->
+    
     <div class="contenedor-informacion" id="contenedor-informacion-3">
         <div class="info">
             <div class="contenedor-izquierdo">
@@ -298,7 +293,7 @@
         </div>
     </div>
 
-    <!-- Prueba para solicitudes pendientes -->
+    
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
         <div class="color-pendiente"></div>
         <div class="texto-superior">
@@ -323,7 +318,7 @@
             <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
         </div>
     </div>
-    <!-- Contenedor que se desplegara. -->
+   
     <div class="contenedor-informacion" id="contenedor-informacion-4">
         <div class="info">
             <div class="contenedor-izquierdo">
@@ -392,7 +387,7 @@
             </div>
         </div>
     </div>
-
+-->
     <!-- Boton de nueva solicitud -->
     <div class="container-boton-nueva-solicitud">
         <button class="boton-nueva-solicitud" id="nueva-solicitud-btn">Nueva solicitud</button>
@@ -757,56 +752,6 @@
 }
 
 @media screen and (max-width: 480px) {
-  .cuadro-principal {
-    width: 96vw;
-    /*height: fit-content;*/
-    margin-left: 2vw;
-    margin-right: 2vw;
-    font-size: smaller;
-    
-  }
-  .solicitud-contenedor-principal {
-    min-width: 97%;
-    height: 150px;
-  }
-  .solicitud-contenedor-principal input {
-    max-width: 70vw;
-  }
-  .texto-superior {
-    margin-top: -30px;
-    position: relative;
-    height: 0;
-    width: 50vw;
-  }
-  .texto-inferior {
-    height: 0;
-  }
-  .texto-inferior p,
-  .texto-medio p,
-  .texto-superior p {
-    width: 10px;
-    font-size: 0.5rem;
-    white-space: break-word;
-  }
-  .estado-solicitud,
-  .circulo-aprobado,
-  .circulo-en_revision,
-  .circulo-pendiente,
-  .circulo-rechazado {
-    display: inline-block;
-    margin-top: 20px;
-  }
-  .icono-despliegue {
-    margin-top: 77px;
-    right: 5vw;
-  }
-  .estado-solicitud,
-  .circulo-aprobado,
-  .circulo-en_revision,
-  .circulo-pendiente,
-  .circulo-rechazado {
-    right: 245px;
-  }
   .modal-content {
     top: 1vh;
     }

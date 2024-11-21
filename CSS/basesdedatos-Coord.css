@@ -315,7 +315,7 @@ div.dataTables_wrapper {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 4999;
 }
 
 #popup-columnas {
@@ -328,7 +328,7 @@ div.dataTables_wrapper {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 5000;
   width: 50vw;
   height: 80vh;
   overflow-y: auto;
@@ -364,16 +364,23 @@ div.dataTables_wrapper {
   margin-top: -5px;
 }
 
-#popup-columnas button {
+.contenedor-buttons {
+  position: absolute;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  left: 40%;
+}
+
+.contenedor-buttons button {
   margin-top: 20px;
+  margin-left: 5px;
   padding: 10px 15px;
   background-color: #0071b0;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
 }
 
 #popup-columnas button:hover {
@@ -1160,6 +1167,9 @@ nav[aria-label="pagination"] {
   #popup-columnas {
     width: 80vw;
   }
+  .contenedor-buttons { 
+    left: 35%;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -1190,6 +1200,9 @@ nav[aria-label="pagination"] {
   }
   #popup-columnas {
     width: 85vw;
+  }
+  .contenedor-buttons { 
+    left: 30%;
   }
 }
 
@@ -1224,6 +1237,9 @@ nav[aria-label="pagination"] {
   }
   #popup-columnas {
     width: 85vw;
+  }
+  .contenedor-buttons { 
+    left: 25%;
   }
 }
 
