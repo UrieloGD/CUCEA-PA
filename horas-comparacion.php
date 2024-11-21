@@ -18,7 +18,7 @@
     </div>
 
     <!-- Nuevas horas comparacion -->
-    <div class="contenedor-resumen-full">
+    <di class="contenedor-resumen-full">
         <div class="cuadro-resumen">
             <!-- Titulo superior de: <todos los departamentos> -->
             <div class="titulo-resumen">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <p id="horas-comp-general"> 5,117 / <strong> 10,234 </strong></p>
-                    <button class="desglose-button">Desglose</button>
+                    <button class="desglose-button" id="desglose-todos">Desglose</button>
                 </div>
             </div>
             <div class="titulo-underline"></div>
@@ -127,7 +127,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #46ACC2;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Administración" style="background-color: #46ACC2;">Desglose</button>
             </div>
         </div>
 
@@ -174,7 +174,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #2ACD9C;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Ciencias Sociales" style="background-color: #2ACD9C;">Desglose</button>
             </div>
         </div>
 
@@ -220,7 +220,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #39C92C;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Economía" style="background-color: #39C92C;">Desglose</button>
             </div>
         </div>
 
@@ -266,7 +266,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #F8775E;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Finanzas" style="background-color: #F8775E;">Desglose</button>
             </div>
         </div>
 
@@ -313,7 +313,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #5676A9;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Mercadotecnia" style="background-color: #5676A9;">Desglose</button>
             </div>
         </div>
 
@@ -359,7 +359,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #FB4D79;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="PALE" style="background-color: #FB4D79;">Desglose</button>
             </div>
         </div>
 
@@ -405,7 +405,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #3B596F;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Posgrados" style="background-color: #3B596F;">Desglose</button>
             </div>
         </div>
 
@@ -451,7 +451,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #4B8FBC;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Sistemas de Información" style="background-color: #4B8FBC;">Desglose</button>
             </div>
         </div>
     </div>
@@ -500,7 +500,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #F2545E;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Auditoría" style="background-color: #F2545E;">Desglose</button>
             </div>
         </div>
 
@@ -546,7 +546,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #F6BC55;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Contabilidad" style="background-color: #F6BC55;">Desglose</button>
             </div>
         </div>
 
@@ -592,7 +592,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #B794C6;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Estudios Regionales" style="background-color: #B794C6;">Desglose</button>
             </div>
         </div>
 
@@ -638,7 +638,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #F0914E;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Impuesto" style="background-color: #F0914E;">Desglose</button>
             </div>
         </div>
 
@@ -684,7 +684,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #F7C941;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Métodos Cuantitativos" style="background-color: #F7C941;">Desglose</button>
             </div>
         </div>
 
@@ -730,7 +730,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #806D90;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Políticas Públicas" style="background-color: #806D90;">Desglose</button>
             </div>
         </div>
 
@@ -776,7 +776,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #F27BB5;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Recursos Humanos" style="background-color: #F27BB5;">Desglose</button>
             </div>
         </div>
 
@@ -822,47 +822,10 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" style="background-color: #43AB8D;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Turismo" style="background-color: #43AB8D;">Desglose</button>
             </div>
         </div>
     </div>
-
-    </div>
-    
-
-
-    <!-- ANTERIOR HORAS COMPARACION GRID
-    <div class="grid-departamentos">
-
-         Card para "Todos los departamentos"
-
-        <div class="departamento-card todos" data-departamento="todos">
-            <div class="departamento-overlay">
-                <span class="departamento-nombre">Todos los Departamentos</span>
-            </div>
-        </div>
-
-        -->
-        
-        <?php
-        /*
-        // Consulta para obtener los departamentos
-        $query = "SELECT * FROM Departamentos ORDER BY Departamentos";
-        $result = mysqli_query($conexion, $query);
-
-        if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="departamento-card" data-departamento="' . htmlspecialchars($row['Departamentos']) . '">';
-                echo '<div class="departamento-overlay">';
-                echo '<span class="departamento-nombre">' . htmlspecialchars($row['Departamentos']) . '</span>';
-                echo '</div>';
-                echo '</div>';
-            }
-        }
-            */
-        ?>
-    </div>
-</div>
 
 <!-- Modal -->
 <div id="modalPersonal" class="modal">
@@ -920,30 +883,12 @@
             departamento = departamento || 'todos';
 
             modal.style.display = 'block';
-            modalTitle.textContent = departamento === 'todos' ?
-                'Personal de Todos los Departamentos' :
-                `Personal del Departamento ${departamento}`;
+            modalTitle.textContent =
+                departamento === 'todos'
+                    ? 'Personal de Todos los Departamentos'
+                    : `Personal del Departamento ${departamento}`;
 
-            // Actualizar estructura de la tabla según el departamento
-            const thead = document.querySelector('.tabla-personal thead tr');
-            thead.innerHTML = departamento === 'todos' ?
-                `<th>Código</th>
-                <th>Nombre Completo</th>
-                <th>Departamento</th>
-                <th>Categoría Actual</th>
-                <th>Tipo Plaza</th>
-                <th>Carga Horaria</th>
-                <th>Horas Frente Grupo</th>
-                <th>Horas Definitivas</th>` :
-                `<th>Código</th>
-                <th>Nombre Completo</th>
-                <th>Categoría Actual</th>
-                <th>Tipo Plaza</th>
-                <th>Carga Horaria</th>
-                <th>Horas Frente Grupo</th>
-                <th>Horas Definitivas</th>`;
-
-            // Realizar la petición AJAX
+            // Realiza el fetch para obtener los datos del departamento
             fetchPersonalData(departamento);
         }
         // Función para cerrar el modal
@@ -987,7 +932,7 @@
             searchInput.value = '';
 
             // Mostrar mensaje de carga
-            const colSpan = departamento === 'todos' ? 8 : 7; // Ajustar según el caso
+            const colSpan = 10; // Ajustado para las nuevas columnas
             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Cargando...</td></tr>`;
 
             fetch('./functions/horas-comparacion/obtener-personal.php', {
@@ -1183,27 +1128,18 @@
         }
 
         // Event Listeners
-        departamentoButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Si es un botón de desglose dentro de un contenedor de departamento
-                if (this.classList.contains('desglose-button-dpto')) {
-                    const departamentoElement = this.closest('.contenedor-informacion')
-                        ?.previousElementSibling // Buscar el banner del departamento
-                        ?.querySelector('.titulo-dpto p');
-                    
-                    const departamento = departamentoElement 
-                        ? departamentoElement.textContent.trim() 
-                        : 'default';
-
-                    console.log('Departamento seleccionado:', departamento);
-                    openModal(departamento);
-                } 
-                // Si es un botón para todos los departamentos
-                else if (this.classList.contains('boton-todos-departamentos')) {
-                    openModal('todos');
-                }
+        departamentoCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const departamento = this.getAttribute('data-departamento'); // Obtener el atributo correctamente
+                openModal(departamento); // Pasar el valor al modal
             });
         });
+
+        const botonTodos = document.getElementById('desglose-todos');
+            botonTodos.addEventListener('click', function () {
+                openModal('todos'); // Llama a la función con 'todos' como parámetro
+        });
+
 
         span.onclick = closeModal;
 
