@@ -302,18 +302,6 @@ function formatDateForDisplay($mysqlDate)
                     }
                     ?>
                 </tbody>
-                <?php
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        // ... otras celdas ...
-                        echo "<td class='estado-cell'><span class='estado-indicator " . $estado_class . "'>" . htmlspecialchars($comparison) . "</span></td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='71'>No hay datos disponibles</td></tr>";
-                }
-                ?>
             </table>
         </div>
     </div>

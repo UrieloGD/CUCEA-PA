@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '/../../config/db.php';
+include './../../config/db.php';
 
 header('Content-Type: application/json');
 
@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $modulo = mysqli_real_escape_string($conexion, $_GET['modulo']);
     $espacio = mysqli_real_escape_string($conexion, $_GET['espacio']);
 
-    $query = "SELECT Equipo, Observaciones, Reportes FROM Espacios 
+    $query = "SELECT Equipo, Observaciones, Reportes FROM espacios 
               WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
 
     $result = mysqli_query($conexion, $query);
