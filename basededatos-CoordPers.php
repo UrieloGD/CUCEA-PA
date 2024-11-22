@@ -446,7 +446,6 @@ function formatDateForDisplay($mysqlDate)
     <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
     <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-    <script src="./JS/basesdedatos/barra-busqueda.js"></script>
     <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
     <script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>

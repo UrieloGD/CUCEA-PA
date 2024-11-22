@@ -79,6 +79,7 @@ $mapeo_columnas = [
     'FECHA DE INGRESO' => 'Fecha_ingreso',
     'ANTIGÜEDAD' => 'Antiguedad'
 ];
+
 function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas)
 {
     return isset($mapeo_columnas[$nombre_mostrado]) ? $mapeo_columnas[$nombre_mostrado] : str_replace(' ', '_', $nombre_mostrado);
