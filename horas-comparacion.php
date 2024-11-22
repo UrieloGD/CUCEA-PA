@@ -901,19 +901,10 @@
         const span = document.getElementsByClassName('close')[0];
         const modalTitle = document.getElementById('modalTitle');
         const tablaBody = document.getElementById('tablaBody');
-        const desgloseGeneralButton = document.querySelector('.desglose-button');
-        if (desgloseGeneralButton) {
-            desgloseGeneralButton.addEventListener('click', function() {
-                openModal('todos');
-            });
-        }
-        const departamentoButtons = document.querySelectorAll('.desglose-button-dpto, .boton-todos-departamentos');
-        
+        const departamentoCards = document.querySelectorAll('.desglose-button-dpto');
+
         // Función para abrir el modal
         function openModal(departamento) {
-            // Si no se pasa departamento, usar 'todos'
-            departamento = departamento || 'todos';
-
             modal.style.display = 'block';
             modalTitle.textContent =
                 departamento === 'todos'
@@ -923,6 +914,7 @@
             // Realiza el fetch para obtener los datos del departamento
             fetchPersonalData(departamento);
         }
+
         // Función para cerrar el modal
         function closeModal() {
             modal.style.display = 'none';
@@ -972,7 +964,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `departamento=${encodeURIComponent(departamento === 'todos' ? '' : departamento)}`
+                    body: `departamento=${encodeURIComponent(departamento)}`
                 })
                 .then(response => response.text())
                 .then(text => {
@@ -1011,8 +1003,9 @@
                     data.forEach(persona => {
                         const row = document.createElement('tr');
                         
-                        // Función para obtener la clase del departamento (mejorada)
+                        // Función para obtener la clase del departamento
                         function getDepartamentoClass(departamento) {
+                            // Normalizar el texto del departamento
                             const normalizedDept = departamento.toLowerCase()
                                 .normalize("NFD")
                                 .replace(/[\u0300-\u036f]/g, "")
@@ -1034,41 +1027,34 @@
                                     'finanzas': 'finanzas',
                                     'impuestos': 'impuestos',
                                     'mercadotecnia': 'mercadotecnia',
-                                    'mercadotecnia y negocios internacionales': 'mercadotecnia',
                                     'metodos cuantitativos': 'metodos-cuantitativos',
                                     'recursos humanos': 'recursos-humanos',
-                                    'sistemas de información': 'sistemas-información',
-                                    'sistemas de la información': 'sistemas-información',
+                                    'sistemas de informacion': 'sistemas-informacion',
                                     'turismo': 'turismo'
                                 };
 
-                            // Buscar coincidencia exacta
-                            for (let [key, value] of Object.entries(mapping)) {
-                                const normalizedKey = key.toLowerCase()
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
-                                    .replace(/[^a-z\s]/g, "")
-                                    .trim();
-                                
-                                if (normalizedDept === normalizedKey) {
-                                    return value;
+                                // Buscar coincidencia exacta primero
+                                for (let [key, value] of Object.entries(mapping)) {
+                                    if (normalizedDept === key) {
+                                        return value;
+                                    }
                                 }
-                            }
 
-                            // Buscar coincidencia parcial
-                            for (let [key, value] of Object.entries(mapping)) {
-                                const normalizedKey = key.toLowerCase()
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
-                                    .replace(/[^a-z\s]/g, "")
-                                    .trim();
-                                
-                                if (normalizedDept.includes(normalizedKey)) {
-                                    return value;
+                                // Si no hay coincidencia exacta, buscar coincidencia parcial
+                                for (let [key, value] of Object.entries(mapping)) {
+                                    // Para PALE, buscar coincidencias específicas
+                                    if (value === 'pale' && 
+                                        (normalizedDept.includes('pale') || 
+                                        normalizedDept.includes('programa de aprendizaje') || 
+                                        normalizedDept.includes('lengua extranjera'))) {
+                                        return 'pale';
+                                    }
+                                    if (normalizedDept.includes(key)) {
+                                        return value;
+                                    }
                                 }
-                            }
-
-                            console.log('Departamento no encontrado:', departamento);
+                            
+                            console.log('Departamento no encontrado:', departamento); // Para debug
                             return 'default';
                         }
 

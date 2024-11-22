@@ -2,7 +2,7 @@
 
 .cuadro-principal {
   background-color: white;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -368,8 +368,8 @@
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
-    height: 90vh;
+    width: 92%;
+    height: 90%;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -410,7 +410,7 @@
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
   }
 
@@ -447,7 +447,7 @@
   .cuadro-principal {
     display: flex;
     flex-direction: column;
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
     font-size: smaller;
   }
@@ -505,7 +505,7 @@
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -586,8 +586,8 @@
 
 @media screen and (max-width: 769px) {
   .cuadro-principal {
-    width: 96vw;
-    height: 91vh; /* Mantener altura fija */
+    width: 96%;
+    height: 91%; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
   }
@@ -648,8 +648,8 @@
 
 @media screen and (max-width: 640px) {
   .cuadro-principal {
-    width: 96vw;
-    height: 91vh; /* Mantener altura fija */
+    width: 96%;
+    height: 91%; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
   }

@@ -1,7 +1,7 @@
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -595,12 +595,8 @@ div.dataTables_wrapper {
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 92%;
     height: 90vh;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
   }
   .iconos-container {
     margin-right: 4vw;
@@ -624,7 +620,7 @@ div.dataTables_wrapper {
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
   }
   .iconos-container {
@@ -648,7 +644,7 @@ div.dataTables_wrapper {
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
     font-size: smaller;
   }
@@ -684,7 +680,7 @@ div.dataTables_wrapper {
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -749,7 +745,7 @@ div.dataTables_wrapper {
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -901,10 +897,6 @@ nav[aria-label="pagination"] {
     border-radius: 20px;
     width: 92vw;
     height: 90vh;
-    margin-left: 6vw;
-    margin-right: 2vw;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
   }
   .iconos-container {
     margin-right: 4vw;
@@ -928,7 +920,7 @@ nav[aria-label="pagination"] {
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 91vw;
     margin-left: 6vw;
   }
   .iconos-container {
@@ -988,7 +980,7 @@ nav[aria-label="pagination"] {
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 88.5vw;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;

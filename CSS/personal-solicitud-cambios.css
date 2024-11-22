@@ -4,7 +4,7 @@
 .cuadro-principal {
   /*border: solid black 1px;*/
   background-color: white;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -352,7 +352,7 @@
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 92%;
     height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
@@ -363,7 +363,7 @@
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
   }
   .info {
@@ -373,9 +373,9 @@
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
-    font-size: smaller;
+    font-size: small;
   }
   .texto-inferior {
     padding-top: 4px;
@@ -390,7 +390,7 @@
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -416,7 +416,7 @@
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     /*height: fit-content;*/
     margin-left: 2vw;
     margin-right: 2vw;
@@ -424,7 +424,6 @@
   }
   .solicitud-contenedor-principal {
     height: 110px;
-    justify-content: center;
   }
   
   .texto-inferior {
@@ -447,7 +446,7 @@
 
 @media screen and (max-width: 660px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     /*height: fit-content;*/
     margin-left: 2vw;
     margin-right: 2vw;
@@ -470,11 +469,47 @@
   .texto-inferior {
     padding-top: 4px;
   }
+  .solicitud-contenedor-principal {
+    height: 115px;
+  }
+  .circulo-aprobado,
+  .circulo-en_revision,
+  .circulo-pendiente,
+  .circulo-rechazado,
+  .estado-solicitud { 
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 80px; 
+    position: absolute; 
+  }
+  .fecha-solicitud,
+  .hora-solicitud {
+    position: relative; 
+    top: 57px; 
+  }
+  .circulo-aprobado,
+  .circulo-en_revision,
+  .circulo-pendiente,
+  .circulo-rechazado { 
+    top: 20px; left: -15px; 
+  }
+  .estado-solicitud {
+    top: 76px;
+    left: -210px;
+  }
+  .nombre-solicitud,
+  .nombre-departamento { width: 100%; display: block; }
+  .info-sup { 
+    display: block;
+    width: 20%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }
 
 @media screen and (max-width: 490px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     /*height: fit-content;*/
     margin-left: 2vw;
     margin-right: 2vw;
@@ -495,5 +530,10 @@
   }
   .texto-inferior {
     padding-top: 4px;
+  }
+  .icono-despliegue { 
+    font-size: 2rem;
+    top: 70%;
+    right: 10px;
   }
 }

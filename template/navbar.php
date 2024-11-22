@@ -265,8 +265,8 @@ function generateColorForUser($userId)
                     <span class="link-text">Guía</span>
                 </a>
             </li>
-
-            <li class="navbar-item flexbox-left">
+            <!-- Duplicado por alguna razon -->
+            <!-- <li class="navbar-item flexbox-left">
                 <a href="#">
                     <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
                         <?php
@@ -279,7 +279,7 @@ function generateColorForUser($userId)
                         ?>
                     </div>
                 </a>
-            </li>
+            </li> -->
             <?php
             if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
             ?>
