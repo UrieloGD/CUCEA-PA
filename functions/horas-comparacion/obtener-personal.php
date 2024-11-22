@@ -55,7 +55,7 @@ function getDepartamentoQuery($departamento)
 
 function getSumaHorasPorProfesor($codigo, $conexion) {
     // Modificamos la consulta inicial para obtener ambos nombres
-    $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento, Departamentos FROM Departamentos");
+    $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento, Departamentos FROM departamentos");
     $suma_horas = 0;
     $suma_cargo_plaza = 0;
     $suma_horas_definitivas = 0;
@@ -171,7 +171,7 @@ try {
         $query = "SELECT Codigo, Nombre_completo, Departamento, Categoria_actual, 
                              Tipo_plaza, Carga_horaria, Horas_frente_grupo, 
                              Horas_definitivas 
-                      FROM Coord_Per_Prof 
+                      FROM coord_per_prof 
                       ORDER BY Nombre_completo";
         $stmt = $conexion->prepare($query);
     } else {
@@ -179,7 +179,7 @@ try {
         $query = "SELECT Codigo, Nombre_completo, Departamento, Categoria_actual, 
                              Tipo_plaza, Carga_horaria, Horas_frente_grupo, 
                              Horas_definitivas 
-                      FROM Coord_Per_Prof " .
+                      FROM coord_per_prof " .
             $queryInfo['query'] . " 
                       ORDER BY Nombre_completo";
         $stmt = $conexion->prepare($query);

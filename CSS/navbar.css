@@ -171,12 +171,12 @@
   border-radius: 50%;
   /*border: 4px solid white;*/
   overflow: hidden;
-  position: absolute;
+  position: relative;
   font-weight: bold;
   color: white;
   font-size: 1.5rem;
-  bottom: 5%;
-  left: 50%;
+  bottom: -10px;
+  left: 60%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -moz-transform: translateX(-50%);
@@ -221,7 +221,8 @@
   width: 5.625rem;
   /* 90px / 16px = 5.625rem */
   height: 5.625rem;
-  bottom: 5%;
+  bottom: -20px;
+  left: 130%;
   /* Ajusta este valor según tus necesidades */
 }
 
@@ -306,9 +307,9 @@ hr {
 /* Boton de cerrar sesion */
 
 .logout-container {
-  position: absolute;
-  bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-  left: 50%;
+  position: relative;
+  bottom: -15px; /* Ajusta la distancia desde la parte inferior */
+  left: 73.5%;
   transform: translateX(-50%); /* Centra el botón horizontalmente */
 }
 
@@ -368,7 +369,7 @@ hr {
 
 .dropdown-container {
   position: relative;
-  width: 100%;
+  width: 94%; /* Ajuste el width para que coincidiera el indicador */
 }
 
 .dropdown-trigger {
@@ -543,6 +544,14 @@ Responsividad para distintas resoluciones
     align-items: center;
     margin-bottom: auto;
   }
+  
+  .dropdown-item { font-size: smaller; }
+
+  #navbar:hover .navbar-profile-icon {
+    width: 5.125rem;
+    height: 5.125rem;
+    font-size: 2.5rem;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
@@ -609,6 +618,14 @@ Responsividad para distintas resoluciones
     align-items: center;
     margin-bottom: auto;
   }
+
+  #navbar:hover .navbar-profile-icon {
+    width: 5.125rem;
+    height: 5.125rem;
+    font-size: 2.5rem;
+  }
+
+  .dropdown-item { font-size: smaller; }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
@@ -657,6 +674,20 @@ Responsividad para distintas resoluciones
     font-size: smaller;
   }
 
+  .navbar-profile-icon {
+    width: 2.525rem;
+    height: 2.525rem;
+    font-size: 1.5rem;
+  }
+
+  #navbar:hover .navbar-profile-icon {
+    width: 4.525rem;
+    height: 4.525rem;
+    font-size: 2.5rem;
+  }
+
+  .dropdown-item { font-size: smaller; }
+
   /*.navbar-logo img {
     max-width: 40%;
     max-height: 40%;
@@ -696,10 +727,15 @@ Responsividad para distintas resoluciones
     opacity: 1;
   }
 
-  .navbar-profile-icon,
   .profile-icon-transition {
     width: 2.5rem;
     height: 2.5rem;
+  }
+
+  .navbar-profile-icon {
+    width: 2.225rem;
+    height: 2.225rem;
+    font-size: 1.5rem;
   }
 
   /*#navbar:hover .profile-icon-transition {
@@ -715,6 +751,8 @@ Responsividad para distintas resoluciones
   }
 
   .logout-button {
+    position: relative;
+    left: 20px;
     font-size: 0.6rem;
     padding: 0.3rem 0.6rem;
   }
@@ -722,6 +760,15 @@ Responsividad para distintas resoluciones
   span {
     font-size: smaller;
   }
+
+  #navbar:hover .navbar-profile-icon {
+    width: 4.125rem;
+    height: 4.125rem;
+    font-size: 2.5rem;
+    left: 105px;
+  }
+
+  .dropdown-item { font-size: smaller; }
 
   /*.navbar-logo img {
     max-width: 40%;
@@ -835,13 +882,6 @@ Responsividad para distintas resoluciones
     height: 3.625rem;
     font-size: 2.5rem;
   }
-  /* Boton de cerrar sesion */
-  .logout-container {
-    position: absolute;
-    bottom: 10px; /* Ajusta la distancia desde la parte inferior */
-    left: 50%;
-    transform: translateX(-50%); /* Centra el botón horizontalmente */
-  }
   .logout-container {
     display: block;
   }
@@ -856,4 +896,24 @@ Responsividad para distintas resoluciones
   span {
     font-size: smaller;
   }
+  #navbar:hover .navbar-profile-icon {
+    width: 4.125rem;
+    height: 4.125rem;
+    font-size: 2.5rem;
+    left: 105px;
+  }
+  .navbar-profile-icon {
+    width: 4.125rem;
+    height: 4.125rem;
+    font-size: 2.5rem;
+    left: 105px;
+  }
+  .logout-button {
+    position: relative;
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+  #navbar:hover { overflow-y: auto;}
+
+  .dropdown-item { font-size: smaller; }
 }

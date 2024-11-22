@@ -3,7 +3,7 @@
 .cuadro-principal {
   /*border: solid black 1px;*/
   background-color: white;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -45,7 +45,7 @@
 
 .tabla {
   display: flex;
-  padding: 20px 2vw;
+  padding: 8px 2vw;
   align-items: center;
 }
 
@@ -132,8 +132,8 @@ td:nth-child(2) {
   overflow: hidden; /* Evita que la barra de progreso se desborde */
   width: 80%; /* Ajusta el ancho de la barra de progreso */
   height: 20px; /* Aumentar la altura de la barra de progreso */
-  margin: 1rem auto; /* Añadir más espacio superior e inferior y centrar horizontalmente */
-  margin-top: 2rem;
+  margin: 0rem auto; /* Añadir más espacio superior e inferior y centrar horizontalmente */
+  margin-top: 1rem; /* reduccion de margin-top para que los botones no se desfacen */
   box-sizing: border-box; /* Incluye el padding dentro del ancho y alto total */
 }
 
@@ -164,7 +164,6 @@ td:nth-child(2) {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
 }
 
 .btn {
@@ -201,7 +200,7 @@ td:nth-child(2) {
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 /* Estilo para centrar el encabezado */
@@ -272,42 +271,58 @@ td:nth-child(2) {
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 92%;
     height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+  td,
+  th {
+    font-size: 0.8rem;
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
+  }
+  td,
+  th {
+    font-size: 0.8rem;
   }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
     font-size: smaller;
+  }
+  td,
+  th {
+    font-size: 0.8rem;
   }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
+  }
+  td,
+  th {
+    font-size: 0.8rem;
   }
 }
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;

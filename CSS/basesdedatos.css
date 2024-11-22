@@ -1,7 +1,7 @@
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -354,7 +354,14 @@ th {
   gap: 10px;
 }
 
-#popup-columnas button {
+.contenedor-buttons {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  left: 35%;
+}
+
+.contenedor-buttons button {
   margin-top: 20px;
   padding: 10px 15px;
   background-color: #0071b0;
@@ -812,7 +819,7 @@ nav[aria-label="pagination"] {
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 92%;
     height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
@@ -837,7 +844,7 @@ nav[aria-label="pagination"] {
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
   }
   .iconos-container {
@@ -854,11 +861,14 @@ nav[aria-label="pagination"] {
   #popup-columnas {
     width: 60vw;
   }
+  .contenedor-buttons { 
+    left: 30%;
+  }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
     font-size: smaller;
   }
@@ -885,11 +895,14 @@ nav[aria-label="pagination"] {
   #popup-columnas {
     width: 70vw;
   }
+  .contenedor-buttons { 
+    left: 30%;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -950,11 +963,14 @@ nav[aria-label="pagination"] {
   #popup-columnas {
     width: 80vw;
   }
+  .contenedor-buttons { 
+    left: 29%;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -1063,6 +1079,9 @@ nav[aria-label="pagination"] {
   #popup-columnas {
     width: 80vw;
   }
+  .contenedor-buttons { 
+    left: 25%;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -1093,6 +1112,26 @@ nav[aria-label="pagination"] {
   }
   #popup-columnas {
     width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 18%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .contenedor-buttons {
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    flex-direction: column; 
+    left: 33%;
+  }
+  .contenedor-buttons button { 
+    margin: 2; 
+    padding: 0;
+    width: 150px;
+    height: 35px;
   }
 }
 
@@ -1128,6 +1167,9 @@ nav[aria-label="pagination"] {
   }
   #popup-columnas {
     width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 28%;
   }
 }
 

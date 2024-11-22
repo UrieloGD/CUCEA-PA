@@ -279,3 +279,31 @@ Main Button
 .rounded-md {
   border-radius: 10px;
 }
+
+/* Media Queries para arreglar el icono de error al iniciar sesion 'X' */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left { font-size: 1rem; }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left { font-size: 1rem; }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left { font-size: 1rem; }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left { font-size: 1rem; }
+}
+
+@media screen and (max-width: 768px) and (min-width: 481px) {
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left { font-size: 1rem; }
+}
+
+
