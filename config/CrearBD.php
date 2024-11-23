@@ -1187,7 +1187,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
     Nombres VARCHAR(70) NULL,
     Nombre_completo VARCHAR(80) NULL,
     Sexo VARCHAR(5) NULL,
-    Departamento VARCHAR(50) NULL,
+    Departamento VARCHAR(70) NULL,
     Categoria_actual VARCHAR(60) NULL,
     Categoria_actual_dos VARCHAR(20) NULL,
     Horas_frente_grupo INT(6) NULL,

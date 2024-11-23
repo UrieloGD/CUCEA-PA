@@ -34,33 +34,33 @@ function mostrarModal(espacio, horarios) {
   $("#reportesArea").html(
     '<textarea id="reportes" rows="3" cols="30"></textarea>'
   );
+  
+  // Agregar el evento click para las salas independiente de los filtros
+  $('.sala').on('click', function() {
+    var espacio = $(this).data('espacio');
+    var modulo = $('#modulo').val();
 
-  $.ajax({
-    url: "./functions/espacios/obtener-equipo-info.php",
-    method: "GET",
-    data: {
-      modulo: horarios.modulo,
-      espacio: espacio,
-    },
-    dataType: "json",
-    success: function (data) {
-      if (data.success) {
-        if (data.equipo && data.equipo.trim() !== "") {
-          var equipoArray = data.equipo.split(",");
-          equipoArray.forEach(function (item) {
-            var trimmedItem = item.trim();
-            if (trimmedItem !== "") {
-              $(`#${trimmedItem.replace(" ", "_")}`).prop("checked", true);
-            }
-          });
+    $.ajax({
+        url: './functions/espacios/obtener-horario-aula.php',
+        method: 'GET',
+        data: {
+            modulo: modulo,
+            espacio: espacio
+        },
+        dataType: 'json',
+        success: function(horarios) {
+            mostrarModal(espacio, horarios);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error al obtener los horarios:', error);
+            var horarios = {
+                modulo: modulo,
+                tipo: 'No disponible',
+                cupo: 'No disponible'
+            };
+            mostrarModal(espacio, horarios);
         }
-        $("#observaciones").val(data.observaciones || "");
-        $("#reportes").val(data.reportes || "");
-      }
-    },
-    error: function (xhr, status, error) {
-      console.error("Error al cargar la información:", error);
-    },
+    });
   });
 
   $("#tabContent").empty();

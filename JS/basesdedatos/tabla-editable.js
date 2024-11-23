@@ -90,7 +90,19 @@ const maxLengths = {
 };
 
 function makeEditable() {
+  // Verificar el rol del usuario antes de hacer la tabla editable
   const table = document.getElementById("tabla-datos");
+  
+  // Verificar si la tabla tiene el atributo data-editable="false"
+  if (table.getAttribute('data-editable') === 'false') {
+    return;
+  }
+
+  const userRole = document.getElementById('user-role').value;
+  
+  if (userRole !== "1") {
+    return;
+  }
   const rows = table.getElementsByTagName("tr");
 
   for (let i = 1; i < rows.length; i++) {
@@ -281,7 +293,7 @@ function saveAllChanges() {
 
     // Limpieza básica de datos
     value = value.replace(/[^\x00-\x7F]/g, "");
-    value = encodeURIComponent(value);
+    // value = encodeURIComponent(value);
 
     return fetch("./functions/basesdedatos/actualizar-celda.php", {
       method: "POST",
@@ -325,14 +337,11 @@ function saveAllChanges() {
       hideEditIcons();
     })
     .catch((error) => {
-      console.error("Error al guardar los cambios:", error);
-      alert(
-        "Hubo un error al guardar los cambios. Por favor, inténtelo de nuevo."
-      );
-
-      // Opcional: Mostrar color rojo en caso de error
-      changedCells.forEach((cell) => {
-        cell.style.backgroundColor = "#fe726c";
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'No tienes los permisos necesarios para realizar cambios en la base de datos',
+        confirmButtonText: 'Entendido'
       });
     });
 }

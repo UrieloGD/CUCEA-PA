@@ -1,17 +1,108 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Ensure session is started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
-include './config/db.php';
+//include './config/db.php';
 
+// Check if user is logged in
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Get user's code from session
+$usuario_codigo = $_SESSION['Codigo'];
+
+$rol = $_SESSION['Rol_ID'];
 $departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
 
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+// Query to find department for the user
+$sql_departamento = "SELECT d.Departamento_ID, d.Nombre_Departamento, d.Departamentos 
+                     FROM usuarios_departamentos ud
+                     JOIN departamentos d ON ud.departamento_ID = d.Departamento_ID
+                     WHERE ud.usuario_ID = ?";
+
+$stmt = $conexion->prepare($sql_departamento);
+if (!$stmt) {
+    die("Prepare failed: " . $conexion->error);
+}
+
+$stmt->bind_param("i", $usuario_codigo);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $departamento = $result->fetch_assoc();
+    
+    // Store department information in session
+    $_SESSION['Departamento_ID'] = $departamento['Departamento_ID'];
+    $_SESSION['Nombre_Departamento'] = $departamento['Nombre_Departamento'];
+    $_SESSION['Departamentos'] = $departamento['Departamentos'];
+} else {
+    die("No se encontró un departamento para este usuario.");
+}
+
+$stmt->close();
+
+$departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : $_SESSION['Departamento_ID'];
+
+// Verify the session variable exists
+if (!isset($_SESSION['Departamento_ID'])) {
+    die("Error: Departamento_ID not set in session");
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
+if (!$stmt) {
+    die("Prepare failed: " . $conexion->error);
+}
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result_departamento = $stmt->get_result();
+
+if (!$result_departamento) {
+    die("Query failed: " . $conexion->error);
+}
+
+if (!$conexion) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
 $result_departamento = mysqli_query($conexion, $sql_departamento);
 $row_departamento = mysqli_fetch_assoc($result_departamento);
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $departamento_nombre = $row_departamento['Departamentos'];
 
-$tabla_departamento = "Data_" . $nombre_departamento;
+$tabla_departamento = "data_" . $nombre_departamento;
 
 $sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
@@ -45,22 +136,28 @@ $result = mysqli_query($conexion, $sql);
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-
+            <?php if($rol == 1): ?>
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
+                <?php endif;?>
+                <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
+                <?php if($rol == 1): ?>
                 <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
                     <i class="fa fa-add" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
+                <?php endif;?>
                 <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
@@ -72,9 +169,20 @@ $result = mysqli_query($conexion, $sql);
         <hr style="border: 1px solid #0071b0; width: 99%;"></hr>
         <div id="opciones-columnas"></div>
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
+        <?php if($_SESSION['Rol_ID'] == 2): ?>
         <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
+        <?php endif; ?>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
+
+    <?php
+    // Verificar rol antes de mostrar la tabla editable
+    if ($_SESSION['Rol_ID'] != 1) {
+        // Deshabilitar edición o mostrar mensaje
+        $tabla_editable = false;
+    }
+    ?>
+    
     <div class="datatable-container">
         <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos" class="display">
@@ -292,6 +400,171 @@ $result = mysqli_query($conexion, $sql);
     </div>
 </div>
 
+<!-- Modal para listar todos los profesores del departamento -->
+<div id="modal-todos-profesores" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalTodosProfesores()">&times;</span>
+        
+        <!-- Barra de búsqueda -->
+        <div class="search-bar">
+            <div class="search-input-container">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <input type="text" placeholder="Buscar profesor..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
+            </div>
+        </div>
+
+        <!-- Tabla de profesores -->
+        <div class="profesores-container">
+            <h2>Todos los Profesores - <?php echo $departamento_nombre; ?></h2>
+            <table class="profesores-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre Completo</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-todos-profesores">
+                <?php
+                include './config/db.php';
+                
+                // Array de mapeo de departamentos
+                $departamentos_mapping = [
+
+                    'Administración' => [
+                        'Administracion',
+                        'ADMINISTRACION',
+                        'Administración'
+                    ],
+                    'PALE' => [
+                        'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
+                        'PALE',
+                        'Programa de Aprendizaje de Lengua Extranjera'
+                    ],
+                    'Auditoría' => [
+                        'Auditoria',
+                        'AUDITORIA',
+                        'Auditoría',
+                        'SECRETARIA ADMINISTRATIVA/AUDITORIA'
+                    ],
+                    'Ciencias_Sociales' => [
+                        'CERI/CIENCIAS SOCIALES',
+                        'CIENCIAS SOCIALES',
+                        'Ciencias Sociales'
+                    ],
+                    'Políticas_Públicas' => [
+                        'POLITICAS PUBLICAS',
+                        'Políticas Públicas',
+                        'Politicas Publicas'
+                    ],
+                    'Contabilidad' => [
+                        'CONTABILIDAD',
+                        'Contabilidad'
+                    ],
+                    'Economía' => [
+                        'ECONOMIA',
+                        'Economía',
+                        'Economia'
+                    ],
+                    'Estudios_Regionales' => [
+                        'ESTUDIOS REGIONALES',
+                        'Estudios Regionales'
+                    ],
+                    'Finanzas' => [
+                        'FINANZAS',
+                        'Finanzas'
+                    ],
+                    'Impuestos' => [
+                        'IMPUESTOS',
+                        'Impuestos'
+                    ],
+                    'Mercadotecnia' => [
+                        'MERCADOTECNIA',
+                        'Mercadotecnia',
+                        'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
+                    ],
+                    'Métodos_Cuantitativos' => [
+                        'METODOS CUANTITATIVOS',
+                        'Métodos Cuantitativos',
+                        'Metodos Cuantitativos'
+                    ],
+                    'Recursos_Humanos' => [
+                        'RECURSOS HUMANOS',
+                        'Recursos Humanos',
+                        'RECURSOS_HUMANOS'
+                    ],
+                    'Sistemas_de_Información' => [
+                        'SISTEMAS DE INFORMACION',
+                        'Sistemas de Información',
+                        'Sistemas de Informacion'
+                    ],
+                    'Turismo' => [
+                        'TURISMO',
+                        'Turismo',
+                        'Turismo R. y S.'
+                    ],
+                    'Posgrados' => [
+                        'POSGRADOS',
+                        'Posgrados'
+                    ]
+                ];
+
+                // Encontrar todas las variantes del departamento actual
+                $departamento_variantes = [];
+                foreach ($departamentos_mapping as $key => $variants) {
+                    if ($key === $nombre_departamento) {
+                        $departamento_variantes = $variants;
+                        break;
+                    }
+                }
+
+                // Crear la condición WHERE para la consulta SQL
+                $where_conditions = [];
+                foreach ($departamento_variantes as $variante) {
+                    $where_conditions[] = "Departamento = '" . mysqli_real_escape_string($conexion, $variante) . "'";
+                }
+                $where_clause = count($where_conditions) > 0 ? implode(' OR ', $where_conditions) : "1=0";
+
+                // Consulta SQL con las variantes del departamento
+                $sql_todos_profesores = "SELECT DISTINCT Codigo, Nombre_Completo 
+                                       FROM Coord_Per_Prof 
+                                       WHERE $where_clause
+                                       ORDER BY Nombre_Completo";
+                
+                $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
+                
+                if ($result_todos_profesores) {
+                    while($row = mysqli_fetch_assoc($result_todos_profesores)) {
+                        echo "<tr>";
+                        echo "<td>" . htmlspecialchars($row['Codigo']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
+                        echo "<td><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='3'>Error en la consulta: " . mysqli_error($conexion) . "</td></tr>";
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para visualizar información detallada del profesor -->
+<div id="modal-detalle-profesor" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModalDetalle()">&times;</span>
+        <!--<h2>Detalle del Profesor</h2>-->
+        <div id="detalle-profesor-contenido">
+            <!--El contenido se cargará dinámicamente -->
+        </div> 
+    </div>
+</div>
+
+<!-- Linea que valida el rol id del usuario para mandarlo a JS -->
+<input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
+
 <!-- Scripts de la librería DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
@@ -312,5 +585,7 @@ $result = mysqli_query($conexion, $sql);
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<script src="./JS/basesdedatos/visualizar-profesores.js"></script>
+<script src="./JS/basesdedatos/detalle-profesor.js"></script>
 
 <?php include("./template/footer.php"); ?>
