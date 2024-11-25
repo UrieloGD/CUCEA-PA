@@ -1,144 +1,171 @@
 <?php
-require './../../vendor/autoload.php';
-include './../../config/db.php';
-session_start();
+// Asegurarse de que la sesión esté iniciada
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : 0;
+// Verificar que el usuario esté autenticado
+if (!isset($_SESSION['email'])) {
+    die("Error: Usuario no autenticado");
+}
 
+// Configurar el reporte de errores
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Definir la ruta base
+define('BASE_PATH', realpath(dirname(__FILE__) . '/../../'));
+
+// Incluir las dependencias necesarias
+require BASE_PATH . '/vendor/autoload.php';
+require BASE_PATH . '/config/db.php';
+
+// Obtener el ID del departamento
+$departamento_id = isset($_POST['Departamento_ID']) ? (int)$_POST['Departamento_ID'] : (isset($_SESSION['Departamento_ID']) ? (int)$_SESSION['Departamento_ID'] : 0);
+
+// Validar el ID del departamento
 if (empty($departamento_id)) {
-    die("Error: Falta el ID del departamento.");
+    die("Error: Falta el ID del departamento. ID recibido: " . print_r($_POST, true));
 }
 
-// Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
-$stmt = $conexion->prepare($sql_departamento);
-$stmt->bind_param("i", $departamento_id);
-$stmt->execute();
-$result_departamento = $stmt->get_result();
-$row_departamento = $result_departamento->fetch_assoc();
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
+try {
+    // Obtener el nombre del departamento
+    $sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
+    $stmt = $conexion->prepare($sql_departamento);
 
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+    if (!$stmt) {
+        throw new Exception("Error preparando la consulta: " . $conexion->error);
+    }
 
-// Columnas para verificar duplicados
-$columnas_cotejo = [
-    'CRN',
-    'MATERIA',
-    'CVE_MATERIA',
-    'SECCION',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
-    'MODALIDAD',
-    'HORA_INICIAL',
-    'HORA_FINAL',
-    'MODULO',
-    'CUPO'
-];
+    $stmt->bind_param("i", $departamento_id);
+    $stmt->execute();
+    $result_departamento = $stmt->get_result();
 
-// Columnas a exportar en el orden especificado
-$columnas_exportar = [
-    'CICLO',
-    'CRN',
-    'FECHA_INICIAL',
-    'FECHA_FINAL',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
-    'HORA_INICIAL',
-    'HORA_FINAL',
-    'MODULO',
-    'AULA',
-    'DIA_PRESENCIAL',
-    'DIA_VIRTUAL',
-    'MODALIDAD'
-];
+    if ($result_departamento->num_rows === 0) {
+        throw new Exception("No se encontró el departamento especificado");
+    }
 
-// Construir la consulta SQL para obtener registros únicos
-$sql_select = "
-SELECT
-    t1.CICLO,
-    t1.CRN,
-    t1.MATERIA,
-    t1.CVE_MATERIA,
-    t1.SECCION,
-    t1.L,
-    t1.M,
-    t1.I,
-    t1.J,
-    t1.V,
-    t1.S,
-    t1.D,
-    t1.MODALIDAD,
-    t1.HORA_INICIAL,
-    t1.HORA_FINAL,
-    t1.MODULO,
-    t1.CUPO
-FROM (
-    SELECT
-        MAX(CICLO) AS CICLO,
-        " . implode(", ", $columnas_cotejo) . "
-    FROM `$tabla_departamento`
-    WHERE Departamento_ID = ?
-    GROUP BY " . implode(", ", $columnas_cotejo) . "
-) t1
-";
+    $row_departamento = $result_departamento->fetch_assoc();
+    $nombre_departamento = $row_departamento['Nombre_Departamento'];
+    $tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
-$stmt = $conexion->prepare($sql_select);
-if ($stmt === false) {
-    die("Error preparando la consulta: " . $conexion->error);
-}
+    // Columnas para verificar duplicados
+    $columnas_cotejo = [
+        'CRN',
+        'MATERIA',
+        'CVE_MATERIA',
+        'SECCION',
+        'L',
+        'M',
+        'I',
+        'J',
+        'V',
+        'S',
+        'D',
+        'MODALIDAD',
+        'HORA_INICIAL',
+        'HORA_FINAL',
+        'MODULO',
+        'CUPO'
+    ];
 
-$stmt->bind_param("i", $departamento_id);
-$stmt->execute();
-$result = $stmt->get_result();
+    // Columnas adicionales a exportar que no están en columnas_cotejo
+    $columnas_adicionales = [
+        'FECHA_INICIAL',
+        'FECHA_FINAL',
+        'AULA',
+        'DIA_PRESENCIAL',
+        'DIA_VIRTUAL'
+    ];
 
-// Crear nuevo documento Excel
-$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-$sheet = $spreadsheet->getActiveSheet();
+    // Columnas a exportar en el orden especificado
+    $columnas_exportar = [
+        'CICLO',
+        'CRN',
+        'FECHA_INICIAL',
+        'FECHA_FINAL',
+        'L',
+        'M',
+        'I',
+        'J',
+        'V',
+        'S',
+        'D',
+        'HORA_INICIAL',
+        'HORA_FINAL',
+        'MODULO',
+        'AULA',
+        'DIA_PRESENCIAL',
+        'DIA_VIRTUAL',
+        'MODALIDAD'
+    ];
 
-// Escribir encabezados en el Excel
-foreach ($columnas_exportar as $index => $header) {
-    $sheet->setCellValue(
-        \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1',
-        $header
-    );
-}
+    // Construir la consulta SQL evitando duplicados
+    $sql_select = "
+        SELECT 
+            MAX(CICLO) as CICLO,
+            " . implode(", ", array_unique(array_merge(
+        $columnas_cotejo,
+        $columnas_adicionales
+    ))) . "
+        FROM `$tabla_departamento`
+        WHERE Departamento_ID = ?
+        GROUP BY " . implode(", ", $columnas_cotejo);
 
-// Escribir datos
-if ($result->num_rows > 0) {
-    $row = 2;
-    while ($data = $result->fetch_assoc()) {
-        $col = 1;
-        foreach ($columnas_exportar as $columna) {
-            $sheet->setCellValue(
-                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
-                $data[$columna] ?? ''
-            );
-            $col++;
+    $stmt = $conexion->prepare($sql_select);
+    if (!$stmt) {
+        throw new Exception("Error preparando la consulta de datos: " . $conexion->error . "\nSQL: " . $sql_select);
+    }
+
+    $stmt->bind_param("i", $departamento_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Crear nuevo documento Excel
+    $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Escribir encabezados
+    foreach ($columnas_exportar as $index => $header) {
+        $sheet->setCellValue(
+            \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1',
+            $header
+        );
+    }
+
+    // Escribir datos
+    if ($result->num_rows > 0) {
+        $row = 2;
+        while ($data = $result->fetch_assoc()) {
+            $col = 1;
+            foreach ($columnas_exportar as $columna) {
+                $sheet->setCellValue(
+                    \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
+                    $data[$columna] ?? ''
+                );
+                $col++;
+            }
+            $row++;
         }
-        $row++;
+    }
+
+    $sheet->setTitle("Cotejada_$nombre_departamento");
+
+    // Configurar headers para la descarga
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="Data_Cotejada_' . $nombre_departamento . '.xlsx"');
+    header('Cache-Control: max-age=0');
+
+    // Guardar archivo
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('php://output');
+} catch (Exception $e) {
+    die("Error: " . $e->getMessage());
+} finally {
+    if (isset($stmt)) {
+        $stmt->close();
+    }
+    if (isset($conexion)) {
+        $conexion->close();
     }
 }
-
-$sheet->setTitle("Cotejada_$nombre_departamento");
-
-// Configurar headers para la descarga
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Data_Cotejada_' . $nombre_departamento . '.xlsx"');
-header('Cache-Control: max-age=0');
-
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-$writer->save('php://output');
-
-$stmt->close();
-$conexion->close();
-exit;

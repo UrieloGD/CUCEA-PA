@@ -3,14 +3,14 @@ require './../../vendor/autoload.php';
 include './../../config/db.php';
 session_start();
 
-$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : 0;
-$columnas_seleccionadas = isset($_GET['columnas']) ? json_decode($_GET['columnas'], true) : [];
+$departamento_id = isset($_POST['Departamento_ID']) ? (int)$_POST['Departamento_ID'] : 0;
+$columnas_seleccionadas = isset($_POST['columnas']) ? json_decode($_POST['columnas'], true) : [];
 
 if (empty($departamento_id) || empty($columnas_seleccionadas)) {
-    die("Error: Faltan parámetros necesarios.");
+    die("Error: Faltan parámetros necesarios. DepartamentoID: " . $departamento_id . ", Columnas: " . print_r($columnas_seleccionadas, true));
 }
 
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 if ($stmt === false) {
     die("Error preparando la consulta: " . $conexion->error);
@@ -41,16 +41,17 @@ $mapeo_columnas = [
     'EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
 ];
 // Función para convertir el nombre mostrado al nombre real
-function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas) {
+function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas)
+{
     return isset($mapeo_columnas[$nombre_mostrado]) ? $mapeo_columnas[$nombre_mostrado] : str_replace(' ', '_', $nombre_mostrado);
 }
 
 // Convertir los nombres seleccionados a los nombres reales
-$columnas_reales = array_map(function($columna) use ($mapeo_columnas) {
+$columnas_reales = array_map(function ($columna) use ($mapeo_columnas) {
     return obtenerNombreRealColumna($columna, $mapeo_columnas);
 }, $columnas_seleccionadas);
 
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 if ($stmt === false) {
     die("Error preparando la consulta de departamento: " . $conexion->error);
@@ -64,7 +65,7 @@ $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
 // Construir la consulta SQL dinámica con los nombres reales de las columnas
 $sql = "SELECT " . implode(", ", $columnas_reales) . " FROM `$tabla_departamento` WHERE Departamento_ID = ?";
@@ -90,7 +91,7 @@ if ($result->num_rows > 0) {
         $col = 1;
         foreach ($columnas_reales as $header_real) {
             $sheet->setCellValue(
-                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row, 
+                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
                 $data[$header_real] ?? ''
             );
             $col++;

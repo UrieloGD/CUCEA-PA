@@ -26,21 +26,18 @@ function mostrarPopupColumnas() {
   // Crear checkbox para cada columna
   var columnDiv = document.createElement("div");
   columnDiv.className = "columns-container";
-  headers.forEach(function (header, index) {
+  headers.forEach(function (header) {
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = "col-" + header.textContent.toLowerCase().replace(/ /g, "-");
     checkbox.name = "columnas[]";
     checkbox.value = header.textContent;
-
     var label = document.createElement("label");
     label.htmlFor = checkbox.id;
     label.appendChild(document.createTextNode(header.textContent));
-
     var div = document.createElement("div");
     div.appendChild(checkbox);
     div.appendChild(label);
-
     columnDiv.appendChild(div);
   });
   opcionesColumnas.appendChild(columnDiv);
@@ -77,21 +74,71 @@ function descargarExcelSeleccionado() {
   }
 
   var departamento_id = document.getElementById("departamento_id").value;
-  var url =
-    "./functions/basesdedatos/descargar-data-excel.php?departamento_id=" +
-    departamento_id +
-    "&columnas=" +
-    JSON.stringify(columnasSeleccionadas);
-  window.location.href = url;
+
+  // Crear un formulario temporal
+  var form = document.createElement("form");
+  form.method = "POST";
+  form.action = "./functions/basesdedatos/descargar-data-excel.php";
+
+  // Añadir el Departamento_ID
+  var inputDepartamento = document.createElement("input");
+  inputDepartamento.type = "hidden";
+  inputDepartamento.name = "Departamento_ID";
+  inputDepartamento.value = departamento_id;
+  form.appendChild(inputDepartamento);
+
+  // Añadir las columnas seleccionadas
+  var inputColumnas = document.createElement("input");
+  inputColumnas.type = "hidden";
+  inputColumnas.name = "columnas";
+  inputColumnas.value = JSON.stringify(columnasSeleccionadas);
+  form.appendChild(inputColumnas);
+
+  // Añadir el formulario al documento y enviarlo
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
 
   cerrarPopupColumnas();
 }
 
 function descargarExcelCotejado() {
+  // Obtener el ID del departamento
   var departamento_id = document.getElementById("departamento_id").value;
-  var url =
-    "./functions/basesdedatos/descargar-cotejo.php?departamento_id=" +
-    departamento_id;
-  window.location.href = url;
+
+  if (!departamento_id) {
+    alert("Error: No se pudo obtener el ID del departamento");
+    return;
+  }
+
+  // Crear un formulario temporal
+  var form = document.createElement("form");
+  form.method = "POST";
+  form.action = "./functions/basesdedatos/descargar-cotejo.php";
+
+  // Añadir el Departamento_ID como campo oculto
+  var inputDepartamento = document.createElement("input");
+  inputDepartamento.type = "hidden";
+  inputDepartamento.name = "Departamento_ID";
+  inputDepartamento.value = departamento_id;
+  form.appendChild(inputDepartamento);
+
+  // Añadir el formulario al documento y enviarlo
+  document.body.appendChild(form);
+
+  // Manejar errores
+  try {
+    form.submit();
+  } catch (error) {
+    console.error("Error al enviar el formulario:", error);
+    alert("Ocurrió un error al intentar descargar el archivo");
+  } finally {
+    // Limpiar el formulario temporal
+    setTimeout(() => {
+      document.body.removeChild(form);
+    }, 1000);
+  }
+
+  // Cerrar el popup
   cerrarPopupColumnas();
 }
