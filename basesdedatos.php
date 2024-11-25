@@ -97,7 +97,7 @@ if (!$conexion) {
 }
 
 // Función para verificar choques (añadir al inicio del archivo, antes de generar la tabla)
-function verificarChoques($registro_actual, $departamentos) {
+function verificarChoques($registro_actual, $departamentos, $conexion) {
     $choques = [];
     $departamento_actual = $registro_actual['Departamento'];
     
@@ -105,7 +105,6 @@ function verificarChoques($registro_actual, $departamentos) {
         if ($nombre_dep == $departamento_actual) continue;
         
         foreach ($registros as $registro) {
-            // Verificar choques considerando múltiples condiciones
             $choque_horario = (
                 ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] && 
                  $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
@@ -113,7 +112,6 @@ function verificarChoques($registro_actual, $departamentos) {
                  $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
             );
 
-            // Verificar coincidencia de días de la semana
             $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
             $dias_choque = false;
 
@@ -130,9 +128,21 @@ function verificarChoques($registro_actual, $departamentos) {
                 $choque_horario && 
                 $dias_choque
             ) {
+                // Buscar el timestamp de subida más antiguo
+                $sql_timestamp = "SELECT d.Nombre_Departamento 
+                                  FROM Plantilla_Dep pd
+                                  JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                                  WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
+                                  ORDER BY pd.Fecha_Subida_Dep ASC
+                                  LIMIT 1";
+                
+                $result_timestamp = mysqli_query($conexion, $sql_timestamp);
+                $primer_departamento = mysqli_fetch_assoc($result_timestamp);
+
                 $choques[] = [
                     'Departamento' => $nombre_dep,
-                    'ID_Choque' => $registro['ID_Plantilla']
+                    'ID_Choque' => $registro['ID_Plantilla'],
+                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento']
                 ];
             }
         }
@@ -308,8 +318,8 @@ $result = mysqli_query($conexion, $sql);
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $row['Departamento'] = $nombre_departamento;
-                        $choques = verificarChoques($row, $departamentos);
-        
+                        $choques = verificarChoques($row, $departamentos, $conexion);
+                    
                         echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" . 
                             (!empty($choques) ? 'tiene-choques' : '') . "'>";
                         echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";

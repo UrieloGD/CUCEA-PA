@@ -817,6 +817,14 @@ nav[aria-label="pagination"] {
   background-color: #ff9999 !important;
 }
 
+.celda-choque.choque-primero {
+  background-color: #b3d9ff !important; /* Azul claro */
+}
+
+.celda-choque.choque-segundo {
+  background-color: #ffcccc !important; /* Rojo claro */
+}
+
 .fila-choque {
   background-color: rgba(255, 204, 204, 0.3);
 }

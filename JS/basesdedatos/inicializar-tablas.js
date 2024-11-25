@@ -62,16 +62,24 @@ $(document).ready(function () {
           var choques = $row.data('choques');
           
           if (choques && choques.length > 0) {
-            $(cell).addClass('celda-choque');
-            
-            // Agregar tooltip con información de choques
-            var tooltipContent = choques.map(function(choque) {
-              return "Choque con Departamento: " + choque.Departamento + 
-                    ", ID: " + choque.ID_Choque;
-            }).join('<br>');
-            
-            $(cell).attr('title', tooltipContent);
-            $row.addClass('fila-choque');
+              $(cell).addClass('celda-choque');
+              
+              choques.forEach(function(choque) {
+                  // Marcar solo el primer departamento en azul
+                  if (choque.Primer_Departamento === choque.Departamento) {
+                      $(cell).addClass('choque-primero');
+                  } else {
+                      $(cell).addClass('choque-segundo');
+                  }
+              });
+              
+              // Tooltip con ID de choque y nombre de departamento
+              var tooltipContent = choques.map(function(choque) {
+                  return "Choque con ID (#" + choque.ID_Choque + ") del Departamento (" + choque.Departamento + ")";
+              }).join('<br>');
+              
+              $(cell).attr('title', tooltipContent);
+              $row.addClass('fila-choque');
           }
         }
       }
