@@ -43,7 +43,7 @@
   <div class="banner">
     <div class="carrusel">
       <div class="diapositiva">
-        <img src="https://scontent-dfw5-2.xx.fbcdn.net/v/t39.30808-6/215358320_4033136953402520_8974225234675619499_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=VzHBBXByFQgQ7kNvgHthuTa&_nc_zt=23&_nc_ht=scontent-dfw5-2.xx&_nc_gid=AfFIT3ZPPTOtqc0HUPDPD2H&oh=00_AYDtsRFj_NWpHs6vPclABe1_BA90y1faB0Q9WP2_HJrpAA&oe=67428083" alt="Imagen 1">
+        <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
         </div>
         <div class="diapositiva">
           <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
@@ -158,7 +158,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Plantilla</h4>
         </div>
-        <img src="./img/img-home/plantilla.png" alt="Imagen de un pasillo arbolado de CUCEA" />
+        <img src="./img/img-home/plantilla.webp" alt="Imagen de un pasillo arbolado de CUCEA" />
       </a>
     </div>
     <div class="cuadro-ind">
@@ -188,7 +188,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Bases de datos</h4>
         </div>
-        <img src="./Img/img-home/basededatos.png" alt="imagen de edificios de CUCEA" />
+        <img src="./Img/img-home/basededatos.webp" alt="imagen de edificios de CUCEA" />
       </a>
     </div>
     <div class="cuadro-ind">
@@ -196,7 +196,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Oferta</h4>
         </div>
-        <img src="./Img/img-home/oferta.png" alt="Imagen de fondo de CERI" />
+        <img src="./Img/img-home/oferta.webp" alt="Imagen de fondo de CERI" />
       </a>
     </div>
     <div class="cuadro-ind">
@@ -204,7 +204,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Espacios</h4>
         </div>
-        <img src="./Img/img-home/espacios.png" alt="Imagen de las letras de CUCEA" />
+        <img src="./Img/img-home/espacios.webp" alt="Imagen de las letras de CUCEA" />
       </a>
     </div>
     <div class="cuadro-ind">
@@ -212,7 +212,7 @@
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Guía</h4>
         </div>
-        <img src="./Img/img-home/guia.png" alt="Imagen de CiberJardin" />
+        <img src="./Img/img-home/guia.webp" alt="Imagen de CiberJardin" />
       </a>
     </div>
   </div>

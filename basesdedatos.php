@@ -96,6 +96,76 @@ if (!$conexion) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// Función para verificar choques (añadir al inicio del archivo, antes de generar la tabla)
+function verificarChoques($registro_actual, $departamentos) {
+    $choques = [];
+    $departamento_actual = $registro_actual['Departamento'];
+    
+    foreach ($departamentos as $nombre_dep => $registros) {
+        if ($nombre_dep == $departamento_actual) continue;
+        
+        foreach ($registros as $registro) {
+            // Verificar choques considerando múltiples condiciones
+            $choque_horario = (
+                ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] && 
+                 $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
+                ($registro_actual['HORA_FINAL'] > $registro['HORA_INICIAL'] && 
+                 $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
+            );
+
+            // Verificar coincidencia de días de la semana
+            $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
+            $dias_choque = false;
+
+            foreach ($dias_semana as $dia) {
+                if (!empty($registro_actual[$dia]) && !empty($registro[$dia]) && 
+                    $registro_actual[$dia] == $registro[$dia]) {
+                    $dias_choque = true;
+                    break;
+                }
+            }
+
+            if ($registro['MODULO'] == $registro_actual['MODULO'] &&
+                $registro['AULA'] == $registro_actual['AULA'] &&
+                $choque_horario && 
+                $dias_choque
+            ) {
+                $choques[] = [
+                    'Departamento' => $nombre_dep,
+                    'ID_Choque' => $registro['ID_Plantilla']
+                ];
+            }
+        }
+    }
+    
+    return $choques;
+}
+
+// Antes de generar la tabla, cargar datos de todos los departamentos
+$departamentos_query = "SELECT Departamento_ID, Nombre_Departamento FROM departamentos";
+$departamentos_result = mysqli_query($conexion, $departamentos_query);
+$departamentos = [];
+
+while ($dep = mysqli_fetch_assoc($departamentos_result)) {
+    $tabla_dep = "data_" . str_replace(' ', '_', $dep['Nombre_Departamento']);
+    $query = "SELECT 
+        ID_Plantilla, 
+        MODULO, 
+        HORA_INICIAL, 
+        HORA_FINAL, 
+        AULA,
+        L, M, I, J, V, S, D,
+        '$dep[Nombre_Departamento]' as Departamento
+    FROM $tabla_dep 
+    WHERE MODULO IS NOT NULL 
+      AND HORA_INICIAL IS NOT NULL 
+      AND HORA_FINAL IS NOT NULL 
+      AND AULA IS NOT NULL";
+    
+    $result_dep = mysqli_query($conexion, $query);
+    $departamentos[$dep['Nombre_Departamento']] = mysqli_fetch_all($result_dep, MYSQLI_ASSOC);
+}
+
 $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
 $result_departamento = mysqli_query($conexion, $sql_departamento);
 $row_departamento = mysqli_fetch_assoc($result_departamento);
@@ -237,7 +307,11 @@ $result = mysqli_query($conexion, $sql);
                 <?php
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
+                        $row['Departamento'] = $nombre_departamento;
+                        $choques = verificarChoques($row, $departamentos);
+        
+                        echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" . 
+                            (!empty($choques) ? 'tiene-choques' : '') . "'>";
                         echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
                         echo "<td>" . htmlspecialchars($row["ID_Plantilla"] ?? '') . "</td>";
                         echo "<td>" . htmlspecialchars($row["CICLO"] ?? '') . "</td>";
