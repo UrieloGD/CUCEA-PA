@@ -77,26 +77,100 @@ $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result_departamento = $stmt->get_result();
 
-if ($result_departamento->num_rows > 0) {
-    $row_departamento = $result_departamento->fetch_assoc();
-    $nombre_departamento = $row_departamento['Nombre_Departamento'];
-    $departamento_nombre = $row_departamento['Departamentos'];
-} else {
-    // Si no se encuentra el departamento, buscar el primer departamento disponible
-    $sql_primer_departamento = "SELECT Departamento_ID, Nombre_Departamento, Departamentos FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
-    $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
-    
-    if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
-        $row_primer_departamento = mysqli_fetch_assoc($result_primer_departamento);
-        $departamento_id = $row_primer_departamento['Departamento_ID'];
-        $nombre_departamento = $row_primer_departamento['Nombre_Departamento'];
-        $departamento_nombre = $row_primer_departamento['Departamentos'];
-    } else {
-        die("No se encontraron departamentos disponibles.");
-    }
+if (!$result_departamento) {
+    die("Query failed: " . $conexion->error);
 }
 
-// Preparar la consulta para obtener los datos del departamento
+if (!$conexion) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Función para verificar choques (añadir al inicio del archivo, antes de generar la tabla)
+function verificarChoques($registro_actual, $departamentos, $conexion) {
+    $choques = [];
+    $departamento_actual = $registro_actual['Departamento'];
+    
+    foreach ($departamentos as $nombre_dep => $registros) {
+        if ($nombre_dep == $departamento_actual) continue;
+        
+        foreach ($registros as $registro) {
+            $choque_horario = (
+                ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] && 
+                 $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
+                ($registro_actual['HORA_FINAL'] > $registro['HORA_INICIAL'] && 
+                 $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
+            );
+
+            $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
+            $dias_choque = false;
+
+            foreach ($dias_semana as $dia) {
+                if (!empty($registro_actual[$dia]) && !empty($registro[$dia]) && 
+                    $registro_actual[$dia] == $registro[$dia]) {
+                    $dias_choque = true;
+                    break;
+                }
+            }
+
+            if ($registro['MODULO'] == $registro_actual['MODULO'] &&
+                $registro['AULA'] == $registro_actual['AULA'] &&
+                $choque_horario && 
+                $dias_choque
+            ) {
+                // Buscar el timestamp de subida más antiguo
+                $sql_timestamp = "SELECT d.Nombre_Departamento 
+                                  FROM Plantilla_Dep pd
+                                  JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                                  WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
+                                  ORDER BY pd.Fecha_Subida_Dep ASC
+                                  LIMIT 1";
+                
+                $result_timestamp = mysqli_query($conexion, $sql_timestamp);
+                $primer_departamento = mysqli_fetch_assoc($result_timestamp);
+
+                $choques[] = [
+                    'Departamento' => $nombre_dep,
+                    'ID_Choque' => $registro['ID_Plantilla'],
+                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento']
+                ];
+            }
+        }
+    }
+    
+    return $choques;
+}
+
+// Antes de generar la tabla, cargar datos de todos los departamentos
+$departamentos_query = "SELECT Departamento_ID, Nombre_Departamento FROM departamentos";
+$departamentos_result = mysqli_query($conexion, $departamentos_query);
+$departamentos = [];
+
+while ($dep = mysqli_fetch_assoc($departamentos_result)) {
+    $tabla_dep = "data_" . str_replace(' ', '_', $dep['Nombre_Departamento']);
+    $query = "SELECT 
+        ID_Plantilla, 
+        MODULO, 
+        HORA_INICIAL, 
+        HORA_FINAL, 
+        AULA,
+        L, M, I, J, V, S, D,
+        '$dep[Nombre_Departamento]' as Departamento
+    FROM $tabla_dep 
+    WHERE MODULO IS NOT NULL 
+      AND HORA_INICIAL IS NOT NULL 
+      AND HORA_FINAL IS NOT NULL 
+      AND AULA IS NOT NULL";
+    
+    $result_dep = mysqli_query($conexion, $query);
+    $departamentos[$dep['Nombre_Departamento']] = mysqli_fetch_all($result_dep, MYSQLI_ASSOC);
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
+$result_departamento = mysqli_query($conexion, $sql_departamento);
+$row_departamento = mysqli_fetch_assoc($result_departamento);
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$departamento_nombre = $row_departamento['Departamentos'];
+
 $tabla_departamento = "data_" . $nombre_departamento;
 
 $sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = ?";
@@ -240,7 +314,11 @@ $result = $stmt->get_result();
                 <?php
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
+                        $row['Departamento'] = $nombre_departamento;
+                        $choques = verificarChoques($row, $departamentos, $conexion);
+                    
+                        echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" . 
+                            (!empty($choques) ? 'tiene-choques' : '') . "'>";
                         echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
                         echo "<td>" . htmlspecialchars($row["ID_Plantilla"] ?? '') . "</td>";
                         echo "<td>" . htmlspecialchars($row["CICLO"] ?? '') . "</td>";

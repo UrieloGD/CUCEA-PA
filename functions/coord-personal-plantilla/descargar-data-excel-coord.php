@@ -30,7 +30,7 @@ $mapeo_columnas = [
     'TURNO' => 'Turno',
     'INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION' => 'Investigacion_nombramiento_cambio_funcion',
     'S.N.I.' => 'SNI',
-    'SIN DESDE' => 'SIN_desde',
+    'SNI DESDE' => 'SNI_desde',
     'CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR' => 'Cambio_dedicacion',
     'INICIO' => 'Inicio',
     'FIN' => 'Fin',
@@ -79,6 +79,7 @@ $mapeo_columnas = [
     'FECHA DE INGRESO' => 'Fecha_ingreso',
     'ANTIGÜEDAD' => 'Antiguedad'
 ];
+
 function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas)
 {
     return isset($mapeo_columnas[$nombre_mostrado]) ? $mapeo_columnas[$nombre_mostrado] : str_replace(' ', '_', $nombre_mostrado);

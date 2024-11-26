@@ -73,6 +73,7 @@
   position: relative; /* Para controlar el contenido interno */
   margin-top: -5px;
   overflow-x: auto; /* Permite desplazamiento horizontal */
+  padding-top: 10px; /* Reducimos el padding superior */
 }
 
 table {
@@ -798,9 +799,10 @@ div.dataTables_wrapper {
 
 /* Estilos para el contenedor de búsqueda */
 .dt-search {
-width: 33.33%; /* Un tercio del ancho de la pantalla */
-margin: 10px 0;
-position: relative;
+  width: 33.33%; /* Un tercio del ancho de la pantalla */
+  margin: 10px 0;
+  position: relative;
+  z-index: 3;
 }
 
 /* Estilos para el input de búsqueda */
@@ -1263,24 +1265,4 @@ table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc {
   background-position: center right 5px;
   padding-right: 20px; /* Espacio para el ícono de ordenamiento */
-}
-
-/* Ajustamos el contenedor de la tabla */
-.tabla {
-  position: relative;
-  padding-top: 10px; /* Reducimos el padding superior */
-  margin-top: 0; /* Eliminamos el margen negativo */
-  overflow: auto;
-}
-
-/* Ajustamos el contenedor del DataTable */
-.datatable-container {
-  margin-top: 20px; /* Ajustamos el margen superior */
-  position: relative;
-}
-
-/* Aseguramos que la barra de búsqueda esté por encima */
-.dt-search {
-  position: relative;
-  z-index: 3;
 }
