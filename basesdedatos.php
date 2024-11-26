@@ -32,80 +32,83 @@ require_once './config/sesioniniciada.php';
 <?php
 //include './config/db.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
 
-// Get user's code from session
-$usuario_codigo = $_SESSION['Codigo'];
-
+// Verificar el rol del usuario
 $rol = $_SESSION['Rol_ID'];
-$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
 
-// Query to find department for the user
-$sql_departamento = "SELECT d.Departamento_ID, d.Nombre_Departamento, d.Departamentos 
-                     FROM usuarios_departamentos ud
-                     JOIN departamentos d ON ud.departamento_ID = d.Departamento_ID
-                     WHERE ud.usuario_ID = ?";
-
-$stmt = $conexion->prepare($sql_departamento);
-if (!$stmt) {
-    die("Prepare failed: " . $conexion->error);
-}
-
-$stmt->bind_param("i", $usuario_codigo);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    $departamento = $result->fetch_assoc();
-    
-    // Store department information in session
-    $_SESSION['Departamento_ID'] = $departamento['Departamento_ID'];
-    $_SESSION['Nombre_Departamento'] = $departamento['Nombre_Departamento'];
-    $_SESSION['Departamentos'] = $departamento['Departamentos'];
+// Lógica para seleccionar el departamento
+if ($rol == 1) {
+    // Para jefes de departamento, usar su departamento asignado
+    $departamento_id = $_SESSION['Departamento_ID'];
+} elseif ($rol == 2 || $rol == 3) {
+    // Para roles 2 y 3, permitir selección de departamento
+    if (isset($_GET['departamento_id'])) {
+        // Si se proporciona un departamento_id específico
+        $departamento_id = (int)$_GET['departamento_id'];
+    } else {
+        // Si no se proporciona, seleccionar el primer departamento
+        $sql_primer_departamento = "SELECT Departamento_ID FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
+        $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
+        
+        if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
+            $row_primer_departamento = mysqli_fetch_assoc($result_primer_departamento);
+            $departamento_id = $row_primer_departamento['Departamento_ID'];
+        } else {
+            die("No se encontraron departamentos disponibles.");
+        }
+    }
 } else {
-    die("No se encontró un departamento para este usuario.");
+    die("Rol de usuario no autorizado.");
 }
 
-$stmt->close();
-
-$departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : $_SESSION['Departamento_ID'];
-
-// Verify the session variable exists
-if (!isset($_SESSION['Departamento_ID'])) {
-    die("Error: Departamento_ID not set in session");
-}
-
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
+// Consulta para obtener información del departamento
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
+
 if (!$stmt) {
-    die("Prepare failed: " . $conexion->error);
+    die("Error en la preparación de la consulta: " . $conexion->error);
 }
+
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result_departamento = $stmt->get_result();
 
-if (!$result_departamento) {
-    die("Query failed: " . $conexion->error);
+if ($result_departamento->num_rows > 0) {
+    $row_departamento = $result_departamento->fetch_assoc();
+    $nombre_departamento = $row_departamento['Nombre_Departamento'];
+    $departamento_nombre = $row_departamento['Departamentos'];
+} else {
+    // Si no se encuentra el departamento, buscar el primer departamento disponible
+    $sql_primer_departamento = "SELECT Departamento_ID, Nombre_Departamento, Departamentos FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
+    $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
+    
+    if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
+        $row_primer_departamento = mysqli_fetch_assoc($result_primer_departamento);
+        $departamento_id = $row_primer_departamento['Departamento_ID'];
+        $nombre_departamento = $row_primer_departamento['Nombre_Departamento'];
+        $departamento_nombre = $row_primer_departamento['Departamentos'];
+    } else {
+        die("No se encontraron departamentos disponibles.");
+    }
 }
 
-if (!$conexion) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
-$result_departamento = mysqli_query($conexion, $sql_departamento);
-$row_departamento = mysqli_fetch_assoc($result_departamento);
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
-$departamento_nombre = $row_departamento['Departamentos'];
-
+// Preparar la consulta para obtener los datos del departamento
 $tabla_departamento = "data_" . $nombre_departamento;
 
-$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
-$result = mysqli_query($conexion, $sql);
+$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql);
+
+if (!$stmt) {
+    die("Error en la preparación de la consulta de datos: " . $conexion->error);
+}
+
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <title>Data - <?php echo $departamento_nombre; ?></title>
