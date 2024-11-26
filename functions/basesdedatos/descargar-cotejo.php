@@ -61,6 +61,7 @@ $columnas_exportar = [
     'DIA_VIRTUAL',
     'MODALIDAD'
 ];
+
 // Construir la consulta SQL para obtener registros únicos
 $sql_select = "
 SELECT
@@ -91,10 +92,25 @@ $sheet = $spreadsheet->getActiveSheet();
 
 // Escribir encabezados en el Excel
 foreach ($columnas_exportar as $index => $header) {
-    $sheet->setCellValue(
-        \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1',
-        $header
-    );
+    $col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1);
+    $sheet->setCellValue($col . '1', $header);
+
+    // Formatear todas las columnas como texto
+    $sheet->getStyle($col . '1:' . $col . ($result->num_rows + 1))
+        ->getNumberFormat()
+        ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
+}
+
+// Formatear columnas de fecha con formato de fecha corta
+$fecha_columns = ['FECHA_INICIAL', 'FECHA_FINAL'];
+foreach ($fecha_columns as $fecha_column) {
+    $col_index = array_search($fecha_column, $columnas_exportar);
+    if ($col_index !== false) {
+        $col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col_index + 1);
+        $sheet->getStyle($col . '2:' . $col . ($result->num_rows + 1))
+            ->getNumberFormat()
+            ->setFormatCode('DD/MM/YYYY');
+    }
 }
 
 // Escribir datos
