@@ -1,18 +1,188 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Ensure session is started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
-include './config/db.php';
+//include './config/db.php';
+
+// Check if user is logged in
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
+
+// Get user's code from session
+$usuario_codigo = $_SESSION['Codigo'];
 
 $rol = $_SESSION['Rol_ID'];
 $departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
 
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+// Query to find department for the user
+$sql_departamento = "SELECT d.Departamento_ID, d.Nombre_Departamento, d.Departamentos 
+                     FROM usuarios_departamentos ud
+                     JOIN departamentos d ON ud.departamento_ID = d.Departamento_ID
+                     WHERE ud.usuario_ID = ?";
+
+$stmt = $conexion->prepare($sql_departamento);
+if (!$stmt) {
+    die("Prepare failed: " . $conexion->error);
+}
+
+$stmt->bind_param("i", $usuario_codigo);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $departamento = $result->fetch_assoc();
+    
+    // Store department information in session
+    $_SESSION['Departamento_ID'] = $departamento['Departamento_ID'];
+    $_SESSION['Nombre_Departamento'] = $departamento['Nombre_Departamento'];
+    $_SESSION['Departamentos'] = $departamento['Departamentos'];
+} else {
+    die("No se encontró un departamento para este usuario.");
+}
+
+$stmt->close();
+
+$departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : $_SESSION['Departamento_ID'];
+
+// Verify the session variable exists
+if (!isset($_SESSION['Departamento_ID'])) {
+    die("Error: Departamento_ID not set in session");
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
+if (!$stmt) {
+    die("Prepare failed: " . $conexion->error);
+}
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result_departamento = $stmt->get_result();
+
+if (!$result_departamento) {
+    die("Query failed: " . $conexion->error);
+}
+
+if (!$conexion) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+// Función para verificar choques (añadir al inicio del archivo, antes de generar la tabla)
+function verificarChoques($registro_actual, $departamentos, $conexion) {
+    $choques = [];
+    $departamento_actual = $registro_actual['Departamento'];
+    
+    foreach ($departamentos as $nombre_dep => $registros) {
+        if ($nombre_dep == $departamento_actual) continue;
+        
+        foreach ($registros as $registro) {
+            $choque_horario = (
+                ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] && 
+                 $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
+                ($registro_actual['HORA_FINAL'] > $registro['HORA_INICIAL'] && 
+                 $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
+            );
+
+            $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
+            $dias_choque = false;
+
+            foreach ($dias_semana as $dia) {
+                if (!empty($registro_actual[$dia]) && !empty($registro[$dia]) && 
+                    $registro_actual[$dia] == $registro[$dia]) {
+                    $dias_choque = true;
+                    break;
+                }
+            }
+
+            if ($registro['MODULO'] == $registro_actual['MODULO'] &&
+                $registro['AULA'] == $registro_actual['AULA'] &&
+                $choque_horario && 
+                $dias_choque
+            ) {
+                // Buscar el timestamp de subida más antiguo
+                $sql_timestamp = "SELECT d.Nombre_Departamento 
+                                  FROM Plantilla_Dep pd
+                                  JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                                  WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
+                                  ORDER BY pd.Fecha_Subida_Dep ASC
+                                  LIMIT 1";
+                
+                $result_timestamp = mysqli_query($conexion, $sql_timestamp);
+                $primer_departamento = mysqli_fetch_assoc($result_timestamp);
+
+                $choques[] = [
+                    'Departamento' => $nombre_dep,
+                    'ID_Choque' => $registro['ID_Plantilla'],
+                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento']
+                ];
+            }
+        }
+    }
+    
+    return $choques;
+}
+
+// Antes de generar la tabla, cargar datos de todos los departamentos
+$departamentos_query = "SELECT Departamento_ID, Nombre_Departamento FROM departamentos";
+$departamentos_result = mysqli_query($conexion, $departamentos_query);
+$departamentos = [];
+
+while ($dep = mysqli_fetch_assoc($departamentos_result)) {
+    $tabla_dep = "data_" . str_replace(' ', '_', $dep['Nombre_Departamento']);
+    $query = "SELECT 
+        ID_Plantilla, 
+        MODULO, 
+        HORA_INICIAL, 
+        HORA_FINAL, 
+        AULA,
+        L, M, I, J, V, S, D,
+        '$dep[Nombre_Departamento]' as Departamento
+    FROM $tabla_dep 
+    WHERE MODULO IS NOT NULL 
+      AND HORA_INICIAL IS NOT NULL 
+      AND HORA_FINAL IS NOT NULL 
+      AND AULA IS NOT NULL";
+    
+    $result_dep = mysqli_query($conexion, $query);
+    $departamentos[$dep['Nombre_Departamento']] = mysqli_fetch_all($result_dep, MYSQLI_ASSOC);
+}
+
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
 $result_departamento = mysqli_query($conexion, $sql_departamento);
 $row_departamento = mysqli_fetch_assoc($result_departamento);
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $departamento_nombre = $row_departamento['Departamentos'];
 
-$tabla_departamento = "Data_" . $nombre_departamento;
+$tabla_departamento = "data_" . $nombre_departamento;
 
 $sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
 $result = mysqli_query($conexion, $sql);
@@ -46,7 +216,7 @@ $result = mysqli_query($conexion, $sql);
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <?php if($rol == 1): ?>
+            <?php if($rol == 1): ?>
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
@@ -84,6 +254,15 @@ $result = mysqli_query($conexion, $sql);
         <?php endif; ?>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
+
+    <?php
+    // Verificar rol antes de mostrar la tabla editable
+    if ($_SESSION['Rol_ID'] != 1) {
+        // Deshabilitar edición o mostrar mensaje
+        $tabla_editable = false;
+    }
+    ?>
+    
     <div class="datatable-container">
         <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos" class="display">
@@ -138,7 +317,11 @@ $result = mysqli_query($conexion, $sql);
                 <?php
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
+                        $row['Departamento'] = $nombre_departamento;
+                        $choques = verificarChoques($row, $departamentos, $conexion);
+                    
+                        echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" . 
+                            (!empty($choques) ? 'tiene-choques' : '') . "'>";
                         echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
                         echo "<td>" . htmlspecialchars($row["ID_Plantilla"] ?? '') . "</td>";
                         echo "<td>" . htmlspecialchars($row["CICLO"] ?? '') . "</td>";
@@ -462,6 +645,9 @@ $result = mysqli_query($conexion, $sql);
         </div> 
     </div>
 </div>
+
+<!-- Linea que valida el rol id del usuario para mandarlo a JS -->
+<input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
 
 <!-- Scripts de la librería DataTables -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

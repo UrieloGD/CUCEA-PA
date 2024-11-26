@@ -33,7 +33,7 @@ $horarios = array(
 );
 
 // Obtener información adicional del espacio
-$query_espacio = "SELECT Modulo, Etiqueta FROM Espacios WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
+$query_espacio = "SELECT Modulo, Etiqueta FROM espacios WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
 $result_espacio = mysqli_query($conexion, $query_espacio);
 $info_espacio = mysqli_fetch_assoc($result_espacio);
 
@@ -48,8 +48,6 @@ foreach ($departamentos as $departamento) {
               WHERE MODULO = '$modulo' AND AULA = '$espacio'
               ORDER BY HORA_INICIAL";
 
-    error_log("Consulta ejecutada: " . $query);
-
     $result = mysqli_query($conexion, $query);
 
     if ($result) {
@@ -57,7 +55,8 @@ foreach ($departamentos as $departamento) {
             $dias = array('L' => 'Lunes', 'M' => 'Martes', 'I' => 'Miercoles', 'J' => 'Jueves', 'V' => 'Viernes', 'S' => 'Sabado');
             foreach ($dias as $inicial => $nombreDia) {
                 if ($row[$inicial] !== null) {
-                    $horarios[$nombreDia][] = array(
+                    // Crear un nuevo registro
+                    $nuevo_registro = array(
                         'hora_inicial' => $row['HORA_INICIAL'],
                         'hora_final' => $row['HORA_FINAL'],
                         'cve_materia' => $row['CVE_MATERIA'],
@@ -65,27 +64,42 @@ foreach ($departamentos as $departamento) {
                         'profesor' => $row['NOMBRE_PROFESOR'],
                         'cupo' => $row['CUPO']
                     );
-                    // Después de obtener la información del espacio
+
+                    // Bandera para verificar si es un duplicado
+                    $es_duplicado = false;
+
+                    // Comparar con registros existentes
+                    foreach ($horarios[$nombreDia] as $registro_existente) {
+                        if ($registro_existente['hora_inicial'] === $nuevo_registro['hora_inicial'] &&
+                            $registro_existente['hora_final'] === $nuevo_registro['hora_final'] &&
+                            $registro_existente['materia'] === $nuevo_registro['materia'] &&
+                            $registro_existente['profesor'] === $nuevo_registro['profesor']) {
+                            $es_duplicado = true;
+                            break;
+                        }
+                    }
+
+                    // Si no es duplicado, agregarlo al array
+                    if (!$es_duplicado) {
+                        $horarios[$nombreDia][] = $nuevo_registro;
+                    }
+
                     $horarios['cupo'] = $row['CUPO'];
                 }
             }
         }
-    } else {
-        error_log("Error en la consulta: " . mysqli_error($conexion));
     }
 }
 
-// Asegurarse de que no haya salida antes del JSON
+// Limpiar cualquier salida anterior
 ob_clean();
 
-// Establecer las cabeceras correctas
+// Establecer las cabeceras
 header('Content-Type: application/json');
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-// Imprimir el JSON y terminar la ejecución
-// Al final del archivo, justo antes de enviar el JSON
-header('Content-Type: application/json');
+// Enviar respuesta
 echo json_encode($horarios);
 exit;

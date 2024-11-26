@@ -7,7 +7,7 @@ ini_set('error_log', __DIR__ . '/error.log');
 $response = ['debug' => [], 'success' => false, 'error' => null];
 
 try {
-    include __DIR__ . '/../../config/db.php';
+    include './../../config/db.php';
     $response['debug'][] = 'Database included';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -19,7 +19,7 @@ try {
 
         $response['debug'][] = 'POST data: ' . json_encode($_POST);
 
-        $query = "UPDATE Espacios SET 
+        $query = "UPDATE espacios SET 
                   Equipo = '$equipo', 
                   Observaciones = '$observaciones', 
                   Reportes = '$reportes' 

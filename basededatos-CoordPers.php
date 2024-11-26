@@ -157,7 +157,7 @@ function formatDateForDisplay($mysqlDate)
                         <th>TURNO</th>
                         <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION</th>
                         <th>S.N.I.</th>
-                        <th>SIN DESDE</th>
+                        <th>SNI DESDE</th>
                         <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR</th>
                         <th>INICIO</th>
                         <th>FIN</th>
@@ -234,7 +234,7 @@ function formatDateForDisplay($mysqlDate)
                             echo "<td>" . htmlspecialchars($row["Turno"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Investigacion_nombramiento_cambio_funcion"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["SNI"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["SIN_desde"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["SNI_desde"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Cambio_dedicacion"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Inicio"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Fin"] ?? '') . "</td>";
@@ -304,18 +304,6 @@ function formatDateForDisplay($mysqlDate)
                     }
                     ?>
                 </tbody>
-                <?php
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        // ... otras celdas ...
-                        echo "<td class='estado-cell'><span class='estado-indicator " . $estado_class . "'>" . htmlspecialchars($comparison) . "</span></td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='71'>No hay datos disponibles</td></tr>";
-                }
-                ?>
             </table>
         </div>
     </div>
@@ -358,7 +346,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="investigacion" name="investsigacion" placeholder="Investigación / Nombramiento / Cambio de función">
 
                             <input type="text" id="sni" name="sni" placeholder="S.N.I">
-                            <input type="text" id="sin_desde" name="sin_desde" placeholder="SIN Desde">
+                            <input type="text" id="sni_desde" name="sni_desde" placeholder="SNI Desde">
 
                             <input type="text" id="cambio_dediacion" name="cambio_dediacion" placeholder="Cambio de Dedicación">
                             <input type="text" id="inicio" name="inicio" placeholder="Inicio">
@@ -448,7 +436,6 @@ function formatDateForDisplay($mysqlDate)
     <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
     <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-    <script src="./JS/basesdedatos/barra-busqueda.js"></script>
     <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
     <script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>

@@ -90,14 +90,19 @@ const maxLengths = {
 };
 
 function makeEditable() {
-  // Check the user's role before making the table editable
-  const userRole = <?php echo $_SESSION['Rol_ID']; ?>;
+  // Verificar el rol del usuario antes de hacer la tabla editable
+  const table = document.getElementById("tabla-datos");
   
-  if (userRole !== 1) {
-    return; // Exit the function if the role is not 1 (admin)
+  // Verificar si la tabla tiene el atributo data-editable="false"
+  if (table.getAttribute('data-editable') === 'false') {
+    return;
   }
 
-  const table = document.getElementById("tabla-datos");
+  const userRole = document.getElementById('user-role').value;
+  
+  if (userRole !== "1") {
+    return;
+  }
   const rows = table.getElementsByTagName("tr");
 
   for (let i = 1; i < rows.length; i++) {

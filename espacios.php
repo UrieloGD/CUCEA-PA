@@ -2,15 +2,13 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<!-- Conexión a la base de datos -->
-<?php include './config/db.php' ?>
 
 <?php
 // Obtener el módulo seleccionado (por defecto CEDA)
 $modulo_seleccionado = isset($_GET['modulo']) ? $_GET['modulo'] : 'CEDA';
 
 // Consulta para obtener los espacios del módulo seleccionado
-$query = "SELECT * FROM Espacios WHERE Modulo = '$modulo_seleccionado' ORDER BY Espacio";
+$query = "SELECT * FROM espacios WHERE Modulo = '$modulo_seleccionado' ORDER BY Espacio";
 $result = mysqli_query($conexion, $query);
 
 // Organizar los espacios por piso
@@ -277,7 +275,7 @@ function guardarInfoEspacio($modulo, $espacio, $equipo, $observaciones, $reporte
     $observaciones = mysqli_real_escape_string($conexion, $observaciones);
     $reportes = mysqli_real_escape_string($conexion, $reportes);
 
-    $query = "UPDATE Espacios SET 
+    $query = "UPDATE espacios SET 
               Equipo = '$equipo', 
               Observaciones = '$observaciones', 
               Reportes = '$reportes' 

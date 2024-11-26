@@ -2,8 +2,7 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<!-- Conexión a la base de datos -->
-<?php include './config/db.php' ?>
+
 
 <title>Oferta Académica</title>
 <link rel="stylesheet" href="./CSS/dashboard-oferta.css?=v1.0" />

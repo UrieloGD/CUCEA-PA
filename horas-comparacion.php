@@ -956,7 +956,11 @@
             searchInput.value = '';
 
             // Mostrar mensaje de carga
+<<<<<<< HEAD
+            const colSpan = departamento === 'todos' ? 8 : 7; // Ajustar según el caso
+=======
             const colSpan = 10; // Ajustado para las nuevas columnas
+>>>>>>> ef0f11a77fcd511d3b38fdb506d9c31666988fee
             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Cargando...</td></tr>`;
 
             fetch('./functions/horas-comparacion/obtener-personal.php', {
@@ -1146,10 +1150,32 @@
         }
 
         // Event Listeners
+<<<<<<< HEAD
+        departamentoButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Si es un botón de desglose dentro de un contenedor de departamento
+                if (this.classList.contains('desglose-button-dpto')) {
+                    const departamentoElement = this.closest('.contenedor-informacion')
+                        ?.previousElementSibling // Buscar el banner del departamento
+                        ?.querySelector('.titulo-dpto p');
+                    
+                    const departamento = departamentoElement 
+                        ? departamentoElement.textContent.trim() 
+                        : 'default';
+
+                    console.log('Departamento seleccionado:', departamento);
+                    openModal(departamento);
+                } 
+                // Si es un botón para todos los departamentos
+                else if (this.classList.contains('boton-todos-departamentos')) {
+                    openModal('todos');
+                }
+=======
         departamentoCards.forEach(card => {
             card.addEventListener('click', function() {
                 const departamento = this.getAttribute('data-departamento'); // Obtener el atributo correctamente
                 openModal(departamento); // Pasar el valor al modal
+>>>>>>> ef0f11a77fcd511d3b38fdb506d9c31666988fee
             });
         });
 
