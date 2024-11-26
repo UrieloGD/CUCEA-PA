@@ -171,12 +171,12 @@
   border-radius: 50%;
   /*border: 4px solid white;*/
   overflow: hidden;
-  position: relative;
+  position: absolute;
   font-weight: bold;
   color: white;
   font-size: 1.5rem;
-  bottom: -10px;
-  left: 60%;
+  bottom: 60px;
+  left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -moz-transform: translateX(-50%);
@@ -205,9 +205,12 @@
 }
 
 .profile-icon-transition {
+  position: relative;
   width: 3.125rem;
   height: 3.125rem;
   border-radius: 50%;
+  bottom: -10vh;
+  left: 63%;
   overflow: hidden;
   transition: all 0.3s ease;
   -webkit-border-radius: 50%;
@@ -218,10 +221,11 @@
 }
 
 #navbar:hover .profile-icon-transition {
+  position: relative;
+  bottom: -70px;
   width: 5.625rem;
   /* 90px / 16px = 5.625rem */
   height: 5.625rem;
-  bottom: -20px;
   left: 130%;
   /* Ajusta este valor según tus necesidades */
 }
@@ -308,7 +312,7 @@ hr {
 
 .logout-container {
   position: relative;
-  bottom: -15px; /* Ajusta la distancia desde la parte inferior */
+  bottom: -70px; /* Ajusta la distancia desde la parte inferior */
   left: 73.5%;
   transform: translateX(-50%); /* Centra el botón horizontalmente */
 }
@@ -629,6 +633,15 @@ Responsividad para distintas resoluciones
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
+  /* 
+  .profile-icon-transition
+  .navbar-profile-icon {
+    position: relative;
+  }
+  #navbar:hover .profile-icon-transition {
+    position: relative;
+  }
+   */
   #navbar {
     width: 4em;
   }
@@ -907,6 +920,7 @@ Responsividad para distintas resoluciones
     height: 4.125rem;
     font-size: 2.5rem;
     left: 105px;
+    top: 70px;
   }
   .logout-button {
     position: relative;

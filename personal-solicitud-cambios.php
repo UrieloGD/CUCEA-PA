@@ -14,24 +14,33 @@
     </div>
     <!-- Contenedor principal de cada solicitud. -->
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
-        <!-- Color de estado de solicitud al extremo izquierdo -->
-        <div class="color-en_revision"></div> 
             <!-- Informacion resumida de solicitud -->
             <div class="info-sup">
-                <p class="nombre-solicitud" id="solicitud">Solicitud de baja</p>
-                <p class="nombre-departamento" id="departamento">Departamento de contaduria</p>
+                <!-- Color de estado de solicitud al extremo izquierdo -->
+                    <div class="color-en_revision" style="position: absolute; left: 0px;"></div> 
+                <div class="nombre-dpto-solicitud">
+                    <p class="nombre-solicitud" id="solicitud">Solicitud de baja-Propuesta</p>
+                    <p class="nombre-departamento" id="departamento">Departamento de contaduria</p>
+                </div>
+                <div class="fecha-hora-status">
+                    <p class="fecha-solicitud" type="date" id="campo-fecha">2024-01-01</p>
+                    <p class="hora-solicitud" type="time" id="campo-hora">00:00</p>
+                    <div class="circulo-en_revision">
+                        <i class="fa fa-circle" aria-hidden="true"><span class="estado-solicitud" type="text" id="en-revision" style="margin-left: 10px;">En revisión</span></i>
+                    </div>
+                </div>
+                
+
+                <!-- Icono al extremo derecho, para el despliegue de ventana inferior -->
+                <div class="icono-despliegue">
+                    <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
+                </div>
             </div>
             <div class="info-inf">
-                <input class="fecha-solicitud" type="date" id="campo-fecha" value="2024-01-01" />
-                <input class="hora-solicitud" type="time" id="campo-hora" value="00:00" />
-                <p class="circulo-en_revision"> • </p>
-                <input class="estado-solicitud" type="text" id="en-revision" value="En revisión" />
+                
             </div>
             <!--------------------------------------->
-        <!-- Icono al extremo derecho, para el despliegue de ventana inferior -->
-        <div class="icono-despliegue">
-            <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-        </div>
+        
     </div>
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-1">
@@ -102,292 +111,7 @@
             </div>
         </div>
     </div>
-
-<!--
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
-        <div class="color-rechazado"></div>
-        <div class="texto-superior">
-            <p class="nombre-solicitud" id="solicitud">Solicitud de propuesta</p>
-        </div>
-        <div class="texto-medio">
-            <p class="nombre-departamento" id="departamento">Departamento de negocios internacionales</p>
-        </div>
-        <ul class="texto-inferior">
-            <li class="fecha-solicitud">
-                <input type="date" id="campo-fecha" value="2024-01-01" />
-            </li>
-            <li class="hora-solicitud">
-                <input type="time" id="campo-hora" value="00:00" />
-            </li>
-            <li class="circulo-rechazado"> • </li>
-            <li class="estado-solicitud">
-                <input type="text" id="rechazado" value="Rechazado" />
-            </li>
-        </ul>
-        <div class="icono-despliegue">
-            <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-        </div>
-    </div>
     
-    <div class="contenedor-informacion" id="contenedor-informacion-2">
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="CRN">CRN:
-                    <p id="info-CRN">154875</p>
-                </p>
-                <p class="materia">Materia:
-                    <p id="info-materia">Competividad de la actividad gastronomica</p>
-                </p>
-                <p class="clave">Clave:
-                    <p id="info-clave">IC366</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="SEC">SEC:
-                    <p id="info-SEC">C02</p>
-                </p>
-                <p class="folio">Folio de solicitud:
-                    <p id="info-folio">54440216</p>
-                </p>
-            </div> 
-        </div>
-        <div class="titulo-info">
-            <p>Profesor actual</p>
-        </div>
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="paterno">Apellido paterno:
-                    <p id="info-paterno">Castanedo</p>
-                </p>
-                <p class="materno">Apellido materno:
-                    <p id="info-materno">Escobedo</p>
-                </p>
-                <p class="nombres">Nombre(s):
-                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="codigo">Código:
-                    <p id="info-codigo">215195673</p>
-                </p>
-                <p class="motivo">Motivo:
-                    <p id="info-motivo">Jubilacion del profesor</p>
-                </p>
-            </div>
-        </div>
-        <div class="titulo-info">
-            <p>Profesor propuesto</p>
-        </div>
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="paterno">Apellido paterno:
-                    <p id="info-paterno-propuesto">Gomez</p>
-                </p>
-                <p class="materno">Apellido materno:
-                    <p id="info-materno-propuesto">Alcantara</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="nombres">Nombre(s):
-                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-                </p>
-                <p class="codigo">Código:
-                    <p id="info-codigo-propuesto">123456789</p>
-                </p>
-            </div>
-        </div>
-    </div>
-
-   
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
-        <div class="color-aprobado"></div>
-        <div class="texto-superior">
-            <p class="nombre-solicitud" id="solicitud">Solicitud de baja-propuesta</p>
-        </div>
-        <div class="texto-medio">
-            <p class="nombre-departamento" id="departamento">Departamento de administracion</p>
-        </div>
-        <ul class="texto-inferior">
-            <li class="fecha-solicitud">
-                <input type="date" id="campo-fecha" value="2024-01-01" />
-            </li>
-            <li class="hora-solicitud">
-                <input type="time" id="campo-hora" value="00:00" />
-            </li>
-            <li class="circulo-aprobado"> • </li>
-            <li class="estado-solicitud">
-                <input type="text" id="aprobado" value="Aprobado" />
-            </li>
-        </ul>
-        <div class="icono-despliegue">
-            <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-        </div>
-    </div>
-    
-    <div class="contenedor-informacion" id="contenedor-informacion-3">
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="CRN">CRN:
-                    <p id="info-CRN">154875</p>
-                </p>
-                <p class="materia">Materia:
-                    <p id="info-materia">Competividad de la actividad gastronomica</p>
-                </p>
-                <p class="clave">Clave:
-                    <p id="info-clave">IC366</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="SEC">SEC:
-                    <p id="info-SEC">C02</p>
-                </p>
-                <p class="folio">Folio de solicitud:
-                    <p id="info-folio">54440216</p>
-                </p>
-            </div> 
-        </div>
-        <div class="titulo-info">
-            <p>Profesor actual</p>
-        </div>
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="paterno">Apellido paterno:
-                    <p id="info-paterno">Castanedo</p>
-                </p>
-                <p class="materno">Apellido materno:
-                    <p id="info-materno">Escobedo</p>
-                </p>
-                <p class="nombres">Nombre(s):
-                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="codigo">Código:
-                    <p id="info-codigo">215195673</p>
-                </p>
-                <p class="motivo">Motivo:
-                    <p id="info-motivo">Jubilacion del profesor</p>
-                </p>
-            </div>
-        </div>
-        <div class="titulo-info">
-            <p>Profesor propuesto</p>
-        </div>
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="paterno">Apellido paterno:
-                    <p id="info-paterno-propuesto">Gomez</p>
-                </p>
-                <p class="materno">Apellido materno:
-                    <p id="info-materno-propuesto">Alcantara</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="nombres">Nombre(s):
-                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-                </p>
-                <p class="codigo">Código:
-                    <p id="info-codigo-propuesto">123456789</p>
-                </p>
-            </div>
-        </div>
-    </div>
-
-    
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
-        <div class="color-pendiente"></div>
-        <div class="texto-superior">
-            <p class="nombre-solicitud" id="solicitud">Solicitud de baja-propuesta</p>
-        </div>
-        <div class="texto-medio">
-            <p class="nombre-departamento" id="departamento">Departamento de sistemas de la informacion</p>
-        </div>
-        <ul class="texto-inferior">
-            <li class="fecha-solicitud">
-                <input type="date" id="campo-fecha" value="2024-01-01" />
-            </li>
-            <li class="hora-solicitud">
-                <input type="time" id="campo-hora" value="00:00" />
-            </li>
-            <li class="circulo-pendiente"> • </li>
-            <li class="estado-solicitud">
-                <input type="text" id="pendiente" value="Pendiente" />
-            </li>
-        </ul>
-        <div class="icono-despliegue">
-            <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-        </div>
-    </div>
-   
-    <div class="contenedor-informacion" id="contenedor-informacion-4">
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="CRN">CRN:
-                    <p id="info-CRN">154875</p>
-                </p>
-                <p class="materia">Materia:
-                    <p id="info-materia">Competividad de la actividad gastronomica</p>
-                </p>
-                <p class="clave">Clave:
-                    <p id="info-clave">IC366</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="SEC">SEC:
-                    <p id="info-SEC">C02</p>
-                </p>
-                <p class="folio">Folio de solicitud:
-                    <p id="info-folio">54440216</p>
-                </p>
-            </div> 
-        </div>
-        <div class="titulo-info">
-            <p>Profesor actual</p>
-        </div>
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="paterno">Apellido paterno:
-                    <p id="info-paterno">Castanedo</p>
-                </p>
-                <p class="materno">Apellido materno:
-                    <p id="info-materno">Escobedo</p>
-                </p>
-                <p class="nombres">Nombre(s):
-                    <p id="info-nombres">Rafael Eduardo Alfonso</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="codigo">Código:
-                    <p id="info-codigo">215195673</p>
-                </p>
-                <p class="motivo">Motivo:
-                    <p id="info-motivo">Jubilacion del profesor</p>
-                </p>
-            </div>
-        </div>
-        <div class="titulo-info">
-            <p>Profesor propuesto</p>
-        </div>
-        <div class="info">
-            <div class="contenedor-izquierdo">
-                <p class="paterno">Apellido paterno:
-                    <p id="info-paterno-propuesto">Gomez</p>
-                </p>
-                <p class="materno">Apellido materno:
-                    <p id="info-materno-propuesto">Alcantara</p>
-                </p>
-            </div>
-            <div class="contenedor-derecho">
-                <p class="nombres">Nombre(s):
-                    <p id="info-nombres-propuesto">Gustavo Arnulfo Alcaraz</p>
-                </p>
-                <p class="codigo">Código:
-                    <p id="info-codigo-propuesto">123456789</p>
-                </p>
-            </div>
-        </div>
-    </div>
--->
     <!-- Boton de nueva solicitud -->
     <div class="container-boton-nueva-solicitud">
         <button class="boton-nueva-solicitud" id="nueva-solicitud-btn">Nueva solicitud</button>
