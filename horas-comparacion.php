@@ -85,7 +85,8 @@
     <!-- Aqui comienza el codigo para desplegables de departamentos.  -->
     <!-- Lado izquierdo de departamentos -->
     <div class="contenedor-dptos-listado">
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/administracion.png" alt="Departamento de Administracion">
@@ -101,8 +102,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-1">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #46ACC2;">
-                    <div class="barra-stats-hrs" style="background-color: #46ACC2;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #66CAE8;">
+                    <div class="barra-stats-hrs" style="background-color: #66CAE8;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -112,7 +113,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #46ACC2;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #66CAE8;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -127,11 +128,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Administración" style="background-color: #46ACC2;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Administración" style="background-color: #66CAE8;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/ciencias_s.png" alt="Departamento de Administracion">
@@ -148,8 +151,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-2">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #2ACD9C;">
-                    <div class="barra-stats-hrs" style="background-color: #2ACD9C;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #0C9DEB;">
+                    <div class="barra-stats-hrs" style="background-color: #0C9DEB;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -159,7 +162,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #2ACD9C;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #0C9DEB;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -174,11 +177,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Ciencias Sociales" style="background-color: #2ACD9C;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Ciencias Sociales" style="background-color: #0C9DEB;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/economia.png" alt="Departamento de Administracion">
@@ -194,8 +199,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-3">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #39C92C;">
-                    <div class="barra-stats-hrs" style="background-color: #39C92C;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #F792B4;">
+                    <div class="barra-stats-hrs" style="background-color: #F792B4;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -205,7 +210,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #39C92C;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F792B4;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -220,11 +225,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Economía" style="background-color: #39C92C;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Economía" style="background-color: #F792B4;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/finanzas.png" alt="Departamento de Administracion">
@@ -240,8 +247,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-4">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #F8775E;">
-                    <div class="barra-stats-hrs" style="background-color: #F8775E;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #9AD156;">
+                    <div class="barra-stats-hrs" style="background-color: #9AD156;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -251,7 +258,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F8775E;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #9AD156;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -266,11 +273,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Finanzas" style="background-color: #F8775E;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Finanzas" style="background-color: #9AD156;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-5', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/merc_negocios.png" alt="Departamento de Administracion" style="width: 105%;">
@@ -287,8 +296,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-5">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #5676A9;">
-                    <div class="barra-stats-hrs" style="background-color: #5676A9;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #51B0A3;">
+                    <div class="barra-stats-hrs" style="background-color: #51B0A3;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -298,7 +307,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #5676A9;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #51B0A3;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -313,11 +322,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Mercadotecnia" style="background-color: #5676A9;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Mercadotecnia" style="background-color: #51B0A3;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-6', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/pale.png" alt="Departamento de Administracion" style="width: 85%;">
@@ -333,8 +344,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-6">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #FB4D79;">
-                    <div class="barra-stats-hrs" style="background-color: #FB4D79;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #9F7FAD;">
+                    <div class="barra-stats-hrs" style="background-color: #9F7FAD;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -344,7 +355,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #FB4D79;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #9F7FAD;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -359,11 +370,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="PALE" style="background-color: #FB4D79;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="PALE" style="background-color: #9F7FAD;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-7', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/posgrados.png" alt="Departamento de Administracion">
@@ -379,8 +392,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-7">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #3B596F;">
-                    <div class="barra-stats-hrs" style="background-color: #3B596F;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #D82C8C;">
+                    <div class="barra-stats-hrs" style="background-color: #D82C8C;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -390,7 +403,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #3B596F;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #D82C8C;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -405,11 +418,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Posgrados" style="background-color: #3B596F;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Posgrados" style="background-color: #D82C8C;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-8', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/sistemas.png" alt="Departamento de Administracion" style="width: 90%;">
@@ -425,8 +440,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-8">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #4B8FBC;">
-                    <div class="barra-stats-hrs" style="background-color: #4B8FBC;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #00B567;">
+                    <div class="barra-stats-hrs" style="background-color: #00B567;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -436,7 +451,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #4B8FBC;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #00B567;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -451,14 +466,16 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Sistemas de Información" style="background-color: #4B8FBC;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Sistemas de Información" style="background-color: #00B567;">Desglose</button>
             </div>
         </div>
     </div>
+    </div> 
 
     <!-- Lado derecho de departamentos -->
     <div class="contenedor-dptos-listado">
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-9', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/auditoria.png" alt="Departamento de Administracion">
@@ -474,8 +491,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-9">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #F2545E;">
-                    <div class="barra-stats-hrs" style="background-color: #F2545E;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #A50F62;">
+                    <div class="barra-stats-hrs" style="background-color: #A50F62;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -485,7 +502,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F2545E;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #A50F62;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -500,11 +517,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Auditoría" style="background-color: #F2545E;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Auditoría" style="background-color: #A50F62;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-10', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/contabilidad.png" alt="Departamento de Administracion">
@@ -520,8 +539,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-10">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #F6BC55;">
-                    <div class="barra-stats-hrs" style="background-color: #F6BC55;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #FD7C6C;">
+                    <div class="barra-stats-hrs" style="background-color: #FD7C6C;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -531,7 +550,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F6BC55;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #FD7C6C;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -546,11 +565,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Contabilidad" style="background-color: #F6BC55;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Contabilidad" style="background-color: #FD7C6C;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-11', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/regionales.png" alt="Departamento de Administracion" style="width: 95%;">
@@ -566,8 +587,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-11">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #B794C6;">
-                    <div class="barra-stats-hrs" style="background-color: #B794C6;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #D72B34;">
+                    <div class="barra-stats-hrs" style="background-color: #D72B34;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -577,7 +598,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #B794C6;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #D72B34;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -592,11 +613,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Estudios Regionales" style="background-color: #B794C6;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Estudios Regionales" style="background-color: #D72B34;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-12', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/impuestos.png" alt="Departamento de Administracion">
@@ -612,8 +635,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-12">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #F0914E;">
-                    <div class="barra-stats-hrs" style="background-color: #F0914E;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #E87C00;">
+                    <div class="barra-stats-hrs" style="background-color: #E87C00;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -623,7 +646,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F0914E;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #E87C00;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -638,11 +661,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Impuesto" style="background-color: #F0914E;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Impuesto" style="background-color: #E87C00;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-13', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/metodos.png" alt="Departamento de Administracion">
@@ -658,8 +683,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-13">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #F7C941;">
-                    <div class="barra-stats-hrs" style="background-color: #F7C941;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #F5C938;">
+                    <div class="barra-stats-hrs" style="background-color: #F5C938;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -669,7 +694,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F7C941;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F5C938;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -684,11 +709,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Métodos Cuantitativos" style="background-color: #F7C941;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Métodos Cuantitativos" style="background-color: #F5C938;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-14', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/politicas.png" alt="Departamento de Administracion">
@@ -704,8 +731,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-14">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #806D90;">
-                    <div class="barra-stats-hrs" style="background-color: #806D90;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #4D4024;">
+                    <div class="barra-stats-hrs" style="background-color: #4D4024;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -715,7 +742,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #806D90;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #4D4024;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -730,11 +757,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Políticas Públicas" style="background-color: #806D90;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Políticas Públicas" style="background-color: #4D4024;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-15', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono">    
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/rh.png" alt="Departamento de Administracion">
@@ -750,8 +779,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-15">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #F27BB5;">
-                    <div class="barra-stats-hrs" style="background-color: #F27BB5;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #B89358;">
+                    <div class="barra-stats-hrs" style="background-color: #B89358;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -761,7 +790,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F27BB5;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #B89358;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -776,11 +805,13 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Recursos Humanos" style="background-color: #F27BB5;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Recursos Humanos" style="background-color: #B89358;">Desglose</button>
             </div>
         </div>
+    </div>
 
-        <!-- banner del departamento -->
+    <!-- banner del departamento -->
+    <div class="contenedor-de-contenedores">
         <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-16', this.querySelector('.icono-despliegue i'))">
             <div class="espacio-icono">
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/turismo.png" alt="Departamento de Administracion" style="width: 105%;">
@@ -796,8 +827,8 @@
         <div class="contenedor-informacion" id="contenedor-informacion-16">
             <div class="hrs-totales-dpto_container">
                 <p class="titulo-totales-dpto">Horas totales</p>
-                <div class="borde-barra-stats-hrs" style="border: 3px solid #43AB8D;">
-                    <div class="barra-stats-hrs" style="background-color: #43AB8D;">
+                <div class="borde-barra-stats-hrs" style="border: 3px solid #628EBD;">
+                    <div class="barra-stats-hrs" style="background-color: #628EBD;">
                         <p id="porcentaje-dpto">60%</p>    
                     </div>
                 </div>
@@ -807,7 +838,7 @@
             <div class="ultima-mod-dpto_container">
                 <p class="titulo-totales-dpto">Última modificación</p>
                 <table class="tabla-ultimas-mod-dpto">
-                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #43AB8D;">
+                    <thead class="encabezado-ultimas-mod-dpto" style="background-color: #628EBD;">
                         <tr>
                             <td>Fecha</td>
                             <td>Hora</td>
@@ -822,9 +853,10 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="desglose-button-dpto" data-departamento="Turismo" style="background-color: #43AB8D;">Desglose</button>
+                <button class="desglose-button-dpto" data-departamento="Turismo" style="background-color: #628EBD;">Desglose</button>
             </div>
         </div>
+    </div>
     </div>
 
 <!-- Modal -->
@@ -869,19 +901,10 @@
         const span = document.getElementsByClassName('close')[0];
         const modalTitle = document.getElementById('modalTitle');
         const tablaBody = document.getElementById('tablaBody');
-        const desgloseGeneralButton = document.querySelector('.desglose-button');
-        if (desgloseGeneralButton) {
-            desgloseGeneralButton.addEventListener('click', function() {
-                openModal('todos');
-            });
-        }
-        const departamentoButtons = document.querySelectorAll('.desglose-button-dpto, .boton-todos-departamentos');
-        
+        const departamentoCards = document.querySelectorAll('.desglose-button-dpto');
+
         // Función para abrir el modal
         function openModal(departamento) {
-            // Si no se pasa departamento, usar 'todos'
-            departamento = departamento || 'todos';
-
             modal.style.display = 'block';
             modalTitle.textContent =
                 departamento === 'todos'
@@ -891,6 +914,7 @@
             // Realiza el fetch para obtener los datos del departamento
             fetchPersonalData(departamento);
         }
+
         // Función para cerrar el modal
         function closeModal() {
             modal.style.display = 'none';
@@ -932,11 +956,7 @@
             searchInput.value = '';
 
             // Mostrar mensaje de carga
-<<<<<<< HEAD
-            const colSpan = departamento === 'todos' ? 8 : 7; // Ajustar según el caso
-=======
             const colSpan = 10; // Ajustado para las nuevas columnas
->>>>>>> ef0f11a77fcd511d3b38fdb506d9c31666988fee
             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Cargando...</td></tr>`;
 
             fetch('./functions/horas-comparacion/obtener-personal.php', {
@@ -944,7 +964,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `departamento=${encodeURIComponent(departamento === 'todos' ? '' : departamento)}`
+                    body: `departamento=${encodeURIComponent(departamento)}`
                 })
                 .then(response => response.text())
                 .then(text => {
@@ -983,8 +1003,9 @@
                     data.forEach(persona => {
                         const row = document.createElement('tr');
                         
-                        // Función para obtener la clase del departamento (mejorada)
+                        // Función para obtener la clase del departamento
                         function getDepartamentoClass(departamento) {
+                            // Normalizar el texto del departamento
                             const normalizedDept = departamento.toLowerCase()
                                 .normalize("NFD")
                                 .replace(/[\u0300-\u036f]/g, "")
@@ -1006,41 +1027,34 @@
                                     'finanzas': 'finanzas',
                                     'impuestos': 'impuestos',
                                     'mercadotecnia': 'mercadotecnia',
-                                    'mercadotecnia y negocios internacionales': 'mercadotecnia',
                                     'metodos cuantitativos': 'metodos-cuantitativos',
                                     'recursos humanos': 'recursos-humanos',
-                                    'sistemas de información': 'sistemas-información',
-                                    'sistemas de la información': 'sistemas-información',
+                                    'sistemas de informacion': 'sistemas-informacion',
                                     'turismo': 'turismo'
                                 };
 
-                            // Buscar coincidencia exacta
-                            for (let [key, value] of Object.entries(mapping)) {
-                                const normalizedKey = key.toLowerCase()
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
-                                    .replace(/[^a-z\s]/g, "")
-                                    .trim();
-                                
-                                if (normalizedDept === normalizedKey) {
-                                    return value;
+                                // Buscar coincidencia exacta primero
+                                for (let [key, value] of Object.entries(mapping)) {
+                                    if (normalizedDept === key) {
+                                        return value;
+                                    }
                                 }
-                            }
 
-                            // Buscar coincidencia parcial
-                            for (let [key, value] of Object.entries(mapping)) {
-                                const normalizedKey = key.toLowerCase()
-                                    .normalize("NFD")
-                                    .replace(/[\u0300-\u036f]/g, "")
-                                    .replace(/[^a-z\s]/g, "")
-                                    .trim();
-                                
-                                if (normalizedDept.includes(normalizedKey)) {
-                                    return value;
+                                // Si no hay coincidencia exacta, buscar coincidencia parcial
+                                for (let [key, value] of Object.entries(mapping)) {
+                                    // Para PALE, buscar coincidencias específicas
+                                    if (value === 'pale' && 
+                                        (normalizedDept.includes('pale') || 
+                                        normalizedDept.includes('programa de aprendizaje') || 
+                                        normalizedDept.includes('lengua extranjera'))) {
+                                        return 'pale';
+                                    }
+                                    if (normalizedDept.includes(key)) {
+                                        return value;
+                                    }
                                 }
-                            }
-
-                            console.log('Departamento no encontrado:', departamento);
+                            
+                            console.log('Departamento no encontrado:', departamento); // Para debug
                             return 'default';
                         }
 
@@ -1132,25 +1146,6 @@
         }
 
         // Event Listeners
-        departamentoButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // Si es un botón de desglose dentro de un contenedor de departamento
-                if (this.classList.contains('desglose-button-dpto')) {
-                    const departamentoElement = this.closest('.contenedor-informacion')
-                        ?.previousElementSibling // Buscar el banner del departamento
-                        ?.querySelector('.titulo-dpto p');
-                    
-                    const departamento = departamentoElement 
-                        ? departamentoElement.textContent.trim() 
-                        : 'default';
-
-                    console.log('Departamento seleccionado:', departamento);
-                    openModal(departamento);
-                } 
-                // Si es un botón para todos los departamentos
-                else if (this.classList.contains('boton-todos-departamentos')) {
-                    openModal('todos');
-                }
         departamentoCards.forEach(card => {
             card.addEventListener('click', function() {
                 const departamento = this.getAttribute('data-departamento'); // Obtener el atributo correctamente
@@ -1173,16 +1168,27 @@
         }
     });
 
-// Función para mostrar el despliegue de información en pagina principal (personal-solicitud-cambios.php)
+/* Script para desplegable de departamentos */
+let contenedorActual = null;
+let iconoActual = null;
+
 function mostrarInformacion(contenedorId, icono) {
     const nuevoContenedor = document.getElementById(contenedorId);
 
-    if (nuevoContenedor.style.display === '' || nuevoContenedor.style.display === 'none') {
-        nuevoContenedor.style.display = 'block'; // Cambiar a bloque
-        icono.classList.add('rotar'); // Rotar el icono
+    if (contenedorActual && contenedorActual !== nuevoContenedor) {
+        contenedorActual.classList.remove('mostrar');
+        iconoActual.classList.remove('rotar');
+    }
+
+    nuevoContenedor.classList.toggle('mostrar');
+    icono.classList.toggle('rotar');
+
+    if (nuevoContenedor.classList.contains('mostrar')) {
+        contenedorActual = nuevoContenedor;
+        iconoActual = icono;
     } else {
-        nuevoContenedor.style.display = 'none'; // Ocultar el contenedor
-        icono.classList.remove('rotar'); // Quitar la rotación del icono
+        contenedorActual = null;
+        iconoActual = null;
     }
 }
 </script>
