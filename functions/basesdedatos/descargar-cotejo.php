@@ -61,35 +61,19 @@ $columnas_exportar = [
     'DIA_VIRTUAL',
     'MODALIDAD'
 ];
-
 // Construir la consulta SQL para obtener registros únicos
 $sql_select = "
 SELECT
-    t1.CICLO,
-    t1.CRN,
-    t1.MATERIA,
-    t1.CVE_MATERIA,
-    t1.SECCION,
-    t1.L,
-    t1.M,
-    t1.I,
-    t1.J,
-    t1.V,
-    t1.S,
-    t1.D,
-    t1.MODALIDAD,
-    t1.HORA_INICIAL,
-    t1.HORA_FINAL,
-    t1.MODULO,
-    t1.CUPO
-FROM (
-    SELECT
-        MAX(CICLO) AS CICLO,
-        " . implode(", ", $columnas_cotejo) . "
-    FROM `$tabla_departamento`
-    WHERE Departamento_ID = ?
-    GROUP BY " . implode(", ", $columnas_cotejo) . "
-) t1
+    MAX(CICLO) AS CICLO,
+    " . implode(", ", $columnas_cotejo) . ",
+    MAX(FECHA_INICIAL) AS FECHA_INICIAL,
+    MAX(FECHA_FINAL) AS FECHA_FINAL,
+    MAX(AULA) AS AULA,
+    MAX(DIA_PRESENCIAL) AS DIA_PRESENCIAL,
+    MAX(DIA_VIRTUAL) AS DIA_VIRTUAL
+FROM `$tabla_departamento`
+WHERE Departamento_ID = ?
+GROUP BY " . implode(", ", $columnas_cotejo) . "
 ";
 
 $stmt = $conexion->prepare($sql_select);
