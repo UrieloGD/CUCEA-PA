@@ -51,31 +51,49 @@
 /* Contenedor principal de las barras de solicitudes */
 .solicitud-contenedor-principal {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   flex: 1;
+  align-items: center;
   position: relative;
   margin: 0 auto;
   width: 94%;
-  height: 100px;
+  height: 10%;
   margin-top: 10px;
   padding-left: 0;
-  box-shadow: 0px 3px 7px rgb(161, 161, 161);
-  border-radius: 12px;
   cursor: pointer;
 }
 
 /* Informacion superior e informacion inferior del contenedor principal */
-.info-sup,
-.info-inf {
+.info-sup
+{
+  justify-content: space-between;
   display: inherit;
-  flex-direction: inherit;
-  flex-wrap: inherit;
+  background-color: #fff;
+  text-overflow: ellipsis;
+  word-wrap: normal;
+  flex-direction: row;
+  width: 82vw;
+  height: 0;
   position: absolute;
-  width: 100%;
-  left: 50px;
+  height: fit-content;
+  box-shadow: 0px 3px 7px rgb(161, 161, 161);
+  border-radius: 12px;
+  left: 2vw;
 }
-.info-inf { margin-top: 7px; }
+
+.nombre-dpto-solicitud {
+  width: 100%;
+  display: inherit;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.fecha-hora-status {
+  width: 100%;
+  display: inherit;
+  justify-content: space-between;
+  flex-direction: row;
+}
 
 /* Banner izquierdo de color */
 .color-en_revision,
@@ -97,9 +115,12 @@
 .circulo-aprobado,
 .circulo-pendiente,
 .circulo-rechazado {
+  font-size: 0.5rem;
+  align-self: center;
+  margin-left: 5px;
   margin-right: 5px;
-  font-size: 2.5rem;
-  margin-left: 15px; 
+  margin-bottom: 5px;
+  height: 0;
 }
 .circulo-en_revision { color: rgb(82, 156, 254); }
 .circulo-aprobado { color: rgb(77, 173, 58); }
@@ -111,7 +132,7 @@
 #solicitud,
 .nombre-departamento,
 .nombre-solicitud {
-  width: 100%;
+  align-self: center;
   font-weight: bold;
   border: none;       
   cursor: default;
@@ -126,14 +147,15 @@
 /* Tamaño de fuente para nombre de solicitud y departamento. */
 #departamento,
 .nombre-departamento {
-  position: inherit;
   font-size: 1rem;
-  bottom: -15px;
+  margin-right: 5vw;
 }
 #solicitud,
 .nombre-solicitud {
+  margin-left: 5vw;
   font-size: 1.2rem;
 }
+  
 
 /* Texto de estado de solicitud */
 #pendiente,
@@ -142,6 +164,7 @@
 #en-revision,
 .estado-solicitud {
   position: relative;
+  align-self: center;
   font-size: 0.9rem;
   border: none;       
   cursor: default;
@@ -151,6 +174,7 @@
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
+  margin-right: 80px;
 }
 
 /* Estilos de inputs de fecha y hora */
@@ -158,6 +182,7 @@
 .hora-solicitud,
 #campo-fecha,
 #campo-hora {
+  align-self: center;
   border: none;       
   cursor: default;
   pointer-events: none;
@@ -172,8 +197,9 @@
 /* Icono flecha, al extremo derecho del contenedor */
 .icono-despliegue {
   height: 100%;
-  position: absolute;
-  top: 30%;
+  position: relative;
+  top: 25%;
+  align-self: center;
   right: 30px;
   font-size: 45px;
   text-align: right;
@@ -422,6 +448,7 @@
     margin-right: 2vw;
     font-size: smaller;
   }
+  /*
   .solicitud-contenedor-principal {
     height: 110px;
   }
@@ -441,7 +468,7 @@
   }
   .contenedor-informacion {
     height: 99%;
-  }
+  }*/
 }
 
 @media screen and (max-width: 660px) {
@@ -452,6 +479,7 @@
     margin-right: 2vw;
     font-size: smaller;
   }
+  /*
   .info {
     width: 88%;
   }
@@ -504,7 +532,7 @@
     width: 20%;
     white-space: nowrap;
     text-overflow: ellipsis;
-  }
+  }*/
 }
 
 @media screen and (max-width: 490px) {
@@ -515,6 +543,7 @@
     margin-right: 2vw;
     font-size: smaller;
   }
+  /*
   .info {
     width: 85%;
   }
@@ -536,4 +565,5 @@
     top: 70%;
     right: 10px;
   }
+    */
 }

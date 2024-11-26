@@ -68,9 +68,16 @@ function mostrarModal(espacio, horarios) {
   var dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
 
   dias.forEach(function (dia) {
-    var contenido = '<table class="horario-table">';
-    contenido +=
-      "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
+  // Ordenar los horarios por hora inicial
+  horarios[dia].sort((a, b) => {
+    // Convertir horas a formato comparable
+    const horaA = a.hora_inicial.replace(':', '');
+    const horaB = b.hora_inicial.replace(':', '');
+    return horaA.localeCompare(horaB);
+  });
+
+  var contenido = '<table class="horario-table">';
+  contenido += "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
 
     if (horarios[dia] && horarios[dia].length > 0) {
       horarios[dia].forEach(function (clase) {
@@ -95,6 +102,7 @@ function mostrarModal(espacio, horarios) {
   openDay(null, "Lunes");
   $(".tablinks").first().addClass("active");
 }
+
 
 function openDay(evt, dayName) {
   var i, tabcontent, tablinks;

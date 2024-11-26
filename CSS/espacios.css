@@ -677,18 +677,23 @@ textarea {
 
 .horario-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
 }
 
 .horario-table th, .horario-table td {
   padding: 8px;
-  text-align: left;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .horario-table th {
   background-color: #0071b0;
   color: white;
   position: sticky;
+  text-align: left;
   top: 0;
   z-index: 10;
 }
@@ -696,6 +701,10 @@ textarea {
 .horario-table tr:nth-child(even) {
   background-color: #f9f9f9;
 }
+
+.horario-table th:nth-child(1) { width: 10%; }
+.horario-table th:nth-child(2) { width: 40%; }
+.horario-table th:nth-child(3) { width: 40%; }
 
 /* Media Queries para diferentes resoluciones */
 
