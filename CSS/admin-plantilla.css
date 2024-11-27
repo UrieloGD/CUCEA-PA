@@ -139,9 +139,70 @@ td .btn-container .btn {
   cursor: pointer;
 }
 
-/* .btn-container .btn img {
-  max-width: 30px;
-} */
+/* Estilos Sweet alert */
+.btn-guardar {
+  background-color: #0071B0 !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  border: none !important;
+  font-size: medium;
+  font-weight: bold !important;
+  transition: background-color 0.3s ease !important;
+  margin-right: 10px;
+  -webkit-border-radius: 5px !important;
+  -moz-border-radius: 5px !important;
+  -ms-border-radius: 5px !important;
+  -o-border-radius: 5px !important;
+}
+
+.btn-guardar:hover {
+  background-color: #005a8e !important;
+}
+
+.btn-cancelar {
+  background-color: #f0f0f0 !important;
+  font-size: medium !important;
+  color: #333 !important;
+  padding: 10px 20px !important;
+  border-radius: 5px !important;
+  border: 1px solid #ddd !important;
+  transition: background-color 0.3s ease !important;
+  -webkit-transition: background-color 0.3s ease !important;
+  -moz-transition: background-color 0.3s ease !important;
+  -ms-transition: background-color 0.3s ease !important;
+  -o-transition: background-color 0.3s ease !important;
+}
+
+.btn-cancelar:hover {
+  background-color: #D70A16 !important;
+  color: #fff !important;
+}
+
+.input-archivo {
+  background-color: #f8f9fa !important;
+  border: 1px solid #0071B0 !important;
+  border-radius: 5px !important;
+  padding: 10px !important;
+  color: #333 !important;
+}
+
+.swal2-file-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.swal2-file-text {
+  text-align: center !important;
+  flex-grow: 1 !important;
+  margin-right: 10px !important;
+}
+
+.swal2-file {
+  margin-left: auto !important;
+}
 
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {

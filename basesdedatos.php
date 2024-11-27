@@ -443,10 +443,10 @@ $result = $stmt->get_result();
                 <div class="form-section">
                     <h3>Profesorado</h3>
                     <div class="form-row">
-                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código Profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
+                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre profesor" class="full-width">
+                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre completo del profesor" class="full-width">
                     </div>
                     <div class="form-row">
                         <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">

@@ -1,11 +1,37 @@
 <?php
-session_start();
-include './config/db.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-function obtenerDepartamentoId($usuario_id) {
-    global $conexion; // Usar la variable de conexión global
-    $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
-    $result = $conexion->query($sql);
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
+<?php
+
+function obtenerDepartamentoId($usuario_id)
+{
+    global $conexion;
+    $sql = "SELECT Departamento_ID FROM usuarios_departamentos WHERE Usuario_ID = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $usuario_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -14,20 +40,23 @@ function obtenerDepartamentoId($usuario_id) {
         $departamento_id = null;
     }
 
-    $conexion->close();
+    $stmt->close();
     return $departamento_id;
 }
 
 $codigo_usuario =  $_SESSION['Codigo'];
-$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-11-01 23:50";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-12-25 23:50";
 
 $departamento_id = null;
-if (isset($_SESSION['usuario_id'])) {
-    $usuario_id = $_SESSION['usuario_id'];
-    $departamento_id = obtenerDepartamentoId($usuario_id);
+if (isset($_SESSION['Codigo'])) {
+    $departamento_id = obtenerDepartamentoId($_SESSION['Codigo']);
+}
+
+if ($departamento_id === null) {
+    error_log("No se encontró Departamento_ID para el usuario: " . $_SESSION['Codigo']);
 }
 
 ?>
@@ -69,7 +98,7 @@ if (isset($_SESSION['usuario_id'])) {
         <?php
         $justificacion_enviada = false;
         if ($departamento_id) {
-            $sql_justificacion = "SELECT Justificacion_Enviada FROM Justificaciones
+            $sql_justificacion = "SELECT Justificacion_Enviada FROM justificaciones
         WHERE Departamento_ID = ? AND Codigo_Usuario = ?
         ORDER BY Fecha_Justificacion DESC LIMIT 1";
 
@@ -133,13 +162,13 @@ if (isset($_SESSION['usuario_id'])) {
                             <p>Arrastra tu archivo a subir aquí</p>
                             <p>o</p>
                             <button type="button" class="boton-seleccionar-archivo" role="button">
-                            Selecciona archivo
+                                Selecciona archivo
                             </button>
                             <input type="file" name="file" id="input-file" accept=".xlsx,.xls" hidden>
                         </div>
                         <div id="preview"></div>
                         <div class="container-peso">
-                        <h3>Tamaño máximo de archivo permitido: 2MB</h3>
+                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
                         </div>
                         <button type="submit" class="boton-descargar" role="button">Guardar</button>
                     </div>
