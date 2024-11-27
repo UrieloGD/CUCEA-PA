@@ -9,9 +9,11 @@
  * - "dom": Personaliza la estructura de los elementos visibles en la tabla
  * - "scrollX": Habilita el desplazamiento horizontal para manejar tablas más anchas que el viewport.
  * - "scrollCollapse": Habilita la reducción del área de scroll cuando los datos son menos que el espacio disponible.
+ * localStorage.removeItem('DataTables_tabla-datos'); // Limpia el estado guardado
  */
 
 $(document).ready(function () {
+  localStorage.removeItem('DataTables_tabla-datos');
   var table = $("#tabla-datos").DataTable({
     dom: '<"top"<"custom-search-container">f>rt<"bottom"lip>',
     language: {
@@ -19,19 +21,74 @@ $(document).ready(function () {
       search: "_INPUT_",
       searchPlaceholder: "Buscar...",
     },
-    
     initComplete: function() {
       // Mover la barra de búsqueda al contenedor personalizado
       $('.dataTables_filter').appendTo('.custom-search-container');
-      
-      // Añadir la clase personalizada al input
       $('.dataTables_filter input').addClass('custom-search-input');
+ 
+      // Configuración de filtros para cada columna
+      this.api().columns().every(function(index) {
+        var column = this;
+        var header = $(column.header());
+        var filterIcon = header.find('.filter-icon');
+    
+        if (filterIcon.length) {
+          var filterMenu = $('<div class="filter-menu"></div>');
+          var filterContainer = $('<div class="filter-container"></div>');
+          filterContainer.append(filterMenu);
+          $('.datatable-container').append(filterContainer);
+    
+          var uniqueValues = column.data().unique().sort().toArray();
+    
+          uniqueValues.forEach(function(value) {
+            filterMenu.append(
+              $('<label>')
+                .append($('<input type="checkbox">').val(value))
+                .append(' ' + value)
+            );
+          });
+    
+          filterMenu.append(
+            $('<div>')
+              .append($('<button class="apply-filter">Aplicar</button>'))
+              .append($('<button class="clear-filter">Limpiar</button>'))
+          );
+    
+          filterIcon.on('click', function(e) {
+            e.stopPropagation();
+            $('.filter-menu').not(filterMenu).hide();
+            filterMenu.toggle();
+          });
+    
+          filterMenu.find('.apply-filter').on('click', function() {
+            var selectedValues = filterMenu.find('input:checked')
+              .map(function() {
+                return '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$';
+              }).get().join('|');
+    
+            column.search(selectedValues, true, false).draw();
+            filterMenu.hide();
+          });
+    
+          filterMenu.find('.clear-filter').on('click', function() {
+            filterMenu.find('input').prop('checked', false);
+            column.search('').draw();
+            filterMenu.hide();
+          });
+        }
+      });
+    
+      // Cerrar menús de filtro al hacer clic fuera
+      $(document).on('click', function(e) {
+        if (!$(e.target).closest('.filter-menu, .filter-icon').length) {
+          $('.filter-menu').hide();
+        }
+      });
     },
-
-    pageLength: 10,
+    pageLength: 15,
     lengthMenu: [
-      [10, 25, 50, -1],
-      [10, 25, 50, "Todos"],
+      [15, 25, 50, -1],
+      [15, 25, 50, "Todos"],
     ],
     responsive: true,
     
@@ -44,13 +101,13 @@ $(document).ready(function () {
     stateLoadCallback: function(settings) {
       return JSON.parse(localStorage.getItem('DataTables_' + settings.sInstance));
     },
-    ordering: true, // Opción para ordenar alfabéticamente las columnas de la tabla
+    ordering: true,
     info: true,
     scrollX: true,
     scrollCollapse: true,
     fixedHeader: true,
     columnDefs: [
-      { targets: "_all", defaultContent: "" }, // Reemplaza los valores nulos por un string vacío
+      { targets: "_all", defaultContent: "" },
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
       { orderable: false, targets: -1 },
@@ -95,19 +152,17 @@ $(document).ready(function () {
         text: '<i class="fa fa-eye"></i>',
         titleAttr: "Column visibility",
         collectionLayout: "fixed columns",
-        columns: ":not(:first-child)", // Excluye la primera columna (checkbox)
+        columns: ":not(:first-child)",
       },
     ],
   });
-
-  // Vincula la funcionalidad del botón de visibilidad al icono en el encabezado
+ 
   $("#icono-visibilidad").on("click", function () {
     table.button(".buttons-colvis").trigger();
   });
-
-  // Inicialización del plugin FixedColumns
+ 
   new $.fn.dataTable.FixedColumns(table, {
     leftColumns: 2,
     rightColumns: 0,
   });
-});
+ });
