@@ -62,7 +62,8 @@ foreach ($departamentos as $departamento) {
                         'cve_materia' => $row['CVE_MATERIA'],
                         'materia' => $row['MATERIA'],
                         'profesor' => $row['NOMBRE_PROFESOR'],
-                        'cupo' => $row['CUPO']
+                        'cupo' => $row['CUPO'],
+                        'departamento' => str_replace('_', ' ', str_replace('Data_', '', $tabla))
                     );
 
                     // Bandera para verificar si es un duplicado

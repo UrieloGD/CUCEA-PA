@@ -703,8 +703,9 @@ textarea {
 }
 
 .horario-table th:nth-child(1) { width: 10%; }
-.horario-table th:nth-child(2) { width: 40%; }
-.horario-table th:nth-child(3) { width: 40%; }
+.horario-table th:nth-child(2) { width: 30%; }
+.horario-table th:nth-child(3) { width: 30%; }
+.horario-table th:nth-child(4) { width: 20%; }
 
 .conflicto-horario {
   /* background-color: #ffdddd;  */

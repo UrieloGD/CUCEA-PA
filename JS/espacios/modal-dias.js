@@ -76,7 +76,7 @@ function mostrarModal(espacio, horarios) {
     });
 
     var contenido = '<table class="horario-table">';
-    contenido += "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
+    contenido += "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th><th>Departamento</th></tr></thead><tbody>";
 
     if (horarios[dia] && horarios[dia].length > 0) {
       // Crear un mapa para marcar conflictos
@@ -100,8 +100,8 @@ function mostrarModal(espacio, horarios) {
         }
       }
 
-      // Generar las filas de la tabla
-      horarios[dia].forEach(function(clase) {
+        // Generar las filas de la tabla
+        horarios[dia].forEach(function(clase) {
         // Verificar si la clase está en conflicto
         const esConflicto = conflictMap.has(JSON.stringify(clase));
 
@@ -109,10 +109,11 @@ function mostrarModal(espacio, horarios) {
                         <td>${clase.hora_inicial} - ${clase.hora_final}</td>
                         <td>${clase.materia}</td>
                         <td>${clase.profesor}</td>
+                        <td>${clase.departamento.toUpperCase() || 'No especificado'}</td>
                       </tr>`;
       });
     } else {
-      contenido += '<tr><td colspan="3">No hay clases programadas para este día.</td></tr>';
+      contenido += '<tr><td colspan="4">No hay clases programadas para este día.</td></tr>';
     }
 
     contenido += "</tbody></table>";
