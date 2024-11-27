@@ -27,9 +27,12 @@ require_once './config/sesioniniciada.php';
 
 function obtenerDepartamentoId($usuario_id)
 {
-    global $conexion; // Usar la variable de conexión global
-    $sql = "SELECT Departamento_ID FROM Usuarios_Departamentos WHERE Usuario_ID = '$usuario_id'";
-    $result = $conexion->query($sql);
+    global $conexion;
+    $sql = "SELECT Departamento_ID FROM usuarios_departamentos WHERE Usuario_ID = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $usuario_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
@@ -38,7 +41,7 @@ function obtenerDepartamentoId($usuario_id)
         $departamento_id = null;
     }
 
-    $conexion->close();
+    $stmt->close();
     return $departamento_id;
 }
 
@@ -49,9 +52,12 @@ $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
 $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-12-25 23:50";
 
 $departamento_id = null;
-if (isset($_SESSION['usuario_id'])) {
-    $usuario_id = $_SESSION['usuario_id'];
-    $departamento_id = obtenerDepartamentoId($usuario_id);
+if (isset($_SESSION['Codigo'])) {
+    $departamento_id = obtenerDepartamentoId($_SESSION['Codigo']);
+}
+
+if ($departamento_id === null) {
+    error_log("No se encontró Departamento_ID para el usuario: " . $_SESSION['Codigo']);
 }
 
 ?>
@@ -93,7 +99,7 @@ if (isset($_SESSION['usuario_id'])) {
         <?php
         $justificacion_enviada = false;
         if ($departamento_id) {
-            $sql_justificacion = "SELECT Justificacion_Enviada FROM Justificaciones
+            $sql_justificacion = "SELECT Justificacion_Enviada FROM justificaciones
         WHERE Departamento_ID = ? AND Codigo_Usuario = ?
         ORDER BY Fecha_Justificacion DESC LIMIT 1";
 
