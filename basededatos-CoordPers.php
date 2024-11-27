@@ -129,35 +129,36 @@ function formatDateForDisplay($mysqlDate)
         <button onclick="descargarExcelSeleccionado()">Descargar</button>
         <button onclick="cerrarPopupColumnas()">Cancelar</button>
     </div>
-    <div class="Tabla">
+    <div class="Tabla datatable-container">
         <div class="table-container">
+            <div class="custom-search-container"></div>
             <table id="tabla-datos" class="display">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>ID</th>
-                        <th>CODIGO</th>
-                        <th>PATERNO</th>
-                        <th>MATERNO</th>
-                        <th>NOMBRES</th>
-                        <th>NOMBRE COMPLETO</th>
-                        <th>SEXO</th>
-                        <th>DEPARTAMENTO</th>
-                        <th>CATEGORIA ACTUAL</th>
-                        <th>CATEGORIA ACTUAL</th>
-                        <th>HORAS FRENTE A GRUPO</th>
-                        <th>DIVISION</th>
-                        <th>TIPO DE PLAZA</th>
-                        <th>CAT.ACT.</th>
-                        <th>CARGA HORARIA</th>
-                        <th>HORAS DEFINITIVAS</th>
-                        <th>HORARIO</th>
-                        <th>TURNO</th>
-                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION</th>
-                        <th>S.N.I.</th>
-                        <th>SNI DESDE</th>
-                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR</th>
-                        <th>INICIO</th>
+                        <th>ID <span class="filter-icon" data-column="1">&#9662;</span></th>
+                        <th>CODIGO <span class="filter-icon" data-column="2">&#9662;</span></th>
+                        <th>PATERNO <span class="filter-icon" data-column="3">&#9662;</span></th>
+                        <th>MATERNO <span class="filter-icon" data-column="4">&#9662;</span></th>
+                        <th>NOMBRES <span class="filter-icon" data-column="5">&#9662;</span></th>
+                        <th>NOMBRE COMPLETO <span class="filter-icon" data-column="6">&#9662;</span></th>
+                        <th>SEXO <span class="filter-icon" data-column="7">&#9662;</span></th>
+                        <th>DEPARTAMENTO <span class="filter-icon" data-column="8">&#9662;</span></th>
+                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="9">&#9662;</span></th>
+                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="10">&#9662;</span></th>
+                        <th>HORAS FRENTE A GRUPO <span class="filter-icon" data-column="11">&#9662;</span></th>
+                        <th>DIVISION <span class="filter-icon" data-column="12">&#9662;</span></th>
+                        <th>TIPO DE PLAZA <span class="filter-icon" data-column="13">&#9662;</span></th>
+                        <th>CAT.ACT. <span class="filter-icon" data-column="14">&#9662;</span></th>
+                        <th>CARGA HORARIA <span class="filter-icon" data-column="15">&#9662;</span></th>
+                        <th>HORAS DEFINITIVAS <span class="filter-icon" data-column="16">&#9662;</span></th>
+                        <th>HORARIO <span class="filter-icon" data-column="17">&#9662;</span></th>
+                        <th>TURNO <span class="filter-icon" data-column="18">&#9662;</span></th>
+                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION <span class="filter-icon" data-column="19">&#9662;</span></th>
+                        <th>S.N.I. <span class="filter-icon" data-column="20">&#9662;</span></th>
+                        <th>SNI DESDE <span class="filter-icon" data-column="21">&#9662;</span></th>
+                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR <span class="filter-icon" data-column="22">&#9662;</span></th>
+                        <th>INICIO <span class="filter-icon" data-column="23">&#9662;</span></th>
                         <th>FIN</th>
                         <th>2024A</th>
                         <th>TELEFONO PARTICULAR</th>
