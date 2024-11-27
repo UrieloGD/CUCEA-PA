@@ -132,8 +132,7 @@ td:nth-child(2) {
   overflow: hidden; /* Evita que la barra de progreso se desborde */
   width: 80%; /* Ajusta el ancho de la barra de progreso */
   height: 20px; /* Aumentar la altura de la barra de progreso */
-  margin: 0rem auto; /* Añadir más espacio superior e inferior y centrar horizontalmente */
-  margin-top: 1rem; /* reduccion de margin-top para que los botones no se desfacen */
+  margin: 10px auto; /* Añadir más espacio superior e inferior y centrar horizontalmente */
   box-sizing: border-box; /* Incluye el padding dentro del ancho y alto total */
 }
 
@@ -164,6 +163,7 @@ td:nth-child(2) {
   display: flex;
   justify-content: center;
   gap: 10px;
+  margin: 10px 0px 20px 0px;
 }
 
 .btn {
@@ -200,12 +200,13 @@ td:nth-child(2) {
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 5px;
+  margin: 10px 0px 5px 0px;
 }
 
 /* Estilo para centrar el encabezado */
 .centrado {
   text-align: center;
+  margin: 10px;
 }
 
 /* Estilos para el modal */

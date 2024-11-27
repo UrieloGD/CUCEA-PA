@@ -468,7 +468,7 @@
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 50px;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 
 .leyenda-item {
@@ -705,6 +705,16 @@ textarea {
 .horario-table th:nth-child(1) { width: 10%; }
 .horario-table th:nth-child(2) { width: 40%; }
 .horario-table th:nth-child(3) { width: 40%; }
+
+.conflicto-horario {
+  /* background-color: #ffdddd;  */
+  color: #ff0000; /* Texto en rojo */
+  /* font-weight: bold; */
+}
+
+/* .fondo-conflicto {
+  background-color: #ffdddd !important; 
+} */
 
 /* Media Queries para diferentes resoluciones */
 
