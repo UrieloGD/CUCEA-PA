@@ -218,10 +218,10 @@ function getColumnName(cell) {
   const headerRow = document.querySelector("#tabla-datos tr");
   let columnName = headerRow.cells[cell.cellIndex].textContent.trim();
 
-  // Eliminar emojis y otros caracteres especiales
+  // Eliminar emojis, caracteres especiales y símbolos como ▾
   columnName = columnName
     .replace(
-      /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}]/gu,
+      /[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}▾]/gu,
       ""
     )
     .trim();
@@ -286,6 +286,10 @@ function undoAllChanges() {
 }
 
 function saveAllChanges() {
+  // Añadir console.log para verificar el rol del usuario
+  const userRole = document.getElementById('user-role').value;
+  console.log("User Role:", userRole);
+
   const promises = Array.from(changedCells).map((cell) => {
     const id = cell.parentNode.cells[1].textContent;
     const column = getColumnName(cell);
@@ -293,26 +297,34 @@ function saveAllChanges() {
 
     // Limpieza básica de datos
     value = value.replace(/[^\x00-\x7F]/g, "");
-    // value = encodeURIComponent(value);
+
+    // Añadir más información de depuración
+    console.log("Saving - ID:", id, "Column:", column, "Value:", value);
 
     return fetch("./functions/basesdedatos/actualizar-celda.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams({ id, column, value }),
+      body: new URLSearchParams({ 
+        id, 
+        column, 
+        value, 
+        user_role: userRole  // Pasar el rol del usuario
+      }),
     })
       .then((response) => {
+        console.log("Response status:", response.status);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
       .then((data) => {
+        console.log("Server response:", data);
         if (data.error) {
           throw new Error(data.error);
         }
-        // Almacenar la celda junto con la respuesta para usarla en el siguiente then
         return { cell, data };
       });
   });
@@ -321,10 +333,7 @@ function saveAllChanges() {
     .then((results) => {
       results.forEach(({ cell, data }) => {
         if (data.success) {
-          // Cambiar el color de fondo a verde suave
-          cell.style.backgroundColor = "#90EE90"; // Light green
-
-          // Opcional: Hacer una transición suave después de 2 segundos
+          cell.style.backgroundColor = "#90EE90";
           setTimeout(() => {
             cell.style.transition = "background-color 0.5s ease";
             cell.style.backgroundColor = "";
@@ -337,13 +346,13 @@ function saveAllChanges() {
       hideEditIcons();
     })
     .catch((error) => {
+      console.error("Error saving changes:", error);
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'No tienes los permisos necesarios para realizar cambios en la base de datos',
+        text: 'No tienes los permisos necesarios para realizar cambios en la base de datos. Error: ' + error.message,
         confirmButtonText: 'Entendido'
       });
     });
 }
-
 document.addEventListener("DOMContentLoaded", makeEditable);

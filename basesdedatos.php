@@ -386,7 +386,8 @@ $result = $stmt->get_result();
                     <h3>Materia</h3>
                     <div class="form-row">
                         <input type="text" id="ciclo" name="ciclo" placeholder="Ciclo">
-                        <input type="text" id="crn" name="crn" placeholder="CRN">
+                        <input type="text" id="crn" name="crn" placeholder="CRN" 
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" id="cve_materia" name="cve_materia" placeholder="CVE Materia">
                     </div>
                     <div class="form-row">
@@ -662,7 +663,6 @@ $result = $stmt->get_result();
 
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
-<script src="./JS/basesdedatos/editar-registros.js"></script>
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
