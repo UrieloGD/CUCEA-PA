@@ -39,6 +39,31 @@
       
     
   </div>
+  
+  <div class="accesodirecto-moviles">
+    <div class="cuadro-acceso">
+      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png">
+      <span>Plantilla</span>
+    </div>
+    <div class="cuadro-acceso">
+      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
+      <span>DB</span>
+    </div>
+    <div class="cuadro-acceso">
+      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
+      <span>Oferta</span>
+    </div>
+    <div class="cuadro-acceso">
+      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png">
+      <span>Espacios</span>
+    </div>
+    <div class="cuadro-acceso">
+      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
+      <span>Guia</span>
+    </div>
+  </div>
+
+
   <!-- carrusel-banner -->
   <div class="banner">
     <div class="carrusel">
