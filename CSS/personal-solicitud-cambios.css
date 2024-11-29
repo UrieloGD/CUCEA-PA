@@ -74,24 +74,55 @@
   word-wrap: normal;
   flex-direction: row;
   width: 82vw;
-  height: 0;
   position: absolute;
   height: fit-content;
   box-shadow: 0px 3px 7px rgb(161, 161, 161);
   border-radius: 12px;
   left: 2vw;
+  padding-top: 20px;
+}
+
+.leyenda-info {
+  justify-content: space-between;
+  display: inherit;
+  text-overflow: ellipsis;
+  word-wrap: normal;
+  flex-direction: row;
+  width: 78vw;
+  position: absolute;
+  height: fit-content;
+  border-radius: 12px;
+  padding-top: 5px;
+  z-index: 2;
+  opacity: 60%;
+  margin-left: 10px;
+}
+
+.grises-solicitud-dpto,
+.grises-fecha-hora {
+  display: inherit;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+.grises-solicitud-dpto {
+  width: 50.8%;
+}
+
+.grises-fecha-hora {
+  width: 35%;
 }
 
 .nombre-dpto-solicitud {
-  width: 100%;
+  width: 50.8%;
   display: inherit;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: row;
 }
 .fecha-hora-status {
-  width: 100%;
+  width: 35%;
   display: inherit;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-direction: row;
 }
 
@@ -102,6 +133,7 @@
 .color-rechazado {
   width: 25px;
   height: 100%;
+  top: 0px;
   border-bottom-left-radius: 10px; 
   border-top-left-radius: 10px; 
 }
@@ -120,7 +152,6 @@
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 5px;
-  height: 0;
 }
 .circulo-en_revision { color: rgb(82, 156, 254); }
 .circulo-aprobado { color: rgb(77, 173, 58); }
@@ -142,6 +173,7 @@
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
+  margin-right: 15px;
 }
 
 /* Tamaño de fuente para nombre de solicitud y departamento. */
@@ -152,7 +184,7 @@
 }
 #solicitud,
 .nombre-solicitud {
-  margin-left: 5vw;
+  margin-left: 3vw;
   font-size: 1.2rem;
 }
   
@@ -174,7 +206,7 @@
   -webkit-appearance: none;
   -moz-appearance: textfield;
   appearance: none;
-  margin-right: 80px;
+  margin-right: 15px;
 }
 
 /* Estilos de inputs de fecha y hora */
@@ -192,6 +224,7 @@
   -moz-appearance: textfield;
   appearance: none;
   opacity: 80%;
+  margin-right: 15px;
 }
 
 /* Icono flecha, al extremo derecho del contenedor */

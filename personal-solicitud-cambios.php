@@ -14,10 +14,22 @@
     </div>
     <!-- Contenedor principal de cada solicitud. -->
     <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
-            <!-- Informacion resumida de solicitud -->
+            <!-- Informacion resumida de solicitud (letras grises) -->
+            <div class="leyenda-info">
+                <div class="grises-solicitud-dpto">
+                    <p>Tipo de solicitud:</p>
+                    <p>Departamento:</p>
+                </div>
+                <div class="grises-fecha-hora">
+                    <p>Fecha:</p>
+                    <p>Hora:</p>
+                    <p>Estado:</p>
+                </div>
+            </div>
+            <!--------------------------------------->
             <div class="info-sup">
-                <!-- Color de estado de solicitud al extremo izquierdo -->
-                    <div class="color-en_revision" style="position: absolute; left: 0px;"></div> 
+                <!-- Color de estado de solicitud al extremo izquierdo e informacion resumida. -->
+                <div class="color-en_revision" style="position: absolute; left: 0px;"></div> 
                 <div class="nombre-dpto-solicitud">
                     <p class="nombre-solicitud" id="solicitud">Solicitud de baja-Propuesta</p>
                     <p class="nombre-departamento" id="departamento">Departamento de contaduria</p>
@@ -29,18 +41,11 @@
                         <i class="fa fa-circle" aria-hidden="true"><span class="estado-solicitud" type="text" id="en-revision" style="margin-left: 10px;">En revisión</span></i>
                     </div>
                 </div>
-                
-
                 <!-- Icono al extremo derecho, para el despliegue de ventana inferior -->
                 <div class="icono-despliegue">
                     <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
                 </div>
             </div>
-            <div class="info-inf">
-                
-            </div>
-            <!--------------------------------------->
-        
     </div>
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-1">
