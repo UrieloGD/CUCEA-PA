@@ -636,9 +636,9 @@ $result = $stmt->get_result();
 <!-- Modal para visualizar información detallada del profesor -->
 <div id="modal-detalle-profesor" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="cerrarModalDetalle()">&times;</span>
         <!--<h2>Detalle del Profesor</h2>-->
         <div id="detalle-profesor-contenido">
+            <span class="close" onclick="cerrarModalDetalle()">&times;</span>
             <!--El contenido se cargará dinámicamente -->
         </div> 
     </div>

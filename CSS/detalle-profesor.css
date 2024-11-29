@@ -45,6 +45,7 @@
   height: 30px;
   border-radius: 50%;
   background-color: #b0b0b0;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,10 +57,10 @@
 }
 
 .day.active {
-  background-color: #0071b0;
   color: white;
   border-width: 1px;
   border-style: solid;
+  background-color: #0071b0;
   border-color: #0071b0;
   position: relative;
 }
@@ -86,11 +87,11 @@
 }
 
 .day.virtual {
-  background-color: #ffffff;
   border-width: 1px;
   border-style: solid;
-  border-color: #005a8c;
-  color: #005a8c;
+  border-color: #8D3E83;
+  background-color: #8D3E83;
+  color: white;
   position: relative;
   justify-content: center;
   vertical-align: middle;
@@ -125,9 +126,12 @@
 }
 
 .header-profesor {
-  background-color: #0073ce;
+  background-color: #0071b0;
   color: white;
   padding: 24px;
+  border: #0071b0;
+  border-width: 4px;
+  border-style: solid;
   border-radius: 8px 8px 0 0;
   display: flex;
   gap: 24px;
@@ -191,9 +195,7 @@
 .table-profile td {
   align-items: center;
   text-align: left;
-  border-width: 1px;
-  border-color: #0073ce;
-  border-style: solid;
+  border-width: 0 0 0 0;
   color: #222;
 }
 
@@ -216,6 +218,11 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f5f5f5;
+
+}
+
+.search-box input:focus {
+  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
 }
 
 .department-select {
@@ -487,4 +494,15 @@
   position: relative;
   width: 100%;
   min-height: 450px; /* o el valor que necesites */
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #333;
 }
