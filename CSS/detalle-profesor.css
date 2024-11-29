@@ -61,6 +61,28 @@
   border-width: 1px;
   border-style: solid;
   border-color: #0071b0;
+  position: relative;
+}
+
+.day.active::after {
+  content: "Presencial";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+
+.day.active:hover::after {
+  opacity: 1;
 }
 
 .day.virtual {
@@ -70,6 +92,8 @@
   border-color: #005a8c;
   color: #005a8c;
   position: relative;
+  justify-content: center;
+  vertical-align: middle;
 }
 
 .day.virtual::after {
@@ -151,7 +175,6 @@
   margin-top: 0;
   font-size: 14px;
   font-weight: bold;
-  color: #333;
 }
 
 .profile-details .profile-span {
@@ -163,9 +186,6 @@
 
 .table-profile {
   width: 900px;
-  border-width: 1px;
-  border-color: #0073ce;
-  border-style: solid;
 }
 
 .table-profile td {
@@ -174,6 +194,7 @@
   border-width: 1px;
   border-color: #0073ce;
   border-style: solid;
+  color: #222;
 }
 
 .search-section {
@@ -282,17 +303,15 @@
 }
 
 .nav-arrow {
-  /*background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    color: #666;
-    */
-  padding: 8px 12px;
+  padding: 4px 12px;
   border: none;
   background: #fff;
   border-radius: 4px;
+  font-size: 20px;
   cursor: pointer;
+  text-align: center;
+  align-items: center;
+  vertical-align: middle;
   transition: opacity 0.3s;
   -webkit-transition: opacity 0.3s;
   -moz-transition: opacity 0.3s;
@@ -367,7 +386,6 @@
   vertical-align: center;
   line-height: 1.4;
   hyphens: auto;
-
   padding: 12px 16px;
   border-bottom: 1px solid #eee;
   align-items: center;
@@ -445,7 +463,6 @@
 
 .nav-items-container {
   display: flex;
-  gap: 10px;
   overflow-x: auto;
   scroll-behavior: smooth;
   -ms-overflow-style: none;

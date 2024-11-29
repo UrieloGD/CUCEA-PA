@@ -501,9 +501,9 @@ $result = $stmt->get_result();
             <table class="profesores-table">
                 <thead>
                     <tr>
-                        <th>Código</th>
+                        <th class="detalle-column">Código</th>
                         <th>Nombre Completo</th>
-                        <th>Acción</th>
+                        <th class="detalle-column">Detalles del Profesor</th>
                     </tr>
                 </thead>
                 <tbody id="lista-todos-profesores">
@@ -618,9 +618,9 @@ $result = $stmt->get_result();
                 if ($result_todos_profesores) {
                     while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                         echo "<tr>";
-                        echo "<td>" . htmlspecialchars($row['Codigo']) . "</td>";
-                        echo "<td>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
-                        echo "<td><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                        echo "<td class='detalle-column'>" . htmlspecialchars($row['Codigo']) . "</td>";
+                        echo "<td class=''>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
+                        echo "<td class='detalle-column'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                         echo "</tr>";
                     }
                 } else {
