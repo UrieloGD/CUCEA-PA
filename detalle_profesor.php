@@ -289,7 +289,7 @@ if(isset($_POST['codigo_profesor'])) {
             </div>
 
             <div class="navigation">
-                <button class="nav-arrow prev-arrow" disabled>←</button>
+                <button class="nav-arrow prev-arrow" disabled><</button>
                 <div class="nav-items-container">
                     <a href="#todas" class="nav-item active" data-section="todas">Todas las materias</a>
                     <?php 
@@ -305,7 +305,7 @@ if(isset($_POST['codigo_profesor'])) {
                         }
                     ?>
                 </div>
-                <button class="nav-arrow next-arrow">→</button>
+                <button class="nav-arrow next-arrow">></button>
             </div>
                 
             <div class="navigation-space"></div>
@@ -493,8 +493,8 @@ if(isset($_POST['codigo_profesor'])) {
                         </tbody>
                     </table>
                 </div>
+                <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
         </div>
         <?php
     } else {
@@ -560,7 +560,7 @@ $(document).ready(function() {
     // Crear un contenedor para el tooltip global
     $('body').append('<div id="global-tooltip" style="display:none; position:absolute; background-color:#333; color:#fff; padding:5px 10px; border-radius:6px; z-index:1000; white-space:nowrap;"></div>');
     
-    $('.nav-item').hover(
+    $('.nav-item:not([data-section="todas"])').hover(
         function(e) {
             // Mostrar tooltip
             const fullName = $(this).find('.tooltip').text();
@@ -592,7 +592,7 @@ $(document).ready(function() {
         
         // If search is empty, show all courses in the active section
         if (searchText === '') {
-            $('.curso-seccion.active tr').show();
+            $('.curso-seccion.active tbody tr').show();
             return;
         }
 
@@ -600,7 +600,7 @@ $(document).ready(function() {
         const $activeSection = $('.curso-seccion.active');
         
         // Filter rows in the active section
-        $activeSection.find('tr').each(function() {
+        $activeSection.find('tbody tr').each(function() {
             const $row = $(this);
             const rowText = $row.text().toLowerCase();
             

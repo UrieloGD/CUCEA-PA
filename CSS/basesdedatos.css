@@ -1070,6 +1070,24 @@ div.dataTables_wrapper {
   background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
 }
 
+.profesores-table th {
+  position: relative;
+  top: 0;
+  background-color: white;
+  padding: 15px 8px; /* Aumentamos el padding vertical */
+  text-align: left;
+  border-bottom: 3px solid #0071b0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.profesores-table .detalle-column {
+  text-align: center;
+  align-items: center;
+}
+
 th {
   position: sticky;
   top: 0;
