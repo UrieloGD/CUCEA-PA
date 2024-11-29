@@ -172,9 +172,12 @@
   /*border: 4px solid white;*/
   overflow: hidden;
   position: absolute;
+  position: absolute;
   font-weight: bold;
   color: white;
   font-size: 1.5rem;
+  bottom: 5%;
+  left: 50%;
   bottom: 60px;
   left: 50%;
   transform: translateX(-50%);
@@ -226,6 +229,7 @@
   width: 5.625rem;
   /* 90px / 16px = 5.625rem */
   height: 5.625rem;
+  bottom: 6%;
   left: 130%;
   /* Ajusta este valor según tus necesidades */
 }
@@ -311,6 +315,9 @@ hr {
 /* Boton de cerrar sesion */
 
 .logout-container {
+  position: absolute;
+  bottom: 20px; /* Ajusta la distancia desde la parte inferior */
+  left: 50%;
   position: relative;
   bottom: -70px; /* Ajusta la distancia desde la parte inferior */
   left: 73.5%;
@@ -373,7 +380,7 @@ hr {
 
 .dropdown-container {
   position: relative;
-  width: 94%; /* Ajuste el width para que coincidiera el indicador */
+  width: 100%;
 }
 
 .dropdown-trigger {
@@ -417,15 +424,6 @@ hr {
 .dropdown-menu.show .dropdown-item {
   transform: translateY(0);
   opacity: 1;
-}
-
-/* Retardo en la animación para cada item */
-.dropdown-menu.show .dropdown-item:nth-child(1) {
-  transition-delay: 0.1s;
-}
-
-.dropdown-menu.show .dropdown-item:nth-child(2) {
-  transition-delay: 0.2s;
 }
 
 .tree-line {

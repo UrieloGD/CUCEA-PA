@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $jefe = mysqli_fetch_assoc($result);
 
             if ($jefe) {
-                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['Departamentos']}.";
+                $mensaje = "Se te asignado una plantilla para el departamento de {$jefe['Departamentos']}.";
 
 
                 // Insertar notificación en la tabla Notificaciones

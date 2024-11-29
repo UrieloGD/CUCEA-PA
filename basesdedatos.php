@@ -32,58 +32,47 @@ require_once './config/sesioniniciada.php';
 <?php
 //include './config/db.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
 
-// Get user's code from session
-$usuario_codigo = $_SESSION['Codigo'];
-
+// Verificar el rol del usuario
 $rol = $_SESSION['Rol_ID'];
-$departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : $_SESSION['Departamento_ID'];
 
-// Query to find department for the user
-$sql_departamento = "SELECT d.Departamento_ID, d.Nombre_Departamento, d.Departamentos 
-                     FROM usuarios_departamentos ud
-                     JOIN departamentos d ON ud.departamento_ID = d.Departamento_ID
-                     WHERE ud.usuario_ID = ?";
-
-$stmt = $conexion->prepare($sql_departamento);
-if (!$stmt) {
-    die("Prepare failed: " . $conexion->error);
-}
-
-$stmt->bind_param("i", $usuario_codigo);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    $departamento = $result->fetch_assoc();
-    
-    // Store department information in session
-    $_SESSION['Departamento_ID'] = $departamento['Departamento_ID'];
-    $_SESSION['Nombre_Departamento'] = $departamento['Nombre_Departamento'];
-    $_SESSION['Departamentos'] = $departamento['Departamentos'];
+// Lógica para seleccionar el departamento
+if ($rol == 1) {
+    // Para jefes de departamento, usar su departamento asignado
+    $departamento_id = $_SESSION['Departamento_ID'];
+} elseif ($rol == 2 || $rol == 3) {
+    // Para roles 2 y 3, permitir selección de departamento
+    if (isset($_GET['departamento_id'])) {
+        // Si se proporciona un departamento_id específico
+        $departamento_id = (int)$_GET['departamento_id'];
+    } else {
+        // Si no se proporciona, seleccionar el primer departamento
+        $sql_primer_departamento = "SELECT Departamento_ID FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
+        $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
+        
+        if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
+            $row_primer_departamento = mysqli_fetch_assoc($result_primer_departamento);
+            $departamento_id = $row_primer_departamento['Departamento_ID'];
+        } else {
+            die("No se encontraron departamentos disponibles.");
+        }
+    }
 } else {
-    die("No se encontró un departamento para este usuario.");
+    die("Rol de usuario no autorizado.");
 }
 
-$stmt->close();
-
-$departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : $_SESSION['Departamento_ID'];
-
-// Verify the session variable exists
-if (!isset($_SESSION['Departamento_ID'])) {
-    die("Error: Departamento_ID not set in session");
-}
-
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
+// Consulta para obtener información del departamento
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
+
 if (!$stmt) {
-    die("Prepare failed: " . $conexion->error);
+    die("Error en la preparación de la consulta: " . $conexion->error);
 }
+
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result_departamento = $stmt->get_result();
@@ -184,8 +173,16 @@ $departamento_nombre = $row_departamento['Departamentos'];
 
 $tabla_departamento = "data_" . $nombre_departamento;
 
-$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = $departamento_id";
-$result = mysqli_query($conexion, $sql);
+$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql);
+
+if (!$stmt) {
+    die("Error en la preparación de la consulta de datos: " . $conexion->error);
+}
+
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <title>Data - <?php echo $departamento_nombre; ?></title>
@@ -268,48 +265,48 @@ $result = mysqli_query($conexion, $sql);
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID</th>
-                    <th>CICLO</th>
-                    <th>CRN</th>
-                    <th>MATERIA</th>
-                    <th>CVE MATERIA</th>
-                    <th>SECCIÓN</th>
-                    <th>NIVEL</th>
-                    <th>NIVEL TIPO</th>
-                    <th>TIPO</th>
-                    <th>C. MIN</th>
-                    <th>H. TOTALES</th>
-                    <th>STATUS</th>
-                    <th>TIPO CONTRATO</th>
-                    <th>CÓDIGO</th>
-                    <th>NOMBRE PROFESOR</th>
-                    <th>CATEGORIA</th>
-                    <th>DESCARGA</th>
-                    <th>CÓDIGO DESCARGA</th>
-                    <th>NOMBRE DESCARGA</th>
-                    <th>NOMBRE DEFINITIVO</th>
-                    <th>TITULAR</th>
-                    <th>HORAS</th>
-                    <th>CÓDIGO DEPENDENCIA</th>
-                    <th>L</th>
-                    <th>M</th>
-                    <th>I</th>
-                    <th>J</th>
-                    <th>V</th>
-                    <th>S</th>
-                    <th>D</th>
-                    <th>DÍA PRESENCIAL</th>
-                    <th>DÍA VIRTUAL</th>
-                    <th>MODALIDAD</th>
-                    <th>FECHA INICIAL</th>
-                    <th>FECHA FINAL</th>
-                    <th>HORA INICIAL</th>
-                    <th>HORA FINAL</th>
-                    <th>MÓDULO</th>
-                    <th>AULA</th>
-                    <th>CUPO</th>
-                    <th>OBSERVACIONES</th>
-                    <th>EXTRAORDINARIO</th>
+                    <th>ID <span class="filter-icon" data-column="1">&#9662;</span></th>
+                    <th>CICLO <span class="filter-icon" data-column="2">&#9662;</span></th>
+                    <th>CRN <span class="filter-icon" data-column="3">&#9662;</span></th>
+                    <th>MATERIA <span class="filter-icon" data-column="4">&#9662;</span></th>
+                    <th>CVE MATERIA <span class="filter-icon" data-column="5">&#9662;</span></th>
+                    <th>SECCIÓN <span class="filter-icon" data-column="6">&#9662;</span></th>
+                    <th>NIVEL <span class="filter-icon" data-column="7">&#9662;</span></th>
+                    <th>NIVEL TIPO <span class="filter-icon" data-column="8">&#9662;</span></th>
+                    <th>TIPO <span class="filter-icon" data-column="9">&#9662;</span></th>
+                    <th>C. MIN <span class="filter-icon" data-column="10">&#9662;</span></th>
+                    <th>H. TOTALES <span class="filter-icon" data-column="11">&#9662;</span></th>
+                    <th>STATUS <span class="filter-icon" data-column="12">&#9662;</span></th>
+                    <th>TIPO CONTRATO <span class="filter-icon" data-column="13">&#9662;</span></th>
+                    <th>CÓDIGO <span class="filter-icon" data-column="14">&#9662;</span></th>
+                    <th>NOMBRE PROFESOR <span class="filter-icon" data-column="15">&#9662;</span></th>
+                    <th>CATEGORIA <span class="filter-icon" data-column="16">&#9662;</span></th>
+                    <th>DESCARGA <span class="filter-icon" data-column="17">&#9662;</span></th>
+                    <th>CÓDIGO DESCARGA <span class="filter-icon" data-column="18">&#9662;</span></th>
+                    <th>NOMBRE DESCARGA <span class="filter-icon" data-column="19">&#9662;</span></th>
+                    <th>NOMBRE DEFINITIVO <span class="filter-icon" data-column="20">&#9662;</span></th>
+                    <th>TITULAR <span class="filter-icon" data-column="21">&#9662;</span></th>
+                    <th>HORAS <span class="filter-icon" data-column="22">&#9662;</span></th>
+                    <th>CÓDIGO DEPENDENCIA <span class="filter-icon" data-column="23">&#9662;</span></th>
+                    <th>L <span class="filter-icon" data-column="24">&#9662;</span></th>
+                    <th>M <span class="filter-icon" data-column="25">&#9662;</span></th>
+                    <th>I <span class="filter-icon" data-column="26">&#9662;</span></th>
+                    <th>J <span class="filter-icon" data-column="27">&#9662;</span></th>
+                    <th>V <span class="filter-icon" data-column="28">&#9662;</span></th>
+                    <th>S <span class="filter-icon" data-column="29">&#9662;</span></th>
+                    <th>D <span class="filter-icon" data-column="30">&#9662;</span></th>
+                    <th>DÍA PRESENCIAL <span class="filter-icon" data-column="31">&#9662;</span></th>
+                    <th>DÍA VIRTUAL <span class="filter-icon" data-column="32">&#9662;</span></th>
+                    <th>MODALIDAD <span class="filter-icon" data-column="33">&#9662;</span></th>
+                    <th>FECHA INICIAL <span class="filter-icon" data-column="34">&#9662;</span></th>
+                    <th>FECHA FINAL <span class="filter-icon" data-column="35">&#9662;</span></th>
+                    <th>HORA INICIAL <span class="filter-icon" data-column="36">&#9662;</span></th>
+                    <th>HORA FINAL <span class="filter-icon" data-column="37">&#9662;</span></th>
+                    <th>MÓDULO <span class="filter-icon" data-column="38">&#9662;</span></th>
+                    <th>AULA <span class="filter-icon" data-column="39">&#9662;</span></th>
+                    <th>CUPO <span class="filter-icon" data-column="40">&#9662;</span></th>
+                    <th>OBSERVACIONES <span class="filter-icon" data-column="41">&#9662;</span></th>
+                    <th>EXTRAORDINARIO <span class="filter-icon" data-column="42">&#9662;</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -388,7 +385,8 @@ $result = mysqli_query($conexion, $sql);
                     <h3>Materia</h3>
                     <div class="form-row">
                         <input type="text" id="ciclo" name="ciclo" placeholder="Ciclo">
-                        <input type="text" id="crn" name="crn" placeholder="CRN">
+                        <input type="text" id="crn" name="crn" placeholder="CRN" 
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" id="cve_materia" name="cve_materia" placeholder="CVE Materia">
                     </div>
                     <div class="form-row">
@@ -445,10 +443,10 @@ $result = mysqli_query($conexion, $sql);
                 <div class="form-section">
                     <h3>Profesorado</h3>
                     <div class="form-row">
-                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código Profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
+                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre profesor" class="full-width">
+                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre completo del profesor" class="full-width">
                     </div>
                     <div class="form-row">
                         <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">
@@ -664,7 +662,6 @@ $result = mysqli_query($conexion, $sql);
 
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
-<script src="./JS/basesdedatos/editar-registros.js"></script>
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>

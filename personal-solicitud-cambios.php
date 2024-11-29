@@ -117,6 +117,7 @@
         </div>
     </div>
     
+    
     <!-- Boton de nueva solicitud -->
     <div class="container-boton-nueva-solicitud">
         <button class="boton-nueva-solicitud" id="nueva-solicitud-btn">Nueva solicitud</button>

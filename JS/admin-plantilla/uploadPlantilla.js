@@ -9,6 +9,13 @@ function subirArchivo(id) {
         showCancelButton: true,
         confirmButtonText: 'Guardar',
         cancelButtonText: 'Cancelar',
+        // Aquí añadimos la personalización de colores
+        customClass: {
+            confirmButton: 'btn-guardar', // Clase personalizada para el botón de guardar
+            cancelButton: 'btn-cancelar', // Clase personalizada para el botón de cancelar
+            input: 'input-archivo' // Clase personalizada para el input de archivo
+        },
+        buttonsStyling: false, // Desactivamos los estilos por defecto
         preConfirm: (file) => {
             if (file) {
                 const inputFileElement = document.getElementById(`input-file-${id}`);
@@ -25,6 +32,16 @@ function subirArchivo(id) {
         }
     }).then((result) => {
         if (result.isConfirmed) {
+            // Mostrar SweetAlert de carga
+            Swal.fire({
+                title: 'Subiendo archivo',
+                html: 'Por favor, espere...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             const formData = new FormData();
             formData.append('file', document.getElementById(`input-file-${id}`).files[0]);
             formData.append('Departamento_ID', id);

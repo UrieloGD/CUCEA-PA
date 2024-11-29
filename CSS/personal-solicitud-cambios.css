@@ -52,12 +52,15 @@
 .solicitud-contenedor-principal {
   display: flex;
   flex-direction: column;
+  flex-direction: column;
   flex-wrap: wrap;
   flex: 1;
+  align-items: center;
   align-items: center;
   position: relative;
   margin: 0 auto;
   width: 94%;
+  height: 10%;
   height: 10%;
   margin-top: 10px;
   padding-left: 0;
@@ -150,6 +153,9 @@
   font-size: 0.5rem;
   align-self: center;
   margin-left: 5px;
+  font-size: 0.5rem;
+  align-self: center;
+  margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 5px;
 }
@@ -163,6 +169,7 @@
 #solicitud,
 .nombre-departamento,
 .nombre-solicitud {
+  align-self: center;
   align-self: center;
   font-weight: bold;
   border: none;       
@@ -181,12 +188,14 @@
 .nombre-departamento {
   font-size: 1rem;
   margin-right: 5vw;
+  margin-right: 5vw;
 }
 #solicitud,
 .nombre-solicitud {
   margin-left: 3vw;
   font-size: 1.2rem;
 }
+  
   
 
 /* Texto de estado de solicitud */
@@ -196,6 +205,7 @@
 #en-revision,
 .estado-solicitud {
   position: relative;
+  align-self: center;
   align-self: center;
   font-size: 0.9rem;
   border: none;       
@@ -215,6 +225,7 @@
 #campo-fecha,
 #campo-hora {
   align-self: center;
+  align-self: center;
   border: none;       
   cursor: default;
   pointer-events: none;
@@ -230,6 +241,9 @@
 /* Icono flecha, al extremo derecho del contenedor */
 .icono-despliegue {
   height: 100%;
+  position: relative;
+  top: 25%;
+  align-self: center;
   position: relative;
   top: 25%;
   align-self: center;
@@ -482,6 +496,7 @@
     font-size: smaller;
   }
   /*
+  /*
   .solicitud-contenedor-principal {
     height: 110px;
   }
@@ -502,6 +517,7 @@
   .contenedor-informacion {
     height: 99%;
   }*/
+  }*/
 }
 
 @media screen and (max-width: 660px) {
@@ -512,6 +528,7 @@
     margin-right: 2vw;
     font-size: smaller;
   }
+  /*
   /*
   .info {
     width: 88%;
@@ -566,6 +583,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }*/
+  }*/
 }
 
 @media screen and (max-width: 490px) {
@@ -576,6 +594,7 @@
     margin-right: 2vw;
     font-size: smaller;
   }
+  /*
   /*
   .info {
     width: 85%;
@@ -598,5 +617,6 @@
     top: 70%;
     right: 10px;
   }
+    */
     */
 }

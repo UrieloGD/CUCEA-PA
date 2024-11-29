@@ -416,7 +416,7 @@ th {
   padding: 20px;
   border: 1px solid #888;
   width: 90%;
-  max-width: 1000px;
+  max-width: 1200px;
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 15px;
@@ -455,282 +455,6 @@ th {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-}
-
-/* .full-width {
-  width: 100% !important;
-} */
-
-.weekdays {
-  justify-content: space-between;
-}
-
-.weekdays input {
-  width: 30px;
-  text-align: center;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.form-actions button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 7.5px;
-  cursor: pointer;
-}
-
-.form-actions button:first-child {
-  background-color: #0071b0;
-  color: white;
-  font-weight: bold;
-}
-
-.form-actions button:last-child {
-  background-color: #fff;
-  color: #0071b0;
-  border: #0071b0 solid 2px;
-  font-weight: bold;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.input-estrecho {
-  width: 80px; /* Ajusta este valor según sea necesario */
-  /* box-sizing: border-box; */
-  padding: 5px; /* Opcional: ajustar el padding según sea necesario */
-  border: none;
-}
-
-/* CSS contenido del modal de profesores */
-
-.contenedor {
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  border-collapse: collapse;
-}
-
-.left-column {
-  flex: 0 0 350px;
-}
-
-.left-column,
-.right-column {
-  padding: 30px;
-  vertical-align: top;
-}
-
-.right-column {
-  background-color: white; /* fondo */
-  padding: 50px;
-  flex: 1;
-}
-
-.profesor-container {
-  display: flex;
-  gap: 20px;
-}
-
-.profesor-header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.profesor-avatar {
-  width: 60px;
-  height: 60px;
-  background-color: #7d43c6;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 15px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
-}
-
-.avatar-initials {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.profesor-details h2 {
-  margin: 0;
-  font-size: 18px;
-}
-
-.profesor-details p {
-  margin: 5px 0 0;
-  color: #666;
-}
-
-.profesor-data {
-  margin-left: 70px;
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.profesor-data th {
-  border: none;
-  font-weight: bold;
-  text-align: left;
-  padding: 5px 10px;
-}
-
-.profesor-data td {
-  border: none;
-  padding: 5px 10px;
-}
-
-.data-value2 {
-  color: #8b6e3b;
-  background-color: #fdf8e4;
-  padding: 2px 4px;
-  border-radius: 4px;
-  display: inline-block;
-  font-weight: bold;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-}
-
-.data-value3 {
-  color: #164d64;
-  background-color: #67cbe9;
-  padding: 2px 4px;
-  border-radius: 4px;
-  display: inline-block; /* solo subraya el texto */
-  font-weight: bold;
-}
-
-.class-info {
-  background-color: #f4f5f9; /* Cuadro */
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.class-info h3 {
-  margin-top: 0;
-  font-size: 16px;
-  color: #2c3e50;
-  margin-bottom: 25px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid #eee;
-}
-
-.class-details {
-  width: 100%;
-  font-size: 14px;
-  border-collapse: collapse;
-}
-
-.class-details th,
-.class-details td {
-  border: none;
-  padding: 5px;
-  text-align: center;
-  background-color: transparent;
-}
-
-.class-details th {
-  font-weight: bold;
-  /* -------------------------------- */
-  background: #f8f9fa;
-  padding: 10px;
-  text-align: center;
-}
-
-.class-details td {
-  vertical-align: middle;
-  padding: 10px 5px;
-  /* background: #33A4C4; */
-}
-
-.horario-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px; /* Espacio entre el horario y los días */
-}
-
-.horario-tiempo {
-  white-space: nowrap;
-}
-
-.weekdays {
-  display: flex;
-  gap: 5px;
-  justify-content: center;
-  margin-top: 5px;
-}
-
-.day {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #b0b0b0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-
-.day.active {
-  background-color: #0071b0;
-  color: white;
-}
-
-.day.virtual {
-  background-color: #4baee6;
-  color: white;
-  position: relative;
-}
-
-.day.virtual::after {
-  content: "Virtual";
-  position: absolute;
-  top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.day.virtual:hover::after {
-  opacity: 1;
 }
 
 /* Estilos para el contenedor de búsqueda de Js */
@@ -1385,4 +1109,74 @@ table.dataTable thead .sorting_desc {
 .dt-search {
   position: relative;
   /* z-index: 3; */
+}
+.filter-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  margin-right: 10px;
+  user-select: none;
+}
+
+.filter-icon {
+  padding: 10px;
+}
+
+.filter-icon:hover, .filter-icon.active {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.filter-menu {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #363636; /* Nuevo color de fondo */
+  border: 1px solid #ccc;
+  padding: 10px; /* Disminuir el padding */
+  z-index: 1000;
+  max-height: 60vh; /* Reducir la altura máxima */
+  overflow-y: auto;
+  width: 60%; /* Reducir el ancho */
+}
+
+.filter-menu .options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.filter-menu label {
+  display: block;
+  margin-bottom: 3px; /* Reducir el margen inferior */
+  font-size: 14px; /* Reducir el tamaño de fuente */
+  color: #f5f5f5; /* Nuevo color de texto */
+}
+
+.filter-menu input[type="checkbox"] {
+  margin-right: 5px;
+  accent-color: #4caf50; /* Color del checkbox seleccionado */
+}
+
+.filter-menu button {
+  background-color: #4caf50; 
+  color: #f5f5f5;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-right: 10px; /* Agregar margen derecho */
+  margin-bottom: 10px; /* Agregar margen inferior */
+}
+
+.filter-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }

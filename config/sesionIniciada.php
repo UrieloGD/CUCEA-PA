@@ -8,16 +8,15 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['email'])) {
-    // Re-derigir al usuario en caso de que no haya iniciado sesión
+    // Redirigir al usuario en caso de que no haya iniciado sesión
     header("Location: login.php");
     exit();
 }
 
 // Obtener email del usuario loggeado desde la sesión
-$email = $_SESSION['email'];
 $correo_usuario = $_SESSION['email'];
 
-// Consulta SQL para obtener el nombre del usuario loggeado
+// Consulta SQL para obtener la información del usuario loggeado
 $sql = "SELECT Nombre, Rol_ID, Genero, Apellido, Codigo FROM Usuarios WHERE Correo = ?";
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("s", $correo_usuario);
@@ -33,7 +32,7 @@ if ($result->num_rows > 0) {
     $apellido = $row['Apellido'];
     $codigo = $row['Codigo'];
 
-    // Guardar el código de usuario y el ID de rol en la sesión (por si acaso)
+    // Guardar información básica en la sesión
     $_SESSION['Codigo'] = $codigo;
     $_SESSION['Rol_ID'] = $rol_id;
     $_SESSION['Nombre'] = $nombre;
@@ -53,9 +52,9 @@ if ($result->num_rows > 0) {
         $nombre_rol = 'Rol no disponible';
     }
 
-    // Verificar si el usuario es un jefe de departamento
+    // Manejo específico para diferentes roles
     if ($rol_id == 1) {
-        // Consulta SQL para obtener el departamento del usuario
+        // Para jefes de departamento (Rol 1)
         $sql_departamento = "SELECT Departamentos.Departamento_ID, Departamentos.Nombre_Departamento, Departamentos.Departamentos
             FROM Usuarios_Departamentos
             INNER JOIN Departamentos ON Usuarios_Departamentos.Departamento_ID = Departamentos.Departamento_ID
@@ -67,18 +66,26 @@ if ($result->num_rows > 0) {
 
         if ($result_departamento->num_rows > 0) {
             $row_departamento = $result_departamento->fetch_assoc();
-            $departamento_id = $row_departamento['Departamento_ID'];
-            $nombre_departamento = $row_departamento['Nombre_Departamento'];
-            $departamentos = $row_departamento['Departamentos'];
-            $_SESSION['Nombre_Departamento'] = $nombre_departamento; // Guardar el nombre del departamento en la sesión
-            $_SESSION['Departamento_ID'] = $departamento_id; // Guardar el ID del departamento en la sesión
-            $_SESSION['Departamentos'] = $departamentos; // Guardar el departamento del usuario
-
+            $_SESSION['Nombre_Departamento'] = $row_departamento['Nombre_Departamento'];
+            $_SESSION['Departamento_ID'] = $row_departamento['Departamento_ID'];
+            $_SESSION['Departamentos'] = $row_departamento['Departamentos'];
         } else {
+            // Manejar caso de jefe sin departamento
             echo "El usuario no está asociado a ningún departamento.";
+            unset($_SESSION['Departamento_ID']);
+            unset($_SESSION['Nombre_Departamento']);
+            unset($_SESSION['Departamentos']);
         }
+    } elseif ($rol_id == 2 || $rol_id == 3) {
+        // Para roles 2 y 3 (administradores o usuarios generales)
+        // No establecer información de departamento
+        unset($_SESSION['Departamento_ID']);
+        unset($_SESSION['Nombre_Departamento']);
+        unset($_SESSION['Departamentos']);
     }
 } else {
+    // Manejar caso de usuario no encontrado
     $nombre = 'Nombre no disponible';
     $nombre_rol = 'Rol no disponible';
 }
+?>
