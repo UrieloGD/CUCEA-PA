@@ -55,6 +55,13 @@ function mostrarPopupColumnas() {
     });
   });
 
+  // Agregar botón de cierre
+  var closeButton = document.createElement("button");
+  closeButton.className = "close-btn";
+  closeButton.textContent = "✕";
+  closeButton.addEventListener("click", cerrarPopupColumnas);
+  popup.appendChild(closeButton);
+
   popup.style.display = "block";
   document.body.classList.add("popup-active");
 }

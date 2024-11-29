@@ -280,7 +280,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-5', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-5', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/merc_negocios.png" alt="Departamento de Administracion" style="width: 105%;">
             </div>
@@ -329,7 +329,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-6', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-6', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/pale.png" alt="Departamento de Administracion" style="width: 85%;">
             </div>    
@@ -377,7 +377,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-7', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-7', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/posgrados.png" alt="Departamento de Administracion">
             </div>    
@@ -425,7 +425,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-8', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-8', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/sistemas.png" alt="Departamento de Administracion" style="width: 90%;">
             </div>    
@@ -668,7 +668,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-13', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-13', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/metodos.png" alt="Departamento de Administracion">
             </div>
@@ -716,7 +716,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-14', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-14', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono"> 
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/politicas.png" alt="Departamento de Administracion">
             </div>
@@ -764,7 +764,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-15', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-15', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono">    
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/rh.png" alt="Departamento de Administracion">
             </div>
@@ -812,7 +812,7 @@
 
     <!-- banner del departamento -->
     <div class="contenedor-de-contenedores">
-        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-16', this.querySelector('.icono-despliegue i'))">
+        <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-16', this.querySelector('.icono-despliegue i'), true)">
             <div class="espacio-icono">
                 <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/turismo.png" alt="Departamento de Administracion" style="width: 105%;">
             </div>
@@ -1172,16 +1172,36 @@
 let contenedorActual = null;
 let iconoActual = null;
 
-function mostrarInformacion(contenedorId, icono) {
+function mostrarInformacion(contenedorId, icono, esArriba = false) {
     const nuevoContenedor = document.getElementById(contenedorId);
 
     if (contenedorActual && contenedorActual !== nuevoContenedor) {
         contenedorActual.classList.remove('mostrar');
+        contenedorActual.classList.remove('desplegable-arriba');
+        
+        // Remover clases de rotacion del icono anterior
         iconoActual.classList.remove('rotar');
+        iconoActual.classList.remove('rotar-arriba');
     }
 
+    // Alternar mostrar/ocultar
     nuevoContenedor.classList.toggle('mostrar');
-    icono.classList.toggle('rotar');
+
+    // Manejar la rotación segun la dirección
+    if (esArriba) {
+        // Si es hacia arriba y se está mostrando
+        if (nuevoContenedor.classList.contains('mostrar')) {
+            nuevoContenedor.classList.add('desplegable-arriba');
+            icono.classList.add('rotar-arriba');
+        } else {
+            // Si se está ocultando, quitar las clases
+            nuevoContenedor.classList.remove('desplegable-arriba');
+            icono.classList.remove('rotar-arriba');
+        }
+    } else {
+        // Para contenedores hacia abajo
+        icono.classList.toggle('rotar');
+    }
 
     if (nuevoContenedor.classList.contains('mostrar')) {
         contenedorActual = nuevoContenedor;

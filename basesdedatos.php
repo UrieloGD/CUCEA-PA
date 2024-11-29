@@ -243,13 +243,12 @@ $result = $stmt->get_result();
     </div>
     <div id="popup-columnas">
         <h3>Selecciona las columnas a descargar</h3>
-        <hr style="border: 1px solid #0071b0; width: 99%;"></hr>
         <div id="opciones-columnas"></div>
-        <button onclick="descargarExcelSeleccionado()">Descargar</button>
+        <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
         <?php if($_SESSION['Rol_ID'] == 2): ?>
         <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
         <?php endif; ?>
-        <button onclick="cerrarPopupColumnas()">Cancelar</button>
+        <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
     </div>
 
     <?php
