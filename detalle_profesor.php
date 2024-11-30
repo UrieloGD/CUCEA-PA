@@ -274,6 +274,7 @@ if(isset($_POST['codigo_profesor'])) {
                         </table>
                     </div>
                 </div>
+                <span class="close" onclick="cerrarModalDetalle()">&times;</span>
             </div>
 
             <div class="search-section">
@@ -619,3 +620,5 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<script src="./JS/basesdedatos/profesores-materias.js"></script>
