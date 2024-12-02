@@ -78,6 +78,8 @@ function formatDateForDisplay($mysqlDate)
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.2/css/fixedColumns.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
 <title>Coordinación de Personal - Plantilla Académica</title>
 <link rel="stylesheet" href="./CSS/basesdedatos-Coord.css">
 
@@ -138,75 +140,75 @@ function formatDateForDisplay($mysqlDate)
                 <thead>
                     <tr>
                         <th></th>
-                        <th>ID <span class="filter-icon" data-column="1">&#9662;</span></th>
-                        <th>CODIGO <span class="filter-icon" data-column="2">&#9662;</span></th>
-                        <th>PATERNO <span class="filter-icon" data-column="3">&#9662;</span></th>
-                        <th>MATERNO <span class="filter-icon" data-column="4">&#9662;</span></th>
-                        <th>NOMBRES <span class="filter-icon" data-column="5">&#9662;</span></th>
-                        <th>NOMBRE COMPLETO <span class="filter-icon" data-column="6">&#9662;</span></th>
-                        <th>SEXO <span class="filter-icon" data-column="7">&#9662;</span></th>
-                        <th>DEPARTAMENTO <span class="filter-icon" data-column="8">&#9662;</span></th>
-                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="9">&#9662;</span></th>
-                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="10">&#9662;</span></th>
-                        <th>HORAS FRENTE A GRUPO <span class="filter-icon" data-column="11">&#9662;</span></th>
-                        <th>DIVISION <span class="filter-icon" data-column="12">&#9662;</span></th>
-                        <th>TIPO DE PLAZA <span class="filter-icon" data-column="13">&#9662;</span></th>
-                        <th>CAT.ACT. <span class="filter-icon" data-column="14">&#9662;</span></th>
-                        <th>CARGA HORARIA <span class="filter-icon" data-column="15">&#9662;</span></th>
-                        <th>HORAS DEFINITIVAS <span class="filter-icon" data-column="16">&#9662;</span></th>
-                        <th>HORARIO <span class="filter-icon" data-column="17">&#9662;</span></th>
-                        <th>TURNO <span class="filter-icon" data-column="18">&#9662;</span></th>
-                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION <span class="filter-icon" data-column="19">&#9662;</span></th>
-                        <th>S.N.I. <span class="filter-icon" data-column="20">&#9662;</span></th>
-                        <th>SNI DESDE <span class="filter-icon" data-column="21">&#9662;</span></th>
-                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR <span class="filter-icon" data-column="22">&#9662;</span></th>
-                        <th>INICIO <span class="filter-icon" data-column="23">&#9662;</span></th>
-                        <th>FIN</th>
-                        <th>2024A</th>
-                        <th>TELEFONO PARTICULAR</th>
-                        <th>TELEFONO OFICINA O CELULAR</th>
-                        <th>DOMICILIO</th>
-                        <th>COLONIA</th>
-                        <th>C.P.</th>
-                        <th>CIUDAD</th>
-                        <th>ESTADO</th>
-                        <th>NO. AFIL. I.M.S.S.</th>
-                        <th>C.U.R.P.</th>
-                        <th>RFC</th>
-                        <th>LUGAR DE NACIMIENTO</th>
-                        <th>ESTADO CIVIL</th>
-                        <th>TIPO DE SANGRE</th>
-                        <th>FECHA NAC.</th>
-                        <th>EDAD</th>
-                        <th>NACIONALIDAD</th>
-                        <th>CORREO ELECTRONICO</th>
-                        <th>CORREOS OFICIALES</th>
-                        <th>ULTIMO GRADO</th>
-                        <th>PROGRAMA</th>
-                        <th>NIVEL</th>
-                        <th>INSTITUCION</th>
-                        <th>ESTADO/PAIS</th>
-                        <th>AÑO</th>
-                        <th>GDO EXP</th>
-                        <th>OTRO GRADO</th>
-                        <th>PROGRAMA</th>
-                        <th>NIVEL</th>
-                        <th>INSTITUCION</th>
-                        <th>ESTADO/PAIS</th>
-                        <th>AÑO</th>
-                        <th>GDO EXP</th>
-                        <th>OTRO GRADO</th>
-                        <th>PROGRAMA</th>
-                        <th>NIVEL</th>
-                        <th>INSTITUCION</th>
-                        <th>ESTADO/PAIS</th>
-                        <th>AÑO</th>
-                        <th>GDO EXP</th>
-                        <th>PROESDE 24-25</th>
-                        <th>A PARTIR DE</th>
-                        <th>FECHA DE INGRESO</th>
-                        <th>ANTIGÜEDAD</th>
-                        <th class="estado-column">ESTADO</th>
+                        <th>ID <span class="filter-icon" data-column="1"><i class="fas fa-filter"></i></span></th>
+                        <th>CODIGO <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
+                        <th>PATERNO <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
+                        <th>MATERNO <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRES <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRE COMPLETO <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
+                        <th>SEXO <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>
+                        <th>DEPARTAMENTO <span class="filter-icon" data-column="8"><i class="fas fa-filter"></i></span></th>
+                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
+                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="10"><i class="fas fa-filter"></i></span></th>
+                        <th>HORAS FRENTE A GRUPO <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
+                        <th>DIVISION <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
+                        <th>TIPO DE PLAZA <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
+                        <th>CAT.ACT. <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
+                        <th>CARGA HORARIA <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
+                        <th>HORAS DEFINITIVAS <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
+                        <th>HORARIO <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
+                        <th>TURNO <span class="filter-icon" data-column="18"><i class="fas fa-filter"></i></span></th>
+                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
+                        <th>S.N.I. <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
+                        <th>SNI DESDE <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
+                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
+                        <th>INICIO <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
+                        <th>FIN <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
+                        <th>2024A <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
+                        <th>TELEFONO PARTICULAR <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
+                        <th>TELEFONO OFICINA O CELULAR <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
+                        <th>DOMICILIO <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
+                        <th>COLONIA <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
+                        <th>C.P. <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
+                        <th>CIUDAD <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
+                        <th>NO. AFIL. I.M.S.S. <span class="filter-icon" data-column="33">&#9662;</span></th>
+                        <th>C.U.R.P. <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
+                        <th>RFC <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
+                        <th>LUGAR DE NACIMIENTO <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO CIVIL <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
+                        <th>TIPO DE SANGRE <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
+                        <th>FECHA NAC. <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
+                        <th>EDAD <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
+                        <th>NACIONALIDAD <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
+                        <th>CORREO ELECTRONICO <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
+                        <th>CORREOS OFICIALES <span class="filter-icon" data-column="43"><i class="fas fa-filter"></i></span></th>
+                        <th>ULTIMO GRADO <span class="filter-icon" data-column="44"><i class="fas fa-filter"></i></span></th>
+                        <th>PROGRAMA <span class="filter-icon" data-column="45"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="46"><i class="fas fa-filter"></i></span></th>
+                        <th>INSTITUCION <span class="filter-icon" data-column="47"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO/PAIS <span class="filter-icon" data-column="48"><i class="fas fa-filter"></i></span></th>
+                        <th>AÑO <span class="filter-icon" data-column="49"><i class="fas fa-filter"></i></span></th>
+                        <th>GDO EXP <span class="filter-icon" data-column="50"><i class="fas fa-filter"></i></span></th>
+                        <th>OTRO GRADO <span class="filter-icon" data-column="51"><i class="fas fa-filter"></i></span></th>
+                        <th>PROGRAMA <span class="filter-icon" data-column="52"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="53"><i class="fas fa-filter"></i></span></th>
+                        <th>INSTITUCION <span class="filter-icon" data-column="54"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO/PAIS <span class="filter-icon" data-column="55"><i class="fas fa-filter"></i></span></th>
+                        <th>AÑO <span class="filter-icon" data-column="56"><i class="fas fa-filter"></i></span></th>
+                        <th>GDO EXP <span class="filter-icon" data-column="57"><i class="fas fa-filter"></i></span></th>
+                        <th>OTRO GRADO <span class="filter-icon" data-column="58"><i class="fas fa-filter"></i></span></th>
+                        <th>PROGRAMA <span class="filter-icon" data-column="59"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="60"><i class="fas fa-filter"></i></span></th>
+                        <th>INSTITUCION <span class="filter-icon" data-column="61"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO/PAIS <span class="filter-icon" data-column="62"><i class="fas fa-filter"></i></span></th>
+                        <th>AÑO <span class="filter-icon" data-column="63"><i class="fas fa-filter"></i></span></th>
+                        <th>GDO EXP <span class="filter-icon" data-column="64"><i class="fas fa-filter"></i></span></th>
+                        <th>PROESDE 24-25 <span class="filter-icon" data-column="65"><i class="fas fa-filter"></i></span></th>
+                        <th>A PARTIR DE <span class="filter-icon" data-column="66"><i class="fas fa-filter"></i></span></th>
+                        <th>FECHA DE INGRESO <span class="filter-icon" data-column="67"><i class="fas fa-filter"></i></span></th>
+                        <th>ANTIGÜEDAD <span class="filter-icon" data-column="68"><i class="fas fa-filter"></i></span></th>
+                        <th class="estado-column">ESTADO <span class="filter-icon" data-column="69"><i class="fas fa-filter"></i></span></th>
                     </tr>
                 </thead>
                 <tbody>

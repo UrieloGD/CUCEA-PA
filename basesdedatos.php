@@ -265,48 +265,48 @@ $result = $stmt->get_result();
             <thead>
                 <tr>
                     <th></th>
-                    <th>ID <span class="filter-icon" data-column="1">&#9662;</span></th>
-                    <th>CICLO <span class="filter-icon" data-column="2">&#9662;</span></th>
-                    <th>CRN <span class="filter-icon" data-column="3">&#9662;</span></th>
-                    <th>MATERIA <span class="filter-icon" data-column="4">&#9662;</span></th>
-                    <th>CVE MATERIA <span class="filter-icon" data-column="5">&#9662;</span></th>
-                    <th>SECCIÓN <span class="filter-icon" data-column="6">&#9662;</span></th>
-                    <th>NIVEL <span class="filter-icon" data-column="7">&#9662;</span></th>
-                    <th>NIVEL TIPO <span class="filter-icon" data-column="8">&#9662;</span></th>
-                    <th>TIPO <span class="filter-icon" data-column="9">&#9662;</span></th>
-                    <th>C. MIN <span class="filter-icon" data-column="10">&#9662;</span></th>
-                    <th>H. TOTALES <span class="filter-icon" data-column="11">&#9662;</span></th>
-                    <th>STATUS <span class="filter-icon" data-column="12">&#9662;</span></th>
-                    <th>TIPO CONTRATO <span class="filter-icon" data-column="13">&#9662;</span></th>
-                    <th>CÓDIGO <span class="filter-icon" data-column="14">&#9662;</span></th>
-                    <th>NOMBRE PROFESOR <span class="filter-icon" data-column="15">&#9662;</span></th>
-                    <th>CATEGORIA <span class="filter-icon" data-column="16">&#9662;</span></th>
-                    <th>DESCARGA <span class="filter-icon" data-column="17">&#9662;</span></th>
-                    <th>CÓDIGO DESCARGA <span class="filter-icon" data-column="18">&#9662;</span></th>
-                    <th>NOMBRE DESCARGA <span class="filter-icon" data-column="19">&#9662;</span></th>
-                    <th>NOMBRE DEFINITIVO <span class="filter-icon" data-column="20">&#9662;</span></th>
-                    <th>TITULAR <span class="filter-icon" data-column="21">&#9662;</span></th>
-                    <th>HORAS <span class="filter-icon" data-column="22">&#9662;</span></th>
-                    <th>CÓDIGO DEPENDENCIA <span class="filter-icon" data-column="23">&#9662;</span></th>
-                    <th>L <span class="filter-icon" data-column="24">&#9662;</span></th>
-                    <th>M <span class="filter-icon" data-column="25">&#9662;</span></th>
-                    <th>I <span class="filter-icon" data-column="26">&#9662;</span></th>
-                    <th>J <span class="filter-icon" data-column="27">&#9662;</span></th>
-                    <th>V <span class="filter-icon" data-column="28">&#9662;</span></th>
-                    <th>S <span class="filter-icon" data-column="29">&#9662;</span></th>
-                    <th>D <span class="filter-icon" data-column="30">&#9662;</span></th>
-                    <th>DÍA PRESENCIAL <span class="filter-icon" data-column="31">&#9662;</span></th>
-                    <th>DÍA VIRTUAL <span class="filter-icon" data-column="32">&#9662;</span></th>
-                    <th>MODALIDAD <span class="filter-icon" data-column="33">&#9662;</span></th>
-                    <th>FECHA INICIAL <span class="filter-icon" data-column="34">&#9662;</span></th>
-                    <th>FECHA FINAL <span class="filter-icon" data-column="35">&#9662;</span></th>
-                    <th>HORA INICIAL <span class="filter-icon" data-column="36">&#9662;</span></th>
-                    <th>HORA FINAL <span class="filter-icon" data-column="37">&#9662;</span></th>
-                    <th>MÓDULO <span class="filter-icon" data-column="38">&#9662;</span></th>
-                    <th>AULA <span class="filter-icon" data-column="39">&#9662;</span></th>
-                    <th>CUPO <span class="filter-icon" data-column="40">&#9662;</span></th>
-                    <th>OBSERVACIONES <span class="filter-icon" data-column="41">&#9662;</span></th>
-                    <th>EXTRAORDINARIO <span class="filter-icon" data-column="42">&#9662;</span></th>
+                    <th>ID <span class="filter-icon" data-column="1"><i class="fas fa-filter"></i></span></th>
+                    <th>CICLO <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
+                    <th>CRN <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
+                    <th>MATERIA <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
+                    <th>CVE MATERIA <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
+                    <th>SECCIÓN <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
+                    <th>NIVEL <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>
+                    <th>NIVEL TIPO <span class="filter-icon" data-column="8"><i class="fas fa-filter"></i></span></th>
+                    <th>TIPO <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
+                    <th>C. MIN <span class="filter-icon" data-column="10"><i class="fas fa-filter"></i></span></th>
+                    <th>H. TOTALES <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
+                    <th>STATUS <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
+                    <th>TIPO CONTRATO <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
+                    <th>CÓDIGO <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
+                    <th>NOMBRE PROFESOR <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
+                    <th>CATEGORIA <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
+                    <th>DESCARGA <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
+                    <th>CÓDIGO DESCARGA <span class="filter-icon" data-column="18"><i class="fas fa-filter"></i></span></th>
+                    <th>NOMBRE DESCARGA <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
+                    <th>NOMBRE DEFINITIVO <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
+                    <th>TITULAR <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
+                    <th>HORAS <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
+                    <th>CÓDIGO DEPENDENCIA <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
+                    <th>L <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
+                    <th>M <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
+                    <th>I <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
+                    <th>J <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
+                    <th>V <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
+                    <th>S <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
+                    <th>D <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
+                    <th>DÍA PRESENCIAL <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
+                    <th>DÍA VIRTUAL <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
+                    <th>MODALIDAD <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
+                    <th>FECHA INICIAL <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
+                    <th>FECHA FINAL <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
+                    <th>HORA INICIAL <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
+                    <th>HORA FINAL <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
+                    <th>MÓDULO <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
+                    <th>AULA <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
+                    <th>CUPO <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
+                    <th>OBSERVACIONES <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
+                    <th>EXTRAORDINARIO <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
                 </tr>
             </thead>
             <tbody>
