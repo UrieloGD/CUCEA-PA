@@ -1289,26 +1289,26 @@ table.dataTable thead .sorting_desc {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #363636; /* Nuevo color de fondo */
+  background-color: white;
   border: 1px solid #ccc;
-  padding: 10px; /* Disminuir el padding */
+  padding: 5px; /* Disminuir el padding */
   z-index: 1000;
-  max-height: 60vh; /* Reducir la altura máxima */
+  max-height: 50vh; /* Reducir la altura máxima */
   overflow-y: auto;
-  width: 60%; /* Reducir el ancho */
+  width: 20%; /* Reducir el ancho */
 }
 
 .filter-menu .options {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 5px;
 }
 
 .filter-menu label {
   display: block;
-  margin-bottom: 3px; /* Reducir el margen inferior */
-  font-size: 14px; /* Reducir el tamaño de fuente */
-  color: #f5f5f5; /* Nuevo color de texto */
+  margin-bottom: 2px; /* Reducir el margen inferior */
+  font-size: 12px; /* Reducir el tamaño de fuente */
+  color: black;
 }
 
 .filter-menu input[type="checkbox"] {
@@ -1317,14 +1317,14 @@ table.dataTable thead .sorting_desc {
 }
 
 .filter-menu button {
-  background-color: #4caf50; 
+  background-color: #0071B0; 
   color: #f5f5f5;
   border: none;
   padding: 5px 10px;
   border-radius: 3px;
   cursor: pointer;
-  margin-right: 10px; /* Agregar margen derecho */
-  margin-bottom: 10px; /* Agregar margen inferior */
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .filter-overlay {

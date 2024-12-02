@@ -42,7 +42,16 @@ $mapeo_columnas = [
 ];
 // Función para convertir el nombre mostrado al nombre real
 function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas) {
-    return isset($mapeo_columnas[$nombre_mostrado]) ? $mapeo_columnas[$nombre_mostrado] : str_replace(' ', '_', $nombre_mostrado);
+    // Eliminar espacios extras y dejar solo un espacio entre palabras
+    $nombre_mostrado = trim(preg_replace('/\s+/', ' ', $nombre_mostrado));
+    
+    // Primero, verificar si el nombre exacto existe en el mapeo
+    if (isset($mapeo_columnas[$nombre_mostrado])) {
+        return $mapeo_columnas[$nombre_mostrado];
+    }
+    
+    // Si no existe, crear un nombre de columna estándar
+    return strtoupper(str_replace(' ', '_', $nombre_mostrado));
 }
 
 // Convertir los nombres seleccionados a los nombres reales
