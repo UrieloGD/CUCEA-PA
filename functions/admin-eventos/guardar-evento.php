@@ -14,6 +14,11 @@ try {
         try {
             $mensaje = "Nuevo evento: $nombre_evento - " . date('d/m/Y', strtotime($fecha_inicio)) . " a las " . date('H:i', strtotime($hora_inicio));
 
+            // Preparar consulta para verificar notificaciones existentes
+            $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+                WHERE Tipo = 'evento' AND Mensaje = ? AND Usuario_ID = ?";
+            $stmt_verificar = $conexion->prepare($sql_verificar);
+
             $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                                 VALUES (?, ?, ?, 0, ?)";
 
@@ -23,12 +28,21 @@ try {
                 $participantes_array = explode(',', $participantes);
                 foreach ($participantes_array as $participante_id) {
                     if (!empty($participante_id)) {
-                        $tipo = 'evento';
-                        if (!$stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id)) {
-                            throw new Exception("Error al vincular parámetros: " . $stmt->error);
-                        }
-                        if (!$stmt->execute()) {
-                            throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+                         // Verificar si ya existe una notificación similar
+                        $stmt_verificar->bind_param("si", $mensaje, $participante_id);
+                        $stmt_verificar->execute();
+                        $resultado_verificar = $stmt_verificar->get_result();
+                        $fila_verificar = $resultado_verificar->fetch_assoc();
+
+                        // Insertar solo si no existe una notificación similar
+                        if ($fila_verificar['count'] == 0) {
+                            $tipo = 'evento';
+                            if (!$stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id)) {
+                                throw new Exception("Error al vincular parámetros: " . $stmt->error);
+                            }
+                            if (!$stmt->execute()) {
+                                throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+                            }
                         }
                     }
                 }
@@ -62,6 +76,11 @@ try {
             // Nuevos participantes
             $participantes_nuevos = !empty($participantes) ? explode(',', $participantes) : [];
 
+            // Preparar consulta para verificar notificaciones existentes
+            $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+                WHERE Tipo = ? AND Mensaje = ? AND Usuario_ID = ?";
+            $stmt_verificar = $conexion->prepare($sql_verificar);
+
             $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                                 VALUES (?, ?, ?, 0, ?)";
             $stmt = $conexion->prepare($sql_notificacion);
@@ -70,14 +89,29 @@ try {
             foreach ($participantes_nuevos as $participante_id) {
                 if (!empty($participante_id)) {
                     $tipo = 'evento_actualizado';
-                    $stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id);
-                    $stmt->execute();
+
+                    // Verificar si ya existe una notificación similar
+                    $stmt_verificar->bind_param("ssi", $tipo, $mensaje, $participante_id);
+                    $stmt_verificar->execute();
+                    $resultado_verificar = $stmt_verificar->get_result();
+                    $fila_verificar = $resultado_verificar->fetch_assoc();
+
+                    // Insertar solo si no existe una notificación similar
+                    if ($fila_verificar['count'] == 0) {
+                        $stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id);
+                        $stmt->execute();
+                    }
                 }
             }
 
             // Notificar a participantes removidos
             $participantes_removidos = array_diff($participantes_antiguos, $participantes_nuevos);
             if (!empty($participantes_removidos)) {
+                // Preparar consulta de verificación
+                $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+                    WHERE Tipo = 'evento_removido' AND Mensaje = ? AND Usuario_ID = ?";
+                $stmt_verificar = $conexion->prepare($sql_verificar);
+
                 // Obtener información del evento para el mensaje
                 $mensaje_removido = "Has sido removido del evento: $nombre_evento (programado para el " .
                     date('d/m/Y', strtotime($fecha_inicio)) . " a las " .
@@ -85,33 +119,63 @@ try {
 
                 foreach ($participantes_removidos as $participante_id) {
                     if (!empty($participante_id)) {
-                        $tipo = 'evento_removido';
-                        $stmt->bind_param("ssii", $tipo, $mensaje_removido, $participante_id, $emisor_id);
-                        if (!$stmt->execute()) {
-                            throw new Exception("Error al insertar notificación de remoción: " . $stmt->error);
-                        }
+                        // Verificar si ya existe una notificación similar
+                        $stmt_verificar->bind_param("si", $mensaje_removido, $participante_id);
+                        $stmt_verificar->execute();
+                        $resultado_verificar = $stmt_verificar->get_result();
+                        $fila_verificar = $resultado_verificar->fetch_assoc();
 
-                        // Enviar correo al usuario removido
-                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
-                        $stmt_email = $conexion->prepare($sql_email);
-                        $stmt_email->bind_param("i", $participante_id);
-                        $stmt_email->execute();
-                        $result_email = $stmt_email->get_result();
-                        $row_email = $result_email->fetch_assoc();
+                        if ($fila_verificar['count'] == 0) {
+                            $tipo = 'evento_removido';
+                            $stmt->bind_param("ssii", $tipo, $mensaje_removido, $participante_id, $emisor_id);
+                            if (!$stmt->execute()) {
+                                throw new Exception("Error al insertar notificación de remoción: " . $stmt->error);
+                            }
 
-                        if ($row_email) {
-                            $asunto = "Removido del evento: $nombre_evento";
-                            $cuerpo = "
-                                <html>
-                                <body>
-                                    <p>Has sido removido del siguiente evento:</p>
-                                    <p><strong>Evento:</strong> $nombre_evento</p>
-                                    <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fecha_inicio)) . "</p>
-                                    <p><strong>Hora:</strong> " . date('H:i', strtotime($hora_inicio)) . "</p>
-                                </body>
-                                </html>
-                            ";
-                            enviarCorreo($row_email['Correo'], $asunto, $cuerpo);
+                            // Enviar correo al usuario removido
+                            $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                            $stmt_email = $conexion->prepare($sql_email);
+                            $stmt_email->bind_param("i", $participante_id);
+                            $stmt_email->execute();
+                            $result_email = $stmt_email->get_result();
+                            $row_email = $result_email->fetch_assoc();
+
+                            if ($row_email) {
+                                $asunto = "Removido del evento: $nombre_evento";
+                                $cuerpo = "
+                                    <html>
+                                        <head>
+                                            <style>
+                                                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                                                .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                                                .header { text-align: center; padding-bottom: 20px; }
+                                                .header img { width: 300px; }
+                                                .content { padding: 20px; }
+                                                h2 { color: #2c3e50; }
+                                                p { line-height: 1.5; color: #333; }
+                                                .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class='container'>
+                                                <div class='header'>
+                                                    <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                                                </div>
+                                                <div class='content'>
+                                                    <h2>Has sido removido del siguiente evento:</h2>
+                                                    <p><strong>Evento:</strong> $nombre_evento</p>
+                                                    <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fecha_inicio)) . "</p>
+                                                    <p><strong>Hora:</strong> " . date('H:i', strtotime($hora_inicio)) . "</p>
+                                                </div>
+                                                <div class='footer'>
+                                                    <p>Centro para la Sociedad Digital</p>
+                                                </div>
+                                            </div>
+                                        </body>
+                                    </html>
+                                ";
+                                enviarCorreo($row_email['Correo'], $asunto, $cuerpo);
+                            }
                         }
                     }
                 }
@@ -186,12 +250,34 @@ try {
                             $asunto = "Removido del evento: $nombre";
                             $cuerpo = "
                                 <html>
-                                <body>
-                                    <p>Has sido removido del siguiente evento:</p>
-                                    <p><strong>Evento:</strong> $nombre</p>
-                                    <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fechIn)) . "</p>
-                                    <p><strong>Hora:</strong> " . date('H:i', strtotime($horIn)) . "</p>
-                                </body>
+                                    <head>
+                                        <style>
+                                            body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                                            .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                                            .header { text-align: center; padding-bottom: 20px; }
+                                            .header img { width: 300px; }
+                                            .content { padding: 20px; }
+                                            h2 { color: #2c3e50; }
+                                            p { line-height: 1.5; color: #333; }
+                                            .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <div class='container'>
+                                            <div class='header'>
+                                                <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                                            </div>
+                                            <div class='content'>
+                                                <h2>Has sido removido del siguiente evento:</h2>
+                                                <p><strong>Evento:</strong> $nombre</p>
+                                                <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fechIn)) . "</p>
+                                                <p><strong>Hora:</strong> " . date('H:i', strtotime($horIn)) . "</p>
+                                            </div>
+                                            <div class='footer'>
+                                                <p>Centro para la Sociedad Digital</p>
+                                            </div>
+                                        </div>
+                                    </body>
                                 </html>
                             ";
                             enviarCorreo($row_email['Correo'], $asunto, $cuerpo);
@@ -296,11 +382,34 @@ try {
                     $asunto = "Nuevo evento: $nombre";
                     $cuerpo = "
                         <html>
-                        <body>
-                            <p>Se ha creado un nuevo evento: $nombre</p>
-                            <p>Descripción: $descripcion</p>
-                            <p>Fecha: $fechIn $horIn</p>
-                        </body>
+                            <head>
+                                <style>
+                                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                                    .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                                    .header { text-align: center; padding-bottom: 20px; }
+                                    .header img { width: 300px; }
+                                    .content { padding: 20px; }
+                                    h2 { color: #2c3e50; }
+                                    p { line-height: 1.5; color: #333; }
+                                    .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                                </style>
+                            </head>
+                            <body>
+                                <div class='container'>
+                                    <div class='header'>
+                                        <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                                    </div>
+                                    <div class='content'>
+                                        <h2>Se ha creado un nuevo evento</h2>
+                                        <p><strong>Nombre del evento:</strong> $nombre</p>
+                                        <p><strong>Descripción:</strong> $descripcion</p>
+                                        <p><strong>Fecha:</strong> $fechIn $horIn</p>
+                                    </div>
+                                    <div class='footer'>
+                                        <p>Centro para la Sociedad Digital</p>
+                                    </div>
+                                </div>
+                            </body>
                         </html>
                     ";
 

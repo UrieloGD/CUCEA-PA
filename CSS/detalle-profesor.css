@@ -510,3 +510,19 @@
 .close:hover {
   color: #333;
 }
+
+.close-materias {
+    position: relative;
+    bottom: 20px;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.close-materias:hover {
+    color: #333;
+}

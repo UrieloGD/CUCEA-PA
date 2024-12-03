@@ -97,6 +97,14 @@ try {
         error_log("Emisor ID: " . $emisor_id);
         error_log("Participantes: " . print_r($participantes, true));
 
+        // Preparar consulta de verificación para evitar duplicados
+        $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+            WHERE Tipo = 'evento_cancelado' 
+            AND Mensaje = ? 
+            AND Usuario_ID = ?";
+        $verificar_stmt = $conexion->prepare($sql_verificar);
+
+
         // Preparar la consulta de notificación
         $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID, Fecha) 
                             VALUES (?, ?, ?, 0, ?, NOW())";
@@ -110,46 +118,77 @@ try {
 
         foreach ($participantes as $participante_id) {
             if (!empty($participante_id)) {
-                // Insertar notificación en el sistema
-                $notif_stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id);
+                // Verificar si ya existe una notificación similar
+                $verificar_stmt->bind_param("si", $mensaje, $participante_id);
+                $verificar_stmt->execute();
+                $resultado_verificar = $verificar_stmt->get_result();
+                $fila_verificar = $resultado_verificar->fetch_assoc();
 
-                if (!$notif_stmt->execute()) {
-                    error_log("Error al crear notificación para usuario $participante_id: " . $notif_stmt->error);
-                    continue;
-                }
+                // Insertar solo si no existe una notificación similar
+                if ($fila_verificar['count'] == 0) {
+                    // Insertar notificación en el sistema
+                    $notif_stmt->bind_param("ssii", $tipo, $mensaje, $participante_id, $emisor_id);
 
-                // Verificar si la notificación se insertó correctamente
-                if ($notif_stmt->affected_rows <= 0) {
-                    error_log("No se pudo crear la notificación para el usuario $participante_id");
-                }
+                    if (!$notif_stmt->execute()) {
+                        error_log("Error al crear notificación para usuario $participante_id: " . $notif_stmt->error);
+                        continue;
+                    }
 
-                // Enviar correo electrónico
-                $email_stmt = $conexion->prepare("SELECT Correo FROM Usuarios WHERE Codigo = ?");
-                if (!$email_stmt) {
-                    throw new Exception('Error al preparar consulta de correo: ' . $conexion->error);
-                }
+                    // Verificar si la notificación se insertó correctamente
+                    if ($notif_stmt->affected_rows <= 0) {
+                        error_log("No se pudo crear la notificación para el usuario $participante_id");
+                    }
 
-                $email_stmt->bind_param("i", $participante_id);
-                if (!$email_stmt->execute()) {
-                    throw new Exception('Error al obtener correo: ' . $email_stmt->error);
-                }
+                    // Enviar correo electrónico
+                    $email_stmt = $conexion->prepare("SELECT Correo FROM Usuarios WHERE Codigo = ?");
+                    if (!$email_stmt) {
+                        throw new Exception('Error al preparar consulta de correo: ' . $conexion->error);
+                    }
 
-                $email_result = $email_stmt->get_result();
-                $usuario = $email_result->fetch_assoc();
+                    $email_stmt->bind_param("i", $participante_id);
+                    if (!$email_stmt->execute()) {
+                        throw new Exception('Error al obtener correo: ' . $email_stmt->error);
+                    }
 
-                if ($usuario && $usuario['Correo']) {
-                    $asunto = "Evento Cancelado: $nombreEvento";
-                    $cuerpo = "
-                        <html>
-                        <body>
-                            <p>El siguiente evento ha sido cancelado:</p>
-                            <p><strong>Evento:</strong> $nombreEvento</p>
-                            <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fechaEvento)) . "</p>
-                            <p><strong>Hora:</strong> " . date('H:i', strtotime($horaEvento)) . "</p>
-                        </body>
-                        </html>
-                    ";
-                    enviarCorreo($usuario['Correo'], $asunto, $cuerpo);
+                    $email_result = $email_stmt->get_result();
+                    $usuario = $email_result->fetch_assoc();
+
+                    if ($usuario && $usuario['Correo']) {
+                        $asunto = "Evento Cancelado: $nombreEvento";
+                        $cuerpo = "
+                            <html>
+                                <head>
+                                    <style>
+                                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                                        .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                                        .header { text-align: center; padding-bottom: 20px; }
+                                        .header img { width: 300px; }
+                                        .content { padding: 20px; }
+                                        h2 { color: #2c3e50; }
+                                        p { line-height: 1.5; color: #333; }
+                                        .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div class='container'>
+                                        <div class='header'>
+                                            <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                                        </div>
+                                        <div class='content'>
+                                            <h2>El siguiente evento ha sido cancelado:</h2>
+                                            <p><strong>Evento:</strong> $nombreEvento</p>
+                                            <p><strong>Fecha:</strong> " . date('d/m/Y', strtotime($fechaEvento)) . "</p>
+                                            <p><strong>Hora:</strong> " . date('H:i', strtotime($horaEvento)) . "</p>
+                                        </div>
+                                        <div class='footer'>
+                                            <p>Centro para la Sociedad Digital</p>
+                                        </div>
+                                    </div>
+                                </body>
+                            </html>
+                        ";
+                        enviarCorreo($usuario['Correo'], $asunto, $cuerpo);
+                    }
                 }
                 $email_stmt->close();
             }
