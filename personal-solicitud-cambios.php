@@ -13,10 +13,11 @@
         </div>
     </div>
 
+    <!-- Contenedor principal de todo el contenido de los contenedores. -->
+    <div class="solicitud-contenedor-principal">
     <!-- Contenedor principal de cada solicitud. -->
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
         <!--------------------------------------->
-        <div class="info-sup">
+        <div class="info-sup" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
             <!-- DPTO Y TIPO DE SOLICITUD. -->
             <div class="color-en_revision" style="position: absolute; left: 0px;"></div> 
             <div class="nombre-dpto-solicitud">
@@ -40,7 +41,7 @@
                 <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
             </div>
         </div>
-    </div>
+    
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-1">
         <div class="info">
@@ -113,12 +114,16 @@
                 </p>
             </div>
         </div>
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php">
+            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
+        </div>
     </div>
 
     <!-- Contenedor principal de cada solicitud. -->
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
         <!--------------------------------------->
-        <div class="info-sup">
+        <div class="info-sup" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
             <!-- DPTO Y TIPO DE SOLICITUD. -->
             <div class="color-aprobado" style="position: absolute; left: 0px;"></div> 
             <div class="nombre-dpto-solicitud">
@@ -142,7 +147,7 @@
                 <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
             </div>
         </div>
-    </div>
+
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-2">
         <div class="info">
@@ -218,9 +223,8 @@
     </div>
 
     <!-- Contenedor principal de cada solicitud. -->
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
         <!--------------------------------------->
-        <div class="info-sup">
+        <div class="info-sup" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
             <!-- DPTO Y TIPO DE SOLICITUD. -->
             <div class="color-rechazado" style="position: absolute; left: 0px;"></div> 
             <div class="nombre-dpto-solicitud">
@@ -244,7 +248,7 @@
                 <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
             </div>
         </div>
-    </div>
+
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-3">
         <div class="info">
@@ -320,9 +324,8 @@
     </div>
 
     <!-- Contenedor principal de cada solicitud. -->
-    <div class="solicitud-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
         <!--------------------------------------->
-        <div class="info-sup">
+        <div class="info-sup" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
             <!-- DPTO Y TIPO DE SOLICITUD. -->
             <div class="color-pendiente" style="position: absolute; left: 0px;"></div> 
             <div class="nombre-dpto-solicitud">
@@ -346,7 +349,7 @@
                 <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
             </div>
         </div>
-    </div>
+
     <!-- Contenedor que se desplegara. -->
     <div class="contenedor-informacion" id="contenedor-informacion-4">
         <div class="info">
@@ -433,12 +436,11 @@
     </div>
 </div>
 
-<!-- Modal para las solicitudes de baja-propuesta -->
-
+<!-- Modal para las solicitudes de baja académica -->
 <div id="solicitud-modal" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-button" id="boton-cancelar">&times;</span>
-        <h2 class="titulo-modal">Solicitud de baja-propuesta</h2>
+        <h2 class="titulo-modal">Solicitud de baja académica</h2>
         <!-- Campos relacionados a la materia -->
         <div class="campos-materia">
             <div class="borde-CRN">
@@ -523,7 +525,7 @@
                 <p>Nombre(s)</p>
                 <input class="texto-nombres" id="texto-nombres_propuesto" type="text"> 
             </div>
-            <div class="borde-codigo">
+            <div class="borde-codigo" id="borde-codigo-margin">
                 <p>Código</p>
                 <input class="texto-codigo" id="texto-codigo_propuesto" type="text">  
             </div>
@@ -531,8 +533,9 @@
 
         <!-- Botones finales -->
         <div class="contenedor-botones">
-            <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar">Guardar</button></a>
-            <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;">Cancelar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E;"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
         </div>
     </div>
 </div>
@@ -540,64 +543,85 @@
 <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const btn = document.getElementById('nueva-solicitud-btn');
-        const lista = document.getElementById('lista-opciones');
+    const btn = document.getElementById('nueva-solicitud-btn');
+    const lista = document.getElementById('lista-opciones');
+    const inputs = lista.querySelectorAll('input'); // Selecciona todos los inputs dentro de la lista
+    const textareas = lista.querySelectorAll('textarea'); // Selecciona todos los textarea dentro de la lista
 
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            lista.classList.toggle('show');
-        });
-
-        lista.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A') {
-                e.preventDefault();
-            }
-        });
-
-        document.addEventListener('click', function(e) {
-            if (!btn.contains(e.target) && !lista.contains(e.target)) {
-                lista.classList.remove('show');
-            }
-        });
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        lista.classList.toggle('show');
     });
+
+    lista.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !lista.contains(e.target)) {
+            lista.classList.remove('show');
+            clearInputs(); // Borra el contenido de los inputs y textareas cuando se hace clic afuera
+        }
+    });
+
+    // Función que borra el contenido de todos los inputs y textareas
+    function clearInputs() {
+        inputs.forEach(input => {
+            input.value = ''; // Borra el valor de cada input
+        });
+        textareas.forEach(textarea => {
+            textarea.value = ''; // Borra el valor de cada textarea
+        });
+    }
+});
 </script>
 
 <!-- Estilos del modal (No funcionan en el .css) -->
 <style>
 .modal {
-  display: none; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
-  z-index: 1000; 
+  z-index: 1000;
   left: 0;
-  bottom: 0;
-  width: 100%; 
-  overflow: hidden; 
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
   background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* Contenido del modal */
 .modal-content {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
   background-color: #fff; 
-  margin: 15% auto; 
   padding: 20px; 
-  top: 20vh;
   border: 1px solid #888; 
   width: 80%;
   max-width: 1600px; 
-  border-radius: 10px; 
+  border-radius: 10px;
+  margin: 0 auto;
+  top: 30px;
+  height: 90vh;
+  overflow-y: auto; 
 }
 
 .titulo-modal {
   margin-left: 1.1vw;
-  margin-bottom: 45px;
 }
 
 /* Botón de cerrar */
 .close-button {
   color: #aaa;
-  float: right;
-  font-size: 28px; 
+  position: absolute;
+  right: 30;
+  font-size: 38px; 
   font-weight: bold;
 }
 
@@ -613,9 +637,10 @@
 .campos-profesor,
 .campos-motivos {
   display: inline-flex;
+  flex-wrap: wrap;
   width: 76vw;
   margin-left: 55px;
-  height: 100px;
+  height: fit-content;
 }
 .campos-materia {
   margin-top: 15px;
@@ -632,7 +657,7 @@
 .titulo-profesor {
   display: inline-flex;
   margin-left: 1.1vw;
-  margin-bottom: 40px;
+  margin-bottom: 0;
   color: rgb(148, 144, 144);
 }
 
@@ -651,9 +676,10 @@
   position: relative;
   right: 33px;
   margin-left: 1.1vw;
+  margin-top: 40px;
   height: 50px;
   border-style: ridge;
-  border-color: rgb(174, 170, 170, 0.3);
+  border-color: rgb(174, 170, 170, 0.2);
   border-width: 2px;
   border-radius: 12px;
 }
@@ -674,13 +700,16 @@
 .borde-apellido-materno,
 .borde-codigo,
 .borde-otro {
-  width: 290px;
+  width: 250px;
 }
 .borde-nombres {
   width: 500px;
 }
 .borde-motivo {
   width: 640px;
+}
+#borde-codigo-margin {
+  margin-bottom: 20px;
 }
 
 /* Estilos de todos los input type text para escribir */
@@ -738,11 +767,11 @@
   justify-content: center;
   margin: 0 auto;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   height: 50px;
 }
 .contenedor-botones button {
-  margin: 0 20px; 
+  margin: 0 7px; 
   border-radius: 10px;
   border-style: none;
   padding: 1vh 2.5vw 1vh;
@@ -755,45 +784,35 @@
   box-shadow: 0px 2px 2px rgb(185, 174, 174);
 }
 
-@media screen and (max-width: 1600px) and (min-width: 1401px) {
-    .modal-content {
-    top: 15vh;
-    }
+@media screen and (max-width: 768px) {
+.borde-CRN,
+.borde-materia,
+.borde-clave,
+.borde-SEC,
+.borde-folio,
+.borde-apellido-paterno,
+.borde-apellido-materno,
+.borde-nombres,
+.borde-codigo,
+.borde-motivo,
+.borde-otro {
+    width: 100%;
+}
 }
 
-@media screen and (max-width: 1400px) and (min-width: 1201px) {
-    .modal-content {
-    top: 15vh;
-    }
-}
-
-@media screen and (max-width: 1200px) and (min-width: 993px) {
-    .modal-content {
-    top: 7vh;
-    }
-}
-
-@media screen and (max-width: 992px) and (min-width: 769px) {
-    .modal-content {
-    top: 7vh;
-    }
-}
-
-@media screen and (max-width: 768px) and (min-width: 481px) {
-    .modal-content {
-    top: 4vh;
-    }
-}
-
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 630px) {
   .modal-content {
-    top: 1vh;
-    }
+    width: 95%; 
+  }
+  .contenedor-botones button {
+  font-size: 0.8rem;
+  border-radius: 7px;
+}
 }
 </style>
 
 <!-- Script para las funciones del despliegue de contenedor hacia abajo al hacer click -->
 <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
-<script src="./JS/pestañas-plantilla.js"></>
+<script src="./JS/pestañas-plantilla.js"></script>
 
 <?php include ("./template/footer.php"); ?>

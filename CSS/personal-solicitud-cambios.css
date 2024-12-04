@@ -50,34 +50,29 @@
 
 /* Contenedor principal de las barras de solicitudes */
 .solicitud-contenedor-principal {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  flex: 1;
+  display: inline-block;
+  justify-content: center;
   align-items: center;
-  position: relative;
   margin: 0 auto;
-  width: 94%;
-  height: 10%;
-  padding-left: 0;
-  cursor: pointer;
+  width: 100%;
+  height: fit-content;
 }
 
 /* Informacion resumen del contenedor principal */
-.info-sup
-{
+.info-sup {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   background-color: #fff;
   width: 82vw;
-  position: absolute;
+  position: relative;
   height: fit-content;
   box-shadow: 0px 3px 7px rgb(161, 161, 161);
   border-radius: 12px;
-  left: 2vw;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  left: 5vw;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
 }
 
 .nombre-dpto-solicitud {
@@ -260,6 +255,7 @@
 .boton-nueva-solicitud {
   width: 100%;
   padding: 10px;
+  margin-bottom: 30px;
   background-color: #0071B0;
   color: white;
   border: none;
@@ -288,6 +284,8 @@
 }
 .lista-opciones.show {
   display: block;
+  position: relative;
+  top: -30px;
 }
 .lista-opciones li {
   padding: 10px;
@@ -308,8 +306,7 @@
   transition: max-height 0.3s ease-out;
   margin: 0 auto;
   width: 85%;
-  padding-top: 40px;
-  padding-bottom: 15px;
+  padding-bottom: 5px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   background-color: #e7e9f2;
@@ -321,7 +318,8 @@
 }
 
 .contenedor-informacion.mostrar {
-  max-height: 100%; 
+  max-height: 100%;
+  margin-bottom: 30px;
   opacity: 1;
 }
 
@@ -330,7 +328,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  flex: 1;
   width: 96.5%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -385,7 +382,7 @@
 
 .titulo-info {
   position: relative;
-  height: 5px;
+  height: 10px;
   left: 50px;
   font-weight: bold;
   color: rgb(94, 94, 94);
@@ -439,7 +436,7 @@
   }
 }
 
-@media screen and (max-width: 992px) and (min-width: 769px) {
+@media screen and (max-width: 992px) {
   .cuadro-principal {
     width: 90%;
     margin-left: 8vw;
@@ -458,7 +455,36 @@
   .texto-inferior {
     padding-top: 4px;
   }
+  .contenedor-centro,
+  .contenedor-derecho,
+  .contenedor-izquierdo {
+    width: 35%;
+  }
+  .estado-solicitud,
+  #en-revision,
+  #rechazado,
+  #aprobado,
+  #pendiente {
+    font-size: 0.8rem;
+  }
+  #info-CRN,
+  #info-materia,
+  #info-clave,
+  #info-SEC,
+  #info-folio,
+  #info-paterno,
+  #info-materno,
+  #info-nombres,
+  #info-codigo,
+  #info-motivo,
+  #info-paterno-propuesto,
+  #info-materno-propuesto,
+  #info-nombres-propuesto,
+  #info-codigo-propuesto {
+    font-size: 0.7rem;
+  }
 }
+
 @media screen and (max-width: 930px) {
   .contenedor-informacion {
     height: 72%;
@@ -472,7 +498,12 @@
     margin-right: 2vw;
     font-size: smaller;
   }
-
+  .nombre-solicitud,
+  .nombre-departamento,
+  #departamento,
+  #solicitud {
+    font-size: 0.8rem;
+  }
 }
 
 @media screen and (max-width: 660px) {
