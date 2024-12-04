@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./CSS/detalle-profesor.css">
+<link rel="stylesheet" href="./CSS/detalle-profesor.css?=v1.0">
 
 <script>
 // Función para actualizar los días activos
@@ -267,13 +267,14 @@ if(isset($_POST['codigo_profesor'])) {
                                         <div><span class="profile-span">Horas definitivas:</span> <span class="data-value2">36/40</span></div>
                                     </td>
                                     <td>
-                                    <div><span class="profile-span">Horas temporales:</span> <span class="data-value2">36/40</span></div>
+                                        <div><span class="profile-span">Horas temporales:</span> <span class="data-value2">36/40</span></div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <span class="close" onclick="cerrarModalDetalle()">&times;</span>
             </div>
 
             <div class="search-section">
@@ -619,3 +620,5 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<script src="./JS/basesdedatos/profesores-materias.js"></script>

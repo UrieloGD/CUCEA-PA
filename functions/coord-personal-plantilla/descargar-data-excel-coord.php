@@ -80,9 +80,17 @@ $mapeo_columnas = [
     'ANTIGÜEDAD' => 'Antiguedad'
 ];
 
-function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas)
-{
-    return isset($mapeo_columnas[$nombre_mostrado]) ? $mapeo_columnas[$nombre_mostrado] : str_replace(' ', '_', $nombre_mostrado);
+function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas) {
+    // Trim y eliminar espacios extras
+    $nombre_mostrado = trim(preg_replace('/\s+/', ' ', $nombre_mostrado));
+    
+    // Primero verificar en el mapeo
+    if (isset($mapeo_columnas[$nombre_mostrado])) {
+        return $mapeo_columnas[$nombre_mostrado];
+    }
+    
+    // Si no está en el mapeo, convertir a formato de columna
+    return str_replace(' ', '_', strtoupper($nombre_mostrado));
 }
 
 $columnas_reales = array_map(function ($columna) use ($mapeo_columnas) {

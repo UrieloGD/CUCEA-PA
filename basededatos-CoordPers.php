@@ -172,7 +172,7 @@ function formatDateForDisplay($mysqlDate)
                         <th>C.P. <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
                         <th>CIUDAD <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
                         <th>ESTADO <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
-                        <th>NO. AFIL. I.M.S.S. <span class="filter-icon" data-column="33">&#9662;</span></th>
+                        <th>NO. AFIL. I.M.S.S. <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
                         <th>C.U.R.P. <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
                         <th>RFC <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
                         <th>LUGAR DE NACIMIENTO <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
