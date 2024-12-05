@@ -526,7 +526,24 @@ $(document).ready(function() {
         // Ocultar todas las secciones y mostrar la seleccionada
         const targetId = $(this).data('section');
         $('.curso-seccion').hide();
-        $(⁠ #${targetId} ⁠).show().css('opacity', 0).animate({opacity: 1}, 200);
+        $(`#${targetId}`).show().css('opacity', 0).animate({opacity: 1}, 200);
+
+        // Nueva funcionalidad de desplazamiento
+        const $navContainer = $('.nav-items-container');
+        const $clickedNavItem = $(this);
+        
+        // Calcular las dimensiones del contenedor y del artículo
+        const containerWidth = $navContainer.width();
+        const itemOffset = $clickedNavItem.position().left;
+        const itemWidth = $clickedNavItem.outerWidth();
+        
+        // Calcula la posición de desplazamiento para centrar el elemento
+        const scrollPosition = itemOffset - (containerWidth / 2) + (itemWidth / 2);
+        
+        // Desplazamiento animado
+        $navContainer.animate({
+            scrollLeft: scrollPosition
+        }, 300);
         
         // Actualizar estado de las flechas
         updateArrows();
@@ -559,83 +576,6 @@ $(document).ready(function() {
     // Inicializar estado de las flechas
     updateArrows();
 });
-
-const $navItemsContainer = $('.nav-items-container');
-const $navItems = $('.nav-item');
-const $prevArrow = $('.prev-arrow');
-const $nextArrow = $('.next-arrow');
-
- // Function to check and update scroll navigation
- function updateNavigation() {
-        const containerWidth = $navItemsContainer.width();
-        const totalWidth = $navItems.toArray().reduce((sum, item) => sum + $(item).outerWidth(true), 0);
-
-        // Enable/disable navigation arrows based on content
-        $prevArrow.toggle(totalWidth > containerWidth);
-        $nextArrow.toggle(totalWidth > containerWidth);
-
-        // If content overflows, allow scrolling
-        if (totalWidth > containerWidth) {
-            $navItemsContainer.css({
-                'overflow-x': 'hidden',
-                'white-space': 'nowrap'
-            });
-        }
-    }
-
-    // Smooth scrolling for navigation
-    function scrollNavigation(direction) {
-        const scrollAmount = direction === 'next' ? 200 : -200;
-        $navItemsContainer.animate({
-            scrollLeft: ⁠ +=${scrollAmount} ⁠
-        }, 300);
-    }
-
-    // Arrow click handlers
-    $prevArrow.click(function() {
-        if (!$(this).prop('disabled')) {
-            scrollNavigation('prev');
-        }
-    });
-
-    $nextArrow.click(function() {
-        if (!$(this).prop('disabled')) {
-            scrollNavigation('next');
-        }
-    });
-
-    // Initial setup and responsive update
-    updateNavigation();
-    $(window).resize(updateNavigation);
-
-    // Handling navigation item clicks with improved scroll behavior
-    $('.nav-item').click(function(e) {
-        e.preventDefault();
-        
-        // Remove active class from all items
-        $('.nav-item').removeClass('active');
-        $(this).addClass('active');
-        
-        // Scroll to make the active item visible
-        const $container = $('.nav-items-container');
-        const $item = $(this);
-        const containerScrollLeft = $container.scrollLeft();
-        const itemOffset = $item.position().left;
-        const containerWidth = $container.width();
-        const itemWidth = $item.outerWidth();
-
-        // Scroll if the item is outside the visible area
-        if (itemOffset + itemWidth > containerWidth || itemOffset < 0) {
-            $container.animate({
-                scrollLeft: containerScrollLeft + itemOffset - (containerWidth / 2) + (itemWidth / 2)
-            }, 300);
-        }
-        
-        // Original section show/hide logic
-        const targetId = $(this).data('section');
-        $('.curso-seccion').hide();
-        $(⁠ #${targetId} ⁠).show().css('opacity', 0).animate({opacity: 1}, 200);
-    });
 </script>
 
 <script>
