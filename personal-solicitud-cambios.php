@@ -220,6 +220,11 @@
                 </p>
             </div>
         </div>
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php">
+            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
+        </div>
     </div>
 
     <!-- Contenedor principal de cada solicitud. -->
@@ -320,6 +325,11 @@
                     <p id="info-codigo-propuesto">123456789</p>
                 </p>
             </div>
+        </div>
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php">
+            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
         </div>
     </div>
 
@@ -422,6 +432,11 @@
                 </p>
             </div>
         </div>
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php">
+            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
+        </div>
     </div>
     
     
@@ -436,8 +451,211 @@
     </div>
 </div>
 
+<!-- Modal para las solicitudes de baja-propuesta -->
+<div id="solicitud-modal-baja-propuesta" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-button" id="boton-cancelar">&times;</span>
+        <h2 class="titulo-modal">Solicitud de baja-propuesta</h2>
+        <!-- Campos relacionados a la materia -->
+        <div class="campos-materia">
+            <div class="borde-CRN">
+                <p>CRN</p>
+                <input class="texto-CRN" id="texto-CRN" type="text">
+            </div>
+            <div class="borde-materia">
+                <p>Materia</p>
+                <input class="texto-materia" id="texto-materia" type="text"> 
+            </div>
+            <div class="borde-clave">
+                <p>Clave</p>
+                <input class="texto-clave" id="texto-clave" type="text"> 
+            </div>
+            <div class="borde-SEC">
+                <p>SEC</p>
+                <input class="texto-SEC" id="texto-SEC" type="text">  
+            </div>
+            <div class="borde-folio">
+                <p>Folio de solicitud</p>
+                <input class="texto-folio" id="texto-folio" type="text"> 
+            </div>
+        </div>
+
+        <!-- Encabezado para profesor actual -->
+        <h3 class="titulo-profesor">Profesor actual</h3>
+
+        <!-- Campos relacionados al profesor actual -->
+        <div class="campos-profesor">
+            <div class="borde-apellido-paterno">
+                <p>Apellido paterno</p>
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text">
+            </div>
+            <div class="borde-apellido-materno">
+                <p>Apellido materno</p>
+                <input class="texto-apellido-materno" id="texto-apellido-materno" type="text"> 
+            </div>
+            <div class="borde-nombres">
+                <p>Nombre(s)</p>
+                <input class="texto-nombres" id="texto-nombres" type="text"> 
+            </div>
+            <div class="borde-codigo">
+                <p>Código</p>
+                <input class="texto-codigo" id="texto-codigo" type="text">  
+            </div>
+        </div>
+
+        <!-- Campos relacionados al motivo de la baja -->
+        <div class="campos-motivos">
+            <div class="borde-motivo">
+                <p>Motivo</p> 
+                <select name="texto-motivo" class="texto-motivo" id="texto-motivo">
+                    <option value="" disabled selected>Seleccione el motivo de baja</option>
+                    <option value="no-asistir">No asiste a clases con regularidad</option>
+                    <option value="no-respetar">No respeta a los alumnos de la clase</option>
+                    <option value="no-vive">Fallecimiento del profesor</option>
+                    <option value="no-trabaja">Jubilacion del profesor</option>
+                </select>
+            </div>
+            <div class="borde-otro">
+                <p>Otro</p>
+                <input class="texto-otro" id="texto-otro" type="text"> 
+            </div>
+        </div>
+
+        <!-- Encabezado para profesor propuesto -->
+        <h3 class="titulo-profesor">Profesor propuesto</h3>
+        
+        <!-- Campos relacionados al profesor propuesto (Mismos campos y estilos de profesor CSS) 
+        a excepcion de los ID's -->
+        <div class="campos-profesor">
+            <div class="borde-apellido-paterno">
+                <p>Apellido paterno</p>
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno_propuesto" type="text">
+            </div>
+            <div class="borde-apellido-materno">
+                <p>Apellido materno</p>
+                <input class="texto-apellido-materno" id="texto-apellido-materno_propuesto" type="text"> 
+            </div>
+            <div class="borde-nombres">
+                <p>Nombre(s)</p>
+                <input class="texto-nombres" id="texto-nombres_propuesto" type="text"> 
+            </div>
+            <div class="borde-codigo">
+                <p>Código</p>
+                <input class="texto-codigo" id="texto-codigo_propuesto" type="text">  
+            </div>
+        </div>
+        <div class="campos-profesor">
+            <div class="borde-movimiento">
+                <p>Movimiento</p> 
+                <select name="texto-movimiento" class="texto-movimiento" id="texto-movimiento">
+                    <option value="" disabled selected>Seleccione el movimiento</option>
+                    <option value="">Movimiento no especificado</option>
+                    <option value="">Movimiento #1</option>
+                    <option value="">Movimiento #2</option>
+                    <option value="">Movimiento #3</option>
+                </select>
+            </div>
+            <div class="borde-contrato" id="borde-margin">
+                <p>Contrato</p> 
+                <select name="texto-contrato" class="texto-contrato" id="texto-contrato">
+                    <option value="" disabled selected>Seleccione tipo de contrato</option>
+                    <option value="">Tiempo indefinido</option>
+                    <option value="">Tiempo definido</option>
+                    <option value="">Contrato temporal</option>
+                    <option value="">Sustitucion</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Botones finales -->
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E;"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para las solicitudes de propuesta académica -->
+<div id="solicitud-modal-propuesta-academica" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-button" id="boton-cancelar">&times;</span>
+        <h2 class="titulo-modal">Solicitud de propuesta académica</h2>
+        <!-- Campos relacionados a la materia -->
+        <div class="campos-materia">
+            <div class="borde-CRN">
+                <p>CRN</p>
+                <input class="texto-CRN" id="texto-CRN" type="text">
+            </div>
+            <div class="borde-materia">
+                <p>Materia</p>
+                <input class="texto-materia" id="texto-materia" type="text">
+            </div>
+            <div class="borde-clave">
+                <p>Clave</p>
+                <input class="texto-clave" id="texto-clave" type="text"> 
+            </div>
+            <div class="borde-SEC">
+                <p>SEC</p>
+                <input class="texto-SEC" id="texto-SEC" type="text">  
+            </div>
+            <div class="borde-folio">
+                <p>Folio de solicitud</p>
+                <input class="texto-folio" id="texto-folio" type="text"> 
+            </div>
+        </div>
+
+        <!-- Campos relacionados al profesor propuesto -->
+        <div class="campos-profesor">
+            <div class="borde-apellido-paterno">
+                <p>Apellido paterno</p>
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text">
+            </div>
+            <div class="borde-apellido-materno">
+                <p>Apellido materno</p>
+                <input class="texto-apellido-materno" id="texto-apellido-materno" type="text"> 
+            </div>
+            <div class="borde-nombres">
+                <p>Nombre(s)</p>
+                <input class="texto-nombres" id="texto-nombres" type="text"> 
+            </div>
+            <div class="borde-motivo">
+                <p>Movimiento</p> 
+                <select name="texto-movimiento" class="texto-movimiento" id="texto-movimiento">
+                    <option value="" disabled selected>Seleccione el movimiento</option>
+                    <option value="">Movimiento no especificado</option>
+                    <option value="">Movimiento #1</option>
+                    <option value="">Movimiento #2</option>
+                    <option value="">Movimiento #3</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Se usa la misma estructura de campos-motivos para tipo de contrato -->
+        <div class="campos-motivos" id="borde-margin">
+            <div class="borde-motivo">
+                <p>Contrato</p> 
+                <select name="texto-contrato" class="texto-contrato" id="texto-contrato">
+                    <option value="" disabled selected>Seleccione tipo de contrato</option>
+                    <option value="">Tiempo indefinido</option>
+                    <option value="">Tiempo definido</option>
+                    <option value="">Contrato temporal</option>
+                    <option value="">Sustitucion</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Botones finales -->
+        <div class="contenedor-botones">
+            <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E;"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
+        </div>
+    </div>
+</div>
+
 <!-- Modal para las solicitudes de baja académica -->
-<div id="solicitud-modal" class="modal" style="display: none;">
+<div id="solicitud-modal-baja-academica" class="modal" style="display: none;">
     <div class="modal-content">
         <span class="close-button" id="boton-cancelar">&times;</span>
         <h2 class="titulo-modal">Solicitud de baja académica</h2>
@@ -493,7 +711,6 @@
             <div class="borde-motivo">
                 <p>Motivo</p> 
                 <select name="texto-motivo" class="texto-motivo" id="texto-motivo">
-                    <!-- Ejemplos muy equis de xd -->
                     <option value="" disabled selected>Seleccione el motivo de baja</option>
                     <option value="no-asistir">No asiste a clases con regularidad</option>
                     <option value="no-respetar">No respeta a los alumnos de la clase</option>
@@ -501,17 +718,17 @@
                     <option value="no-trabaja">Jubilacion del profesor</option>
                 </select>
             </div>
-            <div class="borde-otro">
+            <div class="borde-otro" id="borde-margin">
                 <p>Otro</p>
                 <input class="texto-otro" id="texto-otro" type="text"> 
             </div>
         </div>
 
         <!-- Encabezado para profesor propuesto -->
-        <h3 class="titulo-profesor">Profesor propuesto</h3>
-
-        <!-- Campos relacionados al profesor propuesto (Mismos campos y estilos de profesor CSS) 
-        a excepcion de los ID's -->
+    <!--    <h3 class="titulo-profesor">Profesor propuesto</h3>
+        
+         Campos relacionados al profesor propuesto (Mismos campos y estilos de profesor CSS) 
+        a excepcion de los ID's 
         <div class="campos-profesor">
             <div class="borde-apellido-paterno">
                 <p>Apellido paterno</p>
@@ -525,11 +742,11 @@
                 <p>Nombre(s)</p>
                 <input class="texto-nombres" id="texto-nombres_propuesto" type="text"> 
             </div>
-            <div class="borde-codigo" id="borde-codigo-margin">
+            <div class="borde-codigo">
                 <p>Código</p>
                 <input class="texto-codigo" id="texto-codigo_propuesto" type="text">  
             </div>
-        </div>
+        </div> -->
 
         <!-- Botones finales -->
         <div class="contenedor-botones">
@@ -542,11 +759,14 @@
 
 <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('nueva-solicitud-btn');
     const lista = document.getElementById('lista-opciones');
-    const inputs = lista.querySelectorAll('input'); // Selecciona todos los inputs dentro de la lista
-    const textareas = lista.querySelectorAll('textarea'); // Selecciona todos los textarea dentro de la lista
+    const modales = {
+        'Solicitud de baja': document.getElementById('solicitud-modal-baja-academica'),
+        'Solicitud de propuesta': document.getElementById('solicitud-modal-propuesta-academica'),
+        'Solicitud de baja-propuesta': document.getElementById('solicitud-modal-baja-propuesta')
+    };
 
     btn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -554,25 +774,40 @@
     });
 
     lista.addEventListener('click', function(e) {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
+        const opcionSeleccionada = e.target.innerText;
+        
+        if (opcionSeleccionada in modales) {
+            // Cerrar la lista y abrir el modal correspondiente
+            lista.classList.remove('show');
+            openModal(modales[opcionSeleccionada]);
         }
     });
 
     document.addEventListener('click', function(e) {
         if (!btn.contains(e.target) && !lista.contains(e.target)) {
             lista.classList.remove('show');
-            clearInputs(); // Borra el contenido de los inputs y textareas cuando se hace clic afuera
         }
     });
 
-    // Función que borra el contenido de todos los inputs y textareas
-    function clearInputs() {
-        inputs.forEach(input => {
-            input.value = ''; // Borra el valor de cada input
+    // Función para abrir el modal
+    function openModal(modal) {
+        modal.style.display = 'block';
+        const closeButton = modal.querySelector('.close-button');
+        closeButton.addEventListener('click', function() {
+            modal.style.display = 'none';
         });
-        textareas.forEach(textarea => {
-            textarea.value = ''; // Borra el valor de cada textarea
+
+        // Evitar que el modal se cierre al hacer clic en su contenido
+        const modalContent = modal.querySelector('.modal-content');
+        modalContent.addEventListener('click', function(e) {
+            e.stopPropagation(); // Detener la propagación del clic
+        });
+
+        // Cerrar el modal si se hace clic fuera del contenido del modal
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) { // Verificamos si el clic fue fuera del contenido
+                modal.style.display = 'none';
+            }
         });
     }
 });
@@ -608,7 +843,7 @@
   border-radius: 10px;
   margin: 0 auto;
   top: 30px;
-  height: 90vh;
+  max-height: 90vh;
   overflow-y: auto; 
 }
 
@@ -672,16 +907,14 @@
 .borde-nombres,
 .borde-codigo,
 .borde-motivo,
-.borde-otro {
+.borde-otro,
+.borde-contrato,
+.borde-movimiento {
   position: relative;
   right: 33px;
   margin-left: 1.1vw;
   margin-top: 40px;
   height: 50px;
-  border-style: ridge;
-  border-color: rgb(174, 170, 170, 0.2);
-  border-width: 2px;
-  border-radius: 12px;
 }
 
 /* Estilos de los bordes especificos */
@@ -699,17 +932,19 @@
 .borde-apellido-paterno,
 .borde-apellido-materno,
 .borde-codigo,
-.borde-otro {
+.borde-otro,
+.borde-movimiento {
   width: 250px;
 }
 .borde-nombres {
   width: 500px;
 }
-.borde-motivo {
+.borde-motivo,
+.borde-contrato {
   width: 640px;
 }
-#borde-codigo-margin {
-  margin-bottom: 20px;
+#borde-margin {
+  margin-bottom: 50px;
 }
 
 /* Estilos de todos los input type text para escribir */
@@ -723,15 +958,21 @@
 .texto-nombres,
 .texto-codigo,
 .texto-motivo,
-.texto-otro {
+.texto-otro,
+.texto-movimiento,
+.texto-contrato {
   position: relative;
-  bottom: 40px;
+  align-self: center;
+  bottom: 50px;
   left: 10px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   outline: none;
-  border-style: none;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: #E7E9F2;
+  padding: 15px;
 }
-
 /* Estilos especificos de los input */
 .texto-CRN,
 .texto-clave,
@@ -746,15 +987,17 @@
 }
 .texto-apellido-materno,
 .texto-apellido-paterno,
-.texto-codigo {
+.texto-codigo,
+.texto-movimiento {
   width: 93%;
 }
 .texto-nombres {
   width: 96%;
 }
-.texto-motivo {
+.texto-motivo,
+.texto-contrato {
   outline: none;
-  border-style: none;
+  border-style: solid;
   width: 97%;
 }
 .texto-otro {
