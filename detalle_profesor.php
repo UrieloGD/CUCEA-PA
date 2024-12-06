@@ -2,27 +2,48 @@
 
 <script>
 // Función para actualizar los días activos
-function actualizarDiasActivos(dias, crnId, modulo, esvirtual) {
-    requestAnimationFrame(() => {
-        const contenedor = document.getElementById(`weekdays-${crnId}-${modulo}`);
-        if (!contenedor) return;
-
-        const diasSemana = contenedor.querySelectorAll('.day');
-        diasSemana.forEach(dia => {
-            const letraDia = dia.textContent;
-            if (dias.includes(letraDia)) {
-                dia.classList.add('active');
-                if (esvirtual === 'true') {
-                    dia.classList.add('virtual');
-                } else {
-                    dia.classList.remove('virtual');
-                }
-            } else {
-                dia.classList.remove('active');
-                dia.classList.remove('virtual');
+function actualizarDiasActivos(diasPresenciales, crn, modulo, esVirtual, diasVirtuales) {
+    const weekdaysContainer = document.getElementById(`weekdays-${crn}-${modulo}`);
+    const days = weekdaysContainer.getElementsByClassName('day');
+    
+    // Convertir cadenas a arreglos
+    const presenciales = diasPresenciales.split('');
+    const virtuales = diasVirtuales.split('');
+    
+    // Mapeo de días
+    const daysMap = {
+        'L': 0, 'M': 1, 'I': 2, 'J': 3, 'V': 4, 'S': 5
+    };
+    
+    // Limpiar clases previas
+    for (let day of days) {
+        day.classList.remove('active', 'virtual');
+    }
+    
+    // Si es completamente virtual
+    if (esVirtual === 'true') {
+        for (let i = 0; i < days.length; i++) {
+            const dayLetter = Object.keys(daysMap)[i];
+            
+            if (virtuales.includes(dayLetter)) {
+                days[i].classList.add('virtual');
             }
-        });
-    });
+        }
+        return;
+    }
+    
+    // Marcar días presenciales y virtuales
+    for (let i = 0; i < days.length; i++) {
+        const dayLetter = Object.keys(daysMap)[i];
+        
+        if (presenciales.includes(dayLetter)) {
+            days[i].classList.add('active');
+        }
+        
+        if (virtuales.includes(dayLetter)) {
+            days[i].classList.add('virtual');
+        }
+    }
 }
 
 // Función para actualizar los días en materias híbridas
@@ -123,57 +144,62 @@ if(isset($_POST['codigo_profesor'])) {
                 
                 while($row = mysqli_fetch_assoc($result)) {
                     $materias_temp[] = $row;
-                    /*
-                    $unique_key = $row['CRN'] . '-' . $row['MATERIA'] . '-' . $row['AULA'] . '-' . $row['MODULO'];
-                    if(!isset($materias_unicas[$unique_key])) {
-                        $materias_unicas[$unique_key] = $row;
-                        $todas_las_materias[] = $row;
-                    }
-                    */
                 }
             }
         }
-        // Procesar y combinar materias
+        // Proceso de unificación de materias
+        $materias_unicas = [];
+        
         foreach($materias_temp as $materia) {
-            $crn = $materia['CRN'];
-            $nombre_materia = $materia['MATERIA'];
+            // Crear una clave única usando nombre de materia en minúsculas para case-insensitive
+            $key_materia = strtolower(trim($materia['MATERIA']));
             
-            // Crear una clave única basada en CRN y nombre de materia
-            $unique_key = $crn . '-' . $nombre_materia;
+            if (!isset($materias_unicas[$key_materia])) {
+                $materias_unicas[$key_materia] = [];
+            }
             
-            if (!isset($materias_unicas[$unique_key])) {
-                // Primera vez que vemos esta materia
-                $materias_unicas[$unique_key] = $materia;
-            } else {
-                // Ya existe una entrada para esta materia
-                $existing = $materias_unicas[$unique_key];
+            // Flag para determinar si se agregará una nueva versión de la materia
+            $agregar_nueva_version = true;
+            
+            // Verificar versiones existentes
+            foreach ($materias_unicas[$key_materia] as &$version_existente) {
+                // Condiciones para combinar versiones
+                $mismo_crn = $version_existente['CRN'] === $materia['CRN'];
+                $modalidad_diferente = $version_existente['MODULO'] !== $materia['MODULO'];
                 
-                // Si una es virtual y la otra tiene aula física, combinarlas
-                if (($existing['MODULO'] === 'CVIRTU' && $materia['MODULO'] !== 'CVIRTU') ||
-                    ($existing['MODULO'] !== 'CVIRTU' && $materia['MODULO'] === 'CVIRTU')) {
+                if ($mismo_crn || $modalidad_diferente) {
+                    // Manejar caso híbrido
+                    if (!isset($version_existente['es_hibrida'])) {
+                        $version_existente['es_hibrida'] = true;
+                        $version_existente['dias_virtuales'] = [
+                            'L' => $materia['L'],
+                            'M' => $materia['M'],
+                            'I' => $materia['I'],
+                            'J' => $materia['J'],
+                            'V' => $materia['V'],
+                            'S' => $materia['S'],
+                            'D' => $materia['D']
+                        ];
+                    }
                     
-                    // Mantener la información del aula física
-                    $aula_fisica = ($existing['MODULO'] !== 'CVIRTU') ? $existing : $materia;
-                    $virtual = ($existing['MODULO'] === 'CVIRTU') ? $existing : $materia;
-                    
-                    // Combinar la información
-                    $materias_unicas[$unique_key] = array_merge($aula_fisica, [
-                        'es_hibrida' => true,
-                        'dias_virtuales' => [
-                            'L' => $virtual['L'],
-                            'M' => $virtual['M'],
-                            'I' => $virtual['I'],
-                            'J' => $virtual['J'],
-                            'V' => $virtual['V'],
-                            'S' => $virtual['S'],
-                            'D' => $virtual['D']
-                        ]
-                    ]);
+                    $agregar_nueva_version = false;
+                    break;
                 }
+            }
+            
+            // Si no se combinó, agregar como nueva versión
+            if ($agregar_nueva_version) {
+                $materias_unicas[$key_materia][] = $materia;
             }
         }
         
-        return array_values($materias_unicas);
+        // Aplanar el arreglo para mantener compatibilidad
+        $resultado_final = [];
+        foreach ($materias_unicas as $versiones) {
+            $resultado_final = array_merge($resultado_final, $versiones);
+        }
+        
+        return $resultado_final;
     }
 
     
@@ -294,15 +320,16 @@ if(isset($_POST['codigo_profesor'])) {
                 <div class="nav-items-container">
                     <a href="#todas" class="nav-item active" data-section="todas">Todas las materias</a>
                     <?php 
-                       foreach ($materias_por_nombre as $nombre_materia => $cursos) {
-                        $section_id = preg_replace('/[^a-z0-9]+/', '-', strtolower($nombre_materia));
-                        $shortened_name = strlen($nombre_materia) > 15 
-                            ? substr($nombre_materia, 0, 15) . '...' 
-                            : $nombre_materia;
-                        echo "<a href='#$section_id' class='nav-item' data-section='$section_id'>" 
-                            . htmlspecialchars($shortened_name) 
-                            . "<span class='tooltip'>" . htmlspecialchars($nombre_materia) . "</span>"
-                            . "</a>";
+                        foreach ($materias_por_nombre as $nombre_materia => $cursos) {
+                            $section_id = preg_replace('/[^a-z0-9]+/', '-', strtolower($nombre_materia));
+                            $shortened_name = strlen($nombre_materia) > 15 
+                                ? substr($nombre_materia, 0, 15) . '...' 
+                                : $nombre_materia;
+                            echo "<a href='#$section_id' class='nav-item' data-section='$section_id'>" 
+                                . htmlspecialchars($shortened_name) 
+                                . "<span class='tooltip'>" . htmlspecialchars($nombre_materia) . "</span>"
+                                . "<span class='course-count'>" . count($cursos) . "</span>"  // New count indicator
+                                . "</a>";
                         }
                     ?>
                 </div>
@@ -346,17 +373,6 @@ if(isset($_POST['codigo_profesor'])) {
                                     ?>
                                 </td>
                                 <td class="col-dias">
-                                    <?php 
-                                        $dias = '';
-                                        if($materia['L'] == 'L') $dias .= 'L';
-                                        if($materia['M'] == 'M') $dias .= 'M';
-                                        if($materia['I'] == 'I') $dias .= 'I';
-                                        if($materia['J'] == 'J') $dias .= 'J';
-                                        if($materia['V'] == 'V') $dias .= 'V';
-                                        if($materia['S'] == 'S') $dias .= 'S';
-                                        if($materia['D'] == 'D') $dias .= 'D';
-                                        if($dias == '') $dias .= 'Sin Datos';
-                                    ?>
                                     <div class="weekdays" id="weekdays-<?php echo $materia['CRN']; ?>-<?php echo $materia['MODULO']; ?>">
                                         <div class="day">L</div>
                                         <div class="day">M</div>
@@ -365,35 +381,49 @@ if(isset($_POST['codigo_profesor'])) {
                                         <div class="day">V</div>
                                         <div class="day">S</div>
                                     </div>   
-                                    <?php if(isset($materia['es_hibrida']) && $materia['es_hibrida']): ?>
-                                        <?php
-                                        $diasVirtuales = '';
-                                        if($materia['dias_virtuales']['L'] == 'L') $diasVirtuales .= 'L';
-                                        if($materia['dias_virtuales']['M'] == 'M') $diasVirtuales .= 'M';
-                                        if($materia['dias_virtuales']['I'] == 'I') $diasVirtuales .= 'I';
-                                        if($materia['dias_virtuales']['J'] == 'J') $diasVirtuales .= 'J';
-                                        if($materia['dias_virtuales']['V'] == 'V') $diasVirtuales .= 'V';
-                                        if($materia['dias_virtuales']['S'] == 'S') $diasVirtuales .= 'S';
-                                        if($materia['dias_virtuales']['D'] == 'D') $diasVirtuales .= 'D';
-                                        ?>
-                                        <script>
-                                            actualizarDiasHibridos(
-                                                '<?php echo $materia['CRN']; ?>', 
-                                                '<?php echo $materia['MODULO']; ?>', 
-                                                '<?php echo $dias; ?>', 
-                                                '<?php echo $diasVirtuales; ?>'
-                                            );
-                                        </script>
-                                    <?php else: ?>
-                                        <script>
-                                            actualizarDiasActivos(
-                                                '<?php echo $dias; ?>', 
-                                                '<?php echo $materia['CRN']; ?>', 
-                                                '<?php echo $materia['MODULO']; ?>', 
-                                                '<?php echo $materia['MODULO'] === 'CVIRTU' ? 'true' : 'false'; ?>'
-                                            );
-                                        </script>
-                                    <?php endif; ?>
+                                    <?php 
+                                        // Determine días presenciales y virtuales
+                                        $dias_presenciales = '';
+                                        $dias_virtuales = '';
+                                        $dias = ['L', 'M', 'I', 'J', 'V', 'S'];
+
+                                        // Verificación especial para modalidad virtual
+                                        $es_virtual = $materia['MODULO'] === 'CVIRTU' || 
+                                                    (isset($materia['modalidad']) && strtolower($materia['modalidad']) === 'virtual');
+
+                                        foreach ($dias as $dia) {
+                                            // Si es virtual, solo considerar días virtuales
+                                            if ($es_virtual) {
+                                                if ($materia[$dia] == $dia) {
+                                                    $dias_virtuales .= $dia;
+                                                }
+                                            } else {
+                                                // Para modalidades no virtuales
+                                                if ($materia[$dia] == $dia) {
+                                                    $dias_presenciales .= $dia;
+                                                }
+                                            }
+                                        }
+
+                                        // Si es híbrida, determinar días virtuales adicionales
+                                        if (isset($materia['es_hibrida']) && $materia['es_hibrida']) {
+                                            foreach ($dias as $dia) {
+                                                if (isset($materia['dias_virtuales'][$dia]) && $materia['dias_virtuales'][$dia] == $dia) {
+                                                    $dias_virtuales .= $dia;
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    
+                                    <script>
+                                    actualizarDiasActivos(
+                                        '<?php echo $dias_presenciales; ?>', 
+                                        '<?php echo $materia['CRN']; ?>', 
+                                        '<?php echo $materia['MODULO']; ?>', 
+                                        '<?php echo $es_virtual ? 'true' : 'false'; ?>',
+                                        '<?php echo $dias_virtuales; ?>'
+                                    );
+                                    </script>
                                 </td>
                                 <td class="col-aula"><?php echo htmlspecialchars($materia['AULA'] ?? 'No hay datos'); ?></td>
                                 <td class="col-modalidad"><?php 
@@ -443,21 +473,45 @@ if(isset($_POST['codigo_profesor'])) {
                                 <td class="col-dias">
                                     <div class="weekdays" id="weekdays-<?php echo $curso['CRN']; ?>-<?php echo $curso['MODULO']; ?>">
                                         <?php 
-                                        if(isset($curso['es_hibrida']) && $curso['es_hibrida']) {
-                                            $dias = ['L', 'M', 'I', 'J', 'V', 'S'];
-                                            foreach ($dias as $dia) {
-                                                $is_active = $curso[$dia] ? 'active' : '';
-                                                $is_virtual = isset($curso['dias_virtuales'][$dia]) ? 'virtual' : '';
-                                                echo "<div class='day $is_active $is_virtual'>$dia</div>";
+                                        $dias = ['L', 'M', 'I', 'J', 'V', 'S'];
+                                        
+                                        // Determinar si el curso es completamente virtual
+                                        $es_virtual = $curso['MODULO'] === 'CVIRTU' || 
+                                                    (isset($curso['modalidad']) && strtolower($curso['modalidad']) === 'virtual');
+                                        
+                                        foreach ($dias as $dia) {
+                                            $clases = ['day'];
+                                            
+                                            // Si es completamente virtual, marcar todos los días como virtuales
+                                            if ($es_virtual) {
+                                                if ($curso[$dia]) {
+                                                    $clases[] = 'virtual';
+                                                }
+                                            } else {
+                                                // Para cursos presenciales o híbridos
+                                                if (isset($curso['es_hibrida']) && $curso['es_hibrida']) {
+                                                    // Lógica para cursos híbridos
+                                                    if ($curso[$dia]) {
+                                                        $clases[] = 'active';
+                                                        
+                                                        // Verificar si el día es virtual en un curso híbrido
+                                                        if (isset($curso['dias_virtuales'][$dia]) && $curso['dias_virtuales'][$dia] == $dia) {
+                                                            $clases[] = 'virtual';
+                                                        }
+                                                    }
+                                                } else {
+                                                    // Cursos presenciales normales
+                                                    if ($curso[$dia]) {
+                                                        $clases[] = 'active';
+                                                    }
+                                                }
                                             }
-                                        } else {
-                                            $dias = ['L', 'M', 'I', 'J', 'V', 'S'];
-                                            foreach ($dias as $dia) {
-                                                echo $curso[$dia] ? "<div class='day active'>$dia</div>" : "<div class='day'>$dia</div>";
-                                            }
+                                            
+                                            echo "<div class='" . implode(' ', $clases) . "'>$dia</div>";
                                         }
                                         ?>
                                     </div>
+                                    
                                     <?php if(isset($curso['es_hibrida']) && $curso['es_hibrida']): ?>
                                         <script>
                                         actualizarDiasHibridos(
@@ -466,28 +520,48 @@ if(isset($_POST['codigo_profesor'])) {
                                             '<?php 
                                                 $dias_presenciales = '';
                                                 $dias = ['L', 'M', 'I', 'J', 'V', 'S'];
-                                                foreach ($dias as $dia) {
-                                                    if($curso[$dia]) $dias_presenciales .= $dia;
+                                                $es_virtual = $curso['MODULO'] === 'CVIRTU' || 
+                                                            (isset($curso['modalidad']) && strtolower($curso['modalidad']) === 'virtual');
+                                                
+                                                if (!$es_virtual) {
+                                                    foreach ($dias as $dia) {
+                                                        if($curso[$dia]) $dias_presenciales .= $dia;
+                                                    }
                                                 }
                                                 echo $dias_presenciales;
                                             ?>', 
                                             '<?php 
                                                 $dias_virtuales = '';
                                                 $dias = ['L', 'M', 'I', 'J', 'V', 'S'];
-                                                foreach ($dias as $dia) {
-                                                    if(isset($curso['dias_virtuales'][$dia])) $dias_virtuales .= $dia;
+                                                $es_virtual = $curso['MODULO'] === 'CVIRTU' || 
+                                                            (isset($curso['modalidad']) && strtolower($curso['modalidad']) === 'virtual');
+                                                
+                                                if ($es_virtual) {
+                                                    foreach ($dias as $dia) {
+                                                        if($curso[$dia]) $dias_virtuales .= $dia;
+                                                    }
                                                 }
+                                                
+                                                // Para cursos híbridos, añadir días virtuales adicionales
+                                                if(isset($curso['es_hibrida']) && $curso['es_hibrida']) {
+                                                    foreach ($dias as $dia) {
+                                                        if(isset($curso['dias_virtuales'][$dia]) && $curso['dias_virtuales'][$dia] == $dia) {
+                                                            $dias_virtuales .= $dia;
+                                                        }
+                                                    }
+                                                }
+                                                
                                                 echo $dias_virtuales;
                                             ?>'
                                         );
                                         </script>
                                     <?php endif; ?>
                                 </td>
-                                <td class="col-aula"><?php echo htmlspecialchars($curso['AULA'] ?? 'N/A'); ?></td>
+                                <td class="col-aula"><?php echo htmlspecialchars($curso['AULA'] ?? 'No hay datos'); ?></td>
                                 <td class="col-modalidad"><?php 
                                     $modalidad = isset($curso['es_hibrida']) && $curso['es_hibrida'] ? 'Híbrido' : 
                                                 ($curso['MODULO'] === 'CVIRTU' ? 'Virtual' : $curso['MODULO']);
-                                    echo htmlspecialchars($modalidad ?? 'N/A'); 
+                                    echo htmlspecialchars($modalidad ?? 'No hay datos'); 
                                 ?></td>
                             </tr>
                             <?php endforeach; ?>
