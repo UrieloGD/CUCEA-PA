@@ -559,9 +559,14 @@ if(isset($_POST['codigo_profesor'])) {
                                 </td>
                                 <td class="col-aula"><?php echo htmlspecialchars($curso['AULA'] ?? 'No hay datos'); ?></td>
                                 <td class="col-modalidad"><?php 
-                                    $modalidad = isset($curso['es_hibrida']) && $curso['es_hibrida'] ? 'Híbrido' : 
-                                                ($curso['MODULO'] === 'CVIRTU' ? 'Virtual' : $curso['MODULO']);
-                                    echo htmlspecialchars($modalidad ?? 'No hay datos'); 
+                                    // Si es completamente virtual, mostrar "Virtual"
+                                    if ($curso['MODULO'] === 'CVIRTU' || 
+                                        (isset($curso['modalidad']) && strtolower($curso['modalidad']) === 'virtual')) {
+                                            echo 'Virtual';
+                                    } else {
+                                        // Para cursos presenciales, mostrar el edificio
+                                        echo htmlspecialchars($curso['MODULO'] ?? 'No hay datos');
+                                    }
                                 ?></td>
                             </tr>
                             <?php endforeach; ?>
