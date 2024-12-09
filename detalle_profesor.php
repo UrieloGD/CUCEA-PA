@@ -413,6 +413,11 @@ if(isset($_POST['codigo_profesor'])) {
                                                 }
                                             }
                                         }
+                                        // Líneas de depuración
+                                        echo "Módulo: " . $materia['MODULO'] . "<br>";
+                                        echo "Días presenciales: " . $dias_presenciales . "<br>";
+                                        echo "Días virtuales: " . $dias_virtuales . "<br>";
+                                        echo "Es virtual: " . ($es_virtual ? 'Sí' : 'No') . "<br>";
                                     ?>
                                     
                                     <script>
@@ -509,6 +514,11 @@ if(isset($_POST['codigo_profesor'])) {
                                             
                                             echo "<div class='" . implode(' ', $clases) . "'>$dia</div>";
                                         }
+                                        // Líneas de depuración
+echo "Módulo: " . $materia['MODULO'] . "<br>";
+echo "Días presenciales: " . $dias_presenciales . "<br>";
+echo "Días virtuales: " . $dias_virtuales . "<br>";
+echo "Es virtual: " . ($es_virtual ? 'Sí' : 'No') . "<br>";
                                         ?>
                                     </div>
                                     
