@@ -50,18 +50,18 @@ if(isset($_POST['codigo_profesor'])) {
     }
 
     function obtenerCursosUnicos($conexion, $codigo_profesor) {
-        // Get all department tables
+        // Obtener todas las tablas de departamentos
         $sql_departamentos = "SELECT Nombre_Departamento FROM Departamentos";
         $result_departamentos = mysqli_query($conexion, $sql_departamentos);
         
-        // Array to store unique courses
+        // Array para almacenar cursos únicos
         $cursos_unicos = [];
         
-        // Iterate through each department table
+        // Iteración a través de cada tabla de departamentos
         while ($row_departamento = mysqli_fetch_assoc($result_departamentos)) {
             $tabla_departamento = "Data_" . $row_departamento['Nombre_Departamento'];
             
-            // SQL query to fetch unique courses with special handling for virtual/in-person duplicates
+            // Consulta SQL para obtener cursos únicos con manejo especial para duplicados virtuales/presenciales
             $sql_cursos = "
                 SELECT 
                     CRN, 
@@ -97,19 +97,19 @@ if(isset($_POST['codigo_profesor'])) {
                 GROUP BY CRN, MATERIA, MODALIDAD, DIA_PRESENCIAL, DIA_VIRTUAL, HORA_INICIAL, HORA_FINAL, AULA, MODULO
             ";
             
-            // Prepare and execute the statement
+            // Preparar y ejecutar la instrucción
             $stmt = mysqli_prepare($conexion, $sql_cursos);
             mysqli_stmt_bind_param($stmt, "iii", $codigo_profesor, $codigo_profesor, $codigo_profesor);
             mysqli_stmt_execute($stmt);
             $result_cursos = mysqli_stmt_get_result($stmt);
             
-            // Collect unique courses
+            // Colecciona cursos únicos
             while ($curso = mysqli_fetch_assoc($result_cursos)) {
-                // Use CRN as a unique key to prevent duplicates
+                // Utilice CRN como clave única para evitar duplicados
                 $cursos_unicos[$curso['CRN']] = $curso;
             }
             }
-        // Return the array of unique courses
+        // Devolver la matriz de cursos únicos
         
         return array_values($cursos_unicos);
     }
@@ -143,7 +143,7 @@ if(isset($_POST['codigo_profesor'])) {
         return $dias_abreviados;
     }
     
-    // Obtain department and professor information
+    // Obtener información del departamento y del profesor
     $tablas_departamentos = obtenerTablasDepartamentos($conexion);
     $cursos_profesor = obtenerCursosUnicos($conexion, $codigo_profesor);
 
@@ -209,17 +209,17 @@ if(isset($_POST['codigo_profesor'])) {
                 </div>
 
                 <?php
-                    // Group courses by subject name
+                    // Cursos agrupados por nombre de la materia
                     $cursos_agrupados = [];
                     foreach ($cursos_profesor as $curso) {
                         $materia_key = $curso['MATERIA'];
                         
-                        // If this subject doesn't exist in the grouped array, create a new entry
+                        // Si esta materia no existe en la matriz agrupada, cree una nueva entrada
                         if (!isset($cursos_agrupados[$materia_key])) {
                             $cursos_agrupados[$materia_key] = [];
                         }
                         
-                        // Add the current course to the group
+                        // Agregar el curso actual al grupo
                         $cursos_agrupados[$materia_key][] = $curso;
                     }
                 ?>
@@ -230,10 +230,10 @@ if(isset($_POST['codigo_profesor'])) {
                         <a href="#todas" class="nav-item active" data-section="todas">Todas las materias</a>
                         <?php
                             foreach ($cursos_agrupados as $materia => $cursos_grupo) {
-                                // Use the first course in the group to generate the navigation item
+                                // Utilica el primer curso del grupo para generar el elemento de navegación
                                 $curso_representativo = $cursos_grupo[0];
                                 
-                                // Generate a unique identifier for the group
+                                // Genera un identificador único para el grupo
                                 $grupo_id = 'grupo_' . md5($materia);
                                 
                                 echo '<a href="#' . htmlspecialchars($grupo_id) . '" class="nav-item" data-section="' . htmlspecialchars($grupo_id) . '">' . 
@@ -323,9 +323,9 @@ if(isset($_POST['codigo_profesor'])) {
                         </table>
                     </div>
 
-                    <!-- Individual course sections can be added here dynamically -->
+                    <!-- Aquí se añaden secciones individuales del curso de forma dinámica -->
                     <?php
-                        // Generate grouped course sections
+                        // Genera secciones de curso agrupadas
                         foreach ($cursos_agrupados as $materia => $cursos_grupo) {
                             $grupo_id = 'grupo_' . md5($materia);
                             ?>
@@ -344,7 +344,7 @@ if(isset($_POST['codigo_profesor'])) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        // Render each course in the group
+                                        // Renderiza cada curso en el grupo
                                         foreach ($cursos_grupo as $curso) {
                                             // Convertir días presenciales y virtuales
                                             $dias_presenciales = convertirDiasAbreviatura($curso['DIA_PRESENCIAL'], 'presencial');
@@ -520,25 +520,25 @@ $(document).ready(function() {
 
 <script>
     $(document).ready(function() {
-    // Search functionality
+    // Funcionalidad de búsqueda
     $('#search-input').on('keyup', function() {
         const searchText = $(this).val().toLowerCase().trim();
         
-        // If search is empty, show all courses in the active section
+        // Si la búsqueda está vacía, muestra todos los cursos en la sección activa
         if (searchText === '') {
             $('.curso-seccion.active tbody tr').show();
             return;
         }
 
-        // Get the currently active section
+        // Obtiene la sección activa
         const $activeSection = $('.curso-seccion.active');
         
-        // Filter rows in the active section
+        // Filtra filas en la sección activa
         $activeSection.find('tbody tr').each(function() {
             const $row = $(this);
             const rowText = $row.text().toLowerCase();
             
-            // Hide/show row based on search match
+            // Ocultar/mostrar fila en función de la coincidencia de búsqueda
             if (rowText.includes(searchText)) {
                 $row.show();
             } else {
@@ -547,7 +547,6 @@ $(document).ready(function() {
         });
     });
 
-    // Ensure search works when switching between sections
     $('.nav-item').click(function() {
         $('#search-input').val('').trigger('keyup');
     });
