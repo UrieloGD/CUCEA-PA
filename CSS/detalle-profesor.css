@@ -56,6 +56,15 @@
   border-color: #b0b0b0;
 }
 
+.weekdays .day.presencial {
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  background-color: #0071b0;
+  border-color: #0071b0;
+  position: relative;
+}
+
 .day.active {
   color: white;
   border-width: 1px;
@@ -347,7 +356,6 @@
 .table-profesor {
   width: 100%;
   border-collapse: collapse;
-  position: sticky;
 }
 
 .table-profesor thead {
@@ -358,6 +366,7 @@
 }
 
 .table-profesor th {
+  position: sticky;
   /* Permitir saltos de línea */
   word-wrap: break-word; /* Para navegadores más antiguos */
   overflow-wrap: break-word; /* Palabra clave moderna */
