@@ -22,6 +22,9 @@ $(document).ready(function () {
       searchPlaceholder: "Buscar...",
     },
     initComplete: function() {
+      // Mostrar la tabla al completar la inicialización
+      $("#tabla-datos").css("display", "table");
+      
       // Mover la barra de búsqueda al contenedor personalizado
       $('.dataTables_filter').appendTo('.custom-search-container');
       $('.dataTables_filter input').addClass('custom-search-input');
