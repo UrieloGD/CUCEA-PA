@@ -116,7 +116,7 @@
         </div>
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php">
-            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <button class="boton-pdf" id="boton-pdf" style="margin-top: 10px; margin-bottom: 5px;">
             <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
         </div>
     </div>
@@ -222,7 +222,7 @@
         </div>
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php">
-            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <button class="boton-pdf" id="boton-pdf" style="margin-top: 10px; margin-bottom: 5px;">
             <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
         </div>
     </div>
@@ -328,7 +328,7 @@
         </div>
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php">
-            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <button class="boton-pdf" id="boton-pdf" style="margin-top: 10px; margin-bottom: 5px;">
             <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
         </div>
     </div>
@@ -434,7 +434,7 @@
         </div>
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php">
-            <button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E; margin-top: 10px; margin-bottom: 5px;">
+            <button class="boton-pdf" id="boton-pdf" style="margin-top: 10px; margin-bottom: 5px;">
             <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Descargar</button></a>
         </div>
     </div>
@@ -456,11 +456,15 @@
     <div class="modal-content">
         <span class="close-button" id="boton-cancelar">&times;</span>
         <h2 class="titulo-modal">Solicitud de baja-propuesta</h2>
+
+        <!-- Encabezado para materia -->
+        <h3 class="titulo-materia" style="margin-top: 60px; position: absolute;">Datos de la materia</h3>
+
         <!-- Campos relacionados a la materia -->
         <div class="campos-materia">
             <div class="borde-CRN">
                 <p>CRN</p>
-                <input class="texto-CRN" id="texto-CRN" type="text">
+                <input class="texto-CRN" id="texto-CRN" type="text" maxlength="6">
             </div>
             <div class="borde-materia">
                 <p>Materia</p>
@@ -468,15 +472,15 @@
             </div>
             <div class="borde-clave">
                 <p>Clave</p>
-                <input class="texto-clave" id="texto-clave" type="text"> 
+                <input class="texto-clave" id="texto-clave" type="text" maxlength="5">
             </div>
             <div class="borde-SEC">
                 <p>SEC</p>
-                <input class="texto-SEC" id="texto-SEC" type="text">  
+                <input class="texto-SEC" id="texto-SEC" type="text" maxlength="3">
             </div>
             <div class="borde-folio">
                 <p>Folio de solicitud</p>
-                <input class="texto-folio" id="texto-folio" type="text"> 
+                <input class="texto-folio" id="texto-folio" type="text" maxlength="10">
             </div>
         </div>
 
@@ -487,19 +491,19 @@
         <div class="campos-profesor">
             <div class="borde-apellido-paterno">
                 <p>Apellido paterno</p>
-                <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text">
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text" maxlength="50">
             </div>
             <div class="borde-apellido-materno">
                 <p>Apellido materno</p>
-                <input class="texto-apellido-materno" id="texto-apellido-materno" type="text"> 
+                <input class="texto-apellido-materno" id="texto-apellido-materno" type="text" maxlength="50"> 
             </div>
             <div class="borde-nombres">
                 <p>Nombre(s)</p>
-                <input class="texto-nombres" id="texto-nombres" type="text"> 
+                <input class="texto-nombres" id="texto-nombres" type="text" maxlength="50"> 
             </div>
             <div class="borde-codigo">
                 <p>Código</p>
-                <input class="texto-codigo" id="texto-codigo" type="text">  
+                <input class="texto-codigo" id="texto-codigo" type="text" maxlength="10">  
             </div>
         </div>
 
@@ -517,7 +521,7 @@
             </div>
             <div class="borde-otro">
                 <p>Otro</p>
-                <input class="texto-otro" id="texto-otro" type="text"> 
+                <input class="texto-otro" id="texto-otro" type="text" maxlength="120"> 
             </div>
         </div>
 
@@ -529,19 +533,19 @@
         <div class="campos-profesor">
             <div class="borde-apellido-paterno">
                 <p>Apellido paterno</p>
-                <input class="texto-apellido-paterno" id="texto-apellido-paterno_propuesto" type="text">
+                <input class="texto-apellido-paterno" id="texto-apellido-paterno_propuesto" type="text" maxlength="50">
             </div>
             <div class="borde-apellido-materno">
                 <p>Apellido materno</p>
-                <input class="texto-apellido-materno" id="texto-apellido-materno_propuesto" type="text"> 
+                <input class="texto-apellido-materno" id="texto-apellido-materno_propuesto" type="text" maxlength="50"> 
             </div>
             <div class="borde-nombres">
                 <p>Nombre(s)</p>
-                <input class="texto-nombres" id="texto-nombres_propuesto" type="text"> 
+                <input class="texto-nombres" id="texto-nombres_propuesto" type="text" maxlength="50">  
             </div>
             <div class="borde-codigo">
                 <p>Código</p>
-                <input class="texto-codigo" id="texto-codigo_propuesto" type="text">  
+                <input class="texto-codigo" id="texto-codigo_propuesto" type="text" maxlength="10">  
             </div>
         </div>
         <div class="campos-profesor">
@@ -570,7 +574,7 @@
         <!-- Botones finales -->
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
-            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E;"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
             <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
         </div>
     </div>
@@ -581,6 +585,10 @@
     <div class="modal-content">
         <span class="close-button" id="boton-cancelar">&times;</span>
         <h2 class="titulo-modal">Solicitud de propuesta académica</h2>
+
+        <!-- Encabezado para materia -->
+        <h3 class="titulo-materia" style="margin-top: 60px; position: absolute;">Datos de la materia</h3>
+
         <!-- Campos relacionados a la materia -->
         <div class="campos-materia">
             <div class="borde-CRN">
@@ -605,6 +613,9 @@
             </div>
         </div>
 
+        <!-- Encabezado para profesor -->
+        <h3 class="titulo-profesor">Datos de profesor</h3>
+
         <!-- Campos relacionados al profesor propuesto -->
         <div class="campos-profesor">
             <div class="borde-apellido-paterno">
@@ -619,7 +630,15 @@
                 <p>Nombre(s)</p>
                 <input class="texto-nombres" id="texto-nombres" type="text"> 
             </div>
-            <div class="borde-motivo">
+            <div class="borde-codigo">
+                <p>Código</p>
+                <input class="texto-codigo" id="texto-codigo" type="text">  
+            </div>
+        </div>
+
+        <!-- Se usa la misma estructura de campos-motivos para tipo de contrato -->
+        <div class="campos-motivos" id="borde-margin">
+            <div class="borde-movimiento">
                 <p>Movimiento</p> 
                 <select name="texto-movimiento" class="texto-movimiento" id="texto-movimiento">
                     <option value="" disabled selected>Seleccione el movimiento</option>
@@ -629,11 +648,7 @@
                     <option value="">Movimiento #3</option>
                 </select>
             </div>
-        </div>
-
-        <!-- Se usa la misma estructura de campos-motivos para tipo de contrato -->
-        <div class="campos-motivos" id="borde-margin">
-            <div class="borde-motivo">
+            <div class="borde-contrato">
                 <p>Contrato</p> 
                 <select name="texto-contrato" class="texto-contrato" id="texto-contrato">
                     <option value="" disabled selected>Seleccione tipo de contrato</option>
@@ -648,7 +663,7 @@
         <!-- Botones finales -->
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
-            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E;"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
             <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
         </div>
     </div>
@@ -659,11 +674,15 @@
     <div class="modal-content">
         <span class="close-button" id="boton-cancelar">&times;</span>
         <h2 class="titulo-modal">Solicitud de baja académica</h2>
+        
+        <!-- Encabezado para materia -->
+        <h3 class="titulo-materia" style="margin-top: 60px; position: absolute;">Datos de la materia</h3>
+
         <!-- Campos relacionados a la materia -->
         <div class="campos-materia">
             <div class="borde-CRN">
                 <p>CRN</p>
-                <input class="texto-CRN" id="texto-CRN" type="text">
+                <input class="texto-CRN" id="texto-CRN" type="text" maxlength="6">
             </div>
             <div class="borde-materia">
                 <p>Materia</p>
@@ -683,8 +702,8 @@
             </div>
         </div>
 
-        <!-- Encabezado para profesor actual -->
-        <h3 class="titulo-profesor">Profesor actual</h3>
+        <!-- Encabezado para profesor -->
+        <h3 class="titulo-profesor">Datos del profesor</h3>
 
         <!-- Campos relacionados al profesor actual -->
         <div class="campos-profesor">
@@ -724,34 +743,10 @@
             </div>
         </div>
 
-        <!-- Encabezado para profesor propuesto -->
-    <!--    <h3 class="titulo-profesor">Profesor propuesto</h3>
-        
-         Campos relacionados al profesor propuesto (Mismos campos y estilos de profesor CSS) 
-        a excepcion de los ID's 
-        <div class="campos-profesor">
-            <div class="borde-apellido-paterno">
-                <p>Apellido paterno</p>
-                <input class="texto-apellido-paterno" id="texto-apellido-paterno_propuesto" type="text">
-            </div>
-            <div class="borde-apellido-materno">
-                <p>Apellido materno</p>
-                <input class="texto-apellido-materno" id="texto-apellido-materno_propuesto" type="text"> 
-            </div>
-            <div class="borde-nombres">
-                <p>Nombre(s)</p>
-                <input class="texto-nombres" id="texto-nombres_propuesto" type="text"> 
-            </div>
-            <div class="borde-codigo">
-                <p>Código</p>
-                <input class="texto-codigo" id="texto-codigo_propuesto" type="text">  
-            </div>
-        </div> -->
-
         <!-- Botones finales -->
         <div class="contenedor-botones">
             <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
-            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf" style="background-color: #EC4E4E;"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
+            <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
             <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
         </div>
     </div>
@@ -810,6 +805,78 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+// Limitaciones de texto y numeros en campos del modal
+    document.querySelectorAll(".texto-CRN").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+        });
+    });
+    document.querySelectorAll(".texto-materia").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
+        });
+    });
+    document.querySelectorAll(".texto-clave").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5);
+        });
+    });
+    document.querySelectorAll(".texto-SEC").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 3);
+        });
+    });
+    document.querySelectorAll(".texto-folio").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
+        });
+    });
+    document.querySelectorAll(".texto-apellido-paterno").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    });
+    document.querySelectorAll(".texto-apellido-materno").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    });
+    document.querySelectorAll(".texto-nombres").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    });
+    document.querySelectorAll(".texto-codigo").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+        });
+    });
+    document.querySelectorAll(".texto-otro").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 120);
+        });
+    });
+    document.querySelectorAll(".texto-apellido-paterno_propuesto").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    });
+    document.querySelectorAll(".texto-apellido-materno_propuesto").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    });
+    document.querySelectorAll(".texto-nombres_propuesto").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
+        });
+    });
+    document.querySelectorAll(".texto-codigo_propuesto").forEach(input => {
+        input.addEventListener("input", function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+        });
+    });
 });
 </script>
 
@@ -831,7 +898,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Contenido del modal */
 .modal-content {
-  position: relative;
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
   display: flex;
   flex-wrap: wrap;
   flex: 1;
@@ -842,9 +912,8 @@ document.addEventListener('DOMContentLoaded', function() {
   max-width: 1600px; 
   border-radius: 10px;
   margin: 0 auto;
-  top: 30px;
+  overflow-y: auto;
   max-height: 90vh;
-  overflow-y: auto; 
 }
 
 .titulo-modal {
@@ -879,6 +948,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 .campos-materia {
   margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.campos-profesor,
+.campos-motivos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 /* Estilos del texto-titulo del campo */
@@ -889,7 +967,8 @@ document.addEventListener('DOMContentLoaded', function() {
   bottom: 43px;
 }
 
-.titulo-profesor {
+.titulo-profesor,
+.titulo-materia {
   display: inline-flex;
   margin-left: 1.1vw;
   margin-bottom: 0;
@@ -921,27 +1000,29 @@ document.addEventListener('DOMContentLoaded', function() {
 .borde-CRN,
 .borde-clave,
 .borde-SEC {
-  width: 120px;
+  width: 25%;
 }
 .borde-materia {
-  width: 700px;
+  width: 100%;
 }
 .borde-folio {
-  width: 240px;
+  width: 100%;
 }
 .borde-apellido-paterno,
 .borde-apellido-materno,
 .borde-codigo,
-.borde-otro,
+.borde-otro {
+  width: 68%;
+}
 .borde-movimiento {
-  width: 250px;
+  width: 45.2%;
 }
 .borde-nombres {
-  width: 500px;
+  width: 100%;
 }
 .borde-motivo,
 .borde-contrato {
-  width: 640px;
+  width: 55.6%;
 }
 #borde-margin {
   margin-bottom: 50px;
@@ -971,37 +1052,37 @@ document.addEventListener('DOMContentLoaded', function() {
   border-radius: 10px;
   border-width: 2px;
   border-color: #E7E9F2;
-  padding: 15px;
+  padding: 10px;
 }
 /* Estilos especificos de los input */
 .texto-CRN,
 .texto-clave,
 .texto-SEC {
-  width: 83%;
+  width: 100%;
 }
 .texto-materia {
-  width: 97%;
+  width: 100%;
 }
 .texto-folio {
-  width: 91%;
+  width: 100%;
 }
 .texto-apellido-materno,
 .texto-apellido-paterno,
 .texto-codigo,
 .texto-movimiento {
-  width: 93%;
+  width: 100%;
 }
 .texto-nombres {
-  width: 96%;
+  width: 100%;
 }
 .texto-motivo,
 .texto-contrato {
   outline: none;
   border-style: solid;
-  width: 97%;
+  width: 100%;
 }
 .texto-otro {
-  width: 93%;
+  width: 100%;
 }
 
 /* Estilos de botones del final (Cancelar o guardar) */
@@ -1027,6 +1108,49 @@ document.addEventListener('DOMContentLoaded', function() {
   box-shadow: 0px 2px 2px rgb(185, 174, 174);
 }
 
+@media screen and (max-width: 992px) {
+.campos-profesor,
+.campos-motivos {
+    flex-wrap: nowrap;
+    }
+.campos-materia {
+    flex-wrap: wrap;
+    }
+.borde-CRN,
+.borde-clave,
+.borde-SEC {
+    width: 25%;
+    }
+.borde-materia,
+.borde-apellido-paterno,
+.borde-apellido-materno,
+.borde-nombres,
+.borde-otro,
+.borde-motivo,
+.borde-codigo {
+    width: 70%;
+    }
+.borde-folio {
+    width: 45%;
+    }
+.texto-CRN,
+.texto-materia,
+.texto-clave,
+.texto-SEC,
+.texto-folio,
+.texto-apellido-paterno,
+.texto-apellido-materno,
+.texto-nombres,
+.texto-codigo,
+.texto-motivo,
+.texto-otro,
+.texto-movimiento,
+.texto-contrato {
+    font-size: 0.8rem;
+    }
+}
+
+
 @media screen and (max-width: 768px) {
 .borde-CRN,
 .borde-materia,
@@ -1038,9 +1162,23 @@ document.addEventListener('DOMContentLoaded', function() {
 .borde-nombres,
 .borde-codigo,
 .borde-motivo,
-.borde-otro {
+.borde-otro,
+.borde-movimiento,
+.borde-contrato {
     width: 100%;
-}
+    margin-top: 20;
+    }
+.campos-profesor {
+    margin-top: 20;
+    }
+.campos-materia {
+    margin-top: 40;
+    }
+.campos-profesor,
+.campos-motivos,
+.campos-materia {
+    flex-wrap: wrap;
+    }
 }
 
 @media screen and (max-width: 630px) {
@@ -1050,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', function() {
   .contenedor-botones button {
   font-size: 0.8rem;
   border-radius: 7px;
-}
+  }
 }
 </style>
 

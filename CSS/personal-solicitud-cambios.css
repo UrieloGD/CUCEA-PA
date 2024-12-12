@@ -318,7 +318,7 @@
 }
 
 .contenedor-informacion.mostrar {
-  max-height: 100%;
+  max-height: 750px;
   margin-bottom: 30px;
   opacity: 1;
 }
@@ -503,6 +503,10 @@
   #departamento,
   #solicitud {
     font-size: 0.8rem;
+  }
+  .boton-nueva-solicitud,
+  .lista-opciones {
+    font-size: 0.9rem;
   }
 }
 

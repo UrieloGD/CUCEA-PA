@@ -1,7 +1,24 @@
 // Función para mostrar el despliegue de información en pagina principal (personal-solicitud-cambios.php)
 function mostrarInformacion(contenedorId, icono) {
+    const contenedores = document.querySelectorAll('.contenedor-informacion');
+    const iconos = document.querySelectorAll('.icono');
+
+    // Cerrar todos los contenedores
+    contenedores.forEach(contenedor => {
+        if (contenedor.id !== contenedorId) {
+            contenedor.classList.remove('mostrar');
+        }
+    });
+    // Cerrar todos los iconos
+    iconos.forEach(i => {
+        if (i !== icono) {
+            i.classList.remove('rotar');
+        }
+    });
+    // Alternar el contenedor actual (mostrar/ocultar)
     const nuevoContenedor = document.getElementById(contenedorId);
     nuevoContenedor.classList.toggle('mostrar');
+    // Alternar la rotación del icono correspondiente
     icono.classList.toggle('rotar');
 }
 
