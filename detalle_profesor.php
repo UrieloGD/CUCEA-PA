@@ -745,22 +745,38 @@ $(document).ready(function() {
         $('.curso-seccion').hide();
         $(`#${targetId}`).show().css('opacity', 0).animate({opacity: 1}, 200);
 
-        // Nueva funcionalidad de desplazamiento
+        // Desplazamiento mejorado para centrar el elemento activo
         const $navContainer = $('.nav-items-container');
         const $clickedNavItem = $(this);
         
-        // Calcular las dimensiones del contenedor y del artículo
+        // Calcular dimensiones precisas
         const containerWidth = $navContainer.width();
+        const scrollContainer = $navContainer[0];
         const itemOffset = $clickedNavItem.position().left;
         const itemWidth = $clickedNavItem.outerWidth();
         
-        // Calcula la posición de desplazamiento para centrar el elemento
-        const scrollPosition = itemOffset - (containerWidth / 2) + (itemWidth / 2);
+        // Calcular posición de desplazamiento centrada
+        const scrollPosition = 
+            itemOffset - (containerWidth / 2) + (itemWidth / 2) + $navContainer.scrollLeft();
         
-        // Desplazamiento animado
+        // Desplazamiento suave centrado
         $navContainer.animate({
             scrollLeft: scrollPosition
-        }, 300);
+        }, {
+            duration: 300,
+            easing: 'swing',
+            complete: function() {
+                // Asegurar que el elemento permanezca completamente visible
+                const navItemLeft = $clickedNavItem.position().left;
+                const navItemRight = navItemLeft + $clickedNavItem.outerWidth();
+                const containerLeft = 0;
+                const containerRight = $navContainer.width();
+
+                if (navItemLeft < containerLeft || navItemRight > containerRight) {
+                    scrollContainer.scrollLeft = scrollPosition;
+                }
+            }
+        });
         
         // Actualizar estado de las flechas
         updateArrows();
@@ -792,35 +808,6 @@ $(document).ready(function() {
     
     // Inicializar estado de las flechas
     updateArrows();
-});
-</script>
-
-<script>
-$(document).ready(function() {
-    // Crear un contenedor para el tooltip global
-    $('body').append('<div id="global-tooltip" style="display:none; position:absolute; background-color:#333; color:#fff; padding:5px 10px; border-radius:6px; z-index:1000; white-space:nowrap;"></div>');
-    
-    $('.nav-item:not([data-section="todas"])').hover(
-        function(e) {
-            // Mostrar tooltip
-            const fullName = $(this).find('.tooltip').text();
-            
-            // Solo mostrar tooltip si el nombre está truncado
-            if ($(this).text().trim() !== fullName) {
-                const $tooltip = $('#global-tooltip');
-                $tooltip.text(fullName)
-                    .css({
-                        top: $(this).offset().top - 35,
-                        left: $(this).offset().left + ($(this).outerWidth() / 2) - ($tooltip.outerWidth() / 2)
-                    })
-                    .show();
-            }
-        },
-        function() {
-            // Ocultar tooltip
-            $('#global-tooltip').hide();
-        }
-    );
 });
 </script>
 
