@@ -84,7 +84,7 @@ if ($result->num_rows > 0) {
                     </div>
                 </div>
             </body>
-            </html>
+        </html>
         ";
         $mail->Body = $cuerpo;
         $mail->AltBody = 'Este es un correo generado para solicitar la recuperación de tu contraseña, por favor, visita la página http://localhost:8888/git/CUCEA-PA/functions/login/recuperar-contrasena/cambiar-contrasena.php?id=' . $codigo;
