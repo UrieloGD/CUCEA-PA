@@ -1337,3 +1337,7 @@ table.dataTable thead .sorting_desc {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
+
+#tabla-datos {
+  display: none; /* Ocultar los datos de la tabla para después mostrarlos mediante JS y optimizar el tiempo de ejecución */
+}
