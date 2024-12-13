@@ -108,6 +108,9 @@ function formatDateForDisplay($mysqlDate)
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
+                <div class="icono-buscador" id="icono-filtro">
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
                     <i class="fa fa-add" aria-hidden="true"></i>
                 </div>

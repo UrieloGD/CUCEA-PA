@@ -24,8 +24,8 @@
     <?php
     // Consulta modificada para obtener los nombres de los participantes
     $sql = "SELECT e.*, GROUP_CONCAT(CONCAT(u.Nombre, ' ', u.Apellido) SEPARATOR ', ') AS NombresParticipantes
-    FROM Eventos_Admin e
-    LEFT JOIN Usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
+    FROM eventos_admin e
+    LEFT JOIN usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
     WHERE (e.Fecha_Fin >= CURDATE() OR (e.Fecha_Inicio <= CURDATE() AND e.Fecha_Fin >= CURDATE()))
     AND e.Estado = 'activo'/* Mostrar solo eventos que no han sido cancelados */
     GROUP BY e.ID_Evento
