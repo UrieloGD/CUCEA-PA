@@ -24,29 +24,6 @@ function actualizarDiasActivos(dias, crnId, modulo, esvirtual) {
         });
     });
 }
-
-function actualizarDiasActivosB(dias, crnId, modulo, esvirtual) {
-    requestAnimationFrame(() => {
-        const contenedor = document.getElementById(`weekdays-${crnId}-${modulo}`);
-        if (!contenedor) return;
-
-        const diasSemana = contenedor.querySelectorAll('.day');
-        diasSemana.forEach(dia => {
-            const letraDia = dia.textContent;
-            if (dias.includes(letraDia)) {
-                dia.classList.add('active');
-                if (esvirtual === 'true') {
-                    dia.classList.add('virtual');
-                } else {
-                    dia.classList.remove('virtual');
-                }
-            } else {
-                dia.classList.remove('active');
-                dia.classList.remove('virtual');
-            }
-        });
-    });
-}
 </script>
 
 <?php
@@ -533,6 +510,61 @@ if(isset($_POST['codigo_profesor'])) {
                                                     <div class="weekdays" id="weekdays-' . htmlspecialchars($curso['CRN']) . '-' . htmlspecialchars($curso['MODULO'] ?? 'NA') . '">';
                                             
                                                     if($curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDA" || $curso['MODALIDAD'] === null){
+                                                        if($curso['L'] == 'L'){
+                                                            $fila_curso .= '
+                                                                <div class="day active">L</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">L</div>
+                                                            ';
+                                                        }
+                                                        if($curso['M'] == 'M'){
+                                                            $fila_curso .= '
+                                                                <div class="day active">M</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">M</div>
+                                                            ';
+                                                        }
+                                                        if($curso['I'] == 'I'){
+                                                            $fila_curso .= '
+                                                                <div class="day active">I</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">I</div>
+                                                            ';
+                                                        }
+                                                        if($curso['J'] == 'J'){
+                                                            $fila_curso .= '
+                                                                <div class="day active">J</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">J</div>
+                                                            ';
+                                                        }
+                                                        if($curso['V'] == 'V'){
+                                                            $fila_curso .= '
+                                                                <div class="day active">V</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">V</div>
+                                                            ';
+                                                        }
+                                                        if($curso['S'] == 'S'){
+                                                            $fila_curso .= '
+                                                                <div class="day active">S</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">S</div>
+                                                            ';
+                                                        }
+                                                        /*
                                                         $dias = '';
                                                         if($curso['L'] == 'L') $dias .= 'L';
                                                         if($curso['M'] == 'M') $dias .= 'M';
@@ -541,7 +573,8 @@ if(isset($_POST['codigo_profesor'])) {
                                                         if($curso['V'] == 'V') $dias .= 'V';
                                                         if($curso['S'] == 'S') $dias .= 'S';
                                                         if($dias == '') $dias .= 'Sin Datos';
-        
+
+                                                        
                                                         $fila_curso .= '
                                                         <div class="day">L</div>
                                                         <div class="day">M</div>
@@ -559,8 +592,65 @@ if(isset($_POST['codigo_profesor'])) {
                                                             );
                                                         </script>
                                                         ';
+                                                        */
         
                                                     } elseif ($curso['MODALIDAD'] === "VIRTUAL") {
+                                                        if($curso['L'] == 'L'){
+                                                            $fila_curso .= '
+                                                                <div class="day active virtual">L</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">L</div>
+                                                            ';
+                                                        }
+                                                        if($curso['M'] == 'M'){
+                                                            $fila_curso .= '
+                                                                <div class="day active virtual">M</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">M</div>
+                                                            ';
+                                                        }
+                                                        if($curso['I'] == 'I'){
+                                                            $fila_curso .= '
+                                                                <div class="day active virtual">I</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">I</div>
+                                                            ';
+                                                        }
+                                                        if($curso['J'] == 'J'){
+                                                            $fila_curso .= '
+                                                                <div class="day active virtual">J</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">J</div>
+                                                            ';
+                                                        }
+                                                        if($curso['V'] == 'V'){
+                                                            $fila_curso .= '
+                                                                <div class="day active virtual">V</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">V</div>
+                                                            ';
+                                                        }
+                                                        if($curso['S'] == 'S'){
+                                                            $fila_curso .= '
+                                                                <div class="day active virtual">S</div>
+                                                            ';
+                                                        } else {
+                                                            $fila_curso .= '
+                                                                <div class="day">S</div>
+                                                            ';
+                                                        }
+
+                                                        /*
                                                         $dias = '';
                                                         if($curso['L'] == 'L') $dias .= 'L';
                                                         if($curso['M'] == 'M') $dias .= 'M';
@@ -587,6 +677,7 @@ if(isset($_POST['codigo_profesor'])) {
                                                             );
                                                         </script>
                                                         ';
+                                                        */
                                                     } else {
                                                         $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S'];
                     
