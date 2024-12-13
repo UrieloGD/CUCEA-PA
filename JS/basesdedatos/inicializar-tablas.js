@@ -1,16 +1,6 @@
 /**
- * Inicializa y configura la tabla HTML con DataTables aplicando múltiples opciones personalizadas.
- * - "language": Carga un archivo de traducción en español para la tabla.
- * - "pageLength": Establece el número predeterminado de filas visibles por página (50).
- * - "lengthMenu": Define un menú desplegable para seleccionar el número de filas por página (10, 25, 50 o "Todos").
- * - "responsive": Habilita la adaptación automática de la tabla para dispositivos móviles.
- * - "ordering": Permite la funcionalidad de ordenamiento en las columnas de la tabla.
- * - "info": Muestra información del estado de la tabla, como la cantidad de filas y la página actual.
- * - "dom": Personaliza la estructura de los elementos visibles en la tabla
- * - "scrollX": Habilita el desplazamiento horizontal para manejar tablas más anchas que el viewport.
- * - "scrollCollapse": Habilita la reducción del área de scroll cuando los datos son menos que el espacio disponible.
- * localStorage.removeItem('DataTables_tabla-datos'); // Limpia el estado guardado
- */
+* Inicializa y configura la tabla con DataTables aplicando múltiples opciones personalizadas.
+*/
 
 $(document).ready(function () {
   localStorage.removeItem('DataTables_tabla-datos');
@@ -22,6 +12,9 @@ $(document).ready(function () {
       searchPlaceholder: "Buscar...",
     },
     initComplete: function() {
+      // Mostrar la tabla después de la inicialización
+      $("#tabla-datos").css ("display", "table");
+
       // Mover la barra de búsqueda al contenedor personalizado
       $('.dataTables_filter').appendTo('.custom-search-container');
       $('.dataTables_filter input').addClass('custom-search-input');
@@ -37,7 +30,20 @@ $(document).ready(function () {
           var filterContainer = $('<div class="filter-container"></div>');
           filterContainer.append(filterMenu);
           $('.datatable-container').append(filterContainer);
-    
+          
+          // Agregar barra de búsqueda al filter-menu
+          filterMenu.prepend(
+          $('<div class="filter-search-container">').append($('<input type="text" class="filter-search-input" placeholder="Buscar...">'))
+      );
+
+      filterMenu.find('.filter-search-input').on('input', function() {
+        var searchTerm = $(this).val().toLowerCase();
+        filterMenu.find('label').each(function() {
+          var label = $(this).text().toLowerCase();
+          $(this).toggle(label.includes(searchTerm));
+        });
+      });
+
           var uniqueValues = column.data().unique().sort().toArray();
     
           uniqueValues.forEach(function(value) {
@@ -49,7 +55,7 @@ $(document).ready(function () {
           });
     
           filterMenu.append(
-            $('<div>')
+            $('<div class="filter-buttons">')
               .append($('<button class="apply-filter">Aplicar</button>'))
               .append($('<button class="clear-filter">Limpiar</button>'))
           );
@@ -86,6 +92,7 @@ $(document).ready(function () {
       });
     },
     pageLength: 15,
+    // Definir opciones de longitud de página
     lengthMenu: [
       [15, 25, 50, -1],
       [15, 25, 50, "Todos"],
@@ -156,7 +163,7 @@ $(document).ready(function () {
       },
     ],
   });
- 
+  
   $("#icono-visibilidad").on("click", function () {
     table.button(".buttons-colvis").trigger();
   });
@@ -166,3 +173,15 @@ $(document).ready(function () {
     rightColumns: 0,
   });
  });
+
+// Ocultar los iconos de filtro al inicializar la tabla
+$('.filter-icon').hide();
+
+// Función para alternar la visibilidad de los iconos de filtro
+function toggleFilterIcons() {
+  $('.filter-icon').toggle();
+  $('#icono-filtro').toggleClass('active');
+}
+
+// Asignar evento de clic al botón de filtro
+$('#icono-filtro').on('click', toggleFilterIcons);
