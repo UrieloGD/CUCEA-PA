@@ -1,7 +1,6 @@
 <?php
 include './../../config/db.php';
 include './../notificaciones-correos/email_functions.php';
-session_start();
 date_default_timezone_set('America/Mexico_City');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,23 +14,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // Leer el contenido del archivo
         $contenido_archivo_dep = file_get_contents($archivo_temporal);
-        $contenido_archivo_dep = mysqli_real_escape_string($conexion, $contenido_archivo_dep);
 
-        error_log("Archivo temporal: $archivo_temporal");
+        // Usar sentencia preparada para la inserción
+        $sql = "INSERT INTO plantilla_sa (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep) VALUES (?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conexion, $sql);
 
-        // Insertar los datos en la base de datos
-        $sql = "INSERT INTO Plantilla_SA (Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep, Contenido_Archivo_Dep)
-                VALUES ('$departamento_id', '$nombre_archivo_dep', '$fecha_subida_dep', '$contenido_archivo_dep')";
+        // Usar bind_param para tipos de datos
+        mysqli_stmt_bind_param($stmt, "isss", $departamento_id, $nombre_archivo_dep, $fecha_subida_dep, $contenido_archivo_dep);
 
-        if (mysqli_query($conexion, $sql)) {
+        if (mysqli_stmt_execute($stmt)) {
             error_log("Inserción en la base de datos exitosa");
 
             // Obtener el correo del jefe de departamento
-            $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
-                 FROM Usuarios u 
-                 JOIN Usuarios_Departamentos ud ON u.Codigo = ud.Usuario_ID 
-                 JOIN Departamentos d ON ud.Departamento_ID = d.Departamento_ID 
-                 WHERE d.Departamento_ID = ? AND u.Rol_ID = 1";
+            $sql_jefe = "SELECT u.codigo, u.correo, d.departamentos 
+                 FROM usuarios u 
+                 JOIN usuarios_departamentos ud ON u.codigo = ud.usuario_id
+                 JOIN departamentos d ON ud.departamento_id = d.departamento_id 
+                 WHERE d.departamento_id = ? AND u.rol_id = 1";
             $stmt = mysqli_prepare($conexion, $sql_jefe);
             mysqli_stmt_bind_param($stmt, "i", $departamento_id);
             mysqli_stmt_execute($stmt);
@@ -39,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $jefe = mysqli_fetch_assoc($result);
 
             if ($jefe) {
-                $mensaje = "Se te asignado una plantilla para el departamento de {$jefe['Departamentos']}.";
+                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['departamentos']}.";
 
 
                 // Insertar notificación en la tabla Notificaciones
-                $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, usuario_ID, emisor_ID) 
                                      VALUES ('plantilla', ?, ?, ?)";
                 $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
                 mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $_SESSION['Codigo']);
@@ -86,12 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ";
 
                 if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
-                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
+                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['departamentos']}");
                 } else {
-                    error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
+                    error_log("Error al enviar correo al jefe del departamento {$jefe['departamentos']}");
                 }
 
-                error_log("Notificación creada para el jefe del departamento {$jefe['Departamentos']}");
+                error_log("Notificación creada para el jefe del departamento {$jefe['departamentos']}");
             } else {
                 error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
             }
@@ -99,8 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo 'success';
             exit();
         } else {
-            error_log("Error al insertar en la base de datos: " . mysqli_error($conexion));
-            echo 'Error al añadir registro: ' . mysqli_error($conexion);
+            error_log("Error al insertar en la base de datos: " . mysqli_stmt_error($stmt));
+            echo 'Error al añadir registro: ' . mysqli_stmt_error($stmt);
             exit();
         }
     } else {

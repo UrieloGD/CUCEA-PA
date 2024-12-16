@@ -1,6 +1,17 @@
 <?php
 include './template/header.php';
 include './template/navbar.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
+// foreach ($required_files as $file) {
+//   if (!file_exists($file)) {
+//       die("Error: No se encuentra el archivo $file");
+//   }
+// }
 ?>
 
 <title>Progreso Plantillas</title>
@@ -44,16 +55,16 @@ include './template/navbar.php';
 
             asort($departamentos);
 
-            $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM Plantilla_SA";
+            $sql = "SELECT departamento_id, nombre_archivo_dep, fecha_subida_dep FROM plantilla_sa";
             $result = mysqli_query($conexion, $sql);
 
             $departamentosConArchivos = [];
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $departamento_id = $row["Departamento_ID"];
-                    $nombre_archivo = $row["Nombre_Archivo_Dep"] ? $row["Nombre_Archivo_Dep"] : "No hay archivo asignado";
-                    $fecha_subida = $row["Fecha_Subida_Dep"] ? $row["Fecha_Subida_Dep"] : "---";
+                    $departamento_id = $row["departamento_id"];
+                    $nombre_archivo = $row["nombre_archivo_dep"] ? $row["nombre_archivo_dep"] : "No hay archivo asignado";
+                    $fecha_subida = $row["fecha_subida_dep"] ? $row["fecha_subida_dep"] : "---";
 
                     $departamentosConArchivos[$departamento_id] = [
                         "nombre_archivo" => $nombre_archivo,
@@ -75,15 +86,15 @@ include './template/navbar.php';
                     <td><?php echo $nombre; ?></td>
                     <td id="nombre-archivo-<?php echo $id; ?>" style="text-align: center;"><?php echo $nombre_archivo; ?></td>
                     <td id="fecha-subida-<?php echo $id; ?>" style="text-align: center;"><?php echo $fecha_subida; ?></td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center; ">
                         <div class="btn-container">
                             <button class="btn" onclick="subirArchivo(<?php echo $id; ?>)">
                                 <img src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png" alt="Subir Archivo">
                             </button>
                             <input type="file" id="input-file-<?php echo $id; ?>" class="hidden-input" name="file" onchange="handleFileChange(event, <?php echo $id; ?>)">
-                            <input type="hidden" name="Departamento_ID" value="<?php echo $id; ?>">
-                            <input type="hidden" id="Nombre_Archivo_Dep-<?php echo $id; ?>" name="Nombre_Archivo_Dep">
-                            <input type="hidden" id="Fecha_Subida_Dep-<?php echo $id; ?>" name="Fecha_Subida_Dep">
+                            <input type="hidden" name="departamento_id" value="<?php echo $id; ?>">
+                            <input type="hidden" id="nombre_archivo_dep-<?php echo $id; ?>" name="nombre_archivo_dep">
+                            <input type="hidden" id="fecha_subida_dep-<?php echo $id; ?>" name="fecha_subida_dep">
                             <button type="submit" class="hidden-button"></button>
                             <a href="./functions/admin-plantilla/descargar-plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
                             <a href="#" class="btn" onclick="eliminarPlantilla(<?php echo $id; ?>)"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
