@@ -31,14 +31,14 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
 include './config/db.php';
 
 // Obtener la última fecha límite de la base de datos
-$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
 $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-11-30";
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                              FROM Plantilla_Dep
+                              FROM plantilla_dep
                               GROUP BY Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
 $departamentos_subidos = array();
@@ -49,7 +49,7 @@ while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
 }
 
 // Obtener el total de departamentos
-$sql_total_departamentos = "SELECT COUNT(*) AS total FROM Departamentos";
+$sql_total_departamentos = "SELECT COUNT(*) AS total FROM departamentos";
 $result_total_departamentos = mysqli_query($conexion, $sql_total_departamentos);
 $row_total_departamentos = mysqli_fetch_assoc($result_total_departamentos);
 $total_departamentos = $row_total_departamentos['total'];
@@ -101,8 +101,8 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
         <?php
         // Consulta para obtener los departamentos y la fecha de subida más reciente
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
-          FROM Departamentos d
-          LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
+          FROM departamentos d
+          LEFT JOIN plantilla_dep p ON d.Departamento_ID = p.Departamento_ID
           GROUP BY d.Departamento_ID, d.Departamentos
           ORDER BY d.Departamentos";
         $result_departamentos = mysqli_query($conexion, $sql_departamentos);
@@ -115,7 +115,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
           echo "<td>$nombre_departamento</td>";
 
           // Nueva lógica
-          $sql_justificacion = "SELECT * FROM Justificaciones WHERE Departamento_ID = '$departamento_id' ORDER BY Fecha_Justificacion DESC LIMIT 1";
+          $sql_justificacion = "SELECT * FROM justificaciones WHERE Departamento_ID = '$departamento_id' ORDER BY Fecha_Justificacion DESC LIMIT 1";
           $result_justificacion = mysqli_query($conexion, $sql_justificacion);
           $justificacion = mysqli_fetch_assoc($result_justificacion);
 
@@ -167,56 +167,56 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   <!-- Por alguna razon no se puede hacer modular el codigo de abajo -->
   <script>
     document.getElementById('fechaLimiteForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+      e.preventDefault();
 
-    // Mostrar Sweet Alert de procesamiento
-    Swal.fire({
-      title: 'Procesando...',
-      html: 'Por favor espere mientras se actualiza la fecha límite.',
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
+      // Mostrar Sweet Alert de procesamiento
+      Swal.fire({
+        title: 'Procesando...',
+        html: 'Por favor espere mientras se actualiza la fecha límite.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
 
-    var formData = new FormData(this);
+      var formData = new FormData(this);
 
-    fetch('./functions/admin-data-departamentos/updateFechaLimite.php', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(data => {
-        Swal.close();
-        if (data.includes("Location: ../admin-data-departamentos.php?success=1")) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Fecha límite actualizada',
-            text: 'La fecha límite se ha actualizado correctamente.',
-            confirmButtonText: 'Aceptar'
-          }).then(() => {
-            location.reload();
-          });
-        } else {
+      fetch('./functions/admin-data-departamentos/updateFechaLimite.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+          Swal.close();
+          if (data.includes("Location: ../admin-data-departamentos.php?success=1")) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Fecha límite actualizada',
+              text: 'La fecha límite se ha actualizado correctamente.',
+              confirmButtonText: 'Aceptar'
+            }).then(() => {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un problema al actualizar la fecha límite.',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        })
+        .catch(error => {
+          Swal.close();
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Hubo un problema al actualizar la fecha límite.',
+            text: 'Hubo un problema al procesar la solicitud.',
             confirmButtonText: 'Aceptar'
           });
-        }
-      })
-      .catch(error => {
-        Swal.close();
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Hubo un problema al procesar la solicitud.',
-          confirmButtonText: 'Aceptar'
+          console.error('Error:', error);
         });
-        console.error('Error:', error);
-      });
-  });
+    });
   </script>
 
   <?php include './template/footer.php' ?>
