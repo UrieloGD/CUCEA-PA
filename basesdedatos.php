@@ -396,10 +396,8 @@ $result = $stmt->get_result();
                         <input type="text" id="materia" name="materia" placeholder="Materia" class="full-width">
                     </div>
                     <div class="form-row">
+                        <!-- <input type="text" id="tipo" name="tipo" placeholder="Tipo"> -->
                         <input type="text" id="nivel" name="nivel" placeholder="Nivel">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="tipo" name="tipo" placeholder="Tipo">
                         <input type="text" id="nivel_tipo" name="nivel_tipo" placeholder="Nivel tipo">
                         <input type="text" id="seccion" name="seccion" placeholder="Sección">
                     </div>
@@ -420,6 +418,8 @@ $result = $stmt->get_result();
                     <div class="form-row">
                         <input type="text" id="dia_presencial" name="dia_presencial" placeholder="Día presencial">
                         <input type="text" id="dia_virtual" name="dia_virtual" placeholder="Día virtual">
+                    </div>
+                    <div class="form-row">
                         <input type="text" id="modalidad" name="modalidad" placeholder="Modalidad">
                     </div>
                     <div class="form-row">
@@ -435,14 +435,14 @@ $result = $stmt->get_result();
                         <input type="text" id="aula" name="aula" placeholder="Aula">
                     </div>
                     <div class="form-row">
+                        <input type="text" id="observaciones" name="observaciones" placeholder="Observaciones" class="full-width">
+                    </div>
+                    <div class="form-row">
                         <input type="text" id="cupo" name="cupo" placeholder="Cupo" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" id="examen_extraordinario" name="examen_extraordinario" placeholder="Examen extraordinario">
                     </div>
-                    <div class="form-row">
-                        <input type="text" id="observaciones" name="observaciones" placeholder="Observaciones" class="full-width">
-                    </div>
                 </div>
-            <div class="form-movil">
+            <!-- <div class="form-movil"> -->
                 <div class="form-section">
                     <h3>Profesorado</h3>
                     <div class="form-row">
@@ -457,6 +457,8 @@ $result = $stmt->get_result();
                     </div>
                     <div class="form-row">
                         <input type="text" id="descarga" name="descarga" placeholder="Descarga" class="full-width">
+                    </div>
+                    <div class="form-row">
                         <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="Código descarga" class="full-width">
                     </div>
                     <div class="form-row">
@@ -474,7 +476,6 @@ $result = $stmt->get_result();
                         <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
                     </div>
                 </div>
-            </div>
             </div>
             <div class="form-actions">
                 <button type="button" onclick="añadirRegistro()">Guardar</button>
