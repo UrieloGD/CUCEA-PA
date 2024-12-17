@@ -7,7 +7,7 @@ ini_set('error_log', __DIR__ . '/error.log');
 $response = ['debug' => [], 'success' => false, 'error' => null];
 
 try {
-    include './../../config/db.php';
+    include __DIR__ . '/../../config/db.php';
     $response['debug'][] = 'Database included';
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

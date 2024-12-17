@@ -1,7 +1,32 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Verificar que los archivos existan
+$required_files = [
+    './config/sesioniniciada.php',
+    './config/db.php',
+    './template/header.php',
+    './template/navbar.php'
+];
+
+foreach ($required_files as $file) {
+    if (!file_exists($file)) {
+        die("Error: No se encuentra el archivo $file");
+    }
+}
+
+// Incluir los archivos
+require_once './config/db.php';
+require_once './config/sesioniniciada.php';
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+<!-- Conexión a la base de datos -->
 
 <?php
 // Obtener el módulo seleccionado (por defecto CEDA)
@@ -43,17 +68,15 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         <div class="filtro">
             <label for="modulo">Módulo</label>
-            <select id="modulo" name="modulo">
-                <!-- <option value="">Seleccione un módulo</option> -->
-                <?php
-                $query = "SELECT DISTINCT modulo FROM Espacios ORDER BY modulo";
-                $result = mysqli_query($conexion, $query);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $selected = ($row['modulo'] == $modulo_seleccionado) ? 'selected' : '';
-                    echo "<option value='" . $row['modulo'] . "' $selected>" . $row['modulo'] . "</option>";
-                }
-                ?>
-            </select>
+            <select id="modulo" name="modulo"><?php
+                                                $query = "SELECT DISTINCT modulo FROM espacios ORDER BY modulo";
+                                                $result = mysqli_query($conexion, $query);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $selected = ($row['modulo'] == $modulo_seleccionado) ? 'selected' : '';
+                                                    echo '<option value="' . htmlspecialchars($row['modulo']) . '"' . $selected . '>' .
+                                                        htmlspecialchars($row['modulo']) . '</option>';
+                                                }
+                                                ?></select>
         </div>
         <div class="filtro">
             <label for="dia">Día</label>
@@ -136,7 +159,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <div class="sala-container">
                                     <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
                                     <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
-                                        <img src="./Img/icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                                        <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -198,7 +221,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <hr style="border: 1px solid #0071b0; width: 100%;">
                 <div class="espacio-info">
                     <div class="sala-modal <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
-                        <img src="./Img/icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                        <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
                     </div>
                     <div class="espacio-columna">
                         <p><strong>Edificio:</strong> <span id="moduloInfo"></span></p>

@@ -7,28 +7,28 @@ $hora_inicio = $_GET['hora_inicio'];
 $hora_fin = $_GET['hora_fin'];
 
 $departamentos = [
-    'Estudios_Regionales',
-    'Finanzas',
-    'Ciencias_Sociales',
-    'PALE',
-    'Posgrados',
-    'Economía',
-    'Recursos_Humanos',
-    'Métodos_Cuantitativos',
-    'Políticas_Públicas',
-    'Administración',
-    'Auditoría',
-    'Mercadotecnia',
-    'Impuestos',
-    'Sistemas_de_Información',
-    'Turismo',
-    'Contabilidad'
+    'estudios_regionales',
+    'finanzas',
+    'ciencias_sociales',
+    'pale',
+    'posgrados',
+    'economía',
+    'recursos_humanos',
+    'métodos_cuantitativos',
+    'políticas_públicas',
+    'administración',
+    'auditoría',
+    'mercadotecnia',
+    'impuestos',
+    'sistemas_de_información',
+    'turismo',
+    'contabilidad'
 ];
 
 $espacios_ocupados = array();
 
 foreach ($departamentos as $departamento) {
-    $tabla = "Data_" . str_replace(' ', '_', $departamento);
+    $tabla = "data_" . str_replace(' ', '_', $departamento);
 
     $query = "SELECT AULA, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, HORA_INICIAL, HORA_FINAL FROM $tabla 
           WHERE MODULO = '$modulo' 

@@ -5,22 +5,22 @@ $espacio = $_GET['espacio'];
 $modulo = $_GET['modulo'];
 
 $departamentos = [
-    'Estudios_Regionales',
-    'Finanzas',
-    'Ciencias_Sociales',
-    'PALE',
-    'Posgrados',
-    'Economía',
-    'Recursos_Humanos',
-    'Métodos_Cuantitativos',
-    'Políticas_Públicas',
-    'Administración',
-    'Auditoría',
-    'Mercadotecnia',
-    'Impuestos',
-    'Sistemas_de_Información',
-    'Turismo',
-    'Contabilidad'
+    'estudios_regionales',
+    'finanzas',
+    'ciencias_sociales',
+    'pale',
+    'posgrados',
+    'economía',
+    'recursos_humanos',
+    'métodos_cuantitativos',
+    'políticas_públicas',
+    'administración',
+    'auditoría',
+    'mercadotecnia',
+    'impuestos',
+    'sistemas_de_información',
+    'turismo',
+    'contabilidad'
 ];
 
 $horarios = array(
@@ -41,12 +41,14 @@ $horarios['modulo'] = $info_espacio['Modulo'];
 $horarios['tipo'] = $info_espacio['Etiqueta'];
 
 foreach ($departamentos as $departamento) {
-    $tabla = "Data_" . str_replace(' ', '_', $departamento);
+    $tabla = "data_" . str_replace(' ', '_', $departamento);
 
     $query = "SELECT L, M, I, J, V, S, HORA_INICIAL, HORA_FINAL, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, CUPO 
               FROM $tabla 
               WHERE MODULO = '$modulo' AND AULA = '$espacio'
               ORDER BY HORA_INICIAL";
+
+    error_log("Consulta ejecutada: " . $query);
 
     $result = mysqli_query($conexion, $query);
 
@@ -55,52 +57,35 @@ foreach ($departamentos as $departamento) {
             $dias = array('L' => 'Lunes', 'M' => 'Martes', 'I' => 'Miercoles', 'J' => 'Jueves', 'V' => 'Viernes', 'S' => 'Sabado');
             foreach ($dias as $inicial => $nombreDia) {
                 if ($row[$inicial] !== null) {
-                    // Crear un nuevo registro
-                    $nuevo_registro = array(
+                    $horarios[$nombreDia][] = array(
                         'hora_inicial' => $row['HORA_INICIAL'],
                         'hora_final' => $row['HORA_FINAL'],
                         'cve_materia' => $row['CVE_MATERIA'],
                         'materia' => $row['MATERIA'],
                         'profesor' => $row['NOMBRE_PROFESOR'],
-                        'cupo' => $row['CUPO'],
-                        'departamento' => str_replace('_', ' ', str_replace('Data_', '', $tabla))
+                        'cupo' => $row['CUPO']
                     );
-
-                    // Bandera para verificar si es un duplicado
-                    $es_duplicado = false;
-
-                    // Comparar con registros existentes
-                    foreach ($horarios[$nombreDia] as $registro_existente) {
-                        if ($registro_existente['hora_inicial'] === $nuevo_registro['hora_inicial'] &&
-                            $registro_existente['hora_final'] === $nuevo_registro['hora_final'] &&
-                            $registro_existente['materia'] === $nuevo_registro['materia'] &&
-                            $registro_existente['profesor'] === $nuevo_registro['profesor']) {
-                            $es_duplicado = true;
-                            break;
-                        }
-                    }
-
-                    // Si no es duplicado, agregarlo al array
-                    if (!$es_duplicado) {
-                        $horarios[$nombreDia][] = $nuevo_registro;
-                    }
-
+                    // Después de obtener la información del espacio
                     $horarios['cupo'] = $row['CUPO'];
                 }
             }
         }
+    } else {
+        error_log("Error en la consulta: " . mysqli_error($conexion));
     }
 }
 
-// Limpiar cualquier salida anterior
+// Asegurarse de que no haya salida antes del JSON
 ob_clean();
 
-// Establecer las cabeceras
+// Establecer las cabeceras correctas
 header('Content-Type: application/json');
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-// Enviar respuesta
+// Imprimir el JSON y terminar la ejecución
+// Al final del archivo, justo antes de enviar el JSON
+header('Content-Type: application/json');
 echo json_encode($horarios);
 exit;
