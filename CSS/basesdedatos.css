@@ -319,8 +319,8 @@ th {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  width: 25vw;
-  height: 88vh;
+  width: 40vw;
+  height: 68vh;
   overflow-y: auto;
   border: 1px solid rgb(173, 173, 173);
 }
@@ -334,8 +334,7 @@ th {
   padding: 0;
 }
 
-.columns-container div label,
-.select-all-div label {
+.select-all-div-label {
   padding-left: 10px;
 }
 
@@ -344,7 +343,6 @@ th {
 }
 
 .select-all-div #select-all {
-  margin-bottom: 15px;
   font-weight: bold;
 }
 
@@ -1203,4 +1201,164 @@ table.dataTable thead .sorting_desc {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
+}
+
+/* Estilos de actualización de Modal Descarga data excel*/
+
+.column-selector {
+  position: relative;
+}
+
+.column-selector-modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+.column-selector-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+.select-all-div {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.columns-container-js {
+  border-color: #D0E6F2;
+}
+
+.columns-container-materia {
+  max-height: 300px;
+  max-width: 800px;
+  overflow-y: auto;
+  margin: 0 0 25px 0;
+  padding: 10px 0 10px 0;
+  flex-direction: column;
+  gap: 10px;
+  border-style: solid;
+  border-width: 2px 0 0 0;
+  border-color: #D0E6F2;
+  column-count: 3;
+  column-gap: 2rem;
+  list-style: none;
+}
+
+.columns-container-profesor {
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 0 0 25px 0;
+  padding: 10px 0 10px 0;
+  flex-direction: column;
+  gap: 10px;
+  border-style: solid;
+  border-width: 2px 0 0 0;
+  border-color: #D0E6F2;
+  column-count: 3;
+  column-gap: 2rem;
+  list-style: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.check-js {
+  margin: 0 0 5px 0;
+}
+
+.check-js label{
+  padding-left: 10px;
+}
+
+.encabezado-js {
+  color: #0071B0;
+  font-size: 18px;
+  position: relative;
+}
+
+.select-all-materia label {
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.select-all-materia {
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.select-all-profesor {
+  vertical-align: middle;
+  justify-items: center;
+  align-items: center;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.select-all-profesor label {
+  padding-left: 10px;
+  margin: 5px;
+}
+
+.column-selector button {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.label-materia,
+.label-profesorado {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.label-materia {
+  margin-top: 25px;
+}
+
+.input-check[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.input-check[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  border: 1px solid #4CAF50;
+}
+
+.input-check[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
