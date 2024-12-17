@@ -45,7 +45,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $sheet = $spreadsheet->getActiveSheet();
         $highestRow = $sheet->getHighestRow();
 
-        $sql = "INSERT INTO Coord_Per_Prof (
+        $sql = "INSERT INTO coord_per_prof (
             Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
             Categoria_actual, Categoria_actual_dos, Horas_frente_grupo, Division, Tipo_plaza, Cat_act,
             Carga_horaria, Horas_definitivas, Horario, Turno, Investigacion_nombramiento_cambio_funcion,
@@ -213,7 +213,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             }
         }
 
-        $sqlInsertPlantillaCoordP = "INSERT INTO Plantilla_CoordP (Nombre_Archivo_CoordP, Tamaño_Archivo_CoordP, Usuario_ID) VALUES (?, ?, ?)";
+        $sqlInsertPlantillaCoordP = "INSERT INTO plantilla_coordp (Nombre_Archivo_CoordP, Tamaño_Archivo_CoordP, Usuario_ID) VALUES (?, ?, ?)";
         $stmtInsertPlantillaCoordP = $conexion->prepare($sqlInsertPlantillaCoordP);
         $stmtInsertPlantillaCoordP->bind_param("sii", $fileName, $fileSize, $usuario_id);
 

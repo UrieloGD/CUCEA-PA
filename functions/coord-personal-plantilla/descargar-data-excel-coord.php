@@ -100,7 +100,7 @@ $columnas_reales = array_map(function ($columna) use ($mapeo_columnas) {
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
-$tabla_departamento = "Coord_Per_Prof";
+$tabla_departamento = "coord_per_prof";
 
 // Construir la consulta SQL dinámica con los nombres reales de las columnas
 $sql = "SELECT " . implode(", ", $columnas_reales) . " FROM `$tabla_departamento`";

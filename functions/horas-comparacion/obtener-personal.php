@@ -73,7 +73,7 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
     mysqli_data_seek($departamentos, 0);
 
     while ($dept = mysqli_fetch_assoc($departamentos)) {
-        $tabla = "Data_" . $dept['Nombre_Departamento'];
+        $tabla = "data_" . $dept['Nombre_Departamento'];
         
         $query = "SELECT HORAS, TIPO_CONTRATO FROM $tabla WHERE CODIGO_PROFESOR = ?";
         $stmt = $conexion->prepare($query);
@@ -107,7 +107,7 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
         $nombre_dept_mostrar = $dept_mapping[$dept['Nombre_Departamento']];
         
         // Agregar horas definitivas por departamento
-        if ($suma_dept_definitivas > 0 && $tabla != "Data_" . $departamento) {
+        if ($suma_dept_definitivas > 0 && $tabla != "data_" . $departamento) {
             if (isset($horas_por_departamento_definitivas[$nombre_dept_mostrar])) {
                 $horas_por_departamento_definitivas[$nombre_dept_mostrar] += $suma_dept_definitivas;
             } else {
@@ -116,7 +116,7 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
         }
         
         // Agregar horas cargo a plaza por departamento
-        if ($suma_dept_cargo > 0 && $tabla != "Data_" . $departamento) {
+        if ($suma_dept_cargo > 0 && $tabla != "data_" . $departamento) {
             if (isset($horas_por_departamento_cargo[$nombre_dept_mostrar])) {
                 $horas_por_departamento_cargo[$nombre_dept_mostrar] += $suma_dept_cargo;
             } else {

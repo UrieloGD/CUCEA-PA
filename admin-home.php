@@ -4,12 +4,10 @@
 <?php include './template/navbar.php' ?>
 
 <?php
-// Conexión a la base de datos
-include './config/db.php';
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                              FROM Plantilla_Dep
+                              FROM plantilla_dep
                               GROUP BY Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
 $departamentos_subidos = array();
@@ -20,7 +18,7 @@ while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
 }
 
 // Obtener el total de departamentos
-$sql_total_departamentos = "SELECT COUNT(*) AS total FROM Departamentos";
+$sql_total_departamentos = "SELECT COUNT(*) AS total FROM departamentos";
 $result_total_departamentos = mysqli_query($conexion, $sql_total_departamentos);
 $row_total_departamentos = mysqli_fetch_assoc($result_total_departamentos);
 $total_departamentos = $row_total_departamentos['total'];
@@ -32,7 +30,7 @@ $departamentos_entregados = count($departamentos_subidos);
 $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 
 // Obtener la fecha límite más reciente
-$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $fecha_limite = $result_fecha_limite;
 if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
@@ -57,19 +55,19 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
     <div class="recuadros-superiores">
         <div class="recuadro active" onclick="activateRecuadro(this)">
             <a class="texto" href="./admin-reportes.php">
-                <img src="./Img/img-admin/img-reporte-entrega.jpg" alt="Reporte de entrega">
+                <img src="./Img/img-admin/img-reporte-entrega.webp" alt="Reporte de entrega">
                 <div class="texto">Reporte de entrega</div>
             </a>
         </div>
         <div class="recuadro" onclick="activateRecuadro(this)">
             <a class="texto" href="./admin-eventos.php">
-                <img src="./Img/img-admin/img-control-eventos.jpg" alt="Control de eventos">
+                <img src="./Img/img-admin/img-control-eventos.webp" alt="Control de eventos">
                 <div class="texto">Control de eventos</div>
             </a>
         </div>
         <div class="recuadro" onclick="activateRecuadro(this)">
             <a class="texto" href="./admin-usuarios.php">
-                <img src="./Img/img-admin/img-gestion-usuarios.jpeg" alt="Gestión de usuarios">
+                <img src="./Img/img-admin/img-gestion-usuarios-min.webp" alt="Gestión de usuarios">
                 <div class="texto">Gestión de usuarios</div>
             </a>
         </div>
@@ -89,15 +87,15 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
                     <tbody>
                         <?php
                         // Consulta para obtener los departamentos y la fecha de subida más reciente
-                        $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                                            FROM Departamentos d
-                                            LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
-                                            GROUP BY d.Departamento_ID, d.Departamentos";
+                        $sql_departamentos = "SELECT d.Departamento_ID, d.departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
+                                            FROM departamentos d
+                                            LEFT JOIN plantilla_dep p ON d.Departamento_ID = p.Departamento_ID
+                                            GROUP BY d.Departamento_ID, d.departamentos";
                         $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
                         while ($row = mysqli_fetch_assoc($result_departamentos)) {
                             $departamento_id = $row['Departamento_ID'];
-                            $nombre_departamento = $row['Departamentos'];
+                            $nombre_departamento = $row['departamentos'];
                             $fecha_subida = $row['Fecha_Subida_Dep'];
                             echo "<tr>";
                             echo "<td>$nombre_departamento</td>";

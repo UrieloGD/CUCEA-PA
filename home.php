@@ -177,13 +177,13 @@
           echo "<a href='./admin-plantilla.php'>";
         } else {
           // Otros roles o manejo de errores aquí
-          echo "<a href='./plantilla-coordPers.php'>";
+          echo "<a href='./plantilla-CoordPers.php'>";
         }
         ?>
         <div class="overlay">
           <h4 style="text-shadow: 1px 4px 3px black;">Plantilla</h4>
         </div>
-        <img src="./img/img-home/plantilla.webp" alt="Imagen de un pasillo arbolado de CUCEA" />
+        <img src="./Img/img-home/plantilla.webp" alt="Imagen de un pasillo arbolado de CUCEA" />
       </a>
     </div>
     <div class="cuadro-ind">

@@ -2,55 +2,77 @@
 include './../../config/db.php';
 session_start();
 
-$tabla_departamento = "Coord_Per_Prof";
+$tabla_departamento = "coord_per_prof";
 
+// Si se solicita truncar toda la tabla
 if (isset($_POST['truncate']) && $_POST['truncate'] == '1') {
+    // Desactivar autocommit para manejar transacción
     mysqli_autocommit($conexion, false);
 
-    // Truncar la tabla de datos
-    $sql_truncate = "TRUNCATE TABLE `$tabla_departamento`";
-    if (!mysqli_query($conexion, $sql_truncate)) {
-        mysqli_rollback($conexion);
-        echo "Error al truncar la tabla: " . mysqli_error($conexion);
-        exit;
-    }
+    try {
+        // Truncar la tabla completamente
+        $sql_truncate = "TRUNCATE TABLE `$tabla_departamento`";
+        if (!mysqli_query($conexion, $sql_truncate)) {
+            throw new Exception("Error al truncar la tabla: " . mysqli_error($conexion));
+        }
 
-    // Eliminar el archivo de plantilla_dep correspondiente al departamento
-    $sql_delete_plantilla = "DELETE FROM Coord_Per_Prof";
-    $stmt = mysqli_prepare($conexion, $sql_delete_plantilla);
-    mysqli_stmt_bind_param($stmt, "i", $departamento_id);
-    if (!mysqli_stmt_execute($stmt)) {
+        // Confirmar la transacción
+        mysqli_commit($conexion);
+        echo "Tabla truncada correctamente.";
+    } catch (Exception $e) {
+        // Si hay error, revertir cambios
         mysqli_rollback($conexion);
-        echo "Error al eliminar el archivo de plantilla: " . mysqli_stmt_error($stmt);
-        exit;
+        echo $e->getMessage();
+    } finally {
+        // Cerrar conexión
+        mysqli_close($conexion);
     }
-    mysqli_stmt_close($stmt);
-
-    if (mysqli_commit($conexion)) {
-        echo "Tabla truncada y archivo de plantilla eliminado correctamente.";
-    } else {
-        mysqli_rollback($conexion);
-        echo "Error al realizar las operaciones: " . mysqli_error($conexion);
-    }
-
-    mysqli_close($conexion);
     exit;
 }
 
-$ids = explode(',', $_POST['ids']);
-
-mysqli_autocommit($conexion, false);
-
-foreach ($ids as $id) {
-    $stmt = mysqli_prepare($conexion, "DELETE FROM Coord_Per_Prof WHERE ID = ?");
-    mysqli_stmt_bind_param($stmt, "ii", $id, $departamento_id);
-    if (!mysqli_stmt_execute($stmt)) {
-        mysqli_rollback($conexion);
-        echo "Error al eliminar los registros: " . mysqli_stmt_error($stmt);
-        exit;
-    }
-    mysqli_stmt_close($stmt);
+// Verificar que se hayan enviado IDs
+if (!isset($_POST['ids']) || empty($_POST['ids'])) {
+    echo "No se proporcionaron IDs para eliminar";
+    exit;
 }
 
-mysqli_commit($conexion);
-mysqli_close($conexion);
+// Convertir cadena de IDs a array
+$ids = explode(',', $_POST['ids']);
+
+// Desactivar autocommit para manejar transacción
+mysqli_autocommit($conexion, false);
+
+try {
+    // Preparar declaración de eliminación
+    $stmt = mysqli_prepare($conexion, "DELETE FROM coord_per_prof WHERE ID = ?");
+    
+    // Verificar preparación del statement
+    if (!$stmt) {
+        throw new Exception("Error preparando la declaración: " . mysqli_error($conexion));
+    }
+
+    // Eliminar cada registro por su ID
+    foreach ($ids as $id) {
+        // Vincular parámetro ID
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        
+        // Ejecutar eliminación
+        if (!mysqli_stmt_execute($stmt)) {
+            throw new Exception("Error al eliminar el registro con ID: " . $id . " - " . mysqli_stmt_error($stmt));
+        }
+    }
+
+    // Cerrar statement
+    mysqli_stmt_close($stmt);
+
+    // Confirmar transacción
+    mysqli_commit($conexion);
+    echo "Registros eliminados correctamente";
+} catch (Exception $e) {
+    // Revertir cambios en caso de error
+    mysqli_rollback($conexion);
+    echo $e->getMessage();
+} finally {
+    // Cerrar conexión
+    mysqli_close($conexion);
+}

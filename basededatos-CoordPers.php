@@ -338,14 +338,14 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="categoria_actual" name="categoria_actual" placeholder="Categoría Actual">
                             <input type="text" id="categoria_actual_dos" name="categoria_actual_dos" placeholder="Categoría Actual">
 
-                            <input type="text" id="horas_frente_grupo" name="horas_frente_grupo" placeholder="Horas Frente a Grupo">
+                            <input type="text" id="horas_frente_grupo" name="horas_frente_grupo"  min="0" placeholder="Horas Frente a Grupo">
                             <input type="text" id="division" name="division" placeholder="División">
 
                             <input type="text" id="tipo_plaza" name="tipo_plaza" placeholder="Tipo de Plaza">
                             <input type="text" id="cat_act" name="cat_act" placeholder="CAT_ACT">
 
                             <input type="text" id="carga_horaria" name="carga_horaria" placeholder="Carga Horaria">
-                            <input type="text" id="horas_definitivas" name="horas_definitivas" placeholder="Horas Definitivas ">
+                            <input type="text" id="horas_definitivas" name="horas_definitivas"  min="0" placeholder="Horas Definitivas ">
                             <input type="text" id="horario" name="horario" placeholder="Horario">
                             <input type="text" id="turno" name="turno" placeholder="Turno">
 
@@ -364,7 +364,7 @@ function formatDateForDisplay($mysqlDate)
 
                             <input type="text" id="domicilio" name="domicilio" placeholder="Domicilio">
                             <input type="text" id="colonia" name="colonia" placeholder="Colonia">
-                            <input type="text" id="cp" name="cp" placeholder="C.P">
+                            <input type="text" id="cp" name="cp" min="0" placeholder="C.P">
 
                             <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad">
                             <input type="text" id="estado" name="estado" placeholder="Estado">
@@ -378,7 +378,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="tipo_sangre" name="tipo_sangre" placeholder="Tipo de Sangre">
 
                             <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha de Nacimiento">
-                            <input type="text" id="edad" name="edad" placeholder="Edad">
+                            <input type="text" id="edad" name="edad" min="0" placeholder="Edad">
                             <input type="text" id="nacionalidad" name="nacionalidad" placeholder="Nacionalidad">
 
                             <input type="email" id="correo" name="correo" placeholder="Correo Electrónico">
@@ -390,7 +390,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="institucion" name="institucion" placeholder="Institución">
 
                             <input type="text" id="estado_pais" name="estado_pais" placeholder="Estado/País">
-                            <input type="text" id="año" name="año" placeholder="Año">
+                            <input type="text" id="año" name="año" min="0" placeholder="Año">
                             <input type="text" id="gdo_exp" name="gdo_exp" placeholder="Gdo_Exp">
 
                             <input type="text" id="otro_grado" name="otro_grado" placeholder="Último grado">
@@ -399,7 +399,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="otro_institucion" name="otro_institucion" placeholder="Institución">
 
                             <input type="text" id="otro_estado_pais" name="otro_estado_pais" placeholder="Estado/País">
-                            <input type="text" id="otro_año" name="otro_año" placeholder="Año">
+                            <input type="text" id="otro_año" name="otro_año" min="0" placeholder="Año">
                             <input type="text" id="otro_gdo_exp" name="otro_gdo_exp" placeholder="Gdo_Exp">
 
                             <input type="text" id="otro_grado_alternativo" name="otro_grado_alternativo" placeholder="Último grado">
@@ -408,7 +408,7 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="otro_institucion_alternativo" name="otro_institucion_alternativo" placeholder="Institución">
 
                             <input type="text" id="otro_estado_pais_alternativo" name="otro_estado_pais_alternativo" placeholder="Estado/País">
-                            <input type="text" id="otro_año_alternativo" name="otro_año_alternativo" placeholder="Año">
+                            <input type="text" id="otro_año_alternativo" name="otro_año_alternativo" min="0" placeholder="Año">
                             <input type="text" id="otro_gdo_exp_alternativo" name="otro_gdo_exp_alternativo" placeholder="Gdo_Exp">
 
                             <input type="text" id="proesde" name="proesde" placeholder="Proesde 24-25">
@@ -443,7 +443,7 @@ function formatDateForDisplay($mysqlDate)
 
     <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
     <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/añadir-profesor.js"></script>
+    <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
     <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 

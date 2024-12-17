@@ -124,7 +124,7 @@ if (isset($_POST['id']) && isset($_POST['column']) && isset($_POST['value'])) {
         }
     }
 
-    $tabla = 'Coord_Per_Prof';
+    $tabla = 'coord_per_prof';
 
     // Verificar si la columna existe en la tabla
     $sql_check_column = "SHOW COLUMNS FROM `$tabla` LIKE '$column'";

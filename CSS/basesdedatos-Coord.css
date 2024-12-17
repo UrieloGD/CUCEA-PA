@@ -61,19 +61,19 @@
 .encabezado-derecha {
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
-  margin-right: 50px; /* Agrega este margen derecho */
+  margin-right: 0px; /* Agrega este margen derecho */
 }
 
 /* Tabla */
 .tabla {
   flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
   overflow-y: auto; /* Añadir scroll vertical */
-  padding: 20px;
-  border-radius: 20px 20px 0px 0px;
+  padding: 10px;
+  /* border-radius: 20px 20px 0px 0px; */
   position: relative; /* Para controlar el contenido interno */
-  margin-top: -5px;
+  margin-top: -15px;
   overflow-x: auto; /* Permite desplazamiento horizontal */
-  padding-top: 10px; /* Reducimos el padding superior */
+  /* padding-top: 10px; */
 }
 
 table {
@@ -114,7 +114,11 @@ div.dataTables_wrapper {
 .table-container {
   margin: 0 auto;
   border-radius: 10px;
-  margin-bottom: 30px;
+  /* margin-bottom: 10px; */
+  position: relative;
+  overflow-x: auto;
+  overflow-y: visible;
+  max-height: 90vh;
 }
 
 /* Texto donde dice: mostrar [10>] registros */
@@ -132,7 +136,7 @@ div.dataTables_wrapper {
 /* Icono y Boton Buscar */
 
 .iconos-container {
-  width: 50%;
+  width: 65%;
   display: flex;
   align-items: left;
   /* border: solid; */
@@ -527,14 +531,6 @@ div.dataTables_wrapper {
   border: none;
 }
 
-/* Estilos para mantener la columan de estado anclada */
-.table-container {
-  position: relative;
-  overflow-x: auto;
-  overflow-y: visible;
-  max-height: 80vh;
-}
-
 #tabla-datos {
   position: relative;
 }
@@ -890,6 +886,7 @@ nav[aria-label="pagination"] {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  margin-top: -60px;
 }
 
 /* Media Queries para diferentes resoluciones */

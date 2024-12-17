@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Nombre de la tabla
-$tabla_departamento = "Coord_Per_Prof";
+$tabla_departamento = "coord_per_prof";
 
 // Consulta SQL para obtener todos los registros
 $sql = "SELECT * FROM $tabla_departamento";
