@@ -10,7 +10,7 @@ if (empty($departamento_id)) {
 }
 
 // Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
@@ -18,7 +18,7 @@ $result_departamento = $stmt->get_result();
 $row_departamento = $result_departamento->fetch_assoc();
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
 // Columnas para verificar duplicados
 $columnas_cotejo = [
@@ -129,7 +129,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-$sheet->setTitle("Cotejada_$nombre_departamento");
+$sheet->setTitle("Data_Cotejada_$nombre_departamento");
 
 // Configurar headers para la descarga
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -15,6 +15,27 @@ function safeSubstr($string, $start, $length = null)
     return $length === null ? substr($string, $start) : substr($string, $start, $length);
 }   
 
+function normalizarNombreTabla($nombreDepartamento) {
+    // Eliminar acentos
+    $sinAcentos = iconv('UTF-8', 'ASCII//TRANSLIT', $nombreDepartamento);
+    
+    // Convertir a minúsculas
+    $minusculas = strtolower($sinAcentos);
+    
+    // Reemplazar espacios con guiones bajos
+    $sinEspacios = str_replace(' ', '_', $minusculas);
+    
+    // Quitar caracteres no alfanuméricos
+    $soloAlfanumericos = preg_replace('/[^a-z0-9_]/', '', $sinEspacios);
+    
+    // Anteponer 'data_' si no está presente
+    if (strpos($soloAlfanumericos, 'data_') !== 0) {
+        $soloAlfanumericos = 'data_' . $soloAlfanumericos;
+    }
+    
+    return $soloAlfanumericos;
+}
+
 $inserted_records = 0;
 
 if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
@@ -31,7 +52,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $spreadsheet = IOFactory::load($file);
             $sheet = $spreadsheet->getActiveSheet();
 
-            $tabla_destino = 'Data_' . str_replace(' ', '_', $_SESSION['Nombre_Departamento']);
+            $tabla_destino = 'data_' . str_replace(' ', '_', $_SESSION['Nombre_Departamento']);
 
             // Verificar si la tabla existe
             $tabla_existe = $conexion->query("SHOW TABLES LIKE '$tabla_destino'");
@@ -198,14 +219,13 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             echo json_encode(["success" => false, "message" => "Error al procesar el archivo: " . $e->getMessage()]);
         }
 
-        /////////////////////////////////////////////////////////////
-        $sqlInsertPlantillaDep = "INSERT INTO Plantilla_Dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
+        $sqlInsertPlantillaDep = "INSERT INTO plantilla_dep (Nombre_Archivo_Dep, Tamaño_Archivo_Dep, Usuario_ID, Departamento_ID) VALUES (?, ?, ?, ?)";
         $stmtInsertPlantillaDep = $conexion->prepare($sqlInsertPlantillaDep);
         $stmtInsertPlantillaDep->bind_param("siii", $fileName, $fileSize, $usuario_id, $departamento_id);
 
         if ($stmtInsertPlantillaDep->execute()) {
             // Obtener el nombre del departamento
-            $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+            $sql_departamento = "SELECT Departamentos FROM departamentos WHERE Departamento_ID = ?";
             $stmt_departamento = $conexion->prepare($sql_departamento);
             $stmt_departamento->bind_param("i", $departamento_id);
             $stmt_departamento->execute();
@@ -213,7 +233,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $departamento = $result_departamento->fetch_assoc();
 
             // Obtener correos de los usuarios de secretaría administrativa
-            $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+            $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 2";
             $result_secretaria = $conexion->query($sql_secretaria);
 
             $envio_exitoso = true;

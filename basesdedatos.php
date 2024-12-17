@@ -3,20 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Verificar que los archivos existan
-$required_files = [
-    './config/sesioniniciada.php',
-    './config/db.php',
-    './template/header.php',
-    './template/navbar.php'
-];
-
-foreach ($required_files as $file) {
-    if (!file_exists($file)) {
-        die("Error: No se encuentra el archivo $file");
-    }
-}
-
 // Ensure session is started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -46,12 +32,12 @@ if ($rol == 1) {
     $departamento_id = $_SESSION['Departamento_ID'];
 } elseif ($rol == 2 || $rol == 3) {
     // Para roles 2 y 3, permitir selección de departamento
-    if (isset($_GET['departamento_id'])) {
+    if (isset($_GET['Departamento_id'])) {
         // Si se proporciona un departamento_id específico
-        $departamento_id = (int)$_GET['departamento_id'];
+        $departamento_id = (int)$_GET['Departamento_id'];
     } else {
         // Si no se proporciona, seleccionar el primer departamento
-        $sql_primer_departamento = "SELECT Departamento_ID FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
+        $sql_primer_departamento = "SELECT Departamento_ID FROM departamentos ORDER BY Departamento_ID LIMIT 1";
         $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
         
         if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
@@ -66,7 +52,7 @@ if ($rol == 1) {
 }
 
 // Consulta para obtener información del departamento
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 
 if (!$stmt) {
@@ -119,7 +105,7 @@ function verificarChoques($registro_actual, $departamentos, $conexion) {
             ) {
                 // Buscar el timestamp de subida más antiguo
                 $sql_timestamp = "SELECT d.Nombre_Departamento 
-                                  FROM Plantilla_Dep pd
+                                  FROM plantilla_dep pd
                                   JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
                                   WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
                                   ORDER BY pd.Fecha_Subida_Dep ASC
@@ -376,275 +362,8 @@ $result = $stmt->get_result();
     </div>
 </div>
 
-<!-- Modal para añadir registros -->
-<div id="modal-añadir" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Añadir nuevo registro</h2>
-        <hr style="border: 1px solid #0071b0; width: 99%;">
-        <form id="form-añadir-registro">
-            <div class="form-container">
-                <div class="form-section">
-                    <h3>Materia</h3>
-                    <div class="form-row">
-                        <input type="text" id="ciclo" name="ciclo" placeholder="Ciclo">
-                        <input type="text" id="crn" name="crn" placeholder="CRN" 
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="cve_materia" name="cve_materia" placeholder="CVE Materia">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="materia" name="materia" placeholder="Materia" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nivel" name="nivel" placeholder="Nivel">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="tipo" name="tipo" placeholder="Tipo">
-                        <input type="text" id="nivel_tipo" name="nivel_tipo" placeholder="Nivel tipo">
-                        <input type="text" id="seccion" name="seccion" placeholder="Sección">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="c_min" name="c_min" placeholder="C. Min" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="h_totales" name="h_totales" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="estatus" name="estatus" placeholder="Status">
-                    </div>
-                    <div class="form-row weekdays">
-                        <input type="text" id="l" name="l" placeholder="L" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'L') this.value = '';">
-                        <input type="text" id="m" name="m" placeholder="M" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'M') this.value = '';">
-                        <input type="text" id="i" name="i" placeholder="I" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'I') this.value = '';">
-                        <input type="text" id="j" name="j" placeholder="J" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'J') this.value = '';">
-                        <input type="text" id="v" name="v" placeholder="V" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'V') this.value = '';">
-                        <input type="text" id="s" name="s" placeholder="S" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'S') this.value = '';">
-                        <input type="text" id="d" name="d" placeholder="D" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'D') this.value = '';">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="dia_presencial" name="dia_presencial" placeholder="Día presencial">
-                        <input type="text" id="dia_virtual" name="dia_virtual" placeholder="Día virtual">
-                        <input type="text" id="modalidad" name="modalidad" placeholder="Modalidad">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="fecha_inicial" name="fecha_inicial" placeholder="Fecha inicial">
-                        <input type="text" id="fecha_final" name="fecha_final" placeholder="Fecha final">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="hora_inicial" name="hora_inicial" placeholder="Hora inicial" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="hora_final" name="hora_final" placeholder="Hora final" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="modulo" name="modulo" placeholder="Módulo">
-                        <input type="text" id="aula" name="aula" placeholder="Aula">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="cupo" name="cupo" placeholder="Cupo" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="examen_extraordinario" name="examen_extraordinario" placeholder="Examen extraordinario">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="observaciones" name="observaciones" placeholder="Observaciones" class="full-width">
-                    </div>
-                </div>
-            <div class="form-movil">
-                <div class="form-section">
-                    <h3>Profesorado</h3>
-                    <div class="form-row">
-                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="Código profesor" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="Nombre completo del profesor" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="tipo_contrato" name="tipo_contrato" placeholder="Tipo contrato">
-                        <input type="text" id="categoria" name="categoria" placeholder="Categoría">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="descarga" name="descarga" placeholder="Descarga" class="full-width">
-                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="Código descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="Nombre descarga" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="Nombre definitivo" class="full-width">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="horas_totales" name="horas" placeholder="Horas totales" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="titular" name="titular" placeholder="Titular">
-                    </div>
-                    <div class="form-row">
-                        <input type="text" id="horas" name="horas" placeholder="Horas" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="Código dependencia">
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="form-actions">
-                <button type="button" onclick="añadirRegistro()">Guardar</button>
-                <button type="button" onclick="cerrarFormularioAñadir()">Descartar</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Modal para listar todos los profesores del departamento -->
-<div id="modal-todos-profesores" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="cerrarModalTodosProfesores()">&times;</span>
-        
-        <!-- Barra de búsqueda -->
-        <div class="search-bar">
-            <div class="search-input-container">
-                <i class="fa fa-search" aria-hidden="true"></i>
-                <input type="text" placeholder="Buscar profesor..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
-            </div>
-        </div>
-
-        <!-- Tabla de profesores -->
-        <div class="profesores-container">
-            <h2>Todos los Profesores - <?php echo $departamento_nombre; ?></h2>
-            <table class="profesores-table">
-                <thead>
-                    <tr>
-                        <th class="detalle-column">Código</th>
-                        <th>Nombre Completo</th>
-                        <th class="detalle-column">Detalles del Profesor</th>
-                    </tr>
-                </thead>
-                <tbody id="lista-todos-profesores">
-                <?php
-                include './config/db.php';
-                
-                // Array de mapeo de departamentos
-                $departamentos_mapping = [
-
-                    'Administración' => [
-                        'Administracion',
-                        'ADMINISTRACION',
-                        'Administración'
-                    ],
-                    'PALE' => [
-                        'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
-                        'PALE',
-                        'Programa de Aprendizaje de Lengua Extranjera'
-                    ],
-                    'Auditoría' => [
-                        'Auditoria',
-                        'AUDITORIA',
-                        'Auditoría',
-                        'SECRETARIA ADMINISTRATIVA/AUDITORIA'
-                    ],
-                    'Ciencias_Sociales' => [
-                        'CERI/CIENCIAS SOCIALES',
-                        'CIENCIAS SOCIALES',
-                        'Ciencias Sociales'
-                    ],
-                    'Políticas_Públicas' => [
-                        'POLITICAS PUBLICAS',
-                        'Políticas Públicas',
-                        'Politicas Publicas'
-                    ],
-                    'Contabilidad' => [
-                        'CONTABILIDAD',
-                        'Contabilidad'
-                    ],
-                    'Economía' => [
-                        'ECONOMIA',
-                        'Economía',
-                        'Economia'
-                    ],
-                    'Estudios_Regionales' => [
-                        'ESTUDIOS REGIONALES',
-                        'Estudios Regionales'
-                    ],
-                    'Finanzas' => [
-                        'FINANZAS',
-                        'Finanzas'
-                    ],
-                    'Impuestos' => [
-                        'IMPUESTOS',
-                        'Impuestos'
-                    ],
-                    'Mercadotecnia' => [
-                        'MERCADOTECNIA',
-                        'Mercadotecnia',
-                        'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
-                    ],
-                    'Métodos_Cuantitativos' => [
-                        'METODOS CUANTITATIVOS',
-                        'Métodos Cuantitativos',
-                        'Metodos Cuantitativos'
-                    ],
-                    'Recursos_Humanos' => [
-                        'RECURSOS HUMANOS',
-                        'Recursos Humanos',
-                        'RECURSOS_HUMANOS'
-                    ],
-                    'Sistemas_de_Información' => [
-                        'SISTEMAS DE INFORMACION',
-                        'Sistemas de Información',
-                        'Sistemas de Informacion'
-                    ],
-                    'Turismo' => [
-                        'TURISMO',
-                        'Turismo',
-                        'Turismo R. y S.'
-                    ],
-                    'Posgrados' => [
-                        'POSGRADOS',
-                        'Posgrados'
-                    ]
-                ];
-
-                // Encontrar todas las variantes del departamento actual
-                $departamento_variantes = [];
-                foreach ($departamentos_mapping as $key => $variants) {
-                    if ($key === $nombre_departamento) {
-                        $departamento_variantes = $variants;
-                        break;
-                    }
-                }
-
-                // Crear la condición WHERE para la consulta SQL
-                $where_conditions = [];
-                foreach ($departamento_variantes as $variante) {
-                    $where_conditions[] = "Departamento = '" . mysqli_real_escape_string($conexion, $variante) . "'";
-                }
-                $where_clause = count($where_conditions) > 0 ? implode(' OR ', $where_conditions) : "1=0";
-
-                // Consulta SQL con las variantes del departamento
-                $sql_todos_profesores = "SELECT DISTINCT Codigo, Nombre_Completo 
-                                       FROM Coord_Per_Prof 
-                                       WHERE $where_clause
-                                       ORDER BY Nombre_Completo";
-                
-                $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
-                
-                if ($result_todos_profesores) {
-                    while($row = mysqli_fetch_assoc($result_todos_profesores)) {
-                        echo "<tr>";
-                        echo "<td class='detalle-column'>" . htmlspecialchars($row['Codigo']) . "</td>";
-                        echo "<td class=''>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
-                        echo "<td class='detalle-column'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='3'>Error en la consulta: " . mysqli_error($conexion) . "</td></tr>";
-                }
-                ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-<!-- Modal para visualizar información detallada del profesor -->
-<div id="modal-detalle-profesor" class="modal">
-    <div class="modal-content">
-        <!--<h2>Detalle del Profesor</h2>-->
-        <div id="detalle-profesor-contenido">
-            <span class="close" onclick="cerrarModalDetalle()">&times;</span>
-            <!--El contenido se cargará dinámicamente -->
-        </div> 
-    </div>
-</div>
+<?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php';?>
+<?php include './functions/basesdedatos/modal-profesores/modal-profesores.php';?>
 
 <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
 <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">

@@ -33,7 +33,7 @@ if(isset($_POST['codigo_profesor'])) {
     $codigo_profesor = (int)$_POST['codigo_profesor'];
     $departamento_id = (int)$_POST['departamento_id'];
 
-    $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM Departamentos WHERE Departamento_ID = $departamento_id";
+    $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
     $result_departamento = mysqli_query($conexion, $sql_departamento);
     $row_departamento = mysqli_fetch_assoc($result_departamento);
     $nombre_departamento = $row_departamento['Nombre_Departamento'];
@@ -46,7 +46,7 @@ if(isset($_POST['codigo_profesor'])) {
                         Correo, 
                         Categoria_actual, 
                         Departamento
-                    FROM Coord_Per_Prof 
+                    FROM coord_per_prof 
                     WHERE Codigo = ?";
                                        
     $stmt_profesor = mysqli_prepare($conexion, $sql_profesor);
@@ -57,18 +57,18 @@ if(isset($_POST['codigo_profesor'])) {
 
     // Función para obtener todas las tablas de departamentos
     function obtenerTablasDepartamentos($conexion) {
-        $sql = "SELECT Nombre_Departamento FROM Departamentos";
+        $sql = "SELECT Nombre_Departamento FROM departamentos";
         $result = mysqli_query($conexion, $sql);
         $tablas = [];
         while($row = mysqli_fetch_assoc($result)) {
-            $tablas[] = "Data_" . $row['Nombre_Departamento'];
+            $tablas[] = "data_" . $row['Nombre_Departamento'];
         }
         return $tablas;
     }
 
     function limpiarNombreDepartamento($departamento) {
         // Eliminar el prefijo "Data_"
-        $nombre = preg_replace('/^Data_/', '', $departamento);
+        $nombre = preg_replace('/^data_/', '', $departamento);
         // Reemplazar guiones bajos con espacios
         $nombre = str_replace('_', ' ', $nombre);
         return $nombre;
@@ -76,7 +76,7 @@ if(isset($_POST['codigo_profesor'])) {
 
     function obtenerCursosUnicos($conexion, $codigo_profesor) {
         // Obtener todas las tablas de departamentos
-        $sql_departamentos = "SELECT Nombre_Departamento FROM Departamentos";
+        $sql_departamentos = "SELECT Nombre_Departamento FROM departamentos";
         $result_departamentos = mysqli_query($conexion, $sql_departamentos);
         
         // Array para almacenar cursos únicos
@@ -84,7 +84,7 @@ if(isset($_POST['codigo_profesor'])) {
         
         // Iteración a través de cada tabla de departamentos
         while ($row_departamento = mysqli_fetch_assoc($result_departamentos)) {
-            $tabla_departamento = "Data_" . $row_departamento['Nombre_Departamento'];
+            $tabla_departamento = "data_" . $row_departamento['Nombre_Departamento'];
             
             // Consulta SQL para obtener cursos únicos con manejo especial para duplicados virtuales/presenciales
             $sql_cursos = "

@@ -298,7 +298,7 @@ th {
 }
 
 .popup-active::before {
-  content: "";
+  content: '';
   position: fixed;
   top: 0;
   left: 0;
@@ -309,18 +309,18 @@ th {
 }
 
 #popup-columnas {
-  display: none;
+  display:none;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 50px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  width: 25vw;
-  height: 88vh;
+  width: 50vw;
+  height: 80vh;
   overflow-y: auto;
   border: 1px solid rgb(173, 173, 173);
 }
@@ -343,11 +343,10 @@ th {
   margin-top: -5px;
 }
 
-.select-all-div #select-all {
+.select-all-div {
   margin-bottom: 15px;
   font-weight: bold;
 }
-
 
 .columns-container {
   display: grid;
@@ -355,14 +354,7 @@ th {
   gap: 10px;
 }
 
-.contenedor-buttons {
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  left: 35%;
-}
-
-.contenedor-buttons button {
+#popup-columnas button {
   margin-top: 20px;
   padding: 10px 15px;
   background-color: #0071b0;
@@ -374,23 +366,11 @@ th {
   justify-content: center;
 }
 
-#popup-columnas .close-btn {
-  position: absolute;
-  top: 43px;
-  right: 40px;
-  background-color: transparent;
-  color: #0071b0;
-  border: none;
-  font-size: 25px;
-  font-weight: bolder;
-  cursor: pointer;
+#popup-columnas button:hover {
+  background-color: #005a8c;
 }
 
-#popup-columnas .close-btn:hover {
-  color: #333;
-}
-
-/* Modal ? */
+/* Modal Añadir Registro */
 
 .modal {
   display: none;
@@ -398,15 +378,25 @@ th {
   z-index: 1000;
   left: 0;
   top: 0;
-  margin: auto;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0,0,0,0.4);
 }
 
-.modal input,
-.modal select {
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+.modal input, .modal select {
   border-radius: 5px;
   padding: 5px;
   border: 1px solid #ccc;
@@ -414,18 +404,13 @@ th {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 3% auto;
+  margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 90%;
-  max-width: 1200px;
+  max-width: 1000px;
   max-height: 80vh;
   overflow-y: auto;
-  border-radius: 15px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  -ms-border-radius: 15px;
-  -o-border-radius: 15px;
 }
 
 .modal-content h2 {
@@ -457,6 +442,64 @@ th {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.weekdays {
+  justify-content: space-between;
+}
+
+.weekdays input {
+  width: 30px;
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7.5px;
+  cursor: pointer;
+}
+
+.form-actions button:first-child {
+  background-color: #0071b0;
+  color: white;
+  font-weight: bold;
+}
+
+.form-actions button:last-child {
+  background-color: #fff;
+  color: #0071b0;
+  border: #0071b0 solid 2px;
+  font-weight: bold;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.input-estrecho {
+  width: 80px; /* Ajusta este valor según sea necesario */
+  /* box-sizing: border-box; */
+  padding: 5px; /* Opcional: ajustar el padding según sea necesario */
+  border: none;
 }
 
 /* Estilos para el contenedor de búsqueda de Js */
@@ -1233,5 +1276,5 @@ table.dataTable thead .sorting_desc {
 }
 
 #tabla-datos {
-  display: none; /* Ocultar los datos de la tabla para después mostrarlos mediante JS y optimizar el tiempo de ejecución */
+  display:table; /* Ocultar los datos de la tabla para después mostrarlos mediante JS y optimizar el tiempo de ejecución */
 }

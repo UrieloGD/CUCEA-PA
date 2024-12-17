@@ -1,54 +1,67 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 session_start();
 include './../../config/db.php';
 include './../notificaciones-correos/email_functions.php';
 
+date_default_timezone_set('America/Mexico_City');
+
 header('Content-Type: application/json');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $justificacion = mysqli_real_escape_string($conexion, $_POST['justificacion']);
-    $departamento_id = $_POST['departamento_id'];
-    $codigo_usuario = $_POST['codigo_usuario'];
+try {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Verificar si hay una sesión activa
+        if (!isset($_SESSION['Codigo']) || !isset($_SESSION['Departamento_ID'])) {
+            throw new Exception("No se ha iniciado sesión correctamente.");
+        }
 
-    // Verificar la longitud de la justificación sin contar espacios
-    $justificacion_sin_espacios = preg_replace('/\s+/', '', $justificacion);
-    if (strlen($justificacion_sin_espacios) < 60) {
-        echo json_encode(["success" => false, "message" => "La justificación debe tener al menos 60 caracteres sin contar espacios."]);
-        exit();
-    }
+        $departamento_id = $_SESSION['Departamento_ID'];
+        $codigo_usuario = $_SESSION['Codigo'];
 
-    // Verificar si ya existe una justificación para este usuario y departamento
-    $check_sql = "SELECT COUNT(*) as count FROM Justificaciones WHERE Departamento_ID = ? AND Codigo_Usuario = ?";
-    $check_stmt = $conexion->prepare($check_sql);
-    $check_stmt->bind_param("is", $departamento_id, $codigo_usuario);
-    $check_stmt->execute();
-    $result = $check_stmt->get_result();
-    $row = $result->fetch_assoc();
+        $justificacion = isset($_POST['justificacion']) ? 
+            mysqli_real_escape_string($conexion, $_POST['justificacion']) : 
+            throw new Exception("Justificación no proporcionada");
 
-    if ($row['count'] > 0) {
-        echo json_encode(["success" => false, "message" => "Ya has enviado una justificación anteriormente."]);
-        exit();
-    }
+        // Verificar la longitud de la justificación sin contar espacios
+        $justificacion_sin_espacios = preg_replace('/\s+/', '', $justificacion);
+        if (strlen($justificacion_sin_espacios) < 60) {
+            throw new Exception("La justificación debe tener al menos 60 caracteres sin contar espacios.");
+        }
 
-    // Insertar justificación y marcarla como enviada
-    $sql = "INSERT INTO Justificaciones (Departamento_ID, Codigo_Usuario, Justificacion, Justificacion_Enviada) 
-            VALUES (?, ?, ?, 1)";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("iss", $departamento_id, $codigo_usuario, $justificacion);
+        // Verificar si ya existe una justificación para este usuario y departamento
+        $check_sql = "SELECT COUNT(*) as count FROM justificaciones WHERE Departamento_ID = ? AND Codigo_Usuario = ?";
+        $check_stmt = $conexion->prepare($check_sql);
+        $check_stmt->bind_param("is", $departamento_id, $codigo_usuario);
+        $check_stmt->execute();
+        $result = $check_stmt->get_result();
+        $row = $result->fetch_assoc();
 
-    if ($stmt->execute()) {
-        // La justificación se guardó correctamente
+        if ($row['count'] > 0) {
+            throw new Exception("Ya has enviado una justificación anteriormente.");
+        }
+
+        // Insertar justificación
+        $sql = "INSERT INTO justificaciones (Departamento_ID, Codigo_Usuario, Justificacion, Justificacion_Enviada) 
+                VALUES (?, ?, ?, 1)";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("iss", $departamento_id, $codigo_usuario, $justificacion);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error al guardar la justificación: " . $stmt->error);
+        }
 
         // Obtener información del departamento
-        $sql_departamento = "SELECT Departamentos FROM Departamentos WHERE Departamento_ID = ?";
+        $sql_departamento = "SELECT Departamentos FROM departamentos WHERE Departamento_ID = ?";
         $stmt_departamento = $conexion->prepare($sql_departamento);
         $stmt_departamento->bind_param("i", $departamento_id);
         $stmt_departamento->execute();
         $result_departamento = $stmt_departamento->get_result();
         $departamento = $result_departamento->fetch_assoc();
 
-        // Obtener correos de los usuarios de secretaría administrativa
-        $sql_secretaria = "SELECT Correo FROM Usuarios WHERE Rol_ID = 2";
+        // Enviar correos a secretaría administrativa
+        $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 2";
         $result_secretaria = $conexion->query($sql_secretaria);
 
         while ($secretaria = $result_secretaria->fetch_assoc()) {
@@ -58,14 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <html>
             <head>
                 <style>
-                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-                    .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-                    .header { text-align: center; padding-bottom: 20px; }
-                    .header img { width: 300px; }
-                    .content { padding: 20px; }
-                    h2 { color: #2c3e50; }
-                    p { line-height: 1.5; color: #333; }
-                    .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                    /* Estilos CSS previamente definidos */
                 </style>
             </head>
 
@@ -77,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class='content'>
                         <h2>Nueva justificación enviada</h2>
                         <p>Se ha recibido una nueva justificación del departamento de {$departamento['Departamentos']}.</p>
-                        <p>Fecha de envío: " .date('d/m/Y H:i') . "</p>
+                        <p>Fecha de envío: " . date('d/m/Y H:i') . "</p>
                         <p>Por favor, ingrese al sistema para más detalles.</p>
                     </div>
                     <div class='footer'>
@@ -92,12 +98,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         echo json_encode(["success" => true, "message" => "Justificación guardada exitosamente"]);
+        exit();
+
     } else {
-        echo json_encode(["success" => false, "message" => "Error al guardar la justificación: " . $stmt->error]);
+        throw new Exception("Método de solicitud no válido");
     }
-} else {
-    echo json_encode(["success" => false, "message" => "Método de solicitud no válido"]);
+
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        "success" => false, 
+        "message" => $e->getMessage(),
+        "error_details" => $e->getTraceAsString()
+    ]);
+    exit();
 }
 
 mysqli_close($conexion);
-exit();

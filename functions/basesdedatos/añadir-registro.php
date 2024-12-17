@@ -15,7 +15,7 @@ if (empty($departamento_id)) {
 }
 
 // Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
@@ -24,7 +24,7 @@ $row_departamento = $result_departamento->fetch_assoc();
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
 
 // Construir el nombre de la tabla
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
 // Preparar la consulta SQL
 $sql = "INSERT INTO `$tabla_departamento` (

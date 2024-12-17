@@ -1,5 +1,5 @@
 <?php
-include '../config/db.php';
+include './../../config/db.php';
 
 $codigo = $_POST['codigo'];
 $departamento_nombre = $_POST['departamento']; // Asegúrate de pasar el departamento en la llamada AJAX
@@ -100,7 +100,7 @@ foreach ($departamento_variantes as $variante) {
 }
 $where_clause = count($where_conditions) > 0 ? implode(' OR ', $where_conditions) : "1=0";
 
-$sql = "SELECT * FROM Coord_Per_Prof WHERE Codigo = ? AND ($where_clause)";
+$sql = "SELECT * FROM coord_per_prof WHERE Codigo = ? AND ($where_clause)";
 
 $stmt = mysqli_prepare($conexion, $sql);
 mysqli_stmt_bind_param($stmt, "s", $codigo);

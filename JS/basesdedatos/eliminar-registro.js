@@ -25,20 +25,29 @@ function eliminarRegistrosSeleccionados() {
           "application/x-www-form-urlencoded"
         );
         xhr.onreadystatechange = function () {
-          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            Swal.fire({
-              title: "¡Éxito!",
-              text: "La base de datos ha sido borrada correctamente.",
-              icon: "success",
-            }).then(() => {
-              location.reload();
-            });
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              Swal.fire({
+                title: "¡Éxito!",
+                text: "La base de datos ha sido borrada correctamente.",
+                icon: "success",
+              }).then(() => {
+                location.reload();
+              });
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Hubo un problema al borrar la base de datos.",
+                icon: "error"
+              });
+            }
           }
         };
 
         var departamento_id = document.getElementById("departamento_id").value;
         xhr.send(
-          "truncate=1&departamento_id=" + encodeURIComponent(departamento_id)
+          "departamento_id=" + encodeURIComponent(departamento_id) + 
+          "&truncate=1"
         );
       }
     });

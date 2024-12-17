@@ -10,7 +10,7 @@ if (empty($departamento_id) || empty($columnas_seleccionadas)) {
     die("Error: Faltan parámetros necesarios.");
 }
 
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 if ($stmt === false) {
     die("Error preparando la consulta: " . $conexion->error);
@@ -59,7 +59,7 @@ $columnas_reales = array_map(function($columna) use ($mapeo_columnas) {
     return obtenerNombreRealColumna($columna, $mapeo_columnas);
 }, $columnas_seleccionadas);
 
-$sql_departamento = "SELECT Nombre_Departamento FROM Departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 if ($stmt === false) {
     die("Error preparando la consulta de departamento: " . $conexion->error);
@@ -73,7 +73,7 @@ $nombre_departamento = $row_departamento['Nombre_Departamento'];
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
-$tabla_departamento = "Data_" . str_replace(' ', '_', $nombre_departamento);
+$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
 // Construir la consulta SQL dinámica con los nombres reales de las columnas
 $sql = "SELECT " . implode(", ", $columnas_reales) . " FROM `$tabla_departamento` WHERE Departamento_ID = ?";
