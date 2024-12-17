@@ -2,12 +2,10 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
-<!-- Conexión a la base de datos -->
-<?php include './config/db.php' ?>
 
 <?php 
 // Obtener la fecha límite más reciente
-$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $fecha_limite = null;
 if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
@@ -16,13 +14,13 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
 
 // Obtener información de todos los departamentos
 $sql_departamentos = "SELECT d.*, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                      FROM Departamentos d
-                      LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
+                      FROM departamentos d
+                      LEFT JOIN plantilla_dep p ON d.Departamento_ID = p.Departamento_ID
                       GROUP BY d.Departamento_ID";
 $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
 // Periodo actual (ajusta esto según cómo determines el periodo actual)
-$periodo_actual = "2025A";
+$periodo_actual = "2025B";
 ?>
 
 <title>Reporte de entrega</title>
@@ -48,7 +46,7 @@ $periodo_actual = "2025A";
             $fecha_actual = date("Y-m-d");
             
             // Buscar justificación
-            $sql_justificacion = "SELECT Justificacion FROM Justificaciones 
+            $sql_justificacion = "SELECT Justificacion FROM justificaciones 
             WHERE Departamento_ID = {$departamento['Departamento_ID']}
             ORDER BY Fecha_Justificacion DESC LIMIT 1";
             $result_justificacion = mysqli_query($conexion, $sql_justificacion);

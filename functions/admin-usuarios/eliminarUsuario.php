@@ -20,14 +20,14 @@ $conexion->begin_transaction();
 
 try {
     // Eliminar los registros relacionados en la tabla Usuarios_Departamentos
-    $sql = "DELETE FROM Usuarios_Departamentos WHERE Usuario_ID = ?";
+    $sql = "DELETE FROM usuarios_departamentos WHERE Usuario_ID = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $stmt->close();
 
     // Eliminar el usuario de la tabla Usuarios
-    $sql = "DELETE FROM Usuarios WHERE Codigo = ?";
+    $sql = "DELETE FROM usuarios WHERE Codigo = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $userId);
     $stmt->execute();

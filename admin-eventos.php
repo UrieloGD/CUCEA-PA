@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>
                     <i class="fas fa-bell"></i> Notificaciones
                 </label>
@@ -122,7 +122,7 @@
                     <span>a las</span>
                     <input type="time" id="editHorNotif" name="HorNotif" value="" required>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group split-group">
                 <div class="split-item">
@@ -194,7 +194,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>
                     <i class="fas fa-bell"></i> Notificaciones
                 </label>
@@ -209,7 +209,7 @@
                     <span>a las</span>
                     <input type="time" id="editHorNotif" name="HorNotif" value="" required>
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group split-group">
                 <div class="split-item">

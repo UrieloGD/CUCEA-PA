@@ -1,289 +1,40 @@
 document.addEventListener("DOMContentLoaded", function () {
   const editButtons = document.querySelectorAll(".btn.edit");
-
   const saveButtons = document.querySelectorAll(".btn.save");
-
   const cancelButtons = document.querySelectorAll(".btn.cancel");
-
-  editButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const row = button.closest("tr");
-
-      toggleEdit(row, true);
-    });
-  });
-
-  saveButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const row = button.closest("tr");
-
-      saveChanges(row);
-    });
-  });
-
-  cancelButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-      const row = button.closest("tr");
-      Swal.fire({
-        title: "¿Estás seguro?",
-        text: "Se perderán los cambios no guardados.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, cancelar edición",
-        cancelButtonText: "No, continuar editando",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          reloadPage(); // recargar página al cancelar edición
-        }
-      });
-    });
-  });
-
-  function toggleEdit(row, isEditing) {
-    const editableFields = row.querySelectorAll(".editable");
-
-    editableFields.forEach((field) => {
-      const fieldName = field.getAttribute("data-field");
-
-      if (isEditing) {
-        const value = field.innerText;
-
-        if (fieldName === "Rol") {
-          field.innerHTML = getRolesDropdown(value);
-          // Añadir event listener al select de roles
-          const rolSelect = field.querySelector("select");
-          rolSelect.addEventListener("change", function () {
-            const departamentoField = row.querySelector(
-              '[data-field="Departamento"]'
-            );
-            const departamentoSelect =
-              departamentoField.querySelector("select");
-            if (
-              this.options[this.selectedIndex].text ===
-                "Secretaría Administrativa" ||
-              this.options[this.selectedIndex].text ===
-                "Coordinación de Personal"
-            ) {
-              departamentoSelect.disabled = true;
-              departamentoSelect.value = ""; // Opcional: limpiar la selección
-            } else {
-              departamentoSelect.disabled = false;
-            }
-          });
-        } else if (fieldName === "Departamento") {
-          field.innerHTML = getDepartamentosDropdown(value);
-          // Verificar el rol actual y deshabilitar si es necesario
-          const rolField = row.querySelector('[data-field="Rol"]');
-          const rolSelect = rolField.querySelector("select");
-          const departamentoSelect = field.querySelector("select");
-          if (
-            rolSelect.options[rolSelect.selectedIndex].text ===
-              "Secretaría Administrativa" ||
-            rolSelect.options[rolSelect.selectedIndex].text ===
-              "Coordinación de Personal"
-          ) {
-            departamentoSelect.disabled = true;
-            departamentoSelect.value = ""; // Opcional: limpiar la selección
-          }
-        } else {
-          field.innerHTML = `<input type='text' value='${value}' data-field='${fieldName}'>`;
-        }
-      } else {
-        const input = field.querySelector("input");
-        const select = field.querySelector("select");
-
-        if (input) {
-          field.innerText = input.value;
-        } else if (select) {
-          field.innerText = select.options[select.selectedIndex].text;
-        }
-      }
-    });
-
-    row.querySelector(".edit").style.display = isEditing ? "none" : "";
-    row.querySelector(".save").style.display = isEditing ? "" : "none";
-    row.querySelector(".cancel").style.display = isEditing ? "" : "none";
-    row.querySelector(".delete").style.display = isEditing ? "none" : "";
-  }
-
-  function getRolesDropdown(currentRole) {
-    let dropdown = `<select data-field='Rol'>`;
-
-    roles.forEach((role) => {
-      dropdown += `<option value='${role.Rol_ID}' ${
-        role.Nombre_Rol === currentRole ? "selected" : ""
-      }>${role.Nombre_Rol}</option>`;
-    });
-
-    dropdown += `</select>`;
-
-    return dropdown;
-  }
-
-  function getDepartamentosDropdown(currentDepartamento) {
-    let dropdown = `<select data-field='Departamento'>`;
-
-    departamentos.forEach((departamento) => {
-      dropdown += `<option value='${departamento.Departamento_ID}' ${
-        departamento.Departamentos === currentDepartamento
-          ? "selected"
-          : ""
-      }>${departamento.Departamentos}</option>`;
-    });
-
-    dropdown += `</select>`;
-
-    return dropdown;
-  }
-
-  function saveChanges(row) {
-    const userId = row.getAttribute("data-id");
-    const inputs = row.querySelectorAll("input");
-    const selects = row.querySelectorAll("select");
-    const data = {};
-
-    inputs.forEach((input) => {
-      const fieldName = input.getAttribute("data-field");
-      data[fieldName] = input.value;
-    });
-
-    selects.forEach((select) => {
-      const fieldName = select.getAttribute("data-field");
-      data[fieldName] = select.value;
-    });
-
-    console.log("Sending data to server:", { id: userId, ...data });
-
-    fetch("./functions/admin-usuarios/editarUsuario.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: userId,
-        ...data,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Server response:", result);
-        if (result.success) {
-          Swal.fire({
-            icon: "success",
-            title: "¡Éxito!",
-            text: "Usuario actualizado exitosamente",
-          }).then(() => {
-            reloadPage();
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Error al actualizar el usuario: " + result.message,
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Hubo un problema al procesar la solicitud.",
-        });
-      });
-  }
-
-  // Eliminar Usuario
-  const deleteButtons = document.querySelectorAll(".btn.delete");
-
-  deleteButtons.forEach((button) => {
-    button.addEventListener("click", function (event) {
-      event.preventDefault();
-
-      const row = button.closest("tr");
-      const userId = row.getAttribute("data-id");
-
-      Swal.fire({
-        title: "¿Estás seguro?",
-        text: `¿Quieres eliminar al usuario con código ${userId}?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, eliminar",
-        cancelButtonText: "Cancelar",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          fetch("./functions/admin-usuarios/eliminarUsuario.php", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: userId }),
-          })
-            .then((response) => response.json())
-            .then((result) => {
-              console.log("Server response:", result);
-              if (result.success) {
-                row.remove();
-                Swal.fire(
-                  "Eliminado",
-                  "El usuario ha sido eliminado exitosamente.",
-                  "success"
-                );
-              } else {
-                Swal.fire(
-                  "Error",
-                  "Error al eliminar el usuario: " + result.message,
-                  "error"
-                );
-              }
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              Swal.fire("Error", "Error al eliminar el usuario.", "error");
-            });
-        }
-      });
-    });
-  });
-
-  // Barra de búsqueda
-  const searchInput = document.getElementById("search-input");
-
-  searchInput.addEventListener("input", filterTable);
-
-  function filterTable() {
-    const searchText = searchInput.value.toLowerCase().trim();
-
-    const searchWords = searchText.split(" ");
-
-    const tableRows = document.querySelectorAll("table tr:not(:first-child)");
-    tableRows.forEach((row) => {
-      const rowData = row.textContent.toLowerCase();
-      const shouldShowRow = searchWords.every((word) => rowData.includes(word));
-      if (shouldShowRow) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
-    });
-  }
-
-  // Obtener referencias a los elementos del DOM
+  
   const addButton = document.getElementById("add-button");
   const nuevoUsuarioModal = document.getElementById("nuevoUsuarioModal");
   const cerrarModal = document.getElementsByClassName("cerrar")[0];
   const nuevoUsuarioForm = document.getElementById("nuevoUsuarioForm");
+  const submitButton = document.getElementById("submitButton");
 
-  // Rellenar las opciones de los select de roles y departamentos
+  // Funciones de modal
+  function mostrarModal() {
+    nuevoUsuarioModal.style.display = "block";
+  }
+
+  function ocultarModal() {
+    nuevoUsuarioModal.style.display = "none";
+    resetModalForm();
+  }
+
+  function resetModalForm() {
+    nuevoUsuarioModal.setAttribute('data-mode', 'add');
+    document.getElementById('modalTitle').textContent = 'Agregar nuevo usuario';
+    document.getElementById('usuarioIdEdicion').value = '';
+    document.getElementById('codigo').value = '';
+    document.getElementById('nombre').value = '';
+    document.getElementById('apellido').value = '';
+    document.getElementById('correo').value = '';
+    document.getElementById('rol').selectedIndex = 0;
+    document.getElementById('departamento').selectedIndex = 0;
+    document.getElementById('password').removeAttribute('readonly'); // Desbloquea contraseña
+    document.getElementById('password').value = ''; // Limpia contraseña
+    submitButton.textContent = 'Guardar';
+}
+
+  // Rellenar select de roles y departamentos
   const rolesSelect = document.getElementById("rol");
   roles.forEach((rol) => {
     const option = document.createElement("option");
@@ -300,88 +51,127 @@ document.addEventListener("DOMContentLoaded", function () {
     departamentosSelect.add(option);
   });
 
+  // Lógica de roles y departamentos
   rolesSelect.addEventListener("change", function () {
     const selectedRole = this.options[this.selectedIndex].text;
+    const departamentosSelect = document.getElementById("departamento");
+    
     if (
       selectedRole === "Secretaría Administrativa" ||
       selectedRole === "Coordinación de Personal"
     ) {
       departamentosSelect.disabled = true;
-      departamentosSelect.value = ""; // Opcional: limpiar la selección
+      departamentosSelect.value = "";
     } else {
       departamentosSelect.disabled = false;
     }
   });
 
-  // Función para mostrar el modal
-  function mostrarModal() {
-    nuevoUsuarioModal.style.display = "block";
-  }
-
-  // Función para ocultar el modal
-  function ocultarModal() {
-    nuevoUsuarioModal.style.display = "none";
-  }
-
-  // Evento click para mostrar el modal al hacer clic en el botón "Añadir usuario"
-  addButton.onclick = function () {
+  // Cargar datos de usuario para edición
+  function cargarDatosUsuarioEnModal(usuario) {
+    nuevoUsuarioModal.setAttribute('data-mode', 'edit');
+    document.getElementById('modalTitle').textContent = 'Editar Usuario';
+    document.getElementById('usuarioIdEdicion').value = usuario.Codigo;
+    
+    document.getElementById('codigo').value = usuario.Codigo;
+    document.getElementById('codigo').setAttribute('readonly', true);
+    
+    document.getElementById('nombre').value = usuario.Nombre;
+    document.getElementById('apellido').value = usuario.Apellido;
+    document.getElementById('correo').value = usuario.Correo;
+    
+    // Establecer rol
+    const rolSelect = document.getElementById('rol');
+    for (let i = 0; i < rolSelect.options.length; i++) {
+      if (rolSelect.options[i].text === usuario.Nombre_Rol) {
+        rolSelect.selectedIndex = i;
+        break;
+      }
+    }
+    
+    // Establecer departamento
+    const departamentoSelect = document.getElementById('departamento');
+    for (let i = 0; i < departamentoSelect.options.length; i++) {
+      if (departamentoSelect.options[i].text === usuario.departamento) {
+        departamentoSelect.selectedIndex = i;
+        break;
+      }
+    }
+    
+    // Deshabilitar contraseña
+    document.getElementById('password').setAttribute('readonly', true);
+    document.getElementById('password').value = '********';
+    
+    submitButton.textContent = 'Actualizar';
     mostrarModal();
+  }
+
+  // Evento de botones de edición
+  editButtons.forEach((button) => {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+
+      const row = button.closest("tr");
+      const userData = {
+        Codigo: row.querySelector('[data-field="Código"]')?.textContent || row.querySelector('td:first-child').textContent,
+        Nombre: row.querySelectorAll('td')[1].textContent,
+        Apellido: row.querySelectorAll('td')[2].textContent,
+        Correo: row.querySelectorAll('td')[3].textContent,
+        Nombre_Rol: row.querySelectorAll('td')[4].textContent,
+        departamento: row.querySelectorAll('td')[5].textContent
+      };
+
+      cargarDatosUsuarioEnModal(userData);
+    });
+  });
+
+  // Eventos del modal
+  addButton.onclick = mostrarModal;
+  cerrarModal.onclick = ocultarModal;
+  window.onclick = function(event) {
+    if (event.target === nuevoUsuarioModal) {
+      ocultarModal();
+    }
   };
 
-  // Evento click para ocultar el modal al hacer clic en la "x"
-  cerrarModal.onclick = function () {
-    ocultarModal();
-  };
-
-  // Evento submit para enviar los datos del formulario
+  // Envío del formulario
   nuevoUsuarioForm.onsubmit = function (event) {
-    event.preventDefault(); // Evitar el envío del formulario por defecto
+    event.preventDefault();
 
-    // Obtener los valores del formulario
-    const codigo = document.getElementById("codigo").value;
-    const nombre = document.getElementById("nombre").value;
-    const apellido = document.getElementById("apellido").value;
-    const correo = document.getElementById("correo").value;
-    const rol = document.getElementById("rol").value;
-    const departamento = document.getElementById("departamento").value;
-    const generoSelect = document.getElementById("genero");
-    const genero = generoSelect.options[generoSelect.selectedIndex].value;
-    const password = document.getElementById("password").value;
+    const mode = nuevoUsuarioModal.getAttribute('data-mode');
+    
+    if (mode === 'edit') {
+      // Lógica de edición
+      const datos = {
+        id: document.getElementById('usuarioIdEdicion').value,
+        Codigo: document.getElementById('codigo').value, // Añadir esta línea
+        Nombre: document.getElementById('nombre').value,
+        Apellido: document.getElementById('apellido').value,
+        Correo: document.getElementById('correo').value,
+        Rol: document.getElementById('rol').value,
+        Departamento: document.getElementById('departamento').value
+      };
 
-    // Crear un objeto con los datos del formulario
-    const datos = {
-      codigo,
-      nombre,
-      apellido,
-      correo,
-      rol,
-      departamento,
-      genero,
-      password,
-    };
-
-    // Enviar los datos al servidor usando fetch
-    fetch("./functions/admin-usuarios/agregarUsuario.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(datos),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
+      fetch("./functions/admin-usuarios/editarUsuario.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datos),
       })
+      .then((response) => response.json())
       .then((result) => {
+        ocultarModal();
+        
         if (result.success) {
           Swal.fire({
             icon: "success",
-            title: "Éxito",
+            title: "¡Éxito!",
             text: result.message,
+            customClass: {
+              popup: 'high-z-index'
+            }
           }).then(() => {
-            ocultarModal();
             reloadPage();
           });
         } else {
@@ -389,6 +179,55 @@ document.addEventListener("DOMContentLoaded", function () {
             icon: "error",
             title: "Error",
             text: result.message,
+            customClass: {
+              popup: 'high-z-index'
+            }
+          });
+        }
+      });
+    } else {
+      // Lógica de creación de usuario
+      const datos = {
+        codigo: document.getElementById('codigo').value,
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        correo: document.getElementById('correo').value,
+        rol: document.getElementById('rol').value,
+        departamento: document.getElementById('departamento').value,
+        genero: document.getElementById('genero').value,
+        password: document.getElementById('password').value
+      };
+
+      fetch("./functions/admin-usuarios/agregarUsuario.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(datos),
+      })
+      .then((response) => response.json())
+      .then((result) => {
+        ocultarModal();
+        
+        if (result.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Éxito",
+            text: result.message,
+            customClass: {
+              popup: 'high-z-index'
+            }
+          }).then(() => {
+            reloadPage();
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: result.message,
+            customClass: {
+              popup: 'high-z-index'
+            }
           });
         }
       })
@@ -398,18 +237,15 @@ document.addEventListener("DOMContentLoaded", function () {
           icon: "error",
           title: "Error",
           text: "Hubo un problema al procesar la solicitud: " + error.message,
+          customClass: {
+            popup: 'high-z-index'
+          }
         });
       });
-  };
-
-  // Evento click para cerrar el modal al hacer clic fuera de él
-  window.onclick = function (event) {
-    if (event.target === nuevoUsuarioModal) {
-      ocultarModal();
     }
   };
-});
 
-function reloadPage() {
-  window.location.reload();
-}
+  function reloadPage() {
+    window.location.reload();
+  }
+});

@@ -15,11 +15,11 @@ try {
             $mensaje = "Nuevo evento: $nombre_evento - " . date('d/m/Y', strtotime($fecha_inicio)) . " a las " . date('H:i', strtotime($hora_inicio));
 
             // Preparar consulta para verificar notificaciones existentes
-            $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+            $sql_verificar = "SELECT COUNT(*) as count FROM notificaciones 
                 WHERE Tipo = 'evento' AND Mensaje = ? AND Usuario_ID = ?";
             $stmt_verificar = $conexion->prepare($sql_verificar);
 
-            $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+            $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                                 VALUES (?, ?, ?, 0, ?)";
 
             $stmt = $conexion->prepare($sql_notificacion);
@@ -61,7 +61,7 @@ try {
             $mensaje = "Evento actualizado: $nombre_evento - " . date('d/m/Y', strtotime($fecha_inicio)) . " a las " . date('H:i', strtotime($hora_inicio));
 
             // Obtener participantes anteriores
-            $sql_antiguos = "SELECT Participantes FROM Eventos_Admin WHERE ID_Evento = ?";
+            $sql_antiguos = "SELECT Participantes FROM eventos_admin WHERE ID_Evento = ?";
             $stmt_antiguos = $conexion->prepare($sql_antiguos);
             if (!$stmt_antiguos) {
                 throw new Exception("Error al preparar consulta: " . $conexion->error);
@@ -77,11 +77,11 @@ try {
             $participantes_nuevos = !empty($participantes) ? explode(',', $participantes) : [];
 
             // Preparar consulta para verificar notificaciones existentes
-            $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+            $sql_verificar = "SELECT COUNT(*) as count FROM notificaciones 
                 WHERE Tipo = ? AND Mensaje = ? AND Usuario_ID = ?";
             $stmt_verificar = $conexion->prepare($sql_verificar);
 
-            $sql_notificacion = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+            $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                                 VALUES (?, ?, ?, 0, ?)";
             $stmt = $conexion->prepare($sql_notificacion);
 
@@ -108,7 +108,7 @@ try {
             $participantes_removidos = array_diff($participantes_antiguos, $participantes_nuevos);
             if (!empty($participantes_removidos)) {
                 // Preparar consulta de verificación
-                $sql_verificar = "SELECT COUNT(*) as count FROM Notificaciones 
+                $sql_verificar = "SELECT COUNT(*) as count FROM notificaciones 
                     WHERE Tipo = 'evento_removido' AND Mensaje = ? AND Usuario_ID = ?";
                 $stmt_verificar = $conexion->prepare($sql_verificar);
 
@@ -133,7 +133,7 @@ try {
                             }
 
                             // Enviar correo al usuario removido
-                            $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                            $sql_email = "SELECT Correo FROM usuarios WHERE Codigo = ?";
                             $stmt_email = $conexion->prepare($sql_email);
                             $stmt_email->bind_param("i", $participante_id);
                             $stmt_email->execute();
@@ -228,7 +228,7 @@ try {
                     date('d/m/Y', strtotime($fechIn)) . " a las " .
                     date('H:i', strtotime($horIn)) . ")";
 
-                $sql_notif = "INSERT INTO Notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+                $sql_notif = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
                              VALUES (?, ?, ?, 0, ?)";
                 $stmt_notif = $conexion->prepare($sql_notif);
 
@@ -239,7 +239,7 @@ try {
                         $stmt_notif->execute();
 
                         // Enviar correo al usuario eliminado
-                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                        $sql_email = "SELECT Correo FROM usuarios WHERE Codigo = ?";
                         $stmt_email = $conexion->prepare($sql_email);
                         $stmt_email->bind_param("i", $usuario_id);
                         $stmt_email->execute();
@@ -414,7 +414,7 @@ try {
                     ";
 
                     foreach ($participantesArray as $participante) {
-                        $sql_email = "SELECT Correo FROM Usuarios WHERE Codigo = ?";
+                        $sql_email = "SELECT Correo FROM usuarios WHERE Codigo = ?";
                         $stmt_email = $conexion->prepare($sql_email);
                         $stmt_email->bind_param("i", $participante);
                         $stmt_email->execute();

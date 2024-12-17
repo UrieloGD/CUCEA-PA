@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $notificaciones = $_POST['notificacion'];
     $hora_noti = $_POST['HorNotif'];
 
-    $sql = "UPDATE Eventos_Admin SET 
+    $sql = "UPDATE eventos_admin SET 
             Nombre_Evento = ?, 
             Descripcion_Evento = ?, 
             Fecha_Inicio = ?, 

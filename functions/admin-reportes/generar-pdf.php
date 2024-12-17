@@ -33,20 +33,20 @@ function createHeader($pdf) {
 
 // Obtener datos
 $sql_departamentos = "SELECT d.*, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                      FROM Departamentos d
-                      LEFT JOIN Plantilla_Dep p ON d.Departamento_ID = p.Departamento_ID
+                      FROM departamentos d
+                      LEFT JOIN plantilla_dep p ON d.Departamento_ID = p.Departamento_ID
                       GROUP BY d.Departamento_ID";
 $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
 // Obtener fecha límite
-$sql_fecha_limite = "SELECT Fecha_Limite FROM Fechas_Limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
+$sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $fecha_limite = null;
 if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
     $fecha_limite = mysqli_fetch_assoc($result_fecha_limite)['Fecha_Limite'];
 }
 
-$periodo_actual = "2025A";
+$periodo_actual = "2025B";
 $recuadros_por_pagina = 0;
 $max_recuadros_por_pagina = 4; // Cambiado a 4 recuadros por página
 
@@ -78,7 +78,7 @@ while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
     $fecha_actual = date("d-m-Y");
     
     // Buscar justificación
-    $sql_justificacion = "SELECT Justificacion FROM Justificaciones 
+    $sql_justificacion = "SELECT Justificacion FROM justificaciones 
     WHERE Departamento_ID = {$departamento['Departamento_ID']}
     ORDER BY Fecha_Justificacion DESC LIMIT 1";
     $result_justificacion = mysqli_query($conexion, $sql_justificacion);
@@ -179,5 +179,5 @@ while ($departamento = mysqli_fetch_assoc($result_departamentos)) {
     $recuadros_por_pagina++;
 }
 
-$pdf->Output('reporte_entrega.pdf', 'I');
+$pdf->Output('Reporte_Entrega.pdf', 'I');
 ?>

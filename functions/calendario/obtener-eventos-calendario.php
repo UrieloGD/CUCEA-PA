@@ -23,7 +23,7 @@ if (!$conexion) {
 }
 
 $sql = "SELECT ID_Evento, Nombre_Evento, Etiqueta, Descripcion_Evento, DATE(Fecha_Inicio) AS Fecha_Evento, TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio 
-        FROM Eventos_Admin 
+        FROM eventos_admin 
         WHERE ? BETWEEN DATE(Fecha_Inicio) AND DATE(Fecha_Fin) AND FIND_IN_SET(?, Participantes)";
 
 if ($limit) {

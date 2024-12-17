@@ -252,25 +252,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Filtrar los "Eventos próximos"
     eventItems.forEach((item) => {
-      const eventTag = item.querySelector(".event-tag").textContent;
-      const eventName = item.querySelector("strong").textContent.toLowerCase();
+        // Añade verificaciones de existencia
+        const eventTagElement = item.querySelector(".event-tag");
+        const eventNameElement = item.querySelector("strong");
 
-      if (
-        (selectedFilters.size === 0 || selectedFilters.has(eventTag)) &&
-        eventName.includes(searchTerm.toLowerCase())
-      ) {
-        item.style.display = "flex";
-      } else {
-        item.style.display = "none";
-      }
+        if (eventTagElement && eventNameElement) {
+            const eventTag = eventTagElement.textContent;
+            const eventName = eventNameElement.textContent.toLowerCase();
+
+            if (
+                (selectedFilters.size === 0 || selectedFilters.has(eventTag)) &&
+                eventName.includes(searchTerm.toLowerCase())
+            ) {
+                item.style.display = "flex";
+            } else {
+                item.style.display = "none";
+            }
+        }
     });
 
     // No filtrar los eventos en los recuadros del calendario
     eventIndicators.forEach((indicator) => {
-      indicator.style.display = "block";
+        if (indicator) {
+            indicator.style.display = "block";
+        }
     });
   }
-
+  
   document.querySelector(".search-input").addEventListener("input", (e) => {
     searchTerm = e.target.value;
     filterEvents();

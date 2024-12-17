@@ -10,7 +10,7 @@ if (isset($_GET['event_id'])) {
     $sql = "SELECT Nombre_Evento, Etiqueta, Descripcion_Evento, 
                    DATE_FORMAT(Fecha_Inicio, '%d/%m/%y') AS Fecha_Evento, 
                    TIME_FORMAT(Hora_Inicio, '%H:%i') AS Hora_Inicio 
-            FROM Eventos_Admin 
+            FROM eventos_admin 
             WHERE ID_Evento = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $eventId);
