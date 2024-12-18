@@ -320,7 +320,7 @@ th {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
   width: 40vw;
-  height: 68vh;
+  height: 84vh;
   overflow-y: auto;
   border: 1px solid rgb(173, 173, 173);
 }
@@ -336,6 +336,8 @@ th {
 
 .select-all-div-label {
   padding-left: 10px;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .columns-container div {
@@ -1239,8 +1241,6 @@ table.dataTable thead .sorting_desc {
 }
 
 .columns-container-materia {
-  max-height: 300px;
-  max-width: 800px;
   overflow-y: auto;
   margin: 0 0 25px 0;
   padding: 10px 0 10px 0;
@@ -1255,7 +1255,6 @@ table.dataTable thead .sorting_desc {
 }
 
 .columns-container-profesor {
-  max-height: 300px;
   overflow-y: auto;
   margin: 0 0 25px 0;
   padding: 10px 0 10px 0;
@@ -1304,6 +1303,7 @@ table.dataTable thead .sorting_desc {
   position: relative;
   margin-bottom: 15px;
   margin-top: 10px;
+  font-weight: bold;
 }
 
 .select-all-profesor {
@@ -1312,6 +1312,7 @@ table.dataTable thead .sorting_desc {
   align-items: center;
   margin-bottom: 15px;
   margin-top: 15px;
+  font-weight: bold;
 }
 
 .select-all-profesor label {
@@ -1332,6 +1333,7 @@ table.dataTable thead .sorting_desc {
 .label-profesorado {
   margin-top: 5px;
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .label-materia {
@@ -1339,17 +1341,19 @@ table.dataTable thead .sorting_desc {
 }
 
 .input-check[type="checkbox"] {
+  width: 15px;
+  height: 15px;
   appearance: none;
   -webkit-appearance: none;
-  background-color: #e0e0e0;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  border: 1px solid #3497CE;
   border-radius: 3px;
   cursor: pointer;
 }
 
 .input-check[type="checkbox"]:checked {
-  background-color: #4CAF50;
-  border: 1px solid #4CAF50;
+  background-color: #3497CE;
+  border: 1px solid #3497CE;
 }
 
 .input-check[type="checkbox"]:checked::after {
@@ -1361,4 +1365,14 @@ table.dataTable thead .sorting_desc {
   height: 12px;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+}
+
+.fila-botones{
+  display: flex;
+  justify-content: center;
+  height: 35px;
+}
+
+.btn-cotejo{
+  margin-left: 40px;
 }

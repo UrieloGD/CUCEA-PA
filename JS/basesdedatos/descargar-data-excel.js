@@ -7,6 +7,7 @@ function mostrarPopupColumnas() {
   var selectAllDiv = document.createElement("div");
   selectAllDiv.className = "select-all-div";
   var selectAllCheckbox = document.createElement("input");
+  selectAllCheckbox.className = "input-check";
   selectAllCheckbox.type = "checkbox";
   selectAllCheckbox.id = "select-all";
   var selectAllLabel = document.createElement("label");
@@ -53,10 +54,11 @@ function mostrarPopupColumnas() {
   var selectDiv = document.createElement("div");
   selectDiv.className = "select-all-materia";
   var selectCheckboxMateria = document.createElement("input");
+  selectCheckboxMateria.className = "input-check";
   selectCheckboxMateria.type = "checkbox";
   selectCheckboxMateria.id = "select-all";
   var selectLabel = document.createElement("label");
-  selectLabel.htmlFor = "select-all";
+  selectLabel.htmlFor = "select-all-materia";
   selectLabel.appendChild(
     document.createTextNode("Seleccionar/Deseleccionar Todas - Materia")
   );
@@ -68,6 +70,7 @@ function mostrarPopupColumnas() {
   columnDiv.className = "columns-container-materia";
   headers_materia.forEach(function (header, index) {
     var checkbox = document.createElement("input");
+    checkbox.className = "input-check";
     checkbox.type = "checkbox";
     checkbox.id = "col-" + header.textContent.toLowerCase().replace(/ /g, "-");
     checkbox.name = "columnas[]";
@@ -142,10 +145,11 @@ function mostrarPopupColumnas() {
   var selectDiv2 = document.createElement("div");
   selectDiv2.className = "select-all-profesor";
   var selectCheckboxProfesor = document.createElement("input");
+  selectCheckboxProfesor.className = "input-check";
   selectCheckboxProfesor.type = "checkbox";
   selectCheckboxProfesor.id = "select-all";
   var selectLabel = document.createElement("label");
-  selectLabel.htmlFor = "select-all";
+  selectLabel.htmlFor = "select-all-profesor";
   selectLabel.appendChild(
     document.createTextNode("Seleccionar/Deseleccionar Todas - Profesorado")
   );
@@ -155,6 +159,7 @@ function mostrarPopupColumnas() {
   
   headers_profesor.forEach(function (header, index) {
     var checkbox = document.createElement("input");
+    checkbox.className = "input-check";
     checkbox.type = "checkbox";
     checkbox.id = "col-" + header.textContent.toLowerCase().replace(/ /g, "-");
     checkbox.name = "columnas[]";
