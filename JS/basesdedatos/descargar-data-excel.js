@@ -6,6 +6,8 @@ function mostrarPopupColumnas() {
   // Añadir botón para seleccionar/deseleccionar todas
   var selectAllDiv = document.createElement("div");
   selectAllDiv.className = "select-all-div";
+  var selectDiv = document.createElement("div");
+  selectDiv.className = "select-first";
   var selectAllCheckbox = document.createElement("input");
   selectAllCheckbox.className = "input-check";
   selectAllCheckbox.type = "checkbox";
@@ -16,8 +18,9 @@ function mostrarPopupColumnas() {
   selectAllLabel.appendChild(
     document.createTextNode("Seleccionar/Deseleccionar Todas")
   );
-  selectAllDiv.appendChild(selectAllCheckbox);
-  selectAllDiv.appendChild(selectAllLabel);
+  selectDiv.appendChild(selectAllCheckbox);
+  selectDiv.appendChild(selectAllLabel);
+  selectAllDiv.appendChild(selectDiv);
   opcionesColumnas.appendChild(selectAllDiv);
 
   // Obtener los encabezados de la tabla
@@ -60,7 +63,7 @@ function mostrarPopupColumnas() {
   var selectLabel = document.createElement("label");
   selectLabel.htmlFor = "select-all-materia";
   selectLabel.appendChild(
-    document.createTextNode("Seleccionar/Deseleccionar Todas - Materia")
+    document.createTextNode("Seleccionar/Deseleccionar grupo completo de Materia")
   );
   selectDiv.appendChild(selectCheckboxMateria);
   selectDiv.appendChild(selectLabel);
@@ -151,7 +154,7 @@ function mostrarPopupColumnas() {
   var selectLabel = document.createElement("label");
   selectLabel.htmlFor = "select-all-profesor";
   selectLabel.appendChild(
-    document.createTextNode("Seleccionar/Deseleccionar Todas - Profesorado")
+    document.createTextNode("Seleccionar/Deseleccionar grupo completo de Profesorado")
   );
   selectDiv2.appendChild(selectCheckboxProfesor);
   selectDiv2.appendChild(selectLabel);

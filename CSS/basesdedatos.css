@@ -315,12 +315,12 @@ th {
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 50px;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
   width: 40vw;
-  height: 84vh;
+  height: 80vh;
   overflow-y: auto;
   border: 1px solid rgb(173, 173, 173);
 }
@@ -1279,6 +1279,8 @@ table.dataTable thead .sorting_desc {
 
 .check-js {
   margin: 0 0 5px 0;
+  display: flex;
+  justify-content: left;
 }
 
 .check-js label{
@@ -1297,19 +1299,18 @@ table.dataTable thead .sorting_desc {
 }
 
 .select-all-materia {
-  vertical-align: middle;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  display: flex;
+  justify-content: left;
   margin-bottom: 15px;
   margin-top: 10px;
   font-weight: bold;
 }
 
 .select-all-profesor {
-  vertical-align: middle;
-  justify-items: center;
-  align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: left;
   margin-bottom: 15px;
   margin-top: 15px;
   font-weight: bold;
@@ -1317,7 +1318,6 @@ table.dataTable thead .sorting_desc {
 
 .select-all-profesor label {
   padding-left: 10px;
-  margin: 5px;
 }
 
 .column-selector button {
@@ -1375,4 +1375,9 @@ table.dataTable thead .sorting_desc {
 
 .btn-cotejo{
   margin-left: 40px;
+}
+
+.select-first {
+  display: flex;
+  justify-content: left;
 }
