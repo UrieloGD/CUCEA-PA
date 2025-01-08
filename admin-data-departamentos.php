@@ -28,7 +28,7 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
 
 <?php
 // Conexión a la base de datos
-include './config/db.php';
+require_once './config/db.php';
 
 // Obtener la última fecha límite de la base de datos
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
