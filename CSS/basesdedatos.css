@@ -514,7 +514,7 @@ th {
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
+/* .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
@@ -524,7 +524,7 @@ th {
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 10px;
-}
+} DUPLICADO MAYBE */
 
 .modal input, .modal select {
   border-radius: 5px;
@@ -537,7 +537,7 @@ th {
   margin: 3% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 90%;
+  width: 60%;
   max-width: 1200px;
   max-height: 85vh;
   overflow-y: auto;
@@ -565,13 +565,32 @@ th {
 
 .form-section {
   width: 50%;
-  padding: 0 30 0px;
+  padding: 0 15 0px;
 }
 
-.form-row {
+.form-row,
+.form-row-titles {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+}
+
+.form-row-titles input {
+  padding: 0;
+  background-color: #fff;
+  text-align: left;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  width: 100%;
+}
+
+.form-row input {
+  outline-color: #0071b0;
+}
+
+.form-row input::placeholder {
+  font-style: italic;
 }
 
 .weekdays {
@@ -585,7 +604,7 @@ th {
 
 #l, #m, #i, #j, #v, #s, #d,
 #ciclo, #crn, #cve_materia,
-#nivel, #nivel_tipo, #seccion,
+#nivel, #nivel_tipo, #tipo, #seccion,
 #c_min, #h_totales, #estatus {
   width: 100%;
 }
@@ -602,13 +621,21 @@ th {
   font-weight: bold;
   color: #fff;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 .form-actions button:nth-child(1) {
   background-color: #0071B0;
+  transition: ease-out 0.3s;
+}
+.form-actions button:nth-child(1):hover {
+  background-color: #005a8c;
 }
 .form-actions button:nth-child(2) {
-  background-color: #B0B0B0;
+  background-color: #a7b3b9;
+  transition: ease-out 0.3s;
+}
+.form-actions button:nth-child(2):hover {
+  background-color: #a7a5a5;
 }
 
 .form-row input {
@@ -633,7 +660,7 @@ th {
   gap: 10px;
   margin-top: 20px;
 }
-
+/*
 .form-actions button {
   padding: 10px 20px;
   border: none;
@@ -653,7 +680,7 @@ th {
   border: #0071b0 solid 2px;
   font-weight: bold;
 }
-
+*/
 .close {
   color: #aaa;
   float: right;
