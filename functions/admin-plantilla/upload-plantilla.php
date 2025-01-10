@@ -26,11 +26,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             error_log("Inserción en la base de datos exitosa");
 
             // Obtener el correo del jefe de departamento
-            $sql_jefe = "SELECT u.codigo, u.correo, d.departamentos 
+            $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
                  FROM usuarios u 
-                 JOIN usuarios_departamentos ud ON u.codigo = ud.usuario_id
-                 JOIN departamentos d ON ud.departamento_id = d.departamento_id 
-                 WHERE d.departamento_id = ? AND u.rol_id = 1";
+                 JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+                 JOIN departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 WHERE d.Departamento_ID = ? AND u.rol_id = 1";
             $stmt = mysqli_prepare($conexion, $sql_jefe);
             mysqli_stmt_bind_param($stmt, "i", $departamento_id);
             mysqli_stmt_execute($stmt);
@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $jefe = mysqli_fetch_assoc($result);
 
             if ($jefe) {
-                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['departamentos']}.";
+                $mensaje = "Se ha subido una nueva plantilla para el departamento de {$jefe['Departamentos']}.";
 
 
                 // Insertar notificación en la tabla Notificaciones
-                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, usuario_ID, emisor_ID) 
+                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, emisor_ID) 
                                      VALUES ('plantilla', ?, ?, ?)";
                 $stmt_notificacion = mysqli_prepare($conexion, $sql_notificacion);
                 mysqli_stmt_bind_param($stmt_notificacion, "sii", $mensaje, $jefe['Codigo'], $_SESSION['Codigo']);
@@ -85,12 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 ";
 
                 if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
-                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['departamentos']}");
+                    error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
                 } else {
-                    error_log("Error al enviar correo al jefe del departamento {$jefe['departamentos']}");
+                    error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
                 }
 
-                error_log("Notificación creada para el jefe del departamento {$jefe['departamentos']}");
+                error_log("Notificación creada para el jefe del departamento {$jefe['Departamentos']}");
             } else {
                 error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
             }
