@@ -39,7 +39,7 @@ if ($rol == 1) {
         // Si no se proporciona, seleccionar el primer departamento
         $sql_primer_departamento = "SELECT Departamento_ID FROM departamentos ORDER BY Departamento_ID LIMIT 1";
         $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
-        
+
         if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
             $row_primer_departamento = mysqli_fetch_assoc($result_primer_departamento);
             $departamento_id = $row_primer_departamento['Departamento_ID'];
@@ -72,35 +72,39 @@ if (!$conexion) {
 }
 
 // Función para verificar choques (añadir al inicio del archivo, antes de generar la tabla)
-function verificarChoques($registro_actual, $departamentos, $conexion) {
+function verificarChoques($registro_actual, $departamentos, $conexion)
+{
     $choques = [];
     $departamento_actual = $registro_actual['Departamento'];
-    
+
     foreach ($departamentos as $nombre_dep => $registros) {
         if ($nombre_dep == $departamento_actual) continue;
-        
+
         foreach ($registros as $registro) {
             $choque_horario = (
-                ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] && 
-                 $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
-                ($registro_actual['HORA_FINAL'] > $registro['HORA_INICIAL'] && 
-                 $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
+                ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] &&
+                    $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
+                ($registro_actual['HORA_FINAL'] > $registro['HORA_INICIAL'] &&
+                    $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
             );
 
             $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
             $dias_choque = false;
 
             foreach ($dias_semana as $dia) {
-                if (!empty($registro_actual[$dia]) && !empty($registro[$dia]) && 
-                    $registro_actual[$dia] == $registro[$dia]) {
+                if (
+                    !empty($registro_actual[$dia]) && !empty($registro[$dia]) &&
+                    $registro_actual[$dia] == $registro[$dia]
+                ) {
                     $dias_choque = true;
                     break;
                 }
             }
 
-            if ($registro['MODULO'] == $registro_actual['MODULO'] &&
+            if (
+                $registro['MODULO'] == $registro_actual['MODULO'] &&
                 $registro['AULA'] == $registro_actual['AULA'] &&
-                $choque_horario && 
+                $choque_horario &&
                 $dias_choque
             ) {
                 // Buscar el timestamp de subida más antiguo
@@ -110,7 +114,7 @@ function verificarChoques($registro_actual, $departamentos, $conexion) {
                                   WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
                                   ORDER BY pd.Fecha_Subida_Dep ASC
                                   LIMIT 1";
-                
+
                 $result_timestamp = mysqli_query($conexion, $sql_timestamp);
                 $primer_departamento = mysqli_fetch_assoc($result_timestamp);
 
@@ -122,7 +126,7 @@ function verificarChoques($registro_actual, $departamentos, $conexion) {
             }
         }
     }
-    
+
     return $choques;
 }
 
@@ -146,7 +150,7 @@ while ($dep = mysqli_fetch_assoc($departamentos_result)) {
       AND HORA_INICIAL IS NOT NULL 
       AND HORA_FINAL IS NOT NULL 
       AND AULA IS NOT NULL";
-    
+
     $result_dep = mysqli_query($conexion, $query);
     $departamentos[$dep['Nombre_Departamento']] = mysqli_fetch_all($result_dep, MYSQLI_ASSOC);
 }
@@ -199,47 +203,45 @@ $result = $stmt->get_result();
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-            <?php if($rol == 1): ?>
-                <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
-                    <i class="fa fa-save" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
-                    <i class="fa fa-undo" aria-hidden="true"></i>
-                </div>
-                <?php endif;?>
-                <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
+                <?php if ($rol == 1): ?>
+                    <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
+                        <i class="fa fa-undo" aria-hidden="true"></i>
+                    </div>
+                <?php endif; ?>
+                <!-- <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                </div>
+                </div> -->
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-filtro">
                     <i class="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <?php if($rol == 1): ?>
-                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                    <i class="fa fa-add" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </div>
-                <?php endif;?>
+                <?php if ($rol == 1): ?>
+                    <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                        <i class="fa fa-add" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                <?php endif; ?>
                 <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div class="column-selector" id="popup-columnas">
+    <div id="popup-columnas">
         <h3>Selecciona las columnas a descargar</h3>
         <div id="opciones-columnas"></div>
-        <div class="fila-botones">
-            <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
-            <?php if($_SESSION['Rol_ID'] == 2): ?>
-            <button class="btn-cotejo" onclick="descargarExcelCotejado()">Descargar cotejo</button>
-            <?php endif; ?>
-            <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
-        </div>
+        <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
+        <?php if ($_SESSION['Rol_ID'] == 2): ?>
+            <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
+        <?php endif; ?>
+        <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
     </div>
 
     <?php
@@ -249,7 +251,7 @@ $result = $stmt->get_result();
         $tabla_editable = false;
     }
     ?>
-    
+
     <div class="datatable-container">
         <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
         <table id="tabla-datos" class="display">
@@ -306,8 +308,8 @@ $result = $stmt->get_result();
                     while ($row = mysqli_fetch_assoc($result)) {
                         $row['Departamento'] = $nombre_departamento;
                         $choques = verificarChoques($row, $departamentos, $conexion);
-                    
-                        echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" . 
+
+                        echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" .
                             (!empty($choques) ? 'tiene-choques' : '') . "'>";
                         echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
                         echo "<td>" . htmlspecialchars($row["ID_Plantilla"] ?? '') . "</td>";
@@ -364,8 +366,7 @@ $result = $stmt->get_result();
     </div>
 </div>
 
-<?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php';?>
-<?php include './functions/basesdedatos/modal-profesores/modal-profesores.php';?>
+<?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php'; ?>
 
 <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
 <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
