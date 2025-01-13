@@ -118,7 +118,7 @@ function verDetalleProfesor(codigo_profesor) {
     }
 
     $.ajax({
-        url: 'detalle_profesor.php',
+        url: 'detalle-profesor.php',
         method: 'POST',
         data: {
             codigo_profesor: codigo_profesor,
