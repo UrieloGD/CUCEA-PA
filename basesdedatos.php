@@ -32,9 +32,9 @@ if ($rol == 1) {
     $departamento_id = $_SESSION['Departamento_ID'];
 } elseif ($rol == 2 || $rol == 3) {
     // Para roles 2 y 3, permitir selección de departamento
-    if (isset($_GET['Departamento_id'])) {
+    if (isset($_GET['departamento_id'])) {
         // Si se proporciona un departamento_id específico
-        $departamento_id = (int)$_GET['Departamento_id'];
+        $departamento_id = (int)$_GET['departamento_id'];
     } else {
         // Si no se proporciona, seleccionar el primer departamento
         $sql_primer_departamento = "SELECT Departamento_ID FROM departamentos ORDER BY Departamento_ID LIMIT 1";

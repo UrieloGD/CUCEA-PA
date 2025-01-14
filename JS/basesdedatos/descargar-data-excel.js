@@ -219,9 +219,10 @@ function cerrarPopupColumnas() {
 }
 
 function descargarExcelSeleccionado() {
+  // Obtener todas las columnas seleccionadas de ambos contenedores
   var columnasSeleccionadas = Array.from(
     document.querySelectorAll(
-      '#opciones-columnas .columns-container-js input[type="checkbox"]:checked'
+      '.columns-container-materia input[type="checkbox"]:checked, .columns-container-profesor input[type="checkbox"]:checked'
     )
   ).map((checkbox) => checkbox.value);
 
@@ -230,14 +231,16 @@ function descargarExcelSeleccionado() {
     return;
   }
 
+  console.log("Columnas seleccionadas:", columnasSeleccionadas); // Para depuración
+
   var departamento_id = document.getElementById("departamento_id").value;
   var url =
     "./functions/basesdedatos/descargar-data-excel.php?departamento_id=" +
     departamento_id +
     "&columnas=" +
-    JSON.stringify(columnasSeleccionadas);
-  window.location.href = url;
+    encodeURIComponent(JSON.stringify(columnasSeleccionadas));
 
+  window.location.href = url;
   cerrarPopupColumnas();
 }
 
