@@ -1,3 +1,5 @@
+// Interacción con botones de edición, guardado, cancelación, y la apertura/cierre
+// de un modal para agregar nuevos usuarios.
 document.addEventListener("DOMContentLoaded", function () {
   const editButtons = document.querySelectorAll(".btn.edit");
   const saveButtons = document.querySelectorAll(".btn.save");
@@ -107,6 +109,15 @@ document.addEventListener("DOMContentLoaded", function () {
           }
       }
     }
+
+    // Establecer género
+    const generoSelect = document.getElementById('genero');
+    for (let i = 0; i < generoSelect.options.length; i++) {
+        if (generoSelect.options[i].value === usuario.Genero) {
+            generoSelect.selectedIndex = i;
+            break;
+      }
+    }
     
     // Deshabilitar contraseña
     document.getElementById('password').setAttribute('readonly', true);
@@ -128,7 +139,8 @@ document.addEventListener("DOMContentLoaded", function () {
         Apellido: row.querySelectorAll('td')[2].textContent,
         Correo: row.querySelectorAll('td')[3].textContent,
         Nombre_Rol: row.querySelectorAll('td')[4].textContent,
-        departamento: row.querySelectorAll('td')[5].textContent
+        departamento: row.querySelectorAll('td')[5].textContent,
+        Genero: row.querySelector('[data-genero]')?.getAttribute('data-genero')
       };
 
       cargarDatosUsuarioEnModal(userData);

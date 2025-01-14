@@ -44,7 +44,7 @@
       <?php
 
       // Consulta para obtener usuarios y departamentos
-      $sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, r.Nombre_Rol, COALESCE(d.departamentos, r.Nombre_Rol) AS departamento
+      $sql = "SELECT u.Codigo, u.Nombre, u.Apellido, u.Correo, u.Genero, r.Nombre_Rol, COALESCE(d.departamentos, r.Nombre_Rol) AS departamento
         FROM usuarios u
         LEFT JOIN roles r ON u.Rol_ID = r.Rol_ID
         LEFT JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
@@ -84,6 +84,7 @@
           echo "<td class='editable' data-field='Correo' style='text-align: center;'>" . $row["Correo"] . "</td>";
           echo "<td class='editable' data-field='Rol' style='text-align: center;'>" . $row["Nombre_Rol"] . "</td>";
           echo "<td class='editable' data-field='Departamento' style='text-align: center;'>" . $row["departamento"] . "</td>";
+          echo "<td style='display: none;' data-genero='" . $row["Genero"] . "'></td>";
           echo "<td style='text-align: center;'>
                           <a href='#' class='btn edit'><img src='./Img/Icons/iconos-adminAU/editar2.png'></a>
                           <a href='#' class='btn save' style='display:none;'><img src='./Img/Icons/iconos-adminAU/guardar.png'></a>
