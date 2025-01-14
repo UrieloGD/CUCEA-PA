@@ -23,7 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
     nuevoUsuarioModal.setAttribute('data-mode', 'add');
     document.getElementById('modalTitle').textContent = 'Agregar nuevo usuario';
     document.getElementById('usuarioIdEdicion').value = '';
-    document.getElementById('codigo').value = '';
+
+    document.getElementById('codigo').removeAttribute('readonly'); // Desbloquea código
+    document.getElementById('codigo').value = ''; // Limpia código
+
     document.getElementById('nombre').value = '';
     document.getElementById('apellido').value = '';
     document.getElementById('correo').value = '';
@@ -52,18 +55,16 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Lógica de roles y departamentos
-  rolesSelect.addEventListener("change", function () {
+  document.getElementById("rol").addEventListener("change", function() {
     const selectedRole = this.options[this.selectedIndex].text;
     const departamentosSelect = document.getElementById("departamento");
     
-    if (
-      selectedRole === "Secretaría Administrativa" ||
-      selectedRole === "Coordinación de Personal"
-    ) {
-      departamentosSelect.disabled = true;
-      departamentosSelect.value = "";
+    if (selectedRole === "Secretaría Administrativa" || 
+        selectedRole === "Coordinación de Personal") {
+        departamentosSelect.disabled = true;
+        departamentosSelect.selectedIndex = 0; // Resetear a primera opción
     } else {
-      departamentosSelect.disabled = false;
+        departamentosSelect.disabled = false;
     }
   });
 
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('usuarioIdEdicion').value = usuario.Codigo;
     
     document.getElementById('codigo').value = usuario.Codigo;
-    document.getElementById('codigo').setAttribute('readonly', true);
+    // document.getElementById('codigo').setAttribute('readonly', true);
     
     document.getElementById('nombre').value = usuario.Nombre;
     document.getElementById('apellido').value = usuario.Apellido;
@@ -89,12 +90,21 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     
-    // Establecer departamento
+    // Manejar el departamento basado en el rol
     const departamentoSelect = document.getElementById('departamento');
-    for (let i = 0; i < departamentoSelect.options.length; i++) {
-      if (departamentoSelect.options[i].text === usuario.departamento) {
-        departamentoSelect.selectedIndex = i;
-        break;
+    if (usuario.Nombre_Rol === "Secretaría Administrativa" || 
+        usuario.Nombre_Rol === "Coordinación de Personal") {
+        // Deshabilitar y limpiar el departamento
+        departamentoSelect.disabled = true;
+        departamentoSelect.selectedIndex = 0; // Resetear a primera opción
+    } else {
+      // Habilitar y establecer el departamento
+      departamentoSelect.disabled = false;
+      for (let i = 0; i < departamentoSelect.options.length; i++) {
+          if (departamentoSelect.options[i].text === usuario.departamento) {
+              departamentoSelect.selectedIndex = i;
+              break;
+          }
       }
     }
     
@@ -149,7 +159,8 @@ document.addEventListener("DOMContentLoaded", function () {
         Apellido: document.getElementById('apellido').value,
         Correo: document.getElementById('correo').value,
         Rol: document.getElementById('rol').value,
-        Departamento: document.getElementById('departamento').value
+        Departamento: document.getElementById('departamento').value,
+        Genero: document.getElementById('genero').value
       };
 
       fetch("./functions/admin-usuarios/editarUsuario.php", {
