@@ -45,7 +45,6 @@ $(document).ready(function () {
       $("#horario_inicio").val(horaActual).prop("disabled", true);
       $("#horario_fin").val(horaFin).prop("disabled", true);
 
-      // Ejecutar el filtro inmediatamente
       $("#filtrar").click();
     } else {
       $("#dia, #horario_inicio, #horario_fin").prop("disabled", false);
@@ -137,40 +136,36 @@ $(document).ready(function () {
       }
     });
 
-  // Evento de clic para abrir el modal
-  $(document).on(
-    "click",
-    ".sala.aula-ocupada, .sala.laboratorio-ocupado",
-    function () {
-      var espacio = $(this).data("espacio");
-      var modulo = $("#modulo").val();
+  // Evento de clic para abrir el modal en cualquier espacio
+  $(document).on("click", ".sala", function () {
+    var espacio = $(this).data("espacio");
+    var modulo = $("#modulo").val();
 
-      $.ajax({
-        url: "./functions/espacios/obtener-horario-aula.php",
-        method: "GET",
-        data: { espacio: espacio, modulo: modulo },
-        dataType: "json", // Especifica que esperamos JSON
-        success: function (horarios) {
-          console.log("Respuesta del servidor:", horarios);
-          if (typeof horarios === "object" && horarios !== null) {
-            mostrarModal(espacio, horarios);
-          } else {
-            console.error("La respuesta no es un objeto válido:", horarios);
-            alert(
-              "Hubo un error al cargar los horarios. Por favor, intente de nuevo."
-            );
-          }
-        },
-        error: function (xhr, status, error) {
-          console.error("Error en la solicitud AJAX:", error);
-          console.error("Respuesta del servidor:", xhr.responseText);
+    $.ajax({
+      url: "./functions/espacios/obtener-horario-aula.php",
+      method: "GET",
+      data: { espacio: espacio, modulo: modulo },
+      dataType: "json",
+      success: function (horarios) {
+        console.log("Respuesta del servidor:", horarios);
+        if (typeof horarios === "object" && horarios !== null) {
+          mostrarModal(espacio, horarios);
+        } else {
+          console.error("La respuesta no es un objeto válido:", horarios);
           alert(
             "Hubo un error al cargar los horarios. Por favor, intente de nuevo."
           );
-        },
-      });
-    }
-  );
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        console.error("Respuesta del servidor:", xhr.responseText);
+        alert(
+          "Hubo un error al cargar los horarios. Por favor, intente de nuevo."
+        );
+      },
+    });
+  });
 
   // Cerrar el modal
   $(".close").click(function () {
