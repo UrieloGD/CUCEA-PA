@@ -3,6 +3,10 @@ require './../../vendor/autoload.php';
 include './../../config/db.php';
 session_start();
 
+// Habilitar reporte de errores para depuración
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $departamento_id = isset($_GET['departamento_id']) ? (int)$_GET['departamento_id'] : 0;
 $columnas_seleccionadas = isset($_GET['columnas']) ? json_decode($_GET['columnas'], true) : [];
 
@@ -10,14 +14,8 @@ if (empty($departamento_id) || empty($columnas_seleccionadas)) {
     die("Error: Faltan parámetros necesarios.");
 }
 
-$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
-$stmt = $conexion->prepare($sql_departamento);
-if ($stmt === false) {
-    die("Error preparando la consulta: " . $conexion->error);
-}
-
+// Mapeo de nombres de columnas mostrados a nombres reales en la base de datos
 $mapeo_columnas = [
-
     'CVE MATERIA' => 'CVE_MATERIA',
     'SECCIÓN' => 'SECCION',
     'NIVEL TIPO' => 'NIVEL_TIPO',
@@ -38,45 +36,52 @@ $mapeo_columnas = [
     'HORA INICIAL' => 'HORA_INICIAL',
     'HORA FINAL' => 'HORA_FINAL',
     'MÓDULO' => 'MODULO',
-    'EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
+    'EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO',
+    // Añade aquí cualquier otra columna que necesites mapear
 ];
-// Función para convertir el nombre mostrado al nombre real
-function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas) {
+
+function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas)
+{
     // Eliminar espacios extras y dejar solo un espacio entre palabras
     $nombre_mostrado = trim(preg_replace('/\s+/', ' ', $nombre_mostrado));
-    
-    // Primero, verificar si el nombre exacto existe en el mapeo
+
     if (isset($mapeo_columnas[$nombre_mostrado])) {
         return $mapeo_columnas[$nombre_mostrado];
     }
-    
-    // Si no existe, crear un nombre de columna estándar
-    return strtoupper(str_replace(' ', '_', $nombre_mostrado));
+
+    // Si no está en el mapeo, convertir a un nombre seguro
+    return preg_replace('/[^a-zA-Z0-9_]/', '_', strtoupper($nombre_mostrado));
 }
 
-// Convertir los nombres seleccionados a los nombres reales
-$columnas_reales = array_map(function($columna) use ($mapeo_columnas) {
-    return obtenerNombreRealColumna($columna, $mapeo_columnas);
-}, $columnas_seleccionadas);
-
+// Obtener el nombre del departamento
 $sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 if ($stmt === false) {
     die("Error preparando la consulta de departamento: " . $conexion->error);
 }
+
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result_departamento = $stmt->get_result();
 $row_departamento = $result_departamento->fetch_assoc();
 $nombre_departamento = $row_departamento['Nombre_Departamento'];
+$stmt->close();
 
-$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
-$sheet = $spreadsheet->getActiveSheet();
+// Convertir los nombres seleccionados a los nombres reales
+$columnas_reales = [];
+foreach ($columnas_seleccionadas as $columna) {
+    $nombre_real = obtenerNombreRealColumna($columna, $mapeo_columnas);
+    if (!empty($nombre_real)) {
+        $columnas_reales[] = "`" . $nombre_real . "`";
+    }
+}
 
-$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
+if (empty($columnas_reales)) {
+    die("Error: No se pudieron procesar las columnas seleccionadas.");
+}
 
-// Construir la consulta SQL dinámica con los nombres reales de las columnas
-$sql = "SELECT " . implode(", ", $columnas_reales) . " FROM `$tabla_departamento` WHERE Departamento_ID = ?";
+$tabla_departamento = "`data_" . str_replace(' ', '_', $nombre_departamento) . "`";
+$sql = "SELECT " . implode(", ", $columnas_reales) . " FROM " . $tabla_departamento . " WHERE Departamento_ID = ?";
 
 $stmt = $conexion->prepare($sql);
 if ($stmt === false) {
@@ -87,9 +92,16 @@ $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Escribir los encabezados en el Excel (usando los nombres mostrados)
+// Crear el archivo Excel
+$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+
+// Escribir los encabezados
 foreach ($columnas_seleccionadas as $index => $header) {
-    $sheet->setCellValue(\PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1', $header);
+    $sheet->setCellValue(
+        \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1',
+        $header
+    );
 }
 
 // Escribir los datos
@@ -98,16 +110,15 @@ if ($result->num_rows > 0) {
     while ($data = $result->fetch_assoc()) {
         $col = 1;
         foreach ($columnas_reales as $header_real) {
+            $header_clean = trim($header_real, '`');
             $sheet->setCellValue(
-                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row, 
-                $data[$header_real] ?? ''
+                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
+                $data[$header_clean] ?? ''
             );
             $col++;
         }
         $row++;
     }
-} else {
-    die("No se encontraron resultados para el departamento especificado.");
 }
 
 $sheet->setTitle("Data_$nombre_departamento");

@@ -152,7 +152,9 @@
     </div>
   </div>
 
+  <script src="./JS/admin-usuarios/barra-busqueda.js"></script>
   <script src="./JS/admin-usuarios/admin-usuarios.js"></script>
+  <script src="./JS/admin-usuarios/eliminar-usuario.js"></script>
   <script>
     const roles = <?php echo json_encode($roles); ?>;
     const departamentos = <?php echo json_encode($departamentos); ?>;

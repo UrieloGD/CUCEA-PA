@@ -1,7 +1,6 @@
 <?php
 header('Content-Type: application/json');
 
-// Conexión a la base de datos
 include './../../config/db.php';
 
 try {
@@ -20,73 +19,112 @@ try {
     $correo = $data['Correo'];
     $rol = $data['Rol'];
     $departamento = $data['Departamento'];
+    $genero = $data['Genero'];
 
-    // Verificar si el nuevo código ya existe (excepto para el usuario actual)
-    $check_sql = "SELECT Codigo FROM usuarios WHERE Codigo = ? AND Codigo != ?";
-    $check_stmt = $conexion->prepare($check_sql);
-    $check_stmt->bind_param("ii", $codigo, $userId);
-    $check_stmt->execute();
-    $check_result = $check_stmt->get_result();
+    // Iniciar transacción
+    $conexion->begin_transaction();
 
-    if ($check_result->num_rows > 0) {
-        echo json_encode(["success" => false, "message" => "El código de usuario ya existe"]);
-        exit();
-    }
+    try {
+        // Verificar si el nuevo código ya existe (excepto para el usuario actual)
+        $check_sql = "SELECT Codigo FROM usuarios WHERE Codigo = ? AND Codigo != ?";
+        $check_stmt = $conexion->prepare($check_sql);
+        $check_stmt->bind_param("ii", $codigo, $userId);
+        $check_stmt->execute();
+        $check_result = $check_stmt->get_result();
 
-    // Actualizar datos del usuario en la tabla Usuarios, incluyendo el código
-    $sql = "UPDATE usuarios SET Codigo = ?, Nombre = ?, Apellido = ?, Correo = ?, Rol_ID = ? WHERE Codigo = ?";
-    $stmt = $conexion->prepare($sql);
+        if ($check_result->num_rows > 0) {
+            throw new Exception("El código de usuario ya existe");
+        }
 
-    if ($stmt === false) {
-        echo json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conexion->error]);
-        exit();
-    }
+        // Obtener el rol actual del usuario
+        $sql_get_rol = "SELECT r.Nombre_Rol 
+                       FROM usuarios u 
+                       JOIN roles r ON u.Rol_ID = r.Rol_ID 
+                       WHERE u.Codigo = ?";
+        $stmt_get_rol = $conexion->prepare($sql_get_rol);
+        $stmt_get_rol->bind_param("i", $userId);
+        $stmt_get_rol->execute();
+        $result_rol = $stmt_get_rol->get_result();
+        $rol_actual = $result_rol->fetch_assoc();
 
-    $stmt->bind_param("isssii", $codigo, $nombre, $apellido, $correo, $rol, $userId);
+        // Verificar si es Jefe de Departamento
+        $sql_check_new_rol = "SELECT Nombre_Rol FROM roles WHERE Rol_ID = ?";
+        $stmt_check_new_rol = $conexion->prepare($sql_check_new_rol);
+        $stmt_check_new_rol->bind_param("i", $rol);
+        $stmt_check_new_rol->execute();
+        $result_new_rol = $stmt_check_new_rol->get_result();
+        $nuevo_rol = $result_new_rol->fetch_assoc();
 
-    // Ejecutar la consulta para actualizar los datos del usuario
-    if ($stmt->execute()) {
-        // Actualizar las referencias de código en otras tablas
-        $update_departamento = "UPDATE usuarios_departamentos SET Usuario_ID = ? WHERE Usuario_ID = ?";
-        $stmt_departamento = $conexion->prepare($update_departamento);
-        $stmt_departamento->bind_param("ii", $codigo, $userId);
-        $stmt_departamento->execute();
+        if ($nuevo_rol['Nombre_Rol'] === "Jefe de Departamento") {
+            // Verificar si ya existe un jefe en el departamento destino
+            $check_jefe_sql = "SELECT u.Codigo 
+                              FROM usuarios u 
+                              JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID 
+                              JOIN roles r ON u.Rol_ID = r.Rol_ID 
+                              WHERE ud.Departamento_ID = ? 
+                              AND r.Nombre_Rol = 'Jefe de Departamento' 
+                              AND u.Codigo != ?";
+            $check_jefe_stmt = $conexion->prepare($check_jefe_sql);
+            $check_jefe_stmt->bind_param("ii", $departamento, $userId);
+            $check_jefe_stmt->execute();
+            $result_jefe = $check_jefe_stmt->get_result();
 
-        // Verificar si el rol requiere un departamento
-        $sql_check_rol = "SELECT Nombre_Rol FROM roles WHERE Rol_ID = ?";
-        $stmt_check_rol = $conexion->prepare($sql_check_rol);
-        $stmt_check_rol->bind_param("i", $rol);
-        $stmt_check_rol->execute();
-        $result_rol = $stmt_check_rol->get_result();
-        $row_rol = $result_rol->fetch_assoc();
-        
-        if ($row_rol['Nombre_Rol'] != "Coordinación de Personal" && $row_rol['Nombre_Rol'] != "Secretaría Administrativa") {
-            // Actualizar o insertar la relación usuario-departamento solo si no es un rol especial
-            $sql_departamento = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?) ON DUPLICATE KEY UPDATE Departamento_ID = VALUES(Departamento_ID)";
+            if ($result_jefe->num_rows > 0) {
+                throw new Exception("Ya existe un jefe asignado a este departamento");
+            }
+        }
+
+        // Actualizar datos del usuario
+        $sql = "UPDATE usuarios SET Codigo = ?, Nombre = ?, Apellido = ?, Correo = ?, Rol_ID = ?, Genero = ? WHERE Codigo = ?";
+        $stmt = $conexion->prepare($sql);
+        $stmt->bind_param("isssisi", $codigo, $nombre, $apellido, $correo, $rol, $genero, $userId);
+
+        if (!$stmt->execute()) {
+            throw new Exception("Error al actualizar el usuario: " . $stmt->error);
+        }
+
+        // Manejar la actualización del departamento
+        if ($nuevo_rol['Nombre_Rol'] != "Coordinación de Personal" && 
+            $nuevo_rol['Nombre_Rol'] != "Secretaría Administrativa") {
+            
+            // Primero eliminar cualquier asignación existente
+            $delete_dept_sql = "DELETE FROM usuarios_departamentos WHERE Usuario_ID = ?";
+            $stmt_delete = $conexion->prepare($delete_dept_sql);
+            $stmt_delete->bind_param("i", $codigo);
+            $stmt_delete->execute();
+
+            // Luego insertar la nueva asignación
+            $sql_departamento = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?)";
             $stmt_departamento = $conexion->prepare($sql_departamento);
             $stmt_departamento->bind_param("ii", $codigo, $departamento);
+            
             if (!$stmt_departamento->execute()) {
-                echo json_encode(["success" => false, "message" => "Error al actualizar la relación usuario-departamento: " . $stmt_departamento->error]);
-                exit();
+                throw new Exception("Error al actualizar la relación usuario-departamento");
             }
-            $stmt_departamento->close();
         } else {
-            // Si es un rol especial, eliminar cualquier relación usuario-departamento existente
+            // Para roles especiales, eliminar cualquier relación con departamentos
             $sql_delete_departamento = "DELETE FROM usuarios_departamentos WHERE Usuario_ID = ?";
             $stmt_delete_departamento = $conexion->prepare($sql_delete_departamento);
             $stmt_delete_departamento->bind_param("i", $codigo);
             $stmt_delete_departamento->execute();
-            $stmt_delete_departamento->close();
         }
+
+        // Confirmar transacción
+        $conexion->commit();
         echo json_encode(["success" => true, "message" => "Usuario actualizado exitosamente"]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Error al actualizar el usuario: " . $stmt->error]);
+
+    } catch (Exception $e) {
+        // Revertir cambios si hay error
+        $conexion->rollback();
+        throw $e;
     }
     
 } catch (Exception $e) {
-    echo json_encode(["success" => false, "message" => "Error inesperado: " . $e->getMessage()]);
-    exit();
+    echo json_encode(["success" => false, "message" => $e->getMessage()]);
+} finally {
+    // Cerrar conexiones
+    if (isset($stmt)) $stmt->close();
+    if (isset($stmt_departamento)) $stmt_departamento->close();
+    if (isset($check_stmt)) $check_stmt->close();
+    $conexion->close();
 }
-
-$stmt->close();
-$conexion->close();

@@ -34,33 +34,33 @@ function mostrarModal(espacio, horarios) {
   $("#reportesArea").html(
     '<textarea id="reportes" rows="3" cols="30"></textarea>'
   );
-  
-  // Agregar el evento click para las salas independiente de los filtros
-  $('.sala').on('click', function() {
-    var espacio = $(this).data('espacio');
-    var modulo = $('#modulo').val();
 
-    $.ajax({
-        url: './functions/espacios/obtener-horario-aula.php',
-        method: 'GET',
-        data: {
-            modulo: modulo,
-            espacio: espacio
-        },
-        dataType: 'json',
-        success: function(horarios) {
-            mostrarModal(espacio, horarios);
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al obtener los horarios:', error);
-            var horarios = {
-                modulo: modulo,
-                tipo: 'No disponible',
-                cupo: 'No disponible'
-            };
-            mostrarModal(espacio, horarios);
+  $.ajax({
+    url: "./functions/espacios/obtener-equipo-info.php",
+    method: "GET",
+    data: {
+      modulo: horarios.modulo,
+      espacio: espacio,
+    },
+    dataType: "json",
+    success: function (data) {
+      if (data.success) {
+        if (data.equipo && data.equipo.trim() !== "") {
+          var equipoArray = data.equipo.split(",");
+          equipoArray.forEach(function (item) {
+            var trimmedItem = item.trim();
+            if (trimmedItem !== "") {
+              $(`#${trimmedItem.replace(" ", "_")}`).prop("checked", true);
+            }
+          });
         }
-    });
+        $("#observaciones").val(data.observaciones || "");
+        $("#reportes").val(data.reportes || "");
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al cargar la información:", error);
+    },
   });
 
   $("#tabContent").empty();
@@ -68,52 +68,21 @@ function mostrarModal(espacio, horarios) {
   var dias = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"];
 
   dias.forEach(function (dia) {
-    // Ordenar los horarios por hora inicial
-    horarios[dia].sort((a, b) => {
-      const horaA = a.hora_inicial.replace(':', '');
-      const horaB = b.hora_inicial.replace(':', '');
-      return horaA.localeCompare(horaB);
-    });
-
     var contenido = '<table class="horario-table">';
-    contenido += "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th><th>Departamento</th></tr></thead><tbody>";
+    contenido +=
+      "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
 
     if (horarios[dia] && horarios[dia].length > 0) {
-      // Crear un mapa para marcar conflictos
-      let conflictMap = new Map();
-
-      // Primera pasada: identificar conflictos
-      for (let i = 0; i < horarios[dia].length; i++) {
-        for (let j = i + 1; j < horarios[dia].length; j++) {
-          let claseA = horarios[dia][i];
-          let claseB = horarios[dia][j];
-          
-          // Verificar si hay un cruce de horarios
-          if (
-            (claseA.hora_inicial < claseB.hora_final && 
-             claseA.hora_final > claseB.hora_inicial)
-          ) {
-            // Marcar ambas clases con conflicto
-            conflictMap.set(JSON.stringify(claseA), true);
-            conflictMap.set(JSON.stringify(claseB), true);
-          }
-        }
-      }
-
-        // Generar las filas de la tabla
-        horarios[dia].forEach(function(clase) {
-        // Verificar si la clase está en conflicto
-        const esConflicto = conflictMap.has(JSON.stringify(clase));
-
-        contenido += `<tr class="${esConflicto ? 'conflicto-horario fondo-conflicto' : ''}">
-                        <td>${clase.hora_inicial} - ${clase.hora_final}</td>
-                        <td>${clase.materia}</td>
-                        <td>${clase.profesor}</td>
-                        <td>${clase.departamento.toUpperCase() || 'No especificado'}</td>
+      horarios[dia].forEach(function (clase) {
+        contenido += `<tr>
+                          <td>${clase.hora_inicial} - ${clase.hora_final}</td>
+                          <td>${clase.materia}</td>
+                          <td>${clase.profesor}</td>
                       </tr>`;
       });
     } else {
-      contenido += '<tr><td colspan="4">No hay clases programadas para este día.</td></tr>';
+      contenido +=
+        '<tr><td colspan="3">No hay clases programadas para este día.</td></tr>';
     }
 
     contenido += "</tbody></table>";
@@ -126,7 +95,6 @@ function mostrarModal(espacio, horarios) {
   openDay(null, "Lunes");
   $(".tablinks").first().addClass("active");
 }
-
 
 function openDay(evt, dayName) {
   var i, tabcontent, tablinks;
