@@ -1197,35 +1197,6 @@ div.dataTables_wrapper {
   margin: 0 auto;
 }
 /*------------------------------------------------*/
-.search-bar {
-  margin-bottom: 20px 0;
-}
-
-.search-input-container {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-}
-
-.search-input-container i {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-}
-
-.search-input-container input {
-  width: 100%;
-  padding: 8px 30px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.search-input-container input:focus {
-  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
-}
 
 #buscar-profesor {
   width: 100%;
@@ -1237,19 +1208,6 @@ div.dataTables_wrapper {
 
 .tabla-profesores {
   margin-top: 20px;
-}
-
-.btn-detalle {
-  background-color: #0071b0;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-detalle:hover {
-  background-color: #005a8c;
 }
 
 /* Estilos para el detalle del profesor */
@@ -1300,35 +1258,6 @@ div.dataTables_wrapper {
 }
 
 /* Estilos para el modal */
-#modal-todos-profesores {
-  display: none; /* Oculto por defecto */
-  position: fixed; /* Posición fija */
-  z-index: 1000; /* Por encima de otros elementos */
-  left: 0;
-  top: 0;
-  width: 100%; /* Ancho del modal */
-  height: 100%; /* Altura del modal */
-  overflow: auto; /* Habilitar scroll si el contenido lo requiere */
-  background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
-}
-
-.profesores-table th {
-  position: relative;
-  top: 0;
-  background-color: white;
-  padding: 15px 8px; /* Aumentamos el padding vertical */
-  text-align: left;
-  border-bottom: 3px solid #0071b0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-}
-
-.profesores-table .detalle-column {
-  text-align: center;
-  align-items: center;
-}
 
 th {
   position: sticky;
