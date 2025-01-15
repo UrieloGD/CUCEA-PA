@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('apellido').value = '';
     document.getElementById('correo').value = '';
     document.getElementById('rol').selectedIndex = 0;
-    document.getElementById('departamento').selectedIndex = 0;
+    document.getElementById('departamento').value = ""; // Selecciona la opción vacía
     document.getElementById('password').removeAttribute('readonly'); // Desbloquea contraseña
     document.getElementById('password').value = ''; // Limpia contraseña
     submitButton.textContent = 'Guardar';
@@ -60,13 +60,19 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("rol").addEventListener("change", function() {
     const selectedRole = this.options[this.selectedIndex].text;
     const departamentosSelect = document.getElementById("departamento");
+    const emptyOption = departamentosSelect.querySelector('option[value=""]');
     
     if (selectedRole === "Secretaría Administrativa" || 
         selectedRole === "Coordinación de Personal") {
         departamentosSelect.disabled = true;
-        departamentosSelect.selectedIndex = 0; // Resetear a primera opción
+        departamentosSelect.selectedIndex = ""; // Selecciona la opción vacía
+        emptyOption.style.display = ""; // Muestra la opción vacía
     } else {
         departamentosSelect.disabled = false;
+        emptyOption.style.display = "none"; // Oculta la opción vacía
+        if (departamentosSelect.value === "") {
+          departamentosSelect.selectedIndex = 1;
+        }
     }
   });
 
@@ -98,10 +104,11 @@ document.addEventListener("DOMContentLoaded", function () {
         usuario.Nombre_Rol === "Coordinación de Personal") {
         // Deshabilitar y limpiar el departamento
         departamentoSelect.disabled = true;
-        departamentoSelect.selectedIndex = 0; // Resetear a primera opción
+        departamentoSelect.selectedIndex = ""; // Selecciona la opció vacía
     } else {
       // Habilitar y establecer el departamento
       departamentoSelect.disabled = false;
+      emptyOption.style.display = "none"; // Oculta la opción vacía
       for (let i = 0; i < departamentoSelect.options.length; i++) {
           if (departamentoSelect.options[i].text === usuario.departamento) {
               departamentoSelect.selectedIndex = i;

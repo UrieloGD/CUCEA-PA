@@ -159,6 +159,19 @@
   <script>
     const roles = <?php echo json_encode($roles); ?>;
     const departamentos = <?php echo json_encode($departamentos); ?>;
+    const departamentosSelect = document.getElementById("departamento");
+    // Agregar una opción vacía al inicio
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.text = "";
+    departamentosSelect.add(emptyOption);
+    // Agregar el resto de departamentos
+    departamentos.forEach((departamento) => {
+      const option = document.createElement("option");
+      option.value = departamento.Departamento_ID;
+      option.text = departamento.Departamentos;
+      departamentosSelect.add(option);
+    });
   </script>
 
   <?php include './template/footer.php' ?>
