@@ -73,7 +73,8 @@
 .search-input-container {
     position: relative;
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
+    padding: 10px 0 0 0;
 }
   
 .search-input-container i {
@@ -82,10 +83,11 @@
     top: 50%;
     transform: translateY(-50%);
     color: #666;
+    padding: 10px 0 0 0;
 }
   
 .search-input-container input {
-    width: 100%;
+    width: 450px;
     padding: 8px 30px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -191,7 +193,7 @@
 }
 
 .contenido-tabla {
-    padding: 20px;
+    padding: 15px 50px;
 }
 
 /* Estilos para el botón de cerrar */
@@ -211,4 +213,33 @@
 .profesores-table {
     width: 100%;
     border-collapse: collapse;
+}
+
+.profesores-table td{
+    height: 40px;
+}
+
+.tr-info:hover{
+    background-color: #ccc;
+    border-radius: 15px #005a8c;
+    -webkit-border-radius: 1px #005a8c;
+    -moz-border-radius: 15px #005a8c;
+    -ms-border-radius: 15px #005a8c;
+    -o-border-radius: 15px #005a8c;
+}
+
+.detalle-column1{
+    border-radius: 15px 0 0 15px;
+    -webkit-border-radius: 15px 0 0 15px;
+    -moz-border-radius: 15px 0 0 15px;
+    -ms-border-radius: 15px 0 0 15px;
+    -o-border-radius: 15px 0 0 15px;
+}
+
+.detalle-column2{
+    border-radius: 0 15px 15px 0;
+    -webkit-border-radius: 0 15px 15px 0;
+    -moz-border-radius: 0 15px 15px 0;
+    -ms-border-radius: 0 15px 15px 0;
+    -o-border-radius: 0 15px 15px 0;
 }

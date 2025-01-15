@@ -277,7 +277,7 @@ function generateColorForUser($userId)
                             echo "<img src='./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>";
                             echo "<img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>";
                         echo "</div>";
-                        echo "<span class='link-text'>Modal Profesores</span>";
+                        echo "<span class='link-text'>Profesores</span>";
                     echo "</a>";
                     echo "</li>";
                 }
