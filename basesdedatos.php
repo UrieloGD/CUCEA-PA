@@ -108,20 +108,21 @@ function verificarChoques($registro_actual, $departamentos, $conexion)
                 $dias_choque
             ) {
                 // Buscar el timestamp de subida más antiguo
-                $sql_timestamp = "SELECT d.Nombre_Departamento 
-                                  FROM plantilla_dep pd
-                                  JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
-                                  WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
-                                  ORDER BY pd.Fecha_Subida_Dep ASC
-                                  LIMIT 1";
+                $sql_timestamp = "SELECT d.Departamentos, d.Nombre_Departamento 
+                                    FROM plantilla_dep pd
+                                    JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                                    WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
+                                    ORDER BY pd.Fecha_Subida_Dep ASC
+                                    LIMIT 1";
 
                 $result_timestamp = mysqli_query($conexion, $sql_timestamp);
                 $primer_departamento = mysqli_fetch_assoc($result_timestamp);
 
                 $choques[] = [
-                    'Departamento' => $nombre_dep,
+                    'Departamento' => $primer_departamento['Departamentos'], // Para mostrar en el tooltip
                     'ID_Choque' => $registro['ID_Plantilla'],
-                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento']
+                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento'], // Para la lógica de colores
+                    'Nombre_Departamento' => $nombre_dep // Mantener el nombre original para comparación
                 ];
             }
         }
