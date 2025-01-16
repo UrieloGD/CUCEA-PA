@@ -726,5 +726,5 @@ if(isset($_POST['codigo_profesor'])) {
 }
 ?>
 
-<script src="./../../JS/profesores/materias.js"></script>
-<script src="./../../JS/profesores/profesores-materias.js"></script>
+<script src="./JS/profesores/materias.js"></script>
+<script src="./JS/profesores/profesores-materias.js"></script>
