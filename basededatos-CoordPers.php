@@ -1,7 +1,7 @@
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
-include './config/db.php';
+require_once './config/db.php';
 
 
 // Obtener el total de horas asignadas
@@ -338,14 +338,14 @@ function formatDateForDisplay($mysqlDate)
                             <input type="text" id="categoria_actual" name="categoria_actual" placeholder="Categoría Actual">
                             <input type="text" id="categoria_actual_dos" name="categoria_actual_dos" placeholder="Categoría Actual">
 
-                            <input type="text" id="horas_frente_grupo" name="horas_frente_grupo"  min="0" placeholder="Horas Frente a Grupo">
+                            <input type="text" id="horas_frente_grupo" name="horas_frente_grupo" min="0" placeholder="Horas Frente a Grupo">
                             <input type="text" id="division" name="division" placeholder="División">
 
                             <input type="text" id="tipo_plaza" name="tipo_plaza" placeholder="Tipo de Plaza">
                             <input type="text" id="cat_act" name="cat_act" placeholder="CAT_ACT">
 
                             <input type="text" id="carga_horaria" name="carga_horaria" placeholder="Carga Horaria">
-                            <input type="text" id="horas_definitivas" name="horas_definitivas"  min="0" placeholder="Horas Definitivas ">
+                            <input type="text" id="horas_definitivas" name="horas_definitivas" min="0" placeholder="Horas Definitivas ">
                             <input type="text" id="horario" name="horario" placeholder="Horario">
                             <input type="text" id="turno" name="turno" placeholder="Turno">
 

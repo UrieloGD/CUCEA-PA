@@ -3,7 +3,7 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <!-- Conexión a la base de datos -->
-<?php include './config/db.php' ?>
+<?php require_once './config/db.php' ?>
 
 <title>Centro de Gestión</title>
 <link rel="stylesheet" href="./CSS/admin-eventos.css" />
@@ -107,23 +107,6 @@
                 </div>
             </div>
 
-            <!-- <div class="form-group">
-                <label>
-                    <i class="fas fa-bell"></i> Notificaciones
-                </label>
-                <div class="notificaciones-group">
-                    <select id="editNotificacion" name="notificacion">
-                        <option valuNe="1 hora antes">1 hora antes</option>
-                        <option value="2 horas antes">2 horas antes</option>
-                        <option value="1 día antes">1 día antes</option>
-                        <option value="1 semana antes">1 semana antes</option>
-                        <option value="Sin notificación">Sin notificación</option>
-                    </select>
-                    <span>a las</span>
-                    <input type="time" id="editHorNotif" name="HorNotif" value="" required>
-                </div>
-            </div> -->
-
             <div class="form-group split-group">
                 <div class="split-item">
                     <label for="participantes">
@@ -193,23 +176,6 @@
                     <input type="time" id="editHorFin" name="HorFi" value="" required>
                 </div>
             </div>
-
-            <!-- <div class="form-group">
-                <label>
-                    <i class="fas fa-bell"></i> Notificaciones
-                </label>
-                <div class="notificaciones-group">
-                    <select id="notificacion" name="notificacion">
-                        <option value="1 hora antes">1 hora antes</option>
-                        <option value="2 horas antes">2 horas antes</option>
-                        <option value="1 día antes">1 día antes</option>
-                        <option value="1 semana antes">1 semana antes</option>
-                        <option value="Sin notificación">Sin notificación</option>
-                    </select>
-                    <span>a las</span>
-                    <input type="time" id="editHorNotif" name="HorNotif" value="" required>
-                </div>
-            </div> -->
 
             <div class="form-group split-group">
                 <div class="split-item">
