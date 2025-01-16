@@ -20,8 +20,8 @@ try {
         $departamento_id = $_SESSION['Departamento_ID'];
         $codigo_usuario = $_SESSION['Codigo'];
 
-        $justificacion = isset($_POST['justificacion']) ? 
-            mysqli_real_escape_string($conexion, $_POST['justificacion']) : 
+        $justificacion = isset($_POST['justificacion']) ?
+            mysqli_real_escape_string($conexion, $_POST['justificacion']) :
             throw new Exception("Justificación no proporcionada");
 
         // Verificar la longitud de la justificación sin contar espacios
@@ -71,7 +71,14 @@ try {
             <html>
             <head>
                 <style>
-                    /* Estilos CSS previamente definidos */
+                    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                    .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                    .header { text-align: center; padding-bottom: 20px; }
+                    .header img { width: 300px; }
+                    .content { padding: 20px; }
+                    h2 { color: #2c3e50; }
+                    p { line-height: 1.5; color: #333; }
+                    .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
                 </style>
             </head>
 
@@ -99,15 +106,13 @@ try {
 
         echo json_encode(["success" => true, "message" => "Justificación guardada exitosamente"]);
         exit();
-
     } else {
         throw new Exception("Método de solicitud no válido");
     }
-
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
-        "success" => false, 
+        "success" => false,
         "message" => $e->getMessage(),
         "error_details" => $e->getTraceAsString()
     ]);

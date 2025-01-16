@@ -678,14 +678,16 @@ th {
 
 /* Estilos para el contenedor de búsqueda de Js */
 .dt-search {
-  width: 33.33%; /* Un tercio del ancho de la pantalla */
+  width: 30%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
   position: relative;
+  border-color: 2px #0071B0;
 }
 
 /* Estilos para el input de búsqueda */
 .dt-input {
-  width: 100%;
+  width: 80%;
+  margin-top: -70px;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -696,7 +698,7 @@ th {
 }
 
 .dt-input:focus {
-  border-color: #0071b0;
+  border-color: 2px #0071b0;
   box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
 }
 
@@ -768,6 +770,7 @@ nav[aria-label="pagination"] {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  margin-top: -50px;
 }
 
 /* Estilos para celdas y filas con choques */
@@ -793,22 +796,24 @@ nav[aria-label="pagination"] {
 }
 
 /* Tooltip para mostrar detalles de choques */
-[title] {
+[data-tooltip] {
   position: relative;
-  cursor: help;
 }
 
-[title]:hover::after {
-  content: attr(title);
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
   position: absolute;
+  text-align: left;
   bottom: 100%;
   left: 0;
   background-color: #333;
   color: white;
   padding: 5px;
   border-radius: 3px;
-  white-space: nowrap;
+  white-space: pre-line;
   z-index: 1000;
+  min-width: 300px;
+  font-size: 16px;
 }
 
 /* Media Queries para diferentes resoluciones */
@@ -1290,7 +1295,7 @@ table.dataTable thead .sorting_desc {
 
 /* Ajustamos el contenedor del DataTable */
 .datatable-container {
-  margin-top: 20px; /* Ajustamos el margen superior */
+  margin-top: 0px; /* Ajustamos el margen superior */
   position: relative;
 }
 

@@ -73,12 +73,31 @@ function mostrarModal(espacio, horarios) {
       "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
 
     if (horarios[dia] && horarios[dia].length > 0) {
+      // Crear un mapa para detectar duplicados exactos
+      var horariosMap = new Map();
+
+      // Primera pasada: registrar todos los horarios
       horarios[dia].forEach(function (clase) {
-        contenido += `<tr>
-                          <td>${clase.hora_inicial} - ${clase.hora_final}</td>
-                          <td>${clase.materia}</td>
-                          <td>${clase.profesor}</td>
-                      </tr>`;
+        const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
+
+        if (!horariosMap.has(claveHorario)) {
+          horariosMap.set(claveHorario, 1);
+        } else {
+          horariosMap.set(claveHorario, horariosMap.get(claveHorario) + 1);
+        }
+      });
+
+      // Segunda pasada: mostrar las clases, marcando duplicados
+      horarios[dia].forEach(function (clase) {
+        const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
+        const esConflicto = horariosMap.get(claveHorario) > 1;
+        const estiloConflicto = esConflicto ? ' style="color: red;"' : "";
+
+        contenido += `<tr${estiloConflicto}>
+          <td>${clase.hora_inicial} - ${clase.hora_final}</td>
+          <td>${clase.materia}</td>
+          <td>${clase.profesor}</td>
+        </tr>`;
       });
     } else {
       contenido +=
