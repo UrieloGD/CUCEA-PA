@@ -678,14 +678,16 @@ th {
 
 /* Estilos para el contenedor de búsqueda de Js */
 .dt-search {
-  width: 33.33%; /* Un tercio del ancho de la pantalla */
+  width: 30%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
   position: relative;
+  border-color: 2px #0071B0;
 }
 
 /* Estilos para el input de búsqueda */
 .dt-input {
-  width: 100%;
+  width: 80%;
+  margin-top: -70px;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -696,7 +698,7 @@ th {
 }
 
 .dt-input:focus {
-  border-color: #0071b0;
+  border-color: 2px #0071b0;
   box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
 }
 
@@ -1364,7 +1366,7 @@ table.dataTable thead .sorting_desc {
 
 /* Ajustamos el contenedor del DataTable */
 .datatable-container {
-  margin-top: 20px; /* Ajustamos el margen superior */
+  margin-top: 0px; /* Ajustamos el margen superior */
   position: relative;
 }
 
