@@ -252,6 +252,7 @@ if ($result_departamento && $row_departamento = $result_departamento->fetch_asso
 <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
-<script src="./JS/basesdedatos/detalle-profesor.js"></script>
+<script src="./JS/profesores/detalle-profesor.js"></script>
+<script src="./JS/profesores/filtro-profesores.js"></script>
 
 <?php include("./template/footer.php"); ?>

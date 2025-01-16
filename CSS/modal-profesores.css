@@ -7,7 +7,7 @@
     margin-right: 2vw;
     margin-top: 1vh;
     margin-bottom: 2vh;
-    overflow: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     -webkit-border-radius: 20px;
@@ -22,7 +22,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 0px 0px 20px 0px;
-    /* border: solid; */
 }
   
 .encabezado-izquierda,
@@ -104,7 +103,6 @@
     background-color: white;
     padding: 15px 8px; /* Aumentamos el padding vertical */
     text-align: left;
-    border-bottom: 3px solid #0071b0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -186,6 +184,9 @@
 
 /* Estilos para el contenedor de la tabla */
 .contenedor-tabla {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -194,6 +195,7 @@
 
 .contenido-tabla {
     padding: 15px 50px;
+    overflow: hidden;
 }
 
 /* Estilos para el botón de cerrar */
@@ -207,19 +209,47 @@
 
 /* Asegurarse que la tabla se mantenga visible */
 .profesores-container {
-    overflow-x: auto;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .profesores-table {
     width: 100%;
     border-collapse: collapse;
 }
+.profesores-table thead {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 1;
+}
+
+/* #################################### */
+.profesores-table thead th {
+    padding: 1rem;
+    border-bottom: 3px solid #0071b0;
+}
+
+.profesores-table tbody {
+    display: block;
+    overflow-y: auto;
+    height: 680px;
+}
+
+.profesores-table thead tr,
+.profesores-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
 
 .profesores-table td{
     height: 40px;
 }
 
-.tr-info:hover{
+.tr-info:hover {
     background-color: #ccc;
     border-radius: 15px #005a8c;
     -webkit-border-radius: 1px #005a8c;
@@ -228,7 +258,7 @@
     -o-border-radius: 15px #005a8c;
 }
 
-.detalle-column1{
+.detalle-column1 {
     border-radius: 15px 0 0 15px;
     -webkit-border-radius: 15px 0 0 15px;
     -moz-border-radius: 15px 0 0 15px;
@@ -236,10 +266,17 @@
     -o-border-radius: 15px 0 0 15px;
 }
 
-.detalle-column2{
+.detalle-column2 {
     border-radius: 0 15px 15px 0;
     -webkit-border-radius: 0 15px 15px 0;
     -moz-border-radius: 0 15px 15px 0;
     -ms-border-radius: 0 15px 15px 0;
     -o-border-radius: 0 15px 15px 0;
+}
+
+.profesores-table {
+    overflow-y: auto; /* Añadir scroll vertical */
+    border-radius: 20px 20px 0px 0px;
+    position: relative; /* Para controlar el contenido interno */
+    overflow-x: auto; /* Permite desplazamiento horizontal */
 }

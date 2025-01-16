@@ -118,7 +118,7 @@ function verDetalleProfesor(codigo_profesor) {
     }
 
     $.ajax({
-        url: 'detalle-profesor.php',
+        url: './functions/profesores/detalle-profesor.php',
         method: 'POST',
         data: {
             codigo_profesor: codigo_profesor,
@@ -157,7 +157,7 @@ function cerrarModalDetalle() {
 
 // Cerrar modales al hacer clic fuera de ellos
 $(window).click(function(event) {
-    if (event.target.className === 'modal') {
-        $('.modal').hide();
+    if (event.target.className === 'modal-detalle') {
+        $('.modal-detalle').hide();
     }
 });

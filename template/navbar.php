@@ -177,6 +177,23 @@ function generateColorForUser($userId)
                 ?>
             </li>
 
+            <?php
+                if ($rol_id == 1) {
+                    echo "<li class='navbar-item flexbox-left'>";
+             
+                    if (basename($_SERVER['PHP_SELF']) == 'profesores.php') { echo "<a class='navbar-item-inner flexbox-left' href='./profesores.php'><div class='indicador'></div>"; }
+                    else { echo "<a class='navbar-item-inner flexbox-left' href='./profesores.php'>"; } 
+            
+                        echo "<div class='navbar-item-inner-icon-wrapper flexbox'>";
+                            echo "<img src='./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>";
+                            echo "<img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>";
+                        echo "</div>";
+                        echo "<span class='link-text'>Profesores</span>";
+                    echo "</a>";
+                    echo "</li>";
+                }
+            ?>
+
             <li class="navbar-item flexbox-left">
             <?php 
                 if (basename($_SERVER['PHP_SELF']) == 'calendario.php') { echo "<a class='navbar-item-inner flexbox-left' href='./calendario.php'><div class='indicador'></div>"; }
@@ -265,23 +282,6 @@ function generateColorForUser($userId)
                     <span class="link-text">Guía</span>
                 </a>
             </li>
-
-            <?php
-                if ($rol_id == 1) {
-                    echo "<li class='navbar-item flexbox-left'>";
-             
-                    if (basename($_SERVER['PHP_SELF']) == 'modal-profesores.php') { echo "<a class='navbar-item-inner flexbox-left' href='./modal-profesores.php'><div class='indicador'></div>"; }
-                    else { echo "<a class='navbar-item-inner flexbox-left' href='./modal-profesores.php'>"; } 
-            
-                        echo "<div class='navbar-item-inner-icon-wrapper flexbox'>";
-                            echo "<img src='./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>";
-                            echo "<img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>";
-                        echo "</div>";
-                        echo "<span class='link-text'>Profesores</span>";
-                    echo "</a>";
-                    echo "</li>";
-                }
-            ?>
 
             <!-- Duplicado por alguna razon -->
             <!-- <li class="navbar-item flexbox-left">

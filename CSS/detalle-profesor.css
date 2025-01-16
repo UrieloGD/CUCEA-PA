@@ -125,6 +125,9 @@
 }
 
 .container-profesor {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   max-width: 1200px;
   margin: 0 auto;
   background: white;
@@ -140,6 +143,7 @@
   box-shadow: 0px 3px 3px rgb(179, 178, 178);
   display: flex;
   gap: 24px;
+  flex-shrink: 0;
 }
 
 .profesor-avatar-modal {
@@ -182,7 +186,7 @@
 
 .profile-details {
   position: relative;
-  top: 30px;
+  top: 20px;
   margin-left: 8px;
   font-size: 14px;
   font-weight: bold;
@@ -216,6 +220,7 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eee;
+  flex-shrink: 0;
 }
 
 .search-box {
@@ -247,6 +252,8 @@
 
 .navigation {
   display: flex;
+  flex: 1;
+  position: relative;
   align-items: center;
   gap: 10px;
   background: #fff;
@@ -341,10 +348,28 @@
 }
 
 .table-profesor thead {
-  position: static;
+  position: sticky;
   top: 0;
   background: #fff;
-  z-index: 1;
+  z-index: -10;
+}
+
+/*##################################################################*/
+.table-profesor thead tr {
+  background-color: #f8f9fa;
+}
+
+.table-profesor tbody {
+  display: block;
+  overflow-y: auto;
+  height: calc(100vh - 300px); /* Ajusta este valor según la altura de tus elementos estáticos */
+}
+
+.table-profesor thead tr,
+.table-profesor tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .table-profesor th {
@@ -394,7 +419,7 @@
   white-space: normal;
 
   /* Ajustar altura de la celda */
-  vertical-align: center;
+  vertical-align: middle;
   line-height: 1.4;
   hyphens: auto;
   padding: 12px 16px;
@@ -408,33 +433,14 @@
   background-color: #f9f9f9;
 }
 
-.table-profesor .col-materia {
-  width: 20%; /* Ancho fijo para la columna de materias */
-}
-
-.table-profesor .col-departamento {
-  width: 14%;
-}
-
-.table-profesor .col-nrc {
-  width: 8%;
-}
-
-.table-profesor .col-hora {
-  width: 14%;
-}
-
-.table-profesor .col-dias {
-  width: 18%;
-}
-
-.table-profesor .col-aula {
-  width: 6%;
-}
-
-.table-profesor .col-modalidad {
-  width: 14%;
-}
+/* Columnas */
+.col-nrc { width: 10%; }
+.col-materia { width: 20%; }
+.col-departamento { width: 15%; }
+.col-hora { width: 15%; }
+.col-dias { width: 20%; }
+.col-aula { width: 10%; }
+.col-modalidad { width: 10%; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -486,8 +492,11 @@
 }
 
 .curso-seccion {
-  display: none;
+  display: flex;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
 }
 
 .curso-seccion.active {
@@ -496,6 +505,8 @@
 
 .sections-container {
   position: relative;
+  flex: 1;
+  overflow: hidden;
   width: 100%;
   min-height: 450px; /* o el valor que necesites */
 }

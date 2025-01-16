@@ -27,7 +27,7 @@ function actualizarDiasActivos(dias, crnId, modulo, esvirtual) {
 </script>
 
 <?php
-include './config/db.php';
+include './../../config/db.php';
 
 if(isset($_POST['codigo_profesor'])) {
     $codigo_profesor = (int)$_POST['codigo_profesor'];
@@ -846,4 +846,4 @@ $(document).ready(function() {
 });
 </script>
 
-<script src="./JS/basesdedatos/profesores-materias.js"></script>
+<script src="./../../JS/profesores/profesores-materias.js"></script>
