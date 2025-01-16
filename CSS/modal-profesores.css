@@ -1,0 +1,245 @@
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92%;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 0px 20px 0px;
+    /* border: solid; */
+}
+  
+.encabezado-izquierda,
+.encabezado-centro,
+.encabezado-derecha {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.encabezado-centro {
+    color: #fff;
+    margin-top: -10px;
+    padding: 13px 10px;
+    background-color: #0071b0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 0px 20px 20px;
+}
+  
+.encabezado-izquierda {
+    /* border: solid; */
+    align-items: start;
+    justify-content: left;
+    margin-left: 20px;
+}
+  
+.encabezado h3 {
+    margin: 0;
+    /* padding: -30px -300px; */
+    margin-top: 10px;
+}
+  
+.encabezado-derecha {
+    /* border: solid; */
+    justify-content: right; /* Asegura que los iconos estén centrados */
+    margin-top: 10px;
+    margin-right: 25px;
+    width: 10%;
+}
+
+.search-bar {
+    margin-bottom: 20px 0;
+}
+  
+.search-input-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px 0 0 0;
+}
+  
+.search-input-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    padding: 10px 0 0 0;
+}
+  
+.search-input-container input {
+    width: 450px;
+    padding: 8px 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+  
+.search-input-container input:focus {
+    outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
+}
+
+.profesores-table th {
+    position: relative;
+    top: 0;
+    background-color: white;
+    padding: 15px 8px; /* Aumentamos el padding vertical */
+    text-align: left;
+    border-bottom: 3px solid #0071b0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+}
+  
+.profesores-table .detalle-column {
+    text-align: center;
+    align-items: center;
+}
+
+.btn-detalle {
+    background-color: #0071b0;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.btn-detalle:hover {
+    background-color: #005a8c;
+}
+
+.modal {
+    border: #005a8c;
+}
+  
+.modal input, .modal select {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+  
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+}
+
+.modal-detalle {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+  
+.modal-detalle input,
+.modal-detalle select {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+  
+.modal-content-detalle {
+    background-color: #fefefe;
+    margin: 3% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+  
+.modal-content-detalle h2 {
+    margin-bottom: 20px;
+}
+
+/* Estilos para el contenedor de la tabla */
+.contenedor-tabla {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.contenido-tabla {
+    padding: 15px 50px;
+}
+
+/* Estilos para el botón de cerrar */
+.close {
+    position: relative;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Asegurarse que la tabla se mantenga visible */
+.profesores-container {
+    overflow-x: auto;
+}
+
+.profesores-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.profesores-table td{
+    height: 40px;
+}
+
+.tr-info:hover{
+    background-color: #ccc;
+    border-radius: 15px #005a8c;
+    -webkit-border-radius: 1px #005a8c;
+    -moz-border-radius: 15px #005a8c;
+    -ms-border-radius: 15px #005a8c;
+    -o-border-radius: 15px #005a8c;
+}
+
+.detalle-column1{
+    border-radius: 15px 0 0 15px;
+    -webkit-border-radius: 15px 0 0 15px;
+    -moz-border-radius: 15px 0 0 15px;
+    -ms-border-radius: 15px 0 0 15px;
+    -o-border-radius: 15px 0 0 15px;
+}
+
+.detalle-column2{
+    border-radius: 0 15px 15px 0;
+    -webkit-border-radius: 0 15px 15px 0;
+    -moz-border-radius: 0 15px 15px 0;
+    -ms-border-radius: 0 15px 15px 0;
+    -o-border-radius: 0 15px 15px 0;
+}

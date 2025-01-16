@@ -24,19 +24,22 @@ function mostrarPopupColumnas() {
   opcionesColumnas.appendChild(selectAllDiv);
 
   // Obtener los encabezados de la tabla
-  var headers_materia_1 = Array.from(document.querySelectorAll("#tabla-datos th")).slice(
-    2, 11
-  );  // Ignorar la columna de checkbox y ID
+  var headers_materia_1 = Array.from(
+    document.querySelectorAll("#tabla-datos th")
+  ).slice(2, 11); // Ignorar la columna de checkbox y ID
 
-  var headers_materia_2 = Array.from(document.querySelectorAll("#tabla-datos th")).slice(
-    12, 13
+  var headers_materia_2 = Array.from(
+    document.querySelectorAll("#tabla-datos th")
+  ).slice(12, 13);
+
+  var headers_materia_3 = Array.from(
+    document.querySelectorAll("#tabla-datos th")
+  ).slice(24, 44);
+
+  const headers_materia = headers_materia_1.concat(
+    headers_materia_2,
+    headers_materia_3
   );
-
-  var headers_materia_3 = Array.from(document.querySelectorAll("#tabla-datos th")).slice(
-    24, 44
-  );
-
-  const headers_materia = headers_materia_1.concat(headers_materia_2, headers_materia_3);
 
   // Crear checkbox para cada columna
   var columnDiv1 = document.createElement("div");
@@ -46,9 +49,7 @@ function mostrarPopupColumnas() {
 
   // Crea una etiqueta de diferenciación
   var materia = document.createElement("label");
-  materia.appendChild(
-    document.createTextNode("Materia")
-  );
+  materia.appendChild(document.createTextNode("Materia"));
   materia.className = "encabezado-js";
   columnDiv2.appendChild(materia);
   columnDiv1.appendChild(columnDiv2);
@@ -63,12 +64,14 @@ function mostrarPopupColumnas() {
   var selectLabel = document.createElement("label");
   selectLabel.htmlFor = "select-all-materia";
   selectLabel.appendChild(
-    document.createTextNode("Seleccionar/Deseleccionar grupo completo de Materia")
+    document.createTextNode(
+      "Seleccionar/Deseleccionar grupo completo de Materia"
+    )
   );
   selectDiv.appendChild(selectCheckboxMateria);
   selectDiv.appendChild(selectLabel);
   columnDiv1.appendChild(selectDiv);
-  
+
   var columnDiv = document.createElement("div");
   columnDiv.className = "columns-container-materia";
   headers_materia.forEach(function (header, index) {
@@ -114,13 +117,13 @@ function mostrarPopupColumnas() {
   });
 
   // Obtener los encabezados de la tabla
-  var headers_profesor_1 = Array.from(document.querySelectorAll("#tabla-datos th")).slice(
-    13, 24
-  );
+  var headers_profesor_1 = Array.from(
+    document.querySelectorAll("#tabla-datos th")
+  ).slice(13, 24);
 
-  var headers_profesor_2 = Array.from(document.querySelectorAll("#tabla-datos th")).slice(
-    11, 12
-  );
+  var headers_profesor_2 = Array.from(
+    document.querySelectorAll("#tabla-datos th")
+  ).slice(11, 12);
 
   const headers_profesor = headers_profesor_1.concat(headers_profesor_2);
 
@@ -133,9 +136,7 @@ function mostrarPopupColumnas() {
 
   // Crea una etiqueta de diferenciación
   var profesor = document.createElement("label");
-  profesor.appendChild(
-    document.createTextNode("Profesorado")
-  );
+  profesor.appendChild(document.createTextNode("Profesorado"));
   profesor.className = "encabezado-js";
 
   columnDiv2.appendChild(profesor);
@@ -154,12 +155,14 @@ function mostrarPopupColumnas() {
   var selectLabel = document.createElement("label");
   selectLabel.htmlFor = "select-all-profesor";
   selectLabel.appendChild(
-    document.createTextNode("Seleccionar/Deseleccionar grupo completo de Profesorado")
+    document.createTextNode(
+      "Seleccionar/Deseleccionar grupo completo de Profesorado"
+    )
   );
   selectDiv2.appendChild(selectCheckboxProfesor);
   selectDiv2.appendChild(selectLabel);
   columnDiv1.appendChild(selectDiv2);
-  
+
   headers_profesor.forEach(function (header, index) {
     var checkbox = document.createElement("input");
     checkbox.className = "input-check";
@@ -219,9 +222,10 @@ function cerrarPopupColumnas() {
 }
 
 function descargarExcelSeleccionado() {
+  // Obtener todas las columnas seleccionadas de ambos contenedores
   var columnasSeleccionadas = Array.from(
     document.querySelectorAll(
-      '#opciones-columnas .columns-container-js input[type="checkbox"]:checked'
+      '.columns-container-materia input[type="checkbox"]:checked, .columns-container-profesor input[type="checkbox"]:checked'
     )
   ).map((checkbox) => checkbox.value);
 
@@ -230,14 +234,16 @@ function descargarExcelSeleccionado() {
     return;
   }
 
+  console.log("Columnas seleccionadas:", columnasSeleccionadas); // Para depuración
+
   var departamento_id = document.getElementById("departamento_id").value;
   var url =
     "./functions/basesdedatos/descargar-data-excel.php?departamento_id=" +
     departamento_id +
     "&columnas=" +
-    JSON.stringify(columnasSeleccionadas);
-  window.location.href = url;
+    encodeURIComponent(JSON.stringify(columnasSeleccionadas));
 
+  window.location.href = url;
   cerrarPopupColumnas();
 }
 

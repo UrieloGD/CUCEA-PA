@@ -27,14 +27,11 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
 ?>
 
 <?php
-// Conexión a la base de datos
-include './config/db.php';
-
 // Obtener la última fecha límite de la base de datos
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-11-30";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2025-03-10";
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
 $sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
@@ -137,7 +134,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
             }
           }
 
-          echo "<td style='text-align: center;'><a href='./basesdedatos.php?departamento_id=$departamento_id' class='btn-ir'>Ir</a></td>";
+          echo "<td style='text-align: center;'><a href='./basesdedatos.php?Departamento_ID=" . urlencode($departamento_id) . "' class='btn-ir'>Ir</a></td>";
           echo "</tr>";
         }
         ?>

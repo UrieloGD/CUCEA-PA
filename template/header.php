@@ -1,6 +1,5 @@
 <?php
-include('./config/sesionIniciada.php');
-include './config/db.php';
+include('./config/sesioniniciada.php');
 
 date_default_timezone_set('America/Mexico_City');
 if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones para los tres roles
@@ -9,30 +8,30 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
 
   if ($rol_id == 2) { // Secretaría administrativa
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
-                     d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
+                     d.departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
                      j.Notificacion_Vista AS vista, 
                      u.Codigo AS Emisor_ID,
                      NULL AS Mensaje
-            FROM Justificaciones j
-            JOIN Departamentos d ON j.Departamento_ID = d.Departamento_ID
-            JOIN Usuarios u ON j.Codigo_Usuario = u.Codigo
+            FROM justificaciones j
+            JOIN departamentos d ON j.Departamento_ID = d.Departamento_ID
+            JOIN usuarios u ON j.Codigo_Usuario = u.Codigo
             WHERE j.Justificacion_Enviada = 1
             
             UNION ALL
             
-            SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
+            SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, d.departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
                    p.Notificacion_Vista AS vista, u.Codigo AS Emisor_ID,
                    NULL AS Mensaje
-            FROM Plantilla_Dep p
-            JOIN Departamentos d ON p.Departamento_ID = d.Departamento_ID
-            JOIN Usuarios u ON p.Usuario_ID = u.Codigo
+            FROM plantilla_dep p
+            JOIN departamentos d ON p.Departamento_ID = d.Departamento_ID
+            JOIN usuarios u ON p.Usuario_ID = u.Codigo
             
             UNION ALL
             
-            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS Departamentos, 
+            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS departamentos, 
                    e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Vista AS vista, n.Emisor_ID, n.Mensaje
-            FROM Notificaciones n
-            LEFT JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+            FROM notificaciones n
+            LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
             WHERE n.Usuario_ID = $codigo_usuario
             
             ORDER BY fecha DESC
@@ -40,16 +39,16 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
   } else if ($rol_id == 1) { // Jefe de departamento
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
-              FROM Notificaciones n
-              LEFT JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+              FROM notificaciones n
+              LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
               ORDER BY n.Fecha DESC
               LIMIT 10";
   } else if ($rol_id == 3) { // Coordinacion de Personal
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
-              FROM Notificaciones n
-              LEFT JOIN Usuarios e ON n.Emisor_ID = e.Codigo
+              FROM notificaciones n
+              LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
               ORDER BY n.Fecha DESC
               LIMIT 10";
@@ -119,10 +118,10 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
               </div>
               <div class="info-notificacion">
                 <?php if ($rol_id == 2) : ?>
-                  <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Secretaría Administrativa'; ?></div>
+                  <div class="usuario"><?php echo $notificacion['departamentos'] ?? 'Secretaría Administrativa'; ?></div>
                   <div class="descripcion">
                     <?php if ($rol_id == 2) : ?>
-                      <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Secretaría Administrativa'; ?></div>
+                      <div class="usuario"><?php echo $notificacion['departamentos'] ?? 'Secretaría Administrativa'; ?></div>
                       <div class="descripcion">
                         <?php
                         if ($notificacion['tipo'] == 'justificacion') {
