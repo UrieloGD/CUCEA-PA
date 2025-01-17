@@ -118,9 +118,8 @@ $(document).ready(function () {
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
       { orderable: false, targets: -1 },
-      // Nuevo columnDefs para manejar choques
       {
-        targets: [1, 36, 37, 38, 39], // Añadir índice de la columna de aula
+        targets: [1, 36, 37, 38, 39],
         createdCell: function(cell, cellData, rowData, rowIndex, colIndex) {
           var $row = $(cell).closest('tr');
           var choques = $row.data('choques');
@@ -129,21 +128,19 @@ $(document).ready(function () {
               $(cell).addClass('celda-choque');
               
               choques.forEach(function(choque) {
-                  // Marcar solo el primer departamento en azul
-                  if (choque.Primer_Departamento === choque.Departamento) {
+                  if (choque.Primer_Departamento === choque.Nombre_Departamento) {
                       $(cell).addClass('choque-primero');
                   } else {
                       $(cell).addClass('choque-segundo');
                   }
               });
               
-              // Tooltip con ID de choque y nombre de departamento
               var tooltipContent = choques.map(function(choque) {
-                  return "Choque con ID (#" + choque.ID_Choque + ") del Departamento (" + choque.Departamento + ")";
-              }).join('<br>');
+                  return "Choque con ID #" + choque.ID_Choque + " del departamento " + choque.Departamento;
+              }).join('\n');
               
-              $(cell).attr('title', tooltipContent);
-              $row.addClass('fila-choque');
+              // Usar data-attribute en lugar de title
+              $(cell).attr('data-tooltip', tooltipContent);
           }
         }
       }

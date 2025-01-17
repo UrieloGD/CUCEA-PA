@@ -28,7 +28,7 @@ try {
                 $participantes_array = explode(',', $participantes);
                 foreach ($participantes_array as $participante_id) {
                     if (!empty($participante_id)) {
-                         // Verificar si ya existe una notificación similar
+                        // Verificar si ya existe una notificación similar
                         $stmt_verificar->bind_param("si", $mensaje, $participante_id);
                         $stmt_verificar->execute();
                         $resultado_verificar = $stmt_verificar->get_result();
@@ -297,7 +297,6 @@ try {
                     Etiqueta = ?, 
                     Participantes = ?, 
                     Notificaciones = ?, 
-                    Hora_Noti = ?
                     WHERE ID_Evento = ?";
 
             $stmt = $conexion->prepare($sql);
@@ -316,7 +315,6 @@ try {
                 $etiqueta,
                 $participantes,
                 $notif,
-                $horNotif,
                 $id
             );
 
@@ -341,8 +339,8 @@ try {
             // Crear nuevo evento
             $sql = "INSERT INTO eventos_admin (
                     Nombre_Evento, Descripcion_Evento, Fecha_Inicio, Fecha_Fin, 
-                    Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones, Hora_Noti
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    Hora_Inicio, Hora_Fin, Etiqueta, Participantes, Notificaciones
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conexion->prepare($sql);
             if (!$stmt) {
@@ -350,7 +348,7 @@ try {
             }
 
             $stmt->bind_param(
-                "ssssssssss",
+                "sssssssss",
                 $nombre,
                 $descripcion,
                 $fechIn,
@@ -359,8 +357,7 @@ try {
                 $horFi,
                 $etiqueta,
                 $participantes,
-                $notif,
-                $horNotif
+                $notif
             );
 
             if ($stmt->execute()) {

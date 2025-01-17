@@ -134,8 +134,8 @@
                 if ($result_todos_profesores) {
                     while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                         echo "<tr>";
-                        echo "<td class='detalle-column'>" . htmlspecialchars($row['Codigo']) . "</td>";
-                        echo "<td class=''>" . htmlspecialchars($row['Nombre_Completo']) . "</td>";
+                        echo "<td class='detalle-column'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
+                        echo "<td class=''>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
                         echo "<td class='detalle-column'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                         echo "</tr>";
                     }
