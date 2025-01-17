@@ -1,0 +1,323 @@
+/* CSS header y background del body y generales*/
+* {
+  font-family: "Dm Sans", sans-serif;
+  /* evita que se arrastren las imagenes de toda la pagina */
+  /* user-select: none; */
+}
+
+body {
+  margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
+  background-color: #e7e9f2;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  z-index: 2; /*Asegura que esté sobre otros elementos*/
+  /* border: solid black 1px; */
+  background-color: white;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  border-radius: 0px 0px 10px 10px;
+  -webkit-border-radius: 0px 0px 10px 10px;
+  -moz-border-radius: 0px 0px 10px 10px;
+  -ms-border-radius: 0px 0px 10px 10px;
+  -o-border-radius: 0px 0px 10px 10px;
+}
+
+.titulo {
+  width: 40vw;
+  margin-left: 2vw;
+  /* background-color: aqua; */
+  /* border: solid 1px; */
+}
+
+.rol {
+  margin-right: 2vw;
+  width: 45vw;
+  text-align: right;
+  /* background-color: aliceblue; */
+  /* border: solid 1px;*/
+}
+
+.icono-notificaciones {
+  display: flex;
+  /* border: solid 1px; */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-left: -10px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: none;
+}
+
+.notification-menu {
+  position: absolute; /*Position the menu relative to its parent*/
+  top: 60px; /*Adjust the top position as needed*/
+  right: 20px; /*Adjust the right position as needed*/
+  width: 300px; /*Adjust the width as needed*/
+  background-color: white; /*Set the background color*/
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); /*Add a shadow*/
+  display: none;
+  z-index: 100;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.notification-menu h3 {
+  padding: 10px 15px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.notification-menu ul li {
+  padding: 15px 20px; /*Adjust padding as needed*/
+  width: 230px;
+  border: 1px solid #ddd; /*Add a border*/
+  border-radius: 80px; /*Add rounded corners*/
+  margin-bottom: 10px; /* Add spacing between notifications */
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+.notification-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex; /* Enable flexbox layout */
+  flex-direction: column; /* Arrange items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: flex-start; /* Align items at the top */
+}
+
+.notification-menu li {
+  padding: 30px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.notification-menu li:hover {
+  background-color: #f2f2f2;
+}
+
+.notification-menu .date {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
+
+.notification-menu .icons {
+  display: flex; /* Use flexbox for icons */
+  justify-content: space-between; /* Space icons evenly */
+  align-items: center; /* Center icons vertically */
+  padding: 10px;
+}
+
+.notification-menu .icons i {
+  font-size: 24px; /* Adjust icon size as needed */
+  color: #333; /* Set icon color */
+  margin-left: 60px; /* Reduce left margin */
+  margin-right: 60px; /* Reduce right margin */
+  font-size: 24px;
+  color: #333;
+  cursor: pointer; /* Add cursor for clickable icons */
+}
+
+.notification-menu .icons i:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.notification-menu ul li.urgente {
+  border: 2px solid rgb(255, 117, 117);
+}
+
+/* Estilos para notificaciones normales */
+.notification-menu ul li.normal {
+  border: 2px solid rgb(117, 255, 117);
+}
+
+/* Estilos para notificaciones de advertencia */
+.notification-menu ul li.advertencia {
+  border: 2px solid rgb(255, 255, 117);
+}
+
+/* Alinear contenidos del navbar */
+.header-content {
+  display: flex;
+  align-items: center;
+  padding: 0 2vw; /* Ajusta el espaciado horizontal según sea necesario */
+}
+
+.titulo {
+  margin-left: 10px; /* Ajusta el margen izquierdo según sea necesario */
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .header {
+    margin-left: 6vw;
+    font-size: small;
+  }
+
+  .rol {
+    margin-left: -1vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .header {
+    margin-left: 6vw;
+    font-size: small;
+  }
+
+  .icono-notificaciones {
+    margin-right: 2vw;
+  }
+
+  .rol {
+    margin-left: -1vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  /* Estilos para pantallas con ancho máximo de 768px */
+  .header {
+    margin-left: 7vw;
+    font-size: small;
+  }
+
+  .rol {
+    margin-left: -3vw;
+  }
+  
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .header {
+    margin-left: 8vw;
+    font-size: small;
+  }
+
+  .icono-notificaciones {
+    margin-right: 3vw;
+  }
+
+  .rol {
+    margin-left: -5vw;
+  }
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+/* Media queries para hacer el diseño responsivo */
+@media screen and (max-width: 768px) {
+  /* Estilos para pantallas con ancho máximo de 768px */
+  .header {
+    margin-left: 3vw;
+    font-size: small;
+  }
+
+  .titulo {
+    display: flex;
+    align-items: center;
+  }
+
+  .titulo h3 {
+    margin-left: 10px;
+  }
+
+  .rol {
+    position: relative;
+    left: -1vw;
+  }
+
+  .icono-notificaciones {
+    position: relative;
+    left: -1vw;
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    margin-left: 2vw;
+    font-size: small;
+    z-index: 99;
+  }
+
+  .titulo {
+    display: flex;
+    align-items: center;
+  }
+
+  .titulo h3 {
+    margin: auto;
+  }
+
+  .rol {
+    margin-left: -1vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .rol {
+    width: 100%;
+    margin-left: 5vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .rol {
+    width: 100%;
+    margin-left: -15vw;
+  }
+
+  .icono-notificaciones {
+    margin-left: 1px;
+  }
+}

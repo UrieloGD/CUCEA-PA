@@ -1,0 +1,1472 @@
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92%;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
+  /* border: solid; */
+}
+
+.encabezado-izquierda,
+.encabezado-centro,
+.encabezado-derecha {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.encabezado-centro {
+  color: #fff;
+  margin-top: -10px;
+  padding: 13px 10px;
+  background-color: #0071b0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px 0px 20px 20px;
+}
+
+.encabezado-izquierda {
+  /* border: solid; */
+  align-items: start;
+  justify-content: left;
+  margin-left: 20px;
+}
+
+.encabezado h3 {
+  margin: 0;
+  /* padding: -30px -300px; */
+  margin-top: 10px;
+}
+
+.encabezado-derecha {
+  /* border: solid; */
+  justify-content: right; /* Asegura que los iconos estén centrados */
+  margin-top: 10px;
+  margin-right: 25px;
+  width: 10%;
+}
+
+/* Tabla */
+.tabla {
+  flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
+  overflow-y: auto; /* Añadir scroll vertical */
+  padding: 20px;
+  border-radius: 20px 20px 0px 0px;
+  position: relative; /* Para controlar el contenido interno */
+  margin-top: -5px;
+  overflow-x: auto; /* Permite desplazamiento horizontal */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: -20px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 3px solid #e7e9f2;
+}
+
+th {
+  margin-top: -50px;
+  color: black;
+  border-bottom: 3px solid #0071b0;
+  position: sticky; /* Hacer que el encabezado sea fijo */
+  top: -20px; /* Posición fija en la parte superior */
+  background-color: white; /* Fondo blanco para que el encabezado sea legible */
+  z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Ajusta este valor según tus necesidades */
+}
+
+/* Estilos-dimensiones de tabla completa */
+.datatable-container {
+  margin: 0 auto;
+  width: 97.5%;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+/* Texto donde dice: mostrar [10>] registros */
+.dt-layout-start {
+  margin-left: 15px;
+}
+.dt-layout-end {
+  margin-right: 15px;
+}
+#dt-length-0,
+#dt-search-0 {
+  border: 1px solid #a7a5a5;
+}
+
+/* Icono y Boton Buscar */
+
+.iconos-container {
+  width: 70%;
+  display: flex;
+  align-items: left;
+  /* border: solid; */
+  justify-content: space-between;
+  padding: 0px 40px;
+}
+
+#icono-deshacer {
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #ffd951;
+  padding: 15px;
+  color: #fff;
+  margin-right: 0;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: visibility 0.2s, opacity 0.2s;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  -moz-transition: visibility 0.2s, opacity 0.2s;
+  -ms-transition: visibility 0.2s, opacity 0.2s;
+  -o-transition: visibility 0.2s, opacity 0.2s;
+}
+
+#icono-deshacer i {
+  font-size: 18px;
+}
+
+#icono-guardar {
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #57b661;
+  border-radius: 10px;
+  padding: 15px;
+  color: #fff;
+  margin-right: 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: visibility 0.2s, opacity 0.2s;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  -moz-transition: visibility 0.2s, opacity 0.2s;
+  -ms-transition: visibility 0.2s, opacity 0.2s;
+  -o-transition: visibility 0.2s, opacity 0.2s;
+}
+
+.iconos-container > #icono-deshacer,
+.iconos-container > #icono-guardar {
+  margin-right: 10px;
+}
+
+.icono-buscador {
+  cursor: pointer;
+  background-color: #0071b0;
+  padding: 15px;
+  border-radius: 10px 10px; /* Redondea solo las esquinas izquierdas */
+  color: #fff;
+  margin-right: 0; /* Quita el margen derecho */
+  /* z-index: 1; */
+}
+
+/* Unicamente icono de lupa */
+#icono-buscador {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.icono-buscador i {
+  font-size: 18px;
+}
+
+/* Asegúrate de que todos los iconos tengan el mismo tamaño */
+.iconos-container {
+  display: flex;
+  align-items: center;
+  margin-right: 1vw;
+}
+
+/* Ajustar el espacio entre los iconos */
+.iconos-container > div {
+  margin-right: 10px;
+}
+
+.iconos-container > div:last-child {
+  margin-right: 0;
+}
+
+/* .barra-buscador {
+  display: flex;
+  align-items: center;
+  width: 95%; /* Ocupa el 70% del div contenedor */
+/*border: none; /* Quita el borde azul */
+/*margin-top: 10px;
+} */
+
+#input-buscador {
+  flex-grow: 1;
+  margin-left: -4px;
+  padding: 15.5px;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  background-color: #f0f0f0;
+  outline: 1px solid transparent; /* Inicialmente transparente */
+}
+
+#input-buscador:focus {
+  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
+}
+
+#input-buscador:focus {
+  outline: 2px solid rgb(0, 114, 176); /* #0071b0 con 50% de opacidad */
+}
+
+/* Estilos para nuevos formularios */
+#formulario-añadir {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#form-añadir-registro {
+  display: grid;
+  align-items: center;
+}
+
+#formulario-añadir button {
+  padding: 5px;
+  margin: 10px 10px 0px 10px;
+  border: none;
+  background-color: #0071b0;
+  color: #fff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+#formulario-añadir input {
+  width: 90%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: #5d5d5d solid;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.input-formulario {
+  width: 90%;
+  padding: 5px;
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+/* css pop up de columnas de descarga excel */
+
+.popup-active {
+  overflow: hidden;
+}
+
+.popup-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+#popup-columnas {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  width: 40vw;
+  height: 80vh;
+  overflow-y: auto;
+  border: 1px solid rgb(173, 173, 173);
+}
+
+.column-selector {
+  position: relative;
+}
+
+.column-selector-modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: none;
+}
+
+.column-selector-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+}
+
+.select-all-div {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.columns-container-js {
+  border-color: #D0E6F2;
+}
+
+.columns-container-materia {
+  overflow-y: auto;
+  margin: 0 0 25px 0;
+  padding: 10px 0 10px 0;
+  flex-direction: column;
+  gap: 10px;
+  border-style: solid;
+  border-width: 2px 0 0 0;
+  border-color: #D0E6F2;
+  column-count: 3;
+  column-gap: 2rem;
+  list-style: none;
+}
+
+.columns-container-profesor {
+  overflow-y: auto;
+  margin: 0 0 25px 0;
+  padding: 10px 0 10px 0;
+  flex-direction: column;
+  gap: 10px;
+  border-style: solid;
+  border-width: 2px 0 0 0;
+  border-color: #D0E6F2;
+  column-count: 3;
+  column-gap: 2rem;
+  list-style: none;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.check-js {
+  margin: 0 0 5px 0;
+  display: flex;
+  justify-content: left;
+}
+
+.check-js label{
+  padding-left: 10px;
+}
+
+.encabezado-js {
+  color: #0071B0;
+  font-size: 18px;
+  position: relative;
+}
+
+.select-all-materia label {
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.select-all-materia {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.select-all-profesor {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.select-all-profesor label {
+  padding-left: 10px;
+}
+
+.column-selector button {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.label-materia,
+.label-profesorado {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.label-materia {
+  margin-top: 25px;
+}
+
+.input-check[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  border: 1px solid #3497CE;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.input-check[type="checkbox"]:checked {
+  background-color: #3497CE;
+  border: 1px solid #3497CE;
+}
+
+.input-check[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.fila-botones{
+  display: flex;
+  justify-content: center;
+  height: 35px;
+}
+
+.btn-cotejo{
+  margin-left: 40px;
+}
+
+.select-first {
+  display: flex;
+  justify-content: left;
+}
+
+/* Modal Añadir Registro */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+.modal input, .modal select {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 3% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 1200px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.form-section h3 {
+  margin-bottom: 15px;
+  color: #0071b0;
+}
+
+.form-section {
+  width: 50%;
+  padding: 0 30 0px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.weekdays {
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+
+.weekdays input {
+  text-align: center;
+}
+
+#l, #m, #i, #j, #v, #s, #d,
+#ciclo, #crn, #cve_materia,
+#nivel, #nivel_tipo, #seccion,
+#c_min, #h_totales, #estatus {
+  width: 100%;
+}
+
+.form-actions {
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.form-actions button {
+  border-radius: 7px;
+  border: none;
+  padding: 10 35 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  margin-left: 20px;
+}
+.form-actions button:nth-child(1) {
+  background-color: #0071B0;
+}
+.form-actions button:nth-child(2) {
+  background-color: #B0B0B0;
+}
+
+.form-row input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.weekdays {
+  justify-content: space-between;
+}
+
+.weekdays input {
+  width: 30px;
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7.5px;
+  cursor: pointer;
+}
+
+.form-actions button:first-child {
+  background-color: #0071b0;
+  color: white;
+  font-weight: bold;
+}
+
+.form-actions button:last-child {
+  background-color: #fff;
+  color: #0071b0;
+  border: #0071b0 solid 2px;
+  font-weight: bold;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.input-estrecho {
+  width: 80px; /* Ajusta este valor según sea necesario */
+  /* box-sizing: border-box; */
+  padding: 5px; /* Opcional: ajustar el padding según sea necesario */
+  border: none;
+}
+
+/* Estilos para el contenedor de búsqueda de Js */
+.dt-search {
+  width: 30%; /* Un tercio del ancho de la pantalla */
+  margin: 10px 0;
+  position: relative;
+  border-color: 2px #0071B0;
+}
+
+/* Estilos para el input de búsqueda */
+.dt-input {
+  width: 80%;
+  margin-top: -70px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.dt-input:focus {
+  border-color: 2px #0071b0;
+  box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
+}
+
+/* Ocultar la etiqueta */
+.dt-search label {
+  display: none;
+}
+
+/* Asegurar que el contenedor padre no restrinja el ancho */
+.dataTables_wrapper .dataTables_filter {
+  width: 33.33%;
+  float: none;
+  text-align: left;
+}
+
+/* Ajustes adicionales para mantener el layout */
+.dataTables_wrapper {
+  position: relative;
+}
+
+/* Ajuste específico para el input dentro del contenedor */
+#dt-search-0 {
+  width: 100%;
+  margin-left: 0;
+}
+
+/* Estilos para el contenedor de longitud */
+.dt-length {
+  margin: 10px 0;
+  display: inline-block;
+}
+
+/* Estilos para el label */
+.dt-length label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+/* Estilos específicos para el select */
+.dt-length select.dt-input {
+  width: auto;
+  padding: 6px 24px 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+  margin: 0 5px;
+  /* Asegurar que el select no se estire */
+  display: inline-block;
+  min-width: 70px;
+  max-width: 100px;
+}
+
+/* Estilo para el hover y focus del select */
+.dt-length select.dt-input:hover,
+.dt-length select.dt-input:focus {
+  border-color: #0071b0;
+}
+
+/* Asegurar que el contenedor no se estire demasiado */
+.dataTables_length {
+  width: auto;
+  white-space: nowrap;
+}
+
+nav[aria-label="pagination"] {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: -50px;
+}
+
+/* Estilos para celdas y filas con choques */
+.celda-choque {
+  background-color: #ffcccc !important; /* Rojo claro */
+  font-weight: bold;
+}
+
+.celda-choque:hover {
+  background-color: #ff9999 !important;
+}
+
+.celda-choque.choque-primero {
+  background-color: #b3d9ff !important; /* Azul claro */
+}
+
+.celda-choque.choque-segundo {
+  background-color: #ffcccc !important; /* Rojo claro */
+}
+
+.fila-choque {
+  background-color: rgba(255, 204, 204, 0.3);
+}
+
+/* Tooltip para mostrar detalles de choques */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  text-align: left;
+  bottom: 100%;
+  left: 0;
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  white-space: pre-line;
+  z-index: 1000;
+  min-width: 300px;
+  font-size: 16px;
+}
+
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92%;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+  .iconos-container {
+    margin-right: 4vw;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 25vw;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92%;
+    margin-left: 6vw;
+  }
+  .iconos-container {
+    margin-right: 7vw;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
+  }
+  .contenedor-buttons { 
+    left: 30%;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91%;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+  .iconos-container {
+    margin-right: 4.5vw;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+  .iconos-container > div,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 5px;
+  }
+  #input-buscador {
+    height: 39px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 70vw;
+  }
+  .contenedor-buttons { 
+    left: 30%;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90%;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .iconos-container {
+    position: relative;
+    margin-right: 12vw;
+    margin-bottom: 25px;
+    top: 50px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    top: 37px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 370px;
+    height: 39px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > div,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 5px;
+  }
+
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+  }
+  
+  .form-section {
+    padding: 0 10 0px;
+  }
+
+  .form-movil {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .form-row input {
+    width: 5vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 29%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96%;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .encabezado h2 {
+    margin: 0;
+    font-size: medium;
+  }
+
+  /* Tabla */
+
+  .tabla {
+    padding: 20px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-size: smaller;
+  }
+
+  th {
+    color: black;
+    border-bottom: solid #0071b0;
+    position: sticky; /* Hacer que el encabezado sea fijo */
+    top: 0; /* Posición fija en la parte superior */
+    background-color: white; /* Fondo blanco para que el encabezado sea legible */
+    z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  }
+
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+    font-size: small;
+  }
+
+  .datatable-container {
+    margin-top: 40px;
+  }
+
+  .iconos-container {
+    position: relative;
+    margin-right: 18vw;
+    margin-bottom: 50px;
+    top: 100px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    margin-top: 50px;
+    top: 5px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 86vw;
+    height: 39px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > div,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 5px;
+  }
+
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .form-section {
+    width: 100%;
+  }
+
+  .form-actions button {
+    border-radius: 5px;
+    border: none;
+    padding: 8 30 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .form-movil {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .form-row input {
+    width: 5vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 25%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .iconos-container {
+    margin-right: 30vw;
+  }
+  #input-buscador {
+    width: 80vw;
+  }
+
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .form-movil {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .form-row input {
+    width: 10vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 18%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .contenedor-buttons {
+    height: 150px;
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    flex-direction: column; 
+    left: 33%;
+  }
+  .contenedor-buttons button { 
+    margin: 2; 
+    padding: 0;
+    width: 150px;
+    height: 35px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .iconos-container {
+    margin-right: 45vw;
+  }
+  #input-buscador {
+    width: 75vw;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+    font-size: x-small;
+  }
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .form-movil {
+    flex: 1;
+    max-width: 300px;
+  }
+
+  .form-row input {
+    width: 10vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 28%;
+  }
+}
+
+/* Ensure that the demo table scrolls */
+th,
+td {
+  white-space: nowrap;
+}
+div.dataTables_wrapper {
+  width: 600px;
+  margin: 0 auto;
+}
+/*------------------------------------------------*/
+.search-bar {
+  margin-bottom: 20px 0;
+}
+
+.search-input-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input-container i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+}
+
+.search-input-container input {
+  width: 100%;
+  padding: 8px 30px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.search-input-container input:focus {
+  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
+}
+
+#buscar-profesor {
+  width: 100%;
+  padding: 8px 8px 8px 35px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.tabla-profesores {
+  margin-top: 20px;
+}
+
+.btn-detalle {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-detalle:hover {
+  background-color: #005a8c;
+}
+
+/* Estilos para el detalle del profesor */
+.detalle-profesor {
+  padding: 20px;
+}
+
+.info-general {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 4px;
+  margin: 15px 0;
+}
+
+.tabla-materias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.tabla-materias th,
+.tabla-materias td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.tabla-materias th {
+  background-color: #0071b0;
+  color: white;
+}
+
+.tabla-materias tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.close:hover {
+  color: #0071b0;
+}
+
+/* Estilos para el modal */
+#modal-todos-profesores {
+  display: none; /* Oculto por defecto */
+  position: fixed; /* Posición fija */
+  z-index: 1000; /* Por encima de otros elementos */
+  left: 0;
+  top: 0;
+  width: 100%; /* Ancho del modal */
+  height: 100%; /* Altura del modal */
+  overflow: auto; /* Habilitar scroll si el contenido lo requiere */
+  background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+}
+
+.profesores-table th {
+  position: relative;
+  top: 0;
+  background-color: white;
+  padding: 15px 8px; /* Aumentamos el padding vertical */
+  text-align: left;
+  border-bottom: 3px solid #0071b0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+.profesores-table .detalle-column {
+  text-align: center;
+  align-items: center;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding: 15px 8px; /* Aumentamos el padding vertical */
+  text-align: left;
+  border-bottom: 3px solid #0071b0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+/* Estilo específico para los íconos de ordenamiento */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  background-position: center right 5px;
+  padding-right: 20px; /* Espacio para el ícono de ordenamiento */
+}
+
+/* Ajustamos el contenedor de la tabla */
+.tabla {
+  position: relative;
+  padding-top: 10px; /* Reducimos el padding superior */
+  margin-top: 0; /* Eliminamos el margen negativo */
+  overflow: auto;
+}
+
+/* Ajustamos el contenedor del DataTable */
+.datatable-container {
+  margin-top: 0px; /* Ajustamos el margen superior */
+  position: relative;
+}
+
+/* Aseguramos que la barra de búsqueda esté por encima */
+.dt-search {
+  position: relative;
+  /* z-index: 3; */
+}
+
+/* Iconos de filtro que serán mostrados en cada columna al seleccionar el botón de filtrar */
+.filter-icon {
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  right: 1;
+  top: 5%;
+  user-select: none;
+}
+
+/* Personalizar el botón de los íconos de filtros por columnas */
+.filter-icon:hover, .filter-icon.active {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* Menú de filtros */
+.filter-menu {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #a7a5a5;
+  padding: 0px 5px 0px 5px; /* Disminuir el padding */
+  z-index: 1000;
+  max-height: 50vh; /* Reducir la altura máxima */
+  overflow-y: auto;
+  width: 20%; /* Reducir el ancho */
+}
+
+/* Opciones dentro del menú de filtros */
+.filter-menu label {
+  display: block;
+  margin-bottom: 5px; /* Espacio entre cada opción */
+  font-size: 12px; /* Tamaño de fuente */
+  color: black
+}
+
+/* Estilo para el checkbox */
+.filter-menu input[type="checkbox"] {
+  margin-right: 5px; /* Espacio entre el checkbox y el texto */
+  accent-color: #0071B0; /* Color del checkbox seleccionado */
+}
+
+/* Estilos para los botones de filtrado */
+.filter-menu .filter-buttons {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  margin-bottom: 0;
+}
+
+.filter-menu button {
+  background-color: #0071B0; 
+  color: #f5f5f5;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 5px 5px 5px 0;  
+}
+
+.filter-buttons .apply-filter {
+  margin-left: 90px; /* Ajustar el margen izquierdo para centrar los botones */
+}
+
+/* Estilos para la barra de búsqueda */
+.filter-menu .filter-search-container {
+  position: sticky;
+  top: -0.5px;
+  background-color: white;
+}
+
+.filter-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #a7a5a5;
+  border-radius: 3px;
+  font-size: 13px;
+  margin-bottom: 15px; /* Espacio debajo de la barra de búsqueda */
+  margin-top: 2px; /* Espacio encima de la barra de búsqueda */
+}
+
+/* Acomodar los botones de ordenamiento y filtrar en cada columna */
+.dt-column-order {
+  position: absolute;
+  left: 0;
+}
+
+.dt-column-title {
+  margin-left: 10px;
+}

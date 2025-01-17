@@ -1,0 +1,244 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: auto; /* Para que el contenido adicional no desborde */
+  display: flex;
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
+}
+
+/* Aquí empieza el código */
+.section-title {
+  font-weight: bold;
+  margin-top: 20px;
+  /* margin-bottom: 10px; */
+  max-width: 100%;
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.event-container {
+  display: flex;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  border: solid 3px #e7e7f2;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  max-width: 100%;
+  margin-left: 60px;
+  margin-right: 60px;
+  margin-top: 20px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.event-container h3{
+  display: flex;
+  text-align: center;
+  margin: 0;
+}
+
+.event-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  width: 12%;
+  height: 100%;
+  border-right: solid 3px #e7e7f2;
+}
+
+.event-day-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: stretch;
+  margin-right: 20px;
+  margin-left: 20px;
+  /* border: solid; */
+}
+
+.event-day {
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  /* border: solid blue; */
+}
+
+.event-time {
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  /* border: solid green; */
+}
+
+.event-details {
+  flex: 1;
+  /* border: solid gold; */
+  margin-left: 10px;
+}
+
+.event-icons span.icon {
+  display: inline-block;
+  background-color: #ccc;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 50%;
+  /* margin-right: 5px; */
+}
+
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* intento de colores */
+.event-icons span.icon {
+  display: inline-block;
+  color: #fff; /* Color de texto predeterminado */
+  padding: 5px 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  background-color: #0071b0;
+  border: none;
+  color: white;
+  font-size: 16px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+.btn:hover {
+  transform: scale(105%);
+  -webkit-transform: scale(105%);
+  -moz-transform: scale(105%);
+  -ms-transform: scale(105%);
+  -o-transform: scale(105%);
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+
+.fechalimite {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/*Estilos botones editar y borrar*/
+
+.event-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-left: 10px;
+}
+
+.action-btn img {
+  width: 2vw;
+  height: 2vw;
+}
+
+/* Estilos de colores individuales */
+.event-icons span.icon-red {
+  background-color: red;
+}
+
+.event-icons span.icon-green {
+  background-color: green;
+}
+
+.event-icons span.icon-blue {
+  background-color: blue;
+}
+
+.event-icons span.icon-pink {
+  background-color: pink;
+}
+
+.event-icons span.icon-orange {
+  background-color: orange;
+}
+
+.event-icons span.icon-purple {
+  background-color: purple;
+}
+
+.event-icons span.icon-fuchsia {
+  background-color: fuchsia;
+}
+
+.event-icons span.icon-teal {
+  background-color: teal;
+}
+
+.event-icons span.icon-brown {
+  background-color: brown;
+}

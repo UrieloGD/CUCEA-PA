@@ -1,0 +1,269 @@
+/* CSS del cuadro principal */
+
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 90vh;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: auto; /* Para que el contenido adicional no desborde */
+  display: flex;
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
+}
+
+/* Tabla */
+
+.tabla {
+  display: flex;
+  padding: 0px 2vw;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+table {
+  flex: auto;
+  width: 100%;
+  border-collapse: collapse; /* Separar los bordes de las celdas */
+  border-spacing: 0; /* Eliminar el espacio entre las celdas */
+}
+
+th {
+  background-color: #e7e9f2; /* Color de fondo para los encabezados */
+  text-align: left; /* Alinea el texto de los encabezados a la izquierda */
+  padding: 10px; /* Agrega un padding a los encabezados */
+}
+
+td {
+  flex: auto;
+  padding: 5.5px;
+  flex: auto;
+  text-align: left;
+  border: 2px solid #e7e9f2;
+}
+
+td .btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+td .btn-container .btn {
+  margin: 0 5px;
+}
+
+.btn img {
+  /* Iconos */
+  height: 30px; /* Altura de imagenes */
+  align-items: center; /* Alinea imagenes al centro */
+  justify-content: center;
+  cursor: pointer;
+}
+
+#input-file {
+  display: none; /* Oculta display de la función de subir archivo  */
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.btn-container input[type="file"] {
+  display: none;
+}
+
+.btn-container .hidden-button {
+  display: none;
+}
+
+.btn-container .btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* .btn-container .btn img {
+  max-width: 30px;
+} */
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  /* gap: 10px; */
+}
+
+.btn-container input[type="file"] {
+  display: none;
+}
+
+.btn-container .hidden-button {
+  display: none;
+}
+
+.btn-container .btn {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* .btn-container .btn img {
+  max-width: 30px;
+} */
+
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92vw;
+    margin-left: 6vw;
+  }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .tab-content p span {
+    font-size: medium;
+  }
+
+  .titulo-bd {
+    color: #fff;
+    width: 50vw;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #0071b0;
+  }
+
+  td,
+  th {
+    font-size: 0.8rem;
+  }
+
+  td img {
+    display: flex;
+    gap: 0;
+  }
+
+  .btn-container {
+    margin-left: 2.3vw;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100px;
+    gap: 2px;
+  }
+
+  .estado-atrasada,
+  .estado-entregada,
+  .estado-pendiente {
+    padding: 5px;
+  }
+
+  .form-actions .btn {
+    padding: 15px;
+    font-size: 0.8rem;
+  }
+
+  .swal2-x-mark-line-right,
+  .swal2-x-mark-line-left,
+  .swal2-success-line-tip,
+  .swal2-success-line-long {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,183 @@
+.sidebar {
+    height: 100%;
+    width: 0; /* Ancho fijo para la barra lateral */
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    transition: 0.4s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #333333;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: #ffffff;
+    background-color: #007bff;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #333333;
+}
+
+/* Estilos para el botón de apertura */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #0056b3;
+}
+
+.contenedor-fecha-hora {
+    display: flex;
+    justify-content: space-between; /* Nuevo */
+    align-items: center; /* Nuevo */
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.fecha-hora-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.hora {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px 0px;
+}
+
+.fecha {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px 0px;
+}
+
+.marcar-leido {
+    background-color: #0071B0;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.contenedor-notificacion {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #F0F9FF;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative; 
+    cursor: pointer;
+}
+
+.contenedor-notificacion.vista {
+    background-color: white; /* Fondo blanco claro para notificaciones vistas */
+}
+
+.contenedor-notificacion::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #0071B0;
+    display: block; /* Mostrar siempre */
+}
+
+.contenedor-notificacion.vista::after {
+    display: none; /* Ocultar el círculo para notificaciones vistas */
+}
+
+.contenedor-notificacion.no-leido::after {
+    display: block; /* Mostrar para notificaciones no leídas */
+}
+
+.mensaje-sin-notificaciones {
+    padding: 10px;
+    text-align: center;
+    color: #888;
+    font-style: italic;
+  }
+  
+  .mensaje-sin-notificaciones .info-notificacion {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+.imagen {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Para que el contenedor no se achique */
+}
+
+.circulo-notificaciones {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.info-notificacion {
+    flex-grow: 1;
+}
+
+.usuario {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.descripcion {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.fecha-hora {
+    font-size: 12px;
+    color: #666;
+}
+
+/**/
+  
+@media screen and (max-width: 768px) {
+   .fecha,
+   .marcar-leido,
+   .descripcion {
+    font-size: 0.8rem;
+   }
+}
+  

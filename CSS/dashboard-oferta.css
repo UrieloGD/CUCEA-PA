@@ -1,0 +1,101 @@
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92vw;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 6vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.encabezado h3 {
+  margin: 0;
+}
+
+.titulo-bd {
+  color: #fff;
+  width: 30vw;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 0px 20px 20px;
+  background-color: #0071b0;
+}
+
+/* CSS Div dashboard */
+.powerbi-container {
+  width: calc(99% - 10px); /* Ancho completo menos los márgenes laterales */
+  height: calc(
+    98% - 80px
+  ); /* Altura completa menos el encabezado y el margen superior */
+  margin: 20px 10px 0 10px; /* Margen superior de 40px y lateral de 10px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.powerbi-container iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* Media Queries para diferentes resoluciones */
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92vw;
+    margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+}
