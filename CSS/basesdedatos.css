@@ -555,7 +555,7 @@ th {
 .form-container {
   display: flex;
   flex-wrap: nowrap;
-  gap: 20px;
+  gap: 15px;
 }
 
 .form-section h3 {
@@ -565,7 +565,7 @@ th {
 
 .form-section {
   width: 50%;
-  padding: 0 15 0px;
+  padding: 0 7 0px;
 }
 
 .form-row,
@@ -589,6 +589,11 @@ th {
   outline-color: #0071b0;
 }
 
+.form-row select {
+  width: 100%;
+  outline-color: #0071b0;
+}
+
 .form-row input::placeholder {
   font-style: italic;
 }
@@ -607,6 +612,23 @@ th {
 #nivel, #nivel_tipo, #tipo, #seccion,
 #c_min, #h_totales, #estatus {
   width: 100%;
+}
+
+#dia_presencial,
+#dia_virtual,
+#title_dia_presencial,
+#title_dia_virtual {
+  display: none;
+}
+
+select {
+  color: #888888;
+  font-style: italic;
+}
+
+select:focus {
+  color: black;
+  font-style: normal;
 }
 
 .form-actions {
@@ -638,11 +660,16 @@ th {
   background-color: #a7a5a5;
 }
 
-.form-row input {
+.form-row input,
+.form-row select {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.form-row label {
+  margin-left: -10;
 }
 
 .weekdays {
