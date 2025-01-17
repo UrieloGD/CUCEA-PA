@@ -447,6 +447,10 @@ function formatDateForDisplay($mysqlDate)
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
     <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 
+    <!-- fa fa icons para firefox y safari -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Script para cambiar el encabezado por responsividad -->
     <script>
         window.addEventListener("resize", function() {

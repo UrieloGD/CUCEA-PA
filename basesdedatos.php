@@ -387,6 +387,10 @@ $result = $stmt->get_result();
 <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
+<!-- fa fa icons para firefox y safari -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
 <script src="./JS/basesdedatos/eliminar-registro.js"></script>
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
