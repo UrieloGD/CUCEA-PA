@@ -717,9 +717,14 @@ if(isset($_POST['codigo_profesor'])) {
         <?php
     } else {
         ?>
-        <div>
-            <span class="close-materias" onclick="cerrarModalDetalle()">&times;</span>
-            <p>No se encontró información para este profesor.</p>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Información del Profesor</h3>
+                <span class="close1" onclick="cerrarModalDetalle()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">No se encontró información para este profesor.</div>
+            </div>
         </div>
     <?php    
         }

@@ -129,6 +129,8 @@
   flex-direction: column;
   overflow: hidden;
   max-width: 1200px;
+  height: 80vh;
+  max-height: 90vh;
   margin: 0 auto;
   background: white;
   border-radius: 8px;
@@ -136,6 +138,10 @@
 }
 
 .header-profesor {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
   background: linear-gradient(to bottom, #0071b0 50%, #fff 50%);
   color: white;
   padding: 24px;
@@ -215,6 +221,9 @@
 }
 
 .search-section {
+  top: calc(100% - 20px); /* Ajustar según la altura del header */
+  z-index: 99;
+  background: white;
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
@@ -252,7 +261,6 @@
 
 .navigation {
   display: flex;
-  flex: 1;
   position: relative;
   align-items: center;
   gap: 10px;
@@ -351,7 +359,7 @@
   position: sticky;
   top: 0;
   background: #fff;
-  z-index: -10;
+  z-index: 1;
 }
 
 /*##################################################################*/
@@ -362,7 +370,8 @@
 .table-profesor tbody {
   display: block;
   overflow-y: auto;
-  height: calc(100vh - 300px); /* Ajusta este valor según la altura de tus elementos estáticos */
+  max-height: calc(100vh - 560px);
+  height: 100vh;
 }
 
 .table-profesor thead tr,
@@ -492,7 +501,7 @@
 }
 
 .curso-seccion {
-  display: flex;
+  display: none;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -509,6 +518,7 @@
   overflow: hidden;
   width: 100%;
   min-height: 450px; /* o el valor que necesites */
+  height: 100%;
 }
 
 .close {
@@ -516,6 +526,8 @@
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+  right: 40px;
+  top: -15px;
 }
 
 .close:hover {
@@ -536,4 +548,11 @@
 
 .close-materias:hover {
     color: #333;
+}
+
+.fixed-elements {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
 }
