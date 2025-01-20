@@ -125,7 +125,12 @@
 }
 
 .container-profesor {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   max-width: 1200px;
+  height: 80vh;
+  max-height: 90vh;
   margin: 0 auto;
   background: white;
   border-radius: 8px;
@@ -133,6 +138,10 @@
 }
 
 .header-profesor {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
   background: linear-gradient(to bottom, #0071b0 50%, #fff 50%);
   color: white;
   padding: 24px;
@@ -140,6 +149,7 @@
   box-shadow: 0px 3px 3px rgb(179, 178, 178);
   display: flex;
   gap: 24px;
+  flex-shrink: 0;
 }
 
 .profesor-avatar-modal {
@@ -182,7 +192,7 @@
 
 .profile-details {
   position: relative;
-  top: 30px;
+  top: 20px;
   margin-left: 8px;
   font-size: 14px;
   font-weight: bold;
@@ -211,11 +221,15 @@
 }
 
 .search-section {
+  top: calc(100% - 20px); /* Ajustar según la altura del header */
+  z-index: 99;
+  background: white;
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eee;
+  flex-shrink: 0;
 }
 
 .search-box {
@@ -247,6 +261,7 @@
 
 .navigation {
   display: flex;
+  position: relative;
   align-items: center;
   gap: 10px;
   background: #fff;
@@ -341,10 +356,29 @@
 }
 
 .table-profesor thead {
-  position: static;
+  position: sticky;
   top: 0;
   background: #fff;
   z-index: 1;
+}
+
+/*##################################################################*/
+.table-profesor thead tr {
+  background-color: #f8f9fa;
+}
+
+.table-profesor tbody {
+  display: block;
+  overflow-y: auto;
+  max-height: calc(100vh - 560px);
+  height: 100vh;
+}
+
+.table-profesor thead tr,
+.table-profesor tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .table-profesor th {
@@ -394,7 +428,7 @@
   white-space: normal;
 
   /* Ajustar altura de la celda */
-  vertical-align: center;
+  vertical-align: middle;
   line-height: 1.4;
   hyphens: auto;
   padding: 12px 16px;
@@ -408,33 +442,14 @@
   background-color: #f9f9f9;
 }
 
-.table-profesor .col-materia {
-  width: 20%; /* Ancho fijo para la columna de materias */
-}
-
-.table-profesor .col-departamento {
-  width: 14%;
-}
-
-.table-profesor .col-nrc {
-  width: 8%;
-}
-
-.table-profesor .col-hora {
-  width: 14%;
-}
-
-.table-profesor .col-dias {
-  width: 18%;
-}
-
-.table-profesor .col-aula {
-  width: 6%;
-}
-
-.table-profesor .col-modalidad {
-  width: 14%;
-}
+/* Columnas */
+.col-nrc { width: 10%; }
+.col-materia { width: 20%; }
+.col-departamento { width: 15%; }
+.col-hora { width: 15%; }
+.col-dias { width: 20%; }
+.col-aula { width: 10%; }
+.col-modalidad { width: 10%; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -488,6 +503,9 @@
 .curso-seccion {
   display: none;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
 }
 
 .curso-seccion.active {
@@ -496,8 +514,11 @@
 
 .sections-container {
   position: relative;
+  flex: 1;
+  overflow: hidden;
   width: 100%;
   min-height: 450px; /* o el valor que necesites */
+  height: 100%;
 }
 
 .close {
@@ -505,6 +526,8 @@
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+  right: 40px;
+  top: -15px;
 }
 
 .close:hover {
@@ -525,4 +548,11 @@
 
 .close-materias:hover {
     color: #333;
+}
+
+.fixed-elements {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
 }

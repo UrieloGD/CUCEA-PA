@@ -35,12 +35,10 @@ function verDetalleProfesor(codigo_profesor) {
             .modal-content {
                 position: relative;
                 background-color: #fff;
-                margin: 5% auto;
                 padding: 0;
-                width: 70%;
-                max-width: 700px;
+                width: 100%;
+                max-width: 1150px;
                 border-radius: 8px;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 animation: modalFadeIn 0.3s ease-out;
             }
             .modal-header {
@@ -57,12 +55,13 @@ function verDetalleProfesor(codigo_profesor) {
                 color: #333;
                 font-size: 1.25rem;
             }
-            .close {
+            .close1 {
                 color: #aaa;
                 font-size: 28px;
                 font-weight: bold;
                 cursor: pointer;
                 padding: 0 5px;
+                top: 0;
             }
             .close:hover {
                 color: #333;
@@ -118,7 +117,7 @@ function verDetalleProfesor(codigo_profesor) {
     }
 
     $.ajax({
-        url: 'detalle-profesor.php',
+        url: './functions/profesores/detalle-profesor.php',
         method: 'POST',
         data: {
             codigo_profesor: codigo_profesor,
@@ -134,7 +133,7 @@ function verDetalleProfesor(codigo_profesor) {
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3>Error</h3>
-                        <span class="close" onclick="cerrarModalDetalle()">&times;</span>
+                        <span class="close1" onclick="cerrarModalDetalle()">&times;</span>
                     </div>
                     <div class="modal-body">
                         <div class="alert alert-danger">Error al cargar los detalles del profesor</div>
@@ -157,7 +156,7 @@ function cerrarModalDetalle() {
 
 // Cerrar modales al hacer clic fuera de ellos
 $(window).click(function(event) {
-    if (event.target.className === 'modal') {
-        $('.modal').hide();
+    if (event.target.className === 'modal-detalle') {
+        $('.modal-detalle').hide();
     }
 });
