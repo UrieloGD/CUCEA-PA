@@ -80,6 +80,23 @@ function formatDateForDisplay($mysqlDate)
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mostrar Sweet Alert al iniciar
+        Swal.fire({
+            title: 'Cargando datos...',
+            html: 'Por favor espere mientras se procesan los datos',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    });
+</script>
+
 <title>Coordinación de Personal - Plantilla Académica</title>
 <link rel="stylesheet" href="./CSS/basesdedatos-Coord.css">
 
