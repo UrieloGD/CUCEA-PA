@@ -7,10 +7,6 @@ error_reporting(E_ALL);
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-// Incluir los archivos
-require_once './config/db.php';
-require_once './config/sesioniniciada.php';
 ?>
 
 <?php include './template/header.php' ?>
@@ -192,12 +188,6 @@ $result = $stmt->get_result();
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <!--<div class="barra-buscador" id="barra-buscador">
-                <div class="icono-buscador" id="icono-buscador">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </div>
-                <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div> -->
         </div>
         <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
@@ -212,9 +202,6 @@ $result = $stmt->get_result();
                         <i class="fa fa-undo" aria-hidden="true"></i>
                     </div>
                 <?php endif; ?>
-                <!-- <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                </div> -->
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>

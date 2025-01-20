@@ -5,6 +5,9 @@
  */
 class DatabaseConfig
 {
+    // Variable para forzar el entorno
+    private static $forceEnvironment = null;
+
     // Configuraciones para diferentes entornos
     private static $configs = [
         'local' => [
@@ -24,36 +27,50 @@ class DatabaseConfig
     ];
 
     /**
+     * Permite forzar un entorno específico
+     * @param string $env
+     */
+    public static function setEnvironment($env)
+    {
+        if (in_array($env, ['local', 'production'])) {
+            self::$forceEnvironment = $env;
+        }
+    }
+
+    /**
      * Detecta automáticamente el entorno basado en múltiples factores
      * @return string
      */
     private static function detectEnvironment()
     {
-        // 1. Verificar por archivo de configuración local
-        if (file_exists(__DIR__ . '/local_environment')) {
-            return 'local';
+        // Si hay un entorno forzado, úsalo
+        if (self::$forceEnvironment !== null) {
+            return self::$forceEnvironment;
         }
 
-        // 2. Verificar el hostname
+        // Si existe la constante de configuración, úsala
+        if (defined('DB_ENVIRONMENT')) {
+            return DB_ENVIRONMENT;
+        }
+
         $hostname = gethostname();
-        if (in_array($hostname, ['localhost', '127.0.0.1'])) {
-            return 'local';
-        }
+        $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+        $serverAddr = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '';
+        $remoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
 
-        // 3. Verificar la IP del servidor
-        $serverAddr = $_SERVER['SERVER_ADDR'] ?? '';
-        if (in_array($serverAddr, ['127.0.0.1', '::1'])) {
-            return 'local';
-        }
+        $isLocal = (
+            in_array($hostname, ['localhost', '127.0.0.1']) ||
+            strpos($hostname, 'local') !== false ||
+            strpos($hostname, 'DESKTOP') !== false ||
+            strpos($hostname, '.local') !== false ||
+            $serverName === 'localhost' ||
+            $serverAddr === '127.0.0.1' ||
+            substr($remoteAddr, 0, 4) === '127.' ||
+            substr($remoteAddr, 0, 3) === '::1' ||
+            file_exists(__DIR__ . '/local-environment')  // Archivo opcional para forzar entorno local
+        );
 
-        // 4. Verificar el nombre del servidor
-        $serverName = $_SERVER['SERVER_NAME'] ?? '';
-        if (strpos($serverName, 'localhost') !== false) {
-            return 'local';
-        }
-
-        // Si no se cumple ninguna condición, asumimos que es producción
-        return 'production';
+        return $isLocal ? 'local' : 'production';
     }
 
     /**
@@ -78,13 +95,17 @@ class DatabaseConfig
                 );
 
                 if (!$conexion) {
-                    throw new Exception(mysqli_connect_error());
+                    throw new Exception("Error de conexión: " . mysqli_connect_error());
                 }
 
                 mysqli_set_charset($conexion, $config['charset']);
+                
+                // Configurar el modo estricto de MySQL
+                mysqli_query($conexion, "SET sql_mode = 'STRICT_ALL_TABLES'");
+                
             } catch (Exception $e) {
-                error_log("Error de conexión en entorno '$env': " . $e->getMessage());
-                throw new Exception("Error de conexión a la base de datos: " . $e->getMessage());
+                error_log("Error de conexión a la base de datos: " . $e->getMessage());
+                throw new Exception("No se pudo conectar a la base de datos");
             }
         }
 
