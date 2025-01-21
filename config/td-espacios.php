@@ -1,11 +1,23 @@
 <?php
 
 // Crear la tabla Espacios
-$sql_create = "CREATE TABLE IF NOT EXISTS Espacios (
+$sql_create = "CREATE TABLE IF NOT EXISTS espacios (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    Modulo VARCHAR(10),
-    Espacio VARCHAR(15),
-    Etiqueta VARCHAR(40),
+    Modulo VARCHAR(10) NOT NULL,
+    Espacio VARCHAR(15) NOT NULL,
+    Etiqueta VARCHAR(40) NOT NULL,
+    Capacidad_Exacta VARCHAR(10) NULL,
+    Capacidad_Adecuada VARCHAR(10) NULL,
+    Computadora BOOLEAN,
+    Proyector BOOLEAN,
+    Pantalla BOOLEAN,
+    Cortina_Proyector BOOLEAN,
+    Bocinas BOOLEAN,
+    Cortina_Luz BOOLEAN,
+    Pintarron BOOLEAN,
+    Doble_Pintarron BOOLEAN,
+    Camara BOOLEAN,
+    Descripcion_Espacio VARCHAR(255) NULL,
     Equipo VARCHAR(255),
     Observaciones TEXT,
     Reportes TEXT
@@ -18,29 +30,29 @@ if (mysqli_query($conexion, $sql_create)) {
 }
 
 // Insertar datos en la tabla Espacios
-$espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta) VALUES
+$espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, Capacidad_Adecuada, Computadora, Proyector, Pantalla, Cortina_Proyector, Bocinas, Cortina_Luz, Pintarron, Doble_Pintarron, Camara, Descripcion_Espacio) VALUES
 
 -- Edificio A
 
-('CEDA', '0101', 'Oficina Administrativa'),
-('CEDA', '0102', 'Oficina Administrativa'),
-('CEDA', '0103', 'Oficina Administrativa'),
-('CEDA', '0104', 'Oficina Administrativa'),
-('CEDA', '0201', 'Oficina Administrativa'),
-('CEDA', '0202', 'Bodega'),
-('CEDA', '0203', 'Aula'),
-('CEDA', '0204', 'Oficina Administrativa'),
-('CEDA', '0205', 'Oficina Administrativa'),
-('CEDA', '0206', 'Oficina Administrativa'),
-('CEDA', '0301', 'Aula'),
-('CEDA', '0302', 'Aula'),
-('CEDA', '0303', 'Aula'),
-('CEDA', '0304', 'Aula'),
-('CEDA', '0305', 'Bodega'),
-('CEDA', '0306', 'Aula'),
-('CEDA', '0307', 'Aula'),
-('CEDA', '0308', 'Aula'),
-('CEDA', '0309', 'Oficina Administrativa'),
+('CEDA', '0101', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Servicios Medicos'),
+('CEDA', '0102', 'Oficina Administrativa' , 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Unidad de aspirantes'),
+('CEDA', '0103', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Banco Santander'),
+('CEDA', '0104', 'Oficina Administrativa' , 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Control Escolar'),
+('CEDA', '0201', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Unidad de atención psicológica'),
+('CEDA', '0202', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Bodega'),
+('CEDA', '0203', 'Aula', 51, '40 a 50', TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0204', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Oficina Servicio Social'),
+('CEDA', '0205', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Practicas Profesionales'),
+('CEDA', '0206', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Control Escolar'),
+('CEDA', '0301', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0302', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0303', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0304', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0305', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Bodega'),
+('CEDA', '0306', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0307', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0308', 'Aula', 50, '40 a 50', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
+('CEDA', '0309', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Unidad de enseñanza incorporada'),
 
 -- Edificio B
 
