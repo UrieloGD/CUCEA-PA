@@ -1,6 +1,6 @@
 <div id="modal-descargar" class="modal">
     <div class="modal-content-descarga">
-    <span class="close">&times;</span>
+    <span class="close" onclick="cerrarDescargarExcel()">&times;</span>
         <h3>Selecciona las columnas a descargar</h3>
         <div id="opciones-columnas">
             <div class="select-all-div">

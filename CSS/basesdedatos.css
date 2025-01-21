@@ -293,6 +293,18 @@ th {
 
 /* css pop up de columnas de descarga excel */
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
 .popup-active {
   overflow: hidden;
 }
@@ -525,7 +537,7 @@ th {
 
 /* Modal Añadir Registro */
 
-.modal {
+.modal-R {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -741,6 +753,21 @@ select:focus {
 
 .close:hover,
 .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close-R {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-R:hover,
+.close-R:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
