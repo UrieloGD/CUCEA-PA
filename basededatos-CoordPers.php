@@ -115,7 +115,12 @@ function formatDateForDisplay($mysqlDate)
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-
+                <div class="icono-buscador" id="icono-añadir-fila" onclick="añadirFila()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-guardar-fila" onclick="saveAllChanges()">
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>

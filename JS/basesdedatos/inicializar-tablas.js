@@ -198,5 +198,133 @@ function toggleFilterIcons() {
   $("#icono-filtro").toggleClass("active");
 }
 
+// Añadir esta función después de la inicialización de la tabla
+function agregarNuevaFila() {
+  var table = $('#tabla-datos').DataTable();
+  
+  // Crear una fila con inputs editables
+  var rowNode = table.row.add([
+      '<input type="checkbox">',
+      '<input type="text" class="form-control input-sm" readonly>', // ID (readonly)
+      '<input type="text" class="form-control input-sm" placeholder="Código">', // CODIGO
+      '<input type="text" class="form-control input-sm" placeholder="Apellido Paterno">', // PATERNO
+      '<input type="text" class="form-control input-sm" placeholder="Apellido Materno">', // MATERNO
+      '<input type="text" class="form-control input-sm" placeholder="Nombres">', // NOMBRES
+      '<input type="text" class="form-control input-sm" placeholder="Nombre completo">', // NOMBRE COMPLETO (se autogenera)
+      '<select class="form-control input-sm"><option value="M">M</option><option value="F">F</option></select>', // SEXO
+      '<select class="form-control input-sm">' + obtenerOpcionesDepartamentos() + '</select>', // DEPARTAMENTO
+      '<select class="form-control input-sm">' + obtenerOpcionesCategorias() + '</select>', // CATEGORIA
+      '', // CATEGORIA ACTUAL DOS
+      '<input type="text" class="form-control input-sm" placeholder="Horas">', // HORAS
+      '<select class="form-control input-sm">' + obtenerOpcionesDivisiones() + '</select>', // DIVISION
+      // ... Añadir el resto de campos según necesites
+      '<div class="btn-group">' +
+          '<button class="btn btn-success btn-sm btn-guardar"><i class="fas fa-save"></i></button>' +
+          '<button class="btn btn-danger btn-sm btn-cancelar"><i class="fas fa-times"></i></button>' +
+      '</div>'
+  ]).draw(false).node();
+
+  // Aplicar estilos a los inputs
+  $(rowNode).find('input, select').css({
+      'width': '100%',
+      'padding': '3px',
+      'box-sizing': 'border-box'
+  });
+
+  // // Auto-generar nombre completo
+  // $(rowNode).find('input').on('input', function() {
+  //     var paterno = $(rowNode).find('input').eq(2).val();
+  //     var materno = $(rowNode).find('input').eq(3).val();
+  //     var nombres = $(rowNode).find('input').eq(4).val();
+  //     var nombreCompleto = paterno + ' ' + materno + ' ' + nombres;
+  //     $(rowNode).find('input').eq(5).val(nombreCompleto.trim());
+  // });
+
+  // Manejar el guardado
+  $(rowNode).find('.btn-guardar').on('click', function() {
+      var datos = {};
+      $(rowNode).find('input, select').each(function(index) {
+          var columnName = table.column(index).header().textContent.trim();
+          datos[columnName] = $(this).val();
+      });
+
+      // Realizar la petición AJAX para guardar
+      $.ajax({
+          url: 'guardar_registro.php',
+          method: 'POST',
+          data: datos,
+          success: function(response) {
+              if(response.success) {
+                  // Convertir inputs a texto
+                  $(rowNode).find('input, select').each(function() {
+                      var valor = $(this).val();
+                      $(this).parent().html(valor);
+                  });
+                  
+                  // Reemplazar botones con opciones de edición
+                  $(rowNode).find('.btn-group').html(
+                      '<button class="btn btn-primary btn-sm btn-editar"><i class="fas fa-edit"></i></button>' +
+                      '<button class="btn btn-danger btn-sm btn-eliminar"><i class="fas fa-trash"></i></button>'
+                  );
+                  
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Registro guardado correctamente',
+                      showConfirmButton: false,
+                      timer: 1500
+                  });
+              }
+          },
+          error: function() {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error al guardar el registro',
+                  text: 'Por favor, intente nuevamente'
+              });
+          }
+      });
+  });
+
+  // Manejar la cancelación
+  $(rowNode).find('.btn-cancelar').on('click', function() {
+      table.row($(rowNode)).remove().draw();
+  });
+}
+
+// Funciones auxiliares para obtener opciones
+function obtenerOpcionesDepartamentos() {
+  return `
+      <option value="">Seleccione...</option>
+      <option value="ADMINISTRACION">ADMINISTRACIÓN</option>
+      <option value="ECONOMIA">ECONOMÍA</option>
+      <option value="FINANZAS">FINANZAS</option>
+      <!-- Añadir más departamentos según necesites -->
+  `;
+}
+
+function obtenerOpcionesCategorias() {
+  return `
+      <option value="">Seleccione...</option>
+      <option value="TITULAR A">TITULAR "A"</option>
+      <option value="TITULAR B">TITULAR "B"</option>
+      <option value="TITULAR C">TITULAR "C"</option>
+      <!-- Añadir más categorías según necesites -->
+  `;
+}
+
+function obtenerOpcionesDivisiones() {
+  return `
+      <option value="">Seleccione...</option>
+      <option value="0/40">0/40</option>
+      <option value="0/0">0/0</option>
+      <!-- Añadir más opciones según necesites -->
+  `;
+}
+
+// Agregar el evento al botón de añadir
+$('#icono-añadir').on('click', function() {
+  agregarNuevaFila();
+});
+
 // Asignar evento de clic al botón de filtro
 $("#icono-filtro").on("click", toggleFilterIcons);

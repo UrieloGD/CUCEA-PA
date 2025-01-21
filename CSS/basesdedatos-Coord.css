@@ -1362,3 +1362,44 @@ table.dataTable thead .sorting_desc {
 #tabla-datos {
   display: none;
 }
+
+/* Estilos para los inputs en la tabla */
+.datatable-container .form-control {
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 13px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.datatable-container .form-control:focus {
+  border-color: #0071b0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 113, 176, 0.25);
+}
+
+/* Estilos para los botones de acción */
+.datatable-container .btn-group {
+  display: flex;
+  gap: 4px;
+}
+
+.datatable-container .btn {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+
+.datatable-container .btn-guardar {
+  background-color: #28a745;
+  color: white;
+}
+
+.datatable-container .btn-cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Ajustes para inputs readonly */
+.datatable-container input[readonly] {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
