@@ -311,18 +311,39 @@ th {
 #popup-columnas {
   display: none;
   position: fixed;
-  left: 50%;
-  top: 50%;
+  
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 30px;
+  
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  width: 40vw;
-  height: 80vh;
+  
+  
   overflow-y: auto;
   border: 1px solid rgb(173, 173, 173);
+}
+
+.modal-content-descarga {
+  background-color: #fefefe;
+  margin: 3% auto;
+  left: 50%;
+  top: 50%;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 45vw;
+  height: 80vh;
+  max-width: 1200px;
+  max-height: 85vh;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.modal-content-descarga h2 {
+  margin-bottom: 20px;
 }
 
 .column-selector {
@@ -352,6 +373,10 @@ th {
 .select-all-div {
   flex-direction: column;
   gap: 10px;
+}
+
+.select-all-div-label {
+  padding-left: 10px;
 }
 
 .columns-container-js {
@@ -420,8 +445,6 @@ th {
   position: relative;
   display: flex;
   justify-content: left;
-  margin-bottom: 15px;
-  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -438,7 +461,7 @@ th {
   padding-left: 10px;
 }
 
-.column-selector button {
+.fila-botones button {
   background-color: #0071b0;
   color: white;
   border: none;

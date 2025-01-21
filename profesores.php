@@ -29,7 +29,7 @@ if ($rol == 1) {
         $departamento_id = (int)$_GET['departamento_id'];
     } else {
         // Si no se proporciona, seleccionar el primer departamento
-        $sql_primer_departamento = "SELECT Departamento_ID FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
+        $sql_primer_departamento = "SELECT Departamento_ID FROM departamentos ORDER BY Departamento_ID LIMIT 1";
         $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
         
         if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
