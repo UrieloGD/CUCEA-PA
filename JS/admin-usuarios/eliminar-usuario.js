@@ -30,7 +30,7 @@ document.querySelectorAll('.delete').forEach(btn => {
         });
         
         // Realiza una solicitud POST al servidor para eliminar el usuario
-        fetch('./functions/admin-usuarios/eliminarusuario.php', {
+        fetch('./functions/admin-usuarios/eliminarUsuario.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

@@ -19,6 +19,13 @@ $conexion->autocommit(false);
 $conexion->begin_transaction();
 
 try {
+    // Eliminar las notificaciones asociadas al usuario
+    $sql = "DELETE FROM notificaciones WHERE Usuario_ID = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->close();
+
     // Eliminar los registros relacionados en la tabla Usuarios_Departamentos
     $sql = "DELETE FROM usuarios_departamentos WHERE Usuario_ID = ?";
     $stmt = $conexion->prepare($sql);
