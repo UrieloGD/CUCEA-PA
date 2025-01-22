@@ -29,7 +29,7 @@ if ($rol == 1) {
         $departamento_id = (int)$_GET['departamento_id'];
     } else {
         // Si no se proporciona, seleccionar el primer departamento
-        $sql_primer_departamento = "SELECT Departamento_ID FROM Departamentos ORDER BY Departamento_ID LIMIT 1";
+        $sql_primer_departamento = "SELECT Departamento_ID FROM departamentos ORDER BY Departamento_ID LIMIT 1";
         $result_primer_departamento = mysqli_query($conexion, $sql_primer_departamento);
         
         if ($result_primer_departamento && mysqli_num_rows($result_primer_departamento) > 0) {
@@ -200,10 +200,10 @@ if ($result_departamento && $row_departamento = $result_departamento->fetch_asso
                         $where_clause = count($where_conditions) > 0 ? implode(' OR ', $where_conditions) : "1=0";
 
                         // Consulta SQL con las variantes del departamento
-                        $sql_todos_profesores = "SELECT DISTINCT Codigo, Nombre_Completo, Categoria_actual 
+                        $sql_todos_profesores = "SELECT DISTINCT Codigo, Nombre_completo, Categoria_actual 
                                             FROM coord_per_prof 
                                             WHERE $where_clause
-                                            ORDER BY Nombre_Completo";
+                                            ORDER BY Nombre_completo";
                         
                         $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
                         
@@ -211,9 +211,9 @@ if ($result_departamento && $row_departamento = $result_departamento->fetch_asso
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 echo "<tr class='tr-info'>";
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                                echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ", " . $departamento_id . ")' class='btn-detalle'>Ver detalle</button></td>";
                                 echo "</tr>";
                             }
                         } else {
@@ -237,20 +237,6 @@ if ($result_departamento && $row_departamento = $result_departamento->fetch_asso
         </div> 
     </div>
 </div>
-
-<!-- Scripts de la librería DataTables -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
-<script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
-<script src="https://cdn.datatables.net/colreorder/2.0.4/js/colReorder.dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
 <script src="./JS/profesores/detalle-profesor.js"></script>
 <script src="./JS/profesores/filtro-profesores.js"></script>

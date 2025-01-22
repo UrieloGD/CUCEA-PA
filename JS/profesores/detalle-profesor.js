@@ -1,27 +1,26 @@
 // Inicializar DataTable para la tabla de profesores
-$(document).ready(function() {
-    $('#tabla-profesores').DataTable({
-        responsive: true,
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-        },
-        pageLength: 10,
-        order: [[1, 'asc']]
-    });
+$(document).ready(function () {
+  $("#tabla-profesores").DataTable({
+    responsive: true,
+    language: {
+      url: "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json",
+    },
+    pageLength: 10,
+    order: [[1, "asc"]],
+  });
 
-    // Búsqueda en tiempo real
-    $('#buscar-profesor').on('keyup', function() {
-        $('#tabla-profesores').DataTable().search($(this).val()).draw();
-    });
+  // Búsqueda en tiempo real
+  $("#buscar-profesor").on("keyup", function () {
+    $("#tabla-profesores").DataTable().search($(this).val()).draw();
+  });
 });
-
 
 // Función para ver detalle del profesor
 function verDetalleProfesor(codigo_profesor) {
-    if (!document.getElementById('modalStyles')) {
-        const styleSheet = document.createElement('style');
-        styleSheet.id = 'modalStyles';
-        styleSheet.textContent = `
+  if (!document.getElementById("modalStyles")) {
+    const styleSheet = document.createElement("style");
+    styleSheet.id = "modalStyles";
+    styleSheet.textContent = `
             .modal {
                 display: none;
                 position: fixed;
@@ -95,12 +94,12 @@ function verDetalleProfesor(codigo_profesor) {
                 }
             }
         `;
-        document.head.appendChild(styleSheet);
-    }
-    
-    if (!codigo_profesor) {
-        // Si no hay código, mostrar mensaje en el modal con botón de cierre
-        $('#detalle-profesor-contenido').html(`
+    document.head.appendChild(styleSheet);
+  }
+
+  if (!codigo_profesor) {
+    // Si no hay código, mostrar mensaje en el modal con botón de cierre
+    $("#detalle-profesor-contenido").html(`
             
             <div class="modal-content">
                 <div class="modal-header">
@@ -112,24 +111,24 @@ function verDetalleProfesor(codigo_profesor) {
                 </div>
             </div>
         `);
-        $('#modal-detalle-profesor').show();
-        return;
-    }
+    $("#modal-detalle-profesor").show();
+    return;
+  }
 
-    $.ajax({
-        url: './functions/profesores/detalle-profesor.php',
-        method: 'POST',
-        data: {
-            codigo_profesor: codigo_profesor,
-            departamento_id: $('#departamento_id').val(),
-        },
-        success: function(response) {
-            $('#detalle-profesor-contenido').html(response);
-            $('#modal-detalle-profesor').show();
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al cargar los detalles:', error);
-            $('#detalle-profesor-contenido').html(`
+  $.ajax({
+    url: "./functions/profesores/detalle-profesor.php",
+    method: "POST",
+    data: {
+      codigo_profesor: codigo_profesor,
+      departamento_id: $("#departamento_id").val(),
+    },
+    success: function (response) {
+      $("#detalle-profesor-contenido").html(response);
+      $("#modal-detalle-profesor").show();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al cargar los detalles:", error);
+      $("#detalle-profesor-contenido").html(`
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3>Error</h3>
@@ -140,23 +139,23 @@ function verDetalleProfesor(codigo_profesor) {
                     </div>
                 </div>
             `);
-            $('#modal-detalle-profesor').show();
-        }
-    });
+      $("#modal-detalle-profesor").show();
+    },
+  });
 }
 
 // Funciones para cerrar modales
 function cerrarModalVisualizar() {
-    $('#modal-visualizar').hide();
+  $("#modal-visualizar").hide();
 }
 
 function cerrarModalDetalle() {
-    $('#modal-detalle-profesor').hide();
+  $("#modal-detalle-profesor").hide();
 }
 
 // Cerrar modales al hacer clic fuera de ellos
-$(window).click(function(event) {
-    if (event.target.className === 'modal-detalle') {
-        $('.modal-detalle').hide();
-    }
+$(window).click(function (event) {
+  if (event.target.className === "modal-detalle") {
+    $(".modal-detalle").hide();
+  }
 });
