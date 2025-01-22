@@ -37,6 +37,23 @@ try {
     exit();
 }
 
+// Función para determinar la ruta base
+function getBasePath() {
+    // Obtener el directorio actual
+    $currentPath = dirname($_SERVER['SCRIPT_FILENAME']);
+    
+    // Navegar hacia arriba dos niveles
+    $basePath = dirname(dirname($currentPath));
+    
+    // Convertir la ruta del sistema de archivos a URL
+    $baseUrl = str_replace($_SERVER['DOCUMENT_ROOT'], '', $basePath);
+    
+    // Asegurarse de que hay una barra al inicio y no al final
+    $baseUrl = '/' . trim($baseUrl, '/');
+    
+    return $baseUrl;
+}
+
 // Hacer la búsqueda case-insensitive
 try {
     $consulta = "SELECT Codigo, Pass FROM usuarios WHERE LOWER(Correo) = LOWER(?)";
@@ -69,13 +86,16 @@ try {
             // Asegurarse de que no hay salida antes de la redirección
             ob_clean();
 
-            // Construir la ruta absoluta para la redirección
-            $base_path = dirname(dirname(dirname($_SERVER['PHP_SELF'])));
-            $redirect_url = $base_path . '../home.php';
+            // Determinar si estamos en localhost
+            $isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1']);
 
-            // Intentar la redirección con ruta absoluta
-            header("Location: $redirect_url");
+            // Construir la ruta de redirección
+            $redirectPath = $isLocalhost ? './../../home.php' : '../home.php';
+
+            // Redireccionar
+            header("Location: " . $redirectPath);
             exit();
+
         } else {
             error_log("Contraseña incorrecta para el usuario: $email");
             header("location:./../../login.php?error=1");
