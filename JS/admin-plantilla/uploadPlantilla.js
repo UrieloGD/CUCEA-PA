@@ -11,7 +11,6 @@ function subirArchivo(id) {
     cancelButtonText: "Cancelar",
     preConfirm: (file) => {
       if (file) {
-        // Find the input file element dynamically
         const inputFileElement = document.querySelector(`#input-file-${id}`);
 
         if (!inputFileElement) {
@@ -23,8 +22,6 @@ function subirArchivo(id) {
         const dt = new DataTransfer();
         dt.items.add(file);
         inputFileElement.files = dt.files;
-
-        console.log("Archivo seleccionado:", file.name);
 
         actualizarNombreArchivo(inputFileElement, id);
         actualizarFechaSubida(id);
@@ -38,14 +35,23 @@ function subirArchivo(id) {
         return;
       }
 
+      // Mostrar pantalla de carga
+      Swal.fire({
+        title: "Subiendo archivo...",
+        html: "Por favor espere mientras se sube el archivo.",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
       const formData = new FormData();
       formData.append("file", inputFileElement.files[0]);
       formData.append("Departamento_ID", id);
 
-      // Try to get the filename and date dynamically
-      const nombreArchivoElement = document.querySelector(
-        `#nombre-archivo-${id}`
-      );
+      const nombreArchivoElement = document.querySelector(`#nombre-archivo-${id}`);
       const fechaSubidaElement = document.querySelector(`#fecha-subida-${id}`);
 
       if (nombreArchivoElement) {
@@ -55,15 +61,6 @@ function subirArchivo(id) {
         formData.append("Fecha_Subida_Dep", fechaSubidaElement.textContent);
       }
 
-      console.log("Datos del formulario para enviar:", {
-        file: document.getElementById(`input-file-${id}`).files[0],
-        Departamento_ID: id,
-        Nombre_Archivo_Dep: document.getElementById(`nombre-archivo-${id}`)
-          .textContent,
-        Fecha_Subida_Dep: document.getElementById(`fecha-subida-${id}`)
-          .textContent,
-      });
-
       fetch("./functions/admin-plantilla/upload-plantilla.php", {
         method: "POST",
         body: formData,
@@ -72,28 +69,29 @@ function subirArchivo(id) {
         .then((data) => {
           console.log("Respuesta del servidor:", data);
           if (data.includes("success")) {
-            Swal.fire(
-              "Archivo subido",
-              "El archivo se ha subido correctamente.",
-              "success"
-            ).then(() => {
+            Swal.fire({
+              title: "¡Éxito!",
+              text: "El archivo se ha subido correctamente.",
+              icon: "success",
+              showConfirmButton: true
+            }).then(() => {
               location.reload();
             });
           } else {
-            Swal.fire(
-              "Error",
-              "Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.",
-              "error"
-            );
+            Swal.fire({
+              title: "Error",
+              text: "Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.",
+              icon: "error"
+            });
           }
         })
         .catch((error) => {
           console.error("Error:", error);
-          Swal.fire(
-            "Error",
-            "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
-            "error"
-          );
+          Swal.fire({
+            title: "Error",
+            text: "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+            icon: "error"
+          });
         });
     }
   });
