@@ -3,9 +3,6 @@ require './../../vendor/autoload.php';
 include './../../config/db.php';
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $columnas_seleccionadas = isset($_GET['columnas']) ? json_decode($_GET['columnas'], true) : [];
 
 if (empty($columnas_seleccionadas)) {

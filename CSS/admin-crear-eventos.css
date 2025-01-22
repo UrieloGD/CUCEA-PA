@@ -1,6 +1,6 @@
 .cuadro-principal {
   background-color: white;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -375,4 +375,51 @@ th {
 
 .boton-agregar-participantes:hover {
   background-color: #0071b0;
+}
+
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92%;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92%;
+    margin-left: 6vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91%;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90%;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96%;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    font-size: smaller;
+  }
 }

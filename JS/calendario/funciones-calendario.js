@@ -166,9 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   openEventModal = function (eventId) {
     fetch(`./functions/calendario/detalles-eventos.php?event_id=${eventId}`)
-      .then(response => response.text())  // Cambia esto de response.json() a response.text()
-      .then(text => {
-        console.log("Respuesta del servidor:", text);  // Registra la respuesta completa
+      .then((response) => response.text()) // Cambia esto de response.json() a response.text()
+      .then((text) => {
+        console.log("Respuesta del servidor:", text); // Registra la respuesta completa
         try {
           return JSON.parse(text);
         } catch (error) {
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => modal.classList.add("show"), 10);
       })
 
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching event details:", error);
       });
   };
@@ -252,33 +252,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Filtrar los "Eventos próximos"
     eventItems.forEach((item) => {
-        // Añade verificaciones de existencia
-        const eventTagElement = item.querySelector(".event-tag");
-        const eventNameElement = item.querySelector("strong");
+      // Añade verificaciones de existencia
+      const eventTagElement = item.querySelector(".event-tag");
+      const eventNameElement = item.querySelector("strong");
 
-        if (eventTagElement && eventNameElement) {
-            const eventTag = eventTagElement.textContent;
-            const eventName = eventNameElement.textContent.toLowerCase();
+      if (eventTagElement && eventNameElement) {
+        const eventTag = eventTagElement.textContent;
+        const eventName = eventNameElement.textContent.toLowerCase();
 
-            if (
-                (selectedFilters.size === 0 || selectedFilters.has(eventTag)) &&
-                eventName.includes(searchTerm.toLowerCase())
-            ) {
-                item.style.display = "flex";
-            } else {
-                item.style.display = "none";
-            }
+        if (
+          (selectedFilters.size === 0 || selectedFilters.has(eventTag)) &&
+          eventName.includes(searchTerm.toLowerCase())
+        ) {
+          item.style.display = "flex";
+        } else {
+          item.style.display = "none";
         }
+      }
     });
 
     // No filtrar los eventos en los recuadros del calendario
     eventIndicators.forEach((indicator) => {
-        if (indicator) {
-            indicator.style.display = "block";
-        }
+      if (indicator) {
+        indicator.style.display = "block";
+      }
     });
   }
-  
+
   document.querySelector(".search-input").addEventListener("input", (e) => {
     searchTerm = e.target.value;
     filterEvents();

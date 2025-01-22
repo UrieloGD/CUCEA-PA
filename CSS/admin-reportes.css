@@ -1,7 +1,7 @@
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
-  width: 92vw;
+  width: 92%;
   margin-left: 6vw;
   margin-right: 6vw;
   margin-top: 1vh;
@@ -171,7 +171,7 @@
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 92%;
     height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
@@ -185,7 +185,7 @@
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
   }
   .export-button {
@@ -195,7 +195,7 @@
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
     font-size: small;
   }
@@ -206,7 +206,7 @@
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: 1rem;
@@ -218,7 +218,7 @@
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -251,7 +251,7 @@
 
 @media screen and (max-width: 491px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -274,7 +274,7 @@
 
 @media screen and (max-width: 423px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;

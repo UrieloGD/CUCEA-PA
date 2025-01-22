@@ -86,7 +86,7 @@ error_reporting(E_ALL);
                     <td><?php echo $nombre; ?></td>
                     <td id="nombre-archivo-<?php echo $id; ?>" style="text-align: center;"><?php echo $nombre_archivo; ?></td>
                     <td id="fecha-subida-<?php echo $id; ?>" style="text-align: center;"><?php echo $fecha_subida; ?></td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center; ">
                         <div class="btn-container">
                             <button class="btn" onclick="subirArchivo(<?php echo $id; ?>)">
                                 <img src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png" alt="Subir Archivo">

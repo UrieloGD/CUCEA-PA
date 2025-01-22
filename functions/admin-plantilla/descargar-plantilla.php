@@ -30,7 +30,7 @@ if (isset($_GET['departamento_id'])) {
                 case 'pdf':
                     $tipo_contenido = 'application/pdf';
                     break;
-                // Agrega más casos según los tipos de archivo que manejes
+                    // Agrega más casos según los tipos de archivo que manejes
                 default:
                     $tipo_contenido = 'application/octet-stream';
                     break;

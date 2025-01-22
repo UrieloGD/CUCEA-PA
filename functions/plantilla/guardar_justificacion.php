@@ -12,29 +12,21 @@ header('Content-Type: application/json');
 
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // More detailed error logging
-        error_log("POST request received for justificacion");
-
         // Verificar si hay una sesión activa
         if (!isset($_SESSION['Codigo']) || !isset($_SESSION['Departamento_ID'])) {
-            error_log("Sesión no iniciada correctamente");
             throw new Exception("No se ha iniciado sesión correctamente.");
         }
 
         $departamento_id = $_SESSION['Departamento_ID'];
         $codigo_usuario = $_SESSION['Codigo'];
 
-        // More robust justificacion validation
         $justificacion = isset($_POST['justificacion']) ?
-            trim(mysqli_real_escape_string($conexion, $_POST['justificacion'])) :
+            mysqli_real_escape_string($conexion, $_POST['justificacion']) :
             throw new Exception("Justificación no proporcionada");
-
-        error_log("Justificación recibida: " . $justificacion);
 
         // Verificar la longitud de la justificación sin contar espacios
         $justificacion_sin_espacios = preg_replace('/\s+/', '', $justificacion);
         if (strlen($justificacion_sin_espacios) < 60) {
-            error_log("Justificación muy corta: " . strlen($justificacion_sin_espacios));
             throw new Exception("La justificación debe tener al menos 60 caracteres sin contar espacios.");
         }
 
@@ -115,13 +107,9 @@ try {
         echo json_encode(["success" => true, "message" => "Justificación guardada exitosamente"]);
         exit();
     } else {
-        error_log("Método de solicitud no válido: " . $_SERVER["REQUEST_METHOD"]);
         throw new Exception("Método de solicitud no válido");
     }
 } catch (Exception $e) {
-    error_log("Error en guardar_justificacion.php: " . $e->getMessage());
-    error_log("Trace: " . $e->getTraceAsString());
-
     http_response_code(500);
     echo json_encode([
         "success" => false,

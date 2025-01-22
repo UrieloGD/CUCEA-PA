@@ -69,14 +69,14 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="filtro">
             <label for="modulo">Módulo</label>
             <select id="modulo" name="modulo"><?php
-            $query = "SELECT DISTINCT modulo FROM espacios ORDER BY modulo";
-            $result = mysqli_query($conexion, $query);
-            while ($row = mysqli_fetch_assoc($result)) {
-                $selected = ($row['modulo'] == $modulo_seleccionado) ? 'selected' : '';
-                echo '<option value="' . htmlspecialchars($row['modulo']) . '"' . $selected . '>' . 
-                     htmlspecialchars($row['modulo']) . '</option>';
-            }
-            ?></select>
+                                                $query = "SELECT DISTINCT modulo FROM espacios ORDER BY modulo";
+                                                $result = mysqli_query($conexion, $query);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $selected = ($row['modulo'] == $modulo_seleccionado) ? 'selected' : '';
+                                                    echo '<option value="' . htmlspecialchars($row['modulo']) . '"' . $selected . '>' .
+                                                        htmlspecialchars($row['modulo']) . '</option>';
+                                                }
+                                                ?></select>
         </div>
         <div class="filtro">
             <label for="dia">Día</label>

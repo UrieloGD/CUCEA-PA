@@ -25,4 +25,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['departamento_id'])) {
 }
 
 mysqli_close($conexion);
-?>

@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 try {
 
-    // Función para manejar errores y devolverlos como JSON
+// Función para manejar errores y devolverlos como JSON
     function handleError($errno, $errstr, $errfile, $errline) {
         $response = [
             'success' => false,

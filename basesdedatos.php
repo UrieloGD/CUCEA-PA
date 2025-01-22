@@ -7,10 +7,6 @@ error_reporting(E_ALL);
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-// Incluir los archivos
-require_once './config/db.php';
-require_once './config/sesioniniciada.php';
 ?>
 
 <?php include './template/header.php' ?>
@@ -226,14 +222,16 @@ $result = $stmt->get_result();
             </div>
         </div>
     </div>
-    <div id="popup-columnas">
+    <div id="popup-columnas" class="column-selector">
         <h3>Selecciona las columnas a descargar</h3>
         <div id="opciones-columnas"></div>
-        <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
-        <?php if ($_SESSION['Rol_ID'] == 2): ?>
-            <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
-        <?php endif; ?>
-        <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
+        <div class="fila-botones">
+            <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
+            <?php if ($_SESSION['Rol_ID'] == 2): ?>
+                <button class="btn-cotejo" onclick="descargarExcelCotejado()">Descargar cotejo</button>
+            <?php endif; ?>
+            <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
+        </div>
     </div>
 
     <?php
@@ -382,7 +380,5 @@ $result = $stmt->get_result();
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
-<script src="./JS/basesdedatos/visualizar-profesores.js"></script>
-<script src="./JS/basesdedatos/detalle-profesor.js"></script>
 
 <?php include("./template/footer.php"); ?>

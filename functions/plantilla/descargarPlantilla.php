@@ -1,51 +1,46 @@
 <?php
 include './../../config/db.php';
 
-if (isset($_GET['Departamento_ID'])) {
-    $departamento_id = $_GET['Departamento_ID'];
+// Validate department ID
+if (!isset($_GET['departamento_id'])) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'No se proporcionó el ID de departamento'
+    ]);
+    exit;
+}
 
-    // Consulta a la base de datos para obtener el nombre y contenido del archivo correspondiente al departamento
-    $sql = "SELECT Nombre_Archivo_Dep, Contenido_Archivo_Dep FROM plantilla_sa WHERE Departamento_ID = '$departamento_id'";
-    $result = mysqli_query($conexion, $sql);
+$departamento_id = intval($_GET['departamento_id']);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $nombre_archivo = $row['Nombre_Archivo_Dep'];
-        $contenido_archivo = $row['Contenido_Archivo_Dep'];
+// Prepared statement to fetch file
+$sql = "SELECT Nombre_Archivo_Dep, Contenido_Archivo_Dep FROM plantilla_sa WHERE Departamento_ID = ? ORDER BY ID_Archivo_Dep DESC LIMIT 1";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-        // Remover guiones bajos adicionales del nombre del archivo
-        $nombre_archivo = str_replace('_', '', $nombre_archivo);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $nombre_archivo = $row['Nombre_Archivo_Dep'];
+    $contenido_archivo = $row['Contenido_Archivo_Dep'];
 
-        // Obtener la extensión del archivo
-        $extension = pathinfo($nombre_archivo, PATHINFO_EXTENSION);
+    // Set headers for file download
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="' . $nombre_archivo . '"');
+    header('Content-Length: ' . strlen($contenido_archivo));
+    header('Cache-Control: no-cache, no-store, must-revalidate');
+    header('Pragma: no-cache');
+    header('Expires: 0');
 
-        // Establecer el tipo de contenido según la extensión
-        switch ($extension) {
-            case 'xlsx':
-                $tipo_contenido = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                break;
-            case 'xls':
-                $tipo_contenido = 'application/vnd.ms-excel';
-                break;
-            case 'pdf':
-                $tipo_contenido = 'application/pdf';
-                break;
-                // Agrega más casos según los tipos de archivo que manejes
-            default:
-                $tipo_contenido = 'application/octet-stream';
-                break;
-        }
-
-        // Enviar el archivo al navegador para descargarlo
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . $tipo_contenido);
-        header('Content-Disposition: attachment; filename="' . $nombre_archivo . '"');
-        header('Content-Length: ' . strlen($contenido_archivo));
-        echo $contenido_archivo;
-        exit;
-    } else {
-        echo "No se encontró ningún archivo para ese departamento.";
-    }
+    // Output file contents
+    echo $contenido_archivo;
+    exit;
 } else {
-    echo "No se proporcionó un ID de departamento.";
+    header('Content-Type: application/json');
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'No se encontró plantilla para este departamento'
+    ]);
+    exit;
 }

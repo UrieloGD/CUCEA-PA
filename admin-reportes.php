@@ -3,7 +3,7 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 
-<?php 
+<?php
 // Obtener la fecha límite más reciente
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
@@ -30,7 +30,7 @@ $periodo_actual = "2025B";
 <div class="cuadro-principal">
     <!--Pestaña azul-->
     <div class="encabezado">
-        <div class="titulo-bd"> 
+        <div class="titulo-bd">
             <h3>Reporte de entrega</h3>
         </div>
     </div>
@@ -44,17 +44,17 @@ $periodo_actual = "2025B";
             <?php
             $fecha_subida = $departamento['Fecha_Subida_Dep'];
             $fecha_actual = date("Y-m-d");
-            
+
             // Buscar justificación
             $sql_justificacion = "SELECT Justificacion FROM justificaciones 
             WHERE Departamento_ID = {$departamento['Departamento_ID']}
             ORDER BY Fecha_Justificacion DESC LIMIT 1";
             $result_justificacion = mysqli_query($conexion, $sql_justificacion);
             $tiene_justificacion = mysqli_num_rows($result_justificacion) > 0;
-            
+
             if ($fecha_subida !== null) {
                 $fecha_entrega = date("d/m/Y H:i", strtotime($fecha_subida));
-                
+
                 if ($tiene_justificacion) {
                     $estado_entrega = "Entregada";
                     $notas_justificacion = "Entregado con retraso. ";
@@ -73,7 +73,7 @@ $periodo_actual = "2025B";
                     $notas_justificacion = "Aún sin entregar. ";
                 }
             }
-            
+
             if ($tiene_justificacion) {
                 $justificacion = mysqli_fetch_assoc($result_justificacion)['Justificacion'];
                 $notas_justificacion .= "<br><br><b>Justificación:</b> " . $justificacion;

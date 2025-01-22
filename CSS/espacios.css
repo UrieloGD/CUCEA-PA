@@ -3,7 +3,7 @@
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
-  width: 92vw;
+  width: 92%;
   height: 90vh;
   margin-left: 6vw;
   margin-right: 2vw;
@@ -468,7 +468,7 @@
   flex-wrap: wrap;
   margin-top: 20px;
   gap: 50px;
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 
 .leyenda-item {
@@ -677,18 +677,23 @@ textarea {
 
 .horario-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
 }
 
 .horario-table th, .horario-table td {
   padding: 8px;
-  text-align: left;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .horario-table th {
   background-color: #0071b0;
   color: white;
   position: sticky;
+  text-align: left;
   top: 0;
   z-index: 10;
 }
@@ -697,13 +702,28 @@ textarea {
   background-color: #f9f9f9;
 }
 
+.horario-table th:nth-child(1) { width: 10%; }
+.horario-table th:nth-child(2) { width: 30%; }
+.horario-table th:nth-child(3) { width: 30%; }
+.horario-table th:nth-child(4) { width: 20%; }
+
+.conflicto-horario {
+  /* background-color: #ffdddd;  */
+  color: #ff0000; /* Texto en rojo */
+  /* font-weight: bold; */
+}
+
+/* .fondo-conflicto {
+  background-color: #ffdddd !important; 
+} */
+
 /* Media Queries para diferentes resoluciones */
 
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92vw;
+    width: 92%;
     height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
@@ -729,7 +749,7 @@ textarea {
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92vw;
+    width: 92%;
     margin-left: 6vw;
   }
   .contenedor-principal {
@@ -751,7 +771,7 @@ textarea {
 
 @media screen and (max-width: 1212px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 91vw;
+    width: 91%;
     margin-left: 7vw;
     font-size: smaller;
   }
@@ -778,7 +798,7 @@ textarea {
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90vw;
+    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -819,7 +839,7 @@ textarea {
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96vw;
+    width: 96%;
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -842,7 +862,7 @@ textarea {
   .sala {
     font-size: 12px;
     min-width: 35px;
-    box-shadow: 0px 1px 1px 3px rgb(180, 180, 180);
+    border: 5px solid #E7E9F2;
   }
   .sala-texto {
     font-size: 0.65rem;
@@ -909,15 +929,14 @@ textarea {
 
   .leyenda {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     flex: 1;
-    margin-bottom: 100px;
   }
 
   .leyenda-item {
-    width: 30%;
-    padding-left: 50;
+    width: 40%;
+    padding-left: 0;
     margin-top: -10px;
     margin-bottom: -10px;
   }

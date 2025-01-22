@@ -92,14 +92,14 @@ const maxLengths = {
 function makeEditable() {
   // Verificar el rol del usuario antes de hacer la tabla editable
   const table = document.getElementById("tabla-datos");
-  
+
   // Verificar si la tabla tiene el atributo data-editable="false"
-  if (table.getAttribute('data-editable') === 'false') {
+  if (table.getAttribute("data-editable") === "false") {
     return;
   }
 
-  const userRole = document.getElementById('user-role').value;
-  
+  const userRole = document.getElementById("user-role").value;
+
   if (userRole !== "1") {
     return;
   }
@@ -287,7 +287,7 @@ function undoAllChanges() {
 
 function saveAllChanges() {
   // Añadir console.log para verificar el rol del usuario
-  const userRole = document.getElementById('user-role').value;
+  const userRole = document.getElementById("user-role").value;
   console.log("User Role:", userRole);
 
   const promises = Array.from(changedCells).map((cell) => {
@@ -306,11 +306,11 @@ function saveAllChanges() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: new URLSearchParams({ 
-        id, 
-        column, 
-        value, 
-        user_role: userRole  // Pasar el rol del usuario
+      body: new URLSearchParams({
+        id,
+        column,
+        value,
+        user_role: userRole, // Pasar el rol del usuario
       }),
     })
       .then((response) => {
@@ -348,10 +348,12 @@ function saveAllChanges() {
     .catch((error) => {
       console.error("Error saving changes:", error);
       Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'No tienes los permisos necesarios para realizar cambios en la base de datos. Error: ' + error.message,
-        confirmButtonText: 'Entendido'
+        icon: "error",
+        title: "Error",
+        text:
+          "No tienes los permisos necesarios para realizar cambios en la base de datos. Error: " +
+          error.message,
+        confirmButtonText: "Entendido",
       });
     });
 }

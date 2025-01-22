@@ -35,7 +35,7 @@ if ($rol_id == 1) { // Jefe de departamento
             
             UNION ALL
             
-            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS departamentos, 
+            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS Departamentos, 
                    e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Vista AS vista, n.Emisor_ID, n.Mensaje
             FROM notificaciones n
             LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo

@@ -7,23 +7,23 @@
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
-  <!--Pestañas-->
-  <div class="tab-container">
-     <div class="tab-buttons">
-          <button class="tab-button active">Guía</button>
-          <button class="tab-button">Etapa 1</button>
-          <button class="tab-button">Etapa 2</button>
-          <button class="tab-button">Etapa 3</button>
-          <button class="tab-button">Etapa 4</button>
-          <button class="tab-button">Etapa 5</button>
-     </div>
-     <div class="tab-content">
-          <div class="tab-pane active">
+     <!--Pestañas-->
+     <div class="tab-container">
+          <div class="tab-buttons">
+               <button class="tab-button active">Guía</button>
+               <button class="tab-button">Etapa 1</button>
+               <button class="tab-button">Etapa 2</button>
+               <button class="tab-button">Etapa 3</button>
+               <button class="tab-button">Etapa 4</button>
+               <button class="tab-button">Etapa 5</button>
+          </div>
+          <div class="tab-content">
+               <div class="tab-pane active">
 
+               </div>
           </div>
      </div>
-</div>
 
-<script src="./JS/pestanas-plantilla.js"></script>
+     <script src="./JS/pestañas-plantilla.js"></script>
 
-<?php include ("./template/footer.php"); ?>
+     <?php include("./template/footer.php"); ?>
