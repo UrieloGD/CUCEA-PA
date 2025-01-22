@@ -31,13 +31,40 @@ include './../../config/db.php';
 
 if(isset($_POST['codigo_profesor'])) {
     $codigo_profesor = (int)$_POST['codigo_profesor'];
-    $departamento_id = (int)$_POST['departamento_id'];
+    $departamento_id = isset($_POST['departamento_id']) ? (int)$_POST['departamento_id'] : null;
 
-    $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
-    $result_departamento = mysqli_query($conexion, $sql_departamento);
-    $row_departamento = mysqli_fetch_assoc($result_departamento);
-    $nombre_departamento = $row_departamento['Nombre_Departamento'];
-    $departamento_nombre = $row_departamento['Departamentos'];
+    // Si no se proporciona departamento_id, obtenerlo de la base de datos
+    if ($departamento_id === null) {
+        $sql_get_departamento = "SELECT d.Departamento_ID 
+                                FROM departamentos d 
+                                JOIN coord_per_prof cpp ON d.Departamentos = cpp.Departamento 
+                                WHERE cpp.Codigo = ?";
+        $stmt = mysqli_prepare($conexion, $sql_get_departamento);
+        mysqli_stmt_bind_param($stmt, "i", $codigo_profesor);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if ($row = mysqli_fetch_assoc($result)) {
+            $departamento_id = $row['Departamento_ID'];
+        } else {
+            die("No se pudo determinar el departamento del profesor.");
+        }
+    }
+
+    $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
+                        FROM departamentos 
+                        WHERE Departamento_ID = ?";
+    $stmt = mysqli_prepare($conexion, $sql_departamento);
+    mysqli_stmt_bind_param($stmt, "i", $departamento_id);
+    mysqli_stmt_execute($stmt);
+    $result_departamento = mysqli_stmt_get_result($stmt);
+    
+    if ($result_departamento && $row_departamento = mysqli_fetch_assoc($result_departamento)) {
+        $nombre_departamento = $row_departamento['Nombre_Departamento'];
+        $departamento_nombre = $row_departamento['Departamentos'];
+    } else {
+        die("No se encontró el departamento especificado.");
+    }
 
    // Obtener información personal del profesor
    $sql_profesor = "SELECT DISTINCT 
