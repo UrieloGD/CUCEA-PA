@@ -57,7 +57,7 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 -- Edificio B
 
 ('CEDB', '0101', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Bodega'),
-('CEDB', '0108', 'Bodega, 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Bodega'),
+('CEDB', '0108', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Bodega'),
 ('CEDB', '0108A', 'Laboratorio', 14, '10 a 20', TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, ''),
 ('CEDB', '0109', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Conferencias Audiovisuales. Salón con butacas.'),
 ('CEDB', '0110', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'USPI. Unidad de Seguridad Preventiva Integral.'),
@@ -70,7 +70,7 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 ('CEDB', '0305', 'Aula', 33, '30 a 40', TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, ''),
 ('CEDB', '0306', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Doctorado en gestión de paz y prevención de las violencias. (DGPPV)'),
 ('CEDB', '0307', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Centro para la calidad e innovacion de la educación superior. Cátedra UNESCO.'),
-('CEDB', '0308', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Antigua coordinación de Gestión Ambiental,Ingeniería de Negocios y Tecnologías de la Información),
+('CEDB', '0308', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Antigua coordinación de Gestión Ambiental,Ingeniería de Negocios y Tecnologías de la Información'),
 
 -- Edificio C
 
@@ -164,7 +164,7 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 ('CEDF', '0104', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Cocineta y Bodega de la División de Gestión Empresarial'),
 ('CEDF', '0105', 'Aula', 41, '40 a 50', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, ''),
 ('CEDF', '0106', 'Aula', 45, '40 a 50', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, ''),
-('CEDF', '0108', 'Laboratorio', 42, '40 a 50', TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, 'Laboratorio de capacidad de 42 alumnos con 2 tv's'),
+('CEDF', '0108', 'Laboratorio', 42, '40 a 50', TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE, 'Laboratorio de capacidad de 42 alumnos con 2 tv'),
 ('CEDF', '0201', 'Aula', 46, '40 a 50', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, ''),
 ('CEDF', '0202', 'Aula', 49, '40 a 50', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, ''),
 ('CEDF', '0203', 'Aula', 49, '40 a 50', TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, ''),
@@ -191,7 +191,7 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 ('CEDG', '0102', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Pequeña Bodega.'),
 ('CEDG', '0103', 'Laboratorio', '32', '30 a 40', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Laboratorio de cocina'),
 ('CEDG', '0106', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Pequeña Bodega.'),
-('CEDG', '0107', 'Laboratorio', '32', '30 a 40', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Restaurante Gourmet y Laboratorio de Cocina.')
+('CEDG', '0107', 'Laboratorio', '32', '30 a 40', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Restaurante Gourmet y Laboratorio de Cocina.'),
 ('CEDG', '0108', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Nucleo de Laboratorios de Gastronomía.'),
 ('CEDG', '0109', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'División de Gestión Empresarial.'),
 ('CEDG', '0201', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Departamento de Administración.'),
@@ -377,12 +377,12 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 
 -- Aulas Amplias
 
-('CEDAA', '0001', 'Aula Amplia'),
-('CEDAA', '0002', 'Aula Amplia'),
-('CEDAA', '0003', 'Aula Amplia'),
-('CEDAA', '0004', 'Aula Amplia'),
-('CEDAA', '0005', 'Aula Amplia'),
-('CEDAA', '0006', 'Aula Amplia')";
+('CEDAA', '0001', 'Aula Amplia', 150, '100 a 150', TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, 'Aula Amplia 0001A, 0001B y 0001C'),
+('CEDAA', '0002', 'Aula Amplia', 150, '100 a 150', TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, 'Aula Amplia 0002A, 0002B y 0002C'),
+('CEDAA', '0003', 'Aula Amplia', 150, '100 a 150', TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, 'Aula Amplia 03'),
+('CEDAA', '0004', 'Aula Amplia', 150, '100 a 150', TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, 'Aula Amplia 0004A, 0004B y 0004C'),
+('CEDAA', '0005', 'Aula Amplia', 150, '100 a 150', TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, 'Aula Amplia 05'),
+('CEDAA', '0006', 'Aula Amplia', 150, '100 a 150', TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, 'Aula Amplia 06')";
 
 
 if (mysqli_query($conexion, $espacios)) {
