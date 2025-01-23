@@ -145,7 +145,7 @@
 .modal-detalle {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 10;
     left: 0;
     top: 0;
     margin: auto;
@@ -222,7 +222,6 @@
     position: sticky;
     top: 0;
     background-color: #f8f9fa;
-    z-index: 97;
 }
 
 /* #################################### */

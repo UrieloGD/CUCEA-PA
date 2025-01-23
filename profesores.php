@@ -169,7 +169,7 @@ try {
 <script src="./JS/profesores/filtro-profesores.js"></script>
 
 <!-- DataTables Scripts -->
-
+ 
 <?php
     } catch (Exception $e) {
         echo "<div class='error-message'>";
