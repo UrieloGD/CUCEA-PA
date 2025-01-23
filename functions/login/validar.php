@@ -90,7 +90,7 @@ try {
             $isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1']);
 
             // Construir la ruta de redirección
-            $redirectPath = $isLocalhost ? './../../home.php' : '../home.php';
+            $redirectPath = $isLocalhost ? './../../home.php' : './../../home.php';
 
             // Redireccionar
             header("Location: " . $redirectPath);
