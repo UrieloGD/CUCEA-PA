@@ -70,7 +70,8 @@ foreach ($departamentos as $departamento) {
                             'cve_materia' => $row['CVE_MATERIA'],
                             'materia' => $row['MATERIA'],
                             'profesor' => $row['NOMBRE_PROFESOR'],
-                            'cupo' => $row['CUPO']
+                            'cupo' => $row['CUPO'],
+                            'departamento' => ucwords(str_replace('_', ' ', $departamento)) // Añadir departamento
                         );
                         // Actualizar el cupo general
                         $horarios['cupo'] = $row['CUPO'];

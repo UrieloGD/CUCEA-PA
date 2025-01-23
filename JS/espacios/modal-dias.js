@@ -69,46 +69,65 @@ function mostrarModal(espacio, horarios) {
 
   dias.forEach(function (dia) {
     var contenido = '<table class="horario-table">';
-    contenido +=
-      "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
+    // Agregamos departamento a los headers
+    contenido += "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th><th>Departamento</th></tr></thead><tbody>";
 
     if (horarios[dia] && horarios[dia].length > 0) {
-      // Crear un mapa para detectar duplicados exactos
-      var horariosMap = new Map();
+        var horariosMap = new Map();
 
-      // Primera pasada: registrar todos los horarios
-      horarios[dia].forEach(function (clase) {
-        const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
+        horarios[dia].forEach(function (clase) {
+            const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
 
-        if (!horariosMap.has(claveHorario)) {
-          horariosMap.set(claveHorario, 1);
-        } else {
-          horariosMap.set(claveHorario, horariosMap.get(claveHorario) + 1);
-        }
-      });
+            if (!horariosMap.has(claveHorario)) {
+                horariosMap.set(claveHorario, 1);
+            } else {
+                horariosMap.set(claveHorario, horariosMap.get(claveHorario) + 1);
+            }
+        });
 
-      // Segunda pasada: mostrar las clases, marcando duplicados
-      horarios[dia].forEach(function (clase) {
-        const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
-        const esConflicto = horariosMap.get(claveHorario) > 1;
-        const estiloConflicto = esConflicto ? ' style="color: red;"' : "";
+        horarios[dia].forEach(function (clase) {
+            const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
+            const esConflicto = horariosMap.get(claveHorario) > 1;
+            const estiloConflicto = esConflicto ? ' style="color: red;"' : "";
 
-        contenido += `<tr${estiloConflicto}>
-          <td>${clase.hora_inicial} - ${clase.hora_final}</td>
-          <td>${clase.materia}</td>
-          <td>${clase.profesor}</td>
-        </tr>`;
-      });
+            contenido += `<tr${estiloConflicto}>
+              <td>${clase.hora_inicial} - ${clase.hora_final}</td>
+              <td>${clase.materia}</td>
+              <td>${clase.profesor}</td>
+              <td>${clase.departamento || 'Sin información'}</td>
+            </tr>`;
+        });
     } else {
-      contenido +=
-        '<tr><td colspan="3">No hay clases programadas para este día.</td></tr>';
+        contenido += '<tr><td colspan="4">No hay clases programadas para este día.</td></tr>';
     }
 
     contenido += "</tbody></table>";
     $(`#tabContent`).append(
       `<div id="${dia}" class="tabcontent">${contenido}</div>`
     );
-  });
+});
+
+  // Determinar la clase del espacio
+  function determinarClaseEspacio(tipo) {
+    tipo = tipo.toLowerCase();
+    if (tipo.includes('aula')) return 'aula';
+    if (tipo.includes('laboratorio')) return 'laboratorio';
+    if (tipo.includes('administrativo') || tipo.includes('oficina administrativa')) return 'oficina-administrativa';
+    if (tipo.includes('bodega')) return 'bodega';
+    return 'espacio-generico';
+  }
+
+  // Actualizar la clase e imagen del espacio
+  var claseEspacio = determinarClaseEspacio(horarios.tipo);
+  $(".sala-modal")
+    .removeClass()
+    .addClass(`sala-modal ${claseEspacio}`);
+  
+  $(".sala-modal img")
+    .attr({
+      src: `./Img/Icons/iconos-espacios/icono-${claseEspacio}.png`,
+      alt: horarios.tipo
+    });
 
   $("#claseModal").show();
   openDay(null, "Lunes");
