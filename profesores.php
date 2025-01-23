@@ -126,7 +126,6 @@ try {
                             <th class="detalle-column">Código</th>
                             <th class="detalle-column">Nombre Completo</th>
                             <th class="detalle-column">Categoria Actual</th>
-                            <th class="detalle-column">Departamento</th>
                             <th class="detalle-column">Detalles</th>
                         </tr>
                     </thead>
@@ -138,7 +137,6 @@ try {
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Departamento'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column detalle-column2'>
                                         <button onclick='verDetalleProfesor(" . $row['Codigo'] . ", " . $departamento_id . ")' 
                                                 class='btn-detalle'>Ver detalle</button>
