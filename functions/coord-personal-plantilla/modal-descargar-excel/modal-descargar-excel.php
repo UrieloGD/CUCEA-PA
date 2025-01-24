@@ -15,7 +15,7 @@
                         </div>
                         <div class="select-all-basica">
                             <input class="input-check" type="checkbox" id="select-all-basica">
-                            <label class="select-all-basica">Seleccionar/Deseleccionar grupo completo</label>
+                            <label for="select-all-basica">Seleccionar/Deseleccionar grupo completo</label>
                         </div>
                         <div class="columns-container-basica">
                             <div class="Check-js">
@@ -50,7 +50,7 @@
                         </div>
                         <div class="select-all-academica">
                             <input class="input-check" type="checkbox" id="select-all-academica">
-                            <label class="select-all-academica">Seleccionar/Deseleccionar grupo completo</label>
+                            <label for="select-all-academica">Seleccionar/Deseleccionar grupo completo</label>
                         </div>
                         <div class="columns-container-academica">
                             <div class="Check-js">

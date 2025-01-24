@@ -1399,13 +1399,12 @@ table.dataTable thead .sorting_desc {
   border-color: #D0E6F2;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  gap: 10px;
 }
 
 .columns-container-js-2 {
   border-color: #D0E6F2;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
@@ -1418,6 +1417,7 @@ table.dataTable thead .sorting_desc {
 .check-js label{
   padding-left: 5px;
   font-size: 12px;
+  margin-top: 3px;
 }
 
 .encabezado-js {
@@ -1439,13 +1439,18 @@ table.dataTable thead .sorting_desc {
 }*/
 
 .select-all-profesores, .select-all-basica, .select-all-academica, 
-.select-all-personal, .select-all-academica2, .select-all-antiguedad{
+.select-all-personal, .select-all-academica2, .select-all-antiguedad {
   position: relative;
   display: flex;
   justify-content: left;
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   font-weight: bold;
+  padding-left: 5px;
+}
+
+.select-all-profesores label, .select-all-basica label, .select-all-academica label, 
+.select-all-personal label, .select-all-academica2 label, .select-all-antiguedad label {
   padding-left: 5px;
 }
 
@@ -1574,10 +1579,15 @@ table.dataTable thead .sorting_desc {
 }
 
 .container-all{
-  border: 1px solid #005a8c;
+  /*border: 3px solid #005a8c;
+  border-radius: 15px;*/
   display: block;
   overflow-y: auto;
   height: 640px;
+  /*-webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;*/
 }
 
 .columns-subcontainer{
