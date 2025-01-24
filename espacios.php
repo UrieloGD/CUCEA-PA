@@ -242,7 +242,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <p><strong>Edificio:</strong> <span id="moduloInfo"></span></p>
                         <p><strong>Número:</strong> <span id="espacioInfo"></span></p>
                         <p><strong>Tipo:</strong> <span id="tipoInfo"></span></p>
-                        <p><strong>Cupo:</strong> <span id="cupoInfo"></span></p>
+                        <p><strong>Capacidad:</strong> <span id="cupoInfo"></span> alumnos</p>
                     </div>
                     <div class="espacio-columna">
                         <p><strong>Equipo:</strong></p>

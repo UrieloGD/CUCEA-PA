@@ -1,5 +1,5 @@
 <?php
-
+include './../config/db.php';
 // Crear la tabla Espacios
 $sql_create = "CREATE TABLE IF NOT EXISTS espacios (
     id INT AUTO_INCREMENT PRIMARY KEY,
