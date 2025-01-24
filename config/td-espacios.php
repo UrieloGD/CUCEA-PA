@@ -30,7 +30,7 @@ if (mysqli_query($conexion, $sql_create)) {
 }
 
 // Insertar datos en la tabla Espacios
-$espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, Capacidad_Adecuada, Computadora, Proyector, Pantalla, Cortina_Proyector, Bocinas, Cortina_Luz, Pintarron, Doble_Pintarron, Camara, Descripcion_Espacio) VALUES
+$espacios = "INSERT INTO espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, Capacidad_Adecuada, Computadora, Proyector, Pantalla, Cortina_Proyector, Bocinas, Cortina_Luz, Pintarron, Doble_Pintarron, Camara, Descripcion_Espacio) VALUES
 
 -- Edificio A
 
@@ -186,7 +186,7 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 
 -- Edificio G
 
-('CEDG', '0101-A', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Coordinador de laboratorio.'),
+('CEDG', '0101A', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Coordinador de laboratorio.'),
 ('CEDG', '0101', 'Laboratorio', '32', '30 a 40', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Laboratorio de servicios turisticos'),
 ('CEDG', '0102', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Pequeña Bodega.'),
 ('CEDG', '0103', 'Laboratorio', '32', '30 a 40', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Laboratorio de cocina'),
@@ -280,7 +280,7 @@ $espacios = "INSERT INTO Espacios (Modulo, Espacio, Etiqueta, Capacidad_Exacta, 
 -- Edificio K
 
 ('CEDK', '0102', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Departamento de Economía y Sociedad.'),
-('CEDK', '0102-A', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Sala de listas de División de Economía y Sociedad'),
+('CEDK', '0102A', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Sala de listas de División de Economía y Sociedad'),
 ('CEDK', '0109', 'Bodega', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Área de intendencia.'),
 ('CEDK', '0110', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Antigua coordinación de Administración Gubernamental y Políticas Públicas.'),
 ('CEDK', '0111', 'Oficina Administrativa', 'N/A', 'N/A', FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, 'Plataforma de Economía de Jalisco. Área de investigación y oficina de becarios.'),
