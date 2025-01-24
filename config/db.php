@@ -6,22 +6,22 @@
 class DatabaseConfig
 {
     // Configuraciones para diferentes entornos
-    private static $configs = [
-        'local' => [
+    private static $configs = array(
+        'local' => array(
             'host' => 'localhost',
             'dbname' => 'pa',
             'username' => 'root',
             'password' => 'root',
             'charset' => 'utf8'
-        ],
-        'production' => [
+        ),
+        'production' => array(
             'host' => 'localhost',
             'dbname' => 'pa',
             'username' => 'pa',
             'password' => 'hyXbFnAYRH63yU',
             'charset' => 'utf8'
-        ]
-    ];
+        )
+    );
 
     /**
      * Detecta automáticamente el entorno basado en múltiples métodos
@@ -30,19 +30,27 @@ class DatabaseConfig
     private static function detectEnvironment()
     {
         // Múltiples formas de detectar el entorno local
-        $isLocal = (
-            php_sapi_name() === 'cli' || // Entorno de línea de comandos
-            (isset($_SERVER['SERVER_NAME']) && 
-                (
-                    $_SERVER['SERVER_NAME'] === 'localhost' || 
-                    $_SERVER['SERVER_NAME'] === '127.0.0.1' ||
-                    strpos($_SERVER['SERVER_NAME'], '.local') !== false ||
-                    strpos($_SERVER['SERVER_NAME'], 'dev') !== false
-                )
-            ) ||
-            gethostname() === 'localhost' ||
-            gethostname() === '127.0.0.1'
-        );
+        $isLocal = false;
+
+        if (function_exists('php_sapi_name') && php_sapi_name() === 'cli') {
+            $isLocal = true;
+        }
+
+        if (isset($_SERVER['SERVER_NAME'])) {
+            if ($_SERVER['SERVER_NAME'] == 'localhost' || 
+                $_SERVER['SERVER_NAME'] == '127.0.0.1' || 
+                strpos($_SERVER['SERVER_NAME'], '.local') !== false || 
+                strpos($_SERVER['SERVER_NAME'], 'dev') !== false) {
+                $isLocal = true;
+            }
+        }
+
+        if (function_exists('gethostname')) {
+            $hostname = gethostname();
+            if ($hostname == 'localhost' || $hostname == '127.0.0.1') {
+                $isLocal = true;
+            }
+        }
 
         return $isLocal ? 'local' : 'production';
     }
