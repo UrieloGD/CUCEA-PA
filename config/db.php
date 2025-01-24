@@ -24,25 +24,27 @@ class DatabaseConfig
     ];
 
     /**
-     * Detecta automáticamente el entorno basado en el servidor
+     * Detecta automáticamente el entorno basado en múltiples métodos
      * @return string
      */
     private static function detectEnvironment()
     {
-        // Verificar si estamos en el servidor de producción usando la ruta del documento
-        $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
-        if (strpos($documentRoot, '/var/www/html/pa.cucea.udg.mx') !== false) {
-            return 'production';
-        }
+        // Múltiples formas de detectar el entorno local
+        $isLocal = (
+            php_sapi_name() === 'cli' || // Entorno de línea de comandos
+            (isset($_SERVER['SERVER_NAME']) && 
+                (
+                    $_SERVER['SERVER_NAME'] === 'localhost' || 
+                    $_SERVER['SERVER_NAME'] === '127.0.0.1' ||
+                    strpos($_SERVER['SERVER_NAME'], '.local') !== false ||
+                    strpos($_SERVER['SERVER_NAME'], 'dev') !== false
+                )
+            ) ||
+            gethostname() === 'localhost' ||
+            gethostname() === '127.0.0.1'
+        );
 
-        // Verificar el nombre del host
-        $serverName = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
-        if (strpos($serverName, 'pa.cucea.udg.mx') !== false) {
-            return 'production';
-        }
-
-        // Si no se detecta como producción, es local
-        return 'local';
+        return $isLocal ? 'local' : 'production';
     }
 
     /**
@@ -58,23 +60,19 @@ class DatabaseConfig
             $env = self::detectEnvironment();
             $config = self::$configs[$env];
 
-            try {
-                $conexion = mysqli_connect(
-                    $config['host'],
-                    $config['username'],
-                    $config['password'],
-                    $config['dbname']
-                );
+            $conexion = mysqli_connect(
+                $config['host'],
+                $config['username'],
+                $config['password'],
+                $config['dbname']
+            );
 
-                if (!$conexion) {
-                    throw new Exception(mysqli_connect_error());
-                }
-
-                mysqli_set_charset($conexion, $config['charset']);
-            } catch (Exception $e) {
-                error_log("Error de conexión en entorno '$env': " . $e->getMessage());
-                throw new Exception("Error de conexión a la base de datos: " . $e->getMessage());
+            if (!$conexion) {
+                error_log("Error de conexión: " . mysqli_connect_error());
+                throw new Exception("No se pudo conectar a la base de datos");
             }
+
+            mysqli_set_charset($conexion, $config['charset']);
         }
 
         return $conexion;
