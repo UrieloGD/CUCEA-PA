@@ -568,11 +568,12 @@ th {
   padding: 0 7 0px;
 }
 
-.form-row,
-.form-row-titles {
-  display: flex;
+.form-row-titles,
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   gap: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .form-row-titles input {
@@ -616,18 +617,75 @@ th {
 
 #dia_presencial,
 #dia_virtual,
+#dia_presencial2,
+#dia_virtual2,
 #title_dia_presencial,
 #title_dia_virtual {
   display: none;
 }
 
+.active-label {
+  color:#0071b0;
+}
+
+.form-row-titles span {
+  font-weight: bold;
+  color:#888;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #444;
+  line-height: 28px;
+  font-size: 0.8rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered.selected {
+  color: #000 !important;
+}
+
+.select2-dropdown {
+  font-size: 1rem;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: #0071b0;
+  outline: 0;
+}
+ 
+.select2-container--default .select2-selection--single:focus {
+  border-color: #0071b0;
+  border-width: 2px;
+  outline: 0;
+}
+
+.select2-search__field:focus {
+  border-color: #0071b0;
+  border-width: 2px;
+  outline: 0;
+}
+
+#presencial-virtual,
+#mixta {
+  width: 100%;
+}
+
+#lun, #mar, #mie, #jue, #vie, #sab, #dom,
+#lun2, #mar2, #mie2, #jue2, #vie2, #sab2, #dom2 {
+  display: none;
+}
+
 select {
-  color: #888888;
+  color: #aaa;
+  font-style: italic;
+}
+
+input[type="date"] {
+  color: #aaa;
   font-style: italic;
 }
 
 select:focus {
-  color: black;
+  color: #000000;
   font-style: normal;
 }
 
@@ -663,8 +721,8 @@ select:focus {
 .form-row input,
 .form-row select {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 4px;
+  border: 1px solid #aaa;
   border-radius: 4px;
 }
 
