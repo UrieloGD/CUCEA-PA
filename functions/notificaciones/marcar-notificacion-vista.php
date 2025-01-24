@@ -6,19 +6,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $tipo = $_POST['tipo'];
 
     if ($tipo == 'justificacion') {
-        $sql = "UPDATE Justificaciones SET Notificacion_Vista = 1 WHERE ID_Justificacion = ?";
+        $sql = "UPDATE justificaciones SET Notificacion_Vista = 1 WHERE ID_Justificacion = ?";
     } elseif ($tipo == 'plantilla') {
-        $sql = "UPDATE Plantilla_Dep SET Notificacion_Vista = 1 WHERE ID_Archivo_Dep = ?";
+        $sql = "UPDATE plantilla_dep SET Notificacion_Vista = 1 WHERE ID_Archivo_Dep = ?";
     } elseif ($tipo == 'fecha_limite') {
-        $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
+        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } elseif ($tipo == 'evento') {
-        $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
+        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } elseif ($tipo == 'evento_actualizado') {
-        $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
+        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } elseif ($tipo == 'evento_removido') {
-        $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
+        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } elseif ($tipo == 'evento_cancelado') {
-        $sql = "UPDATE Notificaciones SET Vista = 1 WHERE ID = ?";
+        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } else {
         echo json_encode(['success' => false, 'error' => 'Tipo de notificación no válido']);
         exit;

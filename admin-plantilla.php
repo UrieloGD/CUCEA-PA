@@ -55,16 +55,16 @@ error_reporting(E_ALL);
 
             asort($departamentos);
 
-            $sql = "SELECT departamento_id, nombre_archivo_dep, fecha_subida_dep FROM plantilla_sa";
+            $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM plantilla_sa";
             $result = mysqli_query($conexion, $sql);
 
             $departamentosConArchivos = [];
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $departamento_id = $row["departamento_id"];
-                    $nombre_archivo = $row["nombre_archivo_dep"] ? $row["nombre_archivo_dep"] : "No hay archivo asignado";
-                    $fecha_subida = $row["fecha_subida_dep"] ? $row["fecha_subida_dep"] : "---";
+                    $departamento_id = $row["Departamento_ID"];
+                    $nombre_archivo = $row["Nombre_Archivo_Dep"] ? $row["Nombre_Archivo_Dep"] : "No hay archivo asignado";
+                    $fecha_subida = $row["Fecha_Subida_Dep"] ? $row["Fecha_Subida_Dep"] : "---";
 
                     $departamentosConArchivos[$departamento_id] = [
                         "nombre_archivo" => $nombre_archivo,

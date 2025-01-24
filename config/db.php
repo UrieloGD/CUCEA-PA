@@ -24,36 +24,25 @@ class DatabaseConfig
     ];
 
     /**
-     * Detecta automáticamente el entorno basado en múltiples factores
+     * Detecta automáticamente el entorno basado en el servidor
      * @return string
      */
     private static function detectEnvironment()
     {
-        // 1. Verificar por archivo de configuración local
-        if (file_exists(__DIR__ . '/local_environment')) {
-            return 'local';
+        // Verificar si estamos en el servidor de producción usando la ruta del documento
+        $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
+        if (strpos($documentRoot, '/var/www/html/pa.cucea.udg.mx') !== false) {
+            return 'production';
         }
 
-        // 2. Verificar el hostname
-        $hostname = gethostname();
-        if (in_array($hostname, ['localhost', '127.0.0.1'])) {
-            return 'local';
+        // Verificar el nombre del host
+        $serverName = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
+        if (strpos($serverName, 'pa.cucea.udg.mx') !== false) {
+            return 'production';
         }
 
-        // 3. Verificar la IP del servidor
-        $serverAddr = $_SERVER['SERVER_ADDR'] ?? '';
-        if (in_array($serverAddr, ['127.0.0.1', '::1'])) {
-            return 'local';
-        }
-
-        // 4. Verificar el nombre del servidor
-        $serverName = $_SERVER['SERVER_NAME'] ?? '';
-        if (strpos($serverName, 'localhost') !== false) {
-            return 'local';
-        }
-
-        // Si no se cumple ninguna condición, asumimos que es producción
-        return 'production';
+        // Si no se detecta como producción, es local
+        return 'local';
     }
 
     /**

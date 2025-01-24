@@ -309,7 +309,7 @@ th {
 }
 
 #popup-columnas {
-  display:none;
+  display: none;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -514,7 +514,7 @@ th {
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
+/* .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
@@ -524,7 +524,7 @@ th {
   max-height: 80vh;
   overflow-y: auto;
   border-radius: 10px;
-}
+} DUPLICADO MAYBE */
 
 .modal input, .modal select {
   border-radius: 5px;
@@ -537,7 +537,7 @@ th {
   margin: 3% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 90%;
+  width: 60%;
   max-width: 1200px;
   max-height: 85vh;
   overflow-y: auto;
@@ -555,7 +555,7 @@ th {
 .form-container {
   display: flex;
   flex-wrap: nowrap;
-  gap: 20px;
+  gap: 15px;
 }
 
 .form-section h3 {
@@ -565,13 +565,37 @@ th {
 
 .form-section {
   width: 50%;
-  padding: 0 30 0px;
+  padding: 0 7 0px;
 }
 
-.form-row {
+.form-row,
+.form-row-titles {
   display: flex;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+}
+
+.form-row-titles input {
+  padding: 0;
+  background-color: #fff;
+  text-align: left;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  width: 100%;
+}
+
+.form-row input {
+  outline-color: #0071b0;
+}
+
+.form-row select {
+  width: 100%;
+  outline-color: #0071b0;
+}
+
+.form-row input::placeholder {
+  font-style: italic;
 }
 
 .weekdays {
@@ -585,9 +609,26 @@ th {
 
 #l, #m, #i, #j, #v, #s, #d,
 #ciclo, #crn, #cve_materia,
-#nivel, #nivel_tipo, #seccion,
+#nivel, #nivel_tipo, #tipo, #seccion,
 #c_min, #h_totales, #estatus {
   width: 100%;
+}
+
+#dia_presencial,
+#dia_virtual,
+#title_dia_presencial,
+#title_dia_virtual {
+  display: none;
+}
+
+select {
+  color: #888888;
+  font-style: italic;
+}
+
+select:focus {
+  color: black;
+  font-style: normal;
 }
 
 .form-actions {
@@ -602,20 +643,33 @@ th {
   font-weight: bold;
   color: #fff;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 15px;
 }
 .form-actions button:nth-child(1) {
   background-color: #0071B0;
+  transition: ease-out 0.3s;
+}
+.form-actions button:nth-child(1):hover {
+  background-color: #005a8c;
 }
 .form-actions button:nth-child(2) {
-  background-color: #B0B0B0;
+  background-color: #a7b3b9;
+  transition: ease-out 0.3s;
+}
+.form-actions button:nth-child(2):hover {
+  background-color: #a7a5a5;
 }
 
-.form-row input {
+.form-row input,
+.form-row select {
   flex: 1;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.form-row label {
+  margin-left: -10;
 }
 
 .weekdays {
@@ -633,7 +687,7 @@ th {
   gap: 10px;
   margin-top: 20px;
 }
-
+/*
 .form-actions button {
   padding: 10px 20px;
   border: none;
@@ -653,7 +707,7 @@ th {
   border: #0071b0 solid 2px;
   font-weight: bold;
 }
-
+*/
 .close {
   color: #aaa;
   float: right;
@@ -678,14 +732,16 @@ th {
 
 /* Estilos para el contenedor de búsqueda de Js */
 .dt-search {
-  width: 33.33%; /* Un tercio del ancho de la pantalla */
+  width: 30%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
   position: relative;
+  border-color: 2px #0071B0;
 }
 
 /* Estilos para el input de búsqueda */
 .dt-input {
-  width: 100%;
+  width: 80%;
+  margin-top: -70px;
   padding: 8px 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -696,7 +752,7 @@ th {
 }
 
 .dt-input:focus {
-  border-color: #0071b0;
+  border-color: 2px #0071b0;
   box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
 }
 
@@ -768,6 +824,7 @@ nav[aria-label="pagination"] {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  margin-top: -50px;
 }
 
 /* Estilos para celdas y filas con choques */
@@ -793,22 +850,24 @@ nav[aria-label="pagination"] {
 }
 
 /* Tooltip para mostrar detalles de choques */
-[title] {
+[data-tooltip] {
   position: relative;
-  cursor: help;
 }
 
-[title]:hover::after {
-  content: attr(title);
+[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
   position: absolute;
+  text-align: left;
   bottom: 100%;
   left: 0;
   background-color: #333;
   color: white;
   padding: 5px;
   border-radius: 3px;
-  white-space: nowrap;
+  white-space: pre-line;
   z-index: 1000;
+  min-width: 300px;
+  font-size: 16px;
 }
 
 /* Media Queries para diferentes resoluciones */
@@ -1197,35 +1256,6 @@ div.dataTables_wrapper {
   margin: 0 auto;
 }
 /*------------------------------------------------*/
-.search-bar {
-  margin-bottom: 20px 0;
-}
-
-.search-input-container {
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-}
-
-.search-input-container i {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-}
-
-.search-input-container input {
-  width: 100%;
-  padding: 8px 30px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.search-input-container input:focus {
-  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
-}
 
 #buscar-profesor {
   width: 100%;
@@ -1237,19 +1267,6 @@ div.dataTables_wrapper {
 
 .tabla-profesores {
   margin-top: 20px;
-}
-
-.btn-detalle {
-  background-color: #0071b0;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-detalle:hover {
-  background-color: #005a8c;
 }
 
 /* Estilos para el detalle del profesor */
@@ -1300,35 +1317,6 @@ div.dataTables_wrapper {
 }
 
 /* Estilos para el modal */
-#modal-todos-profesores {
-  display: none; /* Oculto por defecto */
-  position: fixed; /* Posición fija */
-  z-index: 1000; /* Por encima de otros elementos */
-  left: 0;
-  top: 0;
-  width: 100%; /* Ancho del modal */
-  height: 100%; /* Altura del modal */
-  overflow: auto; /* Habilitar scroll si el contenido lo requiere */
-  background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
-}
-
-.profesores-table th {
-  position: relative;
-  top: 0;
-  background-color: white;
-  padding: 15px 8px; /* Aumentamos el padding vertical */
-  text-align: left;
-  border-bottom: 3px solid #0071b0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-}
-
-.profesores-table .detalle-column {
-  text-align: center;
-  align-items: center;
-}
 
 th {
   position: sticky;
@@ -1361,7 +1349,7 @@ table.dataTable thead .sorting_desc {
 
 /* Ajustamos el contenedor del DataTable */
 .datatable-container {
-  margin-top: 20px; /* Ajustamos el margen superior */
+  margin-top: 0px; /* Ajustamos el margen superior */
   position: relative;
 }
 

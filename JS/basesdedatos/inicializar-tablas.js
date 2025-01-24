@@ -138,35 +138,27 @@ $(document).ready(function () {
       { orderable: false, targets: -1 },
       {
         targets: [1, 36, 37, 38, 39],
-        createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
-          var $row = $(cell).closest("tr");
-          var choques = $row.data("choques");
-
+        createdCell: function(cell, cellData, rowData, rowIndex, colIndex) {
+          var $row = $(cell).closest('tr');
+          var choques = $row.data('choques');
+          
           if (choques && choques.length > 0) {
-            $(cell).addClass("celda-choque");
-
-            choques.forEach(function (choque) {
-              if (choque.Primer_Departamento === choque.Departamento) {
-                $(cell).addClass("choque-primero");
-              } else {
-                $(cell).addClass("choque-segundo");
-              }
-            });
-
-            var tooltipContent = choques
-              .map(function (choque) {
-                return (
-                  "Choque con ID (#" +
-                  choque.ID_Choque +
-                  ") del Departamento (" +
-                  choque.Departamento +
-                  ")"
-                );
-              })
-              .join("<br>");
-
-            $(cell).attr("title", tooltipContent);
-            $row.addClass("fila-choque");
+              $(cell).addClass('celda-choque');
+              
+              choques.forEach(function(choque) {
+                  if (choque.Primer_Departamento === choque.Nombre_Departamento) {
+                      $(cell).addClass('choque-primero');
+                  } else {
+                      $(cell).addClass('choque-segundo');
+                  }
+              });
+              
+              var tooltipContent = choques.map(function(choque) {
+                  return "Choque con ID #" + choque.ID_Choque + " del departamento " + choque.Departamento;
+              }).join('\n');
+              
+              // Usar data-attribute en lugar de title
+              $(cell).attr('data-tooltip', tooltipContent);
           }
         },
       },

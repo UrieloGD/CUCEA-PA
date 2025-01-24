@@ -7,10 +7,6 @@ error_reporting(E_ALL);
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
-// Incluir los archivos
-require_once './config/db.php';
-require_once './config/sesioniniciada.php';
 ?>
 
 <?php include './template/header.php' ?>
@@ -108,20 +104,21 @@ function verificarChoques($registro_actual, $departamentos, $conexion)
                 $dias_choque
             ) {
                 // Buscar el timestamp de subida más antiguo
-                $sql_timestamp = "SELECT d.Nombre_Departamento 
-                                  FROM plantilla_dep pd
-                                  JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
-                                  WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
-                                  ORDER BY pd.Fecha_Subida_Dep ASC
-                                  LIMIT 1";
+                $sql_timestamp = "SELECT d.Departamentos, d.Nombre_Departamento 
+                                    FROM plantilla_dep pd
+                                    JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                                    WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
+                                    ORDER BY pd.Fecha_Subida_Dep ASC
+                                    LIMIT 1";
 
                 $result_timestamp = mysqli_query($conexion, $sql_timestamp);
                 $primer_departamento = mysqli_fetch_assoc($result_timestamp);
 
                 $choques[] = [
-                    'Departamento' => $nombre_dep,
+                    'Departamento' => $primer_departamento['Departamentos'], // Para mostrar en el tooltip
                     'ID_Choque' => $registro['ID_Plantilla'],
-                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento']
+                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento'], // Para la lógica de colores
+                    'Nombre_Departamento' => $nombre_dep // Mantener el nombre original para comparación
                 ];
             }
         }
@@ -191,12 +188,6 @@ $result = $stmt->get_result();
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <!--<div class="barra-buscador" id="barra-buscador">
-                <div class="icono-buscador" id="icono-buscador">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </div>
-                <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div> -->
         </div>
         <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
@@ -211,9 +202,6 @@ $result = $stmt->get_result();
                         <i class="fa fa-undo" aria-hidden="true"></i>
                     </div>
                 <?php endif; ?>
-                <!-- <div class="icono-buscador" id="icono-todos-profesores" onclick="mostrarModalTodosProfesores()">
-                    <i class="fa fa-users" aria-hidden="true"></i>
-                </div> -->
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
@@ -234,14 +222,16 @@ $result = $stmt->get_result();
             </div>
         </div>
     </div>
-    <div id="popup-columnas">
+    <div id="popup-columnas" class="column-selector">
         <h3>Selecciona las columnas a descargar</h3>
         <div id="opciones-columnas"></div>
-        <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
-        <?php if ($_SESSION['Rol_ID'] == 2): ?>
-            <button onclick="descargarExcelCotejado()">Descargar cotejo</button>
-        <?php endif; ?>
-        <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
+        <div class="fila-botones">
+            <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
+            <?php if ($_SESSION['Rol_ID'] == 2): ?>
+                <button class="btn-cotejo" onclick="descargarExcelCotejado()">Descargar cotejo</button>
+            <?php endif; ?>
+            <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
+        </div>
     </div>
 
     <?php
@@ -390,7 +380,5 @@ $result = $stmt->get_result();
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
-<script src="./JS/basesdedatos/visualizar-profesores.js"></script>
-<script src="./JS/basesdedatos/detalle-profesor.js"></script>
 
 <?php include("./template/footer.php"); ?>

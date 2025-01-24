@@ -27,17 +27,44 @@ function actualizarDiasActivos(dias, crnId, modulo, esvirtual) {
 </script>
 
 <?php
-include './config/db.php';
+include './../../config/db.php';
 
 if(isset($_POST['codigo_profesor'])) {
     $codigo_profesor = (int)$_POST['codigo_profesor'];
-    $departamento_id = (int)$_POST['departamento_id'];
+    $departamento_id = isset($_POST['departamento_id']) ? (int)$_POST['departamento_id'] : null;
 
-    $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
-    $result_departamento = mysqli_query($conexion, $sql_departamento);
-    $row_departamento = mysqli_fetch_assoc($result_departamento);
-    $nombre_departamento = $row_departamento['Nombre_Departamento'];
-    $departamento_nombre = $row_departamento['Departamentos'];
+    // Si no se proporciona departamento_id, obtenerlo de la base de datos
+    if ($departamento_id === null) {
+        $sql_get_departamento = "SELECT d.Departamento_ID 
+                                FROM departamentos d 
+                                JOIN coord_per_prof cpp ON d.Departamentos = cpp.Departamento 
+                                WHERE cpp.Codigo = ?";
+        $stmt = mysqli_prepare($conexion, $sql_get_departamento);
+        mysqli_stmt_bind_param($stmt, "i", $codigo_profesor);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if ($row = mysqli_fetch_assoc($result)) {
+            $departamento_id = $row['Departamento_ID'];
+        } else {
+            die("No se pudo determinar el departamento del profesor.");
+        }
+    }
+
+    $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
+                        FROM departamentos 
+                        WHERE Departamento_ID = ?";
+    $stmt = mysqli_prepare($conexion, $sql_departamento);
+    mysqli_stmt_bind_param($stmt, "i", $departamento_id);
+    mysqli_stmt_execute($stmt);
+    $result_departamento = mysqli_stmt_get_result($stmt);
+    
+    if ($result_departamento && $row_departamento = mysqli_fetch_assoc($result_departamento)) {
+        $nombre_departamento = $row_departamento['Nombre_Departamento'];
+        $departamento_nombre = $row_departamento['Departamentos'];
+    } else {
+        die("No se encontró el departamento especificado.");
+    }
 
    // Obtener información personal del profesor
    $sql_profesor = "SELECT DISTINCT 
@@ -717,133 +744,19 @@ if(isset($_POST['codigo_profesor'])) {
         <?php
     } else {
         ?>
-        <div>
-            <span class="close-materias" onclick="cerrarModalDetalle()">&times;</span>
-            <p>No se encontró información para este profesor.</p>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Información del Profesor</h3>
+                <span class="close1" onclick="cerrarModalDetalle()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">No se encontró información para este profesor.</div>
+            </div>
         </div>
     <?php    
         }
 }
 ?>
 
-<script>
-$(document).ready(function() {
-    // Ocultar todas las secciones excepto la activa al inicio
-    $('.curso-seccion').hide();
-    $('#todas').show();
-    
-    // Manejar clics en los items de navegación
-    $('.nav-item').click(function(e) {
-        e.preventDefault();
-        
-        // Remover clase activa de todos los items y agregarla al clickeado
-        $('.nav-item').removeClass('active');
-        $(this).addClass('active');
-        
-        // Ocultar todas las secciones y mostrar la seleccionada
-        const targetId = $(this).data('section');
-        $('.curso-seccion').hide();
-        $(`#${targetId}`).show().css('opacity', 0).animate({opacity: 1}, 200);
-
-        // Desplazamiento mejorado para centrar el elemento activo
-        const $navContainer = $('.nav-items-container');
-        const $clickedNavItem = $(this);
-        
-        // Calcular dimensiones precisas
-        const containerWidth = $navContainer.width();
-        const scrollContainer = $navContainer[0];
-        const itemOffset = $clickedNavItem.position().left;
-        const itemWidth = $clickedNavItem.outerWidth();
-        
-        // Calcular posición de desplazamiento centrada
-        const scrollPosition = 
-            itemOffset - (containerWidth / 2) + (itemWidth / 2) + $navContainer.scrollLeft();
-        
-        // Desplazamiento suave centrado
-        $navContainer.animate({
-            scrollLeft: scrollPosition
-        }, {
-            duration: 300,
-            easing: 'swing',
-            complete: function() {
-                // Asegurar que el elemento permanezca completamente visible
-                const navItemLeft = $clickedNavItem.position().left;
-                const navItemRight = navItemLeft + $clickedNavItem.outerWidth();
-                const containerLeft = 0;
-                const containerRight = $navContainer.width();
-
-                if (navItemLeft < containerLeft || navItemRight > containerRight) {
-                    scrollContainer.scrollLeft = scrollPosition;
-                }
-            }
-        });
-        
-        // Actualizar estado de las flechas
-        updateArrows();
-    });
-    
-    // Función para actualizar el estado de las flechas
-    function updateArrows() {
-        const activeIndex = $('.nav-item.active').index();
-        const totalItems = $('.nav-item').length;
-        
-        $('.prev-arrow').prop('disabled', activeIndex === 0);
-        $('.next-arrow').prop('disabled', activeIndex === totalItems - 1);
-    }
-    
-    // Manejar clics en las flechas
-    $('.prev-arrow').click(function() {
-        if (!$(this).prop('disabled')) {
-            const activeItem = $('.nav-item.active');
-            activeItem.prev('.nav-item').click();
-        }
-    });
-    
-    $('.next-arrow').click(function() {
-        if (!$(this).prop('disabled')) {
-            const activeItem = $('.nav-item.active');
-            activeItem.next('.nav-item').click();
-        }
-    });
-    
-    // Inicializar estado de las flechas
-    updateArrows();
-});
-</script>
-
-<script>
-    $(document).ready(function() {
-    // Funcionalidad de búsqueda
-    $('#search-input').on('keyup', function() {
-        const searchText = $(this).val().toLowerCase().trim();
-        
-        // Si la búsqueda está vacía, muestra todos los cursos en la sección activa
-        if (searchText === '') {
-            $('.curso-seccion.active tbody tr').show();
-            return;
-        }
-
-        // Obtiene la sección activa
-        const $activeSection = $('.curso-seccion.active');
-        
-        // Filtra filas en la sección activa
-        $activeSection.find('tbody tr').each(function() {
-            const $row = $(this);
-            const rowText = $row.text().toLowerCase();
-            
-            // Ocultar/mostrar fila en función de la coincidencia de búsqueda
-            if (rowText.includes(searchText)) {
-                $row.show();
-            } else {
-                $row.hide();
-            }
-        });
-    });
-
-    $('.nav-item').click(function() {
-        $('#search-input').val('').trigger('keyup');
-    });
-});
-</script>
-
-<script src="./JS/basesdedatos/profesores-materias.js"></script>
+<script src="./JS/profesores/materias.js"></script>
+<script src="./JS/profesores/profesores-materias.js"></script>
