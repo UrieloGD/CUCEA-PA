@@ -164,3 +164,15 @@ document.getElementById("modalidad").addEventListener("change", function () {
   sabado.addEventListener("input", actualizarDia);
   domingo.addEventListener("input", actualizarDia);
 });
+
+// Cerrar el modal al hacer clic en la X
+document.querySelector('.close').onclick = function() {
+    cerrarFormularioAñadir();
+}
+
+// Cerrar el modal al hacer clic fuera de él
+window.onclick = function(event) {
+    if (event.target == document.getElementById('modal-añadir')) {
+        cerrarFormularioAñadir();
+    }
+}

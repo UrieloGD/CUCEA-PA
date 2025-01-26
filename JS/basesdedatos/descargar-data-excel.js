@@ -1,224 +1,100 @@
-function mostrarPopupColumnas() {
-  var popup = document.getElementById("popup-columnas");
-  var opcionesColumnas = document.getElementById("opciones-columnas");
-  opcionesColumnas.innerHTML = ""; // Limpiar opciones existentes
-
-  // Añadir botón para seleccionar/deseleccionar todas
-  var selectAllDiv = document.createElement("div");
-  selectAllDiv.className = "select-all-div";
-  var selectDiv = document.createElement("div");
-  selectDiv.className = "select-first";
-  var selectAllCheckbox = document.createElement("input");
-  selectAllCheckbox.className = "input-check";
-  selectAllCheckbox.type = "checkbox";
-  selectAllCheckbox.id = "select-all";
-  var selectAllLabel = document.createElement("label");
-  selectAllLabel.htmlFor = "select-all";
-  selectAllLabel.className = "select-all-div-label";
-  selectAllLabel.appendChild(
-    document.createTextNode("Seleccionar/Deseleccionar Todas")
-  );
-  selectDiv.appendChild(selectAllCheckbox);
-  selectDiv.appendChild(selectAllLabel);
-  selectAllDiv.appendChild(selectDiv);
-  opcionesColumnas.appendChild(selectAllDiv);
-
-  // Obtener los encabezados de la tabla
-  var headers_materia_1 = Array.from(
-    document.querySelectorAll("#tabla-datos th")
-  ).slice(2, 11); // Ignorar la columna de checkbox y ID
-
-  var headers_materia_2 = Array.from(
-    document.querySelectorAll("#tabla-datos th")
-  ).slice(12, 13);
-
-  var headers_materia_3 = Array.from(
-    document.querySelectorAll("#tabla-datos th")
-  ).slice(24, 44);
-
-  const headers_materia = headers_materia_1.concat(
-    headers_materia_2,
-    headers_materia_3
-  );
-
-  // Crear checkbox para cada columna
-  var columnDiv1 = document.createElement("div");
-  columnDiv1.className = "columns-container-js";
-  var columnDiv2 = document.createElement("div");
-  columnDiv2.className = "label-materia";
-
-  // Crea una etiqueta de diferenciación
-  var materia = document.createElement("label");
-  materia.appendChild(document.createTextNode("Materia"));
-  materia.className = "encabezado-js";
-  columnDiv2.appendChild(materia);
-  columnDiv1.appendChild(columnDiv2);
-
-  // Añadir botón para seleccionar/deseleccionar todas
-  var selectDiv = document.createElement("div");
-  selectDiv.className = "select-all-materia";
-  var selectCheckboxMateria = document.createElement("input");
-  selectCheckboxMateria.className = "input-check";
-  selectCheckboxMateria.type = "checkbox";
-  selectCheckboxMateria.id = "select-all";
-  var selectLabel = document.createElement("label");
-  selectLabel.htmlFor = "select-all-materia";
-  selectLabel.appendChild(
-    document.createTextNode(
-      "Seleccionar/Deseleccionar grupo completo de Materia"
-    )
-  );
-  selectDiv.appendChild(selectCheckboxMateria);
-  selectDiv.appendChild(selectLabel);
-  columnDiv1.appendChild(selectDiv);
-
-  var columnDiv = document.createElement("div");
-  columnDiv.className = "columns-container-materia";
-  headers_materia.forEach(function (header, index) {
-    var checkbox = document.createElement("input");
-    checkbox.className = "input-check";
-    checkbox.type = "checkbox";
-    checkbox.id = "col-" + header.textContent.toLowerCase().replace(/ /g, "-");
-    checkbox.name = "columnas[]";
-    checkbox.value = header.textContent;
-
-    var label = document.createElement("label");
-    label.htmlFor = checkbox.id;
-    label.appendChild(document.createTextNode(header.textContent));
-
-    var div = document.createElement("div");
-    div.className = "Check-js";
-    div.appendChild(checkbox);
-    div.appendChild(label);
-
-    columnDiv.appendChild(div);
-    columnDiv1.appendChild(columnDiv);
-  });
-  selectAllDiv.appendChild(columnDiv1);
-
-  // Evento para seleccionar/deseleccionar todas
-  selectAllCheckbox.addEventListener("change", function () {
-    var checkboxes = document.querySelectorAll(
-      '.columns-container-js input[type="checkbox"]'
-    );
-    checkboxes.forEach(function (checkbox) {
-      checkbox.checked = selectAllCheckbox.checked;
-    });
-  });
-
-  // Evento para seleccionar/deseleccionar todas - Materia
-  selectCheckboxMateria.addEventListener("change", function () {
-    var checkboxes = document.querySelectorAll(
-      '.columns-container-materia input[type="checkbox"]'
-    );
-    checkboxes.forEach(function (checkbox) {
-      checkbox.checked = selectCheckboxMateria.checked;
-    });
-  });
-
-  // Obtener los encabezados de la tabla
-  var headers_profesor_1 = Array.from(
-    document.querySelectorAll("#tabla-datos th")
-  ).slice(13, 24);
-
-  var headers_profesor_2 = Array.from(
-    document.querySelectorAll("#tabla-datos th")
-  ).slice(11, 12);
-
-  const headers_profesor = headers_profesor_1.concat(headers_profesor_2);
-
-  // Crear checkbox para cada columna
-  var columnDiv1 = document.createElement("div");
-  columnDiv1.className = "columns-container-js";
-
-  var columnDiv2 = document.createElement("div");
-  columnDiv2.className = "label-profesorado";
-
-  // Crea una etiqueta de diferenciación
-  var profesor = document.createElement("label");
-  profesor.appendChild(document.createTextNode("Profesorado"));
-  profesor.className = "encabezado-js";
-
-  columnDiv2.appendChild(profesor);
-  columnDiv1.appendChild(columnDiv2);
-
-  var columnDiv = document.createElement("div");
-  columnDiv.className = "columns-container-profesor";
-
-  // Añadir botón para seleccionar/deseleccionar todas
-  var selectDiv2 = document.createElement("div");
-  selectDiv2.className = "select-all-profesor";
-  var selectCheckboxProfesor = document.createElement("input");
-  selectCheckboxProfesor.className = "input-check";
-  selectCheckboxProfesor.type = "checkbox";
-  selectCheckboxProfesor.id = "select-all";
-  var selectLabel = document.createElement("label");
-  selectLabel.htmlFor = "select-all-profesor";
-  selectLabel.appendChild(
-    document.createTextNode(
-      "Seleccionar/Deseleccionar grupo completo de Profesorado"
-    )
-  );
-  selectDiv2.appendChild(selectCheckboxProfesor);
-  selectDiv2.appendChild(selectLabel);
-  columnDiv1.appendChild(selectDiv2);
-
-  headers_profesor.forEach(function (header, index) {
-    var checkbox = document.createElement("input");
-    checkbox.className = "input-check";
-    checkbox.type = "checkbox";
-    checkbox.id = "col-" + header.textContent.toLowerCase().replace(/ /g, "-");
-    checkbox.name = "columnas[]";
-    checkbox.value = header.textContent;
-
-    var label = document.createElement("label");
-    label.htmlFor = checkbox.id;
-    label.appendChild(document.createTextNode(header.textContent));
-
-    var div = document.createElement("div");
-    div.className = "Check-js";
-    div.appendChild(checkbox);
-    div.appendChild(label);
-
-    columnDiv.appendChild(div);
-    columnDiv1.appendChild(columnDiv);
-  });
-  selectAllDiv.appendChild(columnDiv1);
-
-  // Evento para seleccionar/deseleccionar todas
-  selectAllCheckbox.addEventListener("change", function () {
-    var checkboxes = document.querySelectorAll(
-      '.columns-container-js input[type="checkbox"]'
-    );
-    checkboxes.forEach(function (checkbox) {
-      checkbox.checked = selectAllCheckbox.checked;
-    });
-  });
-
-  // Evento para seleccionar/deseleccionar todas
-  selectCheckboxProfesor.addEventListener("change", function () {
-    var checkboxes = document.querySelectorAll(
-      '.columns-container-profesor input[type="checkbox"]'
-    );
-    checkboxes.forEach(function (checkbox) {
-      checkbox.checked = selectCheckboxProfesor.checked;
-    });
-  });
-
-  // Agregar botón de cierre
-  var closeButton = document.createElement("button");
-  closeButton.className = "close-btn";
-  closeButton.textContent = "✕";
-  closeButton.addEventListener("click", cerrarPopupColumnas);
-  popup.appendChild(closeButton);
-
-  popup.style.display = "block";
-  document.body.classList.add("popup-active");
+function mostrarDescargarExcel() {
+  document.getElementById('modal-descargar').style.display = 'block';
 }
 
-function cerrarPopupColumnas() {
-  document.getElementById("popup-columnas").style.display = "none";
-  document.body.classList.remove("popup-active");
+function cerrarDescargarExcel() {
+  document.getElementById('modal-descargar').style.display = 'none';
+}
+
+// Inicializar los manejadores de checkbox
+function initializeCheckboxHandlers() {
+  // Manejador para "Seleccionar/Deseleccionar todas"
+  const selectAllMain = document.querySelector('.select-first input[type="checkbox"]');
+  if (selectAllMain) {
+    selectAllMain.addEventListener('change', function() {
+      const allCheckboxes = document.querySelectorAll('.columns-container-materia input[type="checkbox"], .columns-container-profesor input[type="checkbox"]');
+      allCheckboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+      
+      // También actualiza los checkboxes de grupo
+      const selectAllMateria = document.querySelector('.select-all-materia input[type="checkbox"]');
+      const selectAllProfesor = document.querySelector('.select-all-profesor input[type="checkbox"]');
+      if (selectAllMateria) selectAllMateria.checked = this.checked;
+      if (selectAllProfesor) selectAllProfesor.checked = this.checked;
+    });
+  }
+
+  // Manejador para "Seleccionar/Deseleccionar grupo completo de Materia"
+  const selectAllMateria = document.querySelector('.select-all-materia input[type="checkbox"]');
+  if (selectAllMateria) {
+    selectAllMateria.addEventListener('change', function() {
+      const materiaCheckboxes = document.querySelectorAll('.columns-container-materia input[type="checkbox"]');
+      materiaCheckboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+      updateMainCheckbox();
+    });
+  }
+
+  // Manejador para "Seleccionar/Deseleccionar grupo completo de Profesorado"
+  const selectAllProfesor = document.querySelector('.select-all-profesor input[type="checkbox"]');
+  if (selectAllProfesor) {
+    selectAllProfesor.addEventListener('change', function() {
+      const profesorCheckboxes = document.querySelectorAll('.columns-container-profesor input[type="checkbox"]');
+      profesorCheckboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+      });
+      updateMainCheckbox();
+    });
+  }
+
+  // Agregar eventos change a todos los checkboxes individuales
+  const allIndividualCheckboxes = document.querySelectorAll('.columns-container-materia input[type="checkbox"], .columns-container-profesor input[type="checkbox"]');
+  allIndividualCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      updateGroupCheckboxes();
+      updateMainCheckbox();
+    });
+  });
+}
+
+// Actualizar el estado de los checkboxes de grupo
+function updateGroupCheckboxes() {
+  // Verificar grupo de Materia
+  const materiaCheckboxes = Array.from(document.querySelectorAll('.columns-container-materia input[type="checkbox"]'));
+  const materiaAllChecked = materiaCheckboxes.length > 0 && materiaCheckboxes.every(cb => cb.checked);
+  const materiaSomeChecked = materiaCheckboxes.some(cb => cb.checked);
+  
+  const selectAllMateria = document.querySelector('.select-all-materia input[type="checkbox"]');
+  if (selectAllMateria) {
+    selectAllMateria.checked = materiaAllChecked;
+    selectAllMateria.indeterminate = !materiaAllChecked && materiaSomeChecked;
+  }
+
+  // Verificar grupo de Profesor
+  const profesorCheckboxes = Array.from(document.querySelectorAll('.columns-container-profesor input[type="checkbox"]'));
+  const profesorAllChecked = profesorCheckboxes.length > 0 && profesorCheckboxes.every(cb => cb.checked);
+  const profesorSomeChecked = profesorCheckboxes.some(cb => cb.checked);
+  
+  const selectAllProfesor = document.querySelector('.select-all-profesor input[type="checkbox"]');
+  if (selectAllProfesor) {
+    selectAllProfesor.checked = profesorAllChecked;
+    selectAllProfesor.indeterminate = !profesorAllChecked && profesorSomeChecked;
+  }
+}
+
+// Actualizar el estado del checkbox principal
+function updateMainCheckbox() {
+  const allCheckboxes = Array.from(document.querySelectorAll('.columns-container-materia input[type="checkbox"], .columns-container-profesor input[type="checkbox"]'));
+  const allChecked = allCheckboxes.length > 0 && allCheckboxes.every(cb => cb.checked);
+  const someChecked = allCheckboxes.some(cb => cb.checked);
+  
+  const mainCheckbox = document.querySelector('.select-first input[type="checkbox"]');
+  if (mainCheckbox) {
+    mainCheckbox.checked = allChecked;
+    mainCheckbox.indeterminate = !allChecked && someChecked;
+  }
 }
 
 function descargarExcelSeleccionado() {
@@ -234,24 +110,33 @@ function descargarExcelSeleccionado() {
     return;
   }
 
-  console.log("Columnas seleccionadas:", columnasSeleccionadas); // Para depuración
-
-  var departamento_id = document.getElementById("departamento_id").value;
-  var url =
-    "./functions/basesdedatos/descargar-data-excel.php?departamento_id=" +
-    departamento_id +
-    "&columnas=" +
-    encodeURIComponent(JSON.stringify(columnasSeleccionadas));
+  const departamento_id = document.getElementById("departamento_id").value;
+  const url = `./functions/basesdedatos/descargar-data-excel.php?departamento_id=${departamento_id}&columnas=${encodeURIComponent(JSON.stringify(columnasSeleccionadas))}`;
 
   window.location.href = url;
-  cerrarPopupColumnas();
+  cerrarDescargarExcel();
 }
 
 function descargarExcelCotejado() {
-  var departamento_id = document.getElementById("departamento_id").value;
-  var url =
-    "./functions/basesdedatos/descargar-cotejo.php?departamento_id=" +
-    departamento_id;
+  const departamento_id = document.getElementById("departamento_id").value;
+  const url = `./functions/basesdedatos/descargar-cotejo.php?departamento_id=${departamento_id}`;
   window.location.href = url;
-  cerrarPopupColumnas();
+  cerrarDescargarExcel();
 }
+
+// Cerrar el modal al hacer clic en la X
+document.querySelector('.close').onclick = function() {
+  cerrarDescargarExcel();
+}
+
+// Cerrar el modal al hacer clic fuera de él
+window.onclick = function(event) {
+  if (event.target == document.getElementById('modal-descargar')) {
+      cerrarDescargarExcel();
+  }
+}
+
+// Inicializar los handlers cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+  initializeCheckboxHandlers();
+});

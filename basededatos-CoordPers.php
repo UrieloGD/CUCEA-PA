@@ -137,22 +137,13 @@ function formatDateForDisplay($mysqlDate)
                 <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div id="popup-columnas">
-        <h3>Selecciona las columnas a descargar</h3>
-        <hr style="border: 1px solid #0071b0; width: 99%;">
-        </hr>
-        <div id="opciones-columnas"></div>
-        <div class="contenedor-buttons">
-            <button onclick="descargarExcelSeleccionado()">Descargar</button>
-            <button onclick="cerrarPopupColumnas()">Cancelar</button>
-        </div>
-    </div>
+    
     <div class="Tabla datatable-container">
         <div class="table-container">
             <div class="custom-search-container"></div>
@@ -443,6 +434,8 @@ function formatDateForDisplay($mysqlDate)
             </form>
         </div>
     </div>
+
+    <?php include './functions/coord-personal-plantilla/modal-descargar-excel/modal-descargar-excel.php'; ?>
 
     <!-- Scripts de la librería DataTables-->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

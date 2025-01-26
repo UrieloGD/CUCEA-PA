@@ -1,7 +1,7 @@
 <!-- Modal para añadir registros -->
-<div id="modal-añadir" class="modal">
+<div id="modal-añadir" class="modal-R">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close-R" onclick="cerrarFormularioAñadir()">&times;</span>
         <h2>Añadir nuevo registro</h2>
         <hr style="border: 1px solid #0071b0; width: 99%;">
         <form id="form-añadir-registro">
