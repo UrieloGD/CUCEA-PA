@@ -556,3 +556,70 @@
     z-index: 100;
     background: white;
 }
+
+/* CSS del modal de profesores. */
+
+.hora-info {
+  position: relative;
+  display: inline-block;
+}
+
+.hora-tooltip {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  min-width: 200px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hora-info:hover .hora-tooltip {
+  display: block;
+}
+
+/* Estilos para las comparaciones de horas */
+.horas-faltantes {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+}
+
+.horas-correctas {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+}
+
+.horas-excedidas {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+}
+
+.horas-cero {
+  background-color: #f5f5f5;
+  color: #5f5f5f;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: block;
+  min-width: 60px;
+  text-align: center;
+}
