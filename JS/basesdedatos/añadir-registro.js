@@ -85,8 +85,10 @@ document.getElementById('modalidad').addEventListener('change', function() {
         document.getElementById('presencial-virtual').style.display = 'flex';
             // Titulos e inputs para dias presenciales y ocultar los virtuales
         document.getElementById('title_dia_presencial').style.display = 'block';
+        document.getElementById('title_dia_presencial2').style.display = 'none';
         document.getElementById('dia_presencial').style.display = 'block';
         document.getElementById('title_dia_virtual').style.display = 'none';
+        document.getElementById('title_dia_virtual2').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'none';
             // Ocultar las opciones de desplegables de dias mixtos. 
         document.getElementById('mixta').style.display = 'none';
@@ -97,8 +99,10 @@ document.getElementById('modalidad').addEventListener('change', function() {
         document.getElementById('presencial-virtual').style.display = 'flex';
             // Titulos e inputs para dias virtuales y ocultar los presenciales
         document.getElementById('title_dia_virtual').style.display = 'block';
+        document.getElementById('title_dia_virtual2').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'block';
         document.getElementById('title_dia_presencial').style.display = 'none';
+        document.getElementById('title_dia_presencial2').style.display = 'none';
         document.getElementById('dia_presencial').style.display = 'none';
             // Ocultar las opciones de desplegables de dias mixtos. 
         document.getElementById('mixta').style.display = 'none';
@@ -108,9 +112,11 @@ document.getElementById('modalidad').addEventListener('change', function() {
             // Para que aparezca el contenedor de dias mixtos
         document.getElementById('mixta').style.display = 'flex';
             // Titulos y <select> para dias presenciales y virtuales
-        document.getElementById('title_dia_presencial').style.display = 'block';
+        document.getElementById('title_dia_presencial2').style.display = 'block';
+        document.getElementById('title_dia_presencial').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'block';
-        document.getElementById('title_dia_virtual').style.display = 'block';
+        document.getElementById('title_dia_virtual2').style.display = 'block';
+        document.getElementById('title_dia_virtual').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'block';
             // Ocultar inputs de presenciales y virtuales
         document.getElementById('dia_presencial').style.display = 'none';

@@ -632,6 +632,7 @@ th {
 
 .form-row input::placeholder {
   font-style: italic;
+  opacity: 0.5;
 }
 
 .weekdays {
@@ -655,7 +656,9 @@ th {
 #dia_presencial2,
 #dia_virtual2,
 #title_dia_presencial,
-#title_dia_virtual {
+#title_dia_virtual,
+#title_dia_presencial2,
+#title_dia_virtual2 {
   display: none;
 }
 
@@ -665,7 +668,7 @@ th {
 
 .form-row-titles span {
   font-weight: bold;
-  color:#888;
+  color:#626262;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -712,6 +715,10 @@ th {
 select {
   color: #aaa;
   font-style: italic;
+}
+
+select::placeholder {
+  opacity: 0.5;
 }
 
 input[type="date"] {
