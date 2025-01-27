@@ -115,7 +115,8 @@ function formatDateForDisplay($mysqlDate)
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <div class="icono-buscador" id="icono-añadir-fila" onclick="añadirFila()">
+                <div class="icono-buscador" id="
+                " onclick="añadirFila()">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </div>
                 <!-- <div class="icono-buscador" id="icono-guardar-fila" onclick="saveAllChanges()">
@@ -468,6 +469,7 @@ function formatDateForDisplay($mysqlDate)
     <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
     <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+    <script src="./JS/basesdedatos/anadir-fila.js"></script>
 
     <!-- Script para cambiar el encabezado por responsividad -->
     <script>
