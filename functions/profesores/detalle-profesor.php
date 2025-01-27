@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./CSS/detalle-profesor.css?=v1.0">
+<link rel="stylesheet" href="./CSS/detalle-profesor.css">
 
 <script>
 // Función para actualizar los días activos
@@ -103,6 +103,15 @@ if(isset($_POST['codigo_profesor'])) {
         return 'horas-excedidas';
     }
 
+    function limpiarNombreDepartamento($departamento) {
+        // Eliminar el prefijo "Data_"
+        $nombre = preg_replace('/^data_/', '', $departamento);
+        // Reemplazar guiones bajos con espacios
+        $nombre = str_replace('_', ' ', $nombre);
+        // Convertir a mayúsculas usando mb_strtoupper para manejar correctamente caracteres especiales
+        return mb_strtoupper($nombre, 'UTF-8');
+    }
+
     // Calcular horas temporales
     $horas_temporales = $suma_horas - $suma_horas_definitivas;
 
@@ -115,14 +124,6 @@ if(isset($_POST['codigo_profesor'])) {
             $tablas[] = "data_" . $row['Nombre_Departamento'];
         }
         return $tablas;
-    }
-
-    function limpiarNombreDepartamento($departamento) {
-        // Eliminar el prefijo "Data_"
-        $nombre = preg_replace('/^data_/', '', $departamento);
-        // Reemplazar guiones bajos con espacios
-        $nombre = str_replace('_', ' ', $nombre);
-        return $nombre;
     }
 
     function obtenerCursosUnicos($conexion, $codigo_profesor) {
@@ -280,49 +281,56 @@ if(isset($_POST['codigo_profesor'])) {
                                         <td>
                                             <div>
                                                 <span class="profile-span">Departamento:</span>
-                                                <span class="data-value3"><?php echo htmlspecialchars($datos_profesor['Departamento']); ?></span>
+                                                <span class="data-value3"><?php echo strtoupper(htmlspecialchars($datos_profesor['Departamento'])); ?></span>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <div>
-                                                <span class="profile-span">Horas frente a grupo:</span>
-                                                <?php
-                                                $clase_frente = ($horas_frente_grupo == 0 && $suma_cargo_plaza == 0) ? 'horas-cero' : 
-                                                            ($suma_cargo_plaza < $horas_frente_grupo ? 'horas-faltantes' : 
-                                                            ($suma_cargo_plaza == $horas_frente_grupo ? 'horas-correctas' : 'horas-excedidas'));
-                                                ?>
-                                                <span class="data-value2 <?php echo $clase_frente; ?>">
-                                                    <?php echo $suma_cargo_plaza; ?>/<?php echo $horas_frente_grupo; ?>
-                                                </span>
+                                            <span class="profile-span">Horas frente a grupo:</span>
+                                            <?php
+                                            if ($horas_frente_grupo == 0 && $suma_cargo_plaza == 0) {
+                                                $clase = 'horas-cero';
+                                            } elseif ($suma_cargo_plaza < $horas_frente_grupo) {
+                                                $clase = 'horas-faltantes';
+                                            } elseif ($suma_cargo_plaza == $horas_frente_grupo) {
+                                                $clase = 'horas-correctas';
+                                            } else {
+                                                $clase = 'horas-excedidas';
+                                            }
+                                            ?>
+                                            <span class="<?php echo $clase; ?>">
+                                                <?php echo $suma_cargo_plaza; ?>/<?php echo $horas_frente_grupo; ?>
+                                            </span>
                                             </div>
                                         </td>
                                         <td>
                                             <div>
                                                 <span class="profile-span">Horas definitivas:</span>
                                                 <?php
-                                                $clase_definitivas = ($horas_definitivasDB == 0 && $suma_horas_definitivas == 0) ? 'horas-cero' : 
-                                                                    ($suma_horas_definitivas < $horas_definitivasDB ? 'horas-faltantes' : 
-                                                                    ($suma_horas_definitivas == $horas_definitivasDB ? 'horas-correctas' : 'horas-excedidas'));
+                                                if ($horas_definitivasDB == 0 && $suma_horas_definitivas == 0) {
+                                                    $clase = 'horas-cero';
+                                                } elseif ($suma_horas_definitivas < $horas_definitivasDB) {
+                                                    $clase = 'horas-faltantes';
+                                                } elseif ($suma_horas_definitivas == $horas_definitivasDB) {
+                                                    $clase = 'horas-correctas';
+                                                } else {
+                                                    $clase = 'horas-excedidas';
+                                                }
                                                 ?>
-                                                <span class="data-value2 <?php echo $clase_definitivas; ?>">
+                                                <span class="<?php echo $clase; ?>">
                                                     <?php echo $suma_horas_definitivas; ?>/<?php echo $horas_definitivasDB; ?>
                                                 </span>
                                             </div>
                                         </td>
                                         <td>
-                                            <div>
-                                                <span class="profile-span">Horas temporales:</span>
-                                                <?php
-                                                $clase_temporales = ($horas_frente_grupo == 0 && $suma_horas_temporales == 0) ? 'horas-cero' : 
-                                                                ($suma_horas_temporales < $horas_frente_grupo ? 'horas-faltantes' : 
-                                                                ($suma_horas_temporales == $horas_frente_grupo ? 'horas-correctas' : 'horas-excedidas'));
-                                                ?>
-                                                <span class="data-value2 <?php echo $clase_temporales; ?>">
-                                                    <?php echo $suma_horas_temporales; ?>/<?php echo $horas_frente_grupo; ?>
-                                                </span>
-                                            </div>
+                                        <div>
+                                            <span class="profile-span">Horas temporales:</span>
+                                            <span class="horas-temporales">
+                                                <?php echo $suma_horas_temporales; ?>
+                                            </span>
+                                        </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -813,14 +821,3 @@ if(isset($_POST['codigo_profesor'])) {
 ?>
 <script src="./JS/profesores/materias.js"></script>
 <script src="./JS/profesores/profesores-materias.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    // Formatear números en las horas
-    document.querySelectorAll('.data-value2').forEach(function(element) {
-        const number = parseInt(element.textContent);
-        if (!isNaN(number)) {
-            element.textContent = number.toLocaleString() + '/40';
-        }
-    });
-});
-</script>
