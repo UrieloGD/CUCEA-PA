@@ -2,6 +2,18 @@
  * Inicializa y configura la tabla con DataTables aplicando múltiples opciones personalizadas.
  */
 
+// Mostrar el loader inmediatamente cuando el script se carga
+Swal.fire({
+  title: 'Cargando datos...',
+  html: 'Por favor espere mientras se procesan los datos',
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+  showConfirmButton: false,
+  didOpen: () => {
+      Swal.showLoading();
+  }
+});
+
 $(document).ready(function () {
   localStorage.removeItem("DataTables_tabla-datos");
   var table = $("#tabla-datos").DataTable({
@@ -24,6 +36,24 @@ $(document).ready(function () {
       $(".dataTables_filter").appendTo(".custom-search-container");
       $(".dataTables_filter input").addClass("custom-search-input");
 
+      // Configuración de tooltips para encabezados de columna
+      this.api().columns().every(function() {
+        const headerCell = $(this.header());
+        const headerText = headerCell.text().trim();
+        
+        // Agregar tooltip a todos los encabezados
+        headerCell
+          .attr('data-bs-toggle', 'tooltip')
+          .attr('data-bs-placement', 'top')
+          .attr('title', headerText);
+          
+        // Inicializar tooltip
+        new bootstrap.Tooltip(headerCell[0], {
+          boundary: 'window',
+          container: 'body'
+        });
+      });
+      
       // Configuración de filtros para cada columna
       this.api()
         .columns()
@@ -172,6 +202,7 @@ $(document).ready(function () {
     ],
     order: [[1, "asc"]],
     colReorder: {
+      columns: ':gt(1)',
       fixedColumnsLeft: 1,
       fixedColumnsRight: 0,
     },
