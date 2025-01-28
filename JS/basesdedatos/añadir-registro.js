@@ -81,86 +81,144 @@ var domingo = document.getElementById('d');
 document.getElementById('modalidad').addEventListener('change', function() {
     const modalidad = this.value;
     if (modalidad === 'PRESENCIAL ENRIQUECIDA') {
-            // Para que aparezca el contenedor de dias presenciales y virtuales
+        // Vaciar el valor de los input
+        document.getElementById('dia_presencial').value = '';
+        lunes.value = '';
+        martes.value = '';
+        miercoles.value = '';
+        jueves.value = '';
+        viernes.value = '';
+        sabado.value = '';
+        domingo.value = '';
+        
+        // Para que aparezca el contenedor de dias presenciales y virtuales
         document.getElementById('presencial-virtual').style.display = 'flex';
-            // Titulos e inputs para dias presenciales y ocultar los virtuales
+        
+        // Titulos e inputs para dias presenciales y ocultar los virtuales
         document.getElementById('title_dia_presencial').style.display = 'block';
         document.getElementById('title_dia_presencial2').style.display = 'none';
         document.getElementById('dia_presencial').style.display = 'block';
         document.getElementById('title_dia_virtual').style.display = 'none';
         document.getElementById('title_dia_virtual2').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'none';
-            // Ocultar las opciones de desplegables de dias mixtos. 
+        
+        // Ocultar las opciones de desplegables de dias mixtos. 
         document.getElementById('mixta').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'none';
+
     } else if (modalidad === 'VIRTUAL') {
-            // Para que aparezca el contenedor de dias presenciales y virtuales
+        // Vaciar el valor de los input
+        document.getElementById('dia_virtual').value = '';
+        lunes.value = '';
+        martes.value = '';
+        miercoles.value = '';
+        jueves.value = '';
+        viernes.value = '';
+        sabado.value = '';
+        domingo.value = '';
+
+        // Para que aparezca el contenedor de dias presenciales y virtuales
         document.getElementById('presencial-virtual').style.display = 'flex';
-            // Titulos e inputs para dias virtuales y ocultar los presenciales
+        
+        // Titulos e inputs para dias virtuales y ocultar los presenciales
         document.getElementById('title_dia_virtual').style.display = 'block';
         document.getElementById('title_dia_virtual2').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'block';
         document.getElementById('title_dia_presencial').style.display = 'none';
         document.getElementById('title_dia_presencial2').style.display = 'none';
         document.getElementById('dia_presencial').style.display = 'none';
-            // Ocultar las opciones de desplegables de dias mixtos. 
+        
+        // Ocultar las opciones de desplegables de dias mixtos. 
         document.getElementById('mixta').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'none';
+        
     } else if (modalidad === 'MIXTA') {
-            // Para que aparezca el contenedor de dias mixtos
+        // Vaciar el valor de los input
+        document.getElementById('dia_presencial').value = '';
+        document.getElementById('dia_virtual').value = '';
+        lunes.value = '';
+        martes.value = '';
+        miercoles.value = '';
+        jueves.value = '';
+        viernes.value = '';
+        sabado.value = '';
+        domingo.value = '';
+
+        // Para que aparezca el contenedor de dias mixtos
         document.getElementById('mixta').style.display = 'flex';
-            // Titulos y <select> para dias presenciales y virtuales
+        
+        // Titulos y <select> para dias presenciales y virtuales
         document.getElementById('title_dia_presencial2').style.display = 'block';
         document.getElementById('title_dia_presencial').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'block';
         document.getElementById('title_dia_virtual2').style.display = 'block';
         document.getElementById('title_dia_virtual').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'block';
-            // Ocultar inputs de presenciales y virtuales
+        
+        // Ocultar inputs de presenciales y virtuales
         document.getElementById('dia_presencial').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'none';
     }
 
     function actualizarDia() {
-        var diaPresencial = '';
-        var diaVirtual = '';
+        var diaPresencial = document.getElementById('dia_presencial');
+        var diaVirtual = document.getElementById('dia_virtual');
     
-        if(modalidad === 'PRESENCIAL ENRIQUECIDA' || modalidad === 'VIRTUAL') {
+        if(modalidad === 'PRESENCIAL ENRIQUECIDA') {
             if (lunes.value === 'L') {
                 diaPresencial = 'LUNES';
-                diaVirtual = 'LUNES';
             }
             if (martes.value === 'M') {
                 diaPresencial = 'MARTES';
-                diaVirtual = 'MARTES';
             }
             if (miercoles.value === 'I') {
                 diaPresencial = 'MIERCOLES';
-                diaVirtual = 'MIERCOLES';
             }
             if (jueves.value === 'J') {
                 diaPresencial = 'JUEVES';
-                diaVirtual = 'JUEVES';
             }
             if (viernes.value === 'V') {
                 diaPresencial = 'VIERNES';
-                diaVirtual = 'VIERNES';
             }
             if (sabado.value === 'S') {
                 diaPresencial = 'SABADO';
-                diaVirtual = 'SABADO';
             }
             if (domingo.value === 'D') {
                 diaPresencial = 'DOMINGO';
+            }
+            diaVirtual.value = '';
+        }
+
+        if(modalidad === 'VIRTUAL') {
+            if (lunes.value === 'L') {
+                diaVirtual = 'LUNES';
+            }
+            if (martes.value === 'M') {
+                diaVirtual = 'MARTES';
+            }
+            if (miercoles.value === 'I') {
+                diaVirtual = 'MIERCOLES';
+            }
+            if (jueves.value === 'J') {
+                diaVirtual = 'JUEVES';
+            }
+            if (viernes.value === 'V') {
+                diaVirtual = 'VIERNES';
+            }
+            if (sabado.value === 'S') {
+                diaVirtual = 'SABADO';
+            }
+            if (domingo.value === 'D') {
                 diaVirtual = 'DOMINGO';
             }
+            diaPresencial.value = '';
         }
 
         if(modalidad === 'MIXTA') {
-        const diaPresencial2 = document.getElementById('dia_presencial2').value;
-        const diaVirtual2 = document.getElementById('dia_virtual2').value;
+        // const diaPresencial2 = document.getElementById('dia_presencial2').value;
+        // const diaVirtual2 = document.getElementById('dia_virtual2').value;
             if (lunes.value === 'L') {
                 document.getElementById('lun').style.display = 'block';
                 document.getElementById('lun2').style.display = 'block';
@@ -210,8 +268,20 @@ document.getElementById('modalidad').addEventListener('change', function() {
                 document.getElementById('dom').style.display = 'none';
                 document.getElementById('dom2').style.display = 'none';
             }
-            diaPresencial = diaPresencial2;
-            diaVirtual = diaVirtual2;
+            diaPresencial = document.getElementById('dia_presencial2').value;
+            diaVirtual = document.getElementById('dia_virtual2').value;
+        }
+
+        // Si no hay ninguna letra, regresar el valor de dia presencial y virtual a vacio.
+        if (lunes.value === '' && 
+            martes.value === '' && 
+            miercoles.value === '' && 
+            jueves.value === '' && 
+            viernes.value === '' && 
+            sabado.value === '' && 
+            domingo.value === '') {
+                var diaPresencial = '';
+                var diaVirtual = '';
         }
     
         var totalDias = 0;
@@ -222,10 +292,14 @@ document.getElementById('modalidad').addEventListener('change', function() {
         totalDias += viernes.value === 'V' ? 1 : 0;
         totalDias += sabado.value === 'S' ? 1 : 0;
         totalDias += domingo.value === 'D' ? 1 : 0;
-    
-        if ((totalDias > 1) && (modalidad === 'PRESENCIAL ENRIQUECIDA' || modalidad === 'VIRTUAL')) {
+        
+        // Si es un dia, el dia, si son dos dias, ambos.
+        if ((totalDias > 1) && (modalidad === 'PRESENCIAL ENRIQUECIDA')) {
             document.getElementById('dia_presencial').value = 'AMBOS';
+            document.getElementById('dia_virtual').value = ''; 
+        } else if ((totalDias > 1) && (modalidad === 'VIRTUAL')) {
             document.getElementById('dia_virtual').value = 'AMBOS';
+            document.getElementById('dia_presencial').value = '';
         } else if (diaPresencial && diaVirtual) {
             document.getElementById('dia_presencial').value = diaPresencial;
             document.getElementById('dia_virtual').value = diaVirtual;
