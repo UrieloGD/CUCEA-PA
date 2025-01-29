@@ -579,6 +579,9 @@
   font-weight: bold;
   padding: 12px 8px;
   border: none;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .tabla-personal th,
