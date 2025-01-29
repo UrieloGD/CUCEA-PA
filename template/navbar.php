@@ -137,7 +137,7 @@ function generateColorForUser($userId)
                 <?php
                 if ($rol_id == 3) { // Para Coordinación de Personal     
                     echo '<div class="dropdown-container">';
-                    if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php' || basename($_SERVER['PHP_SELF']) == 'basededatos-CoordPers.php') {
+                    if (basename($_SERVER['PHP_SELF']) == 'data-departamentos.php' || basename($_SERVER['PHP_SELF']) == 'basededatos-CoordPers.php') {
                         echo "<a class='navbar-item-inner flexbox-left dropdown-trigger'><div class='indicador'></div>";
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left dropdown-trigger'>";
@@ -151,7 +151,7 @@ function generateColorForUser($userId)
                     echo '<div class="dropdown-menu">
                             <div class="dropdown-item">
                                 <span class="tree-line">└</span>
-                                <a href="./admin-data-departamentos.php" class="dropdown-item-inner">
+                                <a href="./data-departamentos.php" class="dropdown-item-inner">
                                     BD Jefes de Departamento
                                 </a>
                             </div>
@@ -181,10 +181,10 @@ function generateColorForUser($userId)
                         <span class="link-text">Bases de datos</span>
                     </a>';
                 } elseif ($rol_id == 2) { // Para Secretaria Administrativa
-                    if (basename($_SERVER['PHP_SELF']) == 'admin-data-departamentos.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'><div class='indicador'></div>";
+                    if (basename($_SERVER['PHP_SELF']) == 'data-departamentos.php') {
+                        echo "<a class='navbar-item-inner flexbox-left' href='./data-departamentos.php'><div class='indicador'></div>";
                     } else {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./admin-data-departamentos.php'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./data-departamentos.php'>";
                     }
                     echo '
                         <div class="navbar-item-inner-icon-wrapper flexbox">
