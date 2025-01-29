@@ -8,20 +8,25 @@ function actualizarDiasActivos(dias, crnId, modulo, esvirtual) {
         if (!contenedor) return;
 
         const diasSemana = contenedor.querySelectorAll('.day');
+        
+        // Limpiar todas las clases primero
         diasSemana.forEach(dia => {
-            const letraDia = dia.textContent;
-            if (dias.includes(letraDia)) {
-                dia.classList.add('active');
-                if (esvirtual === 'true') {
-                    dia.classList.add('virtual');
-                } else {
-                    dia.classList.remove('virtual');
-                }
-            } else {
-                dia.classList.remove('active');
-                dia.classList.remove('virtual');
-            }
+            dia.classList.remove('active');
+            dia.classList.remove('virtual');
         });
+
+        // Solo agregar clases si hay días especificados
+        if (dias && dias.trim() !== '' && dias !== 'Sin Datos') {
+            diasSemana.forEach(dia => {
+                const letraDia = dia.textContent;
+                if (dias.includes(letraDia)) {
+                    dia.classList.add('active');
+                    if (esvirtual === 'true') {
+                        dia.classList.add('virtual');
+                    }
+                }
+            });
+        }
     });
 }
 </script>
@@ -449,31 +454,35 @@ if(isset($_POST['codigo_profesor'])) {
                                         
                                             if($curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDA" || $curso['MODALIDAD'] === null){
                                                 $dias = '';
-                                                if($curso['L'] == 'L') $dias .= 'L';
-                                                if($curso['M'] == 'M') $dias .= 'M';
-                                                if($curso['I'] == 'I') $dias .= 'I';
-                                                if($curso['J'] == 'J') $dias .= 'J';
-                                                if($curso['V'] == 'V') $dias .= 'V';
-                                                if($curso['S'] == 'S') $dias .= 'S';
-                                                if($dias == '') $dias .= 'Sin Datos';
-
+                                                $hayDias = false;
+                                                
+                                                // Verificar si hay algún día asignado
+                                                if($curso['L'] == 'L') { $dias .= 'L'; $hayDias = true; }
+                                                if($curso['M'] == 'M') { $dias .= 'M'; $hayDias = true; }
+                                                if($curso['I'] == 'I') { $dias .= 'I'; $hayDias = true; }
+                                                if($curso['J'] == 'J') { $dias .= 'J'; $hayDias = true; }
+                                                if($curso['V'] == 'V') { $dias .= 'V'; $hayDias = true; }
+                                                if($curso['S'] == 'S') { $dias .= 'S'; $hayDias = true; }
+                                            
                                                 $fila_todas .= '
-                                                <div class="day">L</div>
-                                                <div class="day">M</div>
-                                                <div class="day">I</div>
-                                                <div class="day">J</div>
-                                                <div class="day">V</div>
-                                                <div class="day">S</div>
-
-                                                <script>
-                                                actualizarDiasActivos(
-                                                    "' . htmlspecialchars($dias) . '", 
-                                                    "' . htmlspecialchars($curso["CRN"]) . '", 
-                                                    "' . htmlspecialchars($curso["MODULO"] ?? "NA") . '", 
-                                                    "' . ($curso["MODULO"] === "CVIRTU" ? "true" : "false") . '"
-                                                );
-                                                </script>
-                                                ';
+                                                    <div class="day">L</div>
+                                                    <div class="day">M</div>
+                                                    <div class="day">I</div>
+                                                    <div class="day">J</div>
+                                                    <div class="day">V</div>
+                                                    <div class="day">S</div>';
+                                            
+                                                if($hayDias) {
+                                                    $fila_todas .= '
+                                                    <script>
+                                                    actualizarDiasActivos(
+                                                        "' . htmlspecialchars($dias) . '", 
+                                                        "' . htmlspecialchars($curso["CRN"]) . '", 
+                                                        "' . htmlspecialchars($curso["MODULO"] ?? "NA") . '", 
+                                                        "' . ($curso["MODULO"] === "CVIRTU" ? "true" : "false") . '"
+                                                    );
+                                                    </script>';
+                                                }
 
                                             } elseif ($curso['MODALIDAD'] === "VIRTUAL") {
                                                 $dias = '';
