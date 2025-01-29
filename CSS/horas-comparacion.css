@@ -722,6 +722,18 @@
   text-align: center;
 }
 
+.horas-temporales {
+  color: #fdf8e4;
+  background-color: #8b6e3b;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+
+  margin-left: 1vw;
+}
+
 /* Estilos para las etiquetas de departamentos */
 .departamento-tag {
   padding: 6px 8px;

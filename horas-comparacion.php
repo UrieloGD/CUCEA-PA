@@ -1135,7 +1135,7 @@
                                     <td>${horasDefinitivasHTML}</td>
                                     <td>
                                         <div class="tooltip">
-                                            <span>${persona.suma_horas_temporales || 0}</span>
+                                            <span class="horas-temporales">${persona.suma_horas_temporales || 0}</span>
                                             <div class="tooltiptext">${persona.horas_temporales_por_departamento || ''}</div>
                                         </div>
                                     </td>
