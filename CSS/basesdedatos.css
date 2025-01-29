@@ -1562,3 +1562,7 @@ table.dataTable thead .sorting_desc {
   margin-left: 10px;
 }
 
+/* Importante mantener este estilo para que funcione el lazy loading */
+#tabla-datos {
+  display: none;
+}
