@@ -69,6 +69,8 @@ function añadirRegistro() {
 
 // Condicionales y estilos del modal.
 // --------------------------------- //
+
+// Variables para presenciales y virtuales
 var lunes = document.getElementById('l');
 var martes = document.getElementById('m');
 var miercoles = document.getElementById('i');
@@ -76,6 +78,24 @@ var jueves = document.getElementById('j');
 var viernes = document.getElementById('v');
 var sabado = document.getElementById('s');
 var domingo = document.getElementById('d');
+
+// Variables para mixta (desplegable presencial)
+var lun = document.getElementById('lun');
+var mar = document.getElementById('mar');
+var mie = document.getElementById('mie');
+var jue = document.getElementById('jue');
+var vie = document.getElementById('vie');
+var sab = document.getElementById('sab');
+var dom = document.getElementById('dom');
+
+// Variables para mixta (desplegable virtual)
+var lun2 = document.getElementById('lun2');
+var mar2 = document.getElementById('mar2');
+var mie2 = document.getElementById('mie2');
+var jue2 = document.getElementById('jue2');
+var vie2 = document.getElementById('vie2');
+var sab2 = document.getElementById('sab2');
+var dom2 = document.getElementById('dom2');
 
 // Funcion para manejar la modalidad seleccionada
 document.getElementById('modalidad').addEventListener('change', function() {
@@ -136,15 +156,15 @@ document.getElementById('modalidad').addEventListener('change', function() {
         
     } else if (modalidad === 'MIXTA') {
         // Vaciar el valor de los input
-        document.getElementById('dia_presencial').value = '';
-        document.getElementById('dia_virtual').value = '';
-        lunes.value = '';
-        martes.value = '';
-        miercoles.value = '';
-        jueves.value = '';
-        viernes.value = '';
-        sabado.value = '';
-        domingo.value = '';
+        document.getElementById('dia_presencial2').value = '';
+        document.getElementById('dia_virtual2').value = '';
+        lun.value = ''; lun2.value = '';
+        mar.value = ''; mar2.value = '';
+        mie.value = ''; mie2.value = '';
+        jue.value = ''; jue2.value = '';
+        vie.value = ''; vie2.value = '';
+        sab.value = ''; sab2.value = '';
+        dom.value = ''; dom2.value = '';
 
         // Para que aparezca el contenedor de dias mixtos
         document.getElementById('mixta').style.display = 'flex';
@@ -268,8 +288,19 @@ document.getElementById('modalidad').addEventListener('change', function() {
                 document.getElementById('dom').style.display = 'none';
                 document.getElementById('dom2').style.display = 'none';
             }
-            diaPresencial = document.getElementById('dia_presencial2').value;
-            diaVirtual = document.getElementById('dia_virtual2').value;
+
+            if (lunes.value === 'L' && )
+            lunes.value = lun.value;
+            martes.value = mar.value;
+            miercoles.value = mie.value;
+            jueves.value = jue.value;
+            viernes.value = vie.value;
+            sabado.value = sab.value;
+            domingo.value = dom.value;
+
+
+            diaPresencial.value = document.getElementById('dia_presencial2').value;
+            diaVirtual.value = document.getElementById('dia_virtual2').value;
         }
 
         // Si no hay ninguna letra, regresar el valor de dia presencial y virtual a vacio.

@@ -112,7 +112,7 @@
                     <div id="mixta" class="form-row">
                         <select id="dia_presencial2" name="dia_presencial2">
                             <option value="" disabled>Seleccione el dia presencial...</option>
-                            <option id="lun" value="LUNES">LUNES</option>
+                            <option id="lun" value="LUNES">LUNES</option> <!-- backend ids doesn-t exist -->
                             <option id="mar" value="MARTES">MARTES</option>
                             <option id="mie" value="MIERCOLES">MIÉRCOLES</option>
                             <option id="jue" value="JUEVES">JUEVES</option>
