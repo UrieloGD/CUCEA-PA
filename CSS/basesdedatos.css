@@ -631,8 +631,7 @@ th {
 }
 
 .form-row input::placeholder {
-  font-style: italic;
-  opacity: 0.5;
+  opacity: 0.65;
 }
 
 .weekdays {
@@ -678,12 +677,12 @@ th {
   font-size: 0.8rem;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered.selected {
+.select2 .select2-container .select2-container--default .select2-container--below {
   color: #000 !important;
 }
 
 .select2-dropdown {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--single {
@@ -692,15 +691,27 @@ th {
 }
  
 .select2-container--default .select2-selection--single:focus {
-  border-color: #0071b0;
+  border-color: #0071b0!important;
   border-width: 2px;
-  outline: 0;
+  outline: 1;
 }
 
-.select2-search__field:focus {
-  border-color: #0071b0;
+.select2-search__field input:focus {
+  border-color: #0071b0!important;
   border-width: 2px;
-  outline: 0;
+  outline: 1;
+}
+
+#select2-nivel-container, 
+#select2-tipo-container, 
+#select2-nivel_tipo-container, 
+#select2-estatus-container, 
+#select2-examen_extraordinario-container, 
+#select2-tipo_contrato-container, 
+#select2-categoria-container, 
+#select2-descarga-container, 
+#select2-titular-container {
+  color: #000000;
 }
 
 #presencial-virtual,
@@ -715,7 +726,6 @@ th {
 
 select {
   color: #aaa;
-  font-style: italic;
 }
 
 select::placeholder {
@@ -724,7 +734,6 @@ select::placeholder {
 
 input[type="date"] {
   color: #aaa;
-  font-style: italic;
 }
 
 select:focus {

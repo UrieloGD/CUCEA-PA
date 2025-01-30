@@ -20,15 +20,15 @@
                         <span class="title-cve">CVE Materia</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="ciclo" name="ciclo" placeholder="202520" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);">
-                        <input type="text" id="crn" name="crn" placeholder="128633" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);">
+                        <input type="text" id="ciclo" name="ciclo" placeholder="202520" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                        <input type="text" id="crn" name="crn" placeholder="128633" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);">
                         <input type="text" id="cve_materia" name="cve_materia" placeholder="I5095" oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '').slice(0, 5);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-materia">Materia</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="materia" name="materia" placeholder="TEORIA Y DESARROLLO ORGANIZACIONAL" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 100);">
+                        <input type="text" id="materia" name="materia" placeholder="TEORIA Y DESARROLLO ORGANIZACIONAL" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 80);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-nivel">Nivel</span>
@@ -58,7 +58,7 @@
                             <option value="PRIMERO">PRIMERO</option>
                             <option value="TLAQUEP">TLAQUEP</option>
                         </select>
-                        <input type="text" id="seccion" name="seccion" placeholder="C01" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 15);">
+                        <input type="text" id="seccion" name="seccion" placeholder="C01" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-c_min">C. Min</span>
@@ -102,17 +102,17 @@
                         <span class="title-dia_virtual" id="title_dia_virtual">Día virtual</span>
                     </div>
                     <div id="presencial-virtual" class="form-row">
-                        <input type="text" id="dia_presencial" name="dia_presencial" placeholder="MIERCOLES" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 10);">
-                        <input type="text" id="dia_virtual" name="dia_virtual" placeholder="LUNES" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 10);">
+                        <input type="text" id="dia_presencial" name="dia_presencial" placeholder="DIA PRESENCIAL" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 10);">
+                        <input type="text" id="dia_virtual" name="dia_virtual" placeholder="DIA VIRTUAL" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 10);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-dia_presencial2" id="title_dia_presencial2">Día presencial</span>
                         <span class="title-dia_virtual2" id="title_dia_virtual2">Día virtual</span>
                     </div>
                     <div id="mixta" class="form-row">
-                        <select id="dia_presencial2" name="dia_presencial2">
+                        <select id="dia_presencial2" name="dia_presencial2" onchange="actualizarDiaVirtual2()">
                             <option value="" disabled>Seleccione el dia presencial...</option>
-                            <option id="lun" value="LUNES">LUNES</option> <!-- backend ids doesn-t exist -->
+                            <option id="lun" value="LUNES">LUNES</option>
                             <option id="mar" value="MARTES">MARTES</option>
                             <option id="mie" value="MIERCOLES">MIÉRCOLES</option>
                             <option id="jue" value="JUEVES">JUEVES</option>
@@ -120,7 +120,7 @@
                             <option id="sab" value="SABADO">SÁBADO</option>
                             <option id="dom" value="DOMINGO">DOMINGO</option>
                         </select>
-                        <select id="dia_virtual2" name="dia_virtual2">
+                        <select id="dia_virtual2" name="dia_virtual2" onchange="actualizarDiaPresencial2()">
                             <option value="" disabled>Seleccione el dia virtual...</option>
                             <option id="lun2" value="LUNES">LUNES</option>
                             <option id="mar2" value="MARTES">MARTES</option>
@@ -152,8 +152,8 @@
                         <span class="title-aula">Aula</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="modulo" name="modulo" placeholder="CEDC" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 7);">
-                        <input type="text" id="aula" name="aula" placeholder="207" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 6);">
+                        <input type="text" id="modulo" name="modulo" placeholder="CEDC" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 25);">
+                        <input type="text" id="aula" name="aula" placeholder="207" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-cupo">Cupo</span>
@@ -186,7 +186,7 @@
                         <span class="title-nombre_profesor">Nombre completo del profesor</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 70);">
+                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-contrato">Tipo contrato</span>
@@ -236,19 +236,19 @@
                             <option value="no">NO</option>
                             <option value="ok">OK</option>
                         </select>
-                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="2967799" class="full-width" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="2967799" class="full-width" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-nombre_descarga">Nombre descarga</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 70);">
+                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-nombre_definitivo">Nombre definitivo</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 70);">
+                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-horas_totales">Horas totales</span>
@@ -268,7 +268,7 @@
                     </div>
                     <div class="form-row">
                         <input type="text" id="horas" name="horas" placeholder="2" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1);">
-                        <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="1110" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                        <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="1110" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 4);">
                     </div>
                 </div>
             </div>
@@ -281,279 +281,92 @@
 </div>
 
 <script>
-    $('#nivel').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#tipo').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#nivel_tipo').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#estatus').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#examen_extraordinario').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#tipo_contrato').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#categoria').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#descarga').select2({ placeholder: 'Seleccione la opción correspondiente...' });
-    $('#titular').select2({ placeholder: 'Seleccione la opción correspondiente...' });
+// Función para inicializar Select2 con un placeholder común
+function initSelect2(id) {
+    $(id).select2({ placeholder: 'Seleccione la opción correspondiente...' });
+}
 
-    // Cambiar color de texto titulo a azul.
-    // Para ciclo ............................................................
-    $('#ciclo').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-ciclo').css('color', '#007bff');
-    });
-    $('#ciclo').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-ciclo').css('color', '');
-    });
-    // Para crn ............................................................
-    $('#crn').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-crn').css('color', '#007bff');
-    });
-    $('#crn').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-crn').css('color', '');
-    });
-    // Para cve ............................................................
-    $('#cve_materia').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-cve').css('color', '#007bff');
-    });
-    $('#cve_materia').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-cve').css('color', '');
-    });
-    // Para materia ............................................................
-    $('#materia').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-materia').css('color', '#007bff');
-    });
-    $('#materia').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-materia').css('color', '');
-    });
-    // Para nivel ............................................................
-    $('#nivel').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nivel').css('color', '#007bff');
-    });
-    $('#nivel').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nivel').css('color', '');
-    });
-    // Para tipo ............................................................
-    $('#tipo').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-tipo').css('color', '#007bff');
-    });
-    $('#tipo').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-tipo').css('color', '');
-    });
-    // Para nivel_tipo ............................................................
-    $('#nivel_tipo').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nivel_tipo').css('color', '#007bff');
-    });
-    $('#nivel_tipo').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nivel_tipo').css('color', '');
-    });
-    // Para seccion ............................................................
-    $('#seccion').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-seccion').css('color', '#007bff');
-    });
-    $('#seccion').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-seccion').css('color', '');
-    });
-    // Para C. min ............................................................
-    $('#c_min').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-c_min').css('color', '#007bff');
-    });
-    $('#c_min').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-c_min').css('color', '');
-    });
-    // Para horas totales ............................................................
-    $('#h_totales').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-h_totales').css('color', '#007bff');
-    });
-    $('#h_totales').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-h_totales').css('color', '');
-    });
-    // Para nivel_tipo ............................................................
-    $('#estatus').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-estatus').css('color', '#007bff');
-    });
-    $('#estatus').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-estatus').css('color', '');
-    });
-    // Para modalidad ............................................................
-    $('#modalidad').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-modalidad').css('color', '#007bff');
-    });
-    $('#modalidad').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-modalidad').css('color', '');
-    });
-    // Para dias ............................................................
-    $('input').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-dias').css('color', '#007bff');
-    });
-    $('input').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-dias').css('color', '');
-    });
-    // Para dia_presencial y dia virtual ............................................................
-    $('#dia_presencial').on('focus', function() {
-        $(this).closest('#presencial-virtual').prev('.form-row-titles').find('.title-dia_presencial').css('color', '#007bff');
-    });
-    $('#dia_presencial').on('blur', function() {
-        $(this).closest('#presencial-virtual').prev('.form-row-titles').find('.title-dia_presencial').css('color', '');
-    });
-    $('#dia_virtual').on('focus', function() {
-        $(this).closest('#presencial-virtual').prev('.form-row-titles').find('.title-dia_virtual').css('color', '#007bff');
-    });
-    $('#dia_virtual').on('blur', function() {
-        $(this).closest('#presencial-virtual').prev('.form-row-titles').find('.title-dia_virtual').css('color', '');
-    });
-    // Para dia_presencial y dia virtual (caso de mixta)............................................................
-    $('#dia_presencial2').on('focus', function() {
-        $(this).closest('#mixta').prev('.form-row-titles').find('.title-dia_presencial2').css('color', '#007bff');
-    });
-    $('#dia_presencial2').on('blur', function() {
-        $(this).closest('#mixta').prev('.form-row-titles').find('.title-dia_presencial2').css('color', '');
-    });
-    $('#dia_virtual2').on('focus', function() {
-        $(this).closest('#mixta').prev('.form-row-titles').find('.title-dia_virtual2').css('color', '#007bff');
-    });
-    $('#dia_virtual2').on('blur', function() {
-        $(this).closest('#mixta').prev('.form-row-titles').find('.title-dia_virtual2').css('color', '');
-    });
-    // Para fecha inicial ............................................................
-    $('#fecha_inicial').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-fecha_inicial').css('color', '#007bff');
-    });
-    $('#fecha_inicial').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-fecha_inicial').css('color', '');
-    });
-    // Para fecha final ............................................................
-    $('#fecha_final').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-fecha_final').css('color', '#007bff');
-    });
-    $('#fecha_final').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-fecha_final').css('color', '');
-    });
-    // Para hora inicial ............................................................
-    $('#hora_inicial').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-hora_inicial').css('color', '#007bff');
-    });
-    $('#hora_inicial').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-hora_inicial').css('color', '');
-    });
-    // Para hora final ............................................................
-    $('#hora_final').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-hora_final').css('color', '#007bff');
-    });
-    $('#hora_final').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-hora_final').css('color', '');
-    });
-    // Para modulo ............................................................
-    $('#modulo').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-modulo').css('color', '#007bff');
-    });
-    $('#modulo').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-modulo').css('color', '');
-    });
-    // Para aula ............................................................
-    $('#aula').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-aula').css('color', '#007bff');
-    });
-    $('#aula').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-aula').css('color', '');
-    });
-    // Para cupo ............................................................
-    $('#cupo').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-cupo').css('color', '#007bff');
-    });
-    $('#cupo').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-cupo').css('color', '');
-    });
-    // Para examen extraordinario ............................................................
-    $('#examen_extraordinario').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-examen').css('color', '#007bff');
-    });
-    $('#examen_extraordinario').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-examen').css('color', '');
-    });
-    // Para observaciones ............................................................
-    $('#observaciones').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-observaciones').css('color', '#007bff');
-    });
-    $('#observaciones').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-observaciones').css('color', '');
-    });
-    // Para codigo_profesor ............................................................
-    $('#codigo_profesor').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-codigo').css('color', '#007bff');
-    });
-    $('#codigo_profesor').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-codigo').css('color', '');
-    });
-    // Para nombre_profesor ............................................................
-    $('#nombre_profesor').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nombre_profesor').css('color', '#007bff');
-    });
-    $('#nombre_profesor').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nombre_profesor').css('color', '');
-    });
-    // Para tipo_contrato ............................................................
-    $('#tipo_contrato').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-contrato').css('color', '#007bff');
-    });
-    $('#tipo_contrato').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-contrato').css('color', '');
-    });
-    // Para categoria ............................................................
-    $('#categoria').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-categoria').css('color', '#007bff');
-    });
-    $('#categoria').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-categoria').css('color', '');
-    });
-    // Para descarga ............................................................
-    $('#descarga').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-descarga').css('color', '#007bff');
-    });
-    $('#descarga').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-descarga').css('color', '');
-    });
-    // Para codigo_descarga ............................................................
-    $('#codigo_descarga').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-codigo_descarga').css('color', '#007bff');
-    });
-    $('#codigo_descarga').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-codigo_descarga').css('color', '');
-    });
-    // Para nombre_descarga ............................................................
-    $('#nombre_descarga').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nombre_descarga').css('color', '#007bff');
-    });
-    $('#nombre_descarga').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nombre_descarga').css('color', '');
-    });
-    // Para nombre_definitivo ............................................................
-    $('#nombre_definitivo').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nombre_definitivo').css('color', '#007bff');
-    });
-    $('#nombre_definitivo').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-nombre_definitivo').css('color', '');
-    });
-    // Para horas_totales ............................................................
-    $('#horas_totales').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-horas_totales').css('color', '#007bff');
-    });
-    $('#horas_totales').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-horas_totales').css('color', '');
-    });
-    // Para titular ............................................................
-    $('#titular').on('select2:open', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-titular').css('color', '#007bff');
-    });
-    $('#titular').on('select2:close', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-titular').css('color', '');
-    });
-    // Para horas ............................................................
-    $('#horas').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-horas').css('color', '#007bff');
-    });
-    $('#horas').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-horas').css('color', '');
-    });
-    // Para codigo_dependencia ............................................................
-    $('#codigo_dependencia').on('focus', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-codigo_dependencia').css('color', '#007bff');
-    });
-    $('#codigo_dependencia').on('blur', function() {
-        $(this).closest('.form-row').prev('.form-row-titles').find('.title-codigo_dependencia').css('color', '');
-    });
+// Inicialización de todos los Select2
+const selectIds = [
+    '#nivel', '#tipo', '#nivel_tipo', '#estatus', '#examen_extraordinario',
+    '#tipo_contrato', '#categoria', '#descarga', '#titular'
+];
+
+selectIds.forEach(initSelect2);
+
+// Función para cambiar el color del título al hacer focus y blur
+function toggleTitleColor(element, titleClass) {
+    const title = $(element).closest('.form-row').prev('.form-row-titles').find(titleClass);
+    $(element).on('focus', function() { title.css('color', '#007bff'); });
+    $(element).on('blur', function() { title.css('color', ''); });
+}
+
+// Función para manejar los eventos focus y blur en select2
+function toggleTitleColorSelect2(element, titleClass) {
+    const title = $(element).closest('.form-row').prev('.form-row-titles').find(titleClass);
+    $(element).on('select2:open', function() { title.css('color', '#007bff'); });
+    $(element).on('select2:close', function() { title.css('color', ''); });
+}
+
+// Lista de campos con los títulos correspondientes
+const fields = [
+    { id: '#ciclo', title: '.title-ciclo' },
+    { id: '#crn', title: '.title-crn' },
+    { id: '#cve_materia', title: '.title-cve' },
+    { id: '#materia', title: '.title-materia' },
+    { id: '#seccion', title: '.title-seccion' },
+    { id: '#c_min', title: '.title-c_min' },
+    { id: '#h_totales', title: '.title-h_totales' },
+    { id: '#modalidad', title: '.title-modalidad' },
+    { id: '#fecha_inicial', title: '.title-fecha_inicial' },
+    { id: '#fecha_final', title: '.title-fecha_final' },
+    { id: '#hora_inicial', title: '.title-hora_inicial' },
+    { id: '#hora_final', title: '.title-hora_final' },
+    { id: '#modulo', title: '.title-modulo' },
+    { id: '#aula', title: '.title-aula' },
+    { id: '#cupo', title: '.title-cupo' },
+    { id: '#observaciones', title: '.title-observaciones' },
+    { id: '#codigo_profesor', title: '.title-codigo' },
+    { id: '#nombre_profesor', title: '.title-nombre_profesor' },
+    { id: '#codigo_descarga', title: '.title-codigo_descarga' },
+    { id: '#nombre_descarga', title: '.title-nombre_descarga' },
+    { id: '#nombre_definitivo', title: '.title-nombre_definitivo' },
+    { id: '#horas_totales', title: '.title-horas_totales' },
+    { id: '#horas', title: '.title-horas' },
+    { id: '#codigo_dependencia', title: '.title-codigo_dependencia' }
+];
+
+// Aplicar cambios de color de título para cada campo
+fields.forEach(field => toggleTitleColor(field.id, field.title));
+
+// Aplicar cambios de color de título para cada campo Select2
+const select2Fields = [
+    { id: '#nivel', title: '.title-nivel' },
+    { id: '#tipo', title: '.title-tipo' },
+    { id: '#nivel_tipo', title: '.title-nivel_tipo' },
+    { id: '#estatus', title: '.title-estatus' },
+    { id: '#examen_extraordinario', title: '.title-examen' },
+    { id: '#tipo_contrato', title: '.title-contrato' },
+    { id: '#categoria', title: '.title-categoria' },
+    { id: '#descarga', title: '.title-descarga' },
+    { id: '#titular', title: '.title-titular' }
+];
+
+select2Fields.forEach(field => toggleTitleColorSelect2(field.id, field.title));
+
+// Funciones para los campos de tipo "dia_presencial" y "dia_virtual"
+function toggleDiaPresencialVirtual(id, titleClass, parentSelector) {
+    $(id).on('focus', function() {
+        $(this).closest(parentSelector).prev('.form-row-titles').find(titleClass).css('color', '#007bff');
+    });
+    $(id).on('blur', function() {
+        $(this).closest(parentSelector).prev('.form-row-titles').find(titleClass).css('color', '');
+    });
+}
+
+// Aplicar cambios de color para los campos "dia_presencial" y "dia_virtual"
+toggleDiaPresencialVirtual('#dia_presencial', '.title-dia_presencial', '#presencial-virtual');
+toggleDiaPresencialVirtual('#dia_virtual', '.title-dia_virtual', '#presencial-virtual');
+toggleDiaPresencialVirtual('#dia_presencial2', '.title-dia_presencial2', '#mixta');
+toggleDiaPresencialVirtual('#dia_virtual2', '.title-dia_virtual2', '#mixta');
 </script>
