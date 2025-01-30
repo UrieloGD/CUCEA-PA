@@ -217,6 +217,11 @@ $(document).ready(function () {
     ],
   });
 
+  // Redibujar tabla al cargar completamente la página para evitar el desfase de columnas
+  setTimeout(function() {
+    table.columns.adjust().draw();
+  }, 200);
+
   $("#icono-visibilidad").on("click", function () {
     table.button(".buttons-colvis").trigger();
   });
