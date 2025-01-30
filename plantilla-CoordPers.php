@@ -10,6 +10,14 @@ $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-10
 
 ?>
 
+<?php
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+    header("Location: home.php");
+    exit();
+}
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
