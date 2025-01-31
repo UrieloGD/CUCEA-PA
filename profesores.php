@@ -18,84 +18,6 @@ $rol = $_SESSION['Rol_ID'];
 $departamento_id = null;
 
 try {
-    // Array de mapeo de departamentos
-    $departamentos_mapping = [
-
-        'Administración' => [
-            'Administracion',
-            'ADMINISTRACION',
-            'Administración'
-        ],
-        'PALE' => [
-            'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
-            'PALE',
-            'Programa de Aprendizaje de Lengua Extranjera'
-        ],
-        'Auditoría' => [
-            'Auditoria',
-            'AUDITORIA',
-            'Auditoría',
-            'SECRETARIA ADMINISTRATIVA/AUDITORIA'
-        ],
-        'Ciencias_Sociales' => [
-            'CERI/CIENCIAS SOCIALES',
-            'CIENCIAS SOCIALES',
-            'Ciencias Sociales', 
-            'CIENCIAS SOCIALES/POLITICAS PUBLICAS'
-        ],
-        'Políticas_Públicas' => [
-            'POLITICAS PUBLICAS',
-            'Políticas Públicas',
-            'Politicas Publicas'
-        ],
-        'Contabilidad' => [
-            'CONTABILIDAD',
-            'Contabilidad'
-        ],
-        'Economía' => [
-            'ECONOMIA',
-            'Economía',
-            'Economia'
-        ],
-        'Estudios_Regionales' => [
-            'ESTUDIOS REGIONALES',
-            'Estudios Regionales'
-        ],
-        'Finanzas' => [
-            'FINANZAS',
-            'Finanzas'
-        ],
-        'Impuestos' => [
-            'IMPUESTOS',
-            'Impuestos'
-        ],
-        'Mercadotecnia' => [
-            'MERCADOTECNIA',
-            'Mercadotecnia',
-            'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
-        ],
-        'Métodos_Cuantitativos' => [
-            'METODOS CUANTITATIVOS',
-            'Métodos Cuantitativos',
-            'Metodos Cuantitativos'
-        ],
-        'Recursos_Humanos' => [
-            'RECURSOS HUMANOS',
-            'Recursos Humanos',
-            'RECURSOS_HUMANOS'
-        ],
-        'Sistemas_de_Información' => [
-            'SISTEMAS DE INFORMACION',
-            'Sistemas de Información',
-            'Sistemas de Informacion'
-        ],
-        'Turismo' => [
-            'TURISMO',
-            'Turismo',
-            'Turismo R. y S.'
-        ],
-    ];
-
     // Lógica para seleccionar el departamento
     if ($rol == 1) {
         $departamento_id = $_SESSION['Departamento_ID'];
@@ -118,63 +40,25 @@ try {
     }
 
     // Obtener información del departamento
-    $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
-                        FROM departamentos 
-                        WHERE Departamento_ID = ?";
-    
-    $stmt = $conexion->prepare($sql_departamento);
-    if (!$stmt) {
-        throw new Exception("Error en la preparación de la consulta: " . $conexion->error);
-    }
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos 
+FROM departamentos 
+WHERE Departamento_ID = ?";
+$stmt = $conexion->prepare($sql_departamento);
 
-    $stmt->bind_param("i", $departamento_id);
-    $stmt->execute();
-    $result_departamento = $stmt->get_result();
+if (!$stmt) {
+die("Error en la preparación de la consulta: " . $conexion->error);
+}
 
-    if (!$result_departamento || $result_departamento->num_rows === 0) {
-        throw new Exception("No se encontró el departamento especificado.");
-    }
+$stmt->bind_param("i", $departamento_id);
+$stmt->execute();
+$result_departamento = $stmt->get_result();
 
-    $row_departamento = $result_departamento->fetch_assoc();
-    $nombre_departamento = $row_departamento['Nombre_Departamento'];
-    $departamento_nombre = $row_departamento['Departamentos'];
-
-    // Obtener las variantes del departamento desde el mapping
-    $departamento_variantes = [];
-    foreach ($departamentos_mapping as $key => $variants) {
-        // Comparar tanto con Nombre_Departamento como con Departamentos
-        if ($key === $nombre_departamento || $key === $departamento_nombre) {
-            $departamento_variantes = $variants;
-            break;
-        }
-    }
-
-    // Si no se encontraron variantes, usar el nombre original
-    if (empty($departamento_variantes)) {
-        $departamento_variantes = [$nombre_departamento, $departamento_nombre];
-    }
-
-    // Preparar la consulta usando prepared statements
-    $placeholders = str_repeat('?,', count($departamento_variantes) - 1) . '?';
-    $sql_todos_profesores = "SELECT DISTINCT 
-                            Codigo, 
-                            Nombre_completo, 
-                            Categoria_actual,
-                            Departamento
-                            FROM coord_per_prof 
-                            WHERE Departamento IN ($placeholders)
-                            ORDER BY Nombre_completo";
-    
-    $stmt_profesores = $conexion->prepare($sql_todos_profesores);
-    if (!$stmt_profesores) {
-        throw new Exception("Error en la preparación de la consulta de profesores: " . $conexion->error);
-    }
-
-    // Bind de los parámetros dinámicamente
-    $tipos = str_repeat('s', count($departamento_variantes));
-    $stmt_profesores->bind_param($tipos, ...$departamento_variantes);
-    $stmt_profesores->execute();
-    $result_todos_profesores = $stmt_profesores->get_result();
+if ($result_departamento && $row_departamento = $result_departamento->fetch_assoc()) {
+$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$departamento_nombre = $row_departamento['Departamentos'];
+} else {
+die("No se encontró el departamento especificado.");
+}
 
     // Aquí comienza el HTML
     include './template/header.php';
@@ -192,7 +76,8 @@ try {
 
 <div class="cuadro-principal">
     <div class="encabezado">
-        <div class="encabezado-izquierda">
+        <div class="encabezado-izquierda" style="display: flex; align-items: center;">
+            <!-- Barra de búsqueda -->
             <div class="search-bar">
                 <div class="search-input-container">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -208,27 +93,22 @@ try {
                 <span class="anchor">Departamento: </span>
                 <ul class="items">
                     <?php
-                    $sql_departamentos = "SELECT DISTINCT Departamento_ID, Departamentos FROM departamentos ORDER BY Departamentos";
-            $result_departamentos = mysqli_query($conexion, $sql_departamentos);
-            
-            while($row = mysqli_fetch_assoc($result_departamentos)) {
-                $checked = ($row['Departamento_ID'] == $departamento_id) ? 'checked' : '';
-                echo "<li>
-                    <input type='checkbox' name='departamentos[]' 
-                           value='" . $row['Departamento_ID'] . "' 
-                           " . $checked . "
-                           onchange='actualizarTablaProfesores()'/>
-                    " . htmlspecialchars($row['Departamentos']) . "
-                    </li>";
-            }
+                    // Obtener departamentos únicos de la tabla
+                    $sql_departamentos = "SELECT DISTINCT Departamento FROM coord_per_prof ORDER BY Departamento";
+                    $result_departamentos = mysqli_query($conexion, $sql_departamentos);
+                    
+                    while($row = mysqli_fetch_assoc($result_departamentos)) {
+                        echo "<li><input type='checkbox' value='" . htmlspecialchars($row['Departamento']) . "' />" . 
+                            htmlspecialchars($row['Departamento']) . "</li>";
+                    }
                     ?>
                 </ul>
             </div>
         </div>
     </div>
-
     <div class="contenedor-tabla">
         <div class="contenido-tabla">
+            <!-- Tabla de profesores -->
             <div class="profesores-container">
                 <table class="profesores-table">
                     <thead>
@@ -236,31 +116,118 @@ try {
                             <th class="detalle-column">count</th>
                             <th class="detalle-column">Código</th>
                             <th class="detalle-column">Nombre Completo</th>
-                            <th class="detalle-column">Categoria Actual</th>
+                            <th class="detalle-column">Categoria Actúal</th>
                             <th class="detalle-column">Departamento</th>
-                            <th class="detalle-column">Detalles</th>
+                            <th class="detalle-column">Detalles del Profesor</th>
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <?php
+                        // Array de mapeo de departamentos
+                        $departamentos_mapping = [
+
+                            'Administración' => [
+                                'Administracion',
+                                'ADMINISTRACION',
+                                'Administración'
+                            ],
+                            'PALE' => [
+                                'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
+                                'PALE',
+                                'Programa de Aprendizaje de Lengua Extranjera'
+                            ],
+                            'Auditoría' => [
+                                'Auditoria',
+                                'AUDITORIA',
+                                'Auditoría',
+                                'SECRETARIA ADMINISTRATIVA/AUDITORIA'
+                            ],
+                            'Ciencias_Sociales' => [
+                                'CERI/CIENCIAS SOCIALES',
+                                'CIENCIAS SOCIALES',
+                                'Ciencias Sociales'
+                            ],
+                            'Políticas_Públicas' => [
+                                'POLITICAS PUBLICAS',
+                                'Políticas Públicas',
+                                'Politicas Publicas'
+                            ],
+                            'Contabilidad' => [
+                                'CONTABILIDAD',
+                                'Contabilidad'
+                            ],
+                            'Economía' => [
+                                'ECONOMIA',
+                                'Economía',
+                                'Economia'
+                            ],
+                            'Estudios_Regionales' => [
+                                'ESTUDIOS REGIONALES',
+                                'Estudios Regionales'
+                            ],
+                            'Finanzas' => [
+                                'FINANZAS',
+                                'Finanzas'
+                            ],
+                            'Impuestos' => [
+                                'IMPUESTOS',
+                                'Impuestos'
+                            ],
+                            'Mercadotecnia' => [
+                                'MERCADOTECNIA',
+                                'Mercadotecnia',
+                                'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
+                            ],
+                            'Métodos_Cuantitativos' => [
+                                'METODOS CUANTITATIVOS',
+                                'Métodos Cuantitativos',
+                                'Metodos Cuantitativos'
+                            ],
+                            'Recursos_Humanos' => [
+                                'RECURSOS HUMANOS',
+                                'Recursos Humanos',
+                                'RECURSOS_HUMANOS'
+                            ],
+                            'Sistemas_de_Información' => [
+                                'SISTEMAS DE INFORMACION',
+                                'Sistemas de Información',
+                                'Sistemas de Informacion'
+                            ],
+                            'Turismo' => [
+                                'TURISMO',
+                                'Turismo',
+                                'Turismo R. y S.'
+                            ],
+                            'Posgrados' => [
+                                'POSGRADOS',
+                                'Posgrados'
+                            ]
+                        ];
+
+                        // Consulta SQL con las variantes del departamento
+                        $sql_todos_profesores = "SELECT  Codigo, Nombre_Completo, Categoria_actual, Departamento 
+                                            FROM coord_per_prof 
+                                            ORDER BY Nombre_Completo";
+                        
+                        $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
+                        
                         if ($result_todos_profesores) {
                             $contador = 1;
-                            while($row = $result_todos_profesores->fetch_assoc()) {
+                            while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 echo "<tr class='tr-info'>";
-                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador) . "</td>";
+                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_completo'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Departamento'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column detalle-column2'>
-                                        <button onclick='verDetalleProfesor(" . $row['Codigo'] . ", " . $departamento_id . ")' 
-                                                class='btn-detalle'>Ver detalle</button>
-                                    </td>";
+                                echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                                 echo "</tr>";
                                 $contador = $contador + 1;
                             }
                         } else {
                             echo "<tr><td colspan='5'>No se encontraron profesores</td></tr>";
+                            echo "<tr><td colspan='3'>Error en la consulta: " . mysqli_error($conexion) . "</td></tr>";
                         }
                         ?>
                     </tbody>
@@ -282,6 +249,7 @@ try {
 <script src="./JS/profesores/detalle-profesor.js"></script>
 <script src="./JS/profesores/filtro-profesores.js"></script>
 <script src="./JS/profesores/desplegable-box.js"></script>
+<script src="./JS/profesores/filtro-departamentos.js"></script>
 
 <!-- DataTables Scripts -->
  
