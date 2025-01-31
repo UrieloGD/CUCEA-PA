@@ -135,7 +135,6 @@ $(document).ready(function () {
       { targets: "_all", defaultContent: "" },
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
-      { orderable: false, targets: -1 },
       {
         targets: [1, 36, 37, 38, 39],
         createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
@@ -172,7 +171,7 @@ $(document).ready(function () {
     ],
     order: [[1, "asc"]],
     colReorder: {
-      fixedColumnsLeft: 1,
+      fixedColumnsLeft: 2,
       fixedColumnsRight: 0,
     },
     buttons: [

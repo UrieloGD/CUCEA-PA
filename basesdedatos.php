@@ -335,9 +335,7 @@ $result = $stmt->get_result();
                         echo "<td>" . htmlspecialchars($row["EXAMEN_EXTRAORDINARIO"] ?? '') . "</td>";
                         echo "</tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='43'>No hay datos disponibles</td></tr>";
-                }
+                } 
                 mysqli_close($conexion);
                 ?>
             </tbody>
