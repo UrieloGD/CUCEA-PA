@@ -96,8 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
         setValueSafely("editHorIn", data.Hora_Inicio);
         setValueSafely("editHorFin", data.Hora_Fin);
         setValueSafely("editEtiqueta", data.Etiqueta);
-        setValueSafely("editNotificacion", data.Notificaciones);
-        setValueSafely("editHorNotif", data.Hora_Noti);
         setValueSafely("editDescripcion", data.Descripcion_Evento);
 
         // Cargar participantes
@@ -205,6 +203,15 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     const formData = new FormData(formEditarEvento);
 
+    // Mostrar alerta de carga
+    Swal.fire({
+      title: "Actualizando evento...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     // Agregar participantes al formData
     participantesSeleccionados.forEach((codigo) => {
       formData.append("participantes[]", codigo);
@@ -218,6 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
+        Swal.close(); // Cerrar loading
         console.log("Respuesta del servidor:", data); // Para depuración
         if (data.status === "success") {
           Swal.fire(
@@ -236,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
+        Swal.close(); // Cerrar loading
         console.error("Error:", error);
         Swal.fire(
           "Error",
@@ -425,6 +434,15 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     const formData = new FormData(formCrearEvento);
 
+    // Mostrar alerta de carga
+    Swal.fire({
+      title: "Creando evento...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     // Verificar si hay participantes seleccionados
     const participantes = formData.getAll("participantes[]");
     console.log("Participantes seleccionados:", participantes); // Para depuración
@@ -435,6 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then((response) => response.json())
       .then((data) => {
+        Swal.close();
         console.log("Respuesta del servidor:", data); // Para depuración
         if (data.status === "success") {
           Swal.fire(
@@ -453,6 +472,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
+        Swal.close();
         console.error("Error:", error);
         Swal.fire(
           "Error",

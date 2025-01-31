@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1) {
+    header("Location: home.php");
+    exit();
+}
+?>
+
+<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);

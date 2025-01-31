@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+    header("Location: home.php");
+    exit();
+}
+?>
+
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
