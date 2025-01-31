@@ -1,7 +1,13 @@
+<!-- jQuery (requerido para Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 CSS y JS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!-- Modal para añadir registros -->
-<div id="modal-añadir" class="modal">
+<div id="modal-añadir" class="modal-R">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close-R" onclick="cerrarFormularioAñadir()">&times;</span>
         <h2>Añadir nuevo registro</h2>
         <hr style="border: 1px solid #0071b0; width: 99%;">
         <form id="form-añadir-registro">
@@ -9,9 +15,9 @@
                 <div class="form-section">
                     <h3>Materia</h3>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Ciclo" disabled>
-                        <input type="text" placeholder="CRN" disabled>
-                        <input type="text" placeholder="CVE Materia" disabled>
+                        <span>Ciclo</span>
+                        <span>CRN</span>
+                        <span>CVE Materia</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="ciclo" name="ciclo" placeholder="202520" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6);">
@@ -19,13 +25,13 @@
                         <input type="text" id="cve_materia" name="cve_materia" placeholder="I5095" oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '').slice(0, 5);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Materia" class="full-width" disabled>
+                        <span>Materia</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="materia" name="materia" placeholder="TEORIA Y DESARROLLO ORGANIZACIONAL" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 100);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Nivel" disabled>
+                        <span>Nivel</span>
                     </div>
                     <div class="form-row">
                         <select id="nivel" name="nivel">
@@ -35,9 +41,9 @@
                         </select>
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Tipo" disabled>
-                        <input type="text" placeholder="Nivel tipo" disabled>
-                        <input type="text" placeholder="Sección" disabled>
+                        <span>Tipo</span>
+                        <span>Nivel tipo</span>
+                        <span>Sección</span>
                     </div>
                     <div class="form-row">
                         <select id="tipo" name="tipo">
@@ -46,18 +52,18 @@
                             <option value="t">T</option>
                         </select>
                         <select id="nivel_tipo" name="nivel_tipo">
-                            <option value="" disabled selected>Seleccione la nivel-tipo correspondiente...</option>
+                            <option value="" disabled selected>Seleccione la opción correspondiente...</option>
                             <option value="BLEARNING">BLEARNING</option>
                             <option value="REINGRESO">REINGRESO</option>
                             <option value="PRIMERO">PRIMERO</option>
                             <option value="TLAQUEP">TLAQUEP</option>
                         </select>
-                        <input type="text" id="seccion" name="seccion" placeholder="C01" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 3);">
+                        <input type="text" id="seccion" name="seccion" placeholder="C01" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 15);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="C. Min" disabled>
-                        <input type="text" placeholder="Horas totales" disabled>
-                        <input type="text" placeholder="Status" disabled>
+                        <span>C. Min</span>
+                        <span>Horas totales</span>
+                        <span>Status</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="c_min" name="c_min" placeholder="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
@@ -69,7 +75,7 @@
                         </select>
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Modalidad" disabled>
+                        <span>Modalidad</span>
                     </div>
                     <div class="form-row">
                         <select id="modalidad" name="modalidad">
@@ -80,7 +86,7 @@
                         </select>
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Días" class="full-width" disabled>
+                        <span>Días</span>
                     </div>
                     <div class="form-row weekdays">
                         <input type="text" id="l" name="l" placeholder="L" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'L') this.value = '';">
@@ -92,40 +98,62 @@
                         <input type="text" id="d" name="d" placeholder="D" maxlength="1" oninput="this.value = this.value.toUpperCase(); if(this.value != 'D') this.value = '';">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" id="title_dia_presencial" placeholder="Día presencial" disabled>
-                        <input type="text" id="title_dia_virtual" placeholder="Día virtual" disabled>
+                        <span id="title_dia_presencial">Día presencial</span>
+                        <span id="title_dia_virtual">Día virtual</span>
                     </div>
-                    <div class="form-row">
+                    <div id="presencial-virtual" class="form-row">
                         <input type="text" id="dia_presencial" name="dia_presencial" placeholder="MIERCOLES" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 10);">
                         <input type="text" id="dia_virtual" name="dia_virtual" placeholder="LUNES" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 10);">
                     </div>
+                    <div id="mixta" class="form-row">
+                        <select id="dia_presencial2" name="dia_presencial2">
+                            <option value="" disabled>Seleccione el dia presencial...</option>
+                            <option id="lun" value="LUNES">LUNES</option>
+                            <option id="mar" value="MARTES">MARTES</option>
+                            <option id="mie" value="MIERCOLES">MIÉRCOLES</option>
+                            <option id="jue" value="JUEVES">JUEVES</option>
+                            <option id="vie" value="VIERNES">VIERNES</option>
+                            <option id="sab" value="SABADO">SÁBADO</option>
+                            <option id="dom" value="DOMINGO">DOMINGO</option>
+                        </select>
+                        <select id="dia_virtual2" name="dia_virtual2">
+                            <option value="" disabled>Seleccione el dia virtual...</option>
+                            <option id="lun2" value="LUNES">LUNES</option>
+                            <option id="mar2" value="MARTES">MARTES</option>
+                            <option id="mie2" value="MIERCOLES">MIÉRCOLES</option>
+                            <option id="jue2" value="JUEVES">JUEVES</option>
+                            <option id="vie2" value="VIERNES">VIERNES</option>
+                            <option id="sab2" value="SABADO">SÁBADO</option>
+                            <option id="dom2" value="DOMINGO">DOMINGO</option>
+                        </select>
+                    </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Fecha inicial" disabled>
-                        <input type="text" placeholder="Fecha final" disabled>
+                        <span>Fecha inicial</span>
+                        <span>Fecha final</span>
                     </div>
                     <div class="form-row">
                         <input type="date" id="fecha_inicial" name="fecha_inicial">
                         <input type="date" id="fecha_final" name="fecha_final">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Hora inicial" disabled>
-                        <input type="text" placeholder="Hora final" disabled>
+                        <span>Hora inicial</span>
+                        <span>Hora final</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="hora_inicial" name="hora_inicial" placeholder="1600" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" id="hora_final" name="hora_final" placeholder="1855" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Módulo" disabled>
-                        <input type="text" placeholder="Aula" disabled>
+                        <span>Módulo</span>
+                        <span>Aula</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="modulo" name="modulo" placeholder="CEDC" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 7);">
                         <input type="text" id="aula" name="aula" placeholder="207" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 6);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Cupo" disabled>
-                        <input type="text" placeholder="Examen extraordinario" disabled>
+                        <span>Cupo</span>
+                        <span>Examen extraordinario</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="cupo" name="cupo" placeholder="38" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3);">
@@ -136,7 +164,7 @@
                         </select>
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Observaciones" class="full-width" disabled>
+                        <span>Observaciones</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="observaciones" name="observaciones" placeholder="Ingrese sus observaciones aquí..." class="full-width" oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '').slice(0, 150);">
@@ -145,20 +173,20 @@
                 <div class="form-section">
                     <h3>Profesorado</h3>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Código" disabled>
+                        <span>Código</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="2537999" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" class="full-width">
+                        <input type="text" id="codigo_profesor" name="codigo_profesor" placeholder="2537999" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9)" class="full-width">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Nombre completo del profesor" class="full-width" disabled>
+                        <span>Nombre completo del profesor</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 70);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Tipo contrato" disabled>
-                        <input type="text" placeholder="Categoría" disabled>
+                        <span>Tipo contrato</span>
+                        <span>Categoría</span>
                     </div>
                     <div class="form-row">
                         <select id="tipo_contrato" name="tipo_contrato">
@@ -195,8 +223,8 @@
                         </select>
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Descarga" class="full-width" disabled>
-                        <input type="text" placeholder="Código descarga" class="full-width" disabled>
+                        <span>Descarga</span>
+                        <span>Código descarga</span>
                     </div>
                     <div class="form-row">
                         <select id="descarga" name="descarga">
@@ -207,20 +235,20 @@
                         <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="2967799" class="full-width" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Nombre descarga" class="full-width" disabled>
+                        <span>Nombre descarga</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 70);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Nombre definitivo" class="full-width" disabled>
+                        <span>Nombre definitivo</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 70);">
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Horas totales" disabled>
-                        <input type="text" placeholder="Titular" disabled>
+                        <span>Horas totales</span>
+                        <span>Titular</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="horas_totales" name="horas" placeholder="40" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
@@ -231,8 +259,8 @@
                         </select>
                     </div>
                     <div class="form-row-titles">
-                        <input type="text" placeholder="Horas" disabled>
-                        <input type="text" placeholder="Código dependencia" disabled>
+                        <span>Horas</span>
+                        <span>Código dependencia</span>
                     </div>
                     <div class="form-row">
                         <input type="text" id="horas" name="horas" placeholder="2" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1);">
@@ -247,3 +275,32 @@
         </form>
     </div>
 </div>
+
+<script>
+$('#nivel').select2();
+$('#tipo').select2();
+$('#nivel_tipo').select2();
+$('#estatus').select2();
+$('#examen_extraordinario').select2();
+$('#tipo_contrato').select2();
+$('#categoria').select2();
+$('#descarga').select2();
+$('#titular').select2();
+
+// Cambiar color de texto titulo a azul.
+$('input, select').on('focus', function() {
+    $(this).closest('.form-row').prev('.form-row-titles').find('span').css('color', '#007bff');
+});
+
+$('.select2-container').on('focusin', function() {
+    $(this).closest('.form-row').prev('.form-row-titles').find('span').css('color', '#007bff');
+});
+
+$('input, select').on('blur', function() {
+    $(this).closest('.form-row').prev('.form-row-titles').find('span').css('color', '');
+});
+
+$('.select2-container').on('focusout', function() {
+    $(this).closest('.form-row').prev('.form-row-titles').find('span').css('color', '');
+});
+</script>

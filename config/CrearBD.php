@@ -4,13 +4,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include './../config/db.php';
+require_once './../config/db.php';
 
 if (!$conexion) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$dbname = "CREATE DATABASE IF NOT EXISTS PA;";
+$dbname = "CREATE DATABASE IF NOT EXISTS pa;";
 
 if ($conexion->query($dbname) == TRUE) {
     echo "Base de datos creada exitosamente";
@@ -23,7 +23,7 @@ mysqli_select_db($conexion, "PA");
 include('./td-espacios.php');
 
 // Crear tabla Roles
-$sql = "CREATE TABLE IF NOT EXISTS Roles (
+$sql = "CREATE TABLE IF NOT EXISTS roles (
     Rol_ID INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Rol VARCHAR(80) NOT NULL
 )";
@@ -35,7 +35,7 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Insertar roles
-$insert_roles = "INSERT INTO Roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal')";
+$insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal')";
 
 if (mysqli_query($conexion, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";
@@ -44,7 +44,7 @@ if (mysqli_query($conexion, $insert_roles)) {
 }
 
 // Crear tabla Usuarios
-$sql = "CREATE TABLE IF NOT EXISTS Usuarios (
+$sql = "CREATE TABLE IF NOT EXISTS usuarios (
     Codigo BIGINT(10) NOT NULL PRIMARY KEY,
     Nombre VARCHAR(45) NOT NULL,
     Apellido VARCHAR(45) NOT NULL,
@@ -53,7 +53,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Usuarios (
     Genero VARCHAR(20) NOT NULL,
     Rol_ID INT,
     IconoColor VARCHAR(7),
-    FOREIGN KEY (Rol_ID) REFERENCES Roles(Rol_ID)
+    FOREIGN KEY (Rol_ID) REFERENCES roles(Rol_ID)
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -97,7 +97,7 @@ $usuarios = [
     [2109012345, 'Iliana', 'Aldrete', 'ibaldrete@cucea.udg', '123', 'Femenino', 3, '#FF0000'] //SA
 ];
 
-$stmt = $conexion->prepare("INSERT INTO Usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conexion->prepare("INSERT INTO usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 if (!$stmt) {
     die("Error en la preparación de la consulta: " . $conexion->error);
@@ -129,7 +129,7 @@ foreach ($usuarios as $index => $usuario) {
 $stmt->close();
 
 // Crear tabla Departamentos
-$sql = "CREATE TABLE IF NOT EXISTS Departamentos (
+$sql = "CREATE TABLE IF NOT EXISTS departamentos (
     Departamento_ID INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Departamento VARCHAR(100) NOT NULL,
     Departamentos VARCHAR(100) NOT NULL
@@ -142,7 +142,7 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Insertar departamentos
-$insert_departamentos = "INSERT INTO Departamentos (Nombre_Departamento, Departamentos) VALUES
+$insert_departamentos = "INSERT INTO departamentos (Nombre_Departamento, Departamentos) VALUES
     ('Estudios_Regionales', 'Estudios Regionales'),
     ('Finanzas', 'Finanzas'),
     ('Ciencias_Sociales', 'Ciencias Sociales'),
@@ -169,12 +169,12 @@ if (mysqli_query($conexion, $insert_departamentos)) {
 }
 
 // Crear tabla Usuarios_Departamentos
-$sql = "CREATE TABLE IF NOT EXISTS Usuarios_Departamentos (
+$sql = "CREATE TABLE IF NOT EXISTS usuarios_departamentos (
     Usuario_ID BIGINT(10) NOT NULL,
     Departamento_ID INT NOT NULL,
     PRIMARY KEY (Usuario_ID, Departamento_ID),
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo) ON DELETE CASCADE,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID) ON DELETE CASCADE
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo) ON DELETE CASCADE,
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID) ON DELETE CASCADE
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -184,7 +184,7 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Insertar relación de usuarios con departamentos (jefes de departamento)
-$insert_usuarios_departamentos = "INSERT INTO Usuarios_Departamentos (Usuario_ID, Departamento_ID) VALUES
+$insert_usuarios_departamentos = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES
     (2100123456, 1), -- Juan es jefe del Departamento 1 (Estudios Regionales)
     (2103456789, 2), -- Ana es jefa del Departamento 2 (Finanzas)
     (2106789012, 3), -- Carlos Hernandez es jefe del Departamento 3 (Ciencias Sociales)
@@ -209,7 +209,7 @@ if (mysqli_query($conexion, $insert_usuarios_departamentos)) {
 }
 
 // Crear tabla Eventos_Admin
-$sql = "CREATE TABLE IF NOT EXISTS Eventos_Admin (
+$sql = "CREATE TABLE IF NOT EXISTS eventos_admin (
     ID_Evento INT AUTO_INCREMENT PRIMARY KEY,
     Nombre_Evento VARCHAR(255) NOT NULL,
     Descripcion_Evento TEXT,
@@ -230,13 +230,13 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Crear tabla Plantilla_SA
-$sql = "CREATE TABLE IF NOT EXISTS Plantilla_SA (
+$sql = "CREATE TABLE IF NOT EXISTS plantilla_sa (
     ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
     Contenido_Archivo_Dep LONGBLOB NOT NULL,
     Fecha_Subida_Dep VARCHAR(255) NOT NULL,
     Departamento_ID INT NOT NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -246,13 +246,13 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Crear tabla Plantilla_CoordP
-$sql = "CREATE TABLE IF NOT EXISTS Plantilla_CoordP (
+$sql = "CREATE TABLE IF NOT EXISTS plantilla_coordp (
     ID_Archivo_CoordP INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_CoordP VARCHAR(255) NOT NULL,
     Tamaño_Archivo_CoordP INT NOT NULL,
     Fecha_Subida_CoordP TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10) NOT NULL,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -262,7 +262,7 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Crear tabla Plantilla_Dep
-$sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
+$sql = "CREATE TABLE IF NOT EXISTS plantilla_dep (
     ID_Archivo_Dep INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Archivo_Dep VARCHAR(255) NOT NULL,
     Tamaño_Archivo_Dep INT NOT NULL,
@@ -270,8 +270,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Plantilla_Dep (
     Fecha_Subida_Dep TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Departamento_ID INT NOT NULL,
     Notificacion_Vista BOOLEAN DEFAULT 0,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo),
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -280,12 +280,12 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Error creando tabla Plantilla_Dep: " . mysqli_error($conexion);
 }
 
-$sql = "CREATE TABLE Fechas_Limite (
+$sql = "CREATE TABLE fechas_limite (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Fecha_Limite DATETIME,
     Fecha_Actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -294,7 +294,7 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Error creando tabla Fechas_limite: " . mysqli_error($conexion);
 }
 
-$sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
+$sql = "CREATE TABLE IF NOT EXISTS justificaciones (
     ID_Justificacion INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     Codigo_Usuario BIGINT(10) NOT NULL,
@@ -302,8 +302,8 @@ $sql = "CREATE TABLE IF NOT EXISTS Justificaciones (
     Fecha_Justificacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Justificacion_Enviada BOOLEAN DEFAULT 0,
     Notificacion_Vista BOOLEAN DEFAULT 0,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID),
-    FOREIGN KEY (Codigo_Usuario) REFERENCES Usuarios(Codigo)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID),
+    FOREIGN KEY (Codigo_Usuario) REFERENCES usuarios(Codigo)
 )";
 
 if (mysqli_query($conexion, $sql)) {
@@ -312,7 +312,7 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Error creando tabla Justificaciones: " . mysqli_error($conexion);
 }
 
-$sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
+$sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Tipo VARCHAR(50) NOT NULL,
     Mensaje TEXT NOT NULL,
@@ -320,7 +320,7 @@ $sql = "CREATE TABLE IF NOT EXISTS Notificaciones (
     Usuario_ID BIGINT(10),
     Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuarios(Codigo)
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 );";
 
 if (mysqli_query($conexion, $sql)) {
@@ -330,17 +330,17 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Crear tabla Data_Estudios_Regionales
-$sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
+$sql = "CREATE TABLE IF NOT EXISTS data_estudios_regionales (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -374,26 +374,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Estudios_Regionales (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Estudios_Regionales creada exitosamente";
+    echo "<br>Tabla data_Estudios_Regionales creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Estudios_Regionales: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Estudios_Regionales: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Finanzas
-$sql = "CREATE TABLE IF NOT EXISTS Data_Finanzas (
+// Crear tabla data_Finanzas
+$sql = "CREATE TABLE IF NOT EXISTS data_finanzas (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(80) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NOT NULL,
+    TIPO VARCHAR(5) NOT NULL,
     C_MIN VARCHAR(2) NOT NULL,
     H_TOTALES VARCHAR(2) NOT NULL,
     ESTATUS VARCHAR(10) NOT NULL,
@@ -427,26 +427,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Finanzas (
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Finanzas creada exitosamente";
+    echo "<br>Tabla data_Finanzas creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Finanzas: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Finanzas: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Ciencias_Sociales
-$sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
+// Crear tabla data_Ciencias_Sociales
+$sql = "CREATE TABLE IF NOT EXISTS data_ciencias_sociales (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -480,26 +480,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Ciencias_Sociales (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Ciencias_Sociales creada exitosamente";
+    echo "<br>Tabla data_Ciencias_Sociales creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Ciencistaas_Sociales: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Ciencistaas_Sociales: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_PALE
-$sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
+// Crear tabla data_PALE
+$sql = "CREATE TABLE IF NOT EXISTS data_pale (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -533,26 +533,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_PALE (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_PALE creada exitosamente";
+    echo "<br>Tabla data_PALE creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_PALE: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_PALE: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Posgrados
-$sql = "CREATE TABLE IF NOT EXISTS Data_Posgrados (
+// Crear tabla data_Posgrados
+$sql = "CREATE TABLE IF NOT EXISTS data_posgrados (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -586,26 +586,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Posgrados (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Posgrados creada exitosamente";
+    echo "<br>Tabla data_Posgrados creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Posgrados: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Posgrados: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Economia
-$sql = "CREATE TABLE IF NOT EXISTS Data_Economía (
+// Crear tabla data_Economia
+$sql = "CREATE TABLE IF NOT EXISTS data_economía (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -639,26 +639,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Economía (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Economia creada exitosamente";
+    echo "<br>Tabla data_Economia creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Economia: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Economia: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Recursos_Humanos
-$sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
+$sql = "CREATE TABLE IF NOT EXISTS data_recursos_Humanos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -692,26 +692,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Recursos_Humanos (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Recursos_Humanos creada exitosamente";
+    echo "<br>Tabla data_Recursos_Humanos creada exitosamente";
 } else {
     echo "<br>Error creando tabla Recursos_Humanos: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Metodos_Cuantitativos
-$sql = "CREATE TABLE IF NOT EXISTS Data_Métodos_Cuantitativos (
+$sql = "CREATE TABLE IF NOT EXISTS data_métodos_cuantitativos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -745,26 +745,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Métodos_Cuantitativos (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Metodos_Cuantitativos creada exitosamente";
+    echo "<br>Tabla data_Metodos_Cuantitativos creada exitosamente";
 } else {
     echo "<br>Error creando tabla Metodos_Cuantitativos: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Politicas_Publicas
-$sql = "CREATE TABLE IF NOT EXISTS Data_Políticas_Públicas (
+// Crear tabla data_Politicas_Publicas
+$sql = "CREATE TABLE IF NOT EXISTS data_políticas_públicas (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -798,26 +798,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Políticas_Públicas (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Politicas_Publicas creada exitosamente";
+    echo "<br>Tabla data_Politicas_Publicas creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Politicas_Publicas: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Politicas_Publicas: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Administracion
-$sql = "CREATE TABLE IF NOT EXISTS Data_Administración (
+// Crear tabla data_Administracion
+$sql = "CREATE TABLE IF NOT EXISTS data_administración (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -851,26 +851,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Administración (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Administracion creada exitosamente";
+    echo "<br>Tabla data_Administracion creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Administracion: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Administracion: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Auditoria
-$sql = "CREATE TABLE IF NOT EXISTS Data_Auditoría (
+// Crear tabla data_Auditoria
+$sql = "CREATE TABLE IF NOT EXISTS data_auditoría (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -904,26 +904,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Auditoría (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Auditoría creada exitosamente";
+    echo "<br>Tabla data_Auditoría creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Auditoría: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Auditoría: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Mercadotecnia
-$sql = "CREATE TABLE IF NOT EXISTS Data_Mercadotecnia (
+// Crear tabla data_Mercadotecnia
+$sql = "CREATE TABLE IF NOT EXISTS data_mercadotecnia (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -957,26 +957,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Mercadotecnia (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Mercadotecnia creada exitosamente";
+    echo "<br>Tabla data_Mercadotecnia creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Mercadotecnia: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Mercadotecnia: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Impuestos
-$sql = "CREATE TABLE IF NOT EXISTS Data_Impuestos (
+// Crear tabla data_Impuestos
+$sql = "CREATE TABLE IF NOT EXISTS data_impuestos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -1010,26 +1010,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Impuestos (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Impuestos creada exitosamente";
+    echo "<br>Tabla data_Impuestos creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Impuestos: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Impuestos: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Sistemas_de_Información
-$sql = "CREATE TABLE IF NOT EXISTS Data_Sistemas_de_Información (
+// Crear tabla data_Sistemas_de_Información
+$sql = "CREATE TABLE IF NOT EXISTS data_sistemas_de_información (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -1063,26 +1063,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Sistemas_de_Información (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Sistemas_de_Información creada exitosamente";
+    echo "<br>Tabla data_Sistemas_de_Información creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Sistemas_de_Información: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Sistemas_de_Información: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Turismo
-$sql = "CREATE TABLE IF NOT EXISTS Data_Turismo (
+// Crear tabla data_Turismo
+$sql = "CREATE TABLE IF NOT EXISTS data_turismo (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -1116,26 +1116,26 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Turismo (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Turismo creada exitosamente";
+    echo "<br>Tabla data_Turismo creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Turismo: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Turismo: " . mysqli_error($conexion) . "<br>";
 }
 
-// Crear tabla Data_Contabilidad
-$sql = "CREATE TABLE IF NOT EXISTS Data_Contabilidad (
+// Crear tabla data_Contabilidad
+$sql = "CREATE TABLE IF NOT EXISTS data_contabilidad (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
     CRN VARCHAR(15) NOT NULL,
     MATERIA VARCHAR(100) NOT NULL,
     CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(5) NOT NULL,
+    SECCION VARCHAR(15) NOT NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(1) NULL,
+    TIPO VARCHAR(5) NULL,
     C_MIN VARCHAR(2) NULL,
     H_TOTALES VARCHAR(2) NULL,
     ESTATUS VARCHAR(10) NULL,
@@ -1169,16 +1169,16 @@ $sql = "CREATE TABLE IF NOT EXISTS Data_Contabilidad (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES Departamentos(Departamento_ID)
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla Data_Contabilidad creada exitosamente";
+    echo "<br>Tabla data_Contabilidad creada exitosamente";
 } else {
-    echo "<br>Error creando tabla Data_Contabilidad: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Contabilidad: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Coord_Per_Prof
-$sql = "CREATE TABLE IF NOT EXISTS Coord_Per_Prof (
+$sql = "CREATE TABLE IF NOT EXISTS coord_per_prof (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     Codigo VARCHAR(12) NULL,
     Paterno  VARCHAR(50) NULL,

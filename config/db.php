@@ -6,43 +6,53 @@
 class DatabaseConfig
 {
     // Configuraciones para diferentes entornos
-    private static $configs = [
-        'local' => [
+    private static $configs = array(
+        'local' => array(
             'host' => 'localhost',
             'dbname' => 'pa',
             'username' => 'root',
             'password' => 'root',
             'charset' => 'utf8'
-        ],
-        'production' => [
+        ),
+        'production' => array(
             'host' => 'localhost',
             'dbname' => 'pa',
             'username' => 'pa',
             'password' => 'hyXbFnAYRH63yU',
             'charset' => 'utf8'
-        ]
-    ];
+        )
+    );
 
     /**
-     * Detecta automáticamente el entorno basado en el servidor
+     * Detecta automáticamente el entorno basado en múltiples métodos
      * @return string
      */
     private static function detectEnvironment()
     {
-        // Verificar si estamos en el servidor de producción usando la ruta del documento
-        $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
-        if (strpos($documentRoot, '/var/www/html/pa.cucea.udg.mx') !== false) {
-            return 'production';
+        // Múltiples formas de detectar el entorno local
+        $isLocal = false;
+
+        if (function_exists('php_sapi_name') && php_sapi_name() === 'cli') {
+            $isLocal = true;
         }
 
-        // Verificar el nombre del host
-        $serverName = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? '';
-        if (strpos($serverName, 'pa.cucea.udg.mx') !== false) {
-            return 'production';
+        if (isset($_SERVER['SERVER_NAME'])) {
+            if ($_SERVER['SERVER_NAME'] == 'localhost' || 
+                $_SERVER['SERVER_NAME'] == '127.0.0.1' || 
+                strpos($_SERVER['SERVER_NAME'], '.local') !== false || 
+                strpos($_SERVER['SERVER_NAME'], 'dev') !== false) {
+                $isLocal = true;
+            }
         }
 
-        // Si no se detecta como producción, es local
-        return 'local';
+        if (function_exists('gethostname')) {
+            $hostname = gethostname();
+            if ($hostname == 'localhost' || $hostname == '127.0.0.1') {
+                $isLocal = true;
+            }
+        }
+
+        return $isLocal ? 'local' : 'production';
     }
 
     /**
@@ -58,23 +68,19 @@ class DatabaseConfig
             $env = self::detectEnvironment();
             $config = self::$configs[$env];
 
-            try {
-                $conexion = mysqli_connect(
-                    $config['host'],
-                    $config['username'],
-                    $config['password'],
-                    $config['dbname']
-                );
+            $conexion = mysqli_connect(
+                $config['host'],
+                $config['username'],
+                $config['password'],
+                $config['dbname']
+            );
 
-                if (!$conexion) {
-                    throw new Exception(mysqli_connect_error());
-                }
-
-                mysqli_set_charset($conexion, $config['charset']);
-            } catch (Exception $e) {
-                error_log("Error de conexión en entorno '$env': " . $e->getMessage());
-                throw new Exception("Error de conexión a la base de datos: " . $e->getMessage());
+            if (!$conexion) {
+                error_log("Error de conexión: " . mysqli_connect_error());
+                throw new Exception("No se pudo conectar a la base de datos");
             }
+
+            mysqli_set_charset($conexion, $config['charset']);
         }
 
         return $conexion;

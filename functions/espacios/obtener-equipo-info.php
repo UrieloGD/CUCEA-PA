@@ -7,19 +7,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $modulo = mysqli_real_escape_string($conexion, $_GET['modulo']);
     $espacio = mysqli_real_escape_string($conexion, $_GET['espacio']);
 
-    $query = "SELECT Equipo, Observaciones, Reportes FROM espacios 
-              WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
+    $query = "SELECT 
+        Capacidad_Adecuada,
+        Capacidad_Exacta, 
+        Computadora,
+        Proyector,
+        Cortina_Proyector,
+        Cortina_Luz,
+        Doble_Pintarron,
+        Pantalla,
+        Camara,
+        Bocinas,
+        Pintarron,
+        Observaciones,
+        Reportes
+    FROM espacios 
+    WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
 
     $result = mysqli_query($conexion, $query);
 
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
-        echo json_encode([
-            'success' => true,
-            'equipo' => $row['Equipo'],
-            'observaciones' => $row['Observaciones'],
-            'reportes' => $row['Reportes']
-        ]);
+        
+        // Convert numeric booleans to strict boolean
+        $booleanColumns = [
+            'Computadora', 'Proyector', 'Cortina_Proyector', 
+            'Cortina_Luz', 'Doble_Pintarron', 'Pantalla', 
+            'Camara', 'Bocinas', 'Pintarron'
+        ];
+        
+        foreach ($booleanColumns as $column) {
+            $row[$column] = $row[$column] ? true : false;
+        }
+
+        $row['success'] = true;
+        echo json_encode($row);
     } else {
         echo json_encode(['success' => false, 'error' => 'No se encontró información']);
     }

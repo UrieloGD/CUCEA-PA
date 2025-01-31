@@ -293,6 +293,18 @@ th {
 
 /* css pop up de columnas de descarga excel */
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
 .popup-active {
   overflow: hidden;
 }
@@ -311,18 +323,39 @@ th {
 #popup-columnas {
   display: none;
   position: fixed;
-  left: 50%;
-  top: 50%;
+  
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 30px;
+  
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  width: 40vw;
-  height: 80vh;
+  
+  
   overflow-y: auto;
   border: 1px solid rgb(173, 173, 173);
+}
+
+.modal-content-descarga {
+  background-color: #fefefe;
+  margin: 3% auto;
+  left: 50%;
+  top: 50%;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 45vw;
+  height: 80vh;
+  max-width: 1200px;
+  max-height: 85vh;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.modal-content-descarga h2 {
+  margin-bottom: 20px;
 }
 
 .column-selector {
@@ -352,6 +385,10 @@ th {
 .select-all-div {
   flex-direction: column;
   gap: 10px;
+}
+
+.select-all-div-label {
+  padding-left: 10px;
 }
 
 .columns-container-js {
@@ -420,8 +457,6 @@ th {
   position: relative;
   display: flex;
   justify-content: left;
-  margin-bottom: 15px;
-  margin-top: 10px;
   font-weight: bold;
 }
 
@@ -438,7 +473,7 @@ th {
   padding-left: 10px;
 }
 
-.column-selector button {
+.fila-botones button {
   background-color: #0071b0;
   color: white;
   border: none;
@@ -502,7 +537,7 @@ th {
 
 /* Modal Añadir Registro */
 
-.modal {
+.modal-R {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -568,11 +603,12 @@ th {
   padding: 0 7 0px;
 }
 
-.form-row,
-.form-row-titles {
-  display: flex;
+.form-row-titles,
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
   gap: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
 }
 
 .form-row-titles input {
@@ -616,18 +652,75 @@ th {
 
 #dia_presencial,
 #dia_virtual,
+#dia_presencial2,
+#dia_virtual2,
 #title_dia_presencial,
 #title_dia_virtual {
   display: none;
 }
 
+.active-label {
+  color:#0071b0;
+}
+
+.form-row-titles span {
+  font-weight: bold;
+  color:#888;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #444;
+  line-height: 28px;
+  font-size: 0.8rem;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered.selected {
+  color: #000 !important;
+}
+
+.select2-dropdown {
+  font-size: 1rem;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: #0071b0;
+  outline: 0;
+}
+ 
+.select2-container--default .select2-selection--single:focus {
+  border-color: #0071b0;
+  border-width: 2px;
+  outline: 0;
+}
+
+.select2-search__field:focus {
+  border-color: #0071b0;
+  border-width: 2px;
+  outline: 0;
+}
+
+#presencial-virtual,
+#mixta {
+  width: 100%;
+}
+
+#lun, #mar, #mie, #jue, #vie, #sab, #dom,
+#lun2, #mar2, #mie2, #jue2, #vie2, #sab2, #dom2 {
+  display: none;
+}
+
 select {
-  color: #888888;
+  color: #aaa;
+  font-style: italic;
+}
+
+input[type="date"] {
+  color: #aaa;
   font-style: italic;
 }
 
 select:focus {
-  color: black;
+  color: #000000;
   font-style: normal;
 }
 
@@ -663,8 +756,8 @@ select:focus {
 .form-row input,
 .form-row select {
   flex: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 4px;
+  border: 1px solid #aaa;
   border-radius: 4px;
 }
 
@@ -718,6 +811,21 @@ select:focus {
 
 .close:hover,
 .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close-R {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-R:hover,
+.close-R:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;

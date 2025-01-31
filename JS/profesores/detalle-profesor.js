@@ -21,96 +21,96 @@ function verDetalleProfesor(codigo_profesor) {
     const styleSheet = document.createElement("style");
     styleSheet.id = "modalStyles";
     styleSheet.textContent = `
-            .modal {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-                z-index: 1000;
-            }
-            .modal-content {
-                position: relative;
-                background-color: #fff;
-                padding: 0;
-                width: 100%;
-                max-width: 1150px;
-                border-radius: 8px;
-                animation: modalFadeIn 0.3s ease-out;
-            }
-            .modal-header {
-                padding: 15px 20px;
-                background-color: #f8f9fa;
-                border-bottom: 1px solid #dee2e6;
-                border-radius: 8px 8px 0 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-            .modal-header h3 {
-                margin: 0;
-                color: #333;
-                font-size: 1.25rem;
-            }
-            .close1 {
-                color: #aaa;
-                font-size: 28px;
-                font-weight: bold;
-                cursor: pointer;
-                padding: 0 5px;
-                top: 0;
-            }
-            .close:hover {
-                color: #333;
-            }
-            .modal-body {
-                padding: 20px;
-            }
-            .alert {
-                padding: 15px;
-                border-radius: 4px;
-                margin-bottom: 15px;
-            }
-            .alert-info {
-                background-color: #e3f2fd;
-                color: #0c5460;
-                border: 1px solid #bee5eb;
-            }
-            .alert-danger {
-                background-color: #f8d7da;
-                color: #721c24;
-                border: 1px solid #f5c6cb;
-            }
-            @keyframes modalFadeIn {
-                from {opacity: 0}
-                to {opacity: 1}
-            }
-            @media screen and (max-width: 768px) {
-                .modal-content {
-                    width: 90%;
-                    margin: 10% auto;
-                }
-            }
-        `;
+              .modal {
+                  display: none;
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  background-color: rgba(0, 0, 0, 0.5);
+                  z-index: 1000;
+              }
+              .modal-content {
+                  position: relative;
+                  background-color: #fff;
+                  padding: 0;
+                  width: 100%;
+                  max-width: 1150px;
+                  border-radius: 8px;
+                  animation: modalFadeIn 0.3s ease-out;
+              }
+              .modal-header {
+                  padding: 15px 20px;
+                  background-color: #f8f9fa;
+                  border-bottom: 1px solid #dee2e6;
+                  border-radius: 8px 8px 0 0;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+              }
+              .modal-header h3 {
+                  margin: 0;
+                  color: #333;
+                  font-size: 1.25rem;
+              }
+              .close1 {
+                  color: #aaa;
+                  font-size: 28px;
+                  font-weight: bold;
+                  cursor: pointer;
+                  padding: 0 5px;
+                  top: 0;
+              }
+              .close:hover {
+                  color: #333;
+              }
+              .modal-body {
+                  padding: 20px;
+              }
+              .alert {
+                  padding: 15px;
+                  border-radius: 4px;
+                  margin-bottom: 15px;
+              }
+              .alert-info {
+                  background-color: #e3f2fd;
+                  color: #0c5460;
+                  border: 1px solid #bee5eb;
+              }
+              .alert-danger {
+                  background-color: #f8d7da;
+                  color: #721c24;
+                  border: 1px solid #f5c6cb;
+              }
+              @keyframes modalFadeIn {
+                  from {opacity: 0}
+                  to {opacity: 1}
+              }
+              @media screen and (max-width: 768px) {
+                  .modal-content {
+                      width: 90%;
+                      margin: 10% auto;
+                  }
+              }
+          `;
     document.head.appendChild(styleSheet);
   }
 
   if (!codigo_profesor) {
     // Si no hay código, mostrar mensaje en el modal con botón de cierre
     $("#detalle-profesor-contenido").html(`
-            
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Información del Profesor</h3>
-                    <span class="close" onclick="cerrarModalDetalle()">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-info">Este profesor no tiene un código establecido</div>
-                </div>
-            </div>
-        `);
+              
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h3>Información del Profesor</h3>
+                      <span class="close" onclick="cerrarModalDetalle()">&times;</span>
+                  </div>
+                  <div class="modal-body">
+                      <div class="alert alert-info">Este profesor no tiene un código establecido</div>
+                  </div>
+              </div>
+          `);
     $("#modal-detalle-profesor").show();
     return;
   }
@@ -129,16 +129,16 @@ function verDetalleProfesor(codigo_profesor) {
     error: function (xhr, status, error) {
       console.error("Error al cargar los detalles:", error);
       $("#detalle-profesor-contenido").html(`
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Error</h3>
-                        <span class="close1" onclick="cerrarModalDetalle()">&times;</span>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-danger">Error al cargar los detalles del profesor</div>
-                    </div>
-                </div>
-            `);
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h3>Error</h3>
+                          <span class="close1" onclick="cerrarModalDetalle()">&times;</span>
+                      </div>
+                      <div class="modal-body">
+                          <div class="alert alert-danger">Error al cargar los detalles del profesor</div>
+                      </div>
+                  </div>
+              `);
       $("#modal-detalle-profesor").show();
     },
   });

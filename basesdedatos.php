@@ -216,21 +216,10 @@ $result = $stmt->get_result();
                         <i class="fa fa-trash" aria-hidden="true"></i>
                     </div>
                 <?php endif; ?>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="popup-columnas" class="column-selector">
-        <h3>Selecciona las columnas a descargar</h3>
-        <div id="opciones-columnas"></div>
-        <div class="fila-botones">
-            <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
-            <?php if ($_SESSION['Rol_ID'] == 2): ?>
-                <button class="btn-cotejo" onclick="descargarExcelCotejado()">Descargar cotejo</button>
-            <?php endif; ?>
-            <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
         </div>
     </div>
 
@@ -357,6 +346,7 @@ $result = $stmt->get_result();
 </div>
 
 <?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php'; ?>
+<?php include './functions/basesdedatos/modal-descargar-excel/modal-descargar-excel.php'; ?>
 
 <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
 <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">

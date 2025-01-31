@@ -19,7 +19,11 @@ function eliminarRegistrosSeleccionados() {
     }).then((result) => {
       if (result.isConfirmed) {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "./functions/basesdedatos/eliminar-registros.php", true);
+        xhr.open(
+          "POST",
+          "./functions/basesdedatos/eliminar-registros.php",
+          true
+        );
         xhr.setRequestHeader(
           "Content-Type",
           "application/x-www-form-urlencoded"
@@ -38,7 +42,7 @@ function eliminarRegistrosSeleccionados() {
               Swal.fire({
                 title: "Error",
                 text: "Hubo un problema al borrar la base de datos.",
-                icon: "error"
+                icon: "error",
               });
             }
           }
@@ -46,8 +50,9 @@ function eliminarRegistrosSeleccionados() {
 
         var departamento_id = document.getElementById("departamento_id").value;
         xhr.send(
-          "departamento_id=" + encodeURIComponent(departamento_id) + 
-          "&truncate=1"
+          "departamento_id=" +
+            encodeURIComponent(departamento_id) +
+            "&truncate=1"
         );
       }
     });

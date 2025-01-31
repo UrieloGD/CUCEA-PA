@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+    header("Location: home.php");
+    exit();
+}
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -996,6 +1006,7 @@
                     <th>Carga Horaria</th>
                     <th>Horas Frente Grupo</th>
                     <th>Horas Definitivas</th>
+                    <th>Horas Temporales</th>
                     `;
 
                             tablaBody.innerHTML = ''; // Limpiar tabla
@@ -1124,15 +1135,21 @@
                                 const horasDefinitivasDeptos = formatearHorasDepartamento(persona.horas_definitivas_por_departamento, 'definitivas');
 
                                 const tdContent = `
-                        <td>${persona.Codigo || ''}</td>
-                        <td>${persona.Nombre_completo || ''}</td>
-                        <td>${persona.Departamento || ''}</td>
-                        <td>${persona.Categoria_actual || ''}</td>
-                        <td>${persona.Tipo_plaza || ''}</td>
-                        <td>${persona.Carga_horaria || ''}</td>
-                        <td>${horasFrenteGrupoHTML}</td>
-                        <td>${horasDefinitivasHTML}</td>
-                        `;
+                                    <td>${persona.Codigo || ''}</td>
+                                    <td>${persona.Nombre_completo || ''}</td>
+                                    <td>${persona.Departamento || ''}</td>
+                                    <td>${persona.Categoria_actual || ''}</td>
+                                    <td>${persona.Tipo_plaza || ''}</td>
+                                    <td>${persona.Carga_horaria || ''}</td>
+                                    <td>${horasFrenteGrupoHTML}</td>
+                                    <td>${horasDefinitivasHTML}</td>
+                                    <td>
+                                        <div class="tooltip">
+                                            <span class="horas-temporales">${persona.suma_horas_temporales || 0}</span>
+                                            <div class="tooltiptext">${persona.horas_temporales_por_departamento || ''}</div>
+                                        </div>
+                                    </td>
+                                `;
 
                                 row.innerHTML = tdContent;
                                 tablaBody.appendChild(row);
@@ -1213,4 +1230,4 @@
             }
         </script>
 
-        <?php include("./template/footer.php"); ?>
+        <?php include("./template/footer.php"); ?>  

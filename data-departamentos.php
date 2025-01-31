@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 and $_SESSION['Rol_ID'] != 3) {
+    header("Location: home.php");
+    exit();
+}
+?>
+
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -59,7 +69,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 ?>
 
 <title>Datas Departamentos</title>
-<link rel="stylesheet" href="./CSS/admin-data-departamentos.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/data-departamentos.css?=v1.0" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -151,7 +161,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <h2>Cambiar Fecha Límite</h2>
-      <form id="fechaLimiteForm" action="./functions/admin-data-departamentos/updateFechaLimite.php" method="post">
+      <form id="fechaLimiteForm" action="./functions/data-departamentos/updateFechaLimite.php" method="post">
         <label for="fecha_limite">Nueva Fecha Límite:</label>
         <input type="date" id="fecha_limite" name="fecha_limite" required>
         <button type="submit" class="btn-guardar">Guardar</button>
@@ -159,7 +169,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
     </div>
   </div>
 
-  <script src="./JS/admin-data-departamentos/modalFechaLimite.js"></script>
+  <script src="./JS/data-departamentos/modalFechaLimite.js"></script>
   <!-- Script updateFechaLimite -->
   <!-- Por alguna razon no se puede hacer modular el codigo de abajo -->
   <script>
@@ -178,14 +188,14 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 
       var formData = new FormData(this);
 
-      fetch('./functions/admin-data-departamentos/updateFechaLimite.php', {
+      fetch('./functions/data-departamentos/updateFechaLimite.php', {
           method: 'POST',
           body: formData
         })
         .then(response => response.text())
         .then(data => {
           Swal.close();
-          if (data.includes("Location: ../admin-data-departamentos.php?success=1")) {
+          if (data.includes("Location: ../data-departamentos.php?success=1")) {
             Swal.fire({
               icon: 'success',
               title: 'Fecha límite actualizada',
