@@ -18,6 +18,84 @@ $rol = $_SESSION['Rol_ID'];
 $departamento_id = null;
 
 try {
+    // Array de mapeo de departamentos
+    $departamentos_mapping = [
+
+        'Administración' => [
+            'Administracion',
+            'ADMINISTRACION',
+            'Administración'
+        ],
+        'PALE' => [
+            'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
+            'PALE',
+            'Programa de Aprendizaje de Lengua Extranjera'
+        ],
+        'Auditoría' => [
+            'Auditoria',
+            'AUDITORIA',
+            'Auditoría',
+            'SECRETARIA ADMINISTRATIVA/AUDITORIA'
+        ],
+        'Ciencias_Sociales' => [
+            'CERI/CIENCIAS SOCIALES',
+            'CIENCIAS SOCIALES',
+            'Ciencias Sociales', 
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS'
+        ],
+        'Políticas_Públicas' => [
+            'POLITICAS PUBLICAS',
+            'Políticas Públicas',
+            'Politicas Publicas'
+        ],
+        'Contabilidad' => [
+            'CONTABILIDAD',
+            'Contabilidad'
+        ],
+        'Economía' => [
+            'ECONOMIA',
+            'Economía',
+            'Economia'
+        ],
+        'Estudios_Regionales' => [
+            'ESTUDIOS REGIONALES',
+            'Estudios Regionales'
+        ],
+        'Finanzas' => [
+            'FINANZAS',
+            'Finanzas'
+        ],
+        'Impuestos' => [
+            'IMPUESTOS',
+            'Impuestos'
+        ],
+        'Mercadotecnia' => [
+            'MERCADOTECNIA',
+            'Mercadotecnia',
+            'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
+        ],
+        'Métodos_Cuantitativos' => [
+            'METODOS CUANTITATIVOS',
+            'Métodos Cuantitativos',
+            'Metodos Cuantitativos'
+        ],
+        'Recursos_Humanos' => [
+            'RECURSOS HUMANOS',
+            'Recursos Humanos',
+            'RECURSOS_HUMANOS'
+        ],
+        'Sistemas_de_Información' => [
+            'SISTEMAS DE INFORMACION',
+            'Sistemas de Información',
+            'Sistemas de Informacion'
+        ],
+        'Turismo' => [
+            'TURISMO',
+            'Turismo',
+            'Turismo R. y S.'
+        ],
+    ];
+
     // Lógica para seleccionar el departamento
     if ($rol == 1) {
         $departamento_id = $_SESSION['Departamento_ID'];
@@ -40,12 +118,9 @@ try {
     }
 
     // Obtener información del departamento
-    $sql_departamento = "SELECT d.Nombre_Departamento, d.Departamentos,
-                        GROUP_CONCAT(DISTINCT cpp.Departamento) as departamentos_coord
-                        FROM departamentos d
-                        LEFT JOIN coord_per_prof cpp ON cpp.Departamento LIKE CONCAT('%', d.Nombre_Departamento, '%')
-                        WHERE d.Departamento_ID = ?
-                        GROUP BY d.Departamento_ID";
+    $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
+                        FROM departamentos 
+                        WHERE Departamento_ID = ?";
     
     $stmt = $conexion->prepare($sql_departamento);
     if (!$stmt) {
@@ -63,17 +138,31 @@ try {
     $row_departamento = $result_departamento->fetch_assoc();
     $nombre_departamento = $row_departamento['Nombre_Departamento'];
     $departamento_nombre = $row_departamento['Departamentos'];
-    $departamentos_coord = explode(',', $row_departamento['departamentos_coord']);
 
-    // Consulta principal de profesores
-    $placeholders = array_fill(0, count($departamentos_coord), '?');
+    // Obtener las variantes del departamento desde el mapping
+    $departamento_variantes = [];
+    foreach ($departamentos_mapping as $key => $variants) {
+        // Comparar tanto con Nombre_Departamento como con Departamentos
+        if ($key === $nombre_departamento || $key === $departamento_nombre) {
+            $departamento_variantes = $variants;
+            break;
+        }
+    }
+
+    // Si no se encontraron variantes, usar el nombre original
+    if (empty($departamento_variantes)) {
+        $departamento_variantes = [$nombre_departamento, $departamento_nombre];
+    }
+
+    // Preparar la consulta usando prepared statements
+    $placeholders = str_repeat('?,', count($departamento_variantes) - 1) . '?';
     $sql_todos_profesores = "SELECT DISTINCT 
                             Codigo, 
                             Nombre_completo, 
                             Categoria_actual,
                             Departamento
                             FROM coord_per_prof 
-                            WHERE Departamento IN (" . implode(',', $placeholders) . ")
+                            WHERE Departamento IN ($placeholders)
                             ORDER BY Nombre_completo";
     
     $stmt_profesores = $conexion->prepare($sql_todos_profesores);
@@ -82,8 +171,8 @@ try {
     }
 
     // Bind de los parámetros dinámicamente
-    $tipos = str_repeat('s', count($departamentos_coord));
-    $stmt_profesores->bind_param($tipos, ...$departamentos_coord);
+    $tipos = str_repeat('s', count($departamento_variantes));
+    $stmt_profesores->bind_param($tipos, ...$departamento_variantes);
     $stmt_profesores->execute();
     $result_todos_profesores = $stmt_profesores->get_result();
 
@@ -114,7 +203,28 @@ try {
         <div class="encabezado-centro">
             <h3>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></h3>
         </div>
-        <div class="encabezado-derecha"></div>
+        <div class="encabezado-derecha">
+            <div id="list1" class="dropdown-check-list" tabindex="100">
+                <span class="anchor">Departamento: </span>
+                <ul class="items">
+                    <?php
+                    $sql_departamentos = "SELECT DISTINCT Departamento_ID, Departamentos FROM departamentos ORDER BY Departamentos";
+            $result_departamentos = mysqli_query($conexion, $sql_departamentos);
+            
+            while($row = mysqli_fetch_assoc($result_departamentos)) {
+                $checked = ($row['Departamento_ID'] == $departamento_id) ? 'checked' : '';
+                echo "<li>
+                    <input type='checkbox' name='departamentos[]' 
+                           value='" . $row['Departamento_ID'] . "' 
+                           " . $checked . "
+                           onchange='actualizarTablaProfesores()'/>
+                    " . htmlspecialchars($row['Departamentos']) . "
+                    </li>";
+            }
+                    ?>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <div class="contenedor-tabla">
@@ -123,6 +233,7 @@ try {
                 <table class="profesores-table">
                     <thead>
                         <tr>
+                            <th class="detalle-column">count</th>
                             <th class="detalle-column">Código</th>
                             <th class="detalle-column">Nombre Completo</th>
                             <th class="detalle-column">Categoria Actual</th>
@@ -133,8 +244,10 @@ try {
                     <tbody>
                         <?php
                         if ($result_todos_profesores) {
+                            $contador = 1;
                             while($row = $result_todos_profesores->fetch_assoc()) {
                                 echo "<tr class='tr-info'>";
+                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador) . "</td>";
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
@@ -144,6 +257,7 @@ try {
                                                 class='btn-detalle'>Ver detalle</button>
                                     </td>";
                                 echo "</tr>";
+                                $contador = $contador + 1;
                             }
                         } else {
                             echo "<tr><td colspan='5'>No se encontraron profesores</td></tr>";
@@ -167,6 +281,7 @@ try {
 
 <script src="./JS/profesores/detalle-profesor.js"></script>
 <script src="./JS/profesores/filtro-profesores.js"></script>
+<script src="./JS/profesores/desplegable-box.js"></script>
 
 <!-- DataTables Scripts -->
  
