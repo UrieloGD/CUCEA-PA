@@ -39,23 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
     submitButton.textContent = "Guardar";
   }
 
-  // Rellenar select de roles y departamentos
-  const rolesSelect = document.getElementById("rol");
-  roles.forEach((rol) => {
-    const option = document.createElement("option");
-    option.value = rol.Rol_ID;
-    option.text = rol.Nombre_Rol;
-    rolesSelect.add(option);
-  });
-
-  const departamentosSelect = document.getElementById("departamento");
-  departamentos.forEach((departamento) => {
-    const option = document.createElement("option");
-    option.value = departamento.Departamento_ID;
-    option.text = departamento.Departamentos;
-    departamentosSelect.add(option);
-  });
-
   // Lógica de roles y departamentos
   document.getElementById("rol").addEventListener("change", function () {
     const selectedRole = this.options[this.selectedIndex].text;
