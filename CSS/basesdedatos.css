@@ -535,319 +535,6 @@ th {
   justify-content: left;
 }
 
-/* Modal Añadir Registro */
-
-.modal-R {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.4);
-}
-
-/* .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 90%;
-  max-width: 1000px;
-  max-height: 80vh;
-  overflow-y: auto;
-  border-radius: 10px;
-} DUPLICADO MAYBE */
-
-.modal input, .modal select {
-  border-radius: 5px;
-  padding: 5px;
-  border: 1px solid #ccc;
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 3% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 60%;
-  max-width: 1200px;
-  max-height: 85vh;
-  overflow-y: auto;
-  border-radius: 15px;
-  -webkit-border-radius: 15px;
-  -moz-border-radius: 15px;
-  -ms-border-radius: 15px;
-  -o-border-radius: 15px;
-}
-
-.modal-content h2 {
-  margin-bottom: 20px;
-}
-
-.form-container {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 15px;
-}
-
-.form-section h3 {
-  margin-bottom: 15px;
-  color: #0071b0;
-}
-
-.form-section {
-  width: 50%;
-  padding: 0 7 0px;
-}
-
-.form-row-titles,
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-  gap: 10px;
-  margin-bottom: 4px;
-}
-
-.form-row-titles input {
-  padding: 0;
-  background-color: #fff;
-  text-align: left;
-  outline: none;
-  border: none;
-  font-weight: bold;
-  width: 100%;
-}
-
-.form-row input {
-  outline-color: #0071b0;
-}
-
-.form-row select {
-  width: 100%;
-  outline-color: #0071b0;
-}
-
-.form-row input::placeholder {
-  opacity: 0.65;
-}
-
-.weekdays {
-  flex-wrap: nowrap;
-  flex-direction: row;
-}
-
-.weekdays input {
-  text-align: center;
-}
-
-#l, #m, #i, #j, #v, #s, #d,
-#ciclo, #crn, #cve_materia,
-#nivel, #nivel_tipo, #tipo, #seccion,
-#c_min, #h_totales, #estatus {
-  width: 100%;
-}
-
-#dia_presencial,
-#dia_virtual,
-#dia_presencial2,
-#dia_virtual2,
-#title_dia_presencial,
-#title_dia_virtual,
-#title_dia_presencial2,
-#title_dia_virtual2 {
-  display: none;
-}
-
-.active-label {
-  color:#0071b0;
-}
-
-.form-row-titles span {
-  font-weight: bold;
-  color:#626262;
-  font-size: 0.9rem;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-  color: #444;
-  line-height: 28px;
-  font-size: 0.8rem;
-}
-
-.select2 .select2-container .select2-container--default .select2-container--below {
-  color: #000 !important;
-}
-
-.select2-dropdown {
-  font-size: 0.8rem;
-}
-
-.select2-container--default.select2-container--focus .select2-selection--single {
-  border-color: #0071b0;
-  outline: 0;
-}
- 
-.select2-container--default .select2-selection--single:focus {
-  border-color: #0071b0!important;
-  border-width: 2px;
-  outline: 1;
-}
-
-.select2-search__field input:focus {
-  border-color: #0071b0!important;
-  border-width: 2px;
-  outline: 1;
-}
-
-#select2-nivel-container, 
-#select2-tipo-container, 
-#select2-nivel_tipo-container, 
-#select2-estatus-container, 
-#select2-examen_extraordinario-container, 
-#select2-tipo_contrato-container, 
-#select2-categoria-container, 
-#select2-descarga-container, 
-#select2-titular-container {
-  color: #000000;
-}
-
-#presencial-virtual,
-#mixta {
-  width: 100%;
-}
-
-#lun, #mar, #mie, #jue, #vie, #sab, #dom,
-#lun2, #mar2, #mie2, #jue2, #vie2, #sab2, #dom2 {
-  display: none;
-}
-
-select {
-  color: #aaa;
-}
-
-select::placeholder {
-  opacity: 0.5;
-}
-
-input[type="date"] {
-  color: #aaa;
-}
-
-select:focus {
-  color: #000000;
-  font-style: normal;
-}
-
-.form-actions {
-  margin: 0 auto;
-  margin-top: 20px;
-}
-.form-actions button {
-  border-radius: 7px;
-  border: none;
-  padding: 10 35 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
-  margin-left: 15px;
-}
-.form-actions button:nth-child(1) {
-  background-color: #0071B0;
-  transition: ease-out 0.3s;
-}
-.form-actions button:nth-child(1):hover {
-  background-color: #005a8c;
-}
-.form-actions button:nth-child(2) {
-  background-color: #a7b3b9;
-  transition: ease-out 0.3s;
-}
-.form-actions button:nth-child(2):hover {
-  background-color: #a7a5a5;
-}
-
-.form-row input,
-.form-row select {
-  flex: 1;
-  padding: 4px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-}
-
-.form-row label {
-  margin-left: -10;
-}
-
-.form-row .weekdays {
-  justify-content: space-between;
-}
-
-.weekdays input {
-  width: 30px;
-  text-align: center;
-}
-
-.form-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-/*
-.form-actions button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 7.5px;
-  cursor: pointer;
-}
-
-.form-actions button:first-child {
-  background-color: #0071b0;
-  color: white;
-  font-weight: bold;
-}
-
-.form-actions button:last-child {
-  background-color: #fff;
-  color: #0071b0;
-  border: #0071b0 solid 2px;
-  font-weight: bold;
-}
-*/
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.close-R {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-R:hover,
-.close-R:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .input-estrecho {
   width: 80px; /* Ajusta este valor según sea necesario */
   /* box-sizing: border-box; */
@@ -1079,12 +766,6 @@ nav[aria-label="pagination"] {
   .contenedor-buttons { 
     left: 30%;
   }
-  .modal-content {
-    width: 70%;
-  }
-  .form-row-titles span {
-    font-size: 0.8rem;
-  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -1128,16 +809,6 @@ nav[aria-label="pagination"] {
   .iconos-container > #icono-guardar {
     margin-right: 5px;
   }
-
-  .form-container {
-    gap: 20px;
-    flex-wrap: nowrap;
-  }
-  
-  .form-section {
-    padding: 0 3 0px;
-  }
-
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
@@ -1148,16 +819,6 @@ nav[aria-label="pagination"] {
   .contenedor-buttons { 
     left: 29%;
   }
-  .modal-content {
-    width: 80%;
-  }
-  .form-row-titles,
-  .form-row {
-    gap: 7px;
-  }
-  .form-row-titles span {
-    font-size: 0.8rem;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1167,30 +828,24 @@ nav[aria-label="pagination"] {
     margin-left: 2vw;
     font-size: smaller;
   }
-
   .encabezado {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   .encabezado h2 {
     margin: 0;
     font-size: medium;
   }
-
   /* Tabla */
-
   .tabla {
     padding: 20px;
     border-radius: 20px 20px 0px 0px;
   }
-
   table {
     width: 100%;
     border-collapse: collapse;
   }
-
   th,
   td {
     padding: 8px;
@@ -1198,7 +853,6 @@ nav[aria-label="pagination"] {
     border-bottom: 2px solid #ddd;
     font-size: smaller;
   }
-
   th {
     color: black;
     border-bottom: solid #0071b0;
@@ -1207,17 +861,14 @@ nav[aria-label="pagination"] {
     background-color: white; /* Fondo blanco para que el encabezado sea legible */
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
   }
-
   .encabezado-centro {
     position: relative;
     margin-bottom: 50px;
     font-size: small;
   }
-
   .datatable-container {
     margin-top: 40px;
   }
-
   .iconos-container {
     position: relative;
     margin-right: 18vw;
@@ -1249,37 +900,6 @@ nav[aria-label="pagination"] {
   .iconos-container > #icono-guardar {
     margin-right: 5px;
   }
-
-  .form-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .form-section {
-    width: 100%;
-  }
-
-  .form-actions button {
-    border-radius: 5px;
-    border: none;
-    padding: 8 30 8px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-
-  .modal-content {
-    width: 80%;
-  }
-  .form-row-titles,
-  .form-row {
-    gap: 7px;
-  }
-  .form-row-titles span {
-    font-size: 0.8rem;
-  }
-
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
@@ -1299,13 +919,6 @@ nav[aria-label="pagination"] {
   #input-buscador {
     width: 80vw;
   }
-
-  .form-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
@@ -1347,7 +960,6 @@ nav[aria-label="pagination"] {
     margin-bottom: 50px;
     font-size: x-small;
   }
-
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
