@@ -606,7 +606,7 @@ th {
 .form-row-titles,
 .form-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
   gap: 10px;
   margin-bottom: 4px;
 }
@@ -631,7 +631,7 @@ th {
 }
 
 .form-row input::placeholder {
-  font-style: italic;
+  opacity: 0.65;
 }
 
 .weekdays {
@@ -655,7 +655,9 @@ th {
 #dia_presencial2,
 #dia_virtual2,
 #title_dia_presencial,
-#title_dia_virtual {
+#title_dia_virtual,
+#title_dia_presencial2,
+#title_dia_virtual2 {
   display: none;
 }
 
@@ -665,7 +667,8 @@ th {
 
 .form-row-titles span {
   font-weight: bold;
-  color:#888;
+  color:#626262;
+  font-size: 0.9rem;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -674,12 +677,12 @@ th {
   font-size: 0.8rem;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered.selected {
+.select2 .select2-container .select2-container--default .select2-container--below {
   color: #000 !important;
 }
 
 .select2-dropdown {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--single {
@@ -688,15 +691,27 @@ th {
 }
  
 .select2-container--default .select2-selection--single:focus {
-  border-color: #0071b0;
+  border-color: #0071b0!important;
   border-width: 2px;
-  outline: 0;
+  outline: 1;
 }
 
-.select2-search__field:focus {
-  border-color: #0071b0;
+.select2-search__field input:focus {
+  border-color: #0071b0!important;
   border-width: 2px;
-  outline: 0;
+  outline: 1;
+}
+
+#select2-nivel-container, 
+#select2-tipo-container, 
+#select2-nivel_tipo-container, 
+#select2-estatus-container, 
+#select2-examen_extraordinario-container, 
+#select2-tipo_contrato-container, 
+#select2-categoria-container, 
+#select2-descarga-container, 
+#select2-titular-container {
+  color: #000000;
 }
 
 #presencial-virtual,
@@ -711,12 +726,14 @@ th {
 
 select {
   color: #aaa;
-  font-style: italic;
+}
+
+select::placeholder {
+  opacity: 0.5;
 }
 
 input[type="date"] {
   color: #aaa;
-  font-style: italic;
 }
 
 select:focus {
@@ -765,7 +782,7 @@ select:focus {
   margin-left: -10;
 }
 
-.weekdays {
+.form-row .weekdays {
   justify-content: space-between;
 }
 
@@ -1062,6 +1079,12 @@ nav[aria-label="pagination"] {
   .contenedor-buttons { 
     left: 30%;
   }
+  .modal-content {
+    width: 70%;
+  }
+  .form-row-titles span {
+    font-size: 0.8rem;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -1107,23 +1130,14 @@ nav[aria-label="pagination"] {
   }
 
   .form-container {
-    display: flex;
     gap: 20px;
     flex-wrap: nowrap;
   }
   
   .form-section {
-    padding: 0 10 0px;
+    padding: 0 3 0px;
   }
 
-  .form-movil {
-    flex: 1;
-    max-width: 300px;
-  }
-
-  .form-row input {
-    width: 5vw;
-  }
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
@@ -1133,6 +1147,16 @@ nav[aria-label="pagination"] {
   }
   .contenedor-buttons { 
     left: 29%;
+  }
+  .modal-content {
+    width: 80%;
+  }
+  .form-row-titles,
+  .form-row {
+    gap: 7px;
+  }
+  .form-row-titles span {
+    font-size: 0.8rem;
   }
 }
 
@@ -1245,14 +1269,17 @@ nav[aria-label="pagination"] {
     margin-left: 10px;
   }
 
-  .form-movil {
-    flex: 1;
-    max-width: 300px;
+  .modal-content {
+    width: 80%;
+  }
+  .form-row-titles,
+  .form-row {
+    gap: 7px;
+  }
+  .form-row-titles span {
+    font-size: 0.8rem;
   }
 
-  .form-row input {
-    width: 5vw;
-  }
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
@@ -1279,14 +1306,6 @@ nav[aria-label="pagination"] {
     flex-wrap: wrap;
   }
 
-  .form-movil {
-    flex: 1;
-    max-width: 300px;
-  }
-
-  .form-row input {
-    width: 10vw;
-  }
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
@@ -1328,20 +1347,7 @@ nav[aria-label="pagination"] {
     margin-bottom: 50px;
     font-size: x-small;
   }
-  .form-container {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
 
-  .form-movil {
-    flex: 1;
-    max-width: 300px;
-  }
-
-  .form-row input {
-    width: 10vw;
-  }
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;

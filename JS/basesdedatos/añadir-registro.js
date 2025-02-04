@@ -69,6 +69,8 @@ function añadirRegistro() {
 
 // Condicionales y estilos del modal.
 // --------------------------------- //
+
+// Variables para presenciales y virtuales
 var lunes = document.getElementById('l');
 var martes = document.getElementById('m');
 var miercoles = document.getElementById('i');
@@ -77,84 +79,165 @@ var viernes = document.getElementById('v');
 var sabado = document.getElementById('s');
 var domingo = document.getElementById('d');
 
+// Variables para mixta (desplegable presencial)
+var lun = document.getElementById('lun');
+var mar = document.getElementById('mar');
+var mie = document.getElementById('mie');
+var jue = document.getElementById('jue');
+var vie = document.getElementById('vie');
+var sab = document.getElementById('sab');
+var dom = document.getElementById('dom');
+
+// Variables para mixta (desplegable virtual)
+var lun2 = document.getElementById('lun2');
+var mar2 = document.getElementById('mar2');
+var mie2 = document.getElementById('mie2');
+var jue2 = document.getElementById('jue2');
+var vie2 = document.getElementById('vie2');
+var sab2 = document.getElementById('sab2');
+var dom2 = document.getElementById('dom2');
+
 // Funcion para manejar la modalidad seleccionada
 document.getElementById('modalidad').addEventListener('change', function() {
     const modalidad = this.value;
     if (modalidad === 'PRESENCIAL ENRIQUECIDA') {
-            // Para que aparezca el contenedor de dias presenciales y virtuales
+        // Vaciar el valor de los input
+        document.getElementById('dia_presencial').value = '';
+        lunes.value = '';
+        martes.value = '';
+        miercoles.value = '';
+        jueves.value = '';
+        viernes.value = '';
+        sabado.value = '';
+        domingo.value = '';
+        
+        // Para que aparezca el contenedor de dias presenciales y virtuales
         document.getElementById('presencial-virtual').style.display = 'flex';
-            // Titulos e inputs para dias presenciales y ocultar los virtuales
+        
+        // Titulos e inputs para dias presenciales y ocultar los virtuales
         document.getElementById('title_dia_presencial').style.display = 'block';
+        document.getElementById('title_dia_presencial2').style.display = 'none';
         document.getElementById('dia_presencial').style.display = 'block';
         document.getElementById('title_dia_virtual').style.display = 'none';
+        document.getElementById('title_dia_virtual2').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'none';
-            // Ocultar las opciones de desplegables de dias mixtos. 
+        
+        // Ocultar las opciones de desplegables de dias mixtos. 
         document.getElementById('mixta').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'none';
+
     } else if (modalidad === 'VIRTUAL') {
-            // Para que aparezca el contenedor de dias presenciales y virtuales
+        // Vaciar el valor de los input
+        document.getElementById('dia_virtual').value = '';
+        lunes.value = '';
+        martes.value = '';
+        miercoles.value = '';
+        jueves.value = '';
+        viernes.value = '';
+        sabado.value = '';
+        domingo.value = '';
+
+        // Para que aparezca el contenedor de dias presenciales y virtuales
         document.getElementById('presencial-virtual').style.display = 'flex';
-            // Titulos e inputs para dias virtuales y ocultar los presenciales
+        
+        // Titulos e inputs para dias virtuales y ocultar los presenciales
         document.getElementById('title_dia_virtual').style.display = 'block';
+        document.getElementById('title_dia_virtual2').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'block';
         document.getElementById('title_dia_presencial').style.display = 'none';
+        document.getElementById('title_dia_presencial2').style.display = 'none';
         document.getElementById('dia_presencial').style.display = 'none';
-            // Ocultar las opciones de desplegables de dias mixtos. 
+        
+        // Ocultar las opciones de desplegables de dias mixtos. 
         document.getElementById('mixta').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'none';
+        
     } else if (modalidad === 'MIXTA') {
-            // Para que aparezca el contenedor de dias mixtos
+        // Vaciar el valor de los input
+        document.getElementById('dia_presencial2').value = '';
+        document.getElementById('dia_virtual2').value = '';
+        lunes.value = '';
+        martes.value = '';
+        miercoles.value = '';
+        jueves.value = '';
+        viernes.value = '';
+        sabado.value = '';
+        domingo.value = '';
+
+        // Para que aparezca el contenedor de dias mixtos
         document.getElementById('mixta').style.display = 'flex';
-            // Titulos y <select> para dias presenciales y virtuales
-        document.getElementById('title_dia_presencial').style.display = 'block';
+        
+        // Titulos y <select> para dias presenciales y virtuales
+        document.getElementById('title_dia_presencial2').style.display = 'block';
+        document.getElementById('title_dia_presencial').style.display = 'none';
         document.getElementById('dia_presencial2').style.display = 'block';
-        document.getElementById('title_dia_virtual').style.display = 'block';
+        document.getElementById('title_dia_virtual2').style.display = 'block';
+        document.getElementById('title_dia_virtual').style.display = 'none';
         document.getElementById('dia_virtual2').style.display = 'block';
-            // Ocultar inputs de presenciales y virtuales
+        
+        // Ocultar inputs de presenciales y virtuales
         document.getElementById('dia_presencial').style.display = 'none';
         document.getElementById('dia_virtual').style.display = 'none';
     }
 
     function actualizarDia() {
-        var diaPresencial = '';
-        var diaVirtual = '';
-    
-        if(modalidad === 'PRESENCIAL ENRIQUECIDA' || modalidad === 'VIRTUAL') {
+        if(modalidad === 'PRESENCIAL ENRIQUECIDA') {
+            // Aparece el dia en automatico en el campo de dia_presencial.
             if (lunes.value === 'L') {
-                diaPresencial = 'LUNES';
-                diaVirtual = 'LUNES';
+                document.getElementById('dia_presencial').value = 'LUNES';
             }
             if (martes.value === 'M') {
-                diaPresencial = 'MARTES';
-                diaVirtual = 'MARTES';
+                document.getElementById('dia_presencial').value = 'MARTES';
             }
             if (miercoles.value === 'I') {
-                diaPresencial = 'MIERCOLES';
-                diaVirtual = 'MIERCOLES';
+                document.getElementById('dia_presencial').value = 'MIERCOLES';
             }
             if (jueves.value === 'J') {
-                diaPresencial = 'JUEVES';
-                diaVirtual = 'JUEVES';
+                document.getElementById('dia_presencial').value = 'JUEVES';
             }
             if (viernes.value === 'V') {
-                diaPresencial = 'VIERNES';
-                diaVirtual = 'VIERNES';
+                document.getElementById('dia_presencial').value = 'VIERNES';
             }
             if (sabado.value === 'S') {
-                diaPresencial = 'SABADO';
-                diaVirtual = 'SABADO';
+                document.getElementById('dia_presencial').value = 'SABADO';
             }
             if (domingo.value === 'D') {
-                diaPresencial = 'DOMINGO';
-                diaVirtual = 'DOMINGO';
+                document.getElementById('dia_presencial').value = 'DOMINGO';
+            }
+        }
+
+        if(modalidad === 'VIRTUAL') {
+            // Aparece el dia en automatico en el campo de dia_virtual.
+            if (lunes.value === 'L') {
+                document.getElementById('dia_virtual').value = 'LUNES';
+            }
+            if (martes.value === 'M') {
+                document.getElementById('dia_virtual').value = 'MARTES';
+            }
+            if (miercoles.value === 'I') {
+                document.getElementById('dia_virtual').value = 'MIERCOLES';
+            }
+            if (jueves.value === 'J') {
+                document.getElementById('dia_virtual').value = 'JUEVES';
+            }
+            if (viernes.value === 'V') {
+                document.getElementById('dia_virtual').value = 'VIERNES';
+            }
+            if (sabado.value === 'S') {
+                document.getElementById('dia_virtual').value = 'SABADO';
+            }
+            if (domingo.value === 'D') {
+                document.getElementById('dia_virtual').value = 'DOMINGO';
             }
         }
 
         if(modalidad === 'MIXTA') {
-        const diaPresencial2 = document.getElementById('dia_presencial2').value;
-        const diaVirtual2 = document.getElementById('dia_virtual2').value;
+            document.getElementById('dia_presencial').value = document.getElementById('dia_presencial2').value;
+            document.getElementById('dia_virtual').value = document.getElementById('dia_virtual2').value;
+            
+            // Que aparezca en lista el dia.
             if (lunes.value === 'L') {
                 document.getElementById('lun').style.display = 'block';
                 document.getElementById('lun2').style.display = 'block';
@@ -204,8 +287,6 @@ document.getElementById('modalidad').addEventListener('change', function() {
                 document.getElementById('dom').style.display = 'none';
                 document.getElementById('dom2').style.display = 'none';
             }
-            diaPresencial = diaPresencial2;
-            diaVirtual = diaVirtual2;
         }
     
         var totalDias = 0;
@@ -216,28 +297,78 @@ document.getElementById('modalidad').addEventListener('change', function() {
         totalDias += viernes.value === 'V' ? 1 : 0;
         totalDias += sabado.value === 'S' ? 1 : 0;
         totalDias += domingo.value === 'D' ? 1 : 0;
-    
-        if ((totalDias > 1) && (modalidad === 'PRESENCIAL ENRIQUECIDA' || modalidad === 'VIRTUAL')) {
+        
+        // Si es un dia, el dia, si son dos dias, ambos.
+        if ((totalDias > 1) && (modalidad === 'PRESENCIAL ENRIQUECIDA')) {
             document.getElementById('dia_presencial').value = 'AMBOS';
+            document.getElementById('dia_virtual').value = ''; 
+        } else if ((totalDias > 1) && (modalidad === 'VIRTUAL')) {
             document.getElementById('dia_virtual').value = 'AMBOS';
-        } else if (diaPresencial && diaVirtual) {
-            document.getElementById('dia_presencial').value = diaPresencial;
-            document.getElementById('dia_virtual').value = diaVirtual;
-        } else {
             document.getElementById('dia_presencial').value = '';
-            document.getElementById('dia_virtual').value = '';  
+        } else {
+            // Si no hay ninguna letra, regresar el valor de dia presencial y virtual a vacio.
+            if (lunes.value === '' && 
+                martes.value === '' && 
+                miercoles.value === '' && 
+                jueves.value === '' && 
+                viernes.value === '' && 
+                sabado.value === '' && 
+                domingo.value === '') {
+                    document.getElementById('dia_presencial').value = '';
+                    document.getElementById('dia_virtual').value = '';
+            }
         }
     }
 
-  // Agregar event listeners a cada campo de texto de los dias (L, M, I, J, V, S, D)
-  lunes.addEventListener("input", actualizarDia);
-  martes.addEventListener("input", actualizarDia);
-  miercoles.addEventListener("input", actualizarDia);
-  jueves.addEventListener("input", actualizarDia);
-  viernes.addEventListener("input", actualizarDia);
-  sabado.addEventListener("input", actualizarDia);
-  domingo.addEventListener("input", actualizarDia);
+    // Agregar event listeners a cada campo de texto de los dias (L, M, I, J, V, S, D)
+    lunes.addEventListener("input", actualizarDia);
+    martes.addEventListener("input", actualizarDia);
+    miercoles.addEventListener("input", actualizarDia);
+    jueves.addEventListener("input", actualizarDia);
+    viernes.addEventListener("input", actualizarDia);
+    sabado.addEventListener("input", actualizarDia);
+    domingo.addEventListener("input", actualizarDia);
+    document.getElementById('dia_presencial2').addEventListener('change', actualizarDia);
+    document.getElementById('dia_virtual2').addEventListener('change', actualizarDia);
 });
+
+// Actualizar el valor de dia_virtual2 cuando se cambia dia_presencial2
+function actualizarDiaVirtual2() {
+    const dia_presencial = document.getElementById('dia_presencial2').value;
+    const dia_virtual_option = document.getElementById('dia_virtual2');
+
+    // Automatizacion del dia virtual
+    if (dia_presencial === 'LUNES' && miercoles.value === 'I') {
+      dia_virtual_option.value = 'MIERCOLES';
+    } else if (dia_presencial === 'MARTES' && jueves.value === 'J') {
+      dia_virtual_option.value = 'JUEVES';
+    } else if (dia_presencial === 'MIERCOLES' && lunes.value === 'L') {
+      dia_virtual_option.value = 'LUNES';
+    } else if (dia_presencial === 'JUEVES' && martes.value === 'M') {
+      dia_virtual_option.value = 'MARTES';
+    }
+    dia_virtual_option.style.color = '#000000';
+    dia_virtual_option.style.fontStyle = 'normal';
+}
+
+// Actualizar el valor de dia_presencial2 cuando se cambia dia_virtual2
+function actualizarDiaPresencial2() {
+    const dia_virtual = document.getElementById('dia_virtual2').value;
+    const dia_presencial_select = document.getElementById('dia_presencial2');
+
+    // Automatizacion del dia presencial
+    if (dia_virtual === 'LUNES' && miercoles.value === 'I') {
+      dia_presencial_select.value = 'MIERCOLES';
+    } else if (dia_virtual === 'MARTES' && jueves.value === 'J') {
+      dia_presencial_select.value = 'JUEVES';
+    } else if (dia_virtual === 'MIERCOLES' && lunes.value === 'L') {
+      dia_presencial_select.value = 'LUNES';
+    } else if (dia_virtual === 'JUEVES' && martes.value === 'M') {
+      dia_presencial_select.value = 'MARTES';
+    }
+    dia_presencial_select.style.color = '#000000';
+    dia_presencial_select.style.fontStyle = 'normal';
+}
 
 // Variables para cada ID de <select>
 var nivel = document.getElementById('nivel');
@@ -383,3 +514,21 @@ hora_final.addEventListener('change', function() {
         hora_final.style.fontStyle = '';
     }
 });
+
+// Cambiar el texto a color #000000 cuando se selecciona alguna fecha.
+const fechaInicial = document.getElementById('fecha_inicial');
+const fechaFinal = document.getElementById('fecha_final');
+
+function cambiarColorTexto(event) {
+    const input = event.target; 
+    if (input.value) {
+      input.style.color = '#000000'; 
+      input.style.fontStyle = 'normal';
+    } else {
+      input.style.color = ''; 
+      input.style.fontStyle = 'italic';
+    }
+}
+
+fechaInicial.addEventListener('change', cambiarColorTexto);
+fechaFinal.addEventListener('change', cambiarColorTexto);
