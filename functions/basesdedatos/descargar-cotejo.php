@@ -26,19 +26,13 @@ $columnas_cotejo = [
     'MATERIA',
     'CVE_MATERIA',
     'SECCION',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
-    'MODALIDAD',
     'HORA_INICIAL',
     'HORA_FINAL',
     'MODULO',
     'CUPO'
 ];
+
+$dias_columnas = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
 
 // Columnas a exportar en el orden especificado
 $columnas_exportar = [
@@ -46,13 +40,7 @@ $columnas_exportar = [
     'CRN',
     'FECHA_INICIAL',
     'FECHA_FINAL',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
+    'L', 'M', 'I', 'J', 'V', 'S', 'D',
     'HORA_INICIAL',
     'HORA_FINAL',
     'MODULO',
@@ -64,17 +52,36 @@ $columnas_exportar = [
 
 // Construir la consulta SQL para obtener registros únicos
 $sql_select = "
-SELECT
+WITH agrupados AS (
+    SELECT 
+        *,
+        COUNT(*) OVER (
+            PARTITION BY CRN, MATERIA, CVE_MATERIA, SECCION, HORA_INICIAL, HORA_FINAL, MODULO
+        ) as registros_similares
+    FROM `$tabla_departamento`
+    WHERE Departamento_ID = ?
+)
+SELECT 
     MAX(CICLO) AS CICLO,
-    " . implode(", ", $columnas_cotejo) . ",
+    CRN,
+    MATERIA,
+    CVE_MATERIA,
+    SECCION,
     MAX(FECHA_INICIAL) AS FECHA_INICIAL,
     MAX(FECHA_FINAL) AS FECHA_FINAL,
+    " . implode(", ", array_map(function($dia) {
+        return "GROUP_CONCAT(DISTINCT CASE WHEN registros_similares > 1 THEN $dia ELSE $dia END) AS $dia";
+    }, $dias_columnas)) . ",
+    HORA_INICIAL,
+    HORA_FINAL,
+    MODULO,
     MAX(AULA) AS AULA,
     MAX(DIA_PRESENCIAL) AS DIA_PRESENCIAL,
-    MAX(DIA_VIRTUAL) AS DIA_VIRTUAL
-FROM `$tabla_departamento`
-WHERE Departamento_ID = ?
-GROUP BY " . implode(", ", $columnas_cotejo) . "
+    MAX(DIA_VIRTUAL) AS DIA_VIRTUAL,
+    MAX(MODALIDAD) AS MODALIDAD
+FROM agrupados
+GROUP BY 
+    CRN, MATERIA, CVE_MATERIA, SECCION, HORA_INICIAL, HORA_FINAL, MODULO
 ";
 
 $stmt = $conexion->prepare($sql_select);
@@ -119,6 +126,11 @@ if ($result->num_rows > 0) {
     while ($data = $result->fetch_assoc()) {
         $col = 1;
         foreach ($columnas_exportar as $columna) {
+            if (in_array($columna, $dias_columnas)) {
+                $dias = explode(',', $data[$columna] ?? '');
+                $data[$columna] = implode(', ', array_unique(array_filter($dias)));
+            }
+            
             $sheet->setCellValue(
                 \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
                 $data[$columna] ?? ''
