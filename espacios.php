@@ -137,54 +137,73 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div> <!-- Solo dispositivos moviles -->
 
     <div class="contenedor-principal">
-        <div class="techo"></div>
-        <div class="contenido-edificio">
-            <div class="columna-lateral izquierda">
-                <div class="letra-piso">
-                    <span><?php echo substr($modulo_seleccionado, -1); ?></span>
-                </div>
-                <div class="escaleras-container">
-                    <div class="escalera-superior"></div>
-                    <div class="escalera-inferior"></div>
-                </div>
-            </div>
-
-            <div class="cuadro-grande">
-                <?php foreach ($espacios as $piso => $espacios_piso): ?>
-                    <div class="piso">
-                        <div class="numero-piso"></div>
-                        <div class="salas">
-                            <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
-                            foreach ($espacios_piso as $espacio): ?>
-                                <div class="sala-container">
-                                    <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
-                                    <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
-                                        <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php if ($piso == '02'): ?>
-                            <div class="barandal"></div>
-                        <?php elseif ($piso == '01'): ?>
-                            <div class="barandal"></div>
-                        <?php endif; ?>
-                        <div class="piso-gris"></div>
+        <?php
+        // En el caso de aulas amplias
+        if ($modulo_seleccionado == 'CEDAA') { ?>
+            <div class="circulo-base">
+                <div class="base-espacio-blanco">
+                    <div class="division-aula" id="division-1"></div>
+                    <div class="division-aula" id="division-2"></div>
+                    <div class="division-aula" id="division-3"></div>
+                    <div class="division-aula" id="division-4"></div>
+                    <div class="division-aula" id="division-5"></div>
+                    <div class="circulo-jardin">
                     </div>
-                <?php endforeach; ?>
+                </div>
             </div>
+        <?php } ?>
+        <?php
+        // Resto de edificios    
+        if ($modulo_seleccionado != 'CEDAA') { ?>
+            <div class="techo"></div>
+                <div class="contenido-edificio">
+                    <div class="columna-lateral izquierda">
+                        <div class="letra-piso">
+                            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
+                        </div>
+                        <div class="escaleras-container">
+                            <div class="escalera-superior"></div>
+                            <div class="escalera-inferior"></div>
+                        </div>
+                    </div>
 
-            <div class="columna-lateral derecha">
-                <div class="letra-piso">
-                    <span><?php echo substr($modulo_seleccionado, -1); ?></span>
-                </div>
-                <div class="escaleras-container">
-                    <div class="escalera-superior"></div>
-                    <div class="escalera-inferior"></div>
+                    <div class="cuadro-grande">
+                        <?php foreach ($espacios as $piso => $espacios_piso): ?>
+                            <div class="piso">
+                                <div class="numero-piso"></div>
+                                <div class="salas">
+                                    <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
+                                    foreach ($espacios_piso as $espacio): ?>
+                                        <div class="sala-container">
+                                            <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
+                                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                                                <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <?php if ($piso == '02'): ?>
+                                    <div class="barandal"></div>
+                                <?php elseif ($piso == '01'): ?>
+                                    <div class="barandal"></div>
+                                <?php endif; ?>
+                                <div class="piso-gris"></div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="columna-lateral derecha">
+                        <div class="letra-piso">
+                            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
+                        </div>
+                        <div class="escaleras-container">
+                            <div class="escalera-superior"></div>
+                            <div class="escalera-inferior"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
+        <?php } ?>
 
     <div class="leyenda">
         <div class="leyenda-item">
