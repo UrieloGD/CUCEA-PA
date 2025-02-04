@@ -296,12 +296,12 @@
     position: relative;
     cursor: pointer;
     display: inline-block;
-    padding: 5px 50px 5px 10px;
+    padding: 5px 10px 5px 10px;
     border: 1px solid #ccc;
     background-color: #0B6A9F;
     color: #fff;
     border-radius: 4px;
-    width: 200px;
+    width: 280px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
