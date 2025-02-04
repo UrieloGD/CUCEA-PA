@@ -32,6 +32,11 @@
     justify-content: center;
     align-items: center;
 }
+
+.encabezado-derecha {
+    position: relative;
+    z-index: 1000; /* Asegura que el dropdown se muestre por encima */
+}
   
 .encabezado-centro {
     color: #fff;
@@ -145,7 +150,7 @@
 .modal-detalle {
     display: none;
     position: fixed;
-    z-index: 10;
+    z-index: 1002;
     left: 0;
     top: 0;
     margin: auto;
@@ -172,6 +177,7 @@
     max-height: 80vh;
     overflow-y: hidden;
     border-radius: 15px;
+    z-index: 1002;
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     -ms-border-radius: 15px;
@@ -277,4 +283,87 @@
     border-radius: 20px 20px 0px 0px;
     position: relative; /* Para controlar el contenido interno */
     overflow-x: auto; /* Permite desplazamiento horizontal */
+}
+
+/* Desplegable muestra de profesores por departamento */
+
+.dropdown-check-list {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 50px 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #0B6A9F;
+    color: #fff;
+    border-radius: 4px;
+    width: 200px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+  
+/* Flecha del dropdown */
+.dropdown-check-list .anchor:after {
+    position: relative;
+    content: "";
+    padding: 5px;
+    right: 10px;
+    top: 20%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+  
+.dropdown-check-list .anchor:active:after {
+    right: 0pxs;
+    top: 21%;
+}
+  
+.dropdown-check-list ul.items {
+    position: absolute;
+    border-radius: 4px;
+    padding: 2px;
+    display: none;
+    margin: 0;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000; /* Asegura que se muestre por encima de otros elementos */
+    width: max-content;
+    max-width: 200px;
+    background-color: #0B6A9F;
+    min-width: 100%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+  
+.dropdown-check-list ul.items li {
+    list-style: none;
+    white-space: nowrap;
+}
+
+/* Hover en los items */
+.dropdown-check-list .items li:hover {
+    background-color: #78caf0;
+}
+  
+.dropdown-check-list.visible .anchor {
+    color: #78caf0;
+}
+  
+.dropdown-check-list.visible .items {
+    display: block;
 }
