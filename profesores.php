@@ -238,7 +238,7 @@ try {
                 <table class="profesores-table">
                     <thead>
                         <tr>
-                            <th class="detalle-column">count</th>
+                           <!-- <th class="detalle-column">count</th> --> 
                             <th class="detalle-column">Código</th>
                             <th class="detalle-column">Nombre Completo</th>
                             <th class="detalle-column">Categoria Actúal</th>
@@ -252,7 +252,7 @@ try {
                         // Consulta SQL con las variantes del departamento
                         $sql_todos_profesores = "SELECT  Codigo, Nombre_Completo, Categoria_actual, Departamento 
                                             FROM coord_per_prof 
-                                            ORDER BY Nombre_Completo";
+                                            ORDER BY Departamento, Nombre_Completo";
                         
                         $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
                         
@@ -261,7 +261,7 @@ try {
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 $departamento_normalizado = normalizeDepartmentName($row['Departamento']);
                                 echo "<tr class='tr-info'>";
-                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
+                                //echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
@@ -298,6 +298,7 @@ try {
 <script>
     // Pass the session department to JavaScript
     const sessionDepartment = "<?php echo htmlspecialchars($departamento_nombre); ?>";
+    const isPosgrados = "<?php echo $nombre_departamento === 'Posgrados' ? 'true' : 'false'; ?>";
 </script>
 
 <!-- DataTables Scripts -->
