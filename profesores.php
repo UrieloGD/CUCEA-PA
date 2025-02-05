@@ -79,7 +79,7 @@ try {
             'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
             'CIENCIAS SOCIALES/POLITICAS PUBLICAS'
         ],
-        'Pale' => [
+        'PALE' => [
             'PALE',
             'PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
             'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA'
@@ -211,21 +211,21 @@ try {
                     }
                     */
                     ?>
-                    <li><input type="checkbox" />Estudios Regionales</li>
-                    <li><input type="checkbox" />Finanzas</li>
-                    <li><input type="checkbox" />Ciencias Sociales</li>
-                    <li><input type="checkbox" />Pale</li>
-                    <li><input type="checkbox" />Economía</li>
-                    <li><input type="checkbox" />Recursos Humanos</li>
-                    <li><input type="checkbox" />Métodos Cuantitativos</li>
-                    <li><input type="checkbox" />Políticas Públicas</li>
                     <li><input type="checkbox" />Administración</li>
                     <li><input type="checkbox" />Auditoria</li>
-                    <li><input type="checkbox" />Mercadotecnia</li>
+                    <li><input type="checkbox" />Ciencias Sociales</li>
+                    <li><input type="checkbox" />Contabilidad</li>
+                    <li><input type="checkbox" />Economía</li>
+                    <li><input type="checkbox" />Estudios Regionales</li>
+                    <li><input type="checkbox" />Finanzas</li>
                     <li><input type="checkbox" />Impuestos</li>
+                    <li><input type="checkbox" />Mercadotecnia</li>
+                    <li><input type="checkbox" />Métodos Cuantitativos</li>
+                    <li><input type="checkbox" />PALE</li>
+                    <li><input type="checkbox" />Políticas Públicas</li>
+                    <li><input type="checkbox" />Recursos Humanos</li>
                     <li><input type="checkbox" />Sistemas de Información</li>
                     <li><input type="checkbox" />Turismo</li>
-                    <li><input type="checkbox" />Contabilidad</li>
                     <li><input type="checkbox" />Otros</li>
                 </ul>
             </div>
@@ -295,6 +295,10 @@ try {
 <script src="./JS/profesores/filtro-profesores.js"></script>
 <script src="./JS/profesores/desplegable-box.js"></script>
 <script src="./JS/profesores/filtro-departamentos.js"></script>
+<script>
+    // Pass the session department to JavaScript
+    const sessionDepartment = "<?php echo htmlspecialchars($departamento_nombre); ?>";
+</script>
 
 <!-- DataTables Scripts -->
  

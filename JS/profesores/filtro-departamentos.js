@@ -12,6 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all department checkboxes
     const departmentCheckboxes = dropdownList.querySelectorAll('input[type="checkbox"]:not(#select-all)');
     const selectAllCheckbox = document.getElementById('select-all');
+
+     // Auto-select department from session
+     if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
+        departmentCheckboxes.forEach(checkbox => {
+            if (checkbox.parentElement.textContent.trim() === sessionDepartment) {
+                checkbox.checked = true;
+                updateTable(); // Update table with selected department
+            }
+        });
+    }
     
     // Function to update table based on selected departments
     function updateTable() {
@@ -19,10 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(cb => cb.checked)
             .map(cb => cb.parentElement.textContent.trim());
         
-        // Clear the table first
         tableBody.innerHTML = '';
         
-        // If "Select All" is checked, show all rows
         if (selectAllCheckbox.checked) {
             let counter = 1;
             originalRows.forEach(row => {
@@ -33,23 +41,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // If no departments selected and "Select All" is not checked, show nothing
         if (selectedDepartments.length === 0) {
             return;
         }
         
-        // Show rows for selected departments
         let counter = 1;
         originalRows.forEach(row => {
             const departmentCell = row.querySelector('td:nth-child(5)');
             const departmentValue = departmentCell ? departmentCell.textContent.trim() : '';
             
-            // Check if the department matches any selected department
             if (selectedDepartments.some(dept => 
                 departmentValue.toLowerCase() === dept.toLowerCase())) {
                 const newRow = row.cloneNode(true);
                 newRow.querySelector('td:first-child').textContent = counter++;
-                newRow.style.display = ''; // Ensure the row is visible
+                newRow.style.display = '';
                 tableBody.appendChild(newRow);
             }
         });
