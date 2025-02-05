@@ -53,6 +53,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <title>Espacios</title>
 <link rel="stylesheet" href="./CSS/espacios.css" />
+<link rel="stylesheet" href="./CSS/espacios-aulas-amplias.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -141,15 +142,35 @@ while ($row = mysqli_fetch_assoc($result)) {
         // En el caso de aulas amplias
         if ($modulo_seleccionado == 'CEDAA') { ?>
             <div class="circulo-base">
+                <div class="aula-azul" id="azul-1"></div>
+                <div class="aula-azul" id="azul-2"></div>
+                <div class="aula-azul" id="azul-3"></div>
+                <div class="aula-azul" id="azul-4"></div>
+                <div class="aula-azul" id="azul-5"></div>
+                <div class="aula-azul" id="azul-6"></div>
+
                 <div class="base-espacio-blanco">
+                    <span id="AA1">AA 1</span>
+                    <span id="AA2">AA 2</span>
+                    <span id="AA3">AA 3</span>
+                    <span id="AA4">AA 4</span>
+                    <span id="AA5">AA 5</span>
+                    <span id="AA6">AA 6</span>
                     <div class="division-aula" id="division-1"></div>
                     <div class="division-aula" id="division-2"></div>
                     <div class="division-aula" id="division-3"></div>
                     <div class="division-aula" id="division-4"></div>
                     <div class="division-aula" id="division-5"></div>
+
                     <div class="circulo-jardin">
+                        <div class="circulo-central">
+                            <div class="centro-gris"></div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="title-aulas-amplias">
+                <span>Aulas Amplias</span>
             </div>
         <?php } ?>
         <?php
