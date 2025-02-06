@@ -297,7 +297,7 @@ try {
 <script src="./JS/profesores/filtro-departamentos.js"></script>
 <script>
     // Pass the session department to JavaScript
-    const sessionDepartment = "<?php echo htmlspecialchars($departamento_nombre); ?>";
+    const sessionDepartment = "<?php echo htmlspecialchars($nombre_departamento); ?>";
     const isPosgrados = "<?php echo $nombre_departamento === 'Posgrados' ? 'true' : 'false'; ?>";
 </script>
 
