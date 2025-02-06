@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle initial department selection
     if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
         if (isPosgrados === 'true') {
+            // Si es Posgrados, selecciona todos
             selectAllCheckbox.checked = true;
             departmentCheckboxes.forEach(checkbox => {
                 checkbox.checked = true;
@@ -26,9 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         } else {
             departmentCheckboxes.forEach(checkbox => {
-                if (checkbox.parentElement.textContent.trim() === sessionDepartment) {
+                const checkboxDepartment = checkbox.parentElement.textContent.trim();
+                
+                // Compara de manera más flexible
+                if (checkboxDepartment.toLowerCase() === sessionDepartment.toLowerCase()) {
                     checkbox.checked = true;
-                    previousSelections.add(sessionDepartment);
+                    previousSelections.add(checkboxDepartment);
                 }
             });
         }
