@@ -329,6 +329,111 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conexion);
 }
 
+// Tabla solicitudes_baja
+$sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja (
+    ID_BAJA INT AUTO_INCREMENT PRIMARY KEY,
+    OFICIO_NUM_BAJA INT(5) UNIQUE,
+    FECHA_SOLICITUD_B DATE,
+    PROFESSION_PROFESOR_B VARCHAR(15),
+    APELLIDO_P_PROF_B VARCHAR(40),
+    APELLIDO_M_PROF_B VARCHAR(40),
+    NOMBRES_PROF_B VARCHAR(60),
+    CODIGO_PROF_B INT(10),
+    DESCRIPCION_PUESTO_B VARCHAR(100),
+    CRN_B INT(7),
+    CLASIFICACION_BAJA_B VARCHAR(15),
+    SIN_EFFECTOS_DESDE_B DATE,
+    MOTIVO_B VARCHAR(50),
+    ESTADO_B VARCHAR(15)
+);";
+
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla solicitudes_baja creada exitosamente";
+} else {
+    echo "<br>Error creando tabla solicitudes_baja: " . mysqli_error($conexion);
+}
+
+// Tabla solicitudes_propuesta
+$sql = "CREATE TABLE IF NOT EXISTS solicitudes_propuesta (
+    ID_PROP INT AUTO_INCREMENT PRIMARY KEY,
+    OFICIO_NUM_PROP INT(5) UNIQUE,
+    FECHA_SOLICITUD_P DATE,
+    PROFESSION_PROFESOR_P VARCHAR(15),
+    APELLIDO_P_PROF_P VARCHAR(40),
+    APELLIDO_M_PROF_P VARCHAR(40),
+    NOMBRES_PROF_P VARCHAR(60),
+    CODIGO_PROF_P INT(10),
+    DIA_P VARCHAR(2),
+    MES_P VARCHAR(2),
+    ANO_P YEAR,
+    DESCRIPCION_PUESTO_P VARCHAR(100),
+    CODIGO_PUESTO_P VARCHAR(10),
+    CLASIFICACION_PUESTO_P VARCHAR(15),
+    HRS_SEMANALES_P INT(5),
+    CATEGORIA_P VARCHAR(20),
+    CARRIERA_PROF_P VARCHAR(50),
+    CRN_P INT(7),
+    NUM_PUESTO_P INT(5),
+    CARGO_ATC_P BOOLEAN,
+    CODIGO_PROF_SUST INT(10),
+    APELLIDO_P_PROF_SUST VARCHAR(40),
+    APELLIDO_M_PROF_SUST VARCHAR(40),
+    NOMBRES_PROF_SUST VARCHAR(60),
+    CAUSA_P VARCHAR(50),
+    PERIODO_ASIG_DESDE_P DATE,
+    PERIODO_ASIG_HASTA_P DATE,
+    ESTADO_P VARCHAR(15)
+);";
+
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla solicitudes_propuesta creada exitosamente";
+} else {
+    echo "<br>Error creando tabla solicitudes_propuesta: " . mysqli_error($conexion);
+}
+
+// Tabla solicitudes_baja_propuesta
+$sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja_propuesta (
+    ID_BAJA_PROP INT AUTO_INCREMENT PRIMARY KEY,
+    OFICIO_NUM_BAJA_PROP INT(5) UNIQUE,
+    FECHA_SOLICITUD_BAJA_PROP DATE,
+    PROFESSION_PROFESOR_BAJA VARCHAR(15),
+    APELLIDO_P_PROF_BAJA VARCHAR(40),
+    APELLIDO_M_PROF_BAJA VARCHAR(40),
+    NOMBRES_PROF_BAJA VARCHAR(60),
+    CODIGO_PROF_BAJA INT(10),
+    NUM_PUESTO_TEORIA_BAJA INT(10),
+    NUM_PUESTO_PRACTICA_BAJA INT(10),
+    CVE_MATERIA_BAJA VARCHAR(10),
+    NOMBRE_MATERIA_BAJA VARCHAR(100),
+    CRN_BAJA INT(7),
+    HRS_SEM_MES_TEORIA_BAJA INT(5),
+    HRS_SEM_MES_PRACTICA_BAJA INT(5),
+    CARRIERA_BAJA VARCHAR(50),
+    GDO_GPO_TURNO_BAJA VARCHAR(20),
+    TIPO_ASIGNACION_BAJA VARCHAR(10),
+    SIN_EFFECTOS_APARTH_BAJA DATE,
+    MOTIVO_BAJA VARCHAR(50),
+    NUM_PUESTO_TEORIA_PROP INT(10),
+    NUM_PUESTO_PRACTICA_PROP INT(10),
+    APELLIDO_P_PROF_PROP VARCHAR(40),
+    APELLIDO_M_PROF_PROP VARCHAR(40),
+    NOMBRES_PROF_PROP VARCHAR(60),
+    CODIGO_PROF_PROP INT(10),
+    HRS_SEM_MES_TEORIA_PROP INT(5),
+    HRS_SEM_MES_PRACTICA_PROP INT(5),
+    INTER_TEMP_DEF_PROP VARCHAR(30),
+    TIPO_ASIGNACION_PROP VARCHAR(10),
+    PERIODO_ASIG_DESDE_PROP DATE,
+    PERIODO_ASIG_HASTA_PROP DATE,
+    ESTADO_P VARCHAR(15)
+);";
+
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla solicitudes_baja_propuesta creada exitosamente";
+} else {
+    echo "<br>Error creando tabla solicitudes_baja_propuesta: " . mysqli_error($conexion);
+}
+
 // Crear tabla Data_Estudios_Regionales
 $sql = "CREATE TABLE IF NOT EXISTS data_estudios_regionales (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
