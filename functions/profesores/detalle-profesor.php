@@ -37,13 +37,25 @@ include './funciones-horas.php';  // Añade esta línea
 
 if(isset($_POST['codigo_profesor'])) {
     $codigo_profesor = (int)$_POST['codigo_profesor'];
-    $departamento_id = (int)$_POST['departamento_id'];
+    
+    // Añade una verificación para departamento_id, usando un valor predeterminado si no está establecido
+    $departamento_id = isset($_POST['departamento_id']) ? (int)$_POST['departamento_id'] : 0;
 
-    $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = $departamento_id";
-    $result_departamento = mysqli_query($conexion, $sql_departamento);
-    $row_departamento = mysqli_fetch_assoc($result_departamento);
-    $nombre_departamento = $row_departamento['Nombre_Departamento'];
-    $departamento_nombre = $row_departamento['Departamentos'];
+    // Añade una verificación nula antes de acceder al resultado de la base de datos
+    $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
+    $stmt_departamento = mysqli_prepare($conexion, $sql_departamento);
+    mysqli_stmt_bind_param($stmt_departamento, "i", $departamento_id);
+    mysqli_stmt_execute($stmt_departamento);
+    $result_departamento = mysqli_stmt_get_result($stmt_departamento);
+    
+    // Solo continúa si se encuentra un departamento
+    $nombre_departamento = 'Sin Departamento';
+    $departamento_nombre = 'Sin Departamento';
+    
+    if ($row_departamento = mysqli_fetch_assoc($result_departamento)) {
+        $nombre_departamento = $row_departamento['Nombre_Departamento'] ?? 'Sin Departamento';
+        $departamento_nombre = $row_departamento['Departamentos'] ?? 'Sin Departamento';
+    }
 
    // Obtener información personal del profesor
    $sql_profesor = "SELECT DISTINCT 
