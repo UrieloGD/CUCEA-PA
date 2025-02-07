@@ -65,7 +65,8 @@ try {
         'Estudios Regionales' => [
             'ESTUDIOS REGIONALES',
             'Estudios Regionales',
-            'Est. Regionales'
+            'Est. Regionales',
+            'Estudios_Regionales'
         ],
         'Finanzas' => [
             'FINANZAS',
@@ -77,7 +78,8 @@ try {
             'Ciencias Sociales',
             'CERI/CIENCIAS SOCIALES',
             'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
-            'CIENCIAS SOCIALES/POLITICAS PUBLICAS'
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS',
+            'Ciencias_Sociales'
         ],
         'PALE' => [
             'PALE',
@@ -93,19 +95,22 @@ try {
             'RECURSOS HUMANOS',
             'Recursos Humanos',
             'RH',
-            'RECURSOS_HUMANOS'
+            'RECURSOS_HUMANOS',
+            'Recursos_Humanos'
         ],
         'Métodos Cuantitativos' => [
             'METODOS CUANTITATIVOS',
             'Métodos Cuantitativos',
-            'Metodos Cuantitativos'
+            'Metodos Cuantitativos',
+            'Métodos_Cuantitativos'
         ],
         'Políticas Públicas' => [
             'POLITICAS PUBLICAS',
             'Políticas Públicas',
             'Politicas Publicas',
             'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
-            'CIENCIAS SOCIALES/POLITICAS PUBLICAS'
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS',
+            'Políticas_Públicas'
         ],
         'Administración' => [
             'ADMINISTRACION',
@@ -133,7 +138,8 @@ try {
         'Sistemas de Información' => [
             'SISTEMAS DE INFORMACION',
             'Sistemas de Información',
-            'Sistemas de Informacion'
+            'Sistemas de Informacion',
+            'Sistemas_de_Información'
         ],
         'Turismo' => [
             'TURISMO',
