@@ -11,13 +11,6 @@ document.querySelector(".close").onclick = function () {
   cerrarFormularioAñadir();
 };
 
-// Cerrar el modal al hacer clic fuera de él
-window.onclick = function (event) {
-  if (event.target == document.getElementById("modal-añadir")) {
-    cerrarFormularioAñadir();
-  }
-};
-
 function añadirRegistro() {
   var form = document.getElementById("form-añadir-registro");
   var datos = new FormData(form);
@@ -386,134 +379,34 @@ var titular = document.getElementById('titular');
 var hora_inicial = document.getElementById('hora_inicial');
 var hora_final = document.getElementById('hora_final');
 
-// Cambiar el color de texto para <select> al estar activo
-nivel.addEventListener('change', function() {
-    if (nivel.value !== 'Seleccione el nivel correspondiente...') {
-        nivel.style.color = '#000000'; 
-        nivel.style.fontStyle = 'normal';
-    } else {
-        nivel.style.color = '';  
-        nivel.style.fontStyle = '';
-    }
-});
-tipo.addEventListener('change', function() {
-    if (tipo.value !== 'Seleccione la opción correspondiente...') {
-        tipo.style.color = '#000000'; 
-        tipo.style.fontStyle = 'normal';
-    } else {
-        tipo.style.color = '';  
-        tipo.style.fontStyle = '';
-    }
-});
-nivel_tipo.addEventListener('change', function() {
-    if (nivel_tipo.value !== 'Seleccione la opción correspondiente...') {
-        nivel_tipo.style.color = '#000000'; 
-        nivel_tipo.style.fontStyle = 'normal';
-    } else {
-        nivel_tipo.style.color = '';  
-        nivel_tipo.style.fontStyle = '';
-    }
-});
-estatus.addEventListener('change', function() {
-    if (estatus.value !== 'Seleccione la opción correspondiente...') {
-        estatus.style.color = '#000000'; 
-        estatus.style.fontStyle = 'normal';
-    } else {
-        estatus.style.color = '';  
-        estatus.style.fontStyle = '';
-    }
-});
-modalidad_option.addEventListener('change', function() {
-    if (modalidad_option.value !== 'Seleccione la modalidad correspondiente...') {
-        modalidad_option.style.color = '#000000'; 
-        modalidad_option.style.fontStyle = 'normal';
-    } else {
-        modalidad_option.style.color = '';  
-        modalidad_option.style.fontStyle = '';
-    }
-});
-dia_presencial_option.addEventListener('change', function() {
-    if (dia_presencial_option.value !== 'Seleccione el dia presencial...') {
-        dia_presencial_option.style.color = '#000000'; 
-        dia_presencial_option.style.fontStyle = 'normal';
-    } else {
-        dia_presencial_option.style.color = '';  
-        dia_presencial_option.style.fontStyle = '';
-    }
-});
-dia_virtual_option.addEventListener('change', function() {
-    if (dia_virtual_option.value !== 'Seleccione el dia virtual...') {
-        dia_virtual_option.style.color = '#000000'; 
-        dia_virtual_option.style.fontStyle = 'normal';
-    } else {
-        dia_virtual_option.style.color = '';  
-        dia_virtual_option.style.fontStyle = '';
-    }
-});
-examen_extraordinario.addEventListener('change', function() {
-    if (examen_extraordinario.value !== 'Seleccione la opción correspondiente...') {
-        examen_extraordinario.style.color = '#000000'; 
-        examen_extraordinario.style.fontStyle = 'normal';
-    } else {
-        examen_extraordinario.style.color = '';  
-        examen_extraordinario.style.fontStyle = '';
-    }
-});
-tipo_contrato.addEventListener('change', function() {
-    if (tipo_contrato.value !== 'Seleccione el tipo de contrato correspondiente...') {
-        tipo_contrato.style.color = '#000000'; 
-        tipo_contrato.style.fontStyle = 'normal';
-    } else {
-        tipo_contrato.style.color = '';  
-        tipo_contrato.style.fontStyle = '';
-    }
-});
-categoria.addEventListener('change', function() {
-    if (categoria.value !== 'Seleccione la categoria correspondiente...') {
-        categoria.style.color = '#000000'; 
-        categoria.style.fontStyle = 'normal';
-    } else {
-        categoria.style.color = '';  
-        categoria.style.fontStyle = '';
-    }
-});
-descarga.addEventListener('change', function() {
-    if (descarga.value !== 'Seleccione la opción correspondiente...') {
-        descarga.style.color = '#000000'; 
-        descarga.style.fontStyle = 'normal';
-    } else {
-        descarga.style.color = '';  
-        descarga.style.fontStyle = '';
-    }
-});
-titular.addEventListener('change', function() {
-    if (titular.value !== 'Seleccione la opción correspondiente...') {
-        titular.style.color = '#000000'; 
-        titular.style.fontStyle = 'normal';
-    } else {
-        titular.style.color = '';  
-        titular.style.fontStyle = '';
-    }
-});
-hora_inicial.addEventListener('change', function() {
-    if (hora_inicial.value !== '') {
-        hora_inicial.style.color = '#000000'; 
-        hora_inicial.style.fontStyle = 'normal';
-    } else {
-        hora_inicial.style.color = '';  
-        hora_inicial.style.fontStyle = '';
-    }
-});
-
-hora_final.addEventListener('change', function() {
-    if (hora_final.value !== '') {
-        hora_final.style.color = '#000000'; 
-        hora_final.style.fontStyle = 'normal';
-    } else {
-        hora_final.style.color = '';  
-        hora_final.style.fontStyle = '';
-    }
-});
+// Cambiar el color del texto al ingresar datos en los inputs...
+function setupSelectStyleHandler(selectElement, defaultText) {
+    selectElement.addEventListener('change', function() {
+        const isDefault = this.value === defaultText;
+        this.style.color = isDefault ? '' : '#000000';
+        this.style.fontStyle = isDefault ? '' : 'normal';
+    });
+}
+const selectConfigs = [
+    { element: nivel, defaultText: 'Seleccione el nivel correspondiente...' },
+    { element: tipo, defaultText: 'Seleccione la opción correspondiente...' },
+    { element: nivel_tipo, defaultText: 'Seleccione la opción correspondiente...' },
+    { element: estatus, defaultText: 'Seleccione la opción correspondiente...' },
+    { element: modalidad_option, defaultText: 'Seleccione la modalidad correspondiente...' },
+    { element: dia_presencial_option, defaultText: 'Seleccione el dia presencial...' },
+    { element: dia_virtual_option, defaultText: 'Seleccione el dia virtual...' },
+    { element: examen_extraordinario, defaultText: 'Seleccione la opción correspondiente...' },
+    { element: tipo_contrato, defaultText: 'Seleccione el tipo de contrato correspondiente...' },
+    { element: categoria, defaultText: 'Seleccione la categoria correspondiente...' },
+    { element: descarga, defaultText: 'Seleccione la opción correspondiente...' },
+    { element: titular, defaultText: 'Seleccione la opción correspondiente...' }
+];
+const timeInputs = [
+    { element: hora_inicial, defaultText: '' },
+    { element: hora_final, defaultText: '' }
+];
+selectConfigs.forEach(config => setupSelectStyleHandler(config.element, config.defaultText));
+timeInputs.forEach(config => setupSelectStyleHandler(config.element, config.defaultText));
 
 // Cambiar el texto a color #000000 cuando se selecciona alguna fecha.
 const fechaInicial = document.getElementById('fecha_inicial');
@@ -532,3 +425,10 @@ function cambiarColorTexto(event) {
 
 fechaInicial.addEventListener('change', cambiarColorTexto);
 fechaFinal.addEventListener('change', cambiarColorTexto);
+
+// Cerrar modal dando click afuera de el
+$(window).click(function (event) {
+    if (event.target.className === "modal-R") {
+        $(".modal-R").hide();
+    }
+});

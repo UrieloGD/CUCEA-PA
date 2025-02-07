@@ -199,6 +199,7 @@ $result = $stmt->get_result();
 
 <!-- CSS base -->
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
+<link rel="stylesheet" href="./CSS/modal-añadir-registro.css">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
