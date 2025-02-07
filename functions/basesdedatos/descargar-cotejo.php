@@ -20,25 +20,7 @@ $nombre_departamento = $row_departamento['Nombre_Departamento'];
 
 $tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
 
-// Columnas para verificar duplicados
-$columnas_cotejo = [
-    'CRN',
-    'MATERIA',
-    'CVE_MATERIA',
-    'SECCION',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
-    'MODALIDAD',
-    'HORA_INICIAL',
-    'HORA_FINAL',
-    'MODULO',
-    'CUPO'
-];
+$dias_columnas = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
 
 // Columnas a exportar en el orden especificado
 $columnas_exportar = [
@@ -46,13 +28,7 @@ $columnas_exportar = [
     'CRN',
     'FECHA_INICIAL',
     'FECHA_FINAL',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
+    'L', 'M', 'I', 'J', 'V', 'S', 'D',
     'HORA_INICIAL',
     'HORA_FINAL',
     'MODULO',
@@ -62,27 +38,132 @@ $columnas_exportar = [
     'MODALIDAD'
 ];
 
-// Construir la consulta SQL para obtener registros únicos
+// Consulta SQL modificada para ser compatible con MySQL
 $sql_select = "
-SELECT
-    MAX(CICLO) AS CICLO,
-    " . implode(", ", $columnas_cotejo) . ",
-    MAX(FECHA_INICIAL) AS FECHA_INICIAL,
-    MAX(FECHA_FINAL) AS FECHA_FINAL,
-    MAX(AULA) AS AULA,
-    MAX(DIA_PRESENCIAL) AS DIA_PRESENCIAL,
-    MAX(DIA_VIRTUAL) AS DIA_VIRTUAL
-FROM `$tabla_departamento`
-WHERE Departamento_ID = ?
-GROUP BY " . implode(", ", $columnas_cotejo) . "
-";
+WITH modalidades_conteo AS (
+    SELECT 
+        CRN,
+        HORA_INICIAL,
+        HORA_FINAL,
+        MODULO,
+        COUNT(DISTINCT MODALIDAD) as modalidades_distintas
+    FROM `$tabla_departamento`
+    WHERE Departamento_ID = ?
+    GROUP BY CRN, HORA_INICIAL, HORA_FINAL, MODULO
+),
+registros_base AS (
+    SELECT 
+        t.*,
+        mc.modalidades_distintas
+    FROM `$tabla_departamento` t
+    JOIN modalidades_conteo mc ON 
+        t.CRN = mc.CRN AND 
+        t.HORA_INICIAL = mc.HORA_INICIAL AND 
+        t.HORA_FINAL = mc.HORA_FINAL AND 
+        t.MODULO = mc.MODULO
+    WHERE t.Departamento_ID = ?
+)
+SELECT 
+    MAX(CICLO) as CICLO,
+    rb.CRN,
+    MAX(MATERIA) as MATERIA,
+    MAX(CVE_MATERIA) as CVE_MATERIA,
+    MAX(SECCION) as SECCION,
+    MAX(FECHA_INICIAL) as FECHA_INICIAL,
+    MAX(FECHA_FINAL) as FECHA_FINAL,
+    CASE 
+        WHEN modalidades_distintas = 1 THEN MAX(L)
+        WHEN MODALIDAD = 'VIRTUAL' THEN
+            CASE 
+                WHEN FIND_IN_SET('LUNES', DIA_PRESENCIAL) > 0 THEN NULL
+                ELSE L
+            END
+        ELSE
+            CASE 
+                WHEN FIND_IN_SET('LUNES', DIA_VIRTUAL) > 0 THEN NULL
+                ELSE L
+            END
+    END as L,
+    CASE 
+        WHEN modalidades_distintas = 1 THEN MAX(M)
+        WHEN MODALIDAD = 'VIRTUAL' THEN
+            CASE 
+                WHEN FIND_IN_SET('MARTES', DIA_PRESENCIAL) > 0 THEN NULL
+                ELSE M
+            END
+        ELSE
+            CASE 
+                WHEN FIND_IN_SET('MARTES', DIA_VIRTUAL) > 0 THEN NULL
+                ELSE M
+            END
+    END as M,
+    CASE 
+        WHEN modalidades_distintas = 1 THEN MAX(I)
+        WHEN MODALIDAD = 'VIRTUAL' THEN
+            CASE 
+                WHEN FIND_IN_SET('MIERCOLES', DIA_PRESENCIAL) > 0 THEN NULL
+                ELSE I
+            END
+        ELSE
+            CASE 
+                WHEN FIND_IN_SET('MIERCOLES', DIA_VIRTUAL) > 0 THEN NULL
+                ELSE I
+            END
+    END as I,
+    CASE 
+        WHEN modalidades_distintas = 1 THEN MAX(J)
+        WHEN MODALIDAD = 'VIRTUAL' THEN
+            CASE 
+                WHEN FIND_IN_SET('JUEVES', DIA_PRESENCIAL) > 0 THEN NULL
+                ELSE J
+            END
+        ELSE
+            CASE 
+                WHEN FIND_IN_SET('JUEVES', DIA_VIRTUAL) > 0 THEN NULL
+                ELSE J
+            END
+    END as J,
+    CASE 
+        WHEN modalidades_distintas = 1 THEN MAX(V)
+        WHEN MODALIDAD = 'VIRTUAL' THEN
+            CASE 
+                WHEN FIND_IN_SET('VIERNES', DIA_PRESENCIAL) > 0 THEN NULL
+                ELSE V
+            END
+        ELSE
+            CASE 
+                WHEN FIND_IN_SET('VIERNES', DIA_VIRTUAL) > 0 THEN NULL
+                ELSE V
+            END
+    END as V,
+    MAX(S) as S,
+    MAX(D) as D,
+    rb.HORA_INICIAL,
+    rb.HORA_FINAL,
+    rb.MODULO,
+    MAX(AULA) as AULA,
+    MAX(DIA_PRESENCIAL) as DIA_PRESENCIAL,
+    MAX(DIA_VIRTUAL) as DIA_VIRTUAL,
+    rb.MODALIDAD
+FROM registros_base rb
+GROUP BY 
+    rb.CRN,
+    rb.HORA_INICIAL,
+    rb.HORA_FINAL,
+    rb.MODULO,
+    rb.MODALIDAD,
+    modalidades_distintas
+ORDER BY 
+    rb.CRN,
+    rb.HORA_INICIAL,
+    rb.MODALIDAD";
 
 $stmt = $conexion->prepare($sql_select);
 if ($stmt === false) {
     die("Error preparando la consulta: " . $conexion->error);
 }
 
-$stmt->bind_param("i", $departamento_id);
+$stmt->bind_param("ii", $departamento_id, $departamento_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -119,9 +200,11 @@ if ($result->num_rows > 0) {
     while ($data = $result->fetch_assoc()) {
         $col = 1;
         foreach ($columnas_exportar as $columna) {
+            $valor = $data[$columna] ?? '';
+            
             $sheet->setCellValue(
                 \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
-                $data[$columna] ?? ''
+                $valor
             );
             $col++;
         }
