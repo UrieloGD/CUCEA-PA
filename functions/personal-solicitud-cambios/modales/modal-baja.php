@@ -1,3 +1,4 @@
+<!-- modal solicitud baja - modal-baja.php -->
 <div id="solicitud-modal-baja-academica" class="modal">
     <div class="modal-content">
         <button class="close-button">&times;</button>
@@ -70,8 +71,8 @@
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha D/M/A</label>
-                    <input type="date" id="fecha" name="fecha">
-                </div>
+                    <input type="date" id="fecha" name="fecha" value="<?php echo date('Y-m-d'); ?>">
+                    </div>
             </div>
             <!-- Botones de acción al final del modal -->
             <div class="contenedor-botones">

@@ -1,3 +1,4 @@
+//personal-solicitud-cambios.js
 document.addEventListener('DOMContentLoaded', function() {
   const btn = document.getElementById('nueva-solicitud-btn');
   const lista = document.getElementById('lista-opciones');

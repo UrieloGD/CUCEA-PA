@@ -1,5 +1,5 @@
 .modal {
-    position: fixed;
+  	position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -17,6 +17,7 @@
     padding: 2rem;
     border-radius: 8px;
     width: 90%;
+    margin: 10% auto;
     max-width: 1200px;
     position: relative; /* Para la X de cerrar */
     max-height: 90vh; /* Para evitar que se salga de la pantalla */

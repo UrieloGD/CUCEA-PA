@@ -1,4 +1,5 @@
 <?php
+//personal-solicitud-cambios.php
 session_start();
 
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
@@ -680,6 +681,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
         </div>
     </div>
 
+    <!-- Modal Solicitudes Baja -->
     <?php include './functions/personal-solicitud-cambios/modales/modal-baja.php' ?>
 
     <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
@@ -813,5 +815,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
     <!-- Script para las funciones del despliegue de contenedor hacia abajo al hacer click -->
     <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
     <script src="./JS/personal-solicitud-cambios/modal-baja.js"></script>
+    <script src="./JS/personal-solicitud-cambios/nueva-solicitud.js"></script>
 
-    <?php include("./template/footer.php"); ?>
+<?php include("./template/footer.php"); ?>

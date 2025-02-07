@@ -1,4 +1,5 @@
 <?php
+// guardar_solicitud_baja.php
 session_start();
 include './../../config/db.php';
 
@@ -10,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Error de conexión a la base de datos");
         }
 
-        $profesion = mysqli_real_escape_string($conexion, $_POST['profesion']);
+        $nombres = mysqli_real_escape_string($conexion, $_POST['nombres']);
         $apellido_paterno = mysqli_real_escape_string($conexion, $_POST['apellido_paterno']);
         $apellido_materno = mysqli_real_escape_string($conexion, $_POST['apellido_materno']);
-        $nombres = mysqli_real_escape_string($conexion, $_POST['nombres']);
         $codigo = mysqli_real_escape_string($conexion, $_POST['codigo']);
+        $profesion = mysqli_real_escape_string($conexion, $_POST['profesion']);
         $descripcion = mysqli_real_escape_string($conexion, $_POST['descripcion']);
         $clasificacion = mysqli_real_escape_string($conexion, $_POST['clasificacion']);
         $motivo = mysqli_real_escape_string($conexion, $_POST['motivo']);
@@ -24,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fecha = mysqli_real_escape_string($conexion, $_POST['fecha']);
 
         $sql = "INSERT INTO solicitudes_baja (
-            PROFESSION_PROFESOR_B, APELLIDO_P_PROF_B, APELLIDO_M_PROF_B,
-            NOMBRES_PROF_B, CODIGO_PROF_B, DESCRIPCION_PUESTO_B,
+            NOMBRES_PROF_B, APELLIDO_P_PROF_B, APELLIDO_M_PROF_B,
+            PROFESSION_PROFESOR_B, CODIGO_PROF_B, DESCRIPCION_PUESTO_B,
             CLASIFICACION_BAJA_B, MOTIVO_B, CRN_B,
             SIN_EFFECTOS_DESDE_B, OFICIO_NUM_BAJA, FECHA_SOLICITUD_B,
             ESTADO_B
