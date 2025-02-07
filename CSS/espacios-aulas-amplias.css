@@ -173,3 +173,90 @@
   .title-aulas-amplias span {
     font-size: 3rem;
   }
+
+  @media screen and (max-width: 992px) and (min-width: 769px) {
+    .circulo-base {
+      width: 600px;
+      height: 600px;
+    }
+
+    .aula-azul {
+      width: 110px;
+      height: 140px;
+    }
+
+    #azul-1 { 
+      transform: rotate(-60deg);
+      top: 30px; 
+      left: 180px;
+    }
+    #azul-2 { 
+      transform: rotate(70deg); 
+      top: 100px;
+      left: 70px;
+    }
+    #azul-3 { 
+      transform: rotate(60deg); 
+      top: 225px;
+      left: 30px;
+    }
+    #azul-4 { 
+      transform: rotate(0deg); 
+      top: 355px;
+      left: 60px;
+    }
+    #azul-5 { 
+      transform: rotate(150deg); 
+      bottom: 20px;
+      right: 325px;
+    }
+    #azul-6 { 
+      transform: rotate(90deg); 
+      bottom: 20px;
+      right: 188px;
+    }
+
+    #AA1, #AA2, #AA3, #AA4, #AA5, #AA6 {
+      font-size: 1.2rem;
+    }
+
+    #AA1 { 
+      padding: 25px 10px 25px;
+      bottom: 85px;
+      right: 230px;
+    }
+    
+    #AA2 { 
+      padding: 25px 10px 25px;
+      bottom: 95px;
+      right: 335px;
+    }
+    
+    #AA3 { 
+      padding: 25px 10px 25px;
+      bottom: 165px;
+      left: 120px;
+    }
+    
+    #AA4 { 
+      padding: 25px 10px 25px;
+      bottom: 270px;
+      left: 90px;
+    }
+    
+    #AA5 { 
+      padding: 25px 10px 25px;
+      top: 155px;
+      left: 125px;
+    }
+    
+    #AA6 { 
+      padding: 25px 10px 25px;
+      top: 90px;
+      left: 215px;
+    }
+
+    .title-aulas-amplias span {
+      font-size: 2rem;
+    }
+  }
