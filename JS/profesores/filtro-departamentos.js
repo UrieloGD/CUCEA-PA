@@ -12,14 +12,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all department checkboxes
     const departmentCheckboxes = dropdownList.querySelectorAll('input[type="checkbox"]:not(#select-all)');
     const selectAllCheckbox = document.getElementById('select-all');
+    const dropdownAnchor = document.querySelector('.anchor');
 
     // Variable para mantener el estado previo de las selecciones
     let previousSelections = new Set();
 
+    function updateSelectionCount() {
+        const checkedDepartments = Array.from(departmentCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.parentElement.textContent.trim());
+        const checkedCount = checkedDepartments.length;
+        if (selectAllCheckbox.checked) {
+            dropdownAnchor.textContent = 'Todos los departamentos';
+        } else if (checkedCount === 0) {
+            dropdownAnchor.textContent = 'Departamentos ';
+        } else if (checkedCount === 1) {
+            dropdownAnchor.textContent = `Departamento: ${checkedDepartments[0]}`;
+        } else {
+            dropdownAnchor.textContent = `${checkedCount} departamentos seleccionados`;
+        }
+    }
+
     // Handle initial department selection
     if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
         if (isPosgrados === 'true') {
-            // Si es Posgrados, selecciona todos
             selectAllCheckbox.checked = true;
             departmentCheckboxes.forEach(checkbox => {
                 checkbox.checked = true;
@@ -28,14 +44,14 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             departmentCheckboxes.forEach(checkbox => {
                 const checkboxDepartment = checkbox.parentElement.textContent.trim();
-                
-                // Compara de manera más flexible
                 if (checkboxDepartment.toLowerCase() === sessionDepartment.toLowerCase()) {
                     checkbox.checked = true;
                     previousSelections.add(checkboxDepartment);
                 }
             });
         }
+        updateTable();
+    } else {
         updateTable();
     }
     
@@ -66,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+        updateSelectionCount();
     }
     
     // Handle "Select All" checkbox

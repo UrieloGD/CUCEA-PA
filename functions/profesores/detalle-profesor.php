@@ -208,7 +208,7 @@ if(isset($_POST['codigo_profesor'])) {
         $columnas_dias = ['L', 'M', 'I', 'J', 'V', 'S'];
     
         // Lógica para manejar específicamente modalidades virtuales o presenciales enriquecidas
-        if (in_array($modalidad, ['PRESENCIAL ENRIQUECIDA', 'VIRTUAL'])) {
+        if (in_array($modalidad, ['PRESENCIAL ENRIQUECIDA', 'VIRTUAL', 'PRESENCIAL', 'PRESENCIAL ENRIQUCIDO'])) {
             foreach ($columnas_dias as $dia) {
                 // Verificar si el día tiene valor '1' y NO es igual al encabezado de la columna
                 if (isset($curso[$dia]) && 
@@ -453,7 +453,10 @@ if(isset($_POST['codigo_profesor'])) {
                                         <td class="col-dias">
                                             <div class="weekdays" id="weekdays-' . htmlspecialchars($curso['CRN']) . '-' . htmlspecialchars($curso['MODULO'] ?? 'NA') . '">';
                                         
-                                            if($curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDA" || $curso['MODALIDAD'] === null){
+                                            if($curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDA" || 
+                                                $curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDO" ||
+                                                $curso['MODALIDAD'] === "PRESENCIAL" ||
+                                                $curso['MODALIDAD'] === null){
                                                 $dias = '';
                                                 $hayDias = false;
                                                 
@@ -608,7 +611,11 @@ if(isset($_POST['codigo_profesor'])) {
                                                 <td class="col-dias">
                                                     <div class="weekdays" id="weekdays-' . htmlspecialchars($curso['CRN']) . '-' . htmlspecialchars($curso['MODULO'] ?? 'NA') . '">';
                                             
-                                                    if($curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDA" || $curso['MODALIDAD'] === null){
+                                                    if($curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDA" || 
+                                                        $curso['MODALIDAD'] === "PRESENCIAL ENRIQUECIDO" ||
+                                                        $curso['MODALIDAD'] === "PRESENCIAL" ||
+                                                        $curso['MODALIDAD'] === null){
+                                                            
                                                         if($curso['L'] == 'L'){
                                                             $fila_curso .= '
                                                                 <div class="day active">L</div>
