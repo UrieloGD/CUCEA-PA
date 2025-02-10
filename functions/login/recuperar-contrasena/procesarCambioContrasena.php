@@ -1,5 +1,6 @@
 <?php
 require_once('./../../../config/db.php');
+require_once('./../../../config/url_config.php');
 
 // Función para hashear la contraseña de forma segura
 function hashPassword($password) {
@@ -7,13 +8,13 @@ function hashPassword($password) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $codigo = $_POST['codigo']; // Ahora obtenemos el código correctamente desde el formulario
+    $codigo = $_POST['codigo'];
     $pass = $_POST['pass'];
     $confpass = $_POST['confpass'];
 
-    $hashedPassword = hashPassword($pass);
-
     if ($pass === $confpass) {
+        $hashedPassword = hashPassword($pass);
+
         // Actualizar la contraseña en la base de datos
         $updateQuery = "UPDATE usuarios SET Pass=? WHERE Codigo=?";
         $stmt = $conexion->prepare($updateQuery);
@@ -26,12 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             $stmt->close();
         } else {
-            echo "Error preparando la consulta: " . $conexion->error;
+            echo json_encode(['success' => false, 'message' => 'Error preparando la consulta: ' . $conexion->error]);
         }
     } else {
-        echo "Las contraseñas no coinciden";
+        echo json_encode(['success' => false, 'message' => 'Las contraseñas no coinciden']);
     }
 } else {
-    echo "Método de solicitud no permitido";
+    echo json_encode(['success' => false, 'message' => 'Método de solicitud no permitido']);
 }
+
 $conexion->close();

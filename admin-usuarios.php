@@ -74,8 +74,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2) {
         }
       }
 
-      // Consulta para obtener los departamentos
-      $departamentos_sql = "SELECT Departamento_ID, Departamentos FROM departamentos";
+      // Consulta para obtener los departamentos en orden alfabético
+      $departamentos_sql = "SELECT Departamento_ID, Departamentos FROM departamentos ORDER BY Departamentos ASC";
       $departamentos_result = $conexion->query($departamentos_sql);
 
       $departamentos = [];
@@ -167,21 +167,32 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2) {
   <script src="./JS/admin-usuarios/admin-usuarios.js"></script>
   <script src="./JS/admin-usuarios/eliminar-usuario.js"></script>
   <script>
+    // Inicializar roles y departamentos
     const roles = <?php echo json_encode($roles); ?>;
     const departamentos = <?php echo json_encode($departamentos); ?>;
     const departamentosSelect = document.getElementById("departamento");
-    // Agregar una opción vacía al inicio
+    const rolesSelect = document.getElementById("rol");
+
+    // Inicializar roles
+    roles.forEach((rol) => {
+        const option = document.createElement("option");
+        option.value = rol.Rol_ID;
+        option.text = rol.Nombre_Rol;
+        rolesSelect.add(option);
+    });
+
+    // Inicializar departamentos
     const emptyOption = document.createElement("option");
     emptyOption.value = "";
     emptyOption.text = "";
     departamentosSelect.add(emptyOption);
-    // Agregar el resto de departamentos
+
     departamentos.forEach((departamento) => {
-      const option = document.createElement("option");
-      option.value = departamento.Departamento_ID;
-      option.text = departamento.Departamentos;
-      departamentosSelect.add(option);
+        const option = document.createElement("option");
+        option.value = departamento.Departamento_ID;
+        option.text = departamento.Departamentos;
+        departamentosSelect.add(option);
     });
-  </script>
+</script>
 
   <?php include './template/footer.php' ?>

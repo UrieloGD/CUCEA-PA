@@ -40,25 +40,137 @@ try {
     }
 
     // Obtener información del departamento
-$sql_departamento = "SELECT Nombre_Departamento, Departamentos 
-FROM departamentos 
-WHERE Departamento_ID = ?";
-$stmt = $conexion->prepare($sql_departamento);
+    $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
+            FROM departamentos 
+            WHERE Departamento_ID = ?";
+    $stmt = $conexion->prepare($sql_departamento);
 
-if (!$stmt) {
-die("Error en la preparación de la consulta: " . $conexion->error);
-}
+    if (!$stmt) {
+        die("Error en la preparación de la consulta: " . $conexion->error);
+    }
 
-$stmt->bind_param("i", $departamento_id);
-$stmt->execute();
-$result_departamento = $stmt->get_result();
+    $stmt->bind_param("i", $departamento_id);
+    $stmt->execute();
+    $result_departamento = $stmt->get_result();
 
-if ($result_departamento && $row_departamento = $result_departamento->fetch_assoc()) {
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
-$departamento_nombre = $row_departamento['Departamentos'];
-} else {
-die("No se encontró el departamento especificado.");
-}
+    if ($result_departamento && $row_departamento = $result_departamento->fetch_assoc()) {
+        $nombre_departamento = $row_departamento['Nombre_Departamento'];
+        $departamento_nombre = $row_departamento['Departamentos'];
+    } else {
+        die("No se encontró el departamento especificado.");
+    }
+
+    // Define the mapping array with all possible variations
+    $departmentMapping = [
+        'Estudios Regionales' => [
+            'ESTUDIOS REGIONALES',
+            'Estudios Regionales',
+            'Est. Regionales',
+            'Estudios_Regionales'
+        ],
+        'Finanzas' => [
+            'FINANZAS',
+            'Finanzas',
+            'FIN'
+        ],
+        'Ciencias Sociales' => [
+            'CIENCIAS SOCIALES',
+            'Ciencias Sociales',
+            'CERI/CIENCIAS SOCIALES',
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS',
+            'Ciencias_Sociales'
+        ],
+        'PALE' => [
+            'PALE',
+            'PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
+            'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA'
+        ],
+        'Economía' => [
+            'ECONOMIA',
+            'Economía',
+            'Economia'
+        ],
+        'Recursos Humanos' => [
+            'RECURSOS HUMANOS',
+            'Recursos Humanos',
+            'RH',
+            'RECURSOS_HUMANOS',
+            'Recursos_Humanos'
+        ],
+        'Métodos Cuantitativos' => [
+            'METODOS CUANTITATIVOS',
+            'Métodos Cuantitativos',
+            'Metodos Cuantitativos',
+            'Métodos_Cuantitativos'
+        ],
+        'Políticas Públicas' => [
+            'POLITICAS PUBLICAS',
+            'Políticas Públicas',
+            'Politicas Publicas',
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
+            'CIENCIAS SOCIALES/POLITICAS PUBLICAS',
+            'Políticas_Públicas'
+        ],
+        'Administración' => [
+            'ADMINISTRACION',
+            'Administración',
+            'Administracion',
+            'ADMINISTRACION ',
+            'ADMINISTRACION  '
+        ],
+        'Auditoria' => [
+            'AUDITORIA',
+            'Auditoría',
+            'Auditoria',
+            'SECRETARIA ADMINISTRATIVA/AUDITORIA'
+        ],
+        'Mercadotecnia' => [
+            'MERCADOTECNIA',
+            'Mercadotecnia',
+            'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
+        ],
+        'Impuestos' => [
+            'IMPUESTOS',
+            'Impuestos',
+            'IMP'
+        ],
+        'Sistemas de Información' => [
+            'SISTEMAS DE INFORMACION',
+            'Sistemas de Información',
+            'Sistemas de Informacion',
+            'Sistemas_de_Información'
+        ],
+        'Turismo' => [
+            'TURISMO',
+            'Turismo',
+            'TURISMO R. Y S.'
+        ],
+        'Contabilidad' => [
+            'CONTABILIDAD',
+            'Contabilidad',
+            'CONT'
+        ],
+        'Otros' => [
+            'SECRETARIA ADMINISTRATIVA/AUDITORIA',
+            'CERI/SECRETARIA ACADEMICA',
+            'SECRETARIA ACADEMICA',
+            'SECRETARIA ACADEMICA  '
+        ]
+    ];
+
+    // Function to normalize department name
+    function normalizeDepartmentName($dbDepartment) {
+        global $departmentMapping;
+        
+        foreach ($departmentMapping as $standardName => $variations) {
+            if (in_array($dbDepartment, $variations)) {
+                return $standardName;
+            }
+        }
+        
+        return $dbDepartment; // Return original if no mapping found
+    }
 
     // Aquí comienza el HTML
     include './template/header.php';
@@ -94,14 +206,33 @@ die("No se encontró el departamento especificado.");
                 <ul class="items">
                     <?php
                     // Obtener departamentos únicos de la tabla
+                    /*
                     $sql_departamentos = "SELECT DISTINCT Departamento FROM coord_per_prof ORDER BY Departamento";
                     $result_departamentos = mysqli_query($conexion, $sql_departamentos);
                     
                     while($row = mysqli_fetch_assoc($result_departamentos)) {
                         echo "<li><input type='checkbox' value='" . htmlspecialchars($row['Departamento']) . "' />" . 
                             htmlspecialchars($row['Departamento']) . "</li>";
+                            
                     }
+                    */
                     ?>
+                    <li><input type="checkbox" />Administración</li>
+                    <li><input type="checkbox" />Auditoria</li>
+                    <li><input type="checkbox" />Ciencias Sociales</li>
+                    <li><input type="checkbox" />Contabilidad</li>
+                    <li><input type="checkbox" />Economía</li>
+                    <li><input type="checkbox" />Estudios Regionales</li>
+                    <li><input type="checkbox" />Finanzas</li>
+                    <li><input type="checkbox" />Impuestos</li>
+                    <li><input type="checkbox" />Mercadotecnia</li>
+                    <li><input type="checkbox" />Métodos Cuantitativos</li>
+                    <li><input type="checkbox" />PALE</li>
+                    <li><input type="checkbox" />Políticas Públicas</li>
+                    <li><input type="checkbox" />Recursos Humanos</li>
+                    <li><input type="checkbox" />Sistemas de Información</li>
+                    <li><input type="checkbox" />Turismo</li>
+                    <li><input type="checkbox" />Otros</li>
                 </ul>
             </div>
         </div>
@@ -113,7 +244,7 @@ die("No se encontró el departamento especificado.");
                 <table class="profesores-table">
                     <thead>
                         <tr>
-                            <th class="detalle-column">count</th>
+                           <!-- <th class="detalle-column">count</th> --> 
                             <th class="detalle-column">Código</th>
                             <th class="detalle-column">Nombre Completo</th>
                             <th class="detalle-column">Categoria Actúal</th>
@@ -124,103 +255,23 @@ die("No se encontró el departamento especificado.");
                     <tbody>
                         
                         <?php
-                        // Array de mapeo de departamentos
-                        $departamentos_mapping = [
-
-                            'Administración' => [
-                                'Administracion',
-                                'ADMINISTRACION',
-                                'Administración'
-                            ],
-                            'PALE' => [
-                                'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
-                                'PALE',
-                                'Programa de Aprendizaje de Lengua Extranjera'
-                            ],
-                            'Auditoría' => [
-                                'Auditoria',
-                                'AUDITORIA',
-                                'Auditoría',
-                                'SECRETARIA ADMINISTRATIVA/AUDITORIA'
-                            ],
-                            'Ciencias_Sociales' => [
-                                'CERI/CIENCIAS SOCIALES',
-                                'CIENCIAS SOCIALES',
-                                'Ciencias Sociales'
-                            ],
-                            'Políticas_Públicas' => [
-                                'POLITICAS PUBLICAS',
-                                'Políticas Públicas',
-                                'Politicas Publicas'
-                            ],
-                            'Contabilidad' => [
-                                'CONTABILIDAD',
-                                'Contabilidad'
-                            ],
-                            'Economía' => [
-                                'ECONOMIA',
-                                'Economía',
-                                'Economia'
-                            ],
-                            'Estudios_Regionales' => [
-                                'ESTUDIOS REGIONALES',
-                                'Estudios Regionales'
-                            ],
-                            'Finanzas' => [
-                                'FINANZAS',
-                                'Finanzas'
-                            ],
-                            'Impuestos' => [
-                                'IMPUESTOS',
-                                'Impuestos'
-                            ],
-                            'Mercadotecnia' => [
-                                'MERCADOTECNIA',
-                                'Mercadotecnia',
-                                'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
-                            ],
-                            'Métodos_Cuantitativos' => [
-                                'METODOS CUANTITATIVOS',
-                                'Métodos Cuantitativos',
-                                'Metodos Cuantitativos'
-                            ],
-                            'Recursos_Humanos' => [
-                                'RECURSOS HUMANOS',
-                                'Recursos Humanos',
-                                'RECURSOS_HUMANOS'
-                            ],
-                            'Sistemas_de_Información' => [
-                                'SISTEMAS DE INFORMACION',
-                                'Sistemas de Información',
-                                'Sistemas de Informacion'
-                            ],
-                            'Turismo' => [
-                                'TURISMO',
-                                'Turismo',
-                                'Turismo R. y S.'
-                            ],
-                            'Posgrados' => [
-                                'POSGRADOS',
-                                'Posgrados'
-                            ]
-                        ];
-
                         // Consulta SQL con las variantes del departamento
                         $sql_todos_profesores = "SELECT  Codigo, Nombre_Completo, Categoria_actual, Departamento 
                                             FROM coord_per_prof 
-                                            ORDER BY Nombre_Completo";
+                                            ORDER BY Departamento, Nombre_Completo";
                         
                         $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
                         
                         if ($result_todos_profesores) {
                             $contador = 1;
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
+                                $departamento_normalizado = normalizeDepartmentName($row['Departamento']);
                                 echo "<tr class='tr-info'>";
-                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
+                                //echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Departamento'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column'>" . htmlspecialchars($departamento_normalizado ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                                 echo "</tr>";
                                 $contador = $contador + 1;
@@ -250,6 +301,11 @@ die("No se encontró el departamento especificado.");
 <script src="./JS/profesores/filtro-profesores.js"></script>
 <script src="./JS/profesores/desplegable-box.js"></script>
 <script src="./JS/profesores/filtro-departamentos.js"></script>
+<script>
+    // Pass the session department to JavaScript
+    const sessionDepartment = "<?php echo htmlspecialchars(normalizeDepartmentName($nombre_departamento)); ?>";
+    const isPosgrados = "<?php echo ($nombre_departamento === 'Posgrados') ? 'true' : 'false'; ?>";
+</script>
 
 <!-- DataTables Scripts -->
  

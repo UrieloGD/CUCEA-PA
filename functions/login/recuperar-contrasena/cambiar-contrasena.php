@@ -13,6 +13,7 @@
 
 <body>
     <?php
+    require_once('./../../../config/url_config.php');
     // Obtener el código del usuario desde la URL o la sesión
     if (isset($_GET['id'])) {
         $codigo = $_GET['id'];
@@ -20,6 +21,9 @@
         echo "Código de usuario no encontrado.";
         exit();
     }
+    
+    // Obtener la base URL para los recursos
+    $baseUrl = URLConfig::getBaseURL();
     ?>
     <form action="./procesarCambioContrasena.php" method="post">
         <input type="hidden" name="codigo" value="<?php echo $codigo; ?>">
@@ -28,11 +32,11 @@
                 <div class="login-container">
                     <div class="space-y-4">
                         <div>
-                            <img src="./../../../Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA">
+                            <img src="<?php echo $baseUrl; ?>/Img/logos/LogoCUCEA-COLORES-HD.png" width="100%" height="100%" alt="CUCEA">
                         </div>
                         <br>
                         <div class="text-center">
-                            <img src="./../../../Img/logos/LogoPA-Color.png" width="100%" height="100%"></img>
+                            <img src="<?php echo $baseUrl; ?>/Img/logos/LogoPA-Color.png" width="100%" height="100%"></img>
                         </div>
                         <div class="space-y-4">
                             <div class="space-y-2">

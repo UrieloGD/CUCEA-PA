@@ -166,8 +166,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function actualizarTituloDropdown() {
         const anchor = checkList.querySelector('.anchor');
         const texto = departamentosSeleccionados.size > 0 
-            ? `Departamentos (${departamentosSeleccionados.size} seleccionados)` 
-            : 'Departamento:';
+            ? `Departamentos: (${departamentosSeleccionados.size} seleccionados)` 
+            : 'Departamentos:';
         anchor.textContent = texto;
     }
 

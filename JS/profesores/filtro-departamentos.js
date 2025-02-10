@@ -12,6 +12,48 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all department checkboxes
     const departmentCheckboxes = dropdownList.querySelectorAll('input[type="checkbox"]:not(#select-all)');
     const selectAllCheckbox = document.getElementById('select-all');
+    const dropdownAnchor = document.querySelector('.anchor');
+
+    // Variable para mantener el estado previo de las selecciones
+    let previousSelections = new Set();
+
+    function updateSelectionCount() {
+        const checkedDepartments = Array.from(departmentCheckboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.parentElement.textContent.trim());
+        const checkedCount = checkedDepartments.length;
+        if (selectAllCheckbox.checked) {
+            dropdownAnchor.textContent = 'Todos los departamentos';
+        } else if (checkedCount === 0) {
+            dropdownAnchor.textContent = 'Departamentos ';
+        } else if (checkedCount === 1) {
+            dropdownAnchor.textContent = `Departamento: ${checkedDepartments[0]}`;
+        } else {
+            dropdownAnchor.textContent = `${checkedCount} departamentos seleccionados`;
+        }
+    }
+
+    // Handle initial department selection
+    if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
+        if (isPosgrados === 'true') {
+            selectAllCheckbox.checked = true;
+            departmentCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+                previousSelections.add(checkbox.parentElement.textContent.trim());
+            });
+        } else {
+            departmentCheckboxes.forEach(checkbox => {
+                const checkboxDepartment = checkbox.parentElement.textContent.trim();
+                if (checkboxDepartment.toLowerCase() === sessionDepartment.toLowerCase()) {
+                    checkbox.checked = true;
+                    previousSelections.add(checkboxDepartment);
+                }
+            });
+        }
+        updateTable();
+    } else {
+        updateTable();
+    }
     
     // Function to update table based on selected departments
     function updateTable() {
@@ -19,61 +61,62 @@ document.addEventListener('DOMContentLoaded', function() {
             .filter(cb => cb.checked)
             .map(cb => cb.parentElement.textContent.trim());
         
-        // Clear the table first
         tableBody.innerHTML = '';
-        
-        // If "Select All" is checked, show all rows
-        if (selectAllCheckbox.checked) {
-            let counter = 1;
-            originalRows.forEach(row => {
-                const newRow = row.cloneNode(true);
-                newRow.querySelector('td:first-child').textContent = counter++;
-                tableBody.appendChild(newRow);
-            });
-            return;
-        }
-        
-        // If no departments selected and "Select All" is not checked, show nothing
-        if (selectedDepartments.length === 0) {
-            return;
-        }
-        
-        // Show rows for selected departments
-        let counter = 1;
-        originalRows.forEach(row => {
-            const departmentCell = row.querySelector('td:nth-child(5)');
-            const departmentValue = departmentCell ? departmentCell.textContent.trim() : '';
+
+        // Si "Todos los departamentos" está seleccionado o si hay departamentos individuales seleccionados
+        if (selectAllCheckbox.checked || selectedDepartments.length > 0) {
+            const departmentsToShow = selectAllCheckbox.checked ? [] : selectedDepartments;
             
-            // Check if the department matches any selected department
-            if (selectedDepartments.some(dept => 
-                departmentValue.toLowerCase() === dept.toLowerCase())) {
-                const newRow = row.cloneNode(true);
-                newRow.querySelector('td:first-child').textContent = counter++;
-                newRow.style.display = ''; // Ensure the row is visible
-                tableBody.appendChild(newRow);
-            }
-        });
+            originalRows.forEach(row => {
+                const departmentCell = row.querySelector('td:nth-child(4)'); // Ajustado el índice por la eliminación de la columna count
+                const departmentValue = departmentCell ? departmentCell.textContent.trim() : '';
+                
+                // Mostrar todas las filas si "Todos los departamentos" está seleccionado
+                // o solo las filas de los departamentos seleccionados
+                if (selectAllCheckbox.checked || 
+                    departmentsToShow.some(dept => 
+                        departmentValue.toLowerCase() === dept.toLowerCase())) {
+                    const newRow = row.cloneNode(true);
+                    newRow.style.display = '';
+                    tableBody.appendChild(newRow);
+                }
+            });
+        }
+        updateSelectionCount();
     }
     
     // Handle "Select All" checkbox
     selectAllCheckbox.addEventListener('change', function() {
-        departmentCheckboxes.forEach(cb => {
-            cb.checked = this.checked;
-        });
+        if (this.checked) {
+            // Guardar selecciones previas antes de seleccionar todos
+            previousSelections = new Set(
+                Array.from(departmentCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.parentElement.textContent.trim())
+            );
+            
+            departmentCheckboxes.forEach(cb => {
+                cb.checked = true;
+            });
+        } else {
+            // Restaurar selecciones previas
+            departmentCheckboxes.forEach(cb => {
+                cb.checked = previousSelections.has(cb.parentElement.textContent.trim());
+            });
+        }
         updateTable();
     });
     
     // Handle individual department checkboxes
     departmentCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
-            // If unchecking and it's the last checkbox, uncheck "Select All"
-            if (!this.checked && Array.from(departmentCheckboxes).filter(cb => cb.checked).length === 0) {
-                selectAllCheckbox.checked = false;
-            }
+            const checkedCount = Array.from(departmentCheckboxes).filter(cb => cb.checked).length;
             
-            // If all individual checkboxes are checked, check "Select All"
-            selectAllCheckbox.checked = Array.from(departmentCheckboxes)
-                .every(cb => cb.checked);
+            if (!this.checked) {
+                selectAllCheckbox.checked = false;
+            } else if (checkedCount === departmentCheckboxes.length) {
+                selectAllCheckbox.checked = true;
+            }
             
             updateTable();
         });

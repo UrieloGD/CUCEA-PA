@@ -1,0 +1,245 @@
+.modal {
+  	position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Mayor z-index para asegurar que esté por encima */
+    padding: 20px; /* Añadido para responsividad */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    margin: 10% auto;
+    max-width: 1200px;
+    position: relative; /* Para la X de cerrar */
+    max-height: 90vh; /* Para evitar que se salga de la pantalla */
+    overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+}
+
+/* Botón de cerrar */
+.close-button {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.close-button:hover {
+    background: #e0e0e0;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px; /* Ancho mínimo antes de envolver */
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.large {
+  flex: 2;
+}
+
+.form-group.small {
+  flex: 0.5;
+}
+
+label {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Estilos de botones del final (Cancelar o guardar) */
+.contenedor-botones {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.contenedor-botones button {
+  margin: 0 7px;
+  border-radius: 10px;
+  border-style: none;
+  padding: 1vh 2.5vw 1vh;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #0071b0;
+  border-color: #0071b0;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px rgb(185, 174, 174);
+}
+
+.boton-guardar, .boton-descartar {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.boton-guardar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.boton-descartar {
+    background-color: #f44336;
+    color: white;
+}
+
+.boton-guardar:hover {
+    background-color: #45a049;
+}
+
+.boton-descartar:hover {
+    background-color: #da190b;
+}
+
+.boton-guardar i, .boton-descartar i {
+    font-size: 1.2rem;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 1rem;
+        width: 95%;
+    }
+
+    .form-group {
+        min-width: 100%; /* En móviles, cada campo ocupa todo el ancho */
+    }
+}
+
+@media screen and (max-width: 992px) {
+  .campos-profesor,
+  .campos-motivos {
+    flex-wrap: nowrap;
+  }
+
+  .campos-materia {
+    flex-wrap: wrap;
+  }
+
+  .borde-CRN,
+  .borde-clave,
+  .borde-SEC {
+    width: 25%;
+  }
+
+  .borde-materia,
+  .borde-apellido-paterno,
+  .borde-apellido-materno,
+  .borde-nombres,
+  .borde-otro,
+  .borde-motivo,
+  .borde-codigo {
+    width: 70%;
+  }
+
+  .borde-folio {
+    width: 45%;
+  }
+
+  .texto-CRN,
+  .texto-materia,
+  .texto-clave,
+  .texto-SEC,
+  .texto-folio,
+  .texto-apellido-paterno,
+  .texto-apellido-materno,
+  .texto-nombres,
+  .texto-codigo,
+  .texto-motivo,
+  .texto-otro,
+  .texto-movimiento,
+  .texto-contrato {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .borde-CRN,
+  .borde-materia,
+  .borde-clave,
+  .borde-SEC,
+  .borde-folio,
+  .borde-apellido-paterno,
+  .borde-apellido-materno,
+  .borde-nombres,
+  .borde-codigo,
+  .borde-motivo,
+  .borde-otro,
+  .borde-movimiento,
+  .borde-contrato {
+    width: 100%;
+    margin-top: 20;
+  }
+
+  .campos-profesor {
+    margin-top: 20;
+  }
+
+  .campos-materia {
+    margin-top: 40;
+  }
+
+  .campos-profesor,
+  .campos-motivos,
+  .campos-materia {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .modal-content {
+    width: 95%;
+  }
+
+  .contenedor-botones button {
+    font-size: 0.8rem;
+    border-radius: 7px;
+  }
+}

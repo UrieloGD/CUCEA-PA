@@ -44,14 +44,13 @@ include './template/navbar.php';
                 <div class="hoy">
                     <h2>Hoy</h2>
                 </div>
-                <!-- Aquí podrías agregar un contador dinámico si lo necesitas -->
+                <!-- Contador dinámico de próximas actividades. Temporalmente deshabilitado
                 <div class="activities">
                     <h3>Actividades próximas</h3>
-                    <!-- Actividades estáticas, puedes reemplazarlas si tienes un sistema de actividades en la base de datos -->
                     <div class="activity">Actividad 1<br>10 Junio, 12:00</div>
                     <div class="activity">Actividad 2<br>15 Junio, 13:00</div>
                     <div class="activity">Actividad 3<br>24 Junio, 17:00</div>
-                </div>
+                </div> -->
                 <?php
                 // Consultar eventos futuros o en curso del usuario
                 $sql = "SELECT Nombre_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Etiqueta
@@ -209,7 +208,8 @@ include './template/navbar.php';
                         }
 
                         $calendar .= "<td class='$class'>";
-                        $calendar .= "<div class='date-number' style='cursor: pointer;'>$day</div>"; /* cursor pointer para denotar que puede ser clickeado */
+                        $calendar .= "<div class='date-number'>$day</div>";
+                        // $calendar .= "<div class='date-number' style='cursor: pointer;'>$day</div>"; /* cursor pointer para denotar que puede ser clickeado. Temporalmente deshabilitado porque descartamos el modal para crear eventos desde el calendario */
                         $calendar .= $events;
                         $calendar .= "</td>";
 
@@ -273,46 +273,36 @@ include './template/navbar.php';
     </div>
 </div>
 
-<!-- Modal para crear nuevo evento. -->
+<!-- Modal para crear nuevo evento, temporalmente deshabilitado
 <div id="modalOverlay" class="modal-overlay"></div>
 <div id="createEventModal" class="side-modal">
     <span class="close-modal"></span>
-    <!-- Modal para crear nuevo evento. -->
     <form>
-        <div class="crearevento-principal"> <!-- Contenedor principal. -->
-            <div class="crearevento-encabezado">Crear nuevo evento</div> <!-- Contenedor de encabezado. -->
-
-            <!-- subcontenedor Ingresar el titulo y la fecha del evento. -->
+        <div class="crearevento-principal">
+            <div class="crearevento-encabezado">Crear nuevo evento</div>
             <div class="crearevento-titulofecha">
-                <!-- Input para el titulo del evento. -->
                 <input class="escribir-titulo" type="text" placeholder="Titulo del evento">
-                <div class="escribir-icono"> <!-- Contenedor, icono pencil derecho. -->
+                <div class="escribir-icono">
                     <i class="fa fa-pencil-square" aria-hidden="true"></i>
                 </div>
-                <!-- Contenedor para las fechas del evento. -->
                 <div class="seleccionar-fecha">
-                    <p> <!-- <p> e inputs para las fechas. -->
+                    <p>
                         De <input class="date" type="date" name="fecha-evento" id="fecha-evento">
                         a <input class="date" type="date" name="fecha-evento" id="fecha-evento">
                     </p>
                 </div>
-            </div> <!-- Cierre de << crearevento-titulofecha >>. -->
-
-            <!-- Ingresar los participantes y las etiquetas. -->
+            </div>
             <div class="crearevento-secciones">
-                <!-- Subcontenedor para ingresar participantes. -->
                 <div class="subcontenedor-parts">
                     <p>Participantes</p>
                     <input class="escribir-parts" type="text" placeholder="Escribe el nombre del participante">
                     <div id="tabs-participantes" class="tabs-container"></div>
                 </div>
-                <!-- Subcontenedor para ingresar etiquetas. -->
                 <div class="subcontenedor-etiquetas">
                     <p>Etiquetas</p>
                     <input class="escribir-etiquetas" type="text" placeholder="+ Nueva etiqueta">
                     <div id="tabs-etiquetas" class="tabs-container"></div>
                 </div>
-                <!-- Subcontenedor para ingresar descripcion. -->
                 <div class="subcontenedor-descripcion">
                     <p>Descripción</p>
                     <div class="cuadro-descripcion">
@@ -320,16 +310,17 @@ include './template/navbar.php';
                     </div>
                 </div>
                 <div>
-                    <a href="./calendario.php"> <!-- Direccionamiento temporal al calendario. -->
-                        <input class="boton-finalizar" type="button" value="Crear evento"> <!-- Con este boton, finaliza el modal. -->
+                    <a href="./calendario.php">
+                        <input class="boton-finalizar" type="button" value="Crear evento">
                     </a>
                 </div>
-
-            </div> <!-- Cierre de << crearevento-secciones >>. -->
-        </div> <!-- crearevento-principal -->
+            </div>
+        </div>
     </form>
 </div>
 </div>
+-->
+
 
 <script>
     var userId = <?php echo json_encode($_SESSION['user_id']); ?>;
