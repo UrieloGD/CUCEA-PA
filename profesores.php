@@ -304,7 +304,10 @@ try {
 <script src="./JS/profesores/filtro-departamentos.js"></script>
 <script>
     // Pass the session department to JavaScript
-    const sessionDepartment = "<?php echo htmlspecialchars(normalizeDepartmentName($nombre_departamento)); ?>";
+    const sessionDepartment = "<?php 
+        $normalized_dept = str_replace('_', ' ', normalizeDepartmentName($nombre_departamento));
+        echo htmlspecialchars($normalized_dept, ENT_QUOTES); 
+    ?>";
     const isPosgrados = "<?php echo ($nombre_departamento === 'Posgrados') ? 'true' : 'false'; ?>";
 </script>
 

@@ -290,6 +290,7 @@
 .dropdown-check-list {
     position: relative;
     display: inline-block;
+    z-index: 1; /* Asegura que se muestre por encima de otros elementos */
 }
 
 .dropdown-check-list .anchor {

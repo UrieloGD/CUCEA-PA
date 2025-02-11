@@ -1,104 +1,87 @@
-//modal-baja.js
-let modalBaja = null;
-let formBaja = null;
-
-function initModalBaja() {
-    modalBaja = document.getElementById('solicitud-modal-baja-academica');
-    formBaja = document.getElementById('form-baja');
+document.addEventListener('DOMContentLoaded', function() {
+    const formBaja = document.getElementById('form-baja');
+    const modalBaja = document.getElementById('solicitud-modal-baja-academica');
     
-    // Manejo del formulario
-    formBaja?.addEventListener('submit', handleSubmit);
-    
-    // Botones de cerrar y descartar
-    modalBaja.querySelector('.close-button')?.addEventListener('click', cerrarModal);
-    document.getElementById('btn-descartar')?.addEventListener('click', confirmarDescartar);
-    
-    // Cerrar al hacer clic fuera
-    window.addEventListener('click', (e) => {
-        if (e.target === modalBaja) {
-            cerrarModal();
-        }
-    });
-}
+    formBaja.addEventListener('submit', function(e) {
+        e.preventDefault();
 
-function handleSubmit(e) {
-    e.preventDefault();
-    
-    Swal.fire({
-        title: '¿Confirmar guardado?',
-        text: "¿Desea guardar esta solicitud de baja?",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, guardar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            enviarFormulario();
-        }
-    });
-}
-
-function enviarFormulario() {
-    const formData = new FormData(formBaja);
-
-    fetch('./functions/personal-solicitud-cambios/guardar_solicitud_baja.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            Swal.fire({
-                title: '¡Éxito!',
-                text: 'Solicitud guardada correctamente',
-                icon: 'success'
-            }).then(() => {
-                cerrarModal();
-                // Recargar la lista si es necesario
-                if (typeof cargarSolicitudes === 'function') {
-                    cargarSolicitudes();
-                }
-            });
-        } else {
-            throw new Error(data.message);
-        }
-    })
-    .catch(error => {
+        // Sweet Alert de carga
         Swal.fire({
-            title: 'Error',
-            text: error.message || 'Error al procesar la solicitud',
-            icon: 'error'
+            title: 'Procesando...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        const formData = new FormData(this);
+
+        fetch('./functions/personal-solicitud-cambios/procesar_baja.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                // Primero cerramos el modal
+                modalBaja.style.display = 'none';
+                formBaja.reset();
+                
+                // Después mostramos el Sweet Alert
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: data.message,
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: data.message || 'Ocurrió un error al procesar la solicitud',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Error en la comunicación con el servidor',
+                confirmButtonColor: '#d33'
+            });
         });
     });
-}
 
-function confirmarDescartar() {
-    Swal.fire({
-        title: '¿Descartar cambios?',
-        text: "Se perderá la información ingresada",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, descartar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            cerrarModal();
-        }
+    // Botón de descartar
+    document.getElementById('btn-descartar').addEventListener('click', function() {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Se descartarán todos los datos ingresados",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, descartar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formBaja.reset();
+                modalBaja.style.display = 'none';
+            }
+        });
     });
-}
-
-function cerrarModal() {
-    if (formBaja) formBaja.reset();
-    if (modalBaja) modalBaja.style.display = 'none';
-}
-
-function abrirModalBaja() {
-    if (modalBaja) modalBaja.style.display = 'block';
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initModalBaja);
+});
