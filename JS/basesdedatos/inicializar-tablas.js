@@ -1,17 +1,81 @@
-/**
- * Inicializa y configura la tabla con DataTables aplicando múltiples opciones personalizadas.
- */
+// Inicializar tooltips personalizados
+function initializeCustomTooltips() {
+  const tooltip = document.createElement("div");
+  tooltip.className = "custom-tooltip";
+  document.body.appendChild(tooltip);
 
-// Mostrar el loader inmediatamente cuando el script se carga
+  function positionTooltip(element, tooltipElement, content) {
+    const rect = element.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft =
+      window.pageXOffset || document.documentElement.scrollLeft;
+
+    tooltipElement.innerHTML = content;
+    tooltipElement.classList.add("show");
+
+    let top = rect.top + scrollTop - tooltipElement.offsetHeight - 10;
+    const left =
+      rect.left + scrollLeft + rect.width / 2 - tooltipElement.offsetWidth / 2;
+
+    if (top < scrollTop) {
+      top = rect.bottom + scrollTop + 10;
+      tooltipElement.setAttribute("data-position", "bottom");
+    } else {
+      tooltipElement.setAttribute("data-position", "top");
+    }
+
+    const rightEdge = window.innerWidth + scrollLeft;
+    if (left + tooltipElement.offsetWidth > rightEdge) {
+      tooltipElement.style.left =
+        rightEdge - tooltipElement.offsetWidth - 5 + "px";
+    } else if (left < scrollLeft) {
+      tooltipElement.style.left = scrollLeft + 5 + "px";
+    } else {
+      tooltipElement.style.left = left + "px";
+    }
+
+    tooltipElement.style.top = top + "px";
+  }
+
+  document.addEventListener("mouseover", function (e) {
+    const target = e.target.closest("[data-tooltip]");
+    if (target) {
+      const content = target.getAttribute("data-tooltip");
+      if (target.classList.contains("celda-choque")) {
+        tooltip.classList.add("tooltip-choque");
+      } else {
+        tooltip.classList.remove("tooltip-choque");
+      }
+      positionTooltip(target, tooltip, content);
+    }
+  });
+
+  document.addEventListener("mouseout", function (e) {
+    const target = e.target.closest("[data-tooltip]");
+    if (target) {
+      tooltip.classList.remove("show");
+    }
+  });
+
+  document.addEventListener("scroll", function () {
+    const activeTooltip = document.querySelector("[data-tooltip]:hover");
+    if (activeTooltip) {
+      const content = activeTooltip.getAttribute("data-tooltip");
+      positionTooltip(activeTooltip, tooltip, content);
+    }
+  });
+}
+
+// Mostrar el loader al inicio
 Swal.fire({
-  title: 'Cargando datos...',
-  html: 'Por favor espere mientras se procesan los datos',
+  title: "Cargando datos...",
+  html: "Por favor espere mientras se procesan los datos",
   allowOutsideClick: false,
   allowEscapeKey: false,
   showConfirmButton: false,
   didOpen: () => {
-      Swal.showLoading();
-  }
+    Swal.showLoading();
+  },
 });
 
 $(document).ready(function () {
@@ -24,37 +88,28 @@ $(document).ready(function () {
       searchPlaceholder: "Buscar...",
     },
     initComplete: function () {
-      // Cerrar Sweet Alert cuando la tabla esté completamente cargada
+      // Cerrar Sweet Alert
       if (typeof Swal !== "undefined") {
         Swal.close();
       }
 
-      // Mostrar la tabla después de la inicialización
+      // Mostrar la tabla
       $("#tabla-datos").css("display", "table");
 
-      // Mover la barra de búsqueda al contenedor personalizado
+      // Mover la barra de búsqueda
       $(".dataTables_filter").appendTo(".custom-search-container");
       $(".dataTables_filter input").addClass("custom-search-input");
 
-      // Configuración de tooltips para encabezados de columna
-      this.api().columns().every(function() {
-        const headerCell = $(this.header());
-        const headerText = headerCell.text().trim();
-        
-        // Agregar tooltip a todos los encabezados
-        headerCell
-          .attr('data-bs-toggle', 'tooltip')
-          .attr('data-bs-placement', 'top')
-          .attr('title', headerText);
-          
-        // Inicializar tooltip
-        new bootstrap.Tooltip(headerCell[0], {
-          boundary: 'window',
-          container: 'body'
+      // Configurar tooltips para encabezados
+      this.api()
+        .columns()
+        .every(function () {
+          const headerCell = $(this.header());
+          const headerText = headerCell.text().trim();
+          headerCell.attr("data-tooltip", headerText);
         });
-      });
-      
-      // Configuración de filtros para cada columna
+
+      // Configurar filtros para columnas
       this.api()
         .columns()
         .every(function (index) {
@@ -68,7 +123,6 @@ $(document).ready(function () {
             filterContainer.append(filterMenu);
             $(".datatable-container").append(filterContainer);
 
-            // Agregar barra de búsqueda al filter-menu
             filterMenu.prepend(
               $('<div class="filter-search-container">').append(
                 $(
@@ -130,12 +184,8 @@ $(document).ready(function () {
           }
         });
 
-      // Cerrar menús de filtro al hacer clic fuera
-      $(document).on("click", function (e) {
-        if (!$(e.target).closest(".filter-menu, .filter-icon").length) {
-          $(".filter-menu").hide();
-        }
-      });
+      // Inicializar tooltips personalizados
+      initializeCustomTooltips();
     },
     pageLength: 15,
     lengthMenu: [
@@ -166,42 +216,88 @@ $(document).ready(function () {
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
       {
-        targets: [1, 36, 37, 38, 39],
+        targets: [1, 24, 25, 26, 27, 28, 29, 30, 36, 37, 38, 39],
         createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
           var $row = $(cell).closest("tr");
-          var choques = $row.data("choques");
+          var choquesStr = $row.attr("data-choques");
 
-          if (choques && choques.length > 0) {
-            $(cell).addClass("celda-choque");
+          if (choquesStr && choquesStr !== "null" && choquesStr !== "[]") {
+            try {
+              var choquesData = JSON.parse(choquesStr);
 
-            choques.forEach(function (choque) {
-              if (choque.Primer_Departamento === choque.Nombre_Departamento) {
-                $(cell).addClass("choque-primero");
-              } else {
-                $(cell).addClass("choque-segundo");
-              }
-            });
+              if (choquesData && choquesData.length > 0) {
+                $(cell).addClass("celda-choque");
 
-            var tooltipContent = choques
-              .map(function (choque) {
-                return (
-                  "Choque con ID #" +
-                  choque.ID_Choque +
-                  " del departamento " +
-                  choque.Departamento
+                var tooltipMessages = [];
+
+                choquesData.forEach(function (choqueInfo) {
+                  if (choqueInfo.Es_Primero) {
+                    $(cell)
+                      .addClass("choque-primero")
+                      .removeClass("choque-segundo");
+                  } else {
+                    $(cell)
+                      .addClass("choque-segundo")
+                      .removeClass("choque-primero");
+                  }
+
+                  tooltipMessages.push(
+                    "Choque con ID #" +
+                      choqueInfo.ID_Choque +
+                      " del departamento " +
+                      choqueInfo.Departamento
+                  );
+                });
+
+                // Configurar tooltip personalizado
+                $(cell).attr("data-tooltip", tooltipMessages.join("<br>"));
+
+                // Configurar hover
+                $(cell).hover(
+                  function () {
+                    var currentCell = $(this);
+                    choquesData.forEach(function (choqueInfo) {
+                      $("tr").each(function () {
+                        var rowId = $(this).find("td:eq(1)").text().trim();
+                        if (rowId === String(choqueInfo.ID_Choque)) {
+                          $(this)
+                            .find("td")
+                            .each(function () {
+                              var $td = $(this);
+                              $td.addClass("celda-choque-hover");
+                              if (choqueInfo.Es_Primero) {
+                                $td
+                                  .addClass("choque-primero")
+                                  .removeClass("choque-segundo");
+                              } else {
+                                $td
+                                  .addClass("choque-segundo")
+                                  .removeClass("choque-primero");
+                              }
+                            });
+                        }
+                      });
+                    });
+                  },
+                  function () {
+                    $(".celda-choque-hover")
+                      .removeClass("celda-choque-hover")
+                      .removeClass("choque-primero")
+                      .removeClass("choque-segundo");
+                  }
                 );
-              })
-              .join("\n");
-
-            // Usar data-attribute en lugar de title
-            $(cell).attr("data-tooltip", tooltipContent);
+              }
+            } catch (e) {
+              console.error("Error al procesar choques:", e);
+              console.error("Data choques:", choquesStr);
+            }
           }
         },
       },
     ],
     order: [[1, "asc"]],
     colReorder: {
-      columns: ':gt(1)',
+      columns: ":gt(1)",
       fixedColumnsLeft: 2,
       fixedColumnsRight: 0,
     },
@@ -216,8 +312,8 @@ $(document).ready(function () {
     ],
   });
 
-  // Redibujar tabla al cargar completamente la página para evitar el desfase de columnas
-  setTimeout(function() {
+  // Redibujar tabla
+  setTimeout(function () {
     table.columns.adjust().draw();
   }, 200);
 
@@ -231,7 +327,7 @@ $(document).ready(function () {
   });
 });
 
-// Ocultar los iconos de filtro al inicializar la tabla
+// Ocultar los iconos de filtro
 $(".filter-icon").hide();
 
 // Función para alternar la visibilidad de los iconos de filtro
@@ -240,5 +336,12 @@ function toggleFilterIcons() {
   $("#icono-filtro").toggleClass("active");
 }
 
-// Asignar evento de clic al botón de filtro
+// Evento de clic para el botón de filtro
 $("#icono-filtro").on("click", toggleFilterIcons);
+
+// Cerrar menús de filtro al hacer clic fuera
+$(document).on("click", function (e) {
+  if (!$(e.target).closest(".filter-menu, .filter-icon").length) {
+    $(".filter-menu").hide();
+  }
+});
