@@ -35,7 +35,7 @@
 
 .encabezado-derecha {
     position: relative;
-    z-index: 1000; /* Asegura que el dropdown se muestre por encima */
+    z-index: 1; /* Asegura que el dropdown se muestre por encima */
 }
   
 .encabezado-centro {
@@ -300,6 +300,7 @@
     padding: 5px 10px 5px 10px;
     border: 1px solid #ccc;
     background-color: #0B6A9F;
+    z-index: 1;
     color: #fff;
     border-radius: 4px;
     width: 280px;
@@ -340,7 +341,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1000; /* Asegura que se muestre por encima de otros elementos */
+    z-index: 1; /* Asegura que se muestre por encima de otros elementos */
     width: max-content;
     max-width: 200px;
     background-color: #0B6A9F;
