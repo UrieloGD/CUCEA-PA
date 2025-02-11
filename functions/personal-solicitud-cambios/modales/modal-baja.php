@@ -2,7 +2,7 @@
 <div id="solicitud-modal-baja-academica" class="modal">
     <div class="modal-content">
         <button class="close-button">&times;</button>
-        <form id="form-baja" method="POST">
+        <form id="form-baja" method="POST" action="procesar_baja.php">
             <h2>Profesor con efecto a baja</h2>
         
             <!-- Primera fila -->
@@ -67,7 +67,8 @@
                 </div>
                 <div class="form-group">
                     <label for="oficio_num">Oficio Num.</label>
-                    <input type="text" id="oficio_num" name="oficio_num" value="SA/CP/0000/25">
+                    <input type="text" id="oficio_num" name="oficio_num" readonly 
+                        value="SA/CP/0000/25" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha D/M/A</label>
