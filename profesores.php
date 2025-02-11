@@ -121,6 +121,7 @@ try {
         ],
         'Auditoria' => [
             'AUDITORIA',
+            'AUDITORIA ',
             'Auditoría',
             'Auditoria',
             'SECRETARIA ADMINISTRATIVA/AUDITORIA'
