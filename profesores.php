@@ -151,6 +151,10 @@ try {
             'Contabilidad',
             'CONT'
         ],
+        'Posgrados' => [
+            'Posgrados',
+            'POSGRADOS'
+        ],
         'Otros' => [
             'SECRETARIA ADMINISTRATIVA/AUDITORIA',
             'CERI/SECRETARIA ACADEMICA',
