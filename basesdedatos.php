@@ -238,33 +238,33 @@ $result = $stmt->get_result();
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div>
         <div class="encabezado-derecha">
-            <div class="iconos-container">
-                <?php if ($rol == 1): ?>
-                    <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
-                        <i class="fa fa-save" aria-hidden="true"></i>
-                    </div>
-                    <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
-                        <i class="fa fa-undo" aria-hidden="true"></i>
-                    </div>
-                <?php endif; ?>
-                <div class="icono-buscador" id="icono-visibilidad">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
+        <div class="iconos-container">
+            <?php if ($rol == 1): ?>
+                <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
+                    <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-filtro">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
+                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
-                <?php if ($rol == 1): ?>
-                    <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                        <i class="fa fa-add" aria-hidden="true"></i>
-                    </div>
-                    <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                <?php endif; ?>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()">
-                    <i class="fa fa-download" aria-hidden="true"></i>
-                </div>
+            <?php endif; ?>
+            <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
+                <i class="fa fa-eye" aria-hidden="true"></i>
             </div>
+            <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+            </div>
+            <?php if ($rol == 1): ?>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+            <?php endif; ?>
+            <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()" data-tooltip="Descargar Excel">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </div>
+        </div>
         </div>
     </div>
 
