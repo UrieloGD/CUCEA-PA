@@ -1,104 +1,140 @@
-//modal-baja.js
-let modalBaja = null;
-let formBaja = null;
+document.addEventListener('DOMContentLoaded', function() {
+    const formBaja = document.getElementById('form-baja');
+    const modalBaja = document.getElementById('solicitud-modal-baja-academica');
+    let formData = new FormData(); // Almacena datos del formulario
+    
+    // Establecer límites máximos para inputs según la base de datos
+    const maxLengths = {
+        'oficio_num': 15,
+        'profesion': 15,
+        'apellido_paterno': 40,
+        'apellido_materno': 40,
+        'nombres': 60,
+        'codigo': 10,
+        'descripcion': 100,
+        'crn': 7,
+        'clasificacion': 15,
+        'motivo': 50
+    };
 
-function initModalBaja() {
-    modalBaja = document.getElementById('solicitud-modal-baja-academica');
-    formBaja = document.getElementById('form-baja');
-    
-    // Manejo del formulario
-    formBaja?.addEventListener('submit', handleSubmit);
-    
-    // Botones de cerrar y descartar
-    modalBaja.querySelector('.close-button')?.addEventListener('click', cerrarModal);
-    document.getElementById('btn-descartar')?.addEventListener('click', confirmarDescartar);
-    
-    // Cerrar al hacer clic fuera
-    window.addEventListener('click', (e) => {
-        if (e.target === modalBaja) {
-            cerrarModal();
+    // Aplicar límites máximos a los inputs
+    Object.keys(maxLengths).forEach(field => {
+        const input = document.getElementById(field);
+        if (input) {
+            input.setAttribute('maxlength', maxLengths[field]);
         }
     });
-}
 
-function handleSubmit(e) {
-    e.preventDefault();
-    
-    Swal.fire({
-        title: '¿Confirmar guardado?',
-        text: "¿Desea guardar esta solicitud de baja?",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, guardar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            enviarFormulario();
-        }
-    });
-}
-
-function enviarFormulario() {
-    const formData = new FormData(formBaja);
-
-    fetch('./functions/personal-solicitud-cambios/guardar_solicitud_baja.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            Swal.fire({
-                title: '¡Éxito!',
-                text: 'Solicitud guardada correctamente',
-                icon: 'success'
-            }).then(() => {
-                cerrarModal();
-                // Recargar la lista si es necesario
-                if (typeof cargarSolicitudes === 'function') {
-                    cargarSolicitudes();
+    // Obtener el siguiente número de oficio cuando se abre el modal
+    function actualizarNumeroOficio() {
+        fetch('./functions/personal-solicitud-cambios/obtener_siguiente_oficio.php')
+            .then(response => response.json())
+            .then(data => {
+                if(data.siguiente_numero) {
+                    document.getElementById('oficio_num').value = data.siguiente_numero;
                 }
             });
-        } else {
-            throw new Error(data.message);
-        }
-    })
-    .catch(error => {
+    }
+
+    // Guardar datos del formulario antes de cerrar el modal
+    function guardarDatosFormulario() {
+        formData = new FormData(formBaja);
+    }
+
+    // Restaurar datos del formulario cuando se reabre el modal
+    function restaurarDatosFormulario() {
+        formData.forEach((valor, clave) => {
+            const input = formBaja.elements[clave];
+            if(input) {
+                input.value = valor;
+            }
+        });
+    }
+
+    formBaja.addEventListener('submit', function(e) {
+        e.preventDefault();
+        guardarDatosFormulario();
+
         Swal.fire({
-            title: 'Error',
-            text: error.message || 'Error al procesar la solicitud',
-            icon: 'error'
+            title: 'Procesando...',
+            text: 'Por favor espere',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        fetch('./functions/personal-solicitud-cambios/procesar_baja.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                modalBaja.style.display = 'none';
+                formBaja.reset();
+                formData = new FormData(); // Limpiar datos almacenados
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: data.message,
+                    confirmButtonColor: '#3085d6'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: '¡Error!',
+                    text: data.message || 'Ocurrió un error al procesar la solicitud',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: 'Error en la comunicación con el servidor',
+                confirmButtonColor: '#d33'
+            });
         });
     });
-}
 
-function confirmarDescartar() {
-    Swal.fire({
-        title: '¿Descartar cambios?',
-        text: "Se perderá la información ingresada",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, descartar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            cerrarModal();
-        }
+    // Manejador del botón descartar modificado
+    document.getElementById('btn-descartar').addEventListener('click', function() {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Se descartarán todos los datos ingresados",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, descartar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                formBaja.reset();
+                formData = new FormData(); // Limpiar datos almacenados
+                modalBaja.style.display = 'none';
+            }
+        });
     });
-}
 
-function cerrarModal() {
-    if (formBaja) formBaja.reset();
-    if (modalBaja) modalBaja.style.display = 'none';
-}
+    // Eventos para abrir/cerrar modal
+    document.querySelector('.close-button').addEventListener('click', function() {
+        guardarDatosFormulario();
+    });
 
-function abrirModalBaja() {
-    if (modalBaja) modalBaja.style.display = 'block';
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', initModalBaja);
+    // Cuando se abre el modal
+    modalBaja.addEventListener('show', function() {
+        actualizarNumeroOficio();
+        restaurarDatosFormulario();
+    });
+});
