@@ -32,28 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownAnchor.textContent = `${checkedCount} departamentos seleccionados`;
         }
     }
-
-    // Handle initial department selection
-    if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
-        if (isPosgrados === 'true') {
-            selectAllCheckbox.checked = true;
-            departmentCheckboxes.forEach(checkbox => {
-                checkbox.checked = true;
-                previousSelections.add(checkbox.parentElement.textContent.trim());
-            });
-        } else {
-            departmentCheckboxes.forEach(checkbox => {
-                const checkboxDepartment = checkbox.parentElement.textContent.trim();
-                if (checkboxDepartment.toLowerCase() === sessionDepartment.toLowerCase()) {
-                    checkbox.checked = true;
-                    previousSelections.add(checkboxDepartment);
-                }
-            });
-        }
-        updateTable();
-    } else {
-        updateTable();
-    }
     
     // Function to update table based on selected departments
     function updateTable() {
@@ -122,6 +100,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Initialize table with no departments selected
-    updateTable();
+    // Handle initial department selection
+    if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
+        if (isPosgrados === 'true') {
+            selectAllCheckbox.checked = true;
+            departmentCheckboxes.forEach(checkbox => {
+                checkbox.checked = true;
+                previousSelections.add(checkbox.parentElement.textContent.trim());
+            });
+        } else {
+            departmentCheckboxes.forEach(checkbox => {
+                const checkboxDepartment = checkbox.parentElement.textContent.trim();
+                if (checkboxDepartment.toLowerCase() === sessionDepartment.toLowerCase()) {
+                    checkbox.checked = true;
+                    previousSelections.add(checkboxDepartment);
+                }
+            });
+        }
+        updateTable();
+    } else {
+        updateTable();
+    }
 });

@@ -68,62 +68,80 @@ if (!$conexion) {
 }
 
 // Función para verificar choques (añadir al inicio del archivo, antes de generar la tabla)
-function verificarChoques($registro_actual, $departamentos, $conexion)
-{
+function verificarChoques($registro_actual, $departamentos, $conexion) {
     $choques = [];
     $departamento_actual = $registro_actual['Departamento'];
-
+    
+    // Obtener el timestamp de subida del departamento actual
+    $sql_timestamp_actual = "SELECT pd.Fecha_Subida_Dep 
+                            FROM plantilla_dep pd
+                            JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                            WHERE d.Nombre_Departamento = ?";
+    
+    $stmt = $conexion->prepare($sql_timestamp_actual);
+    $stmt->bind_param("s", $departamento_actual);
+    $stmt->execute();
+    $result_timestamp_actual = $stmt->get_result();
+    $timestamp_actual = $result_timestamp_actual->fetch_assoc()['Fecha_Subida_Dep'];
+    
     foreach ($departamentos as $nombre_dep => $registros) {
         if ($nombre_dep == $departamento_actual) continue;
-
+        
         foreach ($registros as $registro) {
+            // Verificar si hay choque de horario
             $choque_horario = (
                 ($registro_actual['HORA_INICIAL'] >= $registro['HORA_INICIAL'] &&
-                    $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
+                 $registro_actual['HORA_INICIAL'] < $registro['HORA_FINAL']) ||
                 ($registro_actual['HORA_FINAL'] > $registro['HORA_INICIAL'] &&
-                    $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL'])
+                 $registro_actual['HORA_FINAL'] <= $registro['HORA_FINAL']) ||
+                ($registro_actual['HORA_INICIAL'] <= $registro['HORA_INICIAL'] &&
+                 $registro_actual['HORA_FINAL'] >= $registro['HORA_FINAL'])
             );
-
+            
+            // Verificar si hay choque de días
             $dias_semana = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
             $dias_choque = false;
-
+            
             foreach ($dias_semana as $dia) {
-                if (
-                    !empty($registro_actual[$dia]) && !empty($registro[$dia]) &&
-                    $registro_actual[$dia] == $registro[$dia]
-                ) {
+                if (!empty($registro_actual[$dia]) && !empty($registro[$dia]) &&
+                    $registro_actual[$dia] == $registro[$dia]) {
                     $dias_choque = true;
                     break;
                 }
             }
-
-            if (
-                $registro['MODULO'] == $registro_actual['MODULO'] &&
+            
+            // Si hay choque de horario, días y aula/módulo
+            if ($registro['MODULO'] == $registro_actual['MODULO'] &&
                 $registro['AULA'] == $registro_actual['AULA'] &&
-                $choque_horario &&
-                $dias_choque
-            ) {
-                // Buscar el timestamp de subida más antiguo
-                $sql_timestamp = "SELECT d.Departamentos, d.Nombre_Departamento 
-                                    FROM plantilla_dep pd
-                                    JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
-                                    WHERE d.Nombre_Departamento IN ('$departamento_actual', '$nombre_dep')
-                                    ORDER BY pd.Fecha_Subida_Dep ASC
-                                    LIMIT 1";
-
-                $result_timestamp = mysqli_query($conexion, $sql_timestamp);
-                $primer_departamento = mysqli_fetch_assoc($result_timestamp);
-
+                $choque_horario && 
+                $dias_choque) {
+                
+                // Obtener el timestamp del otro departamento
+                $sql_timestamp_otro = "SELECT pd.Fecha_Subida_Dep, d.Departamentos 
+                                     FROM plantilla_dep pd
+                                     JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                                     WHERE d.Nombre_Departamento = ?";
+                
+                $stmt = $conexion->prepare($sql_timestamp_otro);
+                $stmt->bind_param("s", $nombre_dep);
+                $stmt->execute();
+                $result_timestamp_otro = $stmt->get_result();
+                $datos_otro = $result_timestamp_otro->fetch_assoc();
+                
+                // Determinar quién subió primero basado en el timestamp
+                $es_primero = strtotime($timestamp_actual) < strtotime($datos_otro['Fecha_Subida_Dep']);
+                
                 $choques[] = [
-                    'Departamento' => $primer_departamento['Departamentos'], // Para mostrar en el tooltip
                     'ID_Choque' => $registro['ID_Plantilla'],
-                    'Primer_Departamento' => $primer_departamento['Nombre_Departamento'], // Para la lógica de colores
-                    'Nombre_Departamento' => $nombre_dep // Mantener el nombre original para comparación
+                    'Departamento' => $datos_otro['Departamentos'],
+                    'Primer_Departamento' => $es_primero ? $departamento_actual : $nombre_dep,
+                    'Nombre_Departamento' => $departamento_actual,
+                    'Es_Primero' => $es_primero
                 ];
             }
         }
     }
-
+    
     return $choques;
 }
 
@@ -220,33 +238,33 @@ $result = $stmt->get_result();
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div>
         <div class="encabezado-derecha">
-            <div class="iconos-container">
-                <?php if ($rol == 1): ?>
-                    <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
-                        <i class="fa fa-save" aria-hidden="true"></i>
-                    </div>
-                    <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
-                        <i class="fa fa-undo" aria-hidden="true"></i>
-                    </div>
-                <?php endif; ?>
-                <div class="icono-buscador" id="icono-visibilidad">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
+        <div class="iconos-container">
+            <?php if ($rol == 1): ?>
+                <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
+                    <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-filtro">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
+                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
-                <?php if ($rol == 1): ?>
-                    <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
-                        <i class="fa fa-add" aria-hidden="true"></i>
-                    </div>
-                    <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                <?php endif; ?>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()">
-                    <i class="fa fa-download" aria-hidden="true"></i>
-                </div>
+            <?php endif; ?>
+            <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
+                <i class="fa fa-eye" aria-hidden="true"></i>
             </div>
+            <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
+                <i class="fa fa-filter" aria-hidden="true"></i>
+            </div>
+            <?php if ($rol == 1): ?>
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
+                    <i class="fa fa-add" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                </div>
+            <?php endif; ?>
+            <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()" data-tooltip="Descargar Excel">
+                <i class="fa fa-download" aria-hidden="true"></i>
+            </div>
+        </div>
         </div>
     </div>
 
