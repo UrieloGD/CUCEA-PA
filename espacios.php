@@ -37,11 +37,18 @@ $query = "SELECT * FROM espacios WHERE Modulo = '$modulo_seleccionado' ORDER BY 
 $result = mysqli_query($conexion, $query);
 
 // Organizar los espacios por piso
-$espacios = [
-    '03' => [],
-    '02' => [],
-    '01' => []
-];
+if ($modulo_seleccionado != 'CEDAA') {
+    $espacios = [
+        '03' => [],
+        '02' => [],
+        '01' => []
+    ];
+}
+if ($modulo_seleccionado == 'CEDAA') {
+    $espacios = [
+        '00' => []
+    ];
+}
 
 while ($row = mysqli_fetch_assoc($result)) {
     $piso = substr($row['Espacio'], 0, 2);
@@ -127,16 +134,19 @@ while ($row = mysqli_fetch_assoc($result)) {
             <button id="filtrar">Filtrar</button>
         </div>
     </div>
-
-    <!-- Aquí empieza el código del Edificio -->
-
-    <div class="letra-moviles"> <!-- Solo dispositivos moviles -->
+    <!-- -------------------------- -->
+     <!-- Solo dispositivos moviles -->
+    <div class="letra-moviles">
         <p class="texto-prev-piso">Módulo</p>
         <div class="letra-piso">
-            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
+            <span><?php 
+            if ($modulo_seleccionado == 'CEDAA') echo 'AA';
+            else echo substr($modulo_seleccionado, -1); 
+            ?></span>
         </div>
-    </div> <!-- Solo dispositivos moviles -->
-
+    </div>
+    
+    <!-- Estructura principal de espacios -->
     <div class="contenedor-principal">
         <?php
         // En el caso de aulas amplias
@@ -172,6 +182,28 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="title-aulas-amplias">
                 <span>Aulas Amplias</span>
             </div>
+
+            <!-- En el caso de responsividad para moviles -->
+                <div class="contenido-aulasamplias">
+                    <div class="cuadro-grande">
+                        <?php foreach ($espacios as $piso => $espacios_piso): ?>
+                            <div class="piso">
+                                <div class="numero-piso"></div>
+                                <div class="salas">
+                                    <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
+                                    foreach ($espacios_piso as $espacio): ?>
+                                        <div class="sala-container">
+                                            <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
+                                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                                                <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
         <?php } ?>
         <?php
         // Resto de edificios    

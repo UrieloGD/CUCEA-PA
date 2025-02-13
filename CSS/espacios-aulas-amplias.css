@@ -173,3 +173,17 @@
   .title-aulas-amplias span {
     font-size: 2rem;
   }
+
+  .contenido-aulasamplias {
+    display: none;
+    padding-top: 10px; /* Espacio para el techo */
+  }
+
+  @media screen and (max-width: 768px) {
+    .contenido-aulasamplias {
+      display: flex;
+    }
+    .circulo-base, .title-aulas-amplias {
+      display: none;
+    }
+  }
