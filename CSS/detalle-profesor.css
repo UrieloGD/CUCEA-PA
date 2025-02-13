@@ -16,6 +16,10 @@
   gap: 3px;
 }
 
+.day.mixto {
+  background: linear-gradient(45deg, #5f5f5f 50%, #005ba3 50%);
+}
+
 .day {
   width: 30px;
   height: 30px;
