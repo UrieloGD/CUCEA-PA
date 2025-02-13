@@ -78,7 +78,7 @@ function obtenerEventosProximos($conexion, $codigo_usuario, $limite = 4) {
 function renderizarEventosProximos($eventos) {
     if (empty($eventos)) {
         return '<div class="evento-item">
-            <div class="evento-detalle">
+            <div class="evento-vacio">
                 <span>No hay eventos próximos</span>
             </div>
         </div>';
@@ -95,8 +95,7 @@ function renderizarEventosProximos($eventos) {
         $html .= '<div class="evento-icono">
             <div class="cuadro-numero">
                 <span id="cuadro-numero">' . $evento['dia_evento'] . '</span>
-            </div>
-        </div>';
+            </div>';
         
         switch($total_eventos) {
             case 1:
@@ -109,7 +108,7 @@ function renderizarEventosProximos($eventos) {
                         <p><strong>Categoría:</strong> ' . htmlspecialchars($evento['Etiqueta']) . '</p>
                         <p><strong>Participantes:</strong> ' . htmlspecialchars($evento['Participantes']) . '</p>
                     </div>
-                </div>';
+                </div></div>';
                 break;
                 
             case 2:
@@ -123,7 +122,7 @@ function renderizarEventosProximos($eventos) {
                         <p><strong>Inicio:</strong> ' . $evento['fecha_inicio'] . ' ' . $evento['Hora_Inicio'] . 'h</p>
                         <p><strong>Categoría:</strong> ' . htmlspecialchars($evento['Etiqueta']) . '</p>
                     </div>
-                </div>';
+                </div></div>';
                 break;
                 
             case 3:
@@ -134,14 +133,14 @@ function renderizarEventosProximos($eventos) {
                         (strlen($evento['descripcion']) > 80 ? '...' : '') . 
                     '</p>
                     <p class="evento-fecha">' . $evento['fecha_inicio'] . ' ' . $evento['Hora_Inicio'] . 'h</p>
-                </div>';
+                </div></div>';
                 break;
                 
             default:
                 $html .= '<div class="evento-detalle">
                     <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
                     <p class="evento-fecha">' . $evento['fecha_completa'] . '</p>
-                </div>';
+                </div></div>';
                 break;
         }
         

@@ -267,21 +267,26 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="cuadrito aula-ocupada"></div>
             <span>Aula ocupada</span>
         </div>
-        <div class="leyenda-item">
-            <div class="cuadrito laboratorio"></div>
-            <span>Laboratorio</span>
-        </div>
-        <div class="leyenda-item">
-            <div class="cuadrito laboratorio-ocupado"></div>
-            <span>Laboratorio ocupado</span>
-        </div>
-        <div class="leyenda-item">
-            <div class="cuadrito bodega"></div>
-            <span>Bodega</span>
-        </div>
-        <div class="leyenda-item">
-            <div class="cuadrito administrativo"></div>
-            <span>Administrativo</span>
+        <?php if ($modulo_seleccionado == 'CEDAA') { ?>
+        <div class="leyendas-extras">
+            <style> .leyendas-extras { display: none; } </style>
+        <?php } ?>
+            <div class="leyenda-item">
+                <div class="cuadrito laboratorio"></div>
+                <span>Laboratorio</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="cuadrito laboratorio-ocupado"></div>
+                <span>Laboratorio ocupado</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="cuadrito bodega"></div>
+                <span>Bodega</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="cuadrito administrativo"></div>
+                <span>Administrativo</span>
+            </div>
         </div>
     </div>
 
