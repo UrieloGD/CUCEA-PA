@@ -172,7 +172,7 @@
   position: relative;
   /* display: flex; */
   width: 90%;
-  margin: 20px auto;
+  margin: 0px auto;
   /* gap: 0; */
 }
 
@@ -199,6 +199,8 @@
   display: flex;
   padding-top: 10px; /* Espacio para el techo */
 }
+
+
 
 .columna-lateral {
   /* modificada */
@@ -982,7 +984,7 @@ textarea {
     text-align: center;
     justify-content: center;
     align-items: center;
-    width: 40px;
+    width: 45px;
     height: 36px;
     padding-top: 5px;
     margin-left: 10px;
@@ -994,6 +996,9 @@ textarea {
     margin: 0 auto;
     font-size: 1.5rem;
     margin-left: 25px;
+  }
+  .contenedor-principal {
+    margin: 20px auto;
   }
 }
 
