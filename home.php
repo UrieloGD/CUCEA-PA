@@ -43,6 +43,7 @@ require_once './functions/home/eventos-home.php';
       
     
   </div>
+</div>
   
   <div class="accesodirecto-moviles">
     <div class="cuadro-acceso">
@@ -67,8 +68,8 @@ require_once './functions/home/eventos-home.php';
     </div>
   </div>
 
-
-  <!-- carrusel-banner -->
+  <div class="container-eventos-progreso">
+    <!-- carrusel-banner -->
   <div class="banner">
     <div class="carrusel">
       <div class="diapositiva">
@@ -91,9 +92,7 @@ require_once './functions/home/eventos-home.php';
       <span class="punto"></span>
     </div>
   </div>
-</div>
-
-  <div class="container-eventos-progreso">
+  
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
       <div class="siguienteseventos">

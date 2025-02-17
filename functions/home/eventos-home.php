@@ -100,11 +100,11 @@ function renderizarEventosProximos($eventos) {
         switch($total_eventos) {
             case 1:
                 $html .= '<div class="evento-detalle">
-                    <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
-                    <p class="evento-descripcion">' . htmlspecialchars($evento['descripcion']) . '</p>
                     <div class="evento-info">
-                        <p><strong>Inicio:</strong> ' . $evento['fecha_inicio'] . ' ' . $evento['Hora_Inicio'] . 'h</p>
-                        <p><strong>Fin:</strong> ' . $evento['fecha_fin'] . ' ' . $evento['Hora_Fin'] . 'h</p>
+                        <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
+                        <p><strong>Descripción:</strong> ' . htmlspecialchars($evento['descripcion']) . '</p>
+                        <p><strong>Inicio:</strong> ' . $evento['fecha_inicio'] . ' • ' . $evento['Hora_Inicio'] . 'h</p>
+                        <p><strong>Fin:</strong> ' . $evento['fecha_fin'] . ' • ' . $evento['Hora_Fin'] . 'h</p>
                         <p><strong>Categoría:</strong> ' . htmlspecialchars($evento['Etiqueta']) . '</p>
                         <p><strong>Participantes:</strong> ' . htmlspecialchars($evento['Participantes']) . '</p>
                     </div>
@@ -113,35 +113,37 @@ function renderizarEventosProximos($eventos) {
                 
             case 2:
                 $html .= '<div class="evento-detalle">
-                    <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
-                    <p class="evento-descripcion">' . 
-                        substr(htmlspecialchars($evento['descripcion']), 0, 150) . 
-                        (strlen($evento['descripcion']) > 150 ? '...' : '') . 
-                    '</p>
                     <div class="evento-info">
-                        <p><strong>Inicio:</strong> ' . $evento['fecha_inicio'] . ' ' . $evento['Hora_Inicio'] . 'h</p>
+                        <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
+                        <p><strong>Descripción:</strong> ' . 
+                            substr(htmlspecialchars($evento['descripcion']), 0, 50) . 
+                            (strlen($evento['descripcion']) > 50 ? '...' : '') . 
+                        '</p>
+                        <p><strong>Inicio:</strong> ' . $evento['fecha_inicio'] . ' • ' . $evento['Hora_Inicio'] . 'h</p>
                         <p><strong>Categoría:</strong> ' . htmlspecialchars($evento['Etiqueta']) . '</p>
                     </div>
                 </div></div>';
                 break;
                 
-            case 3:
+            default:
                 $html .= '<div class="evento-detalle">
-                    <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
-                    <p class="evento-descripcion">' . 
-                        substr(htmlspecialchars($evento['descripcion']), 0, 80) . 
-                        (strlen($evento['descripcion']) > 80 ? '...' : '') . 
-                    '</p>
-                    <p class="evento-fecha">' . $evento['fecha_inicio'] . ' ' . $evento['Hora_Inicio'] . 'h</p>
+                    <div class="evento-info">
+                        <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
+                        <p class="evento-descripcion">' . 
+                            substr(htmlspecialchars($evento['descripcion']), 0, 55) . 
+                            (strlen($evento['descripcion']) > 55 ? '...' : '') . 
+                        '</p>
+                        <p class="evento-fecha">' . $evento['fecha_inicio'] . ' • ' . $evento['Hora_Inicio'] . 'h</p>
+                    </div>
                 </div></div>';
                 break;
                 
-            default:
-                $html .= '<div class="evento-detalle">
-                    <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
-                    <p class="evento-fecha">' . $evento['fecha_completa'] . '</p>
-                </div></div>';
-                break;
+            // default:
+            //     $html .= '<div class="evento-detalle">
+            //         <span class="evento-titulo">' . htmlspecialchars($evento['titulo']) . '</span>
+            //         <p class="evento-fecha">' . $evento['fecha_inicio'] . ' • ' . $evento['Hora_Inicio'] . 'h</p>
+            //     </div></div>';
+            //     break;
         }
         
         $html .= '</div>';

@@ -18,14 +18,16 @@
 }
 
 .container-banner-bienvenida {
-  width: 60%;
+  width: 100%;
+  height: 170px;
   display: inline-flex;
   flex-wrap: wrap;
   flex: 1;
+  background: linear-gradient(to left, #0071b0 50%, #e7e9f2 100%);
 }
 
 .bienvenida {
-  width: 61vw;
+  width: 100%;
   height: 150px;
   display: inline-flexbox;
   padding-left: 60px; 
@@ -86,9 +88,9 @@
 /* Estilos del carrusel */
 .banner {
   height: 330px;
-  width: 96.9%;
+  width: 60%;
   margin-left: 20px;
-  margin-top: 63px;
+  margin-right: 20px;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
@@ -276,9 +278,8 @@
 .container-eventos-progreso {
   display: inline-flex;
   position: relative;
-  width: 35.3vw;
-  margin-left: 5px;
-  margin-top: 27px;
+  width: 100%;
+  margin-right: 15px;
   justify-content: space-between;
   align-items: stretch;
 }
@@ -286,9 +287,10 @@
 /* Contenedor de eventos */
 .eventos {
   border: solid 5px #e7e9f2;
+  width: 100%;
   flex: 1;
-  height: 475px;
-  margin-right: 1vw;
+  height: 322px;
+  margin-right: 20px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -309,7 +311,7 @@
 /* Cabecera */
 .siguienteseventos {
   background-color: #e7e9f2;
-  padding: 12px;
+  padding: 8px;
   text-align: center;
   border-radius: 5px 5px 0 0;
   font-weight: bold;
@@ -355,6 +357,7 @@
 
 .evento-detalle {
   flex: 1;
+  width: 100%;
   display: inline-block;
   vertical-align: top; /* Alinea con la parte superior */
   min-width: 0; /* Permite que el texto se ajuste */
@@ -376,11 +379,14 @@
 .evento-titulo {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
 .evento-descripcion {
   margin: 5px 0;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* Separador común */
@@ -425,17 +431,13 @@
 }
 
 /* Estilos específicos para 2 eventos */
-.eventos-2 {
-  flex: 0.5;
-}
-
 .eventos-2 .cuadro-numero {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
 }
 
 .eventos-2 .cuadro-numero span {
-  font-size: 1.8rem;
+  font-size: 1.9rem;
 }
 
 .eventos-2 .evento-titulo {
@@ -451,17 +453,13 @@
 }
 
 /* Estilos específicos para 3 eventos */
-.eventos-3 {
-  flex: 0.33;
-}
-
 .eventos-3 .cuadro-numero {
-  width: 45px;
-  height: 45px;
+  width: 70px;
+  height: 70px;
 }
 
 .eventos-3 .cuadro-numero span {
-  font-size: 1.3rem;
+  font-size: 1.9rem;
 }
 
 .eventos-3 .evento-titulo {
@@ -479,17 +477,13 @@
 }
 
 /* Estilos específicos para 4 eventos */
-.eventos-4 {
-  flex: 0.25;
-}
-
 .eventos-4 .cuadro-numero {
-  width: 35px;
-  height: 35px;
+  width: 55px;
+  height: 55px;
 }
 
 .eventos-4 .cuadro-numero span {
-  font-size: 1.1rem;
+  font-size: 1.6rem;
 }
 
 .eventos-4 .evento-titulo {
