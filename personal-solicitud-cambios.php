@@ -16,6 +16,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
 <title>Solicitudes de modificaciones</title>
 <link rel="stylesheet" href="./CSS//personal-solicitud-cambios/personal-solicitud-cambios.css">
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja.css">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-propuesta.css">
+
 
 <!--Cuadro principal del home -->
 <div class="cuadro-principal">
@@ -462,216 +464,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
             </ul>
         </div>
     </div>
-
-    <!-- Modal para las solicitudes de baja-propuesta -->
-    <div id="solicitud-modal-baja-propuesta" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-button" id="boton-cancelar">&times;</span>
-            <h2 class="titulo-modal">Solicitud de baja-propuesta</h2>
-
-            <!-- Encabezado para materia -->
-            <h3 class="titulo-materia" style="margin-top: 60px; position: absolute;">Datos de la materia</h3>
-
-            <!-- Campos relacionados a la materia -->
-            <div class="campos-materia">
-                <div class="borde-CRN">
-                    <p>CRN</p>
-                    <input class="texto-CRN" id="texto-CRN" type="text" maxlength="6">
-                </div>
-                <div class="borde-materia">
-                    <p>Materia</p>
-                    <input class="texto-materia" id="texto-materia" type="text">
-                </div>
-                <div class="borde-clave">
-                    <p>Clave</p>
-                    <input class="texto-clave" id="texto-clave" type="text" maxlength="5">
-                </div>
-                <div class="borde-SEC">
-                    <p>SEC</p>
-                    <input class="texto-SEC" id="texto-SEC" type="text" maxlength="3">
-                </div>
-                <div class="borde-folio">
-                    <p>Folio de solicitud</p>
-                    <input class="texto-folio" id="texto-folio" type="text" maxlength="10">
-                </div>
-            </div>
-
-            <!-- Encabezado para profesor actual -->
-            <h3 class="titulo-profesor">Profesor actual</h3>
-
-            <!-- Campos relacionados al profesor actual -->
-            <div class="campos-profesor">
-                <div class="borde-apellido-paterno">
-                    <p>Apellido paterno</p>
-                    <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text" maxlength="50">
-                </div>
-                <div class="borde-apellido-materno">
-                    <p>Apellido materno</p>
-                    <input class="texto-apellido-materno" id="texto-apellido-materno" type="text" maxlength="50">
-                </div>
-                <div class="borde-nombres">
-                    <p>Nombre(s)</p>
-                    <input class="texto-nombres" id="texto-nombres" type="text" maxlength="50">
-                </div>
-                <div class="borde-codigo">
-                    <p>Código</p>
-                    <input class="texto-codigo" id="texto-codigo" type="text" maxlength="10">
-                </div>
-            </div>
-
-            <!-- Campos relacionados al motivo de la baja -->
-            <div class="campos-motivos">
-                <div class="borde-motivo">
-                    <p>Motivo</p>
-                    <select name="texto-motivo" class="texto-motivo" id="texto-motivo">
-                        <option value="" disabled selected>Seleccione el motivo de baja</option>
-                        <option value="no-asistir">No asiste a clases con regularidad</option>
-                        <option value="no-respetar">No respeta a los alumnos de la clase</option>
-                        <option value="no-vive">Fallecimiento del profesor</option>
-                        <option value="no-trabaja">Jubilacion del profesor</option>
-                    </select>
-                </div>
-                <div class="borde-otro">
-                    <p>Otro</p>
-                    <input class="texto-otro" id="texto-otro" type="text" maxlength="120">
-                </div>
-            </div>
-
-            <!-- Encabezado para profesor propuesto -->
-            <h3 class="titulo-profesor">Profesor propuesto</h3>
-
-            <!-- Campos relacionados al profesor propuesto (Mismos campos y estilos de profesor CSS) 
-        a excepcion de los ID's -->
-            <div class="campos-profesor">
-                <div class="borde-apellido-paterno">
-                    <p>Apellido paterno</p>
-                    <input class="texto-apellido-paterno" id="texto-apellido-paterno_propuesto" type="text" maxlength="50">
-                </div>
-                <div class="borde-apellido-materno">
-                    <p>Apellido materno</p>
-                    <input class="texto-apellido-materno" id="texto-apellido-materno_propuesto" type="text" maxlength="50">
-                </div>
-                <div class="borde-nombres">
-                    <p>Nombre(s)</p>
-                    <input class="texto-nombres" id="texto-nombres_propuesto" type="text" maxlength="50">
-                </div>
-                <div class="borde-codigo">
-                    <p>Código</p>
-                    <input class="texto-codigo" id="texto-codigo_propuesto" type="text" maxlength="10">
-                </div>
-            </div>
-            <div class="campos-profesor">
-                <div class="borde-movimiento">
-                    <p>Movimiento</p>
-                    <select name="texto-movimiento" class="texto-movimiento" id="texto-movimiento">
-                        <option value="" disabled selected>Seleccione el movimiento</option>
-                        <option value="">Movimiento no especificado</option>
-                        <option value="">Movimiento #1</option>
-                        <option value="">Movimiento #2</option>
-                        <option value="">Movimiento #3</option>
-                    </select>
-                </div>
-                <div class="borde-contrato" id="borde-margin">
-                    <p>Contrato</p>
-                    <select name="texto-contrato" class="texto-contrato" id="texto-contrato">
-                        <option value="" disabled selected>Seleccione tipo de contrato</option>
-                        <option value="">Tiempo indefinido</option>
-                        <option value="">Tiempo definido</option>
-                        <option value="">Contrato temporal</option>
-                        <option value="">Sustitucion</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Botones finales -->
-            <div class="contenedor-botones">
-                <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
-                <a href="./personal-solicitud-cambios.php"><button class="boton-pdf" id="boton-pdf"><i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-descargar"></i>Guardar y descargar</button></a>
-                <a href="./personal-solicitud-cambios.php"><button class="boton-cancelar" id="boton-cancelar" style="background-color: #a7b3b9;"><i class="fa fa-times-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-cancelar"></i>Cancelar</button></a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal para las solicitudes de propuesta académica -->
-    <div id="solicitud-modal-propuesta-academica" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close-button" id="boton-cancelar">&times;</span>
-            <h2 class="titulo-modal">Solicitud de propuesta académica</h2>
-
-            <!-- Encabezado para materia -->
-            <h3 class="titulo-materia" style="margin-top: 60px; position: absolute;">Datos de la materia</h3>
-
-            <!-- Campos relacionados a la materia -->
-            <div class="campos-materia">
-                <div class="borde-CRN">
-                    <p>CRN</p>
-                    <input class="texto-CRN" id="texto-CRN" type="text">
-                </div>
-                <div class="borde-materia">
-                    <p>Materia</p>
-                    <input class="texto-materia" id="texto-materia" type="text">
-                </div>
-                <div class="borde-clave">
-                    <p>Clave</p>
-                    <input class="texto-clave" id="texto-clave" type="text">
-                </div>
-                <div class="borde-SEC">
-                    <p>SEC</p>
-                    <input class="texto-SEC" id="texto-SEC" type="text">
-                </div>
-                <div class="borde-folio">
-                    <p>Folio de solicitud</p>
-                    <input class="texto-folio" id="texto-folio" type="text">
-                </div>
-            </div>
-
-            <!-- Encabezado para profesor -->
-            <h3 class="titulo-profesor">Datos de profesor</h3>
-
-            <!-- Campos relacionados al profesor propuesto -->
-            <div class="campos-profesor">
-                <div class="borde-apellido-paterno">
-                    <p>Apellido paterno</p>
-                    <input class="texto-apellido-paterno" id="texto-apellido-paterno" type="text">
-                </div>
-                <div class="borde-apellido-materno">
-                    <p>Apellido materno</p>
-                    <input class="texto-apellido-materno" id="texto-apellido-materno" type="text">
-                </div>
-                <div class="borde-nombres">
-                    <p>Nombre(s)</p>
-                    <input class="texto-nombres" id="texto-nombres" type="text">
-                </div>
-                <div class="borde-codigo">
-                    <p>Código</p>
-                    <input class="texto-codigo" id="texto-codigo" type="text">
-                </div>
-            </div>
-
-            <!-- Se usa la misma estructura de campos-motivos para tipo de contrato -->
-            <div class="campos-motivos" id="borde-margin">
-                <div class="borde-movimiento">
-                    <p>Movimiento</p>
-                    <select name="texto-movimiento" class="texto-movimiento" id="texto-movimiento">
-                        <option value="" disabled selected>Seleccione el movimiento</option>
-                        <option value="">Movimiento no especificado</option>
-                        <option value="">Movimiento #1</option>
-                        <option value="">Movimiento #2</option>
-                        <option value="">Movimiento #3</option>
-                    </select>
-                </div>
-                <div class="borde-contrato">
-                    <p>Contrato</p>
-                    <select name="texto-contrato" class="texto-contrato" id="texto-contrato">
-                        <option value="" disabled selected>Seleccione tipo de contrato</option>
-                        <option value="">Tiempo indefinido</option>
-                        <option value="">Tiempo definido</option>
-                        <option value="">Contrato temporal</option>
-                        <option value="">Sustitucion</option>
-                    </select>
-                </div>
-            </div>
-
+    
             <!-- Botones finales -->
             <div class="contenedor-botones">
                 <a href="./personal-solicitud-cambios.php"><button class="boton-guardar" id="boton-cancelar"><i class="fa fa-check-circle" aria-hidden="true" style="margin-right: 0.5vw;" id="mod-guardar"></i>Guardar</button></a>
@@ -683,138 +476,79 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
 
     <!-- Modal Solicitudes Baja -->
     <?php include './functions/personal-solicitud-cambios/modales/modal-baja.php' ?>
+    <?php include './functions/personal-solicitud-cambios/modales/modal-propuesta.php' ?>
 
     <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const btn = document.getElementById('nueva-solicitud-btn');
-            const lista = document.getElementById('lista-opciones');
-            const modales = {
-                'Solicitud de baja': document.getElementById('solicitud-modal-baja-academica'),
-                'Solicitud de propuesta': document.getElementById('solicitud-modal-propuesta-academica'),
-                'Solicitud de baja-propuesta': document.getElementById('solicitud-modal-baja-propuesta')
-            };
+                const btn = document.getElementById('nueva-solicitud-btn');
+                const lista = document.getElementById('lista-opciones');
+                const modales = {
+                    'Solicitud de baja': document.getElementById('solicitud-modal-baja-academica'),
+                    'Solicitud de propuesta': document.getElementById('solicitud-modal-propuesta-academica'),
+                    'Solicitud de baja-propuesta': document.getElementById('solicitud-modal-baja-propuesta')
+                };
 
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                lista.classList.toggle('show');
-            });
-
-            lista.addEventListener('click', function(e) {
-                const opcionSeleccionada = e.target.innerText;
-
-                if (opcionSeleccionada in modales) {
-                    // Cerrar la lista y abrir el modal correspondiente
-                    lista.classList.remove('show');
-                    openModal(modales[opcionSeleccionada]);
-                }
-            });
-
-            document.addEventListener('click', function(e) {
-                if (!btn.contains(e.target) && !lista.contains(e.target)) {
-                    lista.classList.remove('show');
-                }
-            });
-
-            // Función para abrir el modal
-            function openModal(modal) {
-                modal.style.display = 'block';
-                const closeButton = modal.querySelector('.close-button');
-                closeButton.addEventListener('click', function() {
-                    modal.style.display = 'none';
+                // Asegurarse de que los modales estén ocultos al inicio
+                Object.values(modales).forEach(modal => {
+                    if (modal) modal.style.display = 'none';
                 });
 
-                // Evitar que el modal se cierre al hacer clic en su contenido
-                const modalContent = modal.querySelector('.modal-content');
-                modalContent.addEventListener('click', function(e) {
-                    e.stopPropagation(); // Detener la propagación del clic
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    lista.classList.toggle('show');
                 });
 
-                // Cerrar el modal si se hace clic fuera del contenido del modal
-                window.addEventListener('click', function(e) {
-                    if (e.target === modal) { // Verificamos si el clic fue fuera del contenido
-                        modal.style.display = 'none';
+                lista.addEventListener('click', function(e) {
+                    const opcionSeleccionada = e.target.innerText;
+                    if (modales[opcionSeleccionada]) {
+                        lista.classList.remove('show');
+                        openModal(modales[opcionSeleccionada]);
                     }
                 });
-            }
 
-            // Limitaciones de texto y numeros en campos del modal
-            document.querySelectorAll(".texto-CRN").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                document.addEventListener('click', function(e) {
+                    if (!btn.contains(e.target) && !lista.contains(e.target)) {
+                        lista.classList.remove('show');
+                    }
                 });
+
+                // Función para abrir el modal
+                function openModal(modal) {
+                    if (!modal) return; // Verificar que el modal existe
+                    
+                    modal.style.display = 'block';
+                    
+                    const closeButton = modal.querySelector('.close-button');
+                    const modalContent = modal.querySelector('.modal-content-propuesta') || modal.querySelector('.modal-content-baja');
+                    
+                    if (closeButton) { // Verificar que existe el botón antes de agregar el evento
+                        closeButton.addEventListener('click', function() {
+                            modal.style.display = 'none';
+                        });
+                    }
+
+                    if (modalContent) { // Verificar que existe el contenido antes de agregar el evento
+                        modalContent.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    }
+
+                    // Agregar el evento de clic fuera una sola vez
+                    const clickOutside = function(e) {
+                        if (e.target === modal) {
+                            modal.style.display = 'none';
+                            window.removeEventListener('click', clickOutside); // Remover el evento después de usarlo
+                        }
+                    };
+                    window.addEventListener('click', clickOutside);
+                }
             });
-            document.querySelectorAll(".texto-materia").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
-                });
-            });
-            document.querySelectorAll(".texto-clave").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5);
-                });
-            });
-            document.querySelectorAll(".texto-SEC").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 3);
-                });
-            });
-            document.querySelectorAll(".texto-folio").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);
-                });
-            });
-            document.querySelectorAll(".texto-apellido-paterno").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
-                });
-            });
-            document.querySelectorAll(".texto-apellido-materno").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
-                });
-            });
-            document.querySelectorAll(".texto-nombres").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
-                });
-            });
-            document.querySelectorAll(".texto-codigo").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
-                });
-            });
-            document.querySelectorAll(".texto-otro").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 120);
-                });
-            });
-            document.querySelectorAll(".texto-apellido-paterno_propuesto").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
-                });
-            });
-            document.querySelectorAll(".texto-apellido-materno_propuesto").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
-                });
-            });
-            document.querySelectorAll(".texto-nombres_propuesto").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50);
-                });
-            });
-            document.querySelectorAll(".texto-codigo_propuesto").forEach(input => {
-                input.addEventListener("input", function(e) {
-                    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
-                });
-            });
-        });
     </script>
-
     <!-- Script para las funciones del despliegue de contenedor hacia abajo al hacer click -->
     <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
     <script src="./JS/personal-solicitud-cambios/modal-baja.js"></script>
+    <script src="./JS/personal-solicitud-cambios/modal-propuesta.js"></script>
     <script src="./JS/personal-solicitud-cambios/nueva-solicitud.js"></script>
 
 <?php include("./template/footer.php"); ?>
