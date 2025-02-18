@@ -70,28 +70,28 @@ require_once './functions/home/eventos-home.php';
 
   <div class="container-eventos-progreso">
     <!-- carrusel-banner -->
-  <div class="banner">
-    <div class="carrusel">
-      <div class="diapositiva">
-        <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
-        </div>
+    <div class="banner">
+      <div class="carrusel">
         <div class="diapositiva">
-          <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+          <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
+          </div>
+          <div class="diapositiva">
+            <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+          </div>
+          <div class="diapositiva">
+          <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
         </div>
-        <div class="diapositiva">
-        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
+      </div>
+          
+      <button class="boton-carrusel" id="botonAnterior"><<</button>
+      <button class="boton-carrusel" id="botonSiguiente">>></button>
+          
+      <div class="contenedor-puntos">
+        <span class="punto activo"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
       </div>
     </div>
-        
-    <button class="boton-carrusel" id="botonAnterior"><<</button>
-    <button class="boton-carrusel" id="botonSiguiente">>></button>
-        
-    <div class="contenedor-puntos">
-      <span class="punto activo"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
-    </div>
-  </div>
   
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
