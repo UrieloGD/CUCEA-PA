@@ -42,6 +42,15 @@ function obtenerMateriasPorProfesor($conexion, $codigo_profesor) {
     return array_values($materias_unificadas);
 }
 
+function limpiarNombreDepartamento($departamento) {
+    // Eliminar el prefijo "Data_"
+    $nombre = preg_replace('/^data_/', '', $departamento);
+    // Reemplazar guiones bajos con espacios
+    $nombre = str_replace('_', ' ', $nombre);
+    // Convertir a mayúsculas usando mb_strtoupper para manejar correctamente caracteres especiales
+    return mb_strtoupper($nombre, 'UTF-8');
+}
+
 function determinarModalidad($materia) {
     $modalidad_info = [
         'dias_presenciales' => [],
@@ -50,7 +59,7 @@ function determinarModalidad($materia) {
     ];
     
     // Caso 1: Usando campos explícitos de modalidad
-    if (!empty($materia['MODALIDAD'])) {
+    if (!empty($materia['MODALIDAD']) && !empty($materia['DIA_PRESENCIAL']) && !empty($materia['DIA_VIRTUAL'])) {
         switch ($materia['MODALIDAD']) {
             case 'VIRTUAL':
                 $modalidad_info['modalidad_unificada'] = 'VIRTUAL';
@@ -64,7 +73,28 @@ function determinarModalidad($materia) {
                 break;
                 
             case 'PRESENCIAL ENRIQUECIDA':
+            case 'PRESENCIAL': 
             case 'PRESENCIAL ENRIQUECIDO':
+                $modalidad_info['modalidad_unificada'] = 'MIXTA';
+                
+                // Manejar días presenciales con verificación de nulos
+                $dia_presencial = isset($materia['DIA_PRESENCIAL']) ? $materia['DIA_PRESENCIAL'] : '';
+                if (strtolower(trim($dia_presencial)) === 'ambos') {
+                    $modalidad_info['dias_presenciales'] = extraerDias($materia);
+                } else {
+                    $modalidad_info['dias_presenciales'] = extraerDiasDeCampo($dia_presencial);
+                }
+                
+                // Manejar días virtuales con verificación de nulos
+                $dia_virtual = isset($materia['DIA_VIRTUAL']) ? $materia['DIA_VIRTUAL'] : '';
+                if (strtolower(trim($dia_virtual)) === 'ambos') {
+                    $modalidad_info['dias_virtuales'] = extraerDias($materia);
+                } else {
+                    $modalidad_info['dias_virtuales'] = extraerDiasDeCampo($dia_virtual);
+                }
+                break;
+
+            case 'MIXTA':
                 $modalidad_info['modalidad_unificada'] = 'MIXTA';
                 
                 // Manejar días presenciales con verificación de nulos
@@ -187,9 +217,9 @@ function renderizarTablaMaterias($materias) {
             ?>
                 <tr>
                     <td class="col-nrc"><?= htmlspecialchars($materia['CRN']) ?></td>
-                    <td class="col-materia"><?= htmlspecialchars($materia['MATERIA']) ?></td>
+                    <td class="col-materia"><?= htmlspecialchars(mb_strtoupper($materia['MATERIA'], 'UTF-8')) ?></td> <!-- MAYUS -->
                     <td class="col-departamento">
-                        <?= htmlspecialchars(str_replace('data_', '', $materia['departamento_origen'])) ?>
+                        <?= htmlspecialchars(limpiarNombreDepartamento($materia['departamento_origen'])) ?> <!-- MAYUS -->
                     </td>
                     <td class="col-hora"><?= $hora_inicio . ' - ' . $hora_fin ?></td>
                     <td class="col-dias">
@@ -218,6 +248,9 @@ function renderizarTablaMaterias($materias) {
     </table>
     <?php
 }
+
+header('Content-Type: text/html; charset=utf-8');
+mb_internal_encoding('UTF-8');
 
 // Código principal
 if (isset($_POST['codigo_profesor'])) {

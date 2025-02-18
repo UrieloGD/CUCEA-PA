@@ -369,3 +369,173 @@
 .dropdown-check-list.visible .items {
     display: block;
 }
+
+/* Estilos para las comparaciones de horas */
+.horas-faltantes {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-correctas {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-excedidas {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-cero {
+    background-color: #f5f5f5;
+    color: #5f5f5f;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-temporales {
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.dept-estudios-regionales { 
+    /* READY */
+    color: #9A64B1; 
+    background-color: #E6DAEB72;
+}
+
+.dept-finanzas { 
+    /* READY */
+    color: #F8775E; 
+    background-color: #FDD0C772;
+}
+
+.dept-ciencias-sociales { 
+    /* READY */
+    color: #06865F; 
+    background-color: #B5EEDD72;
+}
+
+.dept-pale { 
+    /* READY */
+    color: #E6154A; 
+    background-color: #FEC1D072;
+}
+
+.dept-economia { 
+    /* READY */
+    color: #109703; 
+    background-color: #BAEDB572;
+}
+
+.dept-posgrados { 
+    /* READY */
+    color: #3B596F; 
+    background-color: #BBC5CD72;
+}
+
+.dept-recursos-humanos { 
+    /* READY */
+    color: #DD4991; 
+    background-color: #FBD1E572;
+}
+
+.dept-metodos-cuantitativos { 
+    /* READY */
+    color: #C39200; 
+    background-color: #FCECBD72;
+}
+
+.dept-politicas-publicas { 
+    /* READY */
+    color: #8B7999; 
+    background-color: #D3CCD872;
+}
+
+.dept-administracion { 
+    /* READY  */
+    color: #0E748A; 
+    background-color: #46ACC272;
+}
+
+.dept-auditoria { 
+    /* READY */
+    color: #F2545E; 
+    background-color: #FBC3C772;
+}
+
+.dept-mercadotecnia { 
+    /* READY */
+    color: #5676A9; 
+    background-color: #C4CFE172;
+}
+
+.dept-impuestos { 
+    /* READY */
+    color: #E07326; 
+    background-color: #FAD9C172;
+}
+
+.dept-sistemas { 
+    /* READY */
+    color: #4B8FBC; 
+    background-color: #C0D8E872;
+}
+
+.dept-turismo { 
+    /* READY */
+    color: #057555; 
+    background-color: #BDE2D772;
+}
+
+.dept-contabilidad { 
+    /* READY */
+    color: #EBAE41; 
+    background-color: #FCE8C472;
+}
+
+.dept-otros { 
+    /* READY */
+    color: #71577C; 
+    background-color: #E2DAEB72;
+}
+
+.dept-default { 
+    color: #333333; 
+    background-color: #000000;
+}

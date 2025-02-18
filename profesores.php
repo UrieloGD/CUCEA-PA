@@ -1,6 +1,7 @@
 <?php
 require_once './config/db.php';
 require_once './config/sesioniniciada.php';
+require_once './functions/profesores/funciones-horas.php';
 
 // Verificar conexión
 if (!$conexion) {
@@ -173,6 +174,22 @@ try {
         return $dbDepartment; // Return original if no mapping found
     }
 
+    // Funciones auxiliares para determinar la clase CSS
+    function getHorasClass($actual, $esperado) {
+        if ($esperado == 0 && $actual == 0) return 'horas-cero';
+        if ($actual < $esperado) return 'horas-faltantes';
+        if ($actual == $esperado) return 'horas-correctas';
+        return 'horas-excedidas';
+    }
+
+    function getSumaHorasSegura($codigo_profesor, $conexion) {
+        // Asegúrate de que código_profesor no sea nulo
+        if ($codigo_profesor === null) {
+            return [0, 0, 0, 0, 0]; // Valores predeterminados
+        }
+        return getSumaHorasPorProfesor($codigo_profesor, $conexion);
+    }
+
     // Aquí comienza el HTML
     include './template/header.php';
     include './template/navbar.php';
@@ -205,19 +222,6 @@ try {
             <div id="list1" class="dropdown-check-list" tabindex="100">
                 <span class="anchor">Departamento: </span>
                 <ul class="items">
-                    <?php
-                    // Obtener departamentos únicos de la tabla
-                    /*
-                    $sql_departamentos = "SELECT DISTINCT Departamento FROM coord_per_prof ORDER BY Departamento";
-                    $result_departamentos = mysqli_query($conexion, $sql_departamentos);
-                    
-                    while($row = mysqli_fetch_assoc($result_departamentos)) {
-                        echo "<li><input type='checkbox' value='" . htmlspecialchars($row['Departamento']) . "' />" . 
-                            htmlspecialchars($row['Departamento']) . "</li>";
-                            
-                    }
-                    */
-                    ?>
                     <li><input type="checkbox" />Administración</li>
                     <li><input type="checkbox" />Auditoria</li>
                     <li><input type="checkbox" />Ciencias Sociales</li>
@@ -250,6 +254,9 @@ try {
                             <th class="detalle-column">Nombre Completo</th>
                             <th class="detalle-column">Categoria Actúal</th>
                             <th class="detalle-column">Departamento</th>
+                            <th class="detalle-column">Horas frente a grupo</th>
+                            <th class="detalle-column">Horas Definitivas</th>
+                            <th class="detalle-column">Horas temporales</th>
                             <th class="detalle-column">Detalles del Profesor</th>
                         </tr>
                     </thead>
@@ -267,12 +274,35 @@ try {
                             $contador = 1;
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 $departamento_normalizado = normalizeDepartmentName($row['Departamento']);
+                                $codigo_profesor = $row['Codigo'];
                                 echo "<tr class='tr-info'>";
                                 //echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
                                 echo "<td class='detalle-column'>" . htmlspecialchars($departamento_normalizado ?? 'Sin datos') . "</td>";
+                                
+                                list($suma_cargo_plaza, $suma_horas_definitivas, $suma_horas_temporales, 
+                                $horas_frente_grupo, $horas_definitivasDB) = 
+                                getSumaHorasSegura($codigo_profesor, $conexion);
+
+                                // Calcular horas temporales
+                                $horas_temporales = $suma_cargo_plaza - $suma_horas_definitivas;
+
+                                $clase_horas_frente = getHorasClass($suma_cargo_plaza, $horas_frente_grupo);
+                                echo "<td class='detalle-column'><span class='" . $clase_horas_frente . "'>" . 
+                                    $suma_cargo_plaza . "/" . $horas_frente_grupo . 
+                                    "</span></td>";
+
+                                $clase_horas_definitivas = getHorasClass($suma_horas_definitivas, $horas_definitivasDB);
+                                echo "<td class='detalle-column'><span class='" . $clase_horas_definitivas . "'>" . 
+                                    $suma_horas_definitivas . "/" . $horas_definitivasDB . 
+                                    "</span></td>";
+
+                                echo "<td class='detalle-column'><span class='horas-temporales dept-otros'>" . 
+                                    $suma_horas_temporales . 
+                                    "</span></td>";
+                                
                                 echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                                 echo "</tr>";
                                 $contador = $contador + 1;

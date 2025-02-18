@@ -1,5 +1,4 @@
 <?php
-// vista-profesor-materias.php
 $codigo_profesor = (int)$_POST['codigo_profesor'];
     
 // Añade una verificación para departamento_id, usando un valor predeterminado si no está establecido
@@ -37,22 +36,6 @@ mysqli_stmt_execute($stmt_profesor);
 $result_profesor = mysqli_stmt_get_result($stmt_profesor);
 $datos_profesor = mysqli_fetch_assoc($result_profesor);
 
-// Obtener información personal del profesor
-$sql_profesor = "SELECT DISTINCT 
-                    Codigo, 
-                    Nombre_completo, 
-                    Correo, 
-                    Categoria_actual, 
-                    Departamento
-                FROM coord_per_prof 
-                WHERE Codigo = ?";
-                                    
-$stmt_profesor = mysqli_prepare($conexion, $sql_profesor);
-mysqli_stmt_bind_param($stmt_profesor, "i", $codigo_profesor);
-mysqli_stmt_execute($stmt_profesor);
-$result_profesor = mysqli_stmt_get_result($stmt_profesor);
-$datos_profesor = mysqli_fetch_assoc($result_profesor);
-
 // Después de $datos_profesor = mysqli_fetch_assoc($result_profesor);
 list($suma_horas, $suma_horas_definitivas, $suma_horas_temporales, 
 $horas_frente_grupo, $horas_definitivasDB) = 
@@ -73,8 +56,156 @@ function getHorasClass($actual, $esperado) {
     return 'horas-excedidas';
 }
 
+// Mappeo de todas las posibles variaciones
+$departmentMapping = [
+    'Estudios Regionales' => [
+        'ESTUDIOS REGIONALES',
+        'Estudios Regionales',
+        'Est. Regionales',
+        'Estudios_Regionales'
+    ],
+    'Finanzas' => [
+        'FINANZAS',
+        'Finanzas',
+        'FIN'
+    ],
+    'Ciencias Sociales' => [
+        'CIENCIAS SOCIALES',
+        'Ciencias Sociales',
+        'CERI/CIENCIAS SOCIALES',
+        'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
+        'CIENCIAS SOCIALES/POLITICAS PUBLICAS',
+        'Ciencias_Sociales'
+    ],
+    'PALE' => [
+        'PALE',
+        'PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA',
+        'ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA'
+    ],
+    'Economía' => [
+        'ECONOMIA',
+        'Economía',
+        'Economia'
+    ],
+    'Recursos Humanos' => [
+        'RECURSOS HUMANOS',
+        'Recursos Humanos',
+        'RH',
+        'RECURSOS_HUMANOS',
+        'Recursos_Humanos'
+    ],
+    'Métodos Cuantitativos' => [
+        'METODOS CUANTITATIVOS',
+        'Métodos Cuantitativos',
+        'Metodos Cuantitativos',
+        'Métodos_Cuantitativos'
+    ],
+    'Políticas Públicas' => [
+        'POLITICAS PUBLICAS',
+        'Políticas Públicas',
+        'Politicas Publicas',
+        'CIENCIAS SOCIALES/POLITICAS PUBLICAS ',
+        'CIENCIAS SOCIALES/POLITICAS PUBLICAS',
+        'Políticas_Públicas'
+    ],
+    'Administración' => [
+        'ADMINISTRACION',
+        'Administración',
+        'Administracion',
+        'ADMINISTRACION ',
+        'ADMINISTRACION  '
+    ],
+    'Auditoria' => [
+        'AUDITORIA',
+        'AUDITORIA ',
+        'Auditoría',
+        'Auditoria',
+        'SECRETARIA ADMINISTRATIVA/AUDITORIA'
+    ],
+    'Mercadotecnia' => [
+        'MERCADOTECNIA',
+        'Mercadotecnia',
+        'MERCADOTECNIA Y NEGOCIOS INTERNACIONALES'
+    ],
+    'Impuestos' => [
+        'IMPUESTOS',
+        'Impuestos',
+        'IMP'
+    ],
+    'Sistemas de Información' => [
+        'SISTEMAS DE INFORMACION',
+        'Sistemas de Información',
+        'Sistemas de Informacion',
+        'Sistemas_de_Información'
+    ],
+    'Turismo' => [
+        'TURISMO',
+        'Turismo',
+        'TURISMO R. Y S.'
+    ],
+    'Posgrados' => [
+        'Posgrados'
+    ],
+    'Contabilidad' => [
+        'CONTABILIDAD',
+        'Contabilidad',
+        'CONT'
+    ],
+    'Otros' => [
+        'SECRETARIA ADMINISTRATIVA/AUDITORIA',
+        'CERI/SECRETARIA ACADEMICA',
+        'SECRETARIA ACADEMICA',
+        'SECRETARIA ACADEMICA  '
+    ]
+];
+
+// Función para normalizar el nombre del departamento
+function normalizeDepartmentName($dbDepartment) {
+    global $departmentMapping;
+    
+    foreach ($departmentMapping as $standardName => $variations) {
+        if (in_array($dbDepartment, $variations)) {
+            return $standardName;
+        }
+    }
+    
+    return $dbDepartment; // Return original if no mapping found
+}
+
+// Función para obtener la clase CSS según el departamento
+function getDepartmentClass($department) {
+    // Normalizar el nombre del departamento primero
+    $department = normalizeDepartmentName($department);
+    
+    // Mapeo de departamentos a clases CSS
+    $departmentClasses = [
+        'Estudios Regionales' => 'dept-estudios-regionales',
+        'Finanzas' => 'dept-finanzas',
+        'Ciencias Sociales' => 'dept-ciencias-sociales',
+        'PALE' => 'dept-pale',
+        'Posgrados' => 'dept-posgrados',
+        'Economía' => 'dept-economia',
+        'Recursos Humanos' => 'dept-recursos-humanos',
+        'Métodos Cuantitativos' => 'dept-metodos-cuantitativos',
+        'Políticas Públicas' => 'dept-politicas-publicas',
+        'Administración' => 'dept-administracion',
+        'Auditoria' => 'dept-auditoria',
+        'Mercadotecnia' => 'dept-mercadotecnia',
+        'Impuestos' => 'dept-impuestos',
+        'Sistemas de Información' => 'dept-sistemas',
+        'Turismo' => 'dept-turismo',
+        'Contabilidad' => 'dept-contabilidad',
+        'Otros' => 'dept-otros'
+    ];
+    
+    return isset($departmentClasses[$department]) ? $departmentClasses[$department] : 'dept-default';
+}
+
 // Calcular horas temporales
 $horas_temporales = $suma_horas - $suma_horas_definitivas;
+
+header('Content-Type: text/html; charset=utf-8');
+mb_internal_encoding('UTF-8');
 
 ?>
 <link rel="stylesheet" href="./CSS/detalle-profesor.css">
@@ -112,8 +243,9 @@ $horas_temporales = $suma_horas - $suma_horas_definitivas;
                             <td>
                                 <div>
                                     <span class="profile-span">Departamento:</span>
-                                    <span class="data-value3">
-                                        <?= strtoupper(htmlspecialchars($datos_profesor['Departamento'])) ?>
+                                    <span class="data-value3 <?= getDepartmentClass($datos_profesor['Departamento']) ?>">
+                                        <?php $departamento_normalizado = normalizeDepartmentName($datos_profesor['Departamento']); ?>
+                                        <?= htmlspecialchars(mb_strtoupper($departamento_normalizado, 'UTF-8')) ?>
                                     </span>
                                 </div>
                             </td>
@@ -144,7 +276,7 @@ $horas_temporales = $suma_horas - $suma_horas_definitivas;
                             <td>
                                 <div>
                                     <span class="profile-span">Horas temporales:</span>
-                                    <span class="horas-temporales">
+                                    <span class="horas-temporales <?= getDepartmentClass($datos_profesor['Departamento']) ?>">
                                         <?= $suma_horas_temporales ?>
                                     </span>
                                 </div>
@@ -168,7 +300,7 @@ $horas_temporales = $suma_horas - $suma_horas_definitivas;
     <div class="navigation">
         <button class="nav-arrow prev-arrow" disabled><</button>
         <div class="nav-items-container">
-            <a href="#todas" class="nav-item active" data-section="todas">Todas las materias</a>
+            <a href="#todas" class="nav-item active" data-section="todas">TODAS LAS MATERIAS</a>
             <?php
             $materias_agrupadas = [];
             foreach ($materias as $materia) {
@@ -185,7 +317,7 @@ $horas_temporales = $suma_horas - $suma_horas_definitivas;
                 <a href="#<?= htmlspecialchars($grupo_id) ?>" 
                    class="nav-item" 
                    data-section="<?= htmlspecialchars($grupo_id) ?>">
-                    <?= htmlspecialchars($nombre_materia) ?>
+                    <?= htmlspecialchars(mb_strtoupper($nombre_materia, 'UTF-8')) ?> <!-- MAYUS -->
                 </a>
                 <?php
             }

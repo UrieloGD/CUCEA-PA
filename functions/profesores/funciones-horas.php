@@ -19,9 +19,8 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
         
         while($row = $result->fetch_assoc()) {
             $profesor_encontrado = true;
-            $horas = !empty($row['HORAS']) ? intval($row['HORAS']) : 2;
-            
-            $tipo_contrato = strtolower(trim($row['TIPO_CONTRATO']));
+            $horas = intval($row['HORAS'] ?? 2);
+            $tipo_contrato = strtolower(trim($row['TIPO_CONTRATO'] ?? ''));
             
             // Separar la suma según el tipo de contrato
             switch($tipo_contrato) {
