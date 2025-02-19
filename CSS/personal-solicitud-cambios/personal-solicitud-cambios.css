@@ -73,6 +73,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .nombre-dpto-solicitud {
@@ -301,20 +302,17 @@
 
 /* Estilos del contenedor desplegable */
 .contenedor-informacion {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
+  display: none; /* Cambiado de max-height a display */
+  background-color: #e7e9f2;
   margin: 0 auto;
   width: 85%;
-  padding-bottom: 5px;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  background-color: #e7e9f2;
-  border-color: #E7E9F2;
-  border-width: 5px;
-  border-style: solid;
+  /* padding: 20px 0; */
+  border-radius: 12px;
+  border: 5px solid #E7E9F2;
   box-shadow: 0px 3px 7px rgb(161, 161, 161);
-  opacity: 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease-out;
 }
 
 .contenedor-informacion.mostrar {

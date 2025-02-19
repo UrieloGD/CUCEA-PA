@@ -24,20 +24,36 @@ document.addEventListener('DOMContentLoaded', function() {
       const opcionSeleccionada = e.target.innerText;
       if (modales[opcionSeleccionada]) {
           lista.classList.remove('show');
-          modales[opcionSeleccionada].style.display = 'block';
+          openModal(modales[opcionSeleccionada]);
       }
   });
 
-  // Función para mostrar/ocultar información al hacer clic
+  // Función mejorada para mostrar/ocultar información al hacer clic
   window.mostrarInformacion = function(contenedorId, icono) {
       const contenedor = document.getElementById(contenedorId);
+      
       if (contenedor) {
-          if (contenedor.style.maxHeight) {
-              contenedor.style.maxHeight = null;
-              icono.classList.remove('rotated');
-          } else {
-              contenedor.style.maxHeight = contenedor.scrollHeight + "px";
+          // Alternar la clase 'active' en el contenedor
+          contenedor.classList.toggle('active');
+          
+          // Si el contenedor está activo, mostrarlo
+          if (contenedor.classList.contains('active')) {
+              contenedor.style.display = 'block';
+              // Pequeño retraso para asegurar que la transición funcione
+              setTimeout(() => {
+                  contenedor.style.maxHeight = contenedor.scrollHeight + "px";
+              }, 10);
               icono.classList.add('rotated');
+          } else {
+              // Si el contenedor no está activo, ocultarlo
+              contenedor.style.maxHeight = '0';
+              icono.classList.remove('rotated');
+              // Agregar un retraso antes de ocultar completamente
+              setTimeout(() => {
+                  if (!contenedor.classList.contains('active')) {
+                      contenedor.style.display = 'none';
+                  }
+              }, 200);
           }
       }
   };
@@ -49,6 +65,36 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   });
 
+  // Función para abrir modales
+  function openModal(modal) {
+      if (!modal) return;
+      
+      modal.style.display = 'block';
+      
+      const closeButton = modal.querySelector('.close-button');
+      const modalContent = modal.querySelector('.modal-content-propuesta') || 
+                         modal.querySelector('.modal-content-baja');
+      
+      if (closeButton) {
+          closeButton.addEventListener('click', function() {
+              modal.style.display = 'none';
+          });
+      }
+
+      if (modalContent) {
+          modalContent.addEventListener('click', function(e) {
+              e.stopPropagation();
+          });
+      }
+
+      window.addEventListener('click', function closeOutside(e) {
+          if (e.target === modal) {
+              modal.style.display = 'none';
+              window.removeEventListener('click', closeOutside);
+          }
+      });
+  }
+
   // Validaciones de campos de texto
   const validaciones = {
       'texto-CRN': {
@@ -57,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'numeric'
       },
       'texto-materia': {
-          pattern: /[^a-zA-Z\s]/g,
+          pattern: /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,
           type: 'text'
       },
       'texto-clave': {
@@ -76,17 +122,17 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'alphanumeric'
       },
       'texto-apellido-paterno': {
-          pattern: /[^a-zA-Z\s]/g,
+          pattern: /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,
           maxLength: 50,
           type: 'text'
       },
       'texto-apellido-materno': {
-          pattern: /[^a-zA-Z\s]/g,
+          pattern: /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,
           maxLength: 50,
           type: 'text'
       },
       'texto-nombres': {
-          pattern: /[^a-zA-Z\s]/g,
+          pattern: /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,
           maxLength: 50,
           type: 'text'
       },
@@ -96,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
           type: 'numeric'
       },
       'texto-otro': {
-          pattern: /[^a-zA-Z\s]/g,
+          pattern: /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,
           maxLength: 120,
           type: 'text'
       }
@@ -114,5 +160,10 @@ document.addEventListener('DOMContentLoaded', function() {
               e.target.value = value;
           });
       });
+  });
+  // Inicializar todos los contenedores como ocultos
+  document.querySelectorAll('.contenedor-informacion').forEach(container => {
+      container.style.display = 'none';
+      container.style.maxHeight = '0';
   });
 });
