@@ -105,13 +105,14 @@
 .profesores-table th {
     position: relative;
     top: 0;
-    background-color: white;
-    padding: 15px 8px; /* Aumentamos el padding vertical */
+    padding: 12px 6px; /* Aumentamos el padding vertical */
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 150px;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal;
 }
   
 .profesores-table .detalle-column {
@@ -196,12 +197,12 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-top: 20px;
 }
 
 .contenido-tabla {
     padding: 15px 50px;
     overflow: hidden;
+    height: 96%;
 }
 
 /* Estilos para el botón de cerrar */
@@ -215,7 +216,8 @@
 /* Asegurarse que la tabla se mantenga visible */
 .profesores-container {
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
@@ -223,21 +225,29 @@
 .profesores-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
 }
+
 .profesores-table thead {
     position: sticky;
     top: 0;
+    z-index: 0;
     background-color: #f8f9fa;
 }
 
 /* #################################### */
+
 .profesores-table thead th {
-    padding: 1rem;
-    border-bottom: 3px solid #0071b0;
+    padding: 0.35rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #0071b0;
+    color: #ffffff;
 }
 
 .profesores-table tbody {
-    display: block;
     overflow-y: auto;
     height: 680px;
 }
@@ -247,6 +257,22 @@
     display: table;
     width: 100%;
     table-layout: fixed;
+}
+
+.profesores-table tbody td {
+    padding: 0.35rem;
+    text-align: center;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Permitir saltos de línea */
+    word-wrap: break-word; 
+
+    /* Para navegadores más antiguos */
+    overflow-wrap: break-word; 
+
+
 }
 
 .profesores-table td{
@@ -299,7 +325,7 @@
     display: inline-block;
     padding: 5px 10px 5px 10px;
     border: 1px solid #ccc;
-    background-color: #0B6A9F;
+    background-color: #0071b0;
     z-index: 1;
     color: #fff;
     border-radius: 4px;
@@ -539,3 +565,60 @@
     color: #333333; 
     background-color: #000000;
 }
+
+/* Columnas */
+.col-codigo { 
+    width: 7%; 
+    /* background-color: #057555; */
+}
+
+.col-nombre { 
+    width: 20%; 
+    /* background-color: #1565c0; */
+}
+
+.col-categoria { 
+    width: 10%; 
+    /* background-color: #057555; */
+}
+
+.col-depto { 
+    width: 15%; 
+    /* background-color: #1565c0; */
+}
+
+.col-horas-f { 
+    width: 8%; 
+    /* background-color: #057555; */
+}
+
+.col-horas-d { 
+    width: 8%; 
+    /* background-color: #1565c0; */
+}
+
+.col-horas-t { 
+    width: 8%; 
+    /* background-color: #057555; */
+}
+
+.col-detalle { 
+    width: 8%;
+    /*background-color: #005a8c;*/
+}
+
+.th-L {
+    border-radius: 8px 0 0 0;
+    -webkit-border-radius: 8px 0 0 0;
+    -moz-border-radius: 8px 0 0 0;
+    -ms-border-radius: 8px 0 0 0;
+    -o-border-radius: 8px 0 0 0;
+  }
+  
+  .th-R {
+    border-radius: 0 8px 0 0;
+    -webkit-border-radius: 0 8px 0 0;
+    -moz-border-radius: 0 8px 0 0;
+    -ms-border-radius: 0 8px 0 0;
+    -o-border-radius: 0 8px 0 0;
+  }

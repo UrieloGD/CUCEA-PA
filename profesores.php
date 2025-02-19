@@ -250,14 +250,14 @@ try {
                     <thead>
                         <tr>
                            <!-- <th class="detalle-column">count</th> --> 
-                            <th class="detalle-column">Código</th>
-                            <th class="detalle-column">Nombre Completo</th>
-                            <th class="detalle-column">Categoria Actúal</th>
-                            <th class="detalle-column">Departamento</th>
-                            <th class="detalle-column">Horas frente a grupo</th>
-                            <th class="detalle-column">Horas Definitivas</th>
-                            <th class="detalle-column">Horas temporales</th>
-                            <th class="detalle-column">Detalles del Profesor</th>
+                            <th class="detalle-column col-codigo th-L">Código</th>
+                            <th class="detalle-column col-nombre">Nombre Completo</th>
+                            <th class="detalle-column col-categoria">Categoria Actúal</th>
+                            <th class="detalle-column col-depto">Departamento</th>
+                            <th class="detalle-column col-horas-f">Horas frente a grupo</th>
+                            <th class="detalle-column col-horas-d">Horas Definitivas</th>
+                            <th class="detalle-column col-horas-t">Horas temporales</th>
+                            <th class="detalle-column col-detalle th-R">Detalles del Profesor</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -277,10 +277,10 @@ try {
                                 $codigo_profesor = $row['Codigo'];
                                 echo "<tr class='tr-info'>";
                                 //echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($departamento_normalizado ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column detalle-column1 col-codigo'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column col-nombre'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column col-categoria'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column col-depto'>" . htmlspecialchars($departamento_normalizado ?? 'Sin datos') . "</td>";
                                 
                                 list($suma_cargo_plaza, $suma_horas_definitivas, $suma_horas_temporales, 
                                 $horas_frente_grupo, $horas_definitivasDB) = 
@@ -290,20 +290,20 @@ try {
                                 $horas_temporales = $suma_cargo_plaza - $suma_horas_definitivas;
 
                                 $clase_horas_frente = getHorasClass($suma_cargo_plaza, $horas_frente_grupo);
-                                echo "<td class='detalle-column'><span class='" . $clase_horas_frente . "'>" . 
+                                echo "<td class='detalle-column col-horas-f'><span class='" . $clase_horas_frente . "'>" . 
                                     $suma_cargo_plaza . "/" . $horas_frente_grupo . 
                                     "</span></td>";
 
                                 $clase_horas_definitivas = getHorasClass($suma_horas_definitivas, $horas_definitivasDB);
-                                echo "<td class='detalle-column'><span class='" . $clase_horas_definitivas . "'>" . 
+                                echo "<td class='detalle-column col-horas-d'><span class='" . $clase_horas_definitivas . "'>" . 
                                     $suma_horas_definitivas . "/" . $horas_definitivasDB . 
                                     "</span></td>";
 
-                                echo "<td class='detalle-column'><span class='horas-temporales dept-otros'>" . 
+                                echo "<td class='detalle-column col-horas-t'><span class='horas-temporales dept-otros'>" . 
                                     $suma_horas_temporales . 
                                     "</span></td>";
                                 
-                                echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                                echo "<td class='detalle-column detalle-column2 col-detalle'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                                 echo "</tr>";
                                 $contador = $contador + 1;
                             }
