@@ -72,6 +72,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupValidations();
 
+    if (btnDescartar) {
+        btnDescartar.addEventListener('click', () => {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se descartarán todos los cambios realizados",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0071b0',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, descartar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    cerrarModal();
+                }
+            });
+        });
+    }
+
     // Manejo del formulario
     if (formPropuesta) {
         formPropuesta.addEventListener('submit', function(e) {

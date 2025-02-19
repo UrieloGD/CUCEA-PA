@@ -17,7 +17,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
 <link rel="stylesheet" href="./CSS//personal-solicitud-cambios/personal-solicitud-cambios.css">
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja.css">
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-propuesta.css">
-
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja-propuesta.css">
 
 <!--Cuadro principal del home -->
 <div class="cuadro-principal">
@@ -477,6 +477,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
     <!-- Modal Solicitudes Baja -->
     <?php include './functions/personal-solicitud-cambios/modales/modal-baja.php' ?>
     <?php include './functions/personal-solicitud-cambios/modales/modal-propuesta.php' ?>
+    <?php include './functions/personal-solicitud-cambios/modales/modal-baja-propuesta.php' ?>
 
     <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
     <script>
@@ -545,10 +546,10 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
                 }
             });
     </script>
-    <!-- Script para las funciones del despliegue de contenedor hacia abajo al hacer click -->
     <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
     <script src="./JS/personal-solicitud-cambios/modal-baja.js"></script>
     <script src="./JS/personal-solicitud-cambios/modal-propuesta.js"></script>
+    <script src="./JS/personal-solicitud-cambios/modal-baja-propuesta.js"></script>
     <script src="./JS/personal-solicitud-cambios/nueva-solicitud.js"></script>
 
 <?php include("./template/footer.php"); ?>
