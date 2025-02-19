@@ -156,6 +156,9 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
                 $horas_definitivas_str[] = "$dept: $horas";
             }
         }
+
+        $formatted_definitivas = implode("\n", $horas_definitivas_str);
+
         if (empty($horas_definitivas_str)) {
             $horas_definitivas_str = ['Sin secciones registradas'];
         }
@@ -183,7 +186,7 @@ function getSumaHorasPorProfesor($codigo, $conexion) {
 
     return [
         $suma_horas, 
-        implode("<br>", $horas_definitivas_str),
+        implode("\n", $horas_definitivas_str),
         implode("<br>", $horas_cargo_str),
         $suma_cargo_plaza,
         $suma_horas_definitivas,

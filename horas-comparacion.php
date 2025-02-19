@@ -932,8 +932,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
 
                 // Función para mostrar mensaje de error
                 function showError(message) {
-                    tablaBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red;">
-            ${message}</td></tr>`;
+                    tablaBody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: red;">
+                        ${message}</td></tr>`;
                 }
 
                 // Funcionalidad de búsqueda
@@ -966,7 +966,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                     searchInput.value = '';
 
                     // Mostrar mensaje de carga
-                    const colSpan = 10; // Ajustado para las nuevas columnas
+                    const colSpan = 11; // Ajustado para incluir la nueva columna de horas totales
                     tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">Cargando...</td></tr>`;
 
                     fetch('./functions/horas-comparacion/obtener-personal.php', {
@@ -997,19 +997,57 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
 
                             //Encabezados de la tabla
                             const thead = document.querySelector('.tabla-personal thead tr');
-                            thead.innerHTML = `
-                    <th>Código</th>
-                    <th>Nombre Completo</th>
-                    <th>Departamento</th>
-                    <th>Categoría Actual</th>
-                    <th>Tipo Plaza</th>
-                    <th>Carga Horaria</th>
-                    <th>Horas Frente Grupo</th>
-                    <th>Horas Definitivas</th>
-                    <th>Horas Temporales</th>
-                    `;
-
+                                thead.innerHTML = `
+                                    <th>Código</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Departamento</th>
+                                    <th>Categoría Actual</th>
+                                    <th>Tipo Plaza</th>
+                                    <th>Carga Horaria</th>
+                                    <th>Horas Frente Grupo</th>
+                                    <th>Horas Definitivas</th>
+                                    <th>Horas Temporales</th>
+                                `;
                             tablaBody.innerHTML = ''; // Limpiar tabla
+
+                            // Obtener el color del departamento
+                            function getDepartmentColor(departamento) {
+                                const normalizedDept = departamento.toLowerCase()
+                                    .normalize("NFD")
+                                    .replace(/[\u0300-\u036f]/g, "")
+                                    .replace(/[^a-z\s]/g, "")
+                                    .trim();
+                                
+                                // Mapping de departamentos a clases CSS
+                                const classMapping = {
+                                    'administracion': 'dept-administracion',
+                                    'programa de aprendizaje de lengua extranjera': 'dept-pale',
+                                    'pale': 'dept-pale',
+                                    'auditoria': 'dept-auditoria',
+                                    'secretaria administrativa': 'dept-auditoria',
+                                    'ciencias sociales': 'dept-ciencias-sociales',
+                                    'politicas publicas': 'dept-politicas-publicas',
+                                    'contabilidad': 'dept-contabilidad',
+                                    'economia': 'dept-economia',
+                                    'estudios regionales': 'dept-estudios-regionales',
+                                    'finanzas': 'dept-finanzas',
+                                    'impuestos': 'dept-impuestos',
+                                    'mercadotecnia': 'dept-mercadotecnia',
+                                    'metodos cuantitativos': 'dept-metodos-cuantitativos',
+                                    'recursos humanos': 'dept-recursos-humanos',
+                                    'sistemas de informacion': 'dept-sistemas',
+                                    'turismo': 'dept-turismo'
+                                };
+
+                                // Buscar coincidencia
+                                for (let [key, value] of Object.entries(classMapping)) {
+                                    if (normalizedDept.includes(key)) {
+                                        return value;
+                                    }
+                                }
+                                
+                                return 'dept-otros'; // Valor por defecto
+                            }
 
                             data.forEach(persona => {
                                 const row = document.createElement('tr');
@@ -1065,9 +1103,18 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                         }
                                     }
 
-                                    console.log('Departamento no encontrado:', departamento); // Para debug
                                     return 'default';
                                 }
+
+                                    function formatTooltipContent(departmentData) {
+                                        if (!departmentData || departmentData.trim() === '') {
+                                            return 'No hay información de departamentos disponible';
+                                        }
+                                        
+                                        // Split by newlines and format each line
+                                        const departments = departmentData.split('\n').filter(line => line.trim());
+                                        return departments.join('<br>');
+                                    }
 
                                 // Función para formatear las horas por departamento
                                 function formatearHorasDepartamento(horasString, tipoHoras) {
@@ -1096,14 +1143,13 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                         const horasClass = getHorasClass(horasActual, tipoHoras === 'definitivas' ? parseInt(persona.Horas_definitivas) : parseInt(persona.Horas_frente_grupo));
 
                                         formattedHoras += `
-                                    <div class="departamento-tag tag-${getDepartamentoClass(dept)} ${horasClass}" style="position: relative; display: inline-block; max-width: 100%;">
-                                        ${dept}: ${horas}
-                                    </div>
-                                `;
+                                            <div class="departamento-tag tag-${getDepartamentoClass(dept)} ${horasClass}" style="position: relative; display: inline-block; max-width: 100%;">
+                                                ${dept}: ${horas}
+                                            </div>
+                                        `;
                                     }
 
                                     return formattedHoras;
-                                    row.setAttribute('style', 'white-space: pre-line;');
                                 }
 
                                 // Procesar horas frente a grupo
@@ -1116,23 +1162,106 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                 const horasDefRequeridas = persona.Horas_definitivas || 0;
                                 const claseDefinitivas = getHorasClass(horasDefActual, horasDefRequeridas);
 
-                                // Formatear las horas con sus respectivas clases
+                                // Procesar horas temporales
+                                const horasTemporales = persona.suma_horas_temporales || 0;
+                                
+
+                                // Determinar la clase del departamento para asignar el color a horas temporales
+                                const deptClass = getDepartmentColor(persona.Departamento || 'otros');
+                                
                                 const horasFrenteGrupoHTML = `
-                        <div class="tooltip">
-                            <span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>
-                            <div class="tooltiptext">${persona.horas_cargo_por_departamento || ''}</div>
-                        </div>
-                        `;
+                                    <div class="tooltip">
+                                        <span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>
+                                        <div class="tooltiptext">${persona.horas_cargo_por_departamento ? 
+                                            persona.horas_cargo_por_departamento.replace(/\n/g, '<br>').replace(/<br>/g, '<br>') : 
+                                            ''}
+                                        </div>
+                                    </div>
+                                `;
 
                                 const horasDefinitivasHTML = `
-                        <div class="tooltip">
-                            <span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>
-                            <div class="tooltiptext">${persona.horas_definitivas_por_departamento || ''}</div>
-                        </div>
-                        `;
+                                    <div class="tooltip">
+                                        <span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>
+                                        <div class="tooltiptext">${persona.horas_definitivas_por_departamento ? 
+                                            persona.horas_definitivas_por_departamento.replace(/\n/g, '<br>').replace(/<br>/g, '<br>') : 
+                                            ''}
+                                        </div>
+                                    </div>
+                                `;
+                                
+                                // Horas temporales con el color del departamento
+                                const horasTemporalesHTML = `
+                                    <div class="tooltip" style="text-align: center; width: 100%;">
+                                        <span class="${deptClass}" style="display: inline-block;">${horasTemporales}</span>
+                                        <div class="tooltiptext">${persona.horas_temporales_por_departamento || ''}</div>
+                                    </div>
+                                `;
 
-                                const horasCargoDeptos = formatearHorasDepartamento(persona.horas_cargo_por_departamento, 'cargo');
-                                const horasDefinitivasDeptos = formatearHorasDepartamento(persona.horas_definitivas_por_departamento, 'definitivas');
+                                // Generar el contenido del tooltip para horas totales
+                                function generarDesgloseTotalHoras(persona) {
+                                    // Combinar todas las horas por departamento
+                                    const departamentos = new Map();
+                                    
+                                    // Procesar horas de cargo
+                                    if (persona.horas_cargo_por_departamento) {
+                                        persona.horas_cargo_por_departamento.split('\n').forEach(linea => {
+                                            if (linea.trim() === '') return;
+                                            const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                            if (!dept || !horas) return;
+                                            
+                                            const horasActual = parseInt(horas.split('/')[0]);
+                                            if (departamentos.has(dept)) {
+                                                departamentos.set(dept, departamentos.get(dept) + horasActual);
+                                            } else {
+                                                departamentos.set(dept, horasActual);
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Procesar horas definitivas
+                                    if (persona.horas_definitivas_por_departamento) {
+                                        persona.horas_definitivas_por_departamento.split('\n').forEach(linea => {
+                                            if (linea.trim() === '') return;
+                                            const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                            if (!dept || !horas) return;
+                                            
+                                            const horasActual = parseInt(horas.split('/')[0]);
+                                            if (departamentos.has(dept)) {
+                                                departamentos.set(dept, departamentos.get(dept) + horasActual);
+                                            } else {
+                                                departamentos.set(dept, horasActual);
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Procesar horas temporales
+                                    if (persona.horas_temporales_por_departamento) {
+                                        persona.horas_temporales_por_departamento.split('\n').forEach(linea => {
+                                            if (linea.trim() === '') return;
+                                            const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                            if (!dept || !horas) return;
+                                            
+                                            const horasActual = parseInt(horas);
+                                            if (departamentos.has(dept)) {
+                                                departamentos.set(dept, departamentos.get(dept) + horasActual);
+                                            } else {
+                                                departamentos.set(dept, horasActual);
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Generar el texto del tooltip
+                                    let tooltipText = '';
+                                    departamentos.forEach((horas, dept) => {
+                                        if (horas > 0) {
+                                            tooltipText += `${dept}: ${horas}\n`;
+                                        }
+                                    });
+                                    
+                                    return tooltipText || 'No hay desglose disponible';
+                                }
+
+                                const tooltipDesgloseTotalHoras = generarDesgloseTotalHoras(persona);
 
                                 const tdContent = `
                                     <td>${persona.Codigo || ''}</td>
@@ -1143,12 +1272,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                     <td>${persona.Carga_horaria || ''}</td>
                                     <td>${horasFrenteGrupoHTML}</td>
                                     <td>${horasDefinitivasHTML}</td>
-                                    <td>
-                                        <div class="tooltip">
-                                            <span class="horas-temporales">${persona.suma_horas_temporales || 0}</span>
-                                            <div class="tooltiptext">${persona.horas_temporales_por_departamento || ''}</div>
-                                        </div>
-                                    </td>
+                                    <td>${horasTemporalesHTML}</td>
                                 `;
 
                                 row.innerHTML = tdContent;
@@ -1158,7 +1282,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                         .catch(error => {
                             console.error('Error:', error);
                             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: red;">
-                ${error.message || 'Error al cargar los datos'}</td></tr>`;
+                            ${error.message || 'Error al cargar los datos'}</td></tr>`;
                         });
                 }
 
@@ -1174,7 +1298,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                 botonTodos.addEventListener('click', function() {
                     openModal('todos'); // Llama a la función con 'todos' como parámetro
                 });
-
 
                 span.onclick = closeModal;
 
