@@ -347,7 +347,7 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja (
     MOTIVO_B VARCHAR(50),
     ESTADO_B VARCHAR(15),
     HORA_CREACION TIME,
-    Departamneto_ID INT,
+    Departamento_ID INT,
     FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
@@ -390,7 +390,7 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_propuesta (
     PERIODO_ASIG_HASTA_P DATE,
     ESTADO_P VARCHAR(15),
     HORA_CREACION TIME,
-    Departamneto_ID INT,
+    Departamento_ID INT,
     FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
@@ -438,7 +438,7 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja_propuesta (
     PERIODO_ASIG_HASTA_PROP DATE,
     ESTADO_P VARCHAR(15),
     HORA_CREACION TIME,
-    Departamneto_ID INT,
+    Departamento_ID INT,
     FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
