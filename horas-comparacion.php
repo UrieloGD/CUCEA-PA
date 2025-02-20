@@ -960,6 +960,68 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                     return 'horas-excedidas';
                 }
 
+                // Función para calcular y mostrar los totales
+                function agregarFilaTotales() {
+                    const tablaBody = document.getElementById('tablaBody');
+                    const thead = document.querySelector('.tabla-personal thead');
+                    
+                    // Eliminar la fila de totales existente si hay una
+                    const filaTotalesExistente = document.querySelector('.fila-totales');
+                    if (filaTotalesExistente) {
+                        filaTotalesExistente.remove();
+                    }
+                    
+                    // Crear una nueva fila para los totales
+                    const filaTotales = document.createElement('tr');
+                    filaTotales.className = 'fila-totales';
+                    
+                    // Calcular totales de las columnas numéricas
+                    let totalFrenteGrupo = 0;
+                    let totalMaxFrenteGrupo = 0;
+                    let totalDefinitivas = 0;
+                    let totalMaxDefinitivas = 0;
+                    let totalTemporales = 0;
+                    
+                    // Obtener todas las filas de datos (excluyendo la fila de totales)
+                    const filas = Array.from(tablaBody.querySelectorAll('tr')).filter(row => !row.classList.contains('fila-totales'));
+                    
+                    filas.forEach(fila => {
+                        // Obtener los valores de las celdas relevantes
+                        const celdaFrenteGrupo = fila.querySelector('td:nth-child(7)'); // Horas Frente Grupo
+                        const celdaDefinitivas = fila.querySelector('td:nth-child(8)'); // Horas Definitivas
+                        const celdaTemporales = fila.querySelector('td:nth-child(9)');  // Horas Temporales
+                        
+                        // Extraer los valores numéricos
+                        if (celdaFrenteGrupo) {
+                            const [actual, maximo] = celdaFrenteGrupo.textContent.split('/').map(v => parseFloat(v) || 0);
+                            totalFrenteGrupo += actual;
+                            totalMaxFrenteGrupo += maximo;
+                        }
+                        
+                        if (celdaDefinitivas) {
+                            const [actual, maximo] = celdaDefinitivas.textContent.split('/').map(v => parseFloat(v) || 0);
+                            totalDefinitivas += actual;
+                            totalMaxDefinitivas += maximo;
+                        }
+                        
+                        if (celdaTemporales) {
+                            const valorTemporales = parseFloat(celdaTemporales.textContent) || 0;
+                            totalTemporales += valorTemporales;
+                        }
+                    });
+                    
+                    // Construir la fila de totales con los totales y máximos redondeados
+                    filaTotales.innerHTML = `
+                        <td colspan="6" style="text-align: right; font-weight: bold;">Totales:</td>
+                        <td style="text-align: center; font-weight: bold;">${Math.round(totalFrenteGrupo)}/${Math.round(totalMaxFrenteGrupo)}</td>
+                        <td style="text-align: center; font-weight: bold;">${Math.round(totalDefinitivas)}/${Math.round(totalMaxDefinitivas)}</td>
+                        <td style="text-align: center; font-weight: bold;">${Math.round(totalTemporales)}</td>
+                    `;
+                    
+                    // Insertar la fila de totales después del encabezado
+                    thead.parentNode.insertBefore(filaTotales, thead.nextSibling);
+                }
+
                 // Función para obtener los datos del personal
                 function fetchPersonalData(departamento) {
                     // Limpiar la búsqueda al cargar nuevos datos
@@ -994,6 +1056,9 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                 tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center;">No se encontraron datos para mostrar</td></tr>`;
                                 return;
                             }
+
+                            // Limpiar la tabla y agregar los datos
+                            tablaBody.innerHTML = '';
 
                             //Encabezados de la tabla
                             const thead = document.querySelector('.tabla-personal thead tr');
@@ -1278,13 +1343,14 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                 row.innerHTML = tdContent;
                                 tablaBody.appendChild(row);
                             });
+                            agregarFilaTotales();
                         })
                         .catch(error => {
                             console.error('Error:', error);
                             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: red;">
                             ${error.message || 'Error al cargar los datos'}</td></tr>`;
                         });
-                }
+                    }
 
                 // Event Listeners
                 departamentoCards.forEach(card => {

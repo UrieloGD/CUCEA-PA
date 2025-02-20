@@ -720,6 +720,16 @@
   right: 15px;
 }
 
+.fila-totales {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.fila-totales td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
 /* Estilos para las comparaciones de horas */
 .horas-faltantes {
   background-color: #ffebee;

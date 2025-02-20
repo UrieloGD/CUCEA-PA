@@ -192,8 +192,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                 </div>
             </div>
 
-             <!-- Modal -->
-        <div id="modalPersonal" class="modal">
+       <!-- Modal -->
+       <div id="modalPersonal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h2 id="modalTitle">Personal del Departamento</h2>
@@ -283,6 +283,64 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                     return 'horas-excedidas';
                 }
 
+                // Función para calcular y mostrar los totales
+                function agregarFilaTotales() {
+                    const tablaBody = document.getElementById('tablaBody');
+                    const thead = document.querySelector('.tabla-personal thead');
+                    
+                    // Eliminar la fila de totales existente si hay una
+                    const filaTotalesExistente = document.querySelector('.fila-totales');
+                    if (filaTotalesExistente) {
+                        filaTotalesExistente.remove();
+                    }
+                    
+                    // Crear una nueva fila para los totales
+                    const filaTotales = document.createElement('tr');
+                    filaTotales.className = 'fila-totales';
+                    
+                    // Calcular totales de las columnas numéricas
+                    let totalFrenteGrupo = 0;
+                    let totalDefinitivas = 0;
+                    let totalTemporales = 0;
+                    
+                    // Obtener todas las filas de datos (excluyendo la fila de totales)
+                    const filas = Array.from(tablaBody.querySelectorAll('tr')).filter(row => !row.classList.contains('fila-totales'));
+                    
+                    filas.forEach(fila => {
+                        // Obtener los valores de las celdas relevantes
+                        const celdaFrenteGrupo = fila.querySelector('td:nth-child(7)'); // Horas Frente Grupo
+                        const celdaDefinitivas = fila.querySelector('td:nth-child(8)'); // Horas Definitivas
+                        const celdaTemporales = fila.querySelector('td:nth-child(9)');  // Horas Temporales
+                        
+                        // Extraer los valores numéricos
+                        if (celdaFrenteGrupo) {
+                            const valorFrenteGrupo = celdaFrenteGrupo.textContent.split('/')[0].trim();
+                            totalFrenteGrupo += parseFloat(valorFrenteGrupo) || 0;
+                        }
+                        
+                        if (celdaDefinitivas) {
+                            const valorDefinitivas = celdaDefinitivas.textContent.split('/')[0].trim();
+                            totalDefinitivas += parseFloat(valorDefinitivas) || 0;
+                        }
+                        
+                        if (celdaTemporales) {
+                            const valorTemporales = celdaTemporales.textContent.trim();
+                            totalTemporales += parseFloat(valorTemporales) || 0;
+                        }
+                    });
+                    
+                    // Construir la fila de totales
+                    filaTotales.innerHTML = `
+                        <td colspan="6" style="text-align: right; font-weight: bold;">Totales:</td>
+                        <td style="text-align: center; font-weight: bold;">${totalFrenteGrupo.toFixed(1)}</td>
+                        <td style="text-align: center; font-weight: bold;">${totalDefinitivas.toFixed(1)}</td>
+                        <td style="text-align: center; font-weight: bold;">${totalTemporales.toFixed(1)}</td>
+                    `;
+                    
+                    // Insertar la fila de totales después del encabezado
+                    thead.parentNode.insertBefore(filaTotales, thead.nextSibling);
+                }
+
                 // Función para obtener los datos del personal
                 function fetchPersonalData(departamento) {
                     // Limpiar la búsqueda al cargar nuevos datos
@@ -318,21 +376,22 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                 return;
                             }
 
+                            // Limpiar la tabla y agregar los datos
+                            tablaBody.innerHTML = '';
+
                             //Encabezados de la tabla
                             const thead = document.querySelector('.tabla-personal thead tr');
-                            thead.innerHTML = `
-                                <th>Código</th>
-                                <th>Nombre Completo</th>
-                                <th>Departamento</th>
-                                <th>Categoría Actual</th>
-                                <th>Tipo Plaza</th>
-                                <th>Carga Horaria</th>
-                                <th>Horas Frente Grupo</th>
-                                <th>Horas Definitivas</th>
-                                <th>Horas Temporales</th>
-                                <th>Horas Totales</th>
-                            `;
-
+                                thead.innerHTML = `
+                                    <th>Código</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Departamento</th>
+                                    <th>Categoría Actual</th>
+                                    <th>Tipo Plaza</th>
+                                    <th>Carga Horaria</th>
+                                    <th>Horas Frente Grupo</th>
+                                    <th>Horas Definitivas</th>
+                                    <th>Horas Temporales</th>
+                                `;
                             tablaBody.innerHTML = ''; // Limpiar tabla
 
                             // Obtener el color del departamento
@@ -431,6 +490,16 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                     return 'default';
                                 }
 
+                                    function formatTooltipContent(departmentData) {
+                                        if (!departmentData || departmentData.trim() === '') {
+                                            return 'No hay información de departamentos disponible';
+                                        }
+                                        
+                                        // Split by newlines and format each line
+                                        const departments = departmentData.split('\n').filter(line => line.trim());
+                                        return departments.join('<br>');
+                                    }
+
                                 // Función para formatear las horas por departamento
                                 function formatearHorasDepartamento(horasString, tipoHoras) {
                                     if (!horasString || horasString.trim() === '') {
@@ -480,41 +549,103 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                 // Procesar horas temporales
                                 const horasTemporales = persona.suma_horas_temporales || 0;
                                 
-                                // Calcular horas totales (suma de las tres columnas)
-                                const horasTotales = parseInt(horasCargoActual) + parseInt(horasDefActual) + parseInt(horasTemporales);
 
                                 // Determinar la clase del departamento para asignar el color a horas temporales
                                 const deptClass = getDepartmentColor(persona.Departamento || 'otros');
                                 
-                                // Formatear las horas con sus respectivas clases
                                 const horasFrenteGrupoHTML = `
                                     <div class="tooltip">
                                         <span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>
-                                        <div class="tooltiptext">${persona.horas_cargo_por_departamento || ''}</div>
+                                        <div class="tooltiptext">${persona.horas_cargo_por_departamento ? 
+                                            persona.horas_cargo_por_departamento.replace(/\n/g, '<br>').replace(/<br>/g, '<br>') : 
+                                            ''}
+                                        </div>
                                     </div>
                                 `;
 
                                 const horasDefinitivasHTML = `
                                     <div class="tooltip">
                                         <span class="${claseDefinitivas}">${horasDefActual}/${horasDefRequeridas}</span>
-                                        <div class="tooltiptext">${persona.horas_definitivas_por_departamento || ''}</div>
+                                        <div class="tooltiptext">${persona.horas_definitivas_por_departamento ? 
+                                            persona.horas_definitivas_por_departamento.replace(/\n/g, '<br>').replace(/<br>/g, '<br>') : 
+                                            ''}
+                                        </div>
                                     </div>
                                 `;
                                 
                                 // Horas temporales con el color del departamento
                                 const horasTemporalesHTML = `
-                                    <div class="tooltip">
-                                        <span class="${deptClass}">${horasTemporales}</span>
+                                    <div class="tooltip" style="text-align: center; width: 100%;">
+                                        <span class="${deptClass}" style="display: inline-block;">${horasTemporales}</span>
                                         <div class="tooltiptext">${persona.horas_temporales_por_departamento || ''}</div>
                                     </div>
                                 `;
-                                
-                                // Horas totales con clase dept-otros (#E2DAEB)
-                                const horasTotalesHTML = `
-                                    <div>
-                                        <span class="dept-otros">${horasTotales}</span>
-                                    </div>
-                                `;
+
+                                // Generar el contenido del tooltip para horas totales
+                                function generarDesgloseTotalHoras(persona) {
+                                    // Combinar todas las horas por departamento
+                                    const departamentos = new Map();
+                                    
+                                    // Procesar horas de cargo
+                                    if (persona.horas_cargo_por_departamento) {
+                                        persona.horas_cargo_por_departamento.split('\n').forEach(linea => {
+                                            if (linea.trim() === '') return;
+                                            const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                            if (!dept || !horas) return;
+                                            
+                                            const horasActual = parseInt(horas.split('/')[0]);
+                                            if (departamentos.has(dept)) {
+                                                departamentos.set(dept, departamentos.get(dept) + horasActual);
+                                            } else {
+                                                departamentos.set(dept, horasActual);
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Procesar horas definitivas
+                                    if (persona.horas_definitivas_por_departamento) {
+                                        persona.horas_definitivas_por_departamento.split('\n').forEach(linea => {
+                                            if (linea.trim() === '') return;
+                                            const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                            if (!dept || !horas) return;
+                                            
+                                            const horasActual = parseInt(horas.split('/')[0]);
+                                            if (departamentos.has(dept)) {
+                                                departamentos.set(dept, departamentos.get(dept) + horasActual);
+                                            } else {
+                                                departamentos.set(dept, horasActual);
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Procesar horas temporales
+                                    if (persona.horas_temporales_por_departamento) {
+                                        persona.horas_temporales_por_departamento.split('\n').forEach(linea => {
+                                            if (linea.trim() === '') return;
+                                            const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
+                                            if (!dept || !horas) return;
+                                            
+                                            const horasActual = parseInt(horas);
+                                            if (departamentos.has(dept)) {
+                                                departamentos.set(dept, departamentos.get(dept) + horasActual);
+                                            } else {
+                                                departamentos.set(dept, horasActual);
+                                            }
+                                        });
+                                    }
+                                    
+                                    // Generar el texto del tooltip
+                                    let tooltipText = '';
+                                    departamentos.forEach((horas, dept) => {
+                                        if (horas > 0) {
+                                            tooltipText += `${dept}: ${horas}\n`;
+                                        }
+                                    });
+                                    
+                                    return tooltipText || 'No hay desglose disponible';
+                                }
+
+                                const tooltipDesgloseTotalHoras = generarDesgloseTotalHoras(persona);
 
                                 const tdContent = `
                                     <td>${persona.Codigo || ''}</td>
@@ -526,19 +657,19 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
                                     <td>${horasFrenteGrupoHTML}</td>
                                     <td>${horasDefinitivasHTML}</td>
                                     <td>${horasTemporalesHTML}</td>
-                                    <td>${horasTotalesHTML}</td>
                                 `;
 
                                 row.innerHTML = tdContent;
                                 tablaBody.appendChild(row);
                             });
+                            agregarFilaTotales();
                         })
                         .catch(error => {
                             console.error('Error:', error);
                             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: red;">
                             ${error.message || 'Error al cargar los datos'}</td></tr>`;
                         });
-                }
+                    }
 
                 // Event Listeners
                 departamentoCards.forEach(card => {
