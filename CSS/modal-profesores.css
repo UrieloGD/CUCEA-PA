@@ -22,6 +22,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0px 0px 20px 0px;
+    z-index: 3;
 }
   
 .encabezado-izquierda,
@@ -197,12 +198,14 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1;
 }
 
 .contenido-tabla {
     padding: 15px 50px;
     overflow: hidden;
     height: 96%;
+    z-index: 1;
 }
 
 /* Estilos para el botón de cerrar */
@@ -233,7 +236,7 @@
 .profesores-table thead {
     position: sticky;
     top: 0;
-    z-index: 0;
+    z-index: 2;
     background-color: #f8f9fa;
 }
 
@@ -316,7 +319,7 @@
 .dropdown-check-list {
     position: relative;
     display: inline-block;
-    z-index: 1; /* Asegura que se muestre por encima de otros elementos */
+    z-index: 3; /* Asegura que se muestre por encima de otros elementos */
 }
 
 .dropdown-check-list .anchor {
@@ -326,7 +329,7 @@
     padding: 5px 10px 5px 10px;
     border: 1px solid #ccc;
     background-color: #0071b0;
-    z-index: 1;
+    z-index: 3;
     color: #fff;
     border-radius: 4px;
     width: 280px;
@@ -367,7 +370,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1; /* Asegura que se muestre por encima de otros elementos */
+    z-index: 4; /* Asegura que se muestre por encima de otros elementos */
     width: max-content;
     max-width: 200px;
     background-color: #0B6A9F;
@@ -394,6 +397,64 @@
   
 .dropdown-check-list.visible .items {
     display: block;
+
+}
+
+/* Estilos base para tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 4;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Flecha del tooltip */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Estilos para diferentes estados de horas */
+.horas-correctas, .horas-faltantes, .horas-excedidas, .horas-cero {
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Ajuste para que el tooltip no se corte */
+.profesores-table td {
+    position: relative;
+    overflow: visible !important;
 }
 
 /* Estilos para las comparaciones de horas */
@@ -613,12 +674,12 @@
     -moz-border-radius: 8px 0 0 0;
     -ms-border-radius: 8px 0 0 0;
     -o-border-radius: 8px 0 0 0;
-  }
+}
   
-  .th-R {
+.th-R {
     border-radius: 0 8px 0 0;
     -webkit-border-radius: 0 8px 0 0;
     -moz-border-radius: 0 8px 0 0;
     -ms-border-radius: 0 8px 0 0;
     -o-border-radius: 0 8px 0 0;
-  }
+}
