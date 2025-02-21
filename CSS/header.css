@@ -17,6 +17,7 @@ body {
 
 .header {
   display: flex;
+  font-size: 0.9rem;
   z-index: 2; /*Asegura que esté sobre otros elementos*/
   /* border: solid black 1px; */
   background-color: white;
@@ -30,28 +31,47 @@ body {
 }
 
 .titulo {
-  width: 40vw;
-  margin-left: 2vw;
+  width: 50%;
+  height: 100%;
   /* background-color: aqua; */
   /* border: solid 1px; */
 }
 
 .rol {
-  margin-right: 2vw;
-  width: 45vw;
-  text-align: right;
+  width: 50%;
+  height: 100%;
+  position: relative;
   /* background-color: aliceblue; */
   /* border: solid 1px;*/
+}
+
+.rol h3 {
+  right: 70px;
+  transform: translateY(15%);
+  position: absolute;
+  white-space: nowrap;
 }
 
 .icono-notificaciones {
   display: flex;
   /* border: solid 1px; */
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  margin-left: -10px;
+  position: absolute;
+  transform: translateY(50%);
+  right: 10px;
 }
+
+.icono-notificaciones img:hover {
+  transition: 0.3 ease-in-out;
+  animation: campanaAnimacion 1s infinite ease-in-out;
+}
+
+@keyframes campanaAnimacion {
+  0% { transform: rotate(0deg) translateY(-0%); width: 100%; }
+  30% { transform: rotate(-25deg) translateY(-15%) translateX(25%); width: 110%; }
+  75% { transform: rotate(25deg) translateY(-15%) translateX(-25%);  width: 110%; }
+  100% { transform: rotate(0deg) translateY(0%) translateX(0%); width: 100%; }
+}
+
 
 .notification-badge {
   position: absolute;
@@ -168,7 +188,8 @@ body {
 /* Alinear contenidos del navbar */
 .header-content {
   display: flex;
-  align-items: center;
+  width: 100%;
+  height: 62px;
   padding: 0 2vw; /* Ajusta el espaciado horizontal según sea necesario */
 }
 
@@ -181,34 +202,12 @@ body {
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .header {
     margin-left: 6vw;
-    font-size: small;
-  }
-
-  .rol {
-    margin-left: -1vw;
-  }
-
-  .icono-notificaciones {
-    margin-left: 1px;
   }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .header {
     margin-left: 6vw;
-    font-size: small;
-  }
-
-  .icono-notificaciones {
-    margin-right: 2vw;
-  }
-
-  .rol {
-    margin-left: -1vw;
-  }
-
-  .icono-notificaciones {
-    margin-left: 1px;
   }
 }
 
@@ -216,33 +215,12 @@ body {
   /* Estilos para pantallas con ancho máximo de 768px */
   .header {
     margin-left: 7vw;
-    font-size: small;
-  }
-
-  .rol {
-    margin-left: -3vw;
-  }
-  
-  .icono-notificaciones {
-    margin-left: 1px;
   }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .header {
     margin-left: 8vw;
-    font-size: small;
-  }
-
-  .icono-notificaciones {
-    margin-right: 3vw;
-  }
-
-  .rol {
-    margin-left: -5vw;
-  }
-  .icono-notificaciones {
-    margin-left: 1px;
   }
 }
 
@@ -251,73 +229,31 @@ body {
   /* Estilos para pantallas con ancho máximo de 768px */
   .header {
     margin-left: 3vw;
-    font-size: small;
   }
-
-  .titulo {
-    display: flex;
-    align-items: center;
+  .rol h3 {
+    font-size: 0.9rem;
+    transform: translateY(40%);
   }
-
-  .titulo h3 {
-    margin-left: 10px;
+  .icono-notificaciones img {
+    width: 90%;
+    transform: translateY(10%);
   }
-
-  .rol {
-    position: relative;
-    left: -1vw;
+  .icono-notificaciones img:hover {
+    transition: 0.3 ease-in-out;
+    animation: campanaAnimacion 1s infinite ease-in-out;
   }
-
-  .icono-notificaciones {
-    position: relative;
-    left: -1vw;
-    margin-left: 1px;
+  @keyframes campanaAnimacion {
+    0% { transform: rotate(0deg) translateY(0%); width: 90%; }
+    30% { transform: rotate(-25deg) translateY(-15%) translateX(25%); width: 100%; }
+    75% { transform: rotate(25deg) translateY(-15%) translateX(-25%);  width: 100%; }
+    100% { transform: rotate(0deg) translateY(0%) translateX(0%); width: 90%; }
   }
+  
 }
 
 @media screen and (max-width: 768px) {
   .header {
     margin-left: 2vw;
-    font-size: small;
     z-index: 99;
-  }
-
-  .titulo {
-    display: flex;
-    align-items: center;
-  }
-
-  .titulo h3 {
-    margin: auto;
-  }
-
-  .rol {
-    margin-left: -1vw;
-  }
-
-  .icono-notificaciones {
-    margin-left: 1px;
-  }
-}
-
-@media screen and (max-width: 550px) {
-  .rol {
-    width: 100%;
-    margin-left: 5vw;
-  }
-
-  .icono-notificaciones {
-    margin-left: 1px;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .rol {
-    width: 100%;
-    margin-left: -15vw;
-  }
-
-  .icono-notificaciones {
-    margin-left: 1px;
   }
 }

@@ -970,7 +970,7 @@ textarea {
     width: 40%;
     padding-left: 0;
     margin-top: -10px;
-    margin-bottom: -10px;
+    margin-bottom: 10px;
   }
 
   .cuadrito {

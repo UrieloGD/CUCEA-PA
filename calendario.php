@@ -65,8 +65,8 @@ include './template/navbar.php';
                 $stmt->execute();
                 $result = $stmt->get_result();
                 ?>
-
-                <hr>
+                
+                <hr style="margin-top: 5px;">
 
                 <div class="events">
                     <h3>Eventos próximos</h3>
@@ -126,10 +126,12 @@ include './template/navbar.php';
                 <div class="view-options">
                     <div class="search-container">
                         <input type="text" class="search-input" placeholder="Buscar eventos...">
-                        <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png" style="margin-right: 25px;"></button>
+                            <div class="box-buttons">
+                                <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png"></button>
+                                <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png"></button>
+                                <!-- <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button> -->
+                            </div>
                     </div>
-                    <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png" style="margin-right: 30px;"></button>
-                    <!-- <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button> -->
                 </div>
             </div>
             <div class="filter-menu" style="display: none;">

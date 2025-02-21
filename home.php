@@ -43,57 +43,33 @@ require_once './functions/home/eventos-home.php';
       
     
   </div>
-  
-  <div class="accesodirecto-moviles">
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png">
-      <span>Plantilla</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
-      <span>DB</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
-      <span>Oferta</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png">
-      <span>Espacios</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
-      <span>Guia</span>
-    </div>
-  </div>
-
-
-  <!-- carrusel-banner -->
-  <div class="banner">
-    <div class="carrusel">
-      <div class="diapositiva">
-        <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
-        </div>
-        <div class="diapositiva">
-          <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
-        </div>
-        <div class="diapositiva">
-        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
-      </div>
-    </div>
-        
-    <button class="boton-carrusel" id="botonAnterior"><<</button>
-    <button class="boton-carrusel" id="botonSiguiente">>></button>
-        
-    <div class="contenedor-puntos">
-      <span class="punto activo"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
-    </div>
-  </div>
 </div>
 
   <div class="container-eventos-progreso">
+    <!-- carrusel-banner -->
+    <div class="banner">
+      <div class="carrusel">
+        <div class="diapositiva">
+          <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
+          </div>
+          <div class="diapositiva">
+            <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+          </div>
+          <div class="diapositiva">
+          <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
+        </div>
+      </div>
+          
+      <button class="boton-carrusel" id="botonAnterior"><<</button>
+      <button class="boton-carrusel" id="botonSiguiente">>></button>
+          
+      <div class="contenedor-puntos">
+        <span class="punto activo"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+      </div>
+    </div>
+  
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
       <div class="siguienteseventos">
@@ -104,6 +80,46 @@ require_once './functions/home/eventos-home.php';
       echo renderizarEventosProximos($eventos);
       ?>
     </div>
+
+    <!-- Solo dispositivos moviles (<768px res) -->
+    <div class="accesodirecto-moviles">
+      <?php if ($rol_id == 1) echo '<a href="./plantilla.php">';
+            if ($rol_id == 2) echo '<a href="./admin-plantilla.php">';
+            if ($rol_id == 3) echo '<a href="./plantilla-CoordPers.php">';
+      ?>
+      <div class="cuadro-acceso">
+        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png">
+        <span>Plantilla</span>
+      </div>
+      <?php echo '</a>'; ?>
+      <?php if ($rol_id == 1) echo '<a href="./basesdedatos.php">';
+            if ($rol_id == 2) echo '<a href="./data-departamentos.php">';
+      ?>
+        <div class="cuadro-acceso">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
+          <span>DB</span>
+        </div>
+      <?php echo '</a>'; ?>
+      <a href="./dashboard-oferta.php">
+        <div class="cuadro-acceso">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
+          <span>Oferta</span>
+        </div>
+      </a>
+      <a href="./espacios.php">
+        <div class="cuadro-acceso">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png">
+          <span>Espacios</span>
+        </div>
+      </a>
+      <a href="./guiaPA.php">
+        <div class="cuadro-acceso">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
+          <span>Guia</span>
+        </div>
+      </a>
+    </div>
+
   </div>
 
   <!--Cuadros de navegación-->
