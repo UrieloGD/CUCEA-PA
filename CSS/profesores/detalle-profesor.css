@@ -761,9 +761,14 @@
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -100px;
   opacity: 0;
   transition: opacity 0.3s;
+  /* Permitir saltos de línea */
+  word-wrap: break-word; /* Para navegadores más antiguos */
+  overflow-wrap: break-word; /* Palabra clave moderna */
+
+  /* Distribuir texto en múltiples líneas */
+  white-space: normal;
 }
 
 .tooltip:hover .tooltiptext {
