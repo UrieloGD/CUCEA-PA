@@ -22,6 +22,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 0px 0px 20px 0px;
+    z-index: 3;
 }
   
 .encabezado-izquierda,
@@ -35,7 +36,7 @@
 
 .encabezado-derecha {
     position: relative;
-    z-index: 1000; /* Asegura que el dropdown se muestre por encima */
+    z-index: 1; /* Asegura que el dropdown se muestre por encima */
 }
   
 .encabezado-centro {
@@ -105,13 +106,14 @@
 .profesores-table th {
     position: relative;
     top: 0;
-    background-color: white;
-    padding: 15px 8px; /* Aumentamos el padding vertical */
+    padding: 12px 6px; /* Aumentamos el padding vertical */
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 150px;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal;
 }
   
 .profesores-table .detalle-column {
@@ -196,12 +198,14 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-top: 20px;
+    z-index: 1;
 }
 
 .contenido-tabla {
     padding: 15px 50px;
     overflow: hidden;
+    height: 96%;
+    z-index: 1;
 }
 
 /* Estilos para el botón de cerrar */
@@ -215,7 +219,8 @@
 /* Asegurarse que la tabla se mantenga visible */
 .profesores-container {
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
 }
@@ -223,21 +228,29 @@
 .profesores-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
 }
+
 .profesores-table thead {
     position: sticky;
     top: 0;
+    z-index: 2;
     background-color: #f8f9fa;
 }
 
 /* #################################### */
+
 .profesores-table thead th {
-    padding: 1rem;
-    border-bottom: 3px solid #0071b0;
+    padding: 0.35rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #0071b0;
+    color: #ffffff;
 }
 
 .profesores-table tbody {
-    display: block;
     overflow-y: auto;
     height: 680px;
 }
@@ -247,6 +260,22 @@
     display: table;
     width: 100%;
     table-layout: fixed;
+}
+
+.profesores-table tbody td {
+    padding: 0.35rem;
+    text-align: center;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Permitir saltos de línea */
+    word-wrap: break-word; 
+
+    /* Para navegadores más antiguos */
+    overflow-wrap: break-word; 
+
+
 }
 
 .profesores-table td{
@@ -290,7 +319,7 @@
 .dropdown-check-list {
     position: relative;
     display: inline-block;
-    z-index: 1; /* Asegura que se muestre por encima de otros elementos */
+    z-index: 3; /* Asegura que se muestre por encima de otros elementos */
 }
 
 .dropdown-check-list .anchor {
@@ -299,7 +328,8 @@
     display: inline-block;
     padding: 5px 10px 5px 10px;
     border: 1px solid #ccc;
-    background-color: #0B6A9F;
+    background-color: #0071b0;
+    z-index: 3;
     color: #fff;
     border-radius: 4px;
     width: 280px;
@@ -340,7 +370,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     max-height: 400px;
     overflow-y: auto;
-    z-index: 1000; /* Asegura que se muestre por encima de otros elementos */
+    z-index: 4; /* Asegura que se muestre por encima de otros elementos */
     width: max-content;
     max-width: 200px;
     background-color: #0B6A9F;
@@ -367,4 +397,289 @@
   
 .dropdown-check-list.visible .items {
     display: block;
+
+}
+
+/* Estilos base para tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 4;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Flecha del tooltip */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Estilos para diferentes estados de horas */
+.horas-correctas, .horas-faltantes, .horas-excedidas, .horas-cero {
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Ajuste para que el tooltip no se corte */
+.profesores-table td {
+    position: relative;
+    overflow: visible !important;
+}
+
+/* Estilos para las comparaciones de horas */
+.horas-faltantes {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-correctas {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-excedidas {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-cero {
+    background-color: #f5f5f5;
+    color: #5f5f5f;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-temporales {
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.dept-estudios-regionales { 
+    /* READY */
+    color: #9A64B1; 
+    background-color: #E6DAEB72;
+}
+
+.dept-finanzas { 
+    /* READY */
+    color: #F8775E; 
+    background-color: #FDD0C772;
+}
+
+.dept-ciencias-sociales { 
+    /* READY */
+    color: #06865F; 
+    background-color: #B5EEDD72;
+}
+
+.dept-pale { 
+    /* READY */
+    color: #E6154A; 
+    background-color: #FEC1D072;
+}
+
+.dept-economia { 
+    /* READY */
+    color: #109703; 
+    background-color: #BAEDB572;
+}
+
+.dept-posgrados { 
+    /* READY */
+    color: #3B596F; 
+    background-color: #BBC5CD72;
+}
+
+.dept-recursos-humanos { 
+    /* READY */
+    color: #DD4991; 
+    background-color: #FBD1E572;
+}
+
+.dept-metodos-cuantitativos { 
+    /* READY */
+    color: #C39200; 
+    background-color: #FCECBD72;
+}
+
+.dept-politicas-publicas { 
+    /* READY */
+    color: #8B7999; 
+    background-color: #D3CCD872;
+}
+
+.dept-administracion { 
+    /* READY  */
+    color: #0E748A; 
+    background-color: #46ACC272;
+}
+
+.dept-auditoria { 
+    /* READY */
+    color: #F2545E; 
+    background-color: #FBC3C772;
+}
+
+.dept-mercadotecnia { 
+    /* READY */
+    color: #5676A9; 
+    background-color: #C4CFE172;
+}
+
+.dept-impuestos { 
+    /* READY */
+    color: #E07326; 
+    background-color: #FAD9C172;
+}
+
+.dept-sistemas { 
+    /* READY */
+    color: #4B8FBC; 
+    background-color: #C0D8E872;
+}
+
+.dept-turismo { 
+    /* READY */
+    color: #057555; 
+    background-color: #BDE2D772;
+}
+
+.dept-contabilidad { 
+    /* READY */
+    color: #EBAE41; 
+    background-color: #FCE8C472;
+}
+
+.dept-otros { 
+    /* READY */
+    color: #71577C; 
+    background-color: #E2DAEB72;
+}
+
+.dept-default { 
+    color: #333333; 
+    background-color: #000000;
+}
+
+/* Columnas */
+.col-codigo { 
+    width: 7%; 
+    /* background-color: #057555; */
+}
+
+.col-nombre { 
+    width: 20%; 
+    /* background-color: #1565c0; */
+}
+
+.col-categoria { 
+    width: 10%; 
+    /* background-color: #057555; */
+}
+
+.col-depto { 
+    width: 15%; 
+    /* background-color: #1565c0; */
+}
+
+.col-horas-f { 
+    width: 8%; 
+    /* background-color: #057555; */
+}
+
+.col-horas-d { 
+    width: 8%; 
+    /* background-color: #1565c0; */
+}
+
+.col-horas-t { 
+    width: 8%; 
+    /* background-color: #057555; */
+}
+
+.col-detalle { 
+    width: 8%;
+    /*background-color: #005a8c;*/
+}
+
+.th-L {
+    border-radius: 8px 0 0 0;
+    -webkit-border-radius: 8px 0 0 0;
+    -moz-border-radius: 8px 0 0 0;
+    -ms-border-radius: 8px 0 0 0;
+    -o-border-radius: 8px 0 0 0;
+}
+  
+.th-R {
+    border-radius: 0 8px 0 0;
+    -webkit-border-radius: 0 8px 0 0;
+    -moz-border-radius: 0 8px 0 0;
+    -ms-border-radius: 0 8px 0 0;
+    -o-border-radius: 0 8px 0 0;
 }

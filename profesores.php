@@ -1,6 +1,7 @@
 <?php
 require_once './config/db.php';
 require_once './config/sesioniniciada.php';
+require_once './functions/profesores/funciones-horas.php';
 
 // Verificar conexión
 if (!$conexion) {
@@ -121,6 +122,7 @@ try {
         ],
         'Auditoria' => [
             'AUDITORIA',
+            'AUDITORIA ',
             'Auditoría',
             'Auditoria',
             'SECRETARIA ADMINISTRATIVA/AUDITORIA'
@@ -172,6 +174,106 @@ try {
         return $dbDepartment; // Return original if no mapping found
     }
 
+    // Funciones auxiliares para determinar la clase CSS
+    function getHorasClass($actual, $esperado) {
+        if ($esperado == 0 && $actual == 0) return 'horas-cero';
+        if ($actual < $esperado) return 'horas-faltantes';
+        if ($actual == $esperado) return 'horas-correctas';
+        return 'horas-excedidas';
+    }
+
+    function getSumaHorasSegura($codigo_profesor, $conexion) {
+        if ($codigo_profesor === null) {
+            return [0, 0, 0, 0, 0, 'Sin datos', 'Sin datos', 'Sin datos'];
+        }
+        
+        $departamentos = mysqli_query($conexion, "SELECT Nombre_Departamento, Departamentos FROM departamentos");
+        $suma_cargo_plaza = 0;
+        $suma_horas_definitivas = 0;
+        $suma_horas_temporales = 0;
+        $horas_por_depto_cargo = [];
+        $horas_por_depto_def = [];
+        $horas_por_depto_temp = [];
+        
+        while ($dept = mysqli_fetch_assoc($departamentos)) {
+            $tabla = "data_" . $dept['Nombre_Departamento'];
+            $query = "SELECT HORAS, TIPO_CONTRATO FROM $tabla WHERE CODIGO_PROFESOR = ?";
+            $stmt = $conexion->prepare($query);
+            $stmt->bind_param("s", $codigo_profesor);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $suma_dept_cargo = 0;
+            $suma_dept_def = 0;
+            $suma_dept_temp = 0;
+            
+            while($row = $result->fetch_assoc()) {
+                // Add null check before trim()
+                $tipo_contrato = isset($row['TIPO_CONTRATO']) ? strtolower(trim($row['TIPO_CONTRATO'])) : '';
+                $horas = !empty($row['HORAS']) ? intval($row['HORAS']) : 2;
+                
+                if ($tipo_contrato === 'cargo a plaza') {
+                    $suma_dept_cargo += $horas;
+                    $suma_cargo_plaza += $horas;
+                } elseif ($tipo_contrato === 'horas definitivas') {
+                    $suma_dept_def += $horas;
+                    $suma_horas_definitivas += $horas;
+                } elseif ($tipo_contrato === 'asignatura') {
+                    $suma_dept_temp += $horas;
+                    $suma_horas_temporales += $horas;
+                }
+            }
+            
+            // Guardar las horas por departamento si hay alguna
+            if ($suma_dept_cargo > 0) {
+                $horas_por_depto_cargo[] = $dept['Departamentos'] . ": " . $suma_dept_cargo;
+            }
+            if ($suma_dept_def > 0) {
+                $horas_por_depto_def[] = $dept['Departamentos'] . ": " . $suma_dept_def;
+            }
+            if ($suma_dept_temp > 0) {
+                $horas_por_depto_temp[] = $dept['Departamentos'] . ": " . $suma_dept_temp;
+            }
+            
+            $stmt->close();
+        }
+        
+        // Convertir arrays a strings
+        $horas_cargo_str = !empty($horas_por_depto_cargo) ? implode("\n", $horas_por_depto_cargo) : 'Sin secciones registradas';
+        $horas_def_str = !empty($horas_por_depto_def) ? implode("\n", $horas_por_depto_def) : 'Sin secciones registradas';
+        $horas_temp_str = !empty($horas_por_depto_temp) ? implode("\n", $horas_por_depto_temp) : 'Sin secciones registradas';
+        
+        // Consultar horas frente a grupo y definitivas de la base de datos
+        $query_horas = "SELECT Horas_frente_grupo, Horas_definitivas FROM coord_per_prof WHERE Codigo = ?";
+        $stmt = $conexion->prepare($query_horas);
+        $stmt->bind_param("s", $codigo_profesor);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        
+        $horas_frente_grupo = $row ? intval($row['Horas_frente_grupo']) : 0;
+        $horas_definitivasDB = $row ? intval($row['Horas_definitivas']) : 0;
+        
+        return [
+            $suma_cargo_plaza,
+            $suma_horas_definitivas,
+            $suma_horas_temporales,
+            $horas_frente_grupo,
+            $horas_definitivasDB,
+            $horas_cargo_str,
+            $horas_def_str,
+            $horas_temp_str
+        ];
+    }
+
+    // Función para formatear el contenido del tooltip
+    function formatearHorasDepartamento($horasString) {
+        if (empty($horasString) || $horasString === 'Sin secciones registradas') {
+            return 'Sin horas registradas';
+        }
+        return str_replace("\n", "<br>", htmlspecialchars($horasString));
+    }
+
     // Aquí comienza el HTML
     include './template/header.php';
     include './template/navbar.php';
@@ -204,19 +306,6 @@ try {
             <div id="list1" class="dropdown-check-list" tabindex="100">
                 <span class="anchor">Departamento: </span>
                 <ul class="items">
-                    <?php
-                    // Obtener departamentos únicos de la tabla
-                    /*
-                    $sql_departamentos = "SELECT DISTINCT Departamento FROM coord_per_prof ORDER BY Departamento";
-                    $result_departamentos = mysqli_query($conexion, $sql_departamentos);
-                    
-                    while($row = mysqli_fetch_assoc($result_departamentos)) {
-                        echo "<li><input type='checkbox' value='" . htmlspecialchars($row['Departamento']) . "' />" . 
-                            htmlspecialchars($row['Departamento']) . "</li>";
-                            
-                    }
-                    */
-                    ?>
                     <li><input type="checkbox" />Administración</li>
                     <li><input type="checkbox" />Auditoria</li>
                     <li><input type="checkbox" />Ciencias Sociales</li>
@@ -245,11 +334,14 @@ try {
                     <thead>
                         <tr>
                            <!-- <th class="detalle-column">count</th> --> 
-                            <th class="detalle-column">Código</th>
-                            <th class="detalle-column">Nombre Completo</th>
-                            <th class="detalle-column">Categoria Actúal</th>
-                            <th class="detalle-column">Departamento</th>
-                            <th class="detalle-column">Detalles del Profesor</th>
+                            <th class="detalle-column col-codigo th-L">Código</th>
+                            <th class="detalle-column col-nombre">Nombre Completo</th>
+                            <th class="detalle-column col-categoria">Categoria Actúal</th>
+                            <th class="detalle-column col-depto">Departamento</th>
+                            <th class="detalle-column col-horas-f">Horas frente a grupo</th>
+                            <th class="detalle-column col-horas-d">Horas Definitivas</th>
+                            <th class="detalle-column col-horas-t">Horas temporales</th>
+                            <th class="detalle-column col-detalle th-R">Detalles del Profesor</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -266,13 +358,44 @@ try {
                             $contador = 1;
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 $departamento_normalizado = normalizeDepartmentName($row['Departamento']);
+                                $codigo_profesor = $row['Codigo'];
+                                
+                                // Obtener todas las horas
+                                list($suma_cargo_plaza, $suma_horas_definitivas, $suma_horas_temporales, 
+                                    $horas_frente_grupo, $horas_definitivasDB, $horas_por_depto_cargo,
+                                    $horas_por_depto_def, $horas_por_depto_temp) = 
+                                getSumaHorasSegura($codigo_profesor, $conexion);
+
                                 echo "<tr class='tr-info'>";
-                                //echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($contador ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column detalle-column1'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column'>" . htmlspecialchars($departamento_normalizado ?? 'Sin datos') . "</td>";
-                                echo "<td class='detalle-column detalle-column2'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
+                                echo "<td class='detalle-column detalle-column1 col-codigo'>" . htmlspecialchars($row['Codigo'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column col-nombre'>" . htmlspecialchars($row['Nombre_Completo'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column col-categoria'>" . htmlspecialchars($row['Categoria_actual'] ?? 'Sin datos') . "</td>";
+                                echo "<td class='detalle-column col-depto'>" . htmlspecialchars($departamento_normalizado ?? 'Sin datos') . "</td>";
+                                
+                                // Horas frente a grupo con tooltip
+                                echo "<td class='detalle-column col-horas-f'>";
+                                echo "<div class='tooltip'>";
+                                echo "<span class='" . getHorasClass($suma_cargo_plaza, $horas_frente_grupo) . "'>" . 
+                                    $suma_cargo_plaza . "/" . $horas_frente_grupo . "</span>";
+                                echo "<span class='tooltiptext'>" . formatearHorasDepartamento($horas_por_depto_cargo) . "</span>";
+                                echo "</div></td>";
+                                
+                                // Horas definitivas con tooltip
+                                echo "<td class='detalle-column col-horas-d'>";
+                                echo "<div class='tooltip'>";
+                                echo "<span class='" . getHorasClass($suma_horas_definitivas, $horas_definitivasDB) . "'>" . 
+                                    $suma_horas_definitivas . "/" . $horas_definitivasDB . "</span>";
+                                echo "<span class='tooltiptext'>" . formatearHorasDepartamento($horas_por_depto_def) . "</span>";
+                                echo "</div></td>";
+                                
+                                // Horas temporales con tooltip
+                                echo "<td class='detalle-column col-horas-t'>";
+                                echo "<div class='tooltip'>";
+                                echo "<span class='horas-temporales dept-otros'>" . $suma_horas_temporales . "</span>";
+                                echo "<span class='tooltiptext'>" . formatearHorasDepartamento($horas_por_depto_temp) . "</span>";
+                                echo "</div></td>";
+                                
+                                echo "<td class='detalle-column detalle-column2 col-detalle'><button onclick='verDetalleProfesor(" . $row['Codigo'] . ")' class='btn-detalle'>Ver detalle</button></td>";
                                 echo "</tr>";
                                 $contador = $contador + 1;
                             }
