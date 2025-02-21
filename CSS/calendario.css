@@ -156,8 +156,14 @@
     margin-right: 10px; /* Añade margen a la derecha */
 }
 
+.event-tag,
+.event-status {
+    white-space: wrap;
+}
+
 .event-content {
     padding: 10px;
+    white-space: wrap;
     flex-grow: 1;
     background-color: #E7E9F2;
     border-radius: 0 5px 5px 0; /* Redondea las esquinas del lado derecho */
@@ -230,6 +236,32 @@
     -moz-border-radius: 10px 10px 10px 10px;
     -ms-border-radius: 10px 10px 10px 10px;
     -o-border-radius: 10px 10px 10px 10px;
+}
+
+.date-selector,
+.view-options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
+
+.view-options .search-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-icon,
+.list-icon {
+    padding: 0.5vw;
+    margin: 0.5vw;
+}
+
+.search-container .box-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
 }
 
 .date-selector {
@@ -1154,6 +1186,8 @@ hr {
     }
     .calendar-container {
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         width: 99%;
         margin: 0;
         padding: 5;
@@ -1161,7 +1195,7 @@ hr {
     }
     
     .left-column, .right-column {
-        width: 100%;
+        width: 95%;
     }
     
     .left-column {
@@ -1171,10 +1205,19 @@ hr {
 
     .date-bar,
     .filter-menu.show {
+        margin-right: 20px;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         flex: 1;
+    }
+
+    .view-options .search-container {
+        display: block;
+    }
+    .search-container .box-buttons {
+        justify-content: space-around;
+        margin: 10 0px;
     }
 }
 
@@ -1220,6 +1263,10 @@ hr {
         position: relative;
         justify-content: space-between;
         left: 1;
+    }
+
+    .search-container .search-input {
+        width: 95%;
     }
 
     .view-options img {
@@ -1296,6 +1343,10 @@ hr {
         flex-direction: row;
         flex-wrap: wrap;
         flex: 1;
+    }
+
+    .date-bar {
+        width: 88%;
     }
     
     .view-options button {
