@@ -1,4 +1,6 @@
 <?php
+require_once './funciones-horas.php';
+
 $codigo_profesor = (int)$_POST['codigo_profesor'];
     
 // Añade una verificación para departamento_id, usando un valor predeterminado si no está establecido
@@ -36,10 +38,10 @@ mysqli_stmt_execute($stmt_profesor);
 $result_profesor = mysqli_stmt_get_result($stmt_profesor);
 $datos_profesor = mysqli_fetch_assoc($result_profesor);
 
-// Después de $datos_profesor = mysqli_fetch_assoc($result_profesor);
-list($suma_horas, $suma_horas_definitivas, $suma_horas_temporales, 
-$horas_frente_grupo, $horas_definitivasDB) = 
-getSumaHorasPorProfesor($codigo_profesor, $conexion);
+list($suma_cargo_plaza, $suma_horas_definitivas, $suma_horas_temporales, 
+    $horas_frente_grupo, $horas_definitivasDB, $horas_por_depto_cargo,
+    $horas_por_depto_def, $horas_por_depto_temp) = 
+    getSumaHorasSegura($codigo_profesor, $conexion);
 
 // Obtener los valores
 if ($datos_profesor) {
@@ -54,6 +56,13 @@ function getHorasClass($actual, $esperado) {
     if ($actual < $esperado) return 'horas-faltantes';
     if ($actual == $esperado) return 'horas-correctas';
     return 'horas-excedidas';
+}
+
+function formatearHorasDepartamento($horasString) {
+    if (empty($horasString) || $horasString === 'Sin secciones registradas') {
+        return 'Sin horas registradas';
+    }
+    return str_replace("\n", "<br>", htmlspecialchars($horasString));
 }
 
 // Mappeo de todas las posibles variaciones
@@ -201,14 +210,29 @@ function getDepartmentClass($department) {
     return isset($departmentClasses[$department]) ? $departmentClasses[$department] : 'dept-default';
 }
 
-// Calcular horas temporales
-$horas_temporales = $suma_horas - $suma_horas_definitivas;
+// Función para obtener la suma total de horas de un string formateado
+function obtenerSumaHorasDepartamento($horasString) {
+    if (empty($horasString) || $horasString === 'Sin secciones registradas') {
+        return 0;
+    }
+    
+    $total = 0;
+    $lineas = explode("\n", $horasString);
+    
+    foreach ($lineas as $linea) {
+        if (preg_match('/(\d+(\.\d+)?)/', $linea, $matches)) {
+            $total += floatval($matches[1]);
+        }
+    }
+    
+    return $total;
+}
 
 header('Content-Type: text/html; charset=utf-8');
 mb_internal_encoding('UTF-8');
 
 ?>
-<link rel="stylesheet" href="./CSS/detalle-profesor.css">
+<link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css">
 
 <div class="container-profesor">
     <!-- Sección del Encabezado con Información del Profesor -->
@@ -254,31 +278,45 @@ mb_internal_encoding('UTF-8');
                             <td>
                                 <div>
                                     <span class="profile-span">Horas frente a grupo:</span>
-                                    <?php
-                                    $clase = getHorasClass($suma_cargo_plaza, $horas_frente_grupo);
-                                    ?>
-                                    <span class="<?= $clase ?>">
-                                        <?= $suma_cargo_plaza ?>/<?= $horas_frente_grupo ?>
-                                    </span>
+                                    <div class='tooltip'>
+                                        <?php
+                                        $suma_total_cargo = obtenerSumaHorasDepartamento($horas_por_depto_cargo);
+                                        $clase = getHorasClass($suma_total_cargo, $horas_frente_grupo);
+                                        ?>
+                                        <span class="<?= $clase ?>">
+                                            <?= $suma_total_cargo ?>/<?= $horas_frente_grupo ?>
+                                        </span>
+                                        <span class='tooltiptext'><?= formatearHorasDepartamento($horas_por_depto_cargo) ?></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div>
                                     <span class="profile-span">Horas definitivas:</span>
-                                    <?php
-                                    $clase = getHorasClass($suma_horas_definitivas, $horas_definitivasDB);
-                                    ?>
-                                    <span class="<?= $clase ?>">
-                                        <?= $suma_horas_definitivas ?>/<?= $horas_definitivasDB ?>
-                                    </span>
+                                    <div class='tooltip'>
+                                        <?php
+                                        $suma_total_def = obtenerSumaHorasDepartamento($horas_por_depto_def);
+                                        $clase = getHorasClass($suma_total_def, $horas_definitivasDB);
+                                        ?>
+                                        <span class="<?= $clase ?>">
+                                            <?= $suma_total_def ?>/<?= $horas_definitivasDB ?>
+                                        </span>
+                                        <span class='tooltiptext'><?= formatearHorasDepartamento($horas_por_depto_def) ?></span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
                                 <div>
                                     <span class="profile-span">Horas temporales:</span>
-                                    <span class="horas-temporales <?= getDepartmentClass($datos_profesor['Departamento']) ?>">
-                                        <?= $suma_horas_temporales ?>
-                                    </span>
+                                    <div class='tooltip'>
+                                        <?php
+                                        $suma_total_temp = obtenerSumaHorasDepartamento($horas_por_depto_temp);
+                                        ?>
+                                        <span class="horas-temporales <?= getDepartmentClass($datos_profesor['Departamento']) ?>">
+                                            <?= $suma_total_temp ?>
+                                        </span>
+                                        <span class='tooltiptext'><?= formatearHorasDepartamento($horas_por_depto_temp) ?></span>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
