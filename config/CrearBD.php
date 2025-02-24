@@ -332,6 +332,7 @@ if (mysqli_query($conexion, $sql)) {
 // Tabla solicitudes_baja
 $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja (
     ID_BAJA INT AUTO_INCREMENT PRIMARY KEY,
+    USUARIO_ID BIGINT(10),
     OFICIO_NUM_BAJA VARCHAR(15) UNIQUE,
     FECHA_SOLICITUD_B DATE,
     PROFESSION_PROFESOR_B VARCHAR(15),
@@ -344,7 +345,11 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja (
     CLASIFICACION_BAJA_B VARCHAR(15),
     SIN_EFFECTOS_DESDE_B DATE,
     MOTIVO_B VARCHAR(50),
-    ESTADO_B VARCHAR(15)
+    ESTADO_B VARCHAR(15),
+    HORA_CREACION TIME,
+    Departamento_ID INT,
+    FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
 
 if (mysqli_query($conexion, $sql)) {
@@ -356,6 +361,7 @@ if (mysqli_query($conexion, $sql)) {
 // Tabla solicitudes_propuesta
 $sql = "CREATE TABLE IF NOT EXISTS solicitudes_propuesta (
     ID_PROP INT AUTO_INCREMENT PRIMARY KEY,
+    USUARIO_ID BIGINT(10),
     OFICIO_NUM_PROP INT(5) UNIQUE,
     FECHA_SOLICITUD_P DATE,
     PROFESSION_PROFESOR_P VARCHAR(15),
@@ -382,7 +388,11 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_propuesta (
     CAUSA_P VARCHAR(50),
     PERIODO_ASIG_DESDE_P DATE,
     PERIODO_ASIG_HASTA_P DATE,
-    ESTADO_P VARCHAR(15)
+    ESTADO_P VARCHAR(15),
+    HORA_CREACION TIME,
+    Departamento_ID INT,
+    FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
 
 if (mysqli_query($conexion, $sql)) {
@@ -394,6 +404,7 @@ if (mysqli_query($conexion, $sql)) {
 // Tabla solicitudes_baja_propuesta
 $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja_propuesta (
     ID_BAJA_PROP INT AUTO_INCREMENT PRIMARY KEY,
+    USUARIO_ID BIGINT(10),
     OFICIO_NUM_BAJA_PROP INT(5) UNIQUE,
     FECHA_SOLICITUD_BAJA_PROP DATE,
     PROFESSION_PROFESOR_BAJA VARCHAR(15),
@@ -408,7 +419,7 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja_propuesta (
     CRN_BAJA INT(7),
     HRS_SEM_MES_TEORIA_BAJA INT(5),
     HRS_SEM_MES_PRACTICA_BAJA INT(5),
-    CARRIERA_BAJA VARCHAR(50),
+    CARRERA_BAJA VARCHAR(50),
     GDO_GPO_TURNO_BAJA VARCHAR(20),
     TIPO_ASIGNACION_BAJA VARCHAR(10),
     SIN_EFFECTOS_APARTH_BAJA DATE,
@@ -425,7 +436,11 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja_propuesta (
     TIPO_ASIGNACION_PROP VARCHAR(10),
     PERIODO_ASIG_DESDE_PROP DATE,
     PERIODO_ASIG_HASTA_PROP DATE,
-    ESTADO_P VARCHAR(15)
+    ESTADO_P VARCHAR(15),
+    HORA_CREACION TIME,
+    Departamento_ID INT,
+    FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
 
 if (mysqli_query($conexion, $sql)) {

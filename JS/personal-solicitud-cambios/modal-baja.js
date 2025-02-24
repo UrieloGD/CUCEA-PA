@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'apellido_paterno': 40,
         'apellido_materno': 40,
         'nombres': 60,
-        'codigo': 10,
+        'codigo_prof': 10,
         'descripcion': 100,
         'crn': 7,
         'clasificacion': 15,
@@ -53,8 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     formBaja.addEventListener('submit', function(e) {
         e.preventDefault();
-        guardarDatosFormulario();
-
+        
         Swal.fire({
             title: 'Procesando...',
             text: 'Por favor espere',
@@ -66,16 +65,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        const formData = new FormData(this);
+    
         fetch('./functions/personal-solicitud-cambios/procesar_baja.php', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
+        .then(response => response.text())
+        .then(text => {
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Respuesta del servidor:', text);
+                throw new Error('La respuesta no es un JSON válido');
+            }
+            
             if (data.status === 'success') {
                 modalBaja.style.display = 'none';
                 formBaja.reset();
-                formData = new FormData(); // Limpiar datos almacenados
                 
                 Swal.fire({
                     icon: 'success',
@@ -101,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 icon: 'error',
                 title: '¡Error!',
-                text: 'Error en la comunicación con el servidor',
+                text: 'Error en la comunicación con el servidor: ' + error.message,
                 confirmButtonColor: '#d33'
             });
         });
