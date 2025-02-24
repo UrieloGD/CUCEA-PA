@@ -1,0 +1,684 @@
+.cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92%;
+    height: 90vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 0px 20px 0px;
+    z-index: 3;
+}
+  
+.encabezado-izquierda,
+.encabezado-centro,
+.encabezado-derecha {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.encabezado-derecha {
+    position: relative;
+    z-index: 1; /* Asegura que el dropdown se muestre por encima */
+}
+  
+.encabezado-centro {
+    color: #fff;
+    margin-top: -10px;
+    padding: 13px 10px;
+    background-color: #0071b0;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0px 0px 20px 20px;
+}
+  
+.encabezado-izquierda {
+    /* border: solid; */
+    align-items: start;
+    justify-content: left;
+    margin-left: 20px;
+}
+  
+.encabezado h3 {
+    margin: 0;
+    /* padding: -30px -300px; */
+    margin-top: 10px;
+}
+  
+.encabezado-derecha {
+    /* border: solid; */
+    justify-content: right; /* Asegura que los iconos estén centrados */
+    margin-top: 10px;
+    margin-right: 25px;
+    width: 10%;
+}
+
+.search-bar {
+    margin-bottom: 20px 0;
+}
+  
+.search-input-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    padding: 10px 0 0 0;
+}
+  
+.search-input-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    padding: 10px 0 0 0;
+}
+  
+.search-input-container input {
+    width: 450px;
+    padding: 8px 30px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+  
+.search-input-container input:focus {
+    outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
+}
+
+.profesores-table th {
+    position: relative;
+    top: 0;
+    padding: 12px 6px; /* Aumentamos el padding vertical */
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word; 
+    overflow-wrap: break-word; 
+    white-space: normal;
+}
+  
+.profesores-table .detalle-column {
+    text-align: center;
+    align-items: center;
+}
+
+.btn-detalle {
+    background-color: #0071b0;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.btn-detalle:hover {
+    background-color: #005a8c;
+}
+
+.modal {
+    border: #005a8c;
+}
+  
+.modal input, .modal select {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+  
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+}
+
+.modal-detalle {
+    display: none;
+    position: fixed;
+    z-index: 1002;
+    left: 0;
+    top: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+  
+.modal-detalle input,
+.modal-detalle select {
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+  
+.modal-content-detalle {
+    background-color: #fefefe;
+    margin: 3% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 1200px;
+    max-height: 80vh;
+    overflow-y: hidden;
+    border-radius: 15px;
+    z-index: 1002;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+}
+  
+.modal-content-detalle h2 {
+    margin-bottom: 20px;
+}
+
+/* Estilos para el contenedor de la tabla */
+.contenedor-tabla {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    z-index: 1;
+}
+
+.contenido-tabla {
+    padding: 15px 50px;
+    overflow: hidden;
+    height: 96%;
+    z-index: 1;
+}
+
+/* Estilos para el botón de cerrar */
+.close {
+    position: relative;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* Asegurarse que la tabla se mantenga visible */
+.profesores-container {
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.profesores-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+.profesores-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #f8f9fa;
+}
+
+/* #################################### */
+
+.profesores-table thead th {
+    padding: 0.35rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #0071b0;
+    color: #ffffff;
+}
+
+.profesores-table tbody {
+    overflow-y: auto;
+    height: 680px;
+}
+
+.profesores-table thead tr,
+.profesores-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.profesores-table tbody td {
+    padding: 0.35rem;
+    text-align: center;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    /* Permitir saltos de línea */
+    word-wrap: break-word; 
+
+    /* Para navegadores más antiguos */
+    overflow-wrap: break-word; 
+
+
+}
+
+.profesores-table td{
+    height: 40px;
+}
+
+.tr-info:hover {
+    background-color: #ccc;
+    border-radius: 15px #005a8c;
+    -webkit-border-radius: 1px #005a8c;
+    -moz-border-radius: 15px #005a8c;
+    -ms-border-radius: 15px #005a8c;
+    -o-border-radius: 15px #005a8c;
+}
+
+.detalle-column1 {
+    border-radius: 15px 0 0 15px;
+    -webkit-border-radius: 15px 0 0 15px;
+    -moz-border-radius: 15px 0 0 15px;
+    -ms-border-radius: 15px 0 0 15px;
+    -o-border-radius: 15px 0 0 15px;
+}
+
+.detalle-column2 {
+    border-radius: 0 15px 15px 0;
+    -webkit-border-radius: 0 15px 15px 0;
+    -moz-border-radius: 0 15px 15px 0;
+    -ms-border-radius: 0 15px 15px 0;
+    -o-border-radius: 0 15px 15px 0;
+}
+
+.profesores-table {
+    overflow-y: auto; /* Añadir scroll vertical */
+    border-radius: 20px 20px 0px 0px;
+    position: relative; /* Para controlar el contenido interno */
+    overflow-x: auto; /* Permite desplazamiento horizontal */
+}
+
+/* Desplegable muestra de profesores por departamento */
+
+.dropdown-check-list {
+    position: relative;
+    display: inline-block;
+    z-index: 3; /* Asegura que se muestre por encima de otros elementos */
+}
+
+.dropdown-check-list .anchor {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #0071b0;
+    z-index: 3;
+    color: #fff;
+    border-radius: 4px;
+    width: 280px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+  
+/* Flecha del dropdown */
+.dropdown-check-list .anchor:after {
+    position: relative;
+    content: "";
+    padding: 5px;
+    right: 10px;
+    top: 20%;
+    -moz-transform: rotate(-135deg);
+    -ms-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    transform: rotate(-135deg);
+}
+  
+.dropdown-check-list .anchor:active:after {
+    right: 0pxs;
+    top: 21%;
+}
+  
+.dropdown-check-list ul.items {
+    position: absolute;
+    border-radius: 4px;
+    padding: 2px;
+    display: none;
+    margin: 0;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 4; /* Asegura que se muestre por encima de otros elementos */
+    width: max-content;
+    max-width: 200px;
+    background-color: #0B6A9F;
+    min-width: 100%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+  
+.dropdown-check-list ul.items li {
+    list-style: none;
+    white-space: nowrap;
+}
+
+/* Hover en los items */
+.dropdown-check-list .items li:hover {
+    background-color: #78caf0;
+}
+  
+.dropdown-check-list.visible .anchor {
+    color: #78caf0;
+}
+  
+.dropdown-check-list.visible .items {
+    display: block;
+
+}
+
+/* Estilos base para tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 4;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 200px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9em;
+    white-space: nowrap;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Flecha del tooltip */
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Estilos para diferentes estados de horas */
+.horas-correctas, .horas-faltantes, .horas-excedidas, .horas-cero {
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Ajuste para que el tooltip no se corte */
+.profesores-table td {
+    position: relative;
+    overflow: visible !important;
+}
+
+/* Estilos para las comparaciones de horas */
+.horas-faltantes {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-correctas {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-excedidas {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-cero {
+    background-color: #f5f5f5;
+    color: #5f5f5f;
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.horas-temporales {
+    padding: 2px 4px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.dept-estudios-regionales { 
+    /* READY */
+    color: #9A64B1; 
+    background-color: #E6DAEB72;
+}
+
+.dept-finanzas { 
+    /* READY */
+    color: #F8775E; 
+    background-color: #FDD0C772;
+}
+
+.dept-ciencias-sociales { 
+    /* READY */
+    color: #06865F; 
+    background-color: #B5EEDD72;
+}
+
+.dept-pale { 
+    /* READY */
+    color: #E6154A; 
+    background-color: #FEC1D072;
+}
+
+.dept-economia { 
+    /* READY */
+    color: #109703; 
+    background-color: #BAEDB572;
+}
+
+.dept-posgrados { 
+    /* READY */
+    color: #3B596F; 
+    background-color: #BBC5CD72;
+}
+
+.dept-recursos-humanos { 
+    /* READY */
+    color: #DD4991; 
+    background-color: #FBD1E572;
+}
+
+.dept-metodos-cuantitativos { 
+    /* READY */
+    color: #C39200; 
+    background-color: #FCECBD72;
+}
+
+.dept-politicas-publicas { 
+    /* READY */
+    color: #8B7999; 
+    background-color: #D3CCD872;
+}
+
+.dept-administracion { 
+    /* READY  */
+    color: #0E748A; 
+    background-color: #46ACC272;
+}
+
+.dept-auditoria { 
+    /* READY */
+    color: #F2545E; 
+    background-color: #FBC3C772;
+}
+
+.dept-mercadotecnia { 
+    /* READY */
+    color: #5676A9; 
+    background-color: #C4CFE172;
+}
+
+.dept-impuestos { 
+    /* READY */
+    color: #E07326; 
+    background-color: #FAD9C172;
+}
+
+.dept-sistemas { 
+    /* READY */
+    color: #4B8FBC; 
+    background-color: #C0D8E872;
+}
+
+.dept-turismo { 
+    /* READY */
+    color: #057555; 
+    background-color: #BDE2D772;
+}
+
+.dept-contabilidad { 
+    /* READY */
+    color: #EBAE41; 
+    background-color: #FCE8C472;
+}
+
+.dept-otros { 
+    /* READY */
+    color: #71577C; 
+    background-color: #E2DAEB72;
+}
+
+.dept-default { 
+    color: #333333; 
+    background-color: #000000;
+}
+
+/* Columnas */
+.col-codigo { 
+    width: 7%; 
+    /* background-color: #057555; */
+}
+
+.col-nombre { 
+    width: 20%; 
+    /* background-color: #1565c0; */
+}
+
+.col-categoria { 
+    width: 10%; 
+    /* background-color: #057555; */
+}
+
+.col-depto { 
+    width: 15%; 
+    /* background-color: #1565c0; */
+}
+
+.col-horas-f { 
+    width: 8%; 
+    /* background-color: #057555; */
+}
+
+.col-horas-d { 
+    width: 8%; 
+    /* background-color: #1565c0; */
+}
+
+.col-horas-t { 
+    width: 8%; 
+    /* background-color: #057555; */
+}
+
+.col-detalle { 
+    width: 8%;
+    /*background-color: #005a8c;*/
+}
+
+.th-L {
+    border-radius: 8px 0 0 0;
+    -webkit-border-radius: 8px 0 0 0;
+    -moz-border-radius: 8px 0 0 0;
+    -ms-border-radius: 8px 0 0 0;
+    -o-border-radius: 8px 0 0 0;
+}
+  
+.th-R {
+    border-radius: 0 8px 0 0;
+    -webkit-border-radius: 0 8px 0 0;
+    -moz-border-radius: 0 8px 0 0;
+    -ms-border-radius: 0 8px 0 0;
+    -o-border-radius: 0 8px 0 0;
+}

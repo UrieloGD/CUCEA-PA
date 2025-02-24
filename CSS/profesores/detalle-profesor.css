@@ -11,31 +11,13 @@
   font-weight: bold;
 }
 
-.data-value2 {
-  color: #fdf8e4;
-  background-color: #8b6e3b;
-  padding: 2px 4px;
-  border-radius: 4px;
-  display: inline-block;
-  font-weight: bold;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-}
-
-.data-value3 {
-  color: #164d64;
-  background-color: #67cbe9;
-  padding: 2px 4px;
-  border-radius: 4px;
-  display: inline-block; /* solo subraya el texto */
-  font-weight: bold;
-}
-
 .weekdays {
   display: flex;
   gap: 3px;
+}
+
+.day.mixto {
+  background: linear-gradient(45deg, #5f5f5f 50%, #005ba3 50%);
 }
 
 .day {
@@ -125,7 +107,12 @@
 }
 
 .container-profesor {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   max-width: 1200px;
+  height: 80vh;
+  max-height: 90vh;
   margin: 0 auto;
   background: white;
   border-radius: 8px;
@@ -133,6 +120,10 @@
 }
 
 .header-profesor {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
   background: linear-gradient(to bottom, #0071b0 50%, #fff 50%);
   color: white;
   padding: 24px;
@@ -140,6 +131,7 @@
   box-shadow: 0px 3px 3px rgb(179, 178, 178);
   display: flex;
   gap: 24px;
+  flex-shrink: 0;
 }
 
 .profesor-avatar-modal {
@@ -182,7 +174,7 @@
 
 .profile-details {
   position: relative;
-  top: 30px;
+  top: 20px;
   margin-left: 8px;
   font-size: 14px;
   font-weight: bold;
@@ -211,11 +203,15 @@
 }
 
 .search-section {
+  top: calc(100% - 20px); /* Ajustar según la altura del header */
+  z-index: 99;
+  background: white;
   padding: 16px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eee;
+  flex-shrink: 0;
 }
 
 .search-box {
@@ -247,6 +243,7 @@
 
 .navigation {
   display: flex;
+  position: relative;
   align-items: center;
   gap: 10px;
   background: #fff;
@@ -341,10 +338,29 @@
 }
 
 .table-profesor thead {
-  position: static;
+  position: sticky;
   top: 0;
   background: #fff;
   z-index: 1;
+}
+
+/*##################################################################*/
+.table-profesor thead tr {
+  background-color: #f8f9fa;
+}
+
+.table-profesor tbody {
+  display: block;
+  overflow-y: auto;
+  max-height: calc(100vh - 560px);
+  height: 100vh;
+}
+
+.table-profesor thead tr,
+.table-profesor tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .table-profesor th {
@@ -394,7 +410,7 @@
   white-space: normal;
 
   /* Ajustar altura de la celda */
-  vertical-align: center;
+  vertical-align: middle;
   line-height: 1.4;
   hyphens: auto;
   padding: 12px 16px;
@@ -408,33 +424,14 @@
   background-color: #f9f9f9;
 }
 
-.table-profesor .col-materia {
-  width: 20%; /* Ancho fijo para la columna de materias */
-}
-
-.table-profesor .col-departamento {
-  width: 14%;
-}
-
-.table-profesor .col-nrc {
-  width: 8%;
-}
-
-.table-profesor .col-hora {
-  width: 14%;
-}
-
-.table-profesor .col-dias {
-  width: 18%;
-}
-
-.table-profesor .col-aula {
-  width: 6%;
-}
-
-.table-profesor .col-modalidad {
-  width: 14%;
-}
+/* Columnas */
+.col-nrc { width: 10%; }
+.col-materia { width: 20%; }
+.col-departamento { width: 15%; }
+.col-hora { width: 15%; }
+.col-dias { width: 20%; }
+.col-aula { width: 10%; }
+.col-modalidad { width: 10%; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -488,6 +485,9 @@
 .curso-seccion {
   display: none;
   width: 100%;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
 }
 
 .curso-seccion.active {
@@ -496,8 +496,11 @@
 
 .sections-container {
   position: relative;
+  flex: 1;
+  overflow: hidden;
   width: 100%;
   min-height: 450px; /* o el valor que necesites */
+  height: 100%;
 }
 
 .close {
@@ -505,6 +508,8 @@
   font-size: 28px;
   font-weight: bold;
   cursor: pointer;
+  right: 40px;
+  top: -15px;
 }
 
 .close:hover {
@@ -525,4 +530,259 @@
 
 .close-materias:hover {
     color: #333;
+}
+
+.fixed-elements {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+}
+
+/* Estilos para las comparaciones de horas */
+.horas-faltantes {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.horas-correctas {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.horas-excedidas {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.horas-cero {
+  background-color: #f5f5f5;
+  color: #5f5f5f;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.horas-temporales {
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.data-value3 {
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block; /* solo subraya el texto */
+  /*font-size: medium;*/
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.dept-estudios-regionales { 
+  /* READY */
+  color: #9A64B1; 
+  background-color: #E6DAEB72;
+}
+
+.dept-finanzas { 
+  /* READY */
+  color: #F8775E; 
+  background-color: #FDD0C772;
+}
+
+.dept-ciencias-sociales { 
+  /* READY */
+  color: #06865F; 
+  background-color: #B5EEDD72;
+}
+
+.dept-pale { 
+  /* READY */
+  color: #E6154A; 
+  background-color: #FEC1D072;
+}
+
+.dept-economia { 
+  /* READY */
+  color: #109703; 
+  background-color: #BAEDB572;
+}
+
+.dept-posgrados { 
+  /* READY */
+  color: #3B596F; 
+  background-color: #BBC5CD72;
+}
+
+.dept-recursos-humanos { 
+  /* READY */
+  color: #DD4991; 
+  background-color: #FBD1E572;
+}
+
+.dept-metodos-cuantitativos { 
+  /* READY */
+  color: #C39200; 
+  background-color: #FCECBD72;
+}
+
+.dept-politicas-publicas { 
+  /* READY */
+  color: #8B7999; 
+  background-color: #D3CCD872;
+}
+
+.dept-administracion { 
+ /* READY  */
+  color: #0E748A; 
+  background-color: #46ACC272;
+}
+
+.dept-auditoria { 
+  /* READY */
+  color: #F2545E; 
+  background-color: #FBC3C772;
+}
+
+.dept-mercadotecnia { 
+  /* READY */
+  color: #5676A9; 
+  background-color: #C4CFE172;
+}
+
+.dept-impuestos { 
+  /* READY */
+  color: #E07326; 
+  background-color: #FAD9C172;
+}
+
+.dept-sistemas { 
+  /* READY */
+  color: #4B8FBC; 
+  background-color: #C0D8E872;
+}
+
+.dept-turismo { 
+  /* READY */
+  color: #057555; 
+  background-color: #BDE2D772;
+}
+
+.dept-contabilidad { 
+  /* READY */
+  color: #EBAE41; 
+  background-color: #FCE8C472;
+}
+
+.dept-otros { 
+  /* READY */
+  color: #71577C; 
+  background-color: #E2DAEB72;
+}
+
+.dept-default { 
+  color: #333333; 
+  background-color: #000000;
+}
+
+/* CSS del modal de profesores. */
+
+.hora-info {
+  position: relative;
+  display: inline-block;
+}
+
+.hora-tooltip {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  min-width: 200px;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hora-info:hover .hora-tooltip {
+  display: block;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  /* Permitir saltos de línea */
+  word-wrap: break-word; /* Para navegadores más antiguos */
+  overflow-wrap: break-word; /* Palabra clave moderna */
+
+  /* Distribuir texto en múltiples líneas */
+  white-space: normal;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
 }

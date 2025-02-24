@@ -172,7 +172,7 @@
   position: relative;
   /* display: flex; */
   width: 90%;
-  margin: 20px auto;
+  margin: 0px auto;
   /* gap: 0; */
 }
 
@@ -199,6 +199,8 @@
   display: flex;
   padding-top: 10px; /* Espacio para el techo */
 }
+
+
 
 .columna-lateral {
   /* modificada */
@@ -425,6 +427,32 @@
   justify-content: center;
 }
 
+.sala.no-clickable {
+  cursor: default;
+}
+
+.sala.no-clickable::after {
+  content: attr(data-descripcion);
+  position: absolute;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  max-width: 200px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.sala.no-clickable:hover::after {
+  opacity: 1;
+}
+
+/* Paletas de colores para espacios */
+
 .oficina-administrativa {
   background-color: #ffd875;
 }
@@ -454,6 +482,10 @@
 
 .bodega {
   background-color: #cc8e60;
+}
+
+.banco{
+  background-color: rgba(248, 2, 2, 0.786);
 }
 
 .bodega img {
@@ -952,7 +984,7 @@ textarea {
     text-align: center;
     justify-content: center;
     align-items: center;
-    width: 40px;
+    width: 45px;
     height: 36px;
     padding-top: 5px;
     margin-left: 10px;
@@ -964,6 +996,9 @@ textarea {
     margin: 0 auto;
     font-size: 1.5rem;
     margin-left: 25px;
+  }
+  .contenedor-principal {
+    margin: 20px auto;
   }
 }
 

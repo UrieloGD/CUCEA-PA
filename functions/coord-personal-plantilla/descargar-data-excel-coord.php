@@ -19,7 +19,7 @@ $mapeo_columnas = [
     'SEXO' => 'Sexo',
     'DEPARTAMENTO' => 'Departamento',
     'CATEGORIA ACTUAL' => 'Categoria_actual',
-    'CATEGORIA ACTUAL' => 'Categoria_actual_dos',
+    'CATEGORIA ACTUAL DOS' => 'Categoria_actual_dos',
     'HORAS FRENTE A GRUPO' => 'Horas_frente_grupo',
     'DIVISION' => 'Division',
     'TIPO DE PLAZA' => 'Tipo_plaza',
@@ -58,26 +58,26 @@ $mapeo_columnas = [
     'NIVEL' => 'Nivel',
     'INSTITUCION' => 'Institucion',
     'ESTADO/PAIS' => 'Estado_pais',
-    'AÑO' => 'Año',
+    'ANIO' => 'Año',
     'GDO EXP' => 'Gdo_exp',
-    'OTRO GRADO' => 'Otro_grado',
-    'PROGRAMA' => 'Otro_programa',
-    'NIVEL' => 'Otro_nivel',
-    'INSTITUCION' => 'Otro_institucion',
-    'ESTADO/PAIS' => 'Otro_estado_pais',
-    'AÑO' => 'Otro_año',
-    'GDO EXP' => 'Otro_gdo_exp',
-    'OTRO GRADO' => 'Otro_grado_alternativo',
-    'PROGRAMA' => 'Otro_programa_alternativo',
-    'NIVEL' => 'Otro_nivel_altenrativo',
-    'INSTITUCION' => 'Otro_institucion_alternativo',
-    'ESTADO/PAIS' => 'Otro_estado_pais_alternativo',
-    'AÑO' => 'Otro_año_alternativo',
-    'GDO EXP' => 'Otro_gdo_exp_alternativo',
+    'OTRO GRADO2' => 'Otro_grado',
+    'PROGRAMA2' => 'Otro_programa',
+    'NIVEL2' => 'Otro_nivel',
+    'INSTITUCION2' => 'Otro_institucion',
+    'ESTADO/PAIS2' => 'Otro_estado_pais',
+    'ANIO2' => 'Otro_año',
+    'GDO EXP2' => 'Otro_gdo_exp',
+    'OTRO GRADO3' => 'Otro_grado_alternativo',
+    'PROGRAMA3' => 'Otro_programa_alternativo',
+    'NIVEL3' => 'Otro_nivel_altenrativo',
+    'INSTITUCION3' => 'Otro_institucion_alternativo',
+    'ESTADO/PAIS3' => 'Otro_estado_pais_alternativo',
+    'ANIO3' => 'Otro_año_alternativo',
+    'GDO EXP3' => 'Otro_gdo_exp_alternativo',
     'PROESDE 24-25' => 'Proesde_24_25',
     'A PARTIR DE' => 'A_partir_de',
     'FECHA DE INGRESO' => 'Fecha_ingreso',
-    'ANTIGÜEDAD' => 'Antiguedad'
+    'ANTIGUEDAD' => 'Antiguedad'
 ];
 
 function obtenerNombreRealColumna($nombre_mostrado, $mapeo_columnas) {
@@ -115,20 +115,18 @@ $result = $stmt->get_result();
 
 // Escribir los encabezados en el Excel (usando los nombres mostrados)
 foreach ($columnas_seleccionadas as $index => $header) {
-    $sheet->setCellValue(\PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index) . '1', $header);
+    $sheet->setCellValue(\PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1) . '1', $header);
 }
 
 // Escribir los datos
 if ($result->num_rows > 0) {
     $row = 2;
     while ($data = $result->fetch_assoc()) {
-        $col = 0;
-        foreach ($columnas_reales as $header_real) {
+        foreach ($columnas_reales as $col => $header_real) {
             $sheet->setCellValue(
-                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
+                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col + 1) . $row,
                 $data[$header_real] ?? ''
             );
-            $col++;
         }
         $row++;
     }

@@ -44,14 +44,13 @@ include './template/navbar.php';
                 <div class="hoy">
                     <h2>Hoy</h2>
                 </div>
-                <!-- Aquí podrías agregar un contador dinámico si lo necesitas -->
+                <!-- Contador dinámico de próximas actividades. Temporalmente deshabilitado
                 <div class="activities">
                     <h3>Actividades próximas</h3>
-                    <!-- Actividades estáticas, puedes reemplazarlas si tienes un sistema de actividades en la base de datos -->
                     <div class="activity">Actividad 1<br>10 Junio, 12:00</div>
                     <div class="activity">Actividad 2<br>15 Junio, 13:00</div>
                     <div class="activity">Actividad 3<br>24 Junio, 17:00</div>
-                </div>
+                </div> -->
                 <?php
                 // Consultar eventos futuros o en curso del usuario
                 $sql = "SELECT Nombre_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Etiqueta
@@ -209,7 +208,8 @@ include './template/navbar.php';
                         }
 
                         $calendar .= "<td class='$class'>";
-                        $calendar .= "<div class='date-number' style='cursor: pointer;'>$day</div>"; /* cursor pointer para denotar que puede ser clickeado */
+                        $calendar .= "<div class='date-number'>$day</div>";
+                        // $calendar .= "<div class='date-number' style='cursor: pointer;'>$day</div>"; /* cursor pointer para denotar que puede ser clickeado. Temporalmente deshabilitado porque descartamos el modal para crear eventos desde el calendario */
                         $calendar .= $events;
                         $calendar .= "</td>";
 
@@ -273,63 +273,54 @@ include './template/navbar.php';
     </div>
 </div>
 
-<!-- Modal para crear nuevo evento. --> 
+<!-- Modal para crear nuevo evento, temporalmente deshabilitado
 <div id="modalOverlay" class="modal-overlay"></div>
 <div id="createEventModal" class="side-modal">
     <span class="close-modal"></span>
-    <!-- Modal para crear nuevo evento. --> 
     <form>
-    <div class="crearevento-principal"> <!-- Contenedor principal. -->
-        <div class="crearevento-encabezado">Crear nuevo evento</div> <!-- Contenedor de encabezado. -->
-
-        <!-- subcontenedor Ingresar el titulo y la fecha del evento. -->
-        <div class="crearevento-titulofecha">
-            <!-- Input para el titulo del evento. -->
-            <input class="escribir-titulo" type="text" placeholder="Titulo del evento">
-            <div class="escribir-icono"> <!-- Contenedor, icono pencil derecho. -->
-                <i class="fa fa-pencil-square" aria-hidden="true"></i>
-            </div> 
-            <!-- Contenedor para las fechas del evento. -->
-            <div class="seleccionar-fecha">
-                <p> <!-- <p> e inputs para las fechas. -->
-                    De <input class="date" type="date" name="fecha-evento" id="fecha-evento">
-                    a <input class="date" type="date" name="fecha-evento" id="fecha-evento">
-                </p>
-            </div>
-        </div> <!-- Cierre de << crearevento-titulofecha >>. -->
-
-        <!-- Ingresar los participantes y las etiquetas. -->
-        <div class="crearevento-secciones">
-            <!-- Subcontenedor para ingresar participantes. -->
-            <div class="subcontenedor-parts">
-                <p>Participantes</p>
-                <input class="escribir-parts" type="text" placeholder="Escribe el nombre del participante">
-                <div id="tabs-participantes" class="tabs-container"></div>
-            </div>
-            <!-- Subcontenedor para ingresar etiquetas. -->
-            <div class="subcontenedor-etiquetas">
-                <p>Etiquetas</p>
-                <input class="escribir-etiquetas" type="text" placeholder="+ Nueva etiqueta">
-                <div id="tabs-etiquetas" class="tabs-container"></div>
-            </div>
-            <!-- Subcontenedor para ingresar descripcion. -->
-            <div class="subcontenedor-descripcion">
-                <p>Descripción</p>
-                <div class="cuadro-descripcion">
-                    <textarea class="escribir-descripcion" placeholder="Escriba la descripción de las actividades a realizar..." style="font-family: Dm Sans, sans-serif;"></textarea>
+        <div class="crearevento-principal">
+            <div class="crearevento-encabezado">Crear nuevo evento</div>
+            <div class="crearevento-titulofecha">
+                <input class="escribir-titulo" type="text" placeholder="Titulo del evento">
+                <div class="escribir-icono">
+                    <i class="fa fa-pencil-square" aria-hidden="true"></i>
+                </div>
+                <div class="seleccionar-fecha">
+                    <p>
+                        De <input class="date" type="date" name="fecha-evento" id="fecha-evento">
+                        a <input class="date" type="date" name="fecha-evento" id="fecha-evento">
+                    </p>
                 </div>
             </div>
-            <div>
-                <a href="./calendario.php"> <!-- Direccionamiento temporal al calendario. -->
-                    <input class="boton-finalizar" type="button" value="Crear evento"> <!-- Con este boton, finaliza el modal. -->
-                </a>
+            <div class="crearevento-secciones">
+                <div class="subcontenedor-parts">
+                    <p>Participantes</p>
+                    <input class="escribir-parts" type="text" placeholder="Escribe el nombre del participante">
+                    <div id="tabs-participantes" class="tabs-container"></div>
+                </div>
+                <div class="subcontenedor-etiquetas">
+                    <p>Etiquetas</p>
+                    <input class="escribir-etiquetas" type="text" placeholder="+ Nueva etiqueta">
+                    <div id="tabs-etiquetas" class="tabs-container"></div>
+                </div>
+                <div class="subcontenedor-descripcion">
+                    <p>Descripción</p>
+                    <div class="cuadro-descripcion">
+                        <textarea class="escribir-descripcion" placeholder="Escriba la descripción de las actividades a realizar..." style="font-family: Dm Sans, sans-serif;"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <a href="./calendario.php">
+                        <input class="boton-finalizar" type="button" value="Crear evento">
+                    </a>
+                </div>
             </div>
-
-        </div> <!-- Cierre de << crearevento-secciones >>. -->
-    </div> <!-- crearevento-principal -->
-</form>
-    </div>
+        </div>
+    </form>
 </div>
+</div>
+-->
+
 
 <script>
     var userId = <?php echo json_encode($_SESSION['user_id']); ?>;
@@ -338,170 +329,171 @@ include './template/navbar.php';
 <script src="./JS/calendario/funciones-calendario.js"></script>
 
 <!-- Script para funciones del modal de crear nuevo evento. -->
-<script src="./JS/calendario/modal-nuevoevento.js"></script> 
+<script src="./JS/calendario/modal-nuevoevento.js"></script>
 
 <!-- Script y estilos para boton que abre el modal. -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const calendar = document.querySelector('.calendar');
-    const modal = document.getElementById('createEventModal');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const closeModal = document.querySelector('.close-modal');
-    let activeCell = null;
-    let currentMonth, currentYear;
+    document.addEventListener('DOMContentLoaded', function() {
+        const calendar = document.querySelector('.calendar');
+        const modal = document.getElementById('createEventModal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const closeModal = document.querySelector('.close-modal');
+        let activeCell = null;
+        let currentMonth, currentYear;
 
-    // Función para obtener el mes y año actuales del calendario
-    function updateCurrentMonthYear() {
-        const monthYearText = document.getElementById('monthYearDisplay').textContent;
-        const [monthName, year] = monthYearText.split(' ');
-        currentMonth = new Date(Date.parse(monthName + " 1, " + year)).getMonth();
-        currentYear = parseInt(year);
-    }
+        // Función para obtener el mes y año actuales del calendario
+        function updateCurrentMonthYear() {
+            const monthYearText = document.getElementById('monthYearDisplay').textContent;
+            const [monthName, year] = monthYearText.split(' ');
+            currentMonth = new Date(Date.parse(monthName + " 1, " + year)).getMonth();
+            currentYear = parseInt(year);
+        }
 
-    updateCurrentMonthYear(); // Llamar esto al inicio y cada vez que cambie el mes
+        updateCurrentMonthYear(); // Llamar esto al inicio y cada vez que cambie el mes
 
-    calendar.addEventListener('click', function(e) {
-        const dateNumber = e.target.closest('.date-number');
-        if (dateNumber) {
-            modal.style.display = 'block';
-            modalOverlay.style.display = 'block';
+        calendar.addEventListener('click', function(e) {
+            const dateNumber = e.target.closest('.date-number');
+            if (dateNumber) {
+                modal.style.display = 'block';
+                modalOverlay.style.display = 'block';
 
+                if (activeCell) {
+                    activeCell.classList.remove('highlighted');
+                }
+
+                // Obtener la celda que contiene la fecha
+                activeCell = dateNumber.closest('td');
+                if (activeCell) {
+                    activeCell.classList.add('highlighted');
+                }
+
+                // Obtener la fecha seleccionada
+                const selectedDateNumber = dateNumber.textContent;
+                const selectedDate = new Date(currentYear, currentMonth, parseInt(selectedDateNumber));
+
+                // Formatear la fecha como YYYY-MM-DD
+                const formattedDate = selectedDate.toISOString().split('T')[0];
+
+                // Establecer la fecha en los campos del modal
+                const fechaInicioInput = document.querySelector('.seleccionar-fecha input[name="fecha-evento"]:nth-of-type(1)');
+                const fechaFinInput = document.querySelector('.seleccionar-fecha input[name="fecha-evento"]:nth-of-type(2)');
+
+                if (fechaInicioInput) fechaInicioInput.value = formattedDate;
+                if (fechaFinInput) fechaFinInput.value = formattedDate;
+            }
+        });
+
+        function clearModalData() {
+            document.querySelector('.escribir-titulo').value = '';
+            const fechaInputs = document.querySelectorAll('.seleccionar-fecha input[type="date"]');
+            fechaInputs.forEach(input => input.value = '');
+            document.querySelector('.escribir-parts').value = '';
+            document.querySelector('.escribir-etiquetas').value = '';
+            document.getElementById('tabs-participantes').innerHTML = '';
+            document.getElementById('tabs-etiquetas').innerHTML = '';
+            document.querySelector('.escribir-descripcion').value = '';
+        }
+
+        function closeModalAndReset() {
+            modal.style.display = 'none';
+            modalOverlay.style.display = 'none';
             if (activeCell) {
                 activeCell.classList.remove('highlighted');
+                const btn = activeCell.querySelector('.create-event-btn');
+                if (btn) btn.style.display = 'none';
+                activeCell = null;
             }
-
-            // Obtener la celda que contiene la fecha
-            activeCell = dateNumber.closest('td');
-            if (activeCell) {
-                activeCell.classList.add('highlighted');
-            }
-
-            // Obtener la fecha seleccionada
-            const selectedDateNumber = dateNumber.textContent;
-            const selectedDate = new Date(currentYear, currentMonth, parseInt(selectedDateNumber));
-            
-            // Formatear la fecha como YYYY-MM-DD
-            const formattedDate = selectedDate.toISOString().split('T')[0];
-            
-            // Establecer la fecha en los campos del modal
-            const fechaInicioInput = document.querySelector('.seleccionar-fecha input[name="fecha-evento"]:nth-of-type(1)');
-            const fechaFinInput = document.querySelector('.seleccionar-fecha input[name="fecha-evento"]:nth-of-type(2)');
-            
-            if (fechaInicioInput) fechaInicioInput.value = formattedDate;
-            if (fechaFinInput) fechaFinInput.value = formattedDate;
+            clearModalData();
         }
+
+        closeModal.addEventListener('click', closeModalAndReset);
+        modalOverlay.addEventListener('click', closeModalAndReset);
+
+        // Actualizar mes y año cuando cambie el calendario
+        document.querySelectorAll('.arrow').forEach(arrow => {
+            arrow.addEventListener('click', updateCurrentMonthYear);
+        });
+        document.getElementById('monthYearPicker').addEventListener('change', updateCurrentMonthYear);
     });
-
-    function clearModalData() {
-        document.querySelector('.escribir-titulo').value = '';
-        const fechaInputs = document.querySelectorAll('.seleccionar-fecha input[type="date"]');
-        fechaInputs.forEach(input => input.value = '');
-        document.querySelector('.escribir-parts').value = '';
-        document.querySelector('.escribir-etiquetas').value = '';
-        document.getElementById('tabs-participantes').innerHTML = '';
-        document.getElementById('tabs-etiquetas').innerHTML = '';
-        document.querySelector('.escribir-descripcion').value = '';
-    }
-
-    function closeModalAndReset() {
-        modal.style.display = 'none';
-        modalOverlay.style.display = 'none';
-        if (activeCell) {
-            activeCell.classList.remove('highlighted');
-            const btn = activeCell.querySelector('.create-event-btn');
-            if (btn) btn.style.display = 'none';
-            activeCell = null;
-        }
-        clearModalData();
-    }
-
-    closeModal.addEventListener('click', closeModalAndReset);
-    modalOverlay.addEventListener('click', closeModalAndReset);
-
-    // Actualizar mes y año cuando cambie el calendario
-    document.querySelectorAll('.arrow').forEach(arrow => {
-        arrow.addEventListener('click', updateCurrentMonthYear);
-    });
-    document.getElementById('monthYearPicker').addEventListener('change', updateCurrentMonthYear);
-});
 </script>
 
 <style>
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1499;
-}
-
-.side-modal {
-    display: none;
-    position: fixed;
-    height: 90vh;
-    top: 73px;
-    left: 7.5vw;
-    z-index: 1500;
-}
-
-.calendar td.highlighted {
-    background-color: #e0e0e0; /* o el color que prefieras */
-    box-shadow: #fff;
-    z-index: 1500;
-}
-
-.calendar td {
-    position: relative;
-}
-
-@media screen and (max-width: 1600px) and (min-width: 1401px) {
-    .side-modal {
-        top: 55px;
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1499;
     }
-}
 
-@media screen and (max-width: 1400px) and (min-width: 1201px) {
     .side-modal {
-        top: 60px;
+        display: none;
+        position: fixed;
+        height: 90vh;
+        top: 73px;
+        left: 7.5vw;
+        z-index: 1500;
     }
-}
 
-@media screen and (max-width: 1200px) and (min-width: 993px) {
-    .side-modal {
-        top: 65px;
+    .calendar td.highlighted {
+        background-color: #e0e0e0;
+        /* o el color que prefieras */
+        box-shadow: #fff;
+        z-index: 1500;
     }
-}
 
-@media screen and (max-width: 992px) and (min-width: 769px) {
-    .side-modal {
-        left: 25vw;
-        top: 60.1px;
+    .calendar td {
+        position: relative;
     }
-}
 
-@media (max-width: 768px) {
-    .side-modal {
-        left: 15vw;
-        top: 59px;
+    @media screen and (max-width: 1600px) and (min-width: 1401px) {
+        .side-modal {
+            top: 55px;
+        }
     }
-}
 
-@media (max-width: 660px) {
-    .side-modal {
-        left: 10vw;
-        top: 60px;
+    @media screen and (max-width: 1400px) and (min-width: 1201px) {
+        .side-modal {
+            top: 60px;
+        }
     }
-}
 
-@media (max-width: 565px) {
-    .side-modal {
-        left: 7vw;
-        top: 60px;
+    @media screen and (max-width: 1200px) and (min-width: 993px) {
+        .side-modal {
+            top: 65px;
+        }
     }
-}
+
+    @media screen and (max-width: 992px) and (min-width: 769px) {
+        .side-modal {
+            left: 25vw;
+            top: 60.1px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .side-modal {
+            left: 15vw;
+            top: 59px;
+        }
+    }
+
+    @media (max-width: 660px) {
+        .side-modal {
+            left: 10vw;
+            top: 60px;
+        }
+    }
+
+    @media (max-width: 565px) {
+        .side-modal {
+            left: 7vw;
+            top: 60px;
+        }
+    }
 </style>
 
 <?php include './template/footer.php' ?>

@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         mysqli_commit($conexion);
 
-        header("Location: ../../admin-data-departamentos.php?success=1");
+        header("Location: ../../data-departamentos.php?success=1");
         exit();
     } catch (Exception $e) {
         mysqli_rollback($conexion);

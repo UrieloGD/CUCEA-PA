@@ -1,8 +1,18 @@
 <?php
 include './../../config/db.php';
+ini_set('display_errors', 0);
+error_reporting(0);
 
 $espacio = $_GET['espacio'];
 $modulo = $_GET['modulo'];
+
+// Consideramos que el aula puede tener divisiones A, B, C
+$espacios_a_buscar = [$espacio];
+if (in_array($espacio, ['0001', '0002', '0004'])) {
+    $espacios_a_buscar[] = $espacio . 'A';
+    $espacios_a_buscar[] = $espacio . 'B';
+    $espacios_a_buscar[] = $espacio . 'C';
+}
 
 $departamentos = [
     'estudios_regionales',
@@ -46,9 +56,12 @@ $clases_unicas = [];
 foreach ($departamentos as $departamento) {
     $tabla = "data_" . str_replace(' ', '_', $departamento);
 
-    $query = "SELECT L, M, I, J, V, S, HORA_INICIAL, HORA_FINAL, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, CUPO 
+    // Construimos la condición IN para buscar en múltiples aulas
+    $espacios_str = "'" . implode("','", $espacios_a_buscar) . "'";
+    
+    $query = "SELECT L, M, I, J, V, S, HORA_INICIAL, HORA_FINAL, CVE_MATERIA, MATERIA, NOMBRE_PROFESOR, CUPO, AULA 
               FROM $tabla 
-              WHERE MODULO = '$modulo' AND AULA = '$espacio'
+              WHERE MODULO = '$modulo' AND AULA IN ($espacios_str)
               ORDER BY HORA_INICIAL";
 
     $result = mysqli_query($conexion, $query);
@@ -70,7 +83,9 @@ foreach ($departamentos as $departamento) {
                             'cve_materia' => $row['CVE_MATERIA'],
                             'materia' => $row['MATERIA'],
                             'profesor' => $row['NOMBRE_PROFESOR'],
-                            'cupo' => $row['CUPO']
+                            'cupo' => $row['CUPO'],
+                            'departamento' => ucwords(str_replace('_', ' ', $departamento)), // Añadir departamento
+                            'aula_real' => $row['AULA'] // Guardamos el aula real donde se imparte
                         );
                         // Actualizar el cupo general
                         $horarios['cupo'] = $row['CUPO'];

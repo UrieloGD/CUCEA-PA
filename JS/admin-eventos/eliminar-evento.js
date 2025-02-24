@@ -10,10 +10,9 @@ function deleteEvent(eventId) {
     cancelButtonText: "Cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
-      // Mostrar loading mientras se procesa
-      Swal.fire({
-        title: "Procesando...",
-        text: "Por favor espere",
+      // Mostrar loading con configuración mejorada
+      const loadingAlert = Swal.fire({
+        title: "Eliminando evento...",
         allowOutsideClick: false,
         allowEscapeKey: false,
         showConfirmButton: false,
@@ -27,44 +26,38 @@ function deleteEvent(eventId) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          id: eventId,
-        }),
+        body: JSON.stringify({ id: eventId }),
       })
         .then((response) => {
-          // Primero vamos a ver el texto de la respuesta
           return response.text().then((text) => {
-            console.log("Respuesta raw del servidor:", text); // Esto nos mostrará el error de PHP si existe
-
             try {
-              // Intentamos parsear como JSON
-              const data = JSON.parse(text);
-              return data;
+              return JSON.parse(text);
             } catch (e) {
-              // Si no es JSON válido, lanzamos un error con el texto de la respuesta
-              throw new Error(`Respuesta no válida del servidor: ${text}`);
+              loadingAlert.close(); // Cerrar loading antes de mostrar error
+              throw new Error(`Respuesta no válida: ${text}`);
             }
           });
         })
         .then((data) => {
-          console.log("Datos procesados:", data);
+          loadingAlert.close(); // Cerrar loading al recibir respuesta
           if (data.success) {
             Swal.fire(
-              "Eliminado",
-              "El evento ha sido eliminado.",
+              "¡Eliminado!",
+              "El evento ha sido eliminado correctamente",
               "success"
             ).then(() => {
               window.location.reload();
             });
           } else {
-            throw new Error(data.message || "Error desconocido en el servidor");
+            throw new Error(data.message || "Error en el servidor");
           }
         })
         .catch((error) => {
+          loadingAlert.close(); // Asegurar cierre del loading en errores
           console.error("Error completo:", error);
           Swal.fire(
-            "Error!",
-            "Error al eliminar el evento. Detalles: " + error.message,
+            "Error",
+            `No se pudo eliminar el evento: ${error.message}`,
             "error"
           );
         });

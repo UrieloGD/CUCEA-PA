@@ -1,52 +1,50 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-ini_set('error_log', __DIR__ . '/error.log');
-
-$response = ['debug' => [], 'success' => false, 'error' => null];
-
-try {
-    include __DIR__ . '/../../config/db.php';
-    $response['debug'][] = 'Database included';
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $modulo = $_POST['modulo'] ?? '';
-        $espacio = $_POST['espacio'] ?? '';
-        $equipo = isset($_POST['equipo']) ? implode(',', $_POST['equipo']) : '';
-        $observaciones = isset($_POST['observaciones']) ? mysqli_real_escape_string($conexion, $_POST['observaciones']) : '';
-        $reportes = isset($_POST['reportes']) ? mysqli_real_escape_string($conexion, $_POST['reportes']) : '';
-
-        $response['debug'][] = 'POST data: ' . json_encode($_POST);
-
-        $query = "UPDATE espacios SET 
-                  Equipo = '$equipo', 
-                  Observaciones = '$observaciones', 
-                  Reportes = '$reportes' 
-                  WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
-
-        $response['debug'][] = 'Query: ' . $query;
-
-        $resultado = mysqli_query($conexion, $query);
-        $response['debug'][] = 'Query executed';
-
-        if ($resultado) {
-            $response['success'] = true;
-            $response['debug'][] = 'Update successful';
-        } else {
-            $response['error'] = mysqli_error($conexion);
-            $response['debug'][] = 'MySQL error: ' . mysqli_error($conexion);
-        }
-    } else {
-        $response['error'] = 'Método no permitido';
-    }
-} catch (Exception $e) {
-    error_log("Caught exception: " . $e->getMessage());
-    $response['debug'][] = 'Exception caught: ' . $e->getMessage();
-    $response['error'] = 'Internal server error';
-}
-
-$response['debug'][] = 'Script completed';
+include __DIR__ . '/../../config/db.php';
 
 header('Content-Type: application/json');
-echo json_encode($response);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $modulo = mysqli_real_escape_string($conexion, $_POST['modulo']);
+    $espacio = mysqli_real_escape_string($conexion, $_POST['espacio']);
+    $observaciones = mysqli_real_escape_string($conexion, $_POST['observaciones']);
+    $reportes = mysqli_real_escape_string($conexion, $_POST['reportes']);
+
+    // Define the boolean columns
+    $booleanColumns = [
+        'Computadora', 'Proyector', 'Cortina_Proyector', 
+        'Cortina_Luz', 'Doble_Pintarron', 'Pantalla', 
+        'Camara', 'Bocinas', 'Pintarron'
+    ];
+
+    // Prepare the update query dynamically
+    $updateParts = [];
+    
+    // Add boolean columns to update
+    foreach ($booleanColumns as $column) {
+        $value = isset($_POST[$column]) && $_POST[$column] === 'true' ? 1 : 0;
+        $updateParts[] = "$column = $value";
+    }
+
+    // Add observaciones and reportes
+    $updateParts[] = "Observaciones = '$observaciones'";
+    $updateParts[] = "Reportes = '$reportes'";
+
+    // Combine update parts
+    $updateString = implode(', ', $updateParts);
+
+    $query = "UPDATE espacios SET $updateString 
+              WHERE Modulo = '$modulo' AND Espacio = '$espacio'";
+
+    if (mysqli_query($conexion, $query)) {
+        echo json_encode(['success' => true]);
+    } else {
+        echo json_encode([
+            'success' => false, 
+            'error' => mysqli_error($conexion)
+        ]);
+    }
+
+    mysqli_close($conexion);
+} else {
+    echo json_encode(['success' => false, 'error' => 'Método no permitido']);
+}

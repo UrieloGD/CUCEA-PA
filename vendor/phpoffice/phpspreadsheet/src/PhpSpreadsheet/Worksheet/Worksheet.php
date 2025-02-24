@@ -56,7 +56,7 @@ class Worksheet implements IComparable
      *
      * @var int
      */
-    const SHEET_TITLE_MAXIMUM_LENGTH = 31;
+    const SHEET_TITLE_MAXIMUM_LENGTH = 50;
 
     /**
      * Invalid characters in sheet title.

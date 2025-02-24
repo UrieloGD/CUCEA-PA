@@ -3,28 +3,28 @@ function mostrarModal(espacio, horarios) {
   $("#moduloInfo").text(horarios.modulo);
   $("#espacioInfo").text(espacio);
   $("#tipoInfo").text(horarios.tipo);
-  $("#cupoInfo").text(horarios.cupo);
+  $("#cupoInfo").text(horarios.Capacidad_Adecuada || "No especificado");
 
   var equipoList = $("#equipoList");
   equipoList.empty();
   var equipos = [
     "Computadora",
     "Proyector",
-    "Cortina Proyector",
-    "Cortinas",
-    "Doble Pizarrón",
+    "Cortina_Proyector",
+    "Cortina_Luz",
+    "Doble_Pintarron",
     "Pantalla",
-    "Cámaras",
+    "Camara",
+    "Bocinas",
+    "Pintarron",
   ];
+
   equipos.forEach(function (equipo) {
+    // Replace underscores with spaces for display
+    var displayEquipo = equipo.replace(/_/g, " ");
     equipoList.append(
-      `<li><input type="checkbox" id="${equipo.replace(
-        " ",
-        "_"
-      )}" name="${equipo}"><label for="${equipo.replace(
-        " ",
-        "_"
-      )}">${equipo}</label></li>`
+      `<li><input type="checkbox" id="${equipo}" name="${equipo}">
+         <label for="${equipo}">${displayEquipo}</label></li>`
     );
   });
 
@@ -33,6 +33,29 @@ function mostrarModal(espacio, horarios) {
   );
   $("#reportesArea").html(
     '<textarea id="reportes" rows="3" cols="30"></textarea>'
+  );
+
+  // Lógica para seleccionar la capacidad según el tipo de espacio
+  function seleccionarCapacidad(tipo, capacidadAdecuada, capacidadExacta) {
+    // Verificar si tipo es nulo o undefined
+    if (!tipo) {
+      return capacidadAdecuada || capacidadExacta || "No especificado";
+    }
+
+    tipo = tipo.toLowerCase();
+    if (tipo.includes("laboratorio") || tipo.includes("lab")) {
+      return capacidadExacta || "No especificado";
+    }
+    return capacidadAdecuada || "No especificado";
+  }
+
+  //Función para seleccionar la capacidad
+  $("#cupoInfo").text(
+    seleccionarCapacidad(
+      horarios.tipo,
+      horarios.Capacidad_Adecuada,
+      horarios.Capacidad_Exacta
+    )
   );
 
   $.ajax({
@@ -45,17 +68,24 @@ function mostrarModal(espacio, horarios) {
     dataType: "json",
     success: function (data) {
       if (data.success) {
-        if (data.equipo && data.equipo.trim() !== "") {
-          var equipoArray = data.equipo.split(",");
-          equipoArray.forEach(function (item) {
-            var trimmedItem = item.trim();
-            if (trimmedItem !== "") {
-              $(`#${trimmedItem.replace(" ", "_")}`).prop("checked", true);
-            }
-          });
-        }
-        $("#observaciones").val(data.observaciones || "");
-        $("#reportes").val(data.reportes || "");
+        // Update checkboxes based on boolean columns
+        equipos.forEach(function (equipo) {
+          // Check the checkbox if the corresponding boolean column is true
+          if (data[equipo] === true || data[equipo] === 1) {
+            $(`#${equipo}`).prop("checked", true);
+          }
+
+          $("#cupoInfo").text(
+            seleccionarCapacidad(
+              horarios.tipo,
+              data.Capacidad_Adecuada,
+              data.Capacidad_Exacta
+            )
+          );
+        });
+
+        $("#observaciones").val(data.Observaciones || "");
+        $("#reportes").val(data.Reportes || "");
       }
     },
     error: function (xhr, status, error) {
@@ -69,14 +99,13 @@ function mostrarModal(espacio, horarios) {
 
   dias.forEach(function (dia) {
     var contenido = '<table class="horario-table">';
+    // Mantenemos el encabezado original sin la columna de Aula
     contenido +=
-      "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th></tr></thead><tbody>";
+      "<thead><tr><th>Hora</th><th>Clase</th><th>Profesor</th><th>Departamento</th></tr></thead><tbody>";
 
     if (horarios[dia] && horarios[dia].length > 0) {
-      // Crear un mapa para detectar duplicados exactos
       var horariosMap = new Map();
 
-      // Primera pasada: registrar todos los horarios
       horarios[dia].forEach(function (clase) {
         const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
 
@@ -87,27 +116,52 @@ function mostrarModal(espacio, horarios) {
         }
       });
 
-      // Segunda pasada: mostrar las clases, marcando duplicados
       horarios[dia].forEach(function (clase) {
         const claveHorario = `${clase.hora_inicial}-${clase.hora_final}`;
         const esConflicto = horariosMap.get(claveHorario) > 1;
         const estiloConflicto = esConflicto ? ' style="color: red;"' : "";
 
+        // Eliminamos la columna del aula
         contenido += `<tr${estiloConflicto}>
-          <td>${clase.hora_inicial} - ${clase.hora_final}</td>
-          <td>${clase.materia}</td>
-          <td>${clase.profesor}</td>
-        </tr>`;
+            <td>${clase.hora_inicial} - ${clase.hora_final}</td>
+            <td>${clase.materia.toUpperCase()}</td>
+            <td>${clase.profesor.toUpperCase()}</td>
+            <td>${(clase.departamento || "Sin información").toUpperCase()}</td>
+          </tr>`;
       });
     } else {
+      // Ajustamos el colspan a 4 en lugar de 5
       contenido +=
-        '<tr><td colspan="3">No hay clases programadas para este día.</td></tr>';
+        '<tr><td colspan="4">No hay clases programadas para este día.</td></tr>';
     }
 
     contenido += "</tbody></table>";
     $(`#tabContent`).append(
       `<div id="${dia}" class="tabcontent">${contenido}</div>`
     );
+  });
+
+  // Determinar la clase del espacio
+  function determinarClaseEspacio(tipo) {
+    tipo = tipo.toLowerCase();
+    if (tipo.includes("aula")) return "aula";
+    if (tipo.includes("laboratorio")) return "laboratorio";
+    if (
+      tipo.includes("administrativo") ||
+      tipo.includes("oficina administrativa")
+    )
+      return "oficina-administrativa";
+    if (tipo.includes("bodega")) return "bodega";
+    return "espacio-generico";
+  }
+
+  // Actualizar la clase e imagen del espacio
+  var claseEspacio = determinarClaseEspacio(horarios.tipo);
+  $(".sala-modal").removeClass().addClass(`sala-modal ${claseEspacio}`);
+
+  $(".sala-modal img").attr({
+    src: `./Img/Icons/iconos-espacios/icono-${claseEspacio}.png`,
+    alt: horarios.tipo,
   });
 
   $("#claseModal").show();
@@ -133,10 +187,26 @@ $(document).ready(function () {
   function guardarInfoEspacio() {
     var modulo = $("#moduloInfo").text();
     var espacio = $("#espacioInfo").text();
-    var equipo = [];
-    $("#equipoList input:checked").each(function () {
-      equipo.push($(this).attr("name"));
+
+    // Prepare an object to send equipment status
+    var equipoStatus = {};
+    var equipos = [
+      "Computadora",
+      "Proyector",
+      "Cortina_Proyector",
+      "Cortina_Luz",
+      "Doble_Pintarron",
+      "Pantalla",
+      "Camara",
+      "Bocinas",
+      "Pintarron",
+    ];
+
+    equipos.forEach(function (equipo) {
+      // Set boolean value based on checkbox state
+      equipoStatus[equipo] = $("#" + equipo).is(":checked");
     });
+
     var observaciones = $("#observaciones").val();
     var reportes = $("#reportes").val();
 
@@ -146,7 +216,7 @@ $(document).ready(function () {
       data: {
         modulo: modulo,
         espacio: espacio,
-        equipo: equipo,
+        ...equipoStatus, // Spread the equipment status
         observaciones: observaciones,
         reportes: reportes,
       },

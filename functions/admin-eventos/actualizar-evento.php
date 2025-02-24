@@ -15,20 +15,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hora_noti = $_POST['HorNotif'];
 
     $sql = "UPDATE eventos_admin SET 
-            Nombre_Evento = ?, 
-            Descripcion_Evento = ?, 
-            Fecha_Inicio = ?, 
-            Fecha_Fin = ?, 
-            Hora_Inicio = ?, 
-            Hora_Fin = ?, 
-            Etiqueta = ?, 
-            Participantes = ?, 
-            Notificaciones = ?, 
-            Hora_Noti = ? 
+                Nombre_Evento = ?, 
+                Descripcion_Evento = ?, 
+                Fecha_Inicio = ?, 
+                Fecha_Fin = ?, 
+                Hora_Inicio = ?, 
+                Hora_Fin = ?, 
+                Etiqueta = ?, 
+                Participantes = ? 
             WHERE ID_Evento = ?";
 
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("ssssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, $hora_inicio, $hora_fin, $etiqueta, $participantes, $notificaciones, $hora_noti, $id);
+    $stmt->bind_param("ssssssssi", $nombre, $descripcion, $fecha_inicio, $fecha_fin, 
+    $hora_inicio, $hora_fin, $etiqueta, $participantes, $id);
 
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success', 'message' => 'Evento actualizado correctamente']);

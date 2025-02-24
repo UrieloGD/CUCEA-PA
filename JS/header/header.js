@@ -39,7 +39,7 @@ window.addEventListener("resize", function () {
      mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
  });
 }); */
- /*
+/*
 document.addEventListener("DOMContentLoaded", function () {
   // Selecciona el botón del menú hamburguesa y el menú móvil
   var menuToggle = document.querySelector(".menu-toggle");

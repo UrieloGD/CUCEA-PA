@@ -345,30 +345,6 @@ div.dataTables_wrapper {
   margin-bottom: 20px;
 }
 
-.select-all-div {
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-
-.columns-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-
-.columns-container {
-  padding: 0;
-}
-
-.columns-container div label,
-.select-all-div label {
-  padding-left: 10px;
-}
-
-.columns-container div {
-  margin-top: -5px;
-}
-
 .contenedor-buttons {
   position: absolute;
   height: 100px;
@@ -1359,6 +1335,262 @@ table.dataTable thead .sorting_desc {
   margin-left: 10px;
 }
 
+/*   
+################################################################
+#################### modal descarga excel#######################
+################################################################
+*/
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content-descarga {
+  background-color: #fefefe;
+  margin: 3% auto;
+  left: 50%;
+  top: 50%;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 45vw;
+  height: 80vh;
+  max-width: 1200px;
+  max-height: 85vh;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.modal-content-descarga h2 {
+  margin-bottom: 20px;
+}
+
+.select-all-div {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.select-all-div-label {
+  padding-left: 10px;
+}
+
+.columns-container-js {
+  border-color: #D0E6F2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.columns-container-js-1 {
+  border-color: #D0E6F2;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.columns-container-js-2 {
+  border-color: #D0E6F2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.check-js {
+  margin: 0 0 5px 0;
+  display: flex;
+  justify-content: left;
+}
+
+.check-js label{
+  padding-left: 5px;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.encabezado-js {
+  color: #0071B0;
+  font-size: 18px;
+  position: relative;
+}
+
+.select-all-materia label, .select-all-profesor label {
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+/*.select-all-materia {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  font-weight: bold;
+}*/
+
+.select-all-profesores, .select-all-basica, .select-all-academica, 
+.select-all-personal, .select-all-academica2, .select-all-antiguedad {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.select-all-profesores label, .select-all-basica label, .select-all-academica label, 
+.select-all-personal label, .select-all-academica2 label, .select-all-antiguedad label {
+  padding-left: 5px;
+}
+
+.fila-botones button {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.label-materia,
+.label-profesorado {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.label-materia {
+  margin-top: 25px;
+}
+
+.input-check[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  border: 1px solid #3497CE;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.input-check[type="checkbox"]:checked {
+  background-color: #3497CE;
+  border: 1px solid #3497CE;
+}
+
+.input-check[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 12px;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+.fila-botones{
+  display: flex;
+  justify-content: center;
+  height: 35px;
+  margin-top: 10px;
+}
+
+.btn-cotejo{
+  margin-left: 40px;
+}
+
+.select-first {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.columns-container-basica {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+
+.columns-container-basica {
+  padding: 0;
+}
+
+.columns-container-basica div {
+  margin-top: -5px;
+}
+
+.columns-container-academica {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+
+.columns-container-academica {
+  padding: 0;
+}
+
+.columns-container-personal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.columns-container-personal {
+  padding: 0;
+}
+
+.columns-container-academica2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.select-all-basica, .select-all-academica, .select-all-profesores,
+.select-all-personal, .select-all-academica2, .select-all-antiguedad {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.columns-container-basica, .columns-container-academica, 
+.columns-container-academica2, .columns-container-personal,
+.columns-container-antiguedad, .columns-container-profesores {
+  overflow-y: auto;
+  padding: 10px 0 10px 5px;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 2px 0 0 0;
+  border-color: #0071B0;
+  column-gap: 1rem;
+  list-style: none;
+
+}
+
+.container-all{
+  /*border: 3px solid #005a8c;
+  border-radius: 15px;*/
+  display: block;
+  overflow-y: auto;
+  height: 640px;
+  /*-webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;*/
+}
+
+.columns-subcontainer{
+  width: 360px;
+}
+
+/* Importante mantener este estilo para que funcione el lazy loading */
 #tabla-datos {
   display: none;
 }

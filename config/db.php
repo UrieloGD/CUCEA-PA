@@ -5,70 +5,52 @@
  */
 class DatabaseConfig
 {
-    // Variable para forzar el entorno
-    private static $forceEnvironment = null;
-
     // Configuraciones para diferentes entornos
-    private static $configs = [
-        'local' => [
+    private static $configs = array(
+        'local' => array(
             'host' => 'localhost',
             'dbname' => 'pa',
             'username' => 'root',
             'password' => 'root',
             'charset' => 'utf8'
-        ],
-        'production' => [
+        ),
+        'production' => array(
             'host' => 'localhost',
             'dbname' => 'pa',
             'username' => 'pa',
             'password' => 'hyXbFnAYRH63yU',
             'charset' => 'utf8'
-        ]
-    ];
+        )
+    );
 
     /**
-     * Permite forzar un entorno específico
-     * @param string $env
-     */
-    public static function setEnvironment($env)
-    {
-        if (in_array($env, ['local', 'production'])) {
-            self::$forceEnvironment = $env;
-        }
-    }
-
-    /**
-     * Detecta automáticamente el entorno basado en múltiples factores
+     * Detecta automáticamente el entorno basado en múltiples métodos
      * @return string
      */
     private static function detectEnvironment()
     {
-        // Si hay un entorno forzado, úsalo
-        if (self::$forceEnvironment !== null) {
-            return self::$forceEnvironment;
+        // Múltiples formas de detectar el entorno local
+        $isLocal = false;
+
+        if (function_exists('php_sapi_name') && php_sapi_name() === 'cli') {
+            $isLocal = true;
         }
 
-        // Si existe la constante de configuración, úsala
-        if (defined('DB_ENVIRONMENT')) {
-            return DB_ENVIRONMENT;
+        if (isset($_SERVER['SERVER_NAME'])) {
+            if ($_SERVER['SERVER_NAME'] == 'localhost' || 
+                $_SERVER['SERVER_NAME'] == '127.0.0.1' || 
+                strpos($_SERVER['SERVER_NAME'], '.local') !== false || 
+                strpos($_SERVER['SERVER_NAME'], 'dev') !== false) {
+                $isLocal = true;
+            }
         }
 
-        $hostname = gethostname();
-        $serverName = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-        $serverAddr = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '';
-        $remoteAddr = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-
-        $isLocal = (
-            in_array($hostname, ['localhost', '127.0.0.1']) ||
-            strpos($hostname, 'local') !== false ||
-            strpos($hostname, 'DESKTOP') !== false ||
-            strpos($hostname, '.local') !== false ||
-            $serverName === 'localhost' ||
-            $serverAddr === '127.0.0.1' ||
-            substr($remoteAddr, 0, 4) === '127.' ||
-            substr($remoteAddr, 0, 3) === '::1' ||
-            file_exists(__DIR__ . '/local-environment')  // Archivo opcional para forzar entorno local
-        );
+        if (function_exists('gethostname')) {
+            $hostname = gethostname();
+            if ($hostname == 'localhost' || $hostname == '127.0.0.1') {
+                $isLocal = true;
+            }
+        }
 
         return $isLocal ? 'local' : 'production';
     }
@@ -86,27 +68,19 @@ class DatabaseConfig
             $env = self::detectEnvironment();
             $config = self::$configs[$env];
 
-            try {
-                $conexion = mysqli_connect(
-                    $config['host'],
-                    $config['username'],
-                    $config['password'],
-                    $config['dbname']
-                );
+            $conexion = mysqli_connect(
+                $config['host'],
+                $config['username'],
+                $config['password'],
+                $config['dbname']
+            );
 
-                if (!$conexion) {
-                    throw new Exception("Error de conexión: " . mysqli_connect_error());
-                }
-
-                mysqli_set_charset($conexion, $config['charset']);
-                
-                // Configurar el modo estricto de MySQL
-                mysqli_query($conexion, "SET sql_mode = 'STRICT_ALL_TABLES'");
-                
-            } catch (Exception $e) {
-                error_log("Error de conexión a la base de datos: " . $e->getMessage());
+            if (!$conexion) {
+                error_log("Error de conexión: " . mysqli_connect_error());
                 throw new Exception("No se pudo conectar a la base de datos");
             }
+
+            mysqli_set_charset($conexion, $config['charset']);
         }
 
         return $conexion;

@@ -1,3 +1,13 @@
+<?php
+session_start();
+
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+    header("Location: home.php");
+    exit();
+}
+?>
+
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
@@ -69,19 +79,44 @@ function formatDateForDisplay($mysqlDate)
 }
 ?>
 
-<!-- CSS de la librería DataTables -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
+<title>Coordinación de Personal - Plantilla Académica</title>
+
+<!-- Script de SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Mostrar el loader inmediatamente
+    window.addEventListener('load', function() {
+        Swal.close(); // Cerrar el loader cuando todo esté cargado
+    });
+
+    // Mostrar Sweet Alert inmediatamente
+    Swal.fire({
+        title: 'Cargando datos...',
+        html: 'Por favor espere mientras se procesan los datos',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+</script>
+
+<!-- CSS base -->
+<link rel="stylesheet" href="./CSS/basesdedatos-Coord.css">
+
+<!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+
+<!-- DataTables CSS Plugins -->
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.2/css/fixedColumns.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
-<title>Coordinación de Personal - Plantilla Académica</title>
-<link rel="stylesheet" href="./CSS/basesdedatos-Coord.css">
 
 <div class="cuadro-principal">
     <div class="encabezado">
@@ -120,22 +155,13 @@ function formatDateForDisplay($mysqlDate)
                 <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarPopupColumnas()">
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
     </div>
-    <div id="popup-columnas">
-        <h3>Selecciona las columnas a descargar</h3>
-        <hr style="border: 1px solid #0071b0; width: 99%;">
-        </hr>
-        <div id="opciones-columnas"></div>
-        <div class="contenedor-buttons">
-            <button onclick="descargarExcelSeleccionado()">Descargar</button>
-            <button onclick="cerrarPopupColumnas()">Cancelar</button>
-        </div>
-    </div>
+    
     <div class="Tabla datatable-container">
         <div class="table-container">
             <div class="custom-search-container"></div>
@@ -427,36 +453,40 @@ function formatDateForDisplay($mysqlDate)
         </div>
     </div>
 
-    <!-- Scripts de la librería DataTables-->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
-    <script src="https://cdn.datatables.net/colreorder/2.0.4/js/colReorder.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/dataTables.fixedColumns.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/5.0.2/js/fixedColumns.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+    <?php include './functions/coord-personal-plantilla/modal-descargar-excel/modal-descargar-excel.php'; ?>
 
-    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
-    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-    <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<!-- jQuery y Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Script para cambiar el encabezado por responsividad -->
-    <script>
-        window.addEventListener("resize", function() {
-            var tituloContainer = document.querySelector(".encabezado-centro");
-            if (window.innerWidth <= 768) {
-                tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
-            } else {
-                tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
-            }
-        });
-    </script>
+<!-- DataTables Core -->
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
-    <?php include("./template/footer.php"); ?>
+<!-- DataTables Plugins-->
+<script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
+<script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+
+<!-- Scripts personalizados-->
+<script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
+<script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
+<script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
+<script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
+<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+
+<!-- Script para cambiar el encabezado por responsividad -->
+<script>
+    window.addEventListener("resize", function() {
+        var tituloContainer = document.querySelector(".encabezado-centro");
+        if (window.innerWidth <= 768) {
+            tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
+        } else {
+            tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
+        }
+    });
+</script>
+
+<?php include("./template/footer.php"); ?>

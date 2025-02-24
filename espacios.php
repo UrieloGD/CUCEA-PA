@@ -37,11 +37,18 @@ $query = "SELECT * FROM espacios WHERE Modulo = '$modulo_seleccionado' ORDER BY 
 $result = mysqli_query($conexion, $query);
 
 // Organizar los espacios por piso
-$espacios = [
-    '03' => [],
-    '02' => [],
-    '01' => []
-];
+if ($modulo_seleccionado != 'CEDAA') {
+    $espacios = [
+        '03' => [],
+        '02' => [],
+        '01' => []
+    ];
+}
+if ($modulo_seleccionado == 'CEDAA') {
+    $espacios = [
+        '00' => []
+    ];
+}
 
 while ($row = mysqli_fetch_assoc($result)) {
     $piso = substr($row['Espacio'], 0, 2);
@@ -53,6 +60,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <title>Espacios</title>
 <link rel="stylesheet" href="./CSS/espacios.css" />
+<link rel="stylesheet" href="./CSS/espacios-aulas-amplias.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -126,65 +134,129 @@ while ($row = mysqli_fetch_assoc($result)) {
             <button id="filtrar">Filtrar</button>
         </div>
     </div>
-
-    <!-- Aquí empieza el código del Edificio -->
-
-    <div class="letra-moviles"> <!-- Solo dispositivos moviles -->
+    <!-- -------------------------- -->
+     <!-- Solo dispositivos moviles -->
+    <div class="letra-moviles">
         <p class="texto-prev-piso">Módulo</p>
         <div class="letra-piso">
-            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
-        </div>
-    </div> <!-- Solo dispositivos moviles -->
-
-    <div class="contenedor-principal">
-        <div class="techo"></div>
-        <div class="contenido-edificio">
-            <div class="columna-lateral izquierda">
-                <div class="letra-piso">
-                    <span><?php echo substr($modulo_seleccionado, -1); ?></span>
-                </div>
-                <div class="escaleras-container">
-                    <div class="escalera-superior"></div>
-                    <div class="escalera-inferior"></div>
-                </div>
-            </div>
-
-            <div class="cuadro-grande">
-                <?php foreach ($espacios as $piso => $espacios_piso): ?>
-                    <div class="piso">
-                        <div class="numero-piso"></div>
-                        <div class="salas">
-                            <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
-                            foreach ($espacios_piso as $espacio): ?>
-                                <div class="sala-container">
-                                    <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
-                                    <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
-                                        <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <?php if ($piso == '02'): ?>
-                            <div class="barandal"></div>
-                        <?php elseif ($piso == '01'): ?>
-                            <div class="barandal"></div>
-                        <?php endif; ?>
-                        <div class="piso-gris"></div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-
-            <div class="columna-lateral derecha">
-                <div class="letra-piso">
-                    <span><?php echo substr($modulo_seleccionado, -1); ?></span>
-                </div>
-                <div class="escaleras-container">
-                    <div class="escalera-superior"></div>
-                    <div class="escalera-inferior"></div>
-                </div>
-            </div>
+            <span><?php 
+            if ($modulo_seleccionado == 'CEDAA') echo 'AA';
+            else echo substr($modulo_seleccionado, -1); 
+            ?></span>
         </div>
     </div>
+    
+    <!-- Estructura principal de espacios -->
+    <div class="contenedor-principal">
+        <?php
+        // En el caso de aulas amplias
+        if ($modulo_seleccionado == 'CEDAA') { ?>
+            <div class="circulo-base">
+                <div class="aula-azul" id="azul-1"></div>
+                <div class="aula-azul" id="azul-2"></div>
+                <div class="aula-azul" id="azul-3"></div>
+                <div class="aula-azul" id="azul-4"></div>
+                <div class="aula-azul" id="azul-5"></div>
+                <div class="aula-azul" id="azul-6"></div>
+
+                <div class="base-espacio-blanco">
+                    <span id="AA1">AA 1</span>
+                    <span id="AA2">AA 2</span>
+                    <span id="AA3">AA 3</span>
+                    <span id="AA4">AA 4</span>
+                    <span id="AA5">AA 5</span>
+                    <span id="AA6">AA 6</span>
+                    <div class="division-aula" id="division-1"></div>
+                    <div class="division-aula" id="division-2"></div>
+                    <div class="division-aula" id="division-3"></div>
+                    <div class="division-aula" id="division-4"></div>
+                    <div class="division-aula" id="division-5"></div>
+
+                    <div class="circulo-jardin">
+                        <div class="circulo-central">
+                            <div class="centro-gris"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title-aulas-amplias">
+                <span>Aulas Amplias</span>
+            </div>
+
+            <!-- En el caso de responsividad para moviles -->
+                <div class="contenido-aulasamplias">
+                    <div class="cuadro-grande">
+                        <?php foreach ($espacios as $piso => $espacios_piso): ?>
+                            <div class="piso">
+                                <div class="numero-piso"></div>
+                                <div class="salas">
+                                    <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
+                                    foreach ($espacios_piso as $espacio): ?>
+                                        <div class="sala-container">
+                                            <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
+                                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                                                <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+        <?php } ?>
+        <?php
+        // Resto de edificios    
+        if ($modulo_seleccionado != 'CEDAA') { ?>
+            <div class="techo"></div>
+                <div class="contenido-edificio">
+                    <div class="columna-lateral izquierda">
+                        <div class="letra-piso">
+                            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
+                        </div>
+                        <div class="escaleras-container">
+                            <div class="escalera-superior"></div>
+                            <div class="escalera-inferior"></div>
+                        </div>
+                    </div>
+
+                    <div class="cuadro-grande">
+                        <?php foreach ($espacios as $piso => $espacios_piso): ?>
+                            <div class="piso">
+                                <div class="numero-piso"></div>
+                                <div class="salas">
+                                    <?php $espacios_piso = array_reverse($espacios_piso); // Invertir el orden de los espacios
+                                    foreach ($espacios_piso as $espacio): ?>
+                                        <div class="sala-container">
+                                            <span class="sala-texto"><?php echo $espacio['Espacio']; ?></span>
+                                            <div class="sala <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                                                <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <?php if ($piso == '02'): ?>
+                                    <div class="barandal"></div>
+                                <?php elseif ($piso == '01'): ?>
+                                    <div class="barandal"></div>
+                                <?php endif; ?>
+                                <div class="piso-gris"></div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="columna-lateral derecha">
+                        <div class="letra-piso">
+                            <span><?php echo substr($modulo_seleccionado, -1); ?></span>
+                        </div>
+                        <div class="escaleras-container">
+                            <div class="escalera-superior"></div>
+                            <div class="escalera-inferior"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
 
     <div class="leyenda">
         <div class="leyenda-item">
@@ -195,21 +267,26 @@ while ($row = mysqli_fetch_assoc($result)) {
             <div class="cuadrito aula-ocupada"></div>
             <span>Aula ocupada</span>
         </div>
-        <div class="leyenda-item">
-            <div class="cuadrito laboratorio"></div>
-            <span>Laboratorio</span>
-        </div>
-        <div class="leyenda-item">
-            <div class="cuadrito laboratorio-ocupado"></div>
-            <span>Laboratorio ocupado</span>
-        </div>
-        <div class="leyenda-item">
-            <div class="cuadrito bodega"></div>
-            <span>Bodega</span>
-        </div>
-        <div class="leyenda-item">
-            <div class="cuadrito administrativo"></div>
-            <span>Administrativo</span>
+        <?php if ($modulo_seleccionado == 'CEDAA') { ?>
+        <div class="leyendas-extras">
+            <style> .leyendas-extras { display: none; } </style>
+        <?php } ?>
+            <div class="leyenda-item">
+                <div class="cuadrito laboratorio"></div>
+                <span>Laboratorio</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="cuadrito laboratorio-ocupado"></div>
+                <span>Laboratorio ocupado</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="cuadrito bodega"></div>
+                <span>Bodega</span>
+            </div>
+            <div class="leyenda-item">
+                <div class="cuadrito administrativo"></div>
+                <span>Administrativo</span>
+            </div>
         </div>
     </div>
 
@@ -220,43 +297,30 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <span class="close">&times;</span>
                 <hr style="border: 1px solid #0071b0; width: 100%;">
                 <div class="espacio-info">
-                    <div class="sala-modal <?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?> <?php echo (strpos(strtolower($espacio['Etiqueta']), 'aula') !== false) ? 'aula' : ((strpos(strtolower($espacio['Etiqueta']), 'laboratorio') !== false) ? 'laboratorio' : ''); ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
-                        <img src="./Img/Icons/iconos-espacios/icono-<?php echo strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                    <div class="sala-modal <?php 
+                        $etiqueta_lower = strtolower($espacio['Etiqueta']);
+                        $clase = '';
+                        if (strpos($etiqueta_lower, 'aula') !== false) {
+                            $clase = 'aula';
+                        } elseif (strpos($etiqueta_lower, 'laboratorio') !== false) {
+                            $clase = 'laboratorio';
+                        } elseif (strpos($etiqueta_lower, 'administrativo') !== false || strpos($etiqueta_lower, 'oficina administrativa') !== false) {
+                            $clase = 'oficina-administrativa';
+                        } elseif (strpos($etiqueta_lower, 'bodega') !== false) {
+                            $clase = 'bodega';
+                        }
+                        echo $clase . ' ' . strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); 
+                    ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                        <img src="./Img/Icons/iconos-espacios/icono-<?php 
+                            echo $clase ? $clase : strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); 
+                        ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
                     </div>
                     <div class="espacio-columna">
                         <p><strong>Edificio:</strong> <span id="moduloInfo"></span></p>
                         <p><strong>Número:</strong> <span id="espacioInfo"></span></p>
                         <p><strong>Tipo:</strong> <span id="tipoInfo"></span></p>
-                        <p><strong>Cupo:</strong> <span id="cupoInfo"></span></p>
+                        <p><strong>Capacidad:</strong> <span id="cupoInfo"></span> alumnos</p>
                     </div>
-
-                    <!-- Recuperar la infomación del equipo -->
-                    <!-- <script>
-                        $(document).ready(function() {
-                            $('.sala').on('click', function() {
-                                var espacio = $(this).data('espacio');
-                                var modulo = $('#modulo').val();
-
-                                // Hacer una llamada AJAX para obtener los horarios
-                                $.ajax({
-                                    url: './functions/espacios/obtener-horario-aula.php',
-                                    method: 'GET',
-                                    data: {
-                                        modulo: modulo,
-                                        espacio: espacio
-                                    },
-                                    dataType: 'json',
-                                    success: function(horarios) {
-                                        mostrarModal(espacio, horarios);
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error('Error al obtener los horarios:', error);
-                                    }
-                                });
-                            });
-                        });
-                    </script> -->
-
                     <div class="espacio-columna">
                         <p><strong>Equipo:</strong></p>
                         <ul id="equipoList"></ul>
@@ -312,5 +376,6 @@ function guardarInfoEspacio($modulo, $espacio, $equipo, $observaciones, $reporte
 
 <script src="./JS/espacios/filtros-espacios.js"></script>
 <script src="./JS/espacios/modal-dias.js"></script>
+<script src="./JS/espacios/aulas-amplias-modal.js"></script>
 
 <?php include './template/footer.php' ?>
