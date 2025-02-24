@@ -1,7 +1,11 @@
 <!--header -->
-<?php include './template/header.php' ?>
-<!-- navbar -->
-<?php include './template/navbar.php' ?>
+<?php 
+session_start();
+include './config/db.php';
+include './template/header.php';
+include './template/navbar.php';
+require_once './functions/home/eventos-home.php';
+?>
 <!-- css del home -->
 <title>Home PA</title>
 <link rel="stylesheet" href="./CSS/home.css" />
@@ -90,72 +94,17 @@
 </div>
 
   <div class="container-eventos-progreso">
-
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
       <div class="siguienteseventos">
-        <h3>Siguientes Eventos de PA</h3>
+        <h3>Siguientes Eventos</h3>
       </div>
-      <div class="evento-item">
-        <div class="evento-icono">
-          <div class="cuadro-numero"><span id="cuadro-numero">04</span></div>
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flag.png" alt="Icono"> -->
-        </div>
-        <div class="evento-detalle">
-          <span>Reunión de apertura de Programación Académica</span>
-          <p>04/04/2024 18:00 h</p>
-        </div>
-        <div class="evento-flecha">
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flechaDer.png" alt="Flecha"> -->
-        </div>
-      </div>
-      <hr>
-      <div class="evento-item">
-        <div class="evento-icono">
-          <div class="cuadro-numero"><span id="cuadro-numero">21</span></div>
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-bd.png" alt="Icono"> -->
-        </div>
-        <div class="evento-detalle">
-          <span>Entrega de bases de datos</span>
-          <p>21/04/2024 23:59 h</p>
-        </div>
-        <div class="evento-flecha">
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flechaDer.png" alt="Flecha"> -->
-        </div>
-      </div>
-      <hr>
-      <div class="evento-item">
-        <div class="evento-icono">
-          <div class="cuadro-numero"><span id="cuadro-numero">02</span></div>
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-reunion.png" alt="Icono"> -->
-        </div>
-        <div class="evento-detalle">
-          <span>Reunión de revisión de bases de datos</span>
-          <p>02/05/2024 18:00 h</p>
-        </div>
-        <div class="evento-flecha">
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flechaDer.png" alt="Flecha"> -->
-        </div>
-      </div>
-      <hr>
-      <div class="evento-item">
-        <div class="evento-icono">
-          <div class="cuadro-numero"><span id="cuadro-numero">19</span></div>
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flag.png" alt="Icono"> -->
-        </div>
-        <div class="evento-detalle">
-          <span>Cierre de Programación Académica</span>
-          <p>19/05/2024 18:00 h</p>
-        </div>
-        <div class="evento-flecha">
-          <!-- <img src="./Img/Icons/iconos-eventosPA/icono-flechaDer.png" alt="Flecha"> -->
-        </div>
-      </div>
-
-      <!--Aquí iremos agregando las funciones donde Aldo como admin agregara eventos importantes de PA-->
+    <?php
+      $eventos = obtenerEventosProximos($conexion, $_SESSION['Codigo']);
+      echo renderizarEventosProximos($eventos);
+      ?>
     </div>
   </div>
-
 
   <!--Cuadros de navegación-->
   <div class="cuadros-nav">

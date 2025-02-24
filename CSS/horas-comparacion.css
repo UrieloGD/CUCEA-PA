@@ -518,7 +518,7 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 9999;
+  z-index: 9990;
   left: 0;
   top: 0;
   width: 100%;
@@ -653,32 +653,81 @@
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  min-width: 175px;
-  max-width: auto;
+  min-width: 300px;
+  max-height: auto;
+  height: auto;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 9999;
-  bottom: 100%;
+  padding: 10px;
+  position: absolute;  /* Mantener como absolute */
+  z-index: 10000;      /* Incrementar el z-index por encima de todo */
+  bottom: 125%;        /* Colocar por encima del elemento */
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
-  word-wrap: none;
+  word-wrap: break-word;
   word-break: keep-all;
+  white-space: pre-line;
+  line-height: 1.5;
   transition: opacity 0.3s;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  -webkit-transform: translateX(-50%);
+  pointer-events: none;  /* Para que no interfiera con los clicks */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+/* Añadir flecha en la parte inferior */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Corregir posición cuando esté cerca del borde izquierdo */
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+/* Para tooltips cerca del borde izquierdo */
+.tooltip:has(.tooltiptext:hover:not(:hover)) .tooltiptext {
+  left: 0;
+  transform: translateX(0);
+}
+
+.tooltip:has(.tooltiptext:hover:not(:hover)) .tooltiptext::after {
+  left: 15px;
+}
+
+/* Para tooltips cerca del borde derecho */
+.tooltip.right .tooltiptext,
+.tooltip:last-child .tooltiptext,
+.tooltip:nth-last-child(-n+3) .tooltiptext {
+  left: auto;
+  right: 0;
+  transform: translateX(0);
+}
+
+.tooltip.right .tooltiptext::after,
+.tooltip:last-child .tooltiptext::after,
+.tooltip:nth-last-child(-n+3) .tooltiptext::after {
+  left: auto;
+  right: 15px;
+}
+
+.fila-totales {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.fila-totales td {
+  padding: 10px;
+  border: 1px solid #ddd;
 }
 
 /* Estilos para las comparaciones de horas */
@@ -732,6 +781,52 @@
   text-align: center;
 
   margin-left: 1vw;
+}
+
+/* Estilos adicionales para las horas totales y temporales */
+.dept-estudios-regionales { color: #9A64B1; background-color: #E6DAEB72; }
+.dept-finanzas { color: #F8775E; background-color: #FDD0C772; }
+.dept-ciencias-sociales { color: #06865F; background-color: #B5EEDD72; }
+.dept-pale { color: #E6154A; background-color: #FEC1D072; }
+.dept-economia { color: #109703; background-color: #BAEDB572; }
+.dept-posgrados { color: #3B596F; background-color: #BBC5CD72; }
+.dept-recursos-humanos { color: #DD4991; background-color: #FBD1E572; }
+.dept-metodos-cuantitativos { color: #C39200; background-color: #FCECBD72; }
+.dept-politicas-publicas { color: #8B7999; background-color: #D3CCD872; }
+.dept-administracion { color: #0E748A; background-color: #46ACC272; }
+.dept-auditoria { color: #F2545E; background-color: #FBC3C772; }
+.dept-mercadotecnia { color: #5676A9; background-color: #C4CFE172; }
+.dept-impuestos { color: #E07326; background-color: #FAD9C172; }
+.dept-sistemas { color: #4B8FBC; background-color: #C0D8E872; }
+.dept-turismo { color: #057555; background-color: #BDE2D772; }
+.dept-contabilidad { color: #EBAE41; background-color: #FCE8C472; }
+.dept-otros { color: #71577C; background-color: #E2DAEB72; }
+.dept-default { color: #333333; background-color: #E8E8E8; }
+
+/* Aplicar estilo común para las horas */
+.dept-estudios-regionales,
+.dept-finanzas,
+.dept-ciencias-sociales,
+.dept-pale,
+.dept-economia,
+.dept-posgrados,
+.dept-recursos-humanos,
+.dept-metodos-cuantitativos,
+.dept-politicas-publicas,
+.dept-administracion,
+.dept-auditoria,
+.dept-mercadotecnia,
+.dept-impuestos,
+.dept-sistemas,
+.dept-turismo,
+.dept-contabilidad,
+.dept-otros,
+.dept-default {
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    min-width: 60px;
+    text-align: center;
 }
 
 /* Estilos para las etiquetas de departamentos */

@@ -661,25 +661,121 @@ nav[aria-label="pagination"] {
   background-color: rgba(255, 204, 204, 0.3);
 }
 
+.celda-choque-hover {
+  transition: background-color 0.3s ease;
+  background-color: #ff9999 !important; /* Para celdas rojas */
+}
+
+.celda-choque-hover.choque-primero {
+  background-color: #80bfff !important; /* Para celdas azules */
+}
+
 /* Tooltip para mostrar detalles de choques */
-[data-tooltip] {
+.custom-tooltip {
+  position: absolute;
+  display: none;
+  max-width: 300px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+  background-color: rgba(33, 37, 41, 0.95);
+  border-left: 4px solid #0071b0;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  pointer-events: none;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: left;
+}
+
+/* Flecha del tooltip */
+.custom-tooltip::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+/* Posicionamiento de la flecha para tooltips superiores */
+.custom-tooltip[data-position="top"]::before {
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: rgba(33, 37, 41, 0.95);
+}
+
+/* Posicionamiento de la flecha para tooltips inferiores */
+.custom-tooltip[data-position="bottom"]::before {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: rgba(33, 37, 41, 0.95);
+}
+
+/* Estilo específico para tooltips de choque */
+.custom-tooltip.tooltip-choque {
+  background-color: rgba(47, 53, 66, 0.98);
+  border-left: 4px solid #dc3545;
+}
+
+/* Estilo para cuando el tooltip está visible */
+.custom-tooltip.show {
+  display: block;
+  animation: tooltipFadeIn 0.2s ease-in-out;
+}
+
+/* Estilos para tooltips en la primera fila y header */
+tr:first-child .custom-tooltip,
+thead tr .custom-tooltip {
+  top: calc(100% + 10px);
+}
+
+/* Ajuste de posición para tooltips en celdas con choque */
+.celda-choque .custom-tooltip {
+  margin-top: 5px;
+}
+
+/* Animación de fade in */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Media queries para pantallas pequeñas */
+@media (max-width: 768px) {
+  .custom-tooltip {
+    max-width: 250px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+/* Ajustes específicos para la tabla */
+.datatable-container {
   position: relative;
 }
 
-[data-tooltip]:hover::before {
-  content: attr(data-tooltip);
-  position: absolute;
-  text-align: left;
-  bottom: 100%;
-  left: 0;
-  background-color: #333;
-  color: white;
-  padding: 5px;
-  border-radius: 3px;
-  white-space: pre-line;
-  z-index: 1000;
-  min-width: 300px;
-  font-size: 16px;
+/* Asegurarse de que las celdas que pueden mostrar tooltip tengan posición relativa */
+td[data-tooltip],
+th[data-tooltip] {
+  position: relative;
+}
+
+/* Estilos para el contenedor del tooltip cuando hay scroll */
+.dataTables_scroll {
+  overflow: visible !important;
+}
+
+/* Asegurar que el tooltip no se corte en contenedores con overflow hidden */
+.dataTables_wrapper {
+  overflow: visible !important;
 }
 
 /* Media Queries para diferentes resoluciones */
@@ -1183,39 +1279,4 @@ table.dataTable thead .sorting_desc {
 /* Importante mantener este estilo para que funcione el lazy loading */
 #tabla-datos {
   display: none;
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  min-width: 175px;
-  max-width: auto;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 9999;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  word-wrap: none;
-  word-break: keep-all;
-  transition: opacity 0.3s;
-  -webkit-transform: translateX(-50%);
-  -moz-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  -o-transform: translateX(-50%);
-  -webkit-transform: translateX(-50%);
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
 }

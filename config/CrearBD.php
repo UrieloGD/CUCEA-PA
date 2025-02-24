@@ -590,7 +590,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_ciencias_sociales (
 if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla data_Ciencias_Sociales creada exitosamente";
 } else {
-    echo "<br>Error creando tabla data_Ciencistaas_Sociales: " . mysqli_error($conexion) . "<br>";
+    echo "<br>Error creando tabla data_Ciencias_Sociales: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla data_PALE
