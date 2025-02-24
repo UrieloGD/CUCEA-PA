@@ -112,7 +112,7 @@ function generateColorForUser($userId)
                 } elseif ($rol_id == 2) {
                     // Si el usuario es secretaria administrativa, redirigir a plantillasPA
                     if (basename($_SERVER['PHP_SELF']) == 'admin-plantilla.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'><a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'></div>";
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
                     }

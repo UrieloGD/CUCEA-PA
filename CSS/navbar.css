@@ -88,7 +88,7 @@
 /* Navbar Items */
 .navbar-item {
   padding: 0 0.5em;
-  width: 100%;
+  width: 95%;
   cursor: pointer;
 }
 
@@ -108,10 +108,8 @@
 
 .indicador {
   position: absolute;
-  right: 1px;
   background-color: #ffffff;
-  width: 10px;
-  height: 100%;
+  width: 83%;
   border-radius: 10px;
 }
 
@@ -472,9 +470,9 @@ Responsividad para distintas resoluciones
 ========= */
 
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
-  #navbar {
+  /* #navbar {
     width: 4.5em;
-  }
+  } */
 
   #navbar:hover {
     width: 15em;
@@ -544,9 +542,9 @@ Responsividad para distintas resoluciones
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
-  #navbar {
+  /* #navbar {
     width: 4.5em;
-  }
+  } */
 
   #navbar:hover {
     width: 15em;
@@ -625,9 +623,9 @@ Responsividad para distintas resoluciones
     position: relative;
   }
    */
-  #navbar {
+  /* #navbar {
     width: 4em;
-  }
+  } */
 
   #navbar:hover {
     width: 14em;
@@ -705,9 +703,9 @@ Responsividad para distintas resoluciones
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
-  #navbar {
+  /* #navbar {
     width: 3.5em;
-  }
+  } */
 
   #navbar:hover {
     width: 14em;
@@ -910,4 +908,22 @@ Responsividad para distintas resoluciones
   #navbar:hover { overflow-y: auto;}
 
   .dropdown-item { font-size: smaller; }
+}
+
+/* Media Querys para el ajuste a distintos zooms de PA */
+@media screen and (max-height: 1080px) { 
+  body #navbar { zoom: 90%!important; }
+  #navbar { width: min(5.2em, 8%); }
+}
+@media screen and (max-height: 900px) { 
+  body #navbar { zoom: 85%!important; } 
+  #navbar { width: min(5.4em, 8%); }
+}
+@media screen and (max-height: 768px) { 
+  body #navbar { zoom: 73%!important; } 
+  #navbar { width: min(5.6em, 8%); }
+}
+@media screen and (max-height: 700px) { 
+  body #navbar { zoom: 60%!important; } 
+  #navbar { width: min(5.8em, 8%); }
 }
