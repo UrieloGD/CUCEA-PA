@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'ADMINISTRACION',
             'Administración'
         ],
-        'Auditoria': [
+        'Auditoría': [
             'Auditoria',
             'AUDITORIA',
             'Auditoría',

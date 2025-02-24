@@ -376,5 +376,6 @@ function guardarInfoEspacio($modulo, $espacio, $equipo, $observaciones, $reporte
 
 <script src="./JS/espacios/filtros-espacios.js"></script>
 <script src="./JS/espacios/modal-dias.js"></script>
+<script src="./JS/espacios/aulas-amplias-modal.js"></script>
 
 <?php include './template/footer.php' ?>

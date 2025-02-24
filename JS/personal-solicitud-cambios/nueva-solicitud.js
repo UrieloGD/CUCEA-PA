@@ -21,7 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     abrirModalBaja();
                 }
                 break;
-            // Agregar otros casos según necesites
+            case 'Solicitud de propuesta':
+                if (typeof abrirModalPropuesta === 'function') {
+                    abrirModalPropuesta();
+                }
+                break;
         }
     });
 

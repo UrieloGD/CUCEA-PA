@@ -1,0 +1,148 @@
+.modal-baja-propuesta {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Mayor z-index para asegurar que esté por encima */
+    padding: 20px; /* Añadido para responsividad */
+  }
+  
+  .modal-content-baja-propuesta {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    margin: 2.5% auto;
+    max-width: 1200px;
+    position: relative; /* Para la X de cerrar */
+    max-height: 90vh; /* Para evitar que se salga de la pantalla */
+    overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+  }
+  
+  /* Botón de cerrar */
+  .close-button-baja-propuesta {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    z-index: 1000;
+  }
+  
+  .close-button:hover {
+    background: #e0e0e0;
+  }
+  
+  .form-row-baja-propuesta {
+    display: flex;
+    flex-wrap: nowrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group-baja-propuesta {
+    flex: 1;
+    min-width: 180px; /* Ancho mínimo antes de envolver */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group-baja-propuesta.large {
+    flex: 1.8 !important;
+  }
+
+  .form-group-baja-propuesta.compact {
+    flex: 0.6 !important;
+    min-width: 130px !important;
+  }
+  
+  .form-group-baja-propuesta.small {
+    flex: 0.4 !important;
+  }
+  
+  .form-group-baja-propuesta.smaller {
+    flex: 0.2 !important;
+    min-width: 100px !important;
+    margin-top: 0px;
+  }
+  
+  label {
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  
+  input,
+  select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  input:focus,
+  select:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  /* Estilos de botones del final (Cancelar o guardar) */
+  .contenedor-botones-baja-propuesta {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  
+  .contenedor-botones-baja-propuesta button {
+    margin: 0 7px;
+    border-radius: 10px;
+    border-style: none;
+    padding: 1vh 2.5vw 1vh;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #0071b0;
+    border-color: #0071b0;
+    cursor: pointer;
+    box-shadow: 0px 2px 2px rgb(185, 174, 174);
+  }
+  
+  /* Estilos específicos para el modal de baja-propuesta */
+  #solicitud-modal-baja-propuesta-academica .form-row-baja-propuesta {
+      margin-bottom: 2rem;
+  }
+  
+  #solicitud-modal-baja-propuesta-academica .form-group-baja-propuesta label {
+      font-weight: 500;
+  }
+  
+  /* Estilos adicionales para el modal de baja-propuesta */
+  #solicitud-modal-baja-propuesta-academica h3 {
+      color: #666;
+      margin: 2rem 0 1rem;
+      font-size: 1.1rem;
+  }
+  
+  /* Estilos para inputs readonly */
+  input[readonly] {
+      background-color: #f8f9fa;
+      cursor: not-allowed;
+  }
+  
+  /* Ajustes para inputs tipo date */
+  input[type="date"] {
+      padding: 0.4rem;
+  }

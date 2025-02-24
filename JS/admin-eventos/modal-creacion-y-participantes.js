@@ -434,6 +434,17 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     const formData = new FormData(formCrearEvento);
 
+    // Verificar si hay participantes seleccionados
+    if (participantesSeleccionados.size === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Atención",
+        text: "Debe seleccionar al menos un participante para el evento",
+        confirmButtonColor: "#0071b0",
+      });
+      return;
+    }
+
     // Mostrar alerta de carga
     Swal.fire({
       title: "Creando evento...",
@@ -443,9 +454,10 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
 
-    // Verificar si hay participantes seleccionados
-    const participantes = formData.getAll("participantes[]");
-    console.log("Participantes seleccionados:", participantes); // Para depuración
+    // Agregar participantes al formData
+    participantesSeleccionados.forEach((codigo) => {
+      formData.append("participantes[]", codigo);
+    });
 
     fetch("./functions/admin-eventos/guardar-evento.php", {
       method: "POST",
@@ -454,7 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((response) => response.json())
       .then((data) => {
         Swal.close();
-        console.log("Respuesta del servidor:", data); // Para depuración
+        console.log("Respuesta del servidor:", data);
         if (data.status === "success") {
           Swal.fire(
             "¡Guardado!",
@@ -467,6 +479,72 @@ document.addEventListener("DOMContentLoaded", function () {
           Swal.fire(
             "Error",
             "Hubo un problema al guardar el evento: " + data.message,
+            "error"
+          );
+        }
+      })
+      .catch((error) => {
+        Swal.close();
+        console.error("Error:", error);
+        Swal.fire(
+          "Error",
+          "Hubo un problema al procesar la respuesta del servidor.",
+          "error"
+        );
+      });
+  };
+
+  formEditarEvento.onsubmit = function (e) {
+    e.preventDefault();
+    const formData = new FormData(formEditarEvento);
+
+    // Verificar si hay participantes seleccionados
+    if (participantesSeleccionados.size === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Atención",
+        text: "Debe seleccionar al menos un participante para el evento",
+        confirmButtonColor: "#0071b0",
+      });
+      return;
+    }
+
+    // Mostrar alerta de carga
+    Swal.fire({
+      title: "Actualizando evento...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    // Agregar participantes al formData
+    participantesSeleccionados.forEach((codigo) => {
+      formData.append("participantes[]", codigo);
+    });
+
+    console.log("Datos a enviar:", Object.fromEntries(formData));
+
+    fetch("./functions/admin-eventos/guardar-evento.php", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        Swal.close();
+        console.log("Respuesta del servidor:", data);
+        if (data.status === "success") {
+          Swal.fire(
+            "¡Actualizado!",
+            "El evento ha sido actualizado.",
+            "success"
+          ).then(() => {
+            location.reload();
+          });
+        } else {
+          Swal.fire(
+            "Error",
+            "Hubo un problema al actualizar el evento: " + data.message,
             "error"
           );
         }
