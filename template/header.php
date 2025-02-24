@@ -59,6 +59,11 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
     $notificaciones[] = $row;
   }
 }
+
+
+include_once './config/borrar-cache.php';
+initGlobalCacheBuster();
+
 ?>
 
 <head>
