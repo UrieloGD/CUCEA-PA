@@ -29,7 +29,8 @@ function obtenerMateriasPorProfesor($conexion, $codigo_profesor) {
             if (isset($materias_unificadas[$crn])) {
                 $materias_unificadas[$crn] = unificarInformacionMaterias(
                     $materias_unificadas[$crn],
-                    array_merge($materia, $modalidad_info)
+                    array_merge($materia, $modalidad_info),
+                    $materia
                 );
             } else {
                 $materias_unificadas[$crn] = array_merge($materia, $modalidad_info, [
@@ -164,7 +165,7 @@ function extraerDiasDeCampo($dias_texto) {
     return $dias;
 }
 
-function unificarInformacionMaterias($materia_existente, $materia_nueva) {
+function unificarInformacionMaterias($materia_existente, $materia_nueva, $materia) {
     // Combinar días presenciales y virtuales
     $materia_existente['dias_presenciales'] = array_unique(array_merge(
         $materia_existente['dias_presenciales'] ?? [],
@@ -175,9 +176,19 @@ function unificarInformacionMaterias($materia_existente, $materia_nueva) {
         $materia_existente['dias_virtuales'] ?? [],
         $materia_nueva['dias_virtuales'] ?? []
     ));
+
+    $moduloM = substr($materia['MODULO'], 0, 2);
     
     // Mantener la modalidad original si todos los días son del mismo tipo
-    if (!empty($materia_existente['dias_presenciales']) && empty($materia_existente['dias_virtuales'])) {
+    if (empty($materia_existente['dias_presenciales']) && !empty($materia_existente['dias_virtuales']) && $moduloM == "CB") {
+        $materia_existente['modalidad_unificada'] = 'BLEARNING';
+    } elseif (empty($materia_existente['dias_presenciales']) && empty($materia_existente['dias_virtuales']) && $moduloM == "CB") {
+        $materia_existente['modalidad_unificada'] = 'BLEARNING';
+    } elseif (!empty($materia_existente['dias_presenciales']) && !empty($materia_existente['dias_virtuales']) && $moduloM == "CB") {
+        $materia_existente['modalidad_unificada'] = 'BLEARNING';
+    } elseif (!empty($materia_existente['dias_presenciales']) && empty($materia_existente['dias_virtuales']) && $moduloM == "CB") {
+        $materia_existente['modalidad_unificada'] = 'BLEARNING';
+    }elseif (!empty($materia_existente['dias_presenciales']) && empty($materia_existente['dias_virtuales'])) {
         $materia_existente['modalidad_unificada'] = 'PRESENCIAL';
     } elseif (empty($materia_existente['dias_presenciales']) && !empty($materia_existente['dias_virtuales'])) {
         $materia_existente['modalidad_unificada'] = 'VIRTUAL';

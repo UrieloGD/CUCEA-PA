@@ -17,7 +17,7 @@ body {
 
 .header {
   display: flex;
-  z-index: 2; /*Asegura que esté sobre otros elementos*/
+  z-index: 6; /*Asegura que esté sobre otros elementos*/
   /* border: solid black 1px; */
   background-color: white;
   margin-left: 6vw;
