@@ -28,7 +28,7 @@
   align-items: center;
   text-align: center;
   flex-grow: 1; /* Ocupa el espacio disponible */
-  margin-bottom: 45px;
+  margin-bottom: 20px;
 }
 
 /* Alineacion de texto de encabezado */
@@ -73,6 +73,7 @@
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .nombre-dpto-solicitud {
@@ -237,11 +238,27 @@
   color: #0071b0;
 }
 
-/* Rotacion de icono con ayuda de JS */
-.rotar {
-  display: inline-block;
-  transition: transform 0.2s;
-  transform: rotate(90deg); 
+.icono-despliegue i {
+  transition: transform 0.3s ease;
+}
+
+.icono-despliegue i.rotated {
+  transform: rotate(90deg);
+}
+
+.lista-opciones {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Cambia de top a bottom */
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  margin-bottom: 5px; /* Añade margen inferior */
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+  width: 100%;
 }
 
 /* Contenedor del boton para el jefe de departamento pueda crear nueva solicitud */
@@ -255,7 +272,6 @@
 .boton-nueva-solicitud {
   width: 100%;
   padding: 10px;
-  margin-bottom: 30px;
   background-color: #0071B0;
   color: white;
   border: none;
@@ -271,56 +287,145 @@
   display: none;
   position: absolute;
   top: 100%;
+  margin-top: -165px;
   left: 0;
-  width: 100%;
-  background-color: #f9f9f9;
-  box-shadow: 0px 2px 2px rgb(185, 174, 174);
-  z-index: 1;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
   padding: 0;
-  margin: 0;
-  list-style-type: none;
-  font-size: 1rem;
-  font-weight: bold;
+  list-style: none;
+  z-index: 1000;
+  width: 100%;
 }
+
 .lista-opciones.show {
   display: block;
   position: relative;
-  top: -30px;
 }
+
+/* Ajustar la animación si es necesario */
 .lista-opciones li {
-  padding: 10px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
-.lista-opciones li a {
-  color: black;
-  text-decoration: none;
-  display: block;
-}
+
 .lista-opciones li:hover {
-  background-color: #f1f1f1;
+  background-color: #f5f5f5;
+}
+
+.lista-opciones li:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.lista-opciones li:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 /* Estilos del contenedor desplegable */
 .contenedor-informacion {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out;
+  display: none; /* Cambiado de max-height a display */
+  background-color: #e7e9f2;
   margin: 0 auto;
   width: 85%;
-  padding-bottom: 5px;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  background-color: #e7e9f2;
-  border-color: #E7E9F2;
-  border-width: 5px;
-  border-style: solid;
+  /* padding: 20px 0; */
+  border-radius: 12px;
+  border: 5px solid #E7E9F2;
   box-shadow: 0px 3px 7px rgb(161, 161, 161);
-  opacity: 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  transition: all 0.3s ease-out;
 }
 
 .contenedor-informacion.mostrar {
   max-height: 750px;
   margin-bottom: 30px;
   opacity: 1;
+}
+
+/* Asegurarse que el botón de nueva solicitud esté siempre visible */
+.container-boton-nueva-solicitud {
+  margin-top: auto;
+  padding: 20px 0;
+}
+
+/* Css de no solicitudes */
+
+.no-solicitudes {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+
+.color-sin-solicitudes {
+  background-color: #ddd;
+  width: 8px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.mensaje-sin-solicitudes {
+  text-align: center;
+  padding: 60px 40px;
+  width: 100%;
+}
+
+.mensaje-sin-solicitudes i {
+  font-size: 48px;
+  color: #888;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.mensaje-sin-solicitudes h3 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.mensaje-sin-solicitudes p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.solicitudes-scroll-container {
+  height: calc(100vh - 200px); /* Ajusta este valor según el espacio que necesites */
+  max-height: 630px; /* Altura máxima para pantallas grandes */
+  overflow-y: auto;
+  /* margin-bottom: 20px; */
+  padding-right: 10px; /* Espacio para la barra de scroll */
+}
+
+/* Estilizar la barra de scroll */
+.solicitudes-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.solicitudes-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.solicitudes-scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.solicitudes-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 /* Estilos del contenedor de la materia, en el contenedor desplegable */
