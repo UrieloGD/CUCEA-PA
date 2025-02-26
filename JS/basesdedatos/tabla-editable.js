@@ -120,7 +120,14 @@ function makeEditable() {
       }
     }
   }
+  // Emitir un evento personalizado para indicar que la tabla ahora es editable
+  const editableEvent = new CustomEvent('tableNowEditable', {
+    detail: { table: table }
+  });
+  document.dispatchEvent(editableEvent);
 }
+
+
 
 function updateCell(cell) {
   if (!cell.hasAttribute("data-original-value")) {
@@ -167,8 +174,25 @@ function updateCell(cell) {
     newText = newText.slice(0, maxLength);
   }
 
-  // Actualizar el contenido de la celda
-  cell.textContent = newText;
+  // Solo actualizar el texto si es diferente, para evitar perder la posición del cursor
+  if (cell.textContent !== newText) {
+    cell.textContent = newText;
+    
+    // Ajustar la posición del cursor en función del cambio de longitud
+    let newCursorPos = cursorPosition;
+    if (newText.length !== originalLength) {
+      // Si el texto se acortó, ajustar la posición del cursor
+      newCursorPos = Math.min(cursorPosition, newText.length);
+    }
+    
+    // Restaurar la posición del cursor
+    if (cell.firstChild) {
+      range.setStart(cell.firstChild, newCursorPos);
+      range.setEnd(cell.firstChild, newCursorPos);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
 
   // Restaurar la posición del cursor
   range.setStart(cell.firstChild, Math.min(cursorPosition, newText.length));

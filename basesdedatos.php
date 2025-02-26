@@ -415,5 +415,6 @@ $result = $stmt->get_result();
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<script src="./JS/basesdedatos/navegacion-tabla.js"></script>
 
 <?php include("./template/footer.php"); ?>
