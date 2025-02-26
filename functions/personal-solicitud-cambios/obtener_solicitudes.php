@@ -6,27 +6,42 @@ function obtenerSolicitudes($conexion) {
     $rol_usuario = $_SESSION['Rol_ID'];
     $usuario_id = $_SESSION['Codigo'];
     
-    // Obtener el departamento del usuario desde usuarios_departamentos
-    $sql_dept = "SELECT Departamento_ID FROM usuarios_departamentos WHERE Usuario_ID = ?";
-    $stmt = mysqli_prepare($conexion, $sql_dept);
-    mysqli_stmt_bind_param($stmt, "s", $usuario_id);
-    mysqli_stmt_execute($stmt);
-    $result_dept = mysqli_stmt_get_result($stmt);
-    $dept_row = mysqli_fetch_assoc($result_dept);
+    // Inicializar la variable filtro_departamento
+    $filtro_departamento = "";
     
-    if (!$dept_row) {
-        return $solicitudes; // Retorna array vacío si no hay departamento asociado
+    // Si el usuario NO es de Coordinación de personal (rol 3)
+    if ($rol_usuario != 3) {
+        // Obtener el departamento del usuario desde usuarios_departamentos
+        $sql_dept = "SELECT Departamento_ID FROM usuarios_departamentos WHERE Usuario_ID = ?";
+        $stmt = mysqli_prepare($conexion, $sql_dept);
+        mysqli_stmt_bind_param($stmt, "s", $usuario_id);
+        mysqli_stmt_execute($stmt);
+        $result_dept = mysqli_stmt_get_result($stmt);
+        $dept_row = mysqli_fetch_assoc($result_dept);
+        
+        if (!$dept_row) {
+            return $solicitudes; // Retorna array vacío si no hay departamento asociado
+        }
+        
+        $departamento_id = $dept_row['Departamento_ID'];
+        $filtro_departamento = " WHERE sb.Departamento_ID = $departamento_id";
     }
-    
-    $departamento_id = $dept_row['Departamento_ID'];
-    $filtro_departamento = " WHERE sb.Departamento_ID = $departamento_id";
+    // Si es rol 3 (Coordinación de personal), no se aplica filtro de departamento
+    else {
+        $filtro_departamento = ""; // No filtramos por departamento
+    }
 
     // Obtener solicitudes de baja
     $sql_baja = "SELECT sb.*, d.Nombre_Departamento 
                  FROM solicitudes_baja sb 
-                 JOIN departamentos d ON sb.Departamento_ID = d.Departamento_ID
-                 $filtro_departamento
-                 ORDER BY sb.FECHA_SOLICITUD_B DESC, sb.HORA_CREACION DESC";
+                 JOIN departamentos d ON sb.Departamento_ID = d.Departamento_ID";
+    
+    // Aplicar filtro de departamento solo si existe
+    if (!empty($filtro_departamento)) {
+        $sql_baja .= $filtro_departamento;
+    }
+    
+    $sql_baja .= " ORDER BY sb.FECHA_SOLICITUD_B DESC, sb.HORA_CREACION DESC";
     
     $result_baja = mysqli_query($conexion, $sql_baja);
     while($row = mysqli_fetch_assoc($result_baja)) {
@@ -52,9 +67,14 @@ function obtenerSolicitudes($conexion) {
     // Solicitudes de propuesta
     $sql_prop = "SELECT sp.*, d.Nombre_Departamento 
                  FROM solicitudes_propuesta sp 
-                 JOIN departamentos d ON sp.Departamento_ID = d.Departamento_ID
-                 WHERE sp.Departamento_ID = $departamento_id
-                 ORDER BY sp.FECHA_SOLICITUD_P DESC, sp.HORA_CREACION DESC";
+                 JOIN departamentos d ON sp.Departamento_ID = d.Departamento_ID";
+    
+    // Para solicitudes de propuesta, cambiamos el filtro si es necesario
+    if ($rol_usuario != 3) {
+        $sql_prop .= " WHERE sp.Departamento_ID = $departamento_id";
+    }
+    
+    $sql_prop .= " ORDER BY sp.FECHA_SOLICITUD_P DESC, sp.HORA_CREACION DESC";
     
     $result_prop = mysqli_query($conexion, $sql_prop);
     while($row = mysqli_fetch_assoc($result_prop)) {
@@ -86,9 +106,14 @@ function obtenerSolicitudes($conexion) {
     // Solicitudes de baja-propuesta
     $sql_baja_prop = "SELECT sbp.*, d.Nombre_Departamento 
                       FROM solicitudes_baja_propuesta sbp 
-                      JOIN departamentos d ON sbp.Departamento_ID = d.Departamento_ID
-                      WHERE sbp.Departamento_ID = $departamento_id
-                      ORDER BY sbp.FECHA_SOLICITUD_BAJA_PROP DESC, sbp.HORA_CREACION DESC";
+                      JOIN departamentos d ON sbp.Departamento_ID = d.Departamento_ID";
+    
+    // Para solicitudes de baja-propuesta, aplicamos el filtro si es necesario
+    if ($rol_usuario != 3) {
+        $sql_baja_prop .= " WHERE sbp.Departamento_ID = $departamento_id";
+    }
+    
+    $sql_baja_prop .= " ORDER BY sbp.FECHA_SOLICITUD_BAJA_PROP DESC, sbp.HORA_CREACION DESC";
     
     $result_baja_prop = mysqli_query($conexion, $sql_baja_prop);
     while($row = mysqli_fetch_assoc($result_baja_prop)) {

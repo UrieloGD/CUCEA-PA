@@ -333,6 +333,7 @@ if (mysqli_query($conexion, $sql)) {
 $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja (
     ID_BAJA INT AUTO_INCREMENT PRIMARY KEY,
     USUARIO_ID BIGINT(10),
+    Departamento_ID INT,
     OFICIO_NUM_BAJA VARCHAR(15) UNIQUE,
     FECHA_SOLICITUD_B DATE,
     PROFESSION_PROFESOR_B VARCHAR(15),
@@ -347,9 +348,7 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja (
     MOTIVO_B VARCHAR(50),
     ESTADO_B VARCHAR(15),
     HORA_CREACION TIME,
-    Departamento_ID INT,
-    FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
-    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
+    PDF_BLOB LONGBLOB
 );";
 
 if (mysqli_query($conexion, $sql)) {
