@@ -76,6 +76,33 @@
   cursor: pointer;
 }
 
+#toggle-bd #jefes-bd { display: none; }
+#toggle-bd #coord-bd { display: none; }
+
+#toggle-bd {
+  display: none;
+  justify-content: center;
+  gap: 15px;
+  align-items: top;
+  width: 80%;
+  height: 60px;
+}
+#toggle-bd #jefes-bd,
+#toggle-bd #coord-bd { 
+  background-color: #0071b0;
+  padding: 15px;
+  border-radius: 7px;
+  transition: 0.3s ease;
+  color: #fff;
+  font-weight: bold;
+}
+#toggle-bd #jefes-bd:hover,
+#toggle-bd #coord-bd:hover {
+  width: 85%;
+  padding: 17px;
+  background-color: #0081c7;
+}
+
 .cuadro-acceso a {
   display: flex;
   justify-content: center;
@@ -934,6 +961,11 @@
     height: 80px;
     background-color: #0081c7;
   }
+  .cuadro-toggle:hover {
+    width: 80px;
+    height: 80px;
+    background-color: #0081c7;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -970,6 +1002,11 @@
     transition: 0.3s ease;
   }
   .cuadro-acceso:hover {
+    width: 60px;
+    height: 60px;
+    background-color: #0081c7;
+  }
+  .cuadro-toggle:hover {
     width: 60px;
     height: 60px;
     background-color: #0081c7;
