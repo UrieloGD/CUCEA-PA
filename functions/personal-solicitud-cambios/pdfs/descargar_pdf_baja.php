@@ -1,39 +1,53 @@
-<!-- ./functions/personal-solicitud-cambios/pdfs/descargar_pdf.php -->
+<!-- ./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php -->
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once './../../../config/db.php'; 
 
-// Verificar que el usuario esté autenticado
+// Verificar autenticación y roles
 if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 3)) {
-    echo "No autorizado";
-    exit;
+    die(json_encode(['success' => false, 'message' => 'No autorizado']));
 }
 
 if (isset($_GET['folio'])) {
     $folio = $_GET['folio'];
     
-    // Obtener el PDF de la base de datos
-    $sql = "SELECT PDF_BLOB, OFICIO_NUM_BAJA FROM solicitudes_baja WHERE OFICIO_NUM_BAJA = ?";
+    // Limpiar búfer de salida
+    ob_clean();
+    ob_start();
+    
+    $sql = "SELECT PDF_BLOB FROM solicitudes_baja WHERE OFICIO_NUM_BAJA = ?";
     $stmt = mysqli_prepare($conexion, $sql);
     mysqli_stmt_bind_param($stmt, "s", $folio);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $row = mysqli_fetch_assoc($result);
-    
-    if ($row && $row['PDF_BLOB']) {
-        // Configurar las cabeceras para la descarga del PDF
+    mysqli_stmt_store_result($stmt);
+    mysqli_stmt_bind_result($stmt, $pdfBlob);
+    mysqli_stmt_fetch($stmt);
+
+    if ($pdfBlob) {
+        // Configurar headers correctamente
+        header('Content-Description: File Transfer');
         header('Content-Type: application/pdf');
         header('Content-Disposition: attachment; filename="Solicitud_Baja_' . $folio . '.pdf"');
-        header('Content-Length: ' . strlen($row['PDF_BLOB']));
-        header('Cache-Control: private, max-age=0, must-revalidate');
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
+        header('Content-Length: ' . strlen($pdfBlob));
+
+        // Enviar contenido binario
+        echo $pdfBlob;
         
-        echo $row['PDF_BLOB'];
-        exit;
+        // Limpiar y salir
+        ob_end_flush();
+        exit();
     } else {
-        echo "PDF no encontrado";
+        http_response_code(404);
+        die('PDF no encontrado');
     }
 } else {
-    echo "Folio no proporcionado";
+    http_response_code(400);
+    die('Folio no proporcionado');
 }
 ?>

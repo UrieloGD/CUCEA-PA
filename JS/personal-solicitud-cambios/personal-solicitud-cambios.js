@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para descargar PDF (para ambos roles)
     function descargarPDF(folio) {
         $.ajax({
-            url: './functions/personal-solicitud-cambios/pdfs/generar_pdf.php',
+            url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja.php',
             type: 'POST',
             data: {
                 accion: 'descargar',
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    window.open('./functions/personal-solicitud-cambios/pdfs/descargar_pdf.php?folio=' + response.folio, '_blank');
+                    window.open('./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=' + response.folio, '_blank');
                 } else {
                     if (rol_usuario === 3) {
                         alert('El PDF aún no ha sido generado. Por favor, genere primero la solicitud en PDF.');
