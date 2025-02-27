@@ -217,6 +217,8 @@ $(document).ready(function () {
         localStorage.getItem("DataTables_" + settings.sInstance)
       );
     },
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with 
     ordering: true,
     info: true,
     scrollX: true,

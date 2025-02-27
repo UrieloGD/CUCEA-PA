@@ -89,46 +89,310 @@ const maxLengths = {
   EXAMEN_EXTRAORDINARIO: 2,
 };
 
+// Variables globales para control de estado
+let activeCell = null;
+let editMode = false;
+
+// Función principal para hacer editable la tabla
 function makeEditable() {
+  // Añadir estilos CSS para las celdas seleccionadas
+  addExcelStyleCSS();
+
   // Verificar el rol del usuario antes de hacer la tabla editable
   const table = document.getElementById("tabla-datos");
+  if (!table) return;
 
   // Verificar si la tabla tiene el atributo data-editable="false"
   if (table.getAttribute("data-editable") === "false") {
     return;
   }
 
-  const userRole = document.getElementById("user-role").value;
-
-  if (userRole !== "1") {
+  const userRole = document.getElementById("user-role");
+  if (!userRole || userRole.value !== "1") {
     return;
   }
-  const rows = table.getElementsByTagName("tr");
 
-  for (let i = 1; i < rows.length; i++) {
-    const cells = rows[i].getElementsByTagName("td");
-    for (let j = 1; j < cells.length; j++) {
-      if (j !== 1) {
-        cells[j].setAttribute(
-          "data-original-value",
-          cells[j].textContent.trim()
-        );
-        cells[j].setAttribute("contenteditable", "true");
-        cells[j].addEventListener("input", function () {
+  const rows = table.querySelectorAll("tbody tr");
+
+  // Procesar cada celda de la tabla
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    cells.forEach((cell, cellIndex) => {
+      // Omitir la segunda columna (índice 1) que generalmente es la de ID
+      // También omitir celdas que contienen inputs para borrar filas
+      if (cellIndex !== 1 && !cell.querySelector('input')) {
+        // Guardar el valor original
+        cell.setAttribute("data-original-value", cell.textContent.trim());
+        
+        // Añadir clase para marcar como procesada
+        cell.classList.add("excel-behavior-applied");
+        
+        // Añadir eventos
+        cell.addEventListener("click", handleCellClick);
+        cell.addEventListener("dblclick", handleCellDblClick);
+        cell.addEventListener("keydown", handleKeyNavigation);
+        cell.addEventListener("input", function() {
           updateCell(this);
         });
       }
-    }
-  }
-  // Emitir un evento personalizado para indicar que la tabla ahora es editable
+    });
+  });
+
+  // Emitir evento de tabla editable
   const editableEvent = new CustomEvent('tableNowEditable', {
     detail: { table: table }
   });
   document.dispatchEvent(editableEvent);
+
+  // Añadir listener para cuando se haga clic fuera de la tabla
+  document.addEventListener("click", function(e) {
+    if (!table.contains(e.target) && activeCell) {
+      exitEditMode();
+      if (activeCell) {
+        activeCell.classList.remove('selected-cell');
+        activeCell = null;
+      }
+    }
+  });
 }
 
+// Manejo de selección y edición de celdas
+function handleCellClick(event) {
+  // Si ya hay una celda activa en modo edición, salir del modo edición
+  if (activeCell && activeCell !== this && editMode) {
+    exitEditMode();
+  }
+  
+  // Seleccionar esta celda
+  selectCell(this);
+  
+  // Importante: Asegurar que la celda reciba el foco
+  this.focus();
+  
+  event.stopPropagation();
+}
 
+function handleCellDblClick(event) {
+  // Activar modo edición en doble clic
+  enterEditMode(this);
+  event.stopPropagation();
+}
 
+function selectCell(cell) {
+  // Deseleccionar la celda activa anterior si existe
+  if (activeCell) {
+    activeCell.classList.remove("selected-cell");
+  }
+
+  // Marcar esta celda como seleccionada
+  activeCell = cell;
+  cell.classList.add("selected-cell");
+  editMode = false;
+  
+  // Asegurarse de que la celda no sea editable en modo selección
+  cell.setAttribute("contenteditable", "false");
+  
+  // Importante: Hacer que la celda sea "focusable"
+  cell.setAttribute("tabindex", "0");
+  
+  // Dar foco a la celda
+  cell.focus();
+}
+
+function enterEditMode(cell) {
+  // Activar la edición de la celda
+  cell.setAttribute("contenteditable", "true");
+  editMode = true;
+  
+  // Posicionar el cursor al final del texto
+  placeCursorAtEnd(cell);
+}
+
+function exitEditMode() {
+  if (activeCell && editMode) {
+    // Desactivar la edición de la celda
+    activeCell.setAttribute("contenteditable", "false");
+    editMode = false;
+    
+    // Verificar si ha habido cambios
+    const originalValue = activeCell.getAttribute('data-original-value');
+    const currentValue = activeCell.textContent.trim();
+    
+    if (originalValue !== currentValue) {
+      activeCell.style.backgroundColor = "#FFFACD"; // Color amarillo claro para indicar cambio
+      changedCells.add(activeCell);
+      showSaveButton();
+      showEditIcons();
+    }
+  }
+}
+
+function placeCursorAtEnd(cell) {
+  cell.focus();
+  
+  // Crear un rango al final del contenido
+  const range = document.createRange();
+  const selection = window.getSelection();
+  
+  if (cell.childNodes.length > 0) {
+    const lastNode = cell.childNodes[cell.childNodes.length - 1];
+    const lastNodeLength = lastNode.nodeType === 3 ? lastNode.length : 0;
+    range.setStart(lastNode, lastNodeLength);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  } else {
+    // Si la celda está vacía, crear un nodo de texto
+    const textNode = document.createTextNode("");
+    cell.appendChild(textNode);
+    range.setStart(textNode, 0);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+}
+
+// Manejo de navegación con teclado
+function handleKeyNavigation(event) {
+  if (!activeCell) return;
+  
+  // Teclas especiales
+  switch (event.key) {
+    case "F2":
+      event.preventDefault();
+      if (!editMode) {
+        enterEditMode(activeCell);
+      }
+      return;
+      
+    case "Escape":
+      event.preventDefault();
+      if (editMode) {
+        // Restaurar valor original
+        activeCell.textContent = activeCell.getAttribute('data-original-value') || '';
+        exitEditMode();
+      } else {
+        // Deseleccionar celda
+        if (activeCell) {
+          activeCell.classList.remove("selected-cell");
+          activeCell = null;
+        }
+      }
+      return;
+      
+    case "Enter":
+      event.preventDefault();
+      if (editMode) {
+        exitEditMode();
+      }
+      navigateToCell("down");
+      return;
+  }
+  
+  // Si estamos en modo edición, permitir que las teclas de flecha muevan el cursor
+  if (editMode) {
+    // No interceptar las teclas de flecha en modo edición
+    return;
+  }
+  
+  // Si no estamos en modo edición, usar las flechas para navegar entre celdas
+  switch (event.key) {
+    case "ArrowUp":
+      event.preventDefault();
+      navigateToCell("up");
+      break;
+    case "ArrowDown":
+      event.preventDefault();
+      navigateToCell("down");
+      break;
+    case "ArrowLeft":
+      event.preventDefault();
+      navigateToCell("left");
+      break;
+    case "ArrowRight":
+      event.preventDefault();
+      navigateToCell("right");
+      break;
+    case "Tab":
+      event.preventDefault();
+      navigateToCell(event.shiftKey ? "left" : "right");
+      break;
+  }
+}
+
+function navigateToCell(direction) {
+  if (!activeCell) return;
+  
+  const table = document.getElementById("tabla-datos");
+  const rows = table.querySelectorAll('tbody tr');
+  const rowArray = Array.from(rows);
+  const currentRow = activeCell.parentElement;
+  const rowIndex = rowArray.indexOf(currentRow);
+  
+  // Obtener todas las celdas editables (excluyendo la columna de ID)
+  const allEditableCells = Array.from(table.querySelectorAll('td.excel-behavior-applied'));
+  
+  let nextCell = null;
+  
+  switch (direction) {
+    case "up":
+      if (rowIndex > 0) {
+        // Buscar la celda en la misma posición en la fila anterior
+        const cellIndex = Array.from(currentRow.cells).indexOf(activeCell);
+        const upperRow = rowArray[rowIndex - 1];
+        if (upperRow && upperRow.cells[cellIndex]) {
+          const targetCell = upperRow.cells[cellIndex];
+          if (targetCell.classList.contains('excel-behavior-applied')) {
+            nextCell = targetCell;
+          }
+        }
+      }
+      break;
+      
+    case "down":
+      if (rowIndex < rowArray.length - 1) {
+        // Buscar la celda en la misma posición en la fila siguiente
+        const cellIndex = Array.from(currentRow.cells).indexOf(activeCell);
+        const lowerRow = rowArray[rowIndex + 1];
+        if (lowerRow && lowerRow.cells[cellIndex]) {
+          const targetCell = lowerRow.cells[cellIndex];
+          if (targetCell.classList.contains('excel-behavior-applied')) {
+            nextCell = targetCell;
+          }
+        }
+      }
+      break;
+      
+    case "left":
+      // Buscar la celda anterior editable en la misma fila
+      const currentCells = Array.from(currentRow.cells).filter(cell => 
+        cell.classList.contains('excel-behavior-applied')
+      );
+      const currentIndex = currentCells.indexOf(activeCell);
+      if (currentIndex > 0) {
+        nextCell = currentCells[currentIndex - 1];
+      }
+      break;
+      
+    case "right":
+      // Buscar la celda siguiente editable en la misma fila
+      const rowCells = Array.from(currentRow.cells).filter(cell => 
+        cell.classList.contains('excel-behavior-applied')
+      );
+      const cellIdx = rowCells.indexOf(activeCell);
+      if (cellIdx < rowCells.length - 1) {
+        nextCell = rowCells[cellIdx + 1];
+      }
+      break;
+  }
+  
+  // Si encontramos una celda a la que navegar, la seleccionamos
+  if (nextCell) {
+    selectCell(nextCell);
+  }
+}
+
+// Actualización de celdas
 function updateCell(cell) {
   if (!cell.hasAttribute("data-original-value")) {
     cell.setAttribute("data-original-value", cell.textContent.trim());
@@ -143,6 +407,7 @@ function updateCell(cell) {
   const cursorPosition = range.startOffset;
 
   let newText = cell.textContent;
+  const originalLength = newText.length;
 
   // Validar el tipo de datos por columna
   switch (columnName) {
@@ -194,50 +459,13 @@ function updateCell(cell) {
     }
   }
 
-  // Restaurar la posición del cursor
-  range.setStart(cell.firstChild, Math.min(cursorPosition, newText.length));
-  range.setEnd(cell.firstChild, Math.min(cursorPosition, newText.length));
-  selection.removeAllRanges();
-  selection.addRange(range);
-
   cell.style.backgroundColor = "#FFFACD";
   changedCells.add(cell);
   showSaveButton();
   showEditIcons();
 }
 
-function showCharacterCount(cell) {
-  const columnName = getColumnName(cell);
-  const maxLength = maxLengths[columnName] || 60;
-  const countSpan = document.createElement("span");
-  countSpan.className = "char-count";
-  countSpan.style.position = "absolute";
-  countSpan.style.bottom = "0";
-  countSpan.style.right = "0";
-  countSpan.style.fontSize = "10px";
-  countSpan.style.color = "#888";
-  cell.style.position = "relative";
-  cell.appendChild(countSpan);
-  updateCharacterCount(cell);
-}
-
-function hideCharacterCount(cell) {
-  const countSpan = cell.querySelector(".char-count");
-  if (countSpan) {
-    cell.removeChild(countSpan);
-  }
-}
-
-function updateCharacterCount(cell) {
-  const columnName = getColumnName(cell);
-  const maxLength = maxLengths[columnName] || 60;
-  const remainingChars = maxLength - cell.textContent.length;
-  const countSpan = cell.querySelector(".char-count");
-  if (countSpan) {
-    countSpan.textContent = remainingChars;
-  }
-}
-
+// Funciones auxiliares
 function getColumnName(cell) {
   const headerRow = document.querySelector("#tabla-datos tr");
   let columnName = headerRow.cells[cell.cellIndex].textContent.trim();
@@ -250,40 +478,89 @@ function getColumnName(cell) {
     )
     .trim();
 
-  console.log("Column name from header:", columnName); // Para depuración
+  // Para depuración
+  // console.log("Column name from header:", columnName);
   let mappedName = columnMap[columnName] || columnName;
-  console.log("Mapped column name:", mappedName); // Para depuración
+  // console.log("Mapped column name:", mappedName);
   return mappedName;
 }
 
+// Añadir estilos CSS para las celdas seleccionadas
+function addExcelStyleCSS() {
+  if (document.getElementById('excel-style-css')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'excel-style-css';
+  style.textContent = `
+    .selected-cell {
+      outline: 2px solid #217346 !important; /* Color verde Excel */
+      background-color: rgba(33, 115, 70, 0.1) !important;
+    }
+    #tabla-datos td.excel-behavior-applied {
+      position: relative;
+      cursor: cell;
+    }
+    #tabla-datos td[contenteditable="true"] {
+      cursor: text;
+    }
+    #tabla-datos td.excel-behavior-applied::selection {
+      background-color: transparent;
+    }
+    #tabla-datos td[contenteditable="true"]::selection {
+      background-color: #b5d7ff;
+    }
+    .char-count {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 10px;
+      color: #888;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Funciones para los botones de guardar y deshacer
 function showSaveButton() {
   const saveIcon = document.getElementById("icono-guardar");
-  saveIcon.style.visibility = "visible";
-  saveIcon.style.opacity = "1";
+  if (saveIcon) {
+    saveIcon.style.visibility = "visible";
+    saveIcon.style.opacity = "1";
+  }
 }
 
 function hideSaveButton() {
   const saveIcon = document.getElementById("icono-guardar");
-  saveIcon.style.visibility = "hidden";
-  saveIcon.style.opacity = "0";
+  if (saveIcon) {
+    saveIcon.style.visibility = "hidden";
+    saveIcon.style.opacity = "0";
+  }
 }
 
 function showEditIcons() {
   const saveIcon = document.getElementById("icono-guardar");
   const undoIcon = document.getElementById("icono-deshacer");
-  saveIcon.style.visibility = "visible";
-  saveIcon.style.opacity = "1";
-  undoIcon.style.visibility = "visible";
-  undoIcon.style.opacity = "1";
+  if (saveIcon) {
+    saveIcon.style.visibility = "visible";
+    saveIcon.style.opacity = "1";
+  }
+  if (undoIcon) {
+    undoIcon.style.visibility = "visible";
+    undoIcon.style.opacity = "1";
+  }
 }
 
 function hideEditIcons() {
   const saveIcon = document.getElementById("icono-guardar");
   const undoIcon = document.getElementById("icono-deshacer");
-  saveIcon.style.visibility = "hidden";
-  saveIcon.style.opacity = "0";
-  undoIcon.style.visibility = "hidden";
-  undoIcon.style.opacity = "0";
+  if (saveIcon) {
+    saveIcon.style.visibility = "hidden";
+    saveIcon.style.opacity = "0";
+  }
+  if (undoIcon) {
+    undoIcon.style.visibility = "hidden";
+    undoIcon.style.opacity = "0";
+  }
 }
 
 function undoAllChanges() {
@@ -291,14 +568,16 @@ function undoAllChanges() {
     // Obtener la última celda modificada
     const lastCell = Array.from(changedCells).pop();
 
-    // Revertir los cambios de la última celda
-    const originalValue = lastCell.getAttribute("data-original-value");
-    if (originalValue !== null) {
-      lastCell.textContent = originalValue;
+    // Comprobar si la celda contiene un input, en ese caso ignorarla
+    if (!lastCell.querySelector('input')) {
+      // Revertir los cambios de la última celda
+      const originalValue = lastCell.getAttribute("data-original-value");
+      if (originalValue !== null) {
+        lastCell.textContent = originalValue;
+      }
+      lastCell.style.backgroundColor = "";
     }
-    lastCell.style.backgroundColor = "";
-    lastCell.removeAttribute("data-original-value");
-
+    
     // Eliminar la última celda de la lista de celdas modificadas
     changedCells.delete(lastCell);
   }
@@ -357,6 +636,10 @@ function saveAllChanges() {
     .then((results) => {
       results.forEach(({ cell, data }) => {
         if (data.success) {
+          // Actualizar el valor original
+          cell.setAttribute("data-original-value", cell.textContent.trim());
+          
+          // Mostrar confirmación visual
           cell.style.backgroundColor = "#90EE90";
           setTimeout(() => {
             cell.style.transition = "background-color 0.5s ease";
@@ -371,14 +654,22 @@ function saveAllChanges() {
     })
     .catch((error) => {
       console.error("Error saving changes:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text:
-          "No tienes los permisos necesarios para realizar cambios en la base de datos. Error: " +
-          error.message,
-        confirmButtonText: "Entendido",
-      });
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text:
+            "No tienes los permisos necesarios para realizar cambios en la base de datos. Error: " +
+            error.message,
+          confirmButtonText: "Entendido",
+        });
+      } else {
+        alert("Error al guardar los cambios: " + error.message);
+      }
     });
 }
-document.addEventListener("DOMContentLoaded", makeEditable);
+
+// Inicialización al cargar el documento
+document.addEventListener("DOMContentLoaded", function() {
+  makeEditable();
+});
