@@ -177,7 +177,7 @@ function unificarInformacionMaterias($materia_existente, $materia_nueva, $materi
         $materia_nueva['dias_virtuales'] ?? []
     ));
 
-    $moduloM = substr($materia['MODULO'], 0, 2);
+    $moduloM = substr($materia['MODULO'] ?? 'NA', 0, 2);
     
     // Mantener la modalidad original si todos los días son del mismo tipo
     if (empty($materia_existente['dias_presenciales']) && !empty($materia_existente['dias_virtuales']) && $moduloM == "CB") {
@@ -251,7 +251,7 @@ function renderizarTablaMaterias($materias) {
                     </td>
                     <td class="col-aula"><?= htmlspecialchars($materia['AULA'] ?? 'No hay datos') ?></td>
                     <td class="col-modalidad">
-                        <?= htmlspecialchars($materia['MODULO'] . ' (' . $materia['modalidad_unificada'] . ')') ?>
+                        <?= htmlspecialchars($materia['MODULO'] ?? 'No hay datos' . ' (' . $materia['modalidad_unificada'] . ')') ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
