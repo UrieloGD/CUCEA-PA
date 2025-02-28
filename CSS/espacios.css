@@ -1016,8 +1016,12 @@ textarea {
   .tab button {
     padding: 1vh 4vw;
   }
-  .horario-table td {
+  .horario-table td,
+  .horario-table th {
     font-size: 0.7rem;
+  }
+  .horario-table th {
+    word-wrap: nowrap;
   }
 }
 
