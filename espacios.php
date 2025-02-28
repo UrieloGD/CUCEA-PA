@@ -297,42 +297,44 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <span class="close">&times;</span>
                 <hr style="border: 1px solid #0071b0; width: 100%;">
                 <div class="espacio-info">
-                    <div class="sala-modal <?php 
-                        $etiqueta_lower = strtolower($espacio['Etiqueta']);
-                        $clase = '';
-                        if (strpos($etiqueta_lower, 'aula') !== false) {
-                            $clase = 'aula';
-                        } elseif (strpos($etiqueta_lower, 'laboratorio') !== false) {
-                            $clase = 'laboratorio';
-                        } elseif (strpos($etiqueta_lower, 'administrativo') !== false || strpos($etiqueta_lower, 'oficina administrativa') !== false) {
-                            $clase = 'oficina-administrativa';
-                        } elseif (strpos($etiqueta_lower, 'bodega') !== false) {
-                            $clase = 'bodega';
-                        }
-                        echo $clase . ' ' . strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); 
-                    ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
-                        <img src="./Img/Icons/iconos-espacios/icono-<?php 
-                            echo $clase ? $clase : strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); 
-                        ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                    <div class="espacio-columna-movil">
+                        <div class="sala-modal <?php 
+                            $etiqueta_lower = strtolower($espacio['Etiqueta']);
+                            $clase = '';
+                            if (strpos($etiqueta_lower, 'aula') !== false) {
+                                $clase = 'aula';
+                            } elseif (strpos($etiqueta_lower, 'laboratorio') !== false) {
+                                $clase = 'laboratorio';
+                            } elseif (strpos($etiqueta_lower, 'administrativo') !== false || strpos($etiqueta_lower, 'oficina administrativa') !== false) {
+                                $clase = 'oficina-administrativa';
+                            } elseif (strpos($etiqueta_lower, 'bodega') !== false) {
+                                $clase = 'bodega';
+                            }
+                            echo $clase . ' ' . strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); 
+                        ?>" data-espacio="<?php echo $espacio['Espacio']; ?>">
+                            <img src="./Img/Icons/iconos-espacios/icono-<?php 
+                                echo $clase ? $clase : strtolower(str_replace(' ', '-', $espacio['Etiqueta'])); 
+                            ?>.png" alt="<?php echo $espacio['Etiqueta']; ?>">
+                        </div>
+                        <div class="espacio-columna">
+                            <p><strong>Edificio:</strong> <span id="moduloInfo"></span></p>
+                            <p><strong>Número:</strong> <span id="espacioInfo"></span></p>
+                            <p><strong>Tipo:</strong> <span id="tipoInfo"></span></p>
+                            <p><strong>Capacidad:</strong> <span id="cupoInfo"></span> alumnos</p>
+                        </div>
                     </div>
-                    <div class="espacio-columna">
-                        <p><strong>Edificio:</strong> <span id="moduloInfo"></span></p>
-                        <p><strong>Número:</strong> <span id="espacioInfo"></span></p>
-                        <p><strong>Tipo:</strong> <span id="tipoInfo"></span></p>
-                        <p><strong>Capacidad:</strong> <span id="cupoInfo"></span> alumnos</p>
-                    </div>
-                    <div class="espacio-columna">
-                        <p><strong>Equipo:</strong></p>
-                        <ul id="equipoList"></ul>
-                    </div>
-                    <div class="espacio-columna">
-                        <p><strong>Observaciones:</strong></p>
-                        <div id="observacionesArea"></div>
-                    </div>
-                    <div class="espacio-columna">
-                        <p><strong>Reportes:</strong></p>
-                        <div id="reportesArea"></div>
-                    </div>
+                        <div class="espacio-columna">
+                            <p><strong>Equipo:</strong></p>
+                            <ul id="equipoList"></ul>
+                        </div>
+                        <div class="espacio-columna">
+                            <p><strong>Observaciones:</strong></p>
+                            <div id="observacionesArea"></div>
+                        </div>
+                        <div class="espacio-columna">
+                            <p><strong>Reportes:</strong></p>
+                            <div id="reportesArea"></div>
+                        </div>
                 </div>
                 <h3>Horarios de clases: </h3>
                 <hr style="border: 1px solid #0071b0; width: 100%;   margin-top: -px;">
