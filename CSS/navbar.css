@@ -29,6 +29,14 @@
   flex-direction: column;
 }
 
+.container-profile-logout {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 80px;
+}
+
 #navbar:hover {
   width: 16em;
   border: solid 5px #e7e9f2;
@@ -103,7 +111,7 @@
 /* Navbar Items */
 .navbar-item {
   padding: 0 0.5em;
-  width: 95%;
+  /* width: 95%; */
   cursor: pointer;
 }
 
@@ -185,7 +193,7 @@
   border-radius: 50%;
   /*border: 4px solid white;*/
   overflow: hidden;
-  position: absolute;
+  position: relative;
   font-weight: bold;
   color: white;
   font-size: 1.5rem;
@@ -761,7 +769,6 @@ Responsividad para distintas resoluciones
 
   .logout-button {
     position: relative;
-    left: 20px;
     font-size: 0.6rem;
     padding: 0.3rem 0.6rem;
   }
@@ -774,7 +781,6 @@ Responsividad para distintas resoluciones
     width: 4.125rem;
     height: 4.125rem;
     font-size: 2.5rem;
-    left: 105px;
   }
 
   .dropdown-item { font-size: smaller; }
@@ -806,7 +812,7 @@ Responsividad para distintas resoluciones
   #navbar {
     padding: 0;
     margin: 0 auto;
-    width: 4em;
+    width: 50px;
     height: 3.14em;
     margin-left: 5vw;
     position: fixed;
@@ -843,8 +849,8 @@ Responsividad para distintas resoluciones
   .navbar-logo img {
     position: relative;
     content: url(../Img/logos/LogoPA.png);
-    width: 60%;
-    height: 70%;
+    width: 100%;
+    height: 50%;
     bottom: 41px;
     transition: all 0.3s ease;
   }
@@ -878,7 +884,6 @@ Responsividad para distintas resoluciones
   /* Navbar Items */
   .navbar-item {
     padding: 0 0.5em;
-    width: 100%;
     cursor: pointer;
   }
  
@@ -934,16 +939,31 @@ Responsividad para distintas resoluciones
   body #navbar { zoom: 85%!important; } 
   #navbar { width: min(5.4em, 8%); }
   .container-iconos-navbar { margin-left: 0.4em; }
+  .navbar-profile-icon {
+    width: 3.025rem;
+    height: 3.025rem;
+    font-size: 1.5rem;
+  }
 }
 @media screen and (max-height: 768px) { 
   body #navbar { zoom: 73%!important; } 
   #navbar { width: min(5.6em, 8%); }
   .container-iconos-navbar { margin-left: 0.5em; }
+  .navbar-profile-icon {
+    width: 3.525rem;
+    height: 3.525rem;
+    font-size: 1.6rem;
+  }
 }
 @media screen and (max-height: 700px) { 
   body #navbar { zoom: 60%!important; } 
   #navbar { width: min(5.8em, 8%); }
   .container-iconos-navbar { margin-left: 0.8em; }
+  .navbar-profile-icon {
+    width: 4.025rem;
+    height: 4.025rem;
+    font-size: 1.7rem;
+  }
 }
 
 /* Media Querys para navegadores NO Chromium (Firefox y Safari) */
@@ -974,6 +994,11 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 60%; }
         .container-iconos-navbar { margin-left: 0em; }
+        .navbar-profile-icon {
+          width: 3.025rem;
+          height: 3.025rem;
+          font-size: 1.5rem;
+        }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
@@ -982,6 +1007,11 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 60%; }
         .container-iconos-navbar { margin-left: 0em; }
+        .navbar-profile-icon {
+          width: 3.025rem;
+          height: 3.025rem;
+          font-size: 1.5rem;
+        }
     }
 }
 
@@ -993,6 +1023,11 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.8em 0.5em; }
         .container-iconos-navbar img { width: 70%; }
         .container-iconos-navbar { margin-left: -0.2em; }
+        .navbar-profile-icon {
+          width: 3.525rem;
+          height: 3.525rem;
+          font-size: 1.6rem;
+        }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
@@ -1001,6 +1036,11 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.8em 0.5em; }
         .container-iconos-navbar img { width: 70%; }
         .container-iconos-navbar { margin-left: -0.2em; }
+        .navbar-profile-icon {
+          width: 3.525rem;
+          height: 3.525rem;
+          font-size: 1.6rem;
+        }
     }
 }
 
@@ -1012,6 +1052,11 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.7em 0.5em; }
         .container-iconos-navbar img { width: 75%; }
         .container-iconos-navbar { margin-left: -0.1em; }
+        .navbar-profile-icon {
+          width: 4.025rem;
+          height: 4.025rem;
+          font-size: 1.7rem;
+        }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
@@ -1020,5 +1065,10 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.7em 0.5em; }
         .container-iconos-navbar img { width: 75%; }
         .container-iconos-navbar { margin-left: -0.1em; }
+        .navbar-profile-icon {
+          width: 4.025rem;
+          height: 4.025rem;
+          font-size: 1.7rem;
+        }
     }
 }
