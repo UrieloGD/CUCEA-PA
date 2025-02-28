@@ -10,52 +10,57 @@ document.addEventListener('DOMContentLoaded', function() {
     // Definir funciones globales para generar y descargar PDFs
     window.generarPDF = function(folio) {
         Swal.fire({
-            title: 'Generar PDF',
-            text: '¿Confirmas la generación del PDF?',
-            icon: 'question',
+            title: 'Confirmar generación',
+            html: `¿Generar PDF?<br><small>El estado cambiará a "En revisión"</small>`,
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Generar',
-            cancelButtonText: 'Cancelar'
+            cancelButtonText: 'Cancelar',
+            allowOutsideClick: false
         }).then((result) => {
             if (result.isConfirmed) {
+                // Loader centrado durante generación
+                Swal.fire({
+                    title: 'Generando documento',
+                    html: '<div class="swal2-loader"></div>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: 'swal2-modal-custom',
+                        loader: 'swal2-loader-center'
+                    },
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });    
                 $.ajax({
                     url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja.php',
                     type: 'POST',
                     data: { folio: folio },
                     dataType: 'json',
-                    beforeSend: function() {
-                        Swal.showLoading();
-                    },
-                    success: function(response) {
+                    success: (response) => {
+                        Swal.close();
                         if (response.success) {
-                            // Descargar PDF
-                            window.open(
-                                `./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=${response.folio}`,
-                                '_blank'
-                            );
+                            // Descargar automáticamente
+                            window.open(`./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=${response.folio}`, '_blank');
                             
-                            // Actualizar estado visualmente
-                            $(`[data-folio="${response.folio}"] .estado-solicitud`)
-                                .text('En revision')
-                                .removeClass('pendiente')
-                                .addClass('en-revision');
-                            
-                            Swal.fire('Éxito', 'PDF generado correctamente', 'success');
-                        } else {
-                            Swal.fire('Error', response.message, 'error');
-                            console.error('Detalle del error:', response.trace);
+                            // Recargar después de 1s
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
                         }
                     },
                     error: function(xhr) {
+                        Swal.close();
                         let errorMsg = `Error ${xhr.status}: `;
                         try {
-                            const response = JSON.parse(xhr.responseText);
-                            errorMsg += response.message || 'Error desconocido';
-                        } catch {
+                            const errorResponse = JSON.parse(xhr.responseText);
+                            errorMsg += errorResponse.message || 'Error en el servidor';
+                        } catch(e) {
                             errorMsg += xhr.statusText;
                         }
-                        Swal.fire('Error de red', errorMsg, 'error');
-                        console.error('Respuesta cruda:', xhr.responseText);
+                        Swal.fire('Error de conexión', errorMsg, 'error');
+                        console.error('Error completo:', xhr.responseText);
                     }
                 });
             }
