@@ -1,3 +1,5 @@
+var table;
+
 // Inicializar tooltips personalizados
 function initializeCustomTooltips() {
   const tooltip = document.createElement("div");
@@ -78,9 +80,18 @@ Swal.fire({
   },
 });
 
+
 $(document).ready(function () {
+
   localStorage.removeItem("DataTables_tabla-datos");
-  var table = $("#tabla-datos").DataTable({
+  table = $("#tabla-datos").DataTable({
+    scrollY: '620px',     // Altura fija para el cuerpo de la tabla
+    scrollCollapse: true, // Permite que la tabla se colapse cuando hay poco contenido
+    scrollX: true,        // Scroll horizontal si es necesario
+    fixedHeader: {
+        header: true,     // Mantiene el encabezado fijo durante el scroll
+        footer: false
+    },
     dom: '<"top"<"custom-search-container">f>rt<"bottom"lip>',
     language: {
       url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
@@ -206,6 +217,8 @@ $(document).ready(function () {
         localStorage.getItem("DataTables_" + settings.sInstance)
       );
     },
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with 
     ordering: true,
     info: true,
     scrollX: true,
@@ -312,6 +325,9 @@ $(document).ready(function () {
     ],
   });
 
+  // Redibujar tabla - mueve esto dentro de document.ready
+  table.columns.adjust().draw();
+
   // Redibujar tabla
   setTimeout(function () {
     table.columns.adjust().draw();
@@ -325,6 +341,22 @@ $(document).ready(function () {
     leftColumns: 2,
     rightColumns: 0,
   });
+});
+
+// Ajusta las columnas después de la carga completa
+$(window).on('load', function() {
+  if (table && table.columns) {
+      setTimeout(function() {
+          table.columns.adjust().draw();
+      }, 500); // Un pequeño retraso puede ayudar
+  }
+});
+
+// Ajusta las columnas si el tamaño de la ventana cambia
+$(window).on('resize', function() {
+  if (table) {
+      table.columns.adjust().draw();
+  }
 });
 
 // Ocultar los iconos de filtro
