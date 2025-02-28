@@ -85,8 +85,23 @@
     <?php endif; ?>
 
     <div class="contenedor-botones">
-        <button class="boton-pdf" id="boton-pdf" onclick="descargarPDF(<?php echo $solicitud['folio']; ?>)">
-            <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>Descargar
-        </button>
+        <?php if ($solicitud['tipo'] == 'Solicitud de baja'): ?>
+            <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] != 'En revision' && $solicitud['estado'] != 'Aprobada'): ?>
+                <button class="boton-pdf btn-generar-pdf" data-folio="<?php echo $solicitud['folio']; ?>">
+                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>
+                    Generar solicitud en PDF
+                </button>
+            <?php else: ?>
+                <button class="boton-pdf btn-descargar-pdf" data-folio="<?php echo $solicitud['folio']; ?>">
+                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>
+                    Descargar
+                </button>
+            <?php endif; ?>
+        <?php else: ?>
+            <button class="boton-pdf btn-descargar-pdf" data-folio="<?php echo $solicitud['folio']; ?>">
+                <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>
+                Descargar
+            </button>
+        <?php endif; ?>
     </div>
 </div>
