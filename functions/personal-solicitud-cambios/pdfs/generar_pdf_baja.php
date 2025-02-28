@@ -99,7 +99,7 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR A USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO", 0, 'J');
     $pdf->MultiCell(0, 8, "CON EL NUMERO ____________________ DE FECHA ____________________", 0, 'J');
     $pdf->setCellHeightRatio(1); // Restaurar valor
-    $pdf->Ln(12);
+    $pdf->Ln(5);
     
     // Tabla de profesor (100% ancho)
     $header = ['PROFESIÓN', 'APELLIDO PATERNO', 'MATERNO', 'NOMBRE(S)', 'CODIGO'];
@@ -167,9 +167,9 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     // Nombres
     $pdf->SetX(25);
     $pdf->SetFont('', 'B', 10);
-    $pdf->Cell(70, 8, 'MTRO. JOSE DAVID FLORES UREÑA', 0, 0, 'C');
+    $pdf->Cell(70, 8, 'LIC. DENISSE MURILLO GONZALEZ', 0, 0, 'C');
     $pdf->SetX(110);
-    $pdf->Cell(70, 8, 'MTRO. JOSE ALBERTO CASTELLANOS', 0, 1, 'C');
+    $pdf->Cell(70, 8, 'MTRO. LUIS GUSTAVO PADILLA MONTES', 0, 1, 'C');
     
     // Cargos
     $pdf->SetX(25);
