@@ -65,11 +65,10 @@ include './template/navbar.php';
                 $stmt->execute();
                 $result = $stmt->get_result();
                 ?>
-                
-                <hr style="margin-top: 5px;">
 
                 <div class="events">
                     <h3>Eventos próximos</h3>
+                    <hr style="margin-top: 15px;">
                     <div class="events-list" style="max-height: 350px; overflow-y: auto;">
                         <?php
                         if ($result && $result->num_rows > 0) {
