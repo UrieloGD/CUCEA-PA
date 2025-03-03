@@ -41,7 +41,14 @@ function obtenerSolicitudes($conexion) {
         $sql_baja .= $filtro_departamento;
     }
     
-    $sql_baja .= " ORDER BY sb.FECHA_SOLICITUD_B DESC, sb.HORA_CREACION DESC";
+    $sql_baja .= " ORDER BY 
+    CASE sb.ESTADO_B
+        WHEN 'Pendiente' THEN 1
+        WHEN 'En revision' THEN 2
+        ELSE 3
+    END,
+    sb.FECHA_SOLICITUD_B ASC,
+    sb.HORA_CREACION ASC";
     
     $result_baja = mysqli_query($conexion, $sql_baja);
     while($row = mysqli_fetch_assoc($result_baja)) {
@@ -74,7 +81,14 @@ function obtenerSolicitudes($conexion) {
         $sql_prop .= " WHERE sp.Departamento_ID = $departamento_id";
     }
     
-    $sql_prop .= " ORDER BY sp.FECHA_SOLICITUD_P DESC, sp.HORA_CREACION DESC";
+    $sql_prop .= " ORDER BY 
+    CASE sp.ESTADO_P
+        WHEN 'Pendiente' THEN 1
+        WHEN 'En revision' THEN 2
+        ELSE 3
+    END,
+    sp.FECHA_SOLICITUD_P ASC,
+    sp.HORA_CREACION ASC";
     
     $result_prop = mysqli_query($conexion, $sql_prop);
     while($row = mysqli_fetch_assoc($result_prop)) {
@@ -113,7 +127,14 @@ function obtenerSolicitudes($conexion) {
         $sql_baja_prop .= " WHERE sbp.Departamento_ID = $departamento_id";
     }
     
-    $sql_baja_prop .= " ORDER BY sbp.FECHA_SOLICITUD_BAJA_PROP DESC, sbp.HORA_CREACION DESC";
+    $sql_baja_prop .= " ORDER BY 
+    CASE sbp.ESTADO_P
+        WHEN 'Pendiente' THEN 1
+        WHEN 'En revision' THEN 2
+        ELSE 3
+    END,
+    sbp.FECHA_SOLICITUD_BAJA_PROP ASC,
+    sbp.HORA_CREACION ASC";
     
     $result_baja_prop = mysqli_query($conexion, $sql_baja_prop);
     while($row = mysqli_fetch_assoc($result_baja_prop)) {
@@ -142,6 +163,29 @@ function obtenerSolicitudes($conexion) {
             'motivo' => $row['MOTIVO_BAJA']
         );
     }
+
+    usort($solicitudes, function($a, $b) {
+        $prioridad = [
+            'Pendiente' => 1,
+            'En revision' => 2,
+            'Aprobado' => 3,
+            'Rechazado' => 4
+        ];
+        
+        $a_prio = $prioridad[$a['estado']] ?? 5;
+        $b_prio = $prioridad[$b['estado']] ?? 5;
+        
+        // Ordenar por prioridad de estado
+        if ($a_prio !== $b_prio) {
+            return $a_prio - $b_prio;
+        }
+        
+        // Si mismo estado, ordenar por fecha y hora
+        $a_fecha = strtotime($a['fecha'] . ' ' . $a['hora']);
+        $b_fecha = strtotime($b['fecha'] . ' ' . $b['hora']);
+        
+        return $a_fecha - $b_fecha;
+    });
 
     return $solicitudes;
 }
