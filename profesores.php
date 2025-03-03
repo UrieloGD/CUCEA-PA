@@ -257,13 +257,14 @@ try {
                     <thead>
                         <tr>
                            <!-- <th class="detalle-column">count</th> --> 
+                            <!-- Los elementos tienen id's para modificar el atributo "display" -->
                             <th class="detalle-column col-codigo th-L">Código</th>
                             <th class="detalle-column col-nombre">Nombre Completo</th>
-                            <th class="detalle-column col-categoria">Categoria Actúal</th>
+                            <th class="detalle-column col-categoria" id="title-categoria">Categoria Actúal</th>
                             <th class="detalle-column col-depto">Departamento</th>
-                            <th class="detalle-column col-horas-f">Horas frente a grupo</th>
-                            <th class="detalle-column col-horas-d">Horas Definitivas</th>
-                            <th class="detalle-column col-horas-t">Horas temporales</th>
+                            <th class="detalle-column col-horas-f" id="title-horas-f">Horas frente a grupo</th>
+                            <th class="detalle-column col-horas-d" id="title-horas-d">Horas Definitivas</th>
+                            <th class="detalle-column col-horas-t" id="title-horas-t">Horas temporales</th>
                             <th class="detalle-column col-detalle th-R">Detalles del Profesor</th>
                         </tr>
                     </thead>
@@ -348,6 +349,7 @@ try {
 <script src="./JS/profesores/desplegable-box.js"></script>
 <script src="./JS/profesores/filtro-departamentos.js"></script>
 <script src="./JS/profesores/carga-profesores.js"></script>
+<script src="./JS/profesores/responsividad-tabla-profesores.js"></script>
 <script>
     // Pass the session department to JavaScript
     const sessionDepartment = "<?php 

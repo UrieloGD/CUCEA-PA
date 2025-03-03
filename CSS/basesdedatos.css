@@ -7,7 +7,8 @@
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   -webkit-border-radius: 20px;
@@ -636,15 +637,58 @@ nav[aria-label="pagination"] {
   display: flex;
   flex-wrap: nowrap;
   position: relative;
-  width: 40vw;
 }
+
+/* Uso de iconos en lugar de texto en paginacion de base de datos */
+button.dt-paging-button.previous,
+button.dt-paging-button.next {
+  visibility: hidden;
+}
+button.dt-paging-button.first {
+  position: relative;
+  left: 50px;
+}
+button.dt-paging-button.next {
+  width: 0;
+}
+button.dt-paging-button.disabled.previous::after,
+button.dt-paging-button.previous::after,
+button.dt-paging-button.disabled.next::after,
+button.dt-paging-button.next::before,
+button.dt-paging-button.disabled.first::before,
+button.dt-paging-button.first::after,
+button.dt-paging-button.disabled.last::before,
+button.dt-paging-button.last::before
+{
+  visibility: visible;
+  margin: 0 auto;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+  transition: 0.1s ease-in-out;
+}
+div.dt-container .dt-paging .dt-paging-button.previous:hover,
+div.dt-container .dt-paging .dt-paging-button.next:hover,
+div.dt-container .dt-paging .dt-paging-button.last:hover,
+div.dt-container .dt-paging .dt-paging-button.first:hover {
+  cursor: pointer;
+  color: #0071b0!important;
+}
+/* Iconos de avanzar y retroceder...  */
+button.dt-paging-button.disabled.previous::after,
+button.dt-paging-button.previous::after { content: '\f104'; }
+
+button.dt-paging-button.disabled.next::before,
+button.dt-paging-button.next::before { content: '\f105'; }
+
 
 div[class="bottom"] {
   display: inline-flex;
   flex-wrap: wrap;
   position: relative;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 
