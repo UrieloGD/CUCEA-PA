@@ -7,7 +7,7 @@
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   -webkit-border-radius: 20px;
@@ -1357,4 +1357,23 @@ table.dataTable thead .sorting_desc {
 /* Importante mantener este estilo para que funcione el lazy loading */
 #tabla-datos {
   display: none;
+}
+
+.dataTables_scrollBody {
+  max-height: 600px !important;
+  overflow-y: auto !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+.dataTables_wrapper .dataTables_scroll {
+  clear: both;
+  visibility: visible !important;
+  display: block !important;
+}
+
+table.dataTable {
+  display: table !important;
+  visibility: visible !important;
+  width: 100% !important;
 }

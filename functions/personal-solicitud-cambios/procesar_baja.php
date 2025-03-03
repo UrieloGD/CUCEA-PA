@@ -1,3 +1,4 @@
+<!-- ./functions/personal-solicitud-cambios/procesar_baja.php -->
 <?php
 session_start();
 date_default_timezone_set('America/Mexico_City');

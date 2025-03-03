@@ -201,6 +201,13 @@ try {
     <meta charset="UTF-8">
     <title>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></title>
     <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css">
+    <!-- Script para mostrar el loader inmediatamente -->
+    <script>
+        // Esta función se ejecuta inmediatamente, antes de que se cargue el resto del contenido
+        (function() {
+            document.write('<div id="loading-overlay"><div class="loading-content"><div class="spinner"></div><p>Cargando profesores...</p></div></div>');
+        })();
+    </script>
 </head>
 <body>
 
@@ -340,6 +347,7 @@ try {
 <script src="./JS/profesores/filtro-profesores.js"></script>
 <script src="./JS/profesores/desplegable-box.js"></script>
 <script src="./JS/profesores/filtro-departamentos.js"></script>
+<script src="./JS/profesores/carga-profesores.js"></script>
 <script>
     // Pass the session department to JavaScript
     const sessionDepartment = "<?php 

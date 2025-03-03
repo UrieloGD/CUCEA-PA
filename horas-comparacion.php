@@ -1,871 +1,318 @@
-<?php
-session_start();
+    <?php
+    session_start();
 
-// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
-    header("Location: home.php");
-    exit();
-}
-?>
+    if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+        header("Location: home.php");
+        exit();
+    }
+    ?>
 
-<!--header -->
-<?php include './template/header.php' ?>
-<!-- navbar -->
-<?php include './template/navbar.php' ?>
-<!-- Conexión a la base de datos -->
-<?php require_once './config/db.php'; ?>
+    <?php include './template/header.php' ?>
+    <?php include './template/navbar.php' ?>
+    <?php require_once './config/db.php'; ?>
 
-<title>Revisión de horas asignadas</title>
-<link rel="stylesheet" href="./CSS/horas-comparacion.css">
+    <title>Revisión de horas asignadas</title>
+    <link rel="stylesheet" href="./CSS/horas-comparacion.css">
 
-<!--Cuadro principal del home-->
-<div class="cuadro-principal">
-    <!--Pestaña azul-->
-    <div class="encabezado">
-        <div class="titulo-bd">
-            <h3>Revisión de horas asignadas</h3>
-        </div>
-    </div>
+    <?php
+    $departamentos = [
+        [
+            'id' => 1,
+            'nombre' => 'Administración',
+            'imagen' => 'administracion.png',
+            'color' => '#66CAE8',
+            'nombre_lineas' => ['Administración'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 2,
+            'nombre' => 'Ciencias Sociales y Jurídicas',
+            'imagen' => 'ciencias_s.png',
+            'color' => '#0C9DEB',
+            'nombre_lineas' => ['Ciencias Sociales', 'y Jurídicas'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => true
+        ],
+        [
+            'id' => 3,
+            'nombre' => 'Economía',
+            'imagen' => 'economia.png', 
+            'color' => '#F792B4',
+            'nombre_lineas' => ['Economía'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 4,
+            'nombre' => 'Finanzas',
+            'imagen' => 'finanzas.png',
+            'color' => '#9AD156',
+            'nombre_lineas' => ['Finanzas'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 5,
+            'nombre' => 'Mercadotecnia y Negocios Internacionales',
+            'imagen' => 'merc_negocios.png',
+            'color' => '#51B0A3',
+            'nombre_lineas' => ['Mercadotecnia y Negocios', 'Internacionales'],
+            'style_imagen' => 'width: 105%;',
+            'es_arriba' => true,
+            'multilinea' => true
+        ],
+        [
+            'id' => 6,
+            'nombre' => 'PALE',
+            'imagen' => 'pale.png',
+            'color' => '#9F7FAD',
+            'nombre_lineas' => ['PALE'],
+            'style_imagen' => 'width: 85%;',
+            'es_arriba' => true,
+            'multilinea' => false
+        ],
+        [
+            'id' => 7,
+            'nombre' => 'Posgrados',
+            'imagen' => 'posgrados.png',
+            'color' => '#D82C8C',
+            'nombre_lineas' => ['Posgrados'],
+            'style_imagen' => '',
+            'es_arriba' => true,
+            'multilinea' => false
+        ],
+        [
+            'id' => 8,
+            'nombre' => 'Sistemas de la Información',
+            'imagen' => 'sistemas.png',
+            'color' => '#00B567',
+            'nombre_lineas' => ['Sistemas de la Información'],
+            'style_imagen' => 'width: 90%;',
+            'es_arriba' => true,
+            'multilinea' => false
+        ],
+        [
+            'id' => 9,
+            'nombre' => 'Auditoría',
+            'imagen' => 'auditoria.png',
+            'color' => '#A50F62',
+            'nombre_lineas' => ['Auditoría'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 10,
+            'nombre' => 'Contabilidad',
+            'imagen' => 'contabilidad.png',
+            'color' => '#FD7C6C',
+            'nombre_lineas' => ['Contabilidad'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 11,
+            'nombre' => 'Estudios Regionales',
+            'imagen' => 'regionales.png',
+            'color' => '#D72B34',
+            'nombre_lineas' => ['Estudios Regionales'],
+            'style_imagen' => 'width: 95%;',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 12,
+            'nombre' => 'Impuestos',
+            'imagen' => 'impuestos.png',
+            'color' => '#E87C00',
+            'nombre_lineas' => ['Impuestos'],
+            'style_imagen' => '',
+            'es_arriba' => false,
+            'multilinea' => false
+        ],
+        [
+            'id' => 13,
+            'nombre' => 'Métodos Cuantitativos',
+            'imagen' => 'metodos.png',
+            'color' => '#F5C938',
+            'nombre_lineas' => ['Métodos Cuantitativos'],
+            'style_imagen' => '',
+            'es_arriba' => true,
+            'multilinea' => false
+        ],
+        [
+            'id' => 14,
+            'nombre' => 'Políticas Públicas',
+            'imagen' => 'politicas.png',
+            'color' => '#4D4024',
+            'nombre_lineas' => ['Políticas Públicas'],
+            'style_imagen' => '',
+            'es_arriba' => true,
+            'multilinea' => false
+        ],
+        [
+            'id' => 15,
+            'nombre' => 'Recursos Humanos',
+            'imagen' => 'rh.png',
+            'color' => '#B89358',
+            'nombre_lineas' => ['Recursos Humanos'],
+            'style_imagen' => '',
+            'es_arriba' => true,
+            'multilinea' => false
+        ],
+        [
+            'id' => 16,
+            'nombre' => 'Turismo',
+            'imagen' => 'turismo.png',
+            'color' => '#628EBD',
+            'nombre_lineas' => ['Turismo'],
+            'style_imagen' => 'width: 105%;',
+            'es_arriba' => true,
+            'multilinea' => false
+        ]
+    ];
 
-    <!-- Nuevas horas comparacion -->
-    <di class="contenedor-resumen-full">
-        <div class="cuadro-resumen">
-            <!-- Titulo superior de: <todos los departamentos> -->
-            <div class="titulo-resumen">
-                <img src="./Img/Icons/iconos-horas-comparacion/cuadro-resumen/titulo_icon.png" alt="Icono de resumen: todos los departamentos">
-                <p>Todos los departamentos</p>
-            </div>
-            <div class="titulo-underline"></div>
-            <!-- Seccion de grafica y boton de despliegue del total general de horas.  -->
-            <div class="total-general-hrs_container">
-                <p class="titulo-total-general">Total general de horas</p>
-                <div class="stats-general-hrs">
-                    <div class="stats-grafica">
-                        <div class="circulo-progreso">
-                            <div class="circulo">
-                                <span class="porcentaje" id="porcentaje-general">50%</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p id="horas-comp-general"> 5,117 / <strong> 10,234 </strong></p>
-                    <button class="desglose-button" id="desglose-todos">Desglose</button>
+        function generarDepartamento($depto) {
+            $esArriba = $depto['es_arriba'] ? 'true' : 'false';
+            
+            $nombreLineas = implode('', array_map(function($linea, $index) use ($depto) {
+                // Solo aplicar estilos si es multilínea
+                if ($depto['multilinea']) {
+                    $bottom = ($index == 0) ? '-5px' : '-3px'; // Primera línea 10px, segunda 30px
+                    return "<p style='position:relative; bottom:{$bottom}; margin:0;'>$linea</p>";
+                }
+                return "<p>$linea</p>"; // Sin estilos si no es multilínea
+            }, $depto['nombre_lineas'], array_keys($depto['nombre_lineas']))); // Pasamos el índice
+
+        return <<<HTML
+        <div class="contenedor-de-contenedores">
+            <div class="departamento-contenedor-principal" 
+                onclick="mostrarInformacion('contenedor-informacion-{$depto['id']}', this.querySelector('.icono-despliegue i'), $esArriba)">
+                <div class="espacio-icono">
+                    <img class="icono-dpto" 
+                        src="./Img/Icons/iconos-horas-comparacion/departamentos/{$depto['imagen']}" 
+                        alt="{$depto['nombre']}" 
+                        style="{$depto['style_imagen']}">
                 </div>
-            </div>
-            <div class="titulo-underline"></div>
-            <!-- Seccion de ultimas modificaciones.  -->
-            <div class="ultimas-mod_container">
-                <p class="titulo-ultimas-mod">Últimas modificaciones</p>
-                <table class="tabla-ultimas-mod">
-                    <thead class="encabezado-ultimas-mod">
-                        <tr>
-                            <td>Fecha</td>
-                            <td>Hora</td>
-                            <td>Responsable</td>
-                            <td>Dpto.</td>
-                        </tr>
-                    </thead>
-                    <tbody class="cuerpo-ultimas-mod">
-                        <tr>
-                            <td id="fecha-resumen">23/10/24</td>
-                            <td id="hora-resumen">13:00</td>
-                            <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                            <td id="dpto-resumen">Administracion</td>
-                        </tr>
-                    </tbody>
-                    <tbody class="cuerpo-ultimas-mod">
-                        <tr>
-                            <td id="fecha-resumen">23/10/24</td>
-                            <td id="hora-resumen">13:00</td>
-                            <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                            <td id="dpto-resumen">Administracion</td>
-                        </tr>
-                    </tbody>
-                    <tbody class="cuerpo-ultimas-mod">
-                        <tr>
-                            <td id="fecha-resumen">23/10/24</td>
-                            <td id="hora-resumen">13:00</td>
-                            <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                            <td id="dpto-resumen">Administracion</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Aqui comienza el codigo para desplegables de departamentos.  -->
-        <!-- Lado izquierdo de departamentos -->
-        <div class="contenedor-dptos-listado">
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-1', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/administracion.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Administración</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
+                <div class="titulo-dpto">
+                    $nombreLineas
                 </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-1">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #66CAE8;">
-                            <div class="barra-stats-hrs" style="background-color: #66CAE8;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #66CAE8;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Administración" style="background-color: #66CAE8;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-2', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/ciencias_s.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p style="position:relative; bottom:10px;">Ciencias Sociales</p>
-                        <p style="position:relative; bottom:30px;">y Jurídicas</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-2">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #0C9DEB;">
-                            <div class="barra-stats-hrs" style="background-color: #0C9DEB;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #0C9DEB;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Ciencias Sociales" style="background-color: #0C9DEB;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-3', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/economia.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Economía</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-3">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #F792B4;">
-                            <div class="barra-stats-hrs" style="background-color: #F792B4;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F792B4;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Economía" style="background-color: #F792B4;">Desglose</button>
-                    </div>
+                <div class="icono-despliegue">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </div>
             </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-4', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/finanzas.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Finanzas</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
+            <div class="contenedor-informacion" id="contenedor-informacion-{$depto['id']}">
+                <div class="hrs-totales-dpto_container">
+                    <p class="titulo-totales-dpto">Horas totales</p>
+                    <div class="borde-barra-stats-hrs" style="border: 3px solid {$depto['color']};">
+                    <div class="barra-stats-hrs" style="background-color: {$depto['color']};">
+                        <p class="porcentaje-dpto" 
+                        style="color: white; font-weight: bold; margin: 0; position: absolute; width: 100%; text-align: center; line-height: 30px;">
+                        60%
+                        </p>
                     </div>
                 </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-4">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #9AD156;">
-                            <div class="barra-stats-hrs" style="background-color: #9AD156;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #9AD156;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Finanzas" style="background-color: #9AD156;">Desglose</button>
-                    </div>
+                    <p class="horas-comp-dpto">5,117 / <strong>10,234</strong></p>
+                    <div class="titulo-underline" style="width:100%;"></div>
                 </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-5', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/merc_negocios.png" alt="Departamento de Administracion" style="width: 105%;">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p style="position:relative; bottom:10px;">Mercadotecnia y Negocios</p>
-                        <p style="position:relative; bottom:30px;">Internacionales</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-5">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #51B0A3;">
-                            <div class="barra-stats-hrs" style="background-color: #51B0A3;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #51B0A3;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Mercadotecnia" style="background-color: #51B0A3;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-6', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/pale.png" alt="Departamento de Administracion" style="width: 85%;">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>PALE</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-6">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #9F7FAD;">
-                            <div class="barra-stats-hrs" style="background-color: #9F7FAD;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #9F7FAD;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="PALE" style="background-color: #9F7FAD;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-7', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/posgrados.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Posgrados</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-7">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #D82C8C;">
-                            <div class="barra-stats-hrs" style="background-color: #D82C8C;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #D82C8C;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Posgrados" style="background-color: #D82C8C;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-8', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/sistemas.png" alt="Departamento de Administracion" style="width: 90%;">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Sistemas de la Información</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-8">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #00B567;">
-                            <div class="barra-stats-hrs" style="background-color: #00B567;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #00B567;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Sistemas de Información" style="background-color: #00B567;">Desglose</button>
-                    </div>
+                <div class="ultima-mod-dpto_container">
+                    <p class="titulo-totales-dpto">Última modificación</p>
+                    <table class="tabla-ultimas-mod-dpto">
+                        <thead class="encabezado-ultimas-mod-dpto" style="background-color: {$depto['color']};">
+                            <tr>
+                                <td>Fecha</td>
+                                <td>Hora</td>
+                                <td>Responsable</td>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-ultimas-mod-dpto">
+                            <tr>
+                                <td>23/10/24</td>
+                                <td>13:00</td>
+                                <td>Rafael Castanedo Escobedo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="desglose-button-dpto" 
+                            data-departamento="{$depto['nombre']}" 
+                            style="background-color: {$depto['color']};">Desglose</button>
                 </div>
             </div>
         </div>
+    HTML;
+    }
+    ?>
 
-        <!-- Lado derecho de departamentos -->
-        <div class="contenedor-dptos-listado">
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-9', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/auditoria.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Auditoría</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
+    <div class="cuadro-principal">
+        <div class="encabezado">
+            <div class="titulo-bd">
+                <h3>Revisión de horas asignadas</h3>
+            </div>
+        </div>
+
+        <div class="contenedor-resumen-full">
+            <div class="cuadro-resumen">
+                <div class="titulo-resumen">
+                    <img src="./Img/Icons/iconos-horas-comparacion/cuadro-resumen/titulo_icon.png" alt="Icono resumen">
+                    <p>Todos los departamentos</p>
                 </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-9">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #A50F62;">
-                            <div class="barra-stats-hrs" style="background-color: #A50F62;">
-                                <p id="porcentaje-dpto">60%</p>
+                <div class="titulo-underline"></div>
+                
+                <div class="total-general-hrs_container">
+                    <p class="titulo-total-general">Total general de horas</p>
+                    <div class="stats-general-hrs">
+                        <div class="stats-grafica">
+                            <div class="circulo-progreso">
+                                <div class="circulo">
+                                    <span class="porcentaje" id="porcentaje-general">50%</span>
+                                </div>
                             </div>
                         </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
+                        <p id="horas-comp-general">5,117 / <strong>10,234</strong></p>
+                        <button class="desglose-button" id="desglose-todos">Desglose</button>
                     </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #A50F62;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Auditoría" style="background-color: #A50F62;">Desglose</button>
-                    </div>
+                </div>
+                <div class="titulo-underline"></div>
+                
+                <div class="ultimas-mod_container">
+                    <p class="titulo-ultimas-mod">Últimas modificaciones</p>
+                    <table class="tabla-ultimas-mod">
+                        <thead class="encabezado-ultimas-mod">
+                            <tr>
+                                <td>Fecha</td>
+                                <td>Hora</td>
+                                <td>Responsable</td>
+                                <td>Dpto.</td>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-ultimas-mod">
+                            <tr>
+                                <td>23/10/24</td>
+                                <td>13:00</td>
+                                <td>Rafael Castanedo Escobedo</td>
+                                <td>Administracion</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-10', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/contabilidad.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Contabilidad</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-10">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #FD7C6C;">
-                            <div class="barra-stats-hrs" style="background-color: #FD7C6C;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #FD7C6C;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Contabilidad" style="background-color: #FD7C6C;">Desglose</button>
-                    </div>
-                </div>
+            <div class="contenedor-dptos-listado">
+                <?php foreach(array_slice($departamentos, 0, 8) as $depto): ?>
+                    <?= generarDepartamento($depto) ?>
+                <?php endforeach; ?>
             </div>
 
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-11', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/regionales.png" alt="Departamento de Administracion" style="width: 95%;">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Estudios Regionales</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-11">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #D72B34;">
-                            <div class="barra-stats-hrs" style="background-color: #D72B34;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #D72B34;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Estudios Regionales" style="background-color: #D72B34;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-12', this.querySelector('.icono-despliegue i'))">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/impuestos.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Impuestos</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-12">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #E87C00;">
-                            <div class="barra-stats-hrs" style="background-color: #E87C00;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #E87C00;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Impuesto" style="background-color: #E87C00;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-13', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/metodos.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Métodos Cuantitativos</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-13">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #F5C938;">
-                            <div class="barra-stats-hrs" style="background-color: #F5C938;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #F5C938;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Métodos Cuantitativos" style="background-color: #F5C938;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-14', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/politicas.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Políticas Públicas</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-14">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #4D4024;">
-                            <div class="barra-stats-hrs" style="background-color: #4D4024;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #4D4024;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Políticas Públicas" style="background-color: #4D4024;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-15', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/rh.png" alt="Departamento de Administracion">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Recursos Humanos</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-15">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #B89358;">
-                            <div class="barra-stats-hrs" style="background-color: #B89358;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #B89358;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Recursos Humanos" style="background-color: #B89358;">Desglose</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- banner del departamento -->
-            <div class="contenedor-de-contenedores">
-                <div class="departamento-contenedor-principal" onclick="mostrarInformacion('contenedor-informacion-16', this.querySelector('.icono-despliegue i'), true)">
-                    <div class="espacio-icono">
-                        <img class="icono-dpto" src="./Img/Icons/iconos-horas-comparacion/departamentos/turismo.png" alt="Departamento de Administracion" style="width: 105%;">
-                    </div>
-                    <div class="titulo-dpto">
-                        <p>Turismo</p>
-                    </div>
-                    <div class="icono-despliegue">
-                        <i id="icono" class="fa fa-angle-right" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <!-- Contenedor que se desplegara. -->
-                <div class="contenedor-informacion" id="contenedor-informacion-16">
-                    <div class="hrs-totales-dpto_container">
-                        <p class="titulo-totales-dpto">Horas totales</p>
-                        <div class="borde-barra-stats-hrs" style="border: 3px solid #628EBD;">
-                            <div class="barra-stats-hrs" style="background-color: #628EBD;">
-                                <p id="porcentaje-dpto">60%</p>
-                            </div>
-                        </div>
-                        <p id="horas-comp-dpto"> 5,117 / <strong> 10,234 </strong></p>
-                        <div class="titulo-underline" style="width:100%;"></div>
-                    </div>
-                    <div class="ultima-mod-dpto_container">
-                        <p class="titulo-totales-dpto">Última modificación</p>
-                        <table class="tabla-ultimas-mod-dpto">
-                            <thead class="encabezado-ultimas-mod-dpto" style="background-color: #628EBD;">
-                                <tr>
-                                    <td>Fecha</td>
-                                    <td>Hora</td>
-                                    <td>Responsable</td>
-                                </tr>
-                            </thead>
-                            <tbody class="cuerpo-ultimas-mod-dpto">
-                                <tr>
-                                    <td id="fecha-resumen">23/10/24</td>
-                                    <td id="hora-resumen">13:00</td>
-                                    <td id="resp-resumen">Rafael Castanedo Escobedo</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="desglose-button-dpto" data-departamento="Turismo" style="background-color: #628EBD;">Desglose</button>
-                    </div>
-                </div>
+            <div class="contenedor-dptos-listado">
+                <?php foreach(array_slice($departamentos, 8, 8) as $depto): ?>
+                    <?= generarDepartamento($depto) ?>
+                <?php endforeach; ?>
             </div>
         </div>
 

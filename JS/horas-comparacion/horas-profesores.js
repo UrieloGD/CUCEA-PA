@@ -1,3 +1,5 @@
+//Este archivo está en la carpeta JS/horas-comparacion/horas-profesores.js
+
 // Obtener el modal
 const modal = document.querySelector(".principal");
 

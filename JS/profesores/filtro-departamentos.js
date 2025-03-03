@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (checkedCount === 0) {
             dropdownAnchor.textContent = 'Departamentos ';
         } else if (checkedCount === 1) {
-            dropdownAnchor.innerHTML = `Departamento:<br>${checkedDepartments[0]}`;
+            dropdownAnchor.innerHTML = `Departamento: ${checkedDepartments[0]}`;
         } else {
             dropdownAnchor.textContent = `${checkedCount} departamentos seleccionados`;
         }
