@@ -87,14 +87,14 @@ select:focus {
 }
 
 /* Estilos de botones del final (Cancelar o guardar) */
-.contenedor-botones {
+.contenedor-botones-baja {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
 }
 
-.contenedor-botones button {
+.contenedor-botones-baja button {
   margin: 0 7px;
   border-radius: 10px;
   border-style: none;
@@ -240,7 +240,7 @@ select:focus {
     width: 95%;
   }
 
-  .contenedor-botones button {
+  .contenedor-botones-baja button {
     font-size: 0.8rem;
     border-radius: 7px;
   }

@@ -51,7 +51,7 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->AddPage();
 
     // Logo y encabezado
-    $logoPath = './../../../img/logos/LogoUDG-Color.png';
+    $logoPath = './../../../Img/logos/LogoUDG-Color.png';
     $pdf->Image($logoPath, 12, 10, 20, 0, 'PNG');
 
     // Texto lado izquierdo

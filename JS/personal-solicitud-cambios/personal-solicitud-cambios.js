@@ -1,3 +1,4 @@
+// ./JS/personal-solicitud-cambios/personal-solicitud-cambios.js
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar si el usuario tiene el rol de Coordinación de personal
     const esCoordinacionPersonal = rol_usuario === 3;
@@ -177,65 +178,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-      // Función para generar PDF (solo para rol 3 - Coordinación de Personal)
-      function generarPDF(folio) {
-        if (rol_usuario !== 3) {
-            alert('No tienes permisos para generar solicitudes en PDF.');
-            return;
-        }
-        
-        if (confirm('¿Estás seguro de generar esta solicitud? El estado cambiará a "En revisión".')) {
-            $.ajax({
-                url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja.php',
-                type: 'POST',
-                data: {
-                    accion: 'generar',
-                    folio: folio
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        alert('Solicitud generada correctamente y estado actualizado a "En revisión".');
-                        // Redirigir a la página de descarga del PDF
-                        window.open('./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=' + response.folio, '_blank');
-                        // Recargar la página para reflejar los cambios
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 1000);
+    // Función para generar PDF (solo para rol 3 - Coordinación de Personal)
+    function generarPDF(folio) {
+        Swal.fire({
+            title: '¿Generar PDF?',
+            text: 'La solicitud pasará a estado "En revisión"',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Generar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`./functions/procesar_baja.php?folio=${folio}&accion=generar`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.open(data.pdf_url, '_blank');
+                        window.location.reload(); // Actualizar estado
                     } else {
-                        alert('Error: ' + response.message);
+                        Swal.fire('Error', data.error, 'error');
                     }
-                },
-                error: function() {
-                    alert('Error en la comunicación con el servidor.');
-                }
-            });
-        }
-    }
-
-    // Función para descargar PDF (para ambos roles)
-    function descargarPDF(folio) {
-        $.ajax({
-            url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja.php',
-            type: 'POST',
-            data: {
-                accion: 'descargar',
-                folio: folio
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    window.open('./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=' + response.folio, '_blank');
-                } else {
-                    if (rol_usuario === 3) {
-                        alert('El PDF aún no ha sido generado. Por favor, genere primero la solicitud en PDF.');
-                    } else {
-                        alert('El PDF aún no está disponible. La solicitud debe ser procesada por Coordinación de Personal.');
-                    }
-                }
-            },
-            error: function() {
-                alert('Error en la comunicación con el servidor.');
+                });
             }
         });
+    }
+
+    // Para Ambos Roles
+    function descargarPDF(folio) {
+        window.open(`./functions/descargar_pdf.php?folio=${folio}`, '_blank');
     }
