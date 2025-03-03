@@ -2,8 +2,8 @@
 
 .cuadro-principal {
   background-color: white;
-  width: 92%;
-  height: 90vh;
+  /* width: 92%; */
+  height: 90%;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
@@ -18,14 +18,19 @@
 }
 
 .container-banner-bienvenida {
-  width: 60%;
-  display: inline-flex;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   flex: 1;
+  /* background: linear-gradient(to left, #0071b0 50%, #e7e9f2 100%); */
 }
 
 .bienvenida {
-  width: 61vw;
+  width: 100%;
   height: 150px;
   display: inline-flexbox;
   padding-left: 60px; 
@@ -35,41 +40,74 @@
 
 .bienvenida h2 {
   position: relative;
-  top: 15px;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 .bienvenida p {
   position: relative;
   bottom: 50px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-style: italic;
 }
 
 /* Estilos accesos directos */
 .accesodirecto-moviles {
   display: none;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100px;
-  margin-left: 15px;
-  margin-bottom: 50px;
+  width: 90%;
+  margin-bottom: 15px;
   position: relative;
-  top: 100px;
 }
 
 .cuadro-acceso {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   background-color: #0071b0;
   padding: 10px;
-  width: 100px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
+  min-width: 7vw;
   margin: 0px 1vw 0px;
   border-radius: 10px;
+  cursor: pointer;
+}
+
+#toggle-bd #jefes-bd { display: none; }
+#toggle-bd #coord-bd { display: none; }
+
+#toggle-bd {
+  display: none;
+  justify-content: center;
+  gap: 15px;
+  align-items: top;
+  width: 80%;
+  height: 60px;
+}
+#toggle-bd #jefes-bd,
+#toggle-bd #coord-bd { 
+  background-color: #0071b0;
+  padding: 15px;
+  border-radius: 7px;
+  transition: 0.3s ease;
+  color: #fff;
+  font-weight: bold;
+}
+#toggle-bd #jefes-bd:hover,
+#toggle-bd #coord-bd:hover {
+  width: 85%;
+  padding: 17px;
+  background-color: #0081c7;
+}
+
+.cuadro-acceso a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .cuadro-acceso span {
@@ -80,15 +118,15 @@
 }
 
 .cuadro-acceso img {
-  width: 25px;
+  width: 30px;
 }
 
 /* Estilos del carrusel */
 .banner {
-  height: 330px;
-  width: 96.9%;
+  height: 395px;
+  width: 58%;
   margin-left: 20px;
-  margin-top: 63px;
+  margin-right: 20px;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
@@ -169,7 +207,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 55px 10px;
+  margin: 35px 10px;
 }
 
 .cuadro-ind {
@@ -274,25 +312,30 @@
 
 /* Container principal */
 .container-eventos-progreso {
-  display: inline-flex;
-  position: relative;
-  width: 35.3vw;
-  margin-left: 5px;
-  margin-top: 27px;
-  justify-content: space-between;
-  align-items: stretch;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.eventos-banner-alineados {
+  display: flex;
+  flex-direction: row;
 }
 
 /* Contenedor de eventos */
 .eventos {
   border: solid 5px #e7e9f2;
+  width: 10;
   flex: 1;
-  height: 475px;
-  margin-right: 1vw;
+  height: 395px;
+  margin-right: 20px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-self: center;
 }
 
 .evento-item, .evento-icono, .evento-vacio {
@@ -309,7 +352,7 @@
 /* Cabecera */
 .siguienteseventos {
   background-color: #e7e9f2;
-  padding: 12px;
+  padding: 8px;
   text-align: center;
   border-radius: 5px 5px 0 0;
   font-weight: bold;
@@ -334,6 +377,16 @@
   padding: 5 15 5px;
 }
 
+.fondo-cuadro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e7e9f2;
+  border-radius: 7px;
+  padding: 0 15 0px;
+  height: 90%;
+}
+
 .eventos-1, .eventos-2, .eventos-3, .eventos-4 {
   height: auto;
 }
@@ -355,7 +408,10 @@
 
 .evento-detalle {
   flex: 1;
-  display: inline-block;
+  width: 100%;
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 15px;
   vertical-align: top; /* Alinea con la parte superior */
   min-width: 0; /* Permite que el texto se ajuste */
 }
@@ -366,21 +422,61 @@
   width: 50%;
 }
 
-.evento-detalle {
-  display: inline-flex;
-  flex-direction: column;
-  width: 50%;
-  margin-left: 15px;
-}
-
 .evento-titulo {
+  width: 20vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
 .evento-descripcion {
   margin: 5px 0;
+  width: 20vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Estilos del texto del tooltip */
+.evento-info .evento-titulo .tooltip-text, 
+.evento-info .evento-descripcion .tooltip-text {
+    visibility: hidden; /* Oculto por defecto */
+    width: 150px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 125%; /* Ubicado arriba del elemento */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+/* Flecha del tooltip */
+.evento-info .evento-titulo .tooltip-text::after, 
+.evento-info .evento-descripcion .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Muestra el tooltip al hacer hover */
+.evento-info .evento-titulo:hover .tooltip-text,
+.evento-info .evento-descripcion:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
 }
 
 /* Separador común */
@@ -388,7 +484,7 @@
   border: none;
   border-top: 2px solid #e7e9f2;
   margin: 0;
-  width: 90%;
+  width: 100%;
   align-self: center;
 }
 
@@ -407,10 +503,17 @@
 }
 
 .eventos-1 .evento-titulo {
-  font-size: 1.8rem;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 5 0 5px;
 }
 
 .eventos-1 .evento-descripcion {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 1.2rem;
   line-height: 1.4;
   display: -webkit-box;
@@ -425,46 +528,51 @@
 }
 
 /* Estilos específicos para 2 eventos */
-.eventos-2 {
-  flex: 0.5;
-}
-
 .eventos-2 .cuadro-numero {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
 }
 
 .eventos-2 .cuadro-numero span {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
 }
 
 .eventos-2 .evento-titulo {
-  font-size: 1.4rem;
+  width: 27vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.2rem;
 }
 
 .eventos-2 .evento-descripcion {
-  font-size: 1rem;
+  width: 27vw;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: -webkit-box;
+  margin: 0;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Estilos específicos para 3 eventos */
-.eventos-3 {
-  flex: 0.33;
+.eventos-2 .evento-info {
+  font-size: 1rem;
 }
 
+/* Estilos específicos para 3 eventos */
 .eventos-3 .cuadro-numero {
-  width: 45px;
-  height: 45px;
+  width: 60px;
+  height: 60px;
 }
 
 .eventos-3 .cuadro-numero span {
-  font-size: 1.3rem;
+  font-size: 1.7rem;
 }
 
 .eventos-3 .evento-titulo {
+  width: 27vw;
   font-size: 1.1rem;
   white-space: nowrap;
   overflow: hidden;
@@ -472,32 +580,36 @@
 }
 
 .eventos-3 .evento-descripcion {
+  width: 27vw;
   font-size: 0.9rem;
+  margin-top: 2;
+  margin-bottom: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Estilos específicos para 4 eventos */
-.eventos-4 {
-  flex: 0.25;
+.eventos-3 .evento-fecha {
+  margin: 0;
 }
 
+/* Estilos específicos para 4 eventos */
 .eventos-4 .cuadro-numero {
-  width: 35px;
-  height: 35px;
+  width: 55px;
+  height: 55px;
 }
 
 .eventos-4 .cuadro-numero span {
-  font-size: 1.1rem;
+  font-size: 1.6rem;
 }
 
 .eventos-4 .evento-titulo {
   font-size: 0.95rem;
+  width: 27vw;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
+} 
 
 /* Estilos comunes para información del evento */
 .evento-info p {
@@ -525,8 +637,7 @@
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92%;
-    height: 90%;
+    /* width: 92%; */
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -534,9 +645,8 @@
   }
 
   .container-eventos-progreso {
-    /* flex-direction: column; */
-    /* align-items: center; */
-    align-items: stretch;
+    justify-content: center;
+    align-items: center;
   }
 
   .eventos,
@@ -567,14 +677,13 @@
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92%;
+    /* width: 92%; */
     margin-left: 6vw;
   }
 
   .container-eventos-progreso {
-    /* flex-direction: column; */
-    /* align-items: center; */
-    align-items: stretch;
+    justify-content: center;
+    align-items: center;
   }
 
   .eventos,
@@ -602,24 +711,63 @@
 
 @media screen and (max-width: 1200px) and (min-width: 992px) {
   .cuadro-principal {
-    display: flex;
     flex-direction: column;
-    width: 91%;
+    /* width: 91%; */
     margin-left: 7vw;
     font-size: smaller;
   }
 
   .container-eventos-progreso {
-    /* flex-direction: column;  */
+    justify-content: center;
     align-items: center;
-    align-items: stretch;
+    flex-direction: column-reverse;
   }
 
-  .eventos,
-  .progreso {
-    width: 100%;
-    /* margin-right: 20px; */
-    /* margin-bottom: 20px; */
+  .eventos-banner-alineados {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+
+  .banner, .eventos {
+    width: 90%;
+  }
+
+  .banner {
+    margin-bottom: 15px;
+  }
+  
+  .cuadros-nav {
+    width: 93%;
+    margin: 5px 10px;
+  }
+
+  .eventos {
+    min-height: 300px;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .evento-item {
+    padding: 15 15 15px;
+  }
+
+  .eventos-1 .evento-titulo,
+  .eventos-2 .evento-titulo,
+  .eventos-3 .evento-titulo,
+  .eventos-4 .evento-titulo {
+    width: 70vw;
+  }
+
+  .eventos-1 .evento-descripcion,
+  .eventos-2 .evento-descripcion,
+  .eventos-3 .evento-descripcion,
+  .eventos-4 .evento-descripcion {
+    width: 70vw;
+  }
+
+  .banner {
+    height: 300px;
   }
 
   .progreso span {
@@ -648,16 +796,14 @@
     object-fit: contain;
   }
 
-  /* Nuevo home */
+  /* Nuevo home
   .container-eventos-progreso,
   .container-banner-bienvenida,
   .eventos,
   .banner,
   .bienvenida {
     width: 89vw;
-  }
-  .container-eventos-progreso { position: relative; margin-top: -830px; margin-bottom: 350px; }
-  .banner { margin-top: 550px; margin-left: 5px; width: 99%;}
+  } */
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -669,19 +815,62 @@
   }
 
   .container-eventos-progreso {
-    flex-direction: column;
-    align-items: stretch;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
   }
 
-  .eventos,
-  .progreso {
-    width: 100%;
-    /* margin-right: 20px; */
-    margin-bottom: 20px;
+  .eventos-banner-alineados {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+
+  .banner, .eventos {
+    width: 90%;
+  }
+
+  .eventos {
+    min-height: 300px;
+  }
+
+  .eventos {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .evento-item {
+    padding: 15 15 15px;
+  }
+
+  .eventos-1 .evento-titulo,
+  .eventos-2 .evento-titulo,
+  .eventos-3 .evento-titulo,
+  .eventos-4 .evento-titulo {
+    width: 65vw;
+  }
+
+  .eventos-1 .evento-descripcion,
+  .eventos-2 .evento-descripcion,
+  .eventos-3 .evento-descripcion,
+  .eventos-4 .evento-descripcion {
+    width: 65vw;
+  }
+
+  .banner {
+    height: 300px;
   }
 
   .progreso span {
     font-size: medium;
+  }
+
+  .cuadros-nav {
+    display: none;
+  }
+
+  .accesodirecto-moviles {
+    display: flex;
   }
 
   .cuadro-ind {
@@ -694,8 +883,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -715,24 +904,6 @@
     object-fit: contain;
   }
 
-  /* Nuevo home */
-  .container-eventos-progreso,
-  .container-banner-bienvenida,
-  .eventos,
-  .banner,
-  .bienvenida {
-    width: 86vw;
-  }
-  .container-eventos-progreso { 
-    position: relative; 
-    margin-top: -830px; 
-    margin-bottom: 350px; 
-  }
-  .banner { 
-    margin-top: 550px; 
-    margin-left: 15px; 
-    width: 100%;
-  }
   .cuadro-nav div {  
     gap: 0;
     justify-content: center;
@@ -743,8 +914,7 @@
 
 @media screen and (max-width: 769px) {
   .cuadro-principal {
-    width: 96%;
-    height: 91%; /* Mantener altura fija */
+    /* width: 96%; */
     margin-left: 2vw;
     font-size: smaller;
   }
@@ -752,18 +922,56 @@
   .bienvenida {
     font-size: small;
     padding: 10px;
+    margin-left: 30px;
   }
 
   .container-eventos-progreso {
-    flex-direction: column;
-    align-items: stretch;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
   }
 
-  .eventos,
-  .progreso {
-    width: 100%;
-    /* margin-right: 20px; */
-    margin-bottom: 20px;
+  .eventos-banner-alineados {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+  }
+
+  .banner, .eventos {
+    width: 90%;
+  }
+
+  .eventos {
+    min-height: 300px;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .evento-item {
+    padding: 15 15 15px;
+  }
+
+  .eventos-1 .evento-titulo,
+  .eventos-2 .evento-titulo,
+  .eventos-3 .evento-titulo,
+  .eventos-4 .evento-titulo {
+    width: 65vw;
+  }
+
+  .eventos-1 .evento-descripcion,
+  .eventos-2 .evento-descripcion,
+  .eventos-3 .evento-descripcion,
+  .eventos-4 .evento-descripcion {
+    width: 65vw;
+  }
+
+  .banner {
+    height: 200px;
+    margin-bottom: 15px;
+  }
+
+  .boton-carrusel {
+    width: 30px;
   }
 
   .progreso span {
@@ -774,27 +982,7 @@
   .cuadros-nav {
     display: none;
   }
-  /* Nuevo home */
-  .container-eventos-progreso,
-  .container-banner-bienvenida,
-  .eventos,
-  .banner,
-  .bienvenida {
-    width: 90vw;
-  }
-  .bienvenida { 
-    margin-left: 30px;
-  }
-  .container-eventos-progreso { 
-    position: relative; 
-    margin-top: -830px; 
-    margin-bottom: 450px; 
-  }
-  .banner { 
-    margin-top: 550px; 
-    margin-left: 15px; 
-    width: 100%;
-  }
+  
   .cuadro-nav div {  
     gap: 0;
     justify-content: center;
@@ -803,71 +991,118 @@
   .overlay h4 { font-size: 0.9rem; }
 
   .accesodirecto-moviles {
-    display: flex;
+    display: inline-flex;
+  }
+
+  .cuadro-acceso {
+    transition: 0.3s ease;
+  }
+  .cuadro-acceso:hover {
+    width: 80px;
+    height: 80px;
+    background-color: #0081c7;
+  }
+  .cuadro-toggle:hover {
+    width: 80px;
+    height: 80px;
+    background-color: #0081c7;
   }
 }
 
 @media screen and (max-width: 640px) {
   .cuadro-principal {
-    width: 96%;
-    height: 91%; /* Mantener altura fija */
+    /* width: 96%; */
     margin-left: 2vw;
     font-size: smaller;
   }
 
-  .bienvenida {
-    font-size: small;
-    padding: 10px;
+  .bienvenida h2 {
+    white-space: nowrap;
+    margin-left: 0vw;
+    font-size: 1.5rem;
+    transform: translateY(100%);
   }
 
-  .container-eventos-progreso {
-    flex-direction: column;
-    align-items: stretch;
+  .bienvenida p {
+    white-space: nowrap;
+    margin-left: 0vw;
+    font-size: 0.9rem;
+    transform: translateY(120%);
   }
 
-  .eventos,
-  .progreso {
-    width: 100%;
-    /* margin-right: 20px; */
-    margin-bottom: 20px;
+  .cuadro-acceso {
+    width: 10vw;
+    height: 10vw;
   }
 
-  .progreso span {
-    font-size: medium;
-    margin-bottom: 10px;
+  .cuadro-acceso img {
+    width: 20px;
   }
 
-  .cuadros-nav {
-    display: none;
+  .cuadro-acceso {
+    transition: 0.3s ease;
   }
-  /* Nuevo home */
-  .container-eventos-progreso,
-  .container-banner-bienvenida,
-  .eventos,
-  .banner,
-  .bienvenida {
-    width: 90vw;
+  .cuadro-acceso:hover {
+    width: 60px;
+    height: 60px;
+    background-color: #0081c7;
   }
-  .bienvenida { 
-    margin-left: 30px;
+  .cuadro-toggle:hover {
+    width: 60px;
+    height: 60px;
+    background-color: #0081c7;
   }
-  .container-eventos-progreso { 
-    position: relative; 
-    margin-bottom: 450px; 
+
+  .eventos-1 .evento-titulo,
+  .eventos-2 .evento-titulo,
+  .eventos-3 .evento-titulo,
+  .eventos-4 .evento-titulo {
+    width: 55vw;
   }
-  .banner { 
-    position: relative;
-    top: 10px; 
-    margin-left: 15px; 
-    width: 100%;
+
+  .eventos-1 .evento-descripcion,
+  .eventos-2 .evento-descripcion,
+  .eventos-3 .evento-descripcion,
+  .eventos-4 .evento-descripcion {
+    width: 55vw;
   }
-  .cuadro-nav div {  
-    gap: 0;
-    justify-content: center;
+
+  .eventos-1 .cuadro-numero {
+    width: 70px;
+    height: 70px;
   }
-  .cuadro-ind img { height: 130px; width: 300px; }
-  .overlay h4 { font-size: 0.9rem; }
-  .cuadro-ind div {
-    display: block;
+  .eventos-2 .cuadro-numero {
+    width: 60px;
+    height: 60px;
   }
+  .eventos-3 .cuadro-numero {
+    width: 55px;
+    height: 55px;
+  }
+  .eventos-4 .cuadro-numero {
+    width: 50px;
+    height: 50px;
+  }
+  .eventos-1 .cuadro-numero span {
+    font-size: 2rem;
+  }
+  .eventos-2 .cuadro-numero span {
+    font-size: 1.5rem;
+  }
+  .eventos-3 .cuadro-numero span {
+    font-size: 1.4rem;
+  }
+  .eventos-4 .cuadro-numero span {
+    font-size: 1.3rem;
+  }
+  .evento-vacio span {
+    font-size: 1.3rem;
+  }
+
+  .evento-info .evento-titulo { font-size: 0.9rem; }
+  .evento-info .evento-descripcion { font-size: 0.8rem; }
+  .evento-info .evento-fecha { font-size: 0.8rem; }
+  .evento-info p { font-size: 0.8rem; }
+  .evento-detalle .evento-titulo { font-size: 0.9rem; }
+  .evento-detalle .evento-fecha { font-size: 0.8rem; }
 }

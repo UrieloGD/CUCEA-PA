@@ -586,7 +586,7 @@
   border-radius: 5px;
   width: 80%;
   max-width: 1000px;
-  max-height: 80vh; /* Limitar la altura al 90% del viewport */
+  max-height: 90vh; /* Limitar la altura al 90% del viewport */
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Permitir scroll solo dentro del modal */
@@ -620,6 +620,7 @@
 
 .modal-body {
   flex-grow: 1;
+  flex-shrink: 0;
   overflow-y: auto; /* Scroll interno */
 }
 
@@ -652,6 +653,10 @@
   padding: 10px;
 }
 
+.espacio-columna-movil {
+  display: inherit;
+}
+
 .espacio-icon {
   width: 50px;
   height: auto;
@@ -677,6 +682,8 @@ textarea {
 
 .tab {
   overflow: hidden;
+  display: flex;
+  flex-wrap: nowrap;
   background-color: #fff;
   /* margin-top: -0px; */
 }
@@ -970,7 +977,7 @@ textarea {
     width: 40%;
     padding-left: 0;
     margin-top: -10px;
-    margin-bottom: -10px;
+    margin-bottom: 10px;
   }
 
   .cuadrito {
@@ -999,6 +1006,22 @@ textarea {
   }
   .contenedor-principal {
     margin: 20px auto;
+  }
+  .espacio-info {
+    flex-direction: column;
+  }
+  .espacio-columna-movil {
+    flex-direction: row;
+  }
+  .tab button {
+    padding: 1vh 4vw;
+  }
+  .horario-table td,
+  .horario-table th {
+    font-size: 0.7rem;
+  }
+  .horario-table th {
+    word-wrap: nowrap;
   }
 }
 

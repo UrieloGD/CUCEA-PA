@@ -1,3 +1,4 @@
+// ./JS/personal-solicitud-cambios/modal-baja.js
 document.addEventListener('DOMContentLoaded', function() {
     const formBaja = document.getElementById('form-baja');
     const modalBaja = document.getElementById('solicitud-modal-baja-academica');

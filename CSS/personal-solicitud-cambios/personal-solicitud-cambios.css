@@ -500,6 +500,13 @@
   width: 30%;
 }
 
+/* Sweet alert pantalla de carga al generar pdf*/
+.swal2-loader-center {
+  display: flex !important;
+  justify-content: center !important;
+  margin: 1em auto !important;
+}
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {

@@ -43,57 +43,34 @@ require_once './functions/home/eventos-home.php';
       
     
   </div>
-  
-  <div class="accesodirecto-moviles">
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png">
-      <span>Plantilla</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
-      <span>DB</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
-      <span>Oferta</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png">
-      <span>Espacios</span>
-    </div>
-    <div class="cuadro-acceso">
-      <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
-      <span>Guia</span>
-    </div>
-  </div>
-
-
-  <!-- carrusel-banner -->
-  <div class="banner">
-    <div class="carrusel">
-      <div class="diapositiva">
-        <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
-        </div>
-        <div class="diapositiva">
-          <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
-        </div>
-        <div class="diapositiva">
-        <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
-      </div>
-    </div>
-        
-    <button class="boton-carrusel" id="botonAnterior"><<</button>
-    <button class="boton-carrusel" id="botonSiguiente">>></button>
-        
-    <div class="contenedor-puntos">
-      <span class="punto activo"></span>
-      <span class="punto"></span>
-      <span class="punto"></span>
-    </div>
-  </div>
 </div>
 
   <div class="container-eventos-progreso">
+    <!-- carrusel-banner -->
+    <div class="eventos-banner-alineados">
+    <div class="banner">
+      <div class="carrusel">
+        <div class="diapositiva">
+          <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
+          </div>
+          <div class="diapositiva">
+            <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+          </div>
+          <div class="diapositiva">
+          <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
+        </div>
+      </div>
+          
+      <button class="boton-carrusel" id="botonAnterior"><<</button>
+      <button class="boton-carrusel" id="botonSiguiente">>></button>
+          
+      <div class="contenedor-puntos">
+        <span class="punto activo"></span>
+        <span class="punto"></span>
+        <span class="punto"></span>
+      </div>
+    </div>
+  
     <!-- Siguientes eventos de PA -->
     <div class="eventos">
       <div class="siguienteseventos">
@@ -104,9 +81,9 @@ require_once './functions/home/eventos-home.php';
       echo renderizarEventosProximos($eventos);
       ?>
     </div>
-  </div>
+    </div>
 
-  <!--Cuadros de navegación-->
+    <!--Cuadros de navegación-->
   <div class="cuadros-nav">
     <div class="cuadro-ind">
       <?php
@@ -191,7 +168,89 @@ require_once './functions/home/eventos-home.php';
     </div>
   </div>
 
+    <!-- Solo dispositivos moviles (<768px res) -->
+    <div id="toggle-bd">
+      <a href="./data-departamentos.php"><div id="jefes-bd"><span>BD Jefes de Departamento</span></div></a>
+      <a href="./basededatos-CoordPers.php"><div id="coord-bd"><span>BD Coordinación de Personal</span></div>
+    </div>
+
+    <div class="accesodirecto-moviles">
+      <?php if ($rol_id == 1) echo '<a href="./plantilla.php">';
+            if ($rol_id == 2) echo '<a href="./admin-plantilla.php">';
+            if ($rol_id == 3) echo '<a href="./plantilla-CoordPers.php">';
+      ?>
+      <div class="cuadro-acceso" id="cuadro-plantilla">
+        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png">
+        <span>Plantilla</span>
+      </div>
+      <?php echo '</a>'; 
+      ?>
+      <?php if ($rol_id == 1) {
+              echo '<a href="./basesdedatos.php">
+              <div class="cuadro-acceso">
+                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
+                <span>DB</span>
+              </div>
+              </a>';
+            } 
+            if ($rol_id == 2) {
+              echo '<a href="./data-departamentos.php">
+              <div class="cuadro-acceso">
+                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
+                <span>DB</span>
+              </div>
+              </a>';
+            }
+            if ($rol_id == 3) {
+              ?> <div class="cuadro-acceso" id="cuadro-toggle" onclick="triggerBd()"> <?php
+              echo '
+                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
+                <span>DB</span>
+              </div>';
+            }
+      ?>
+      <a href="./dashboard-oferta.php">
+        <div class="cuadro-acceso" id="cuadro-oferta">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
+          <span>Oferta</span>
+        </div>
+      </a>
+      <a href="./espacios.php">
+        <div class="cuadro-acceso" id="cuadro-espacios">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png">
+          <span>Espacios</span>
+        </div>
+      </a>
+      <a href="./guiaPA.php">
+        <div class="cuadro-acceso" id="cuadro-guia">
+          <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
+          <span>Guia</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
 <!-- Script para las funciones del carrusel -->
 <script src="./JS/home/carrusel.js"></script>
+<!-- Script para la funcion del boton de base de datos cuando es responsivo en moviles y es coordinador de personal -->
+<script>
+  function triggerBd() {
+    var toggleBd = document.getElementById("toggle-bd");
+    var jefesBd = document.getElementById("jefes-bd");
+    var coordBd = document.getElementById("coord-bd");
+
+    if (jefesBd.style.display === "flex" && coordBd.style.display === "flex") {
+        toggleBd.style.display = "none";
+        jefesBd.style.display = "none";
+        coordBd.style.display = "none";
+    } else {
+        toggleBd.style.display = "flex";
+        jefesBd.style.display = "flex";
+        coordBd.style.display = "flex";
+    }
+
+    
+}
+</script>
 
 <?php include './template/footer.php' ?>

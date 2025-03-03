@@ -4,7 +4,7 @@ session_start();
 date_default_timezone_set('America/Mexico_City');
 
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_ID'] != 1) {
+if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 1)) {
     header("Location: home.php");
     exit();
 }
@@ -54,7 +54,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
             </div>
         </div>
 
-        <!-- Botón de nueva solicitud -->
+    <!-- Botón de nueva solicitud - visible solo para roles que no sean 3 (Coordinación de personal) -->
+    <?php if ($_SESSION['Rol_ID'] != 3) { ?>
         <div class="container-boton-nueva-solicitud">
             <button class="boton-nueva-solicitud" id="nueva-solicitud-btn">Nueva solicitud</button>
             <ul class="lista-opciones" id="lista-opciones">
@@ -63,6 +64,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
                 <li>Solicitud de baja-propuesta</li>
             </ul>
         </div>
+    <?php } ?>
     </div>
 
     <!-- Modal Solicitudes Baja -->
@@ -71,6 +73,40 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
     <?php include './functions/personal-solicitud-cambios/modales/modal-baja-propuesta.php' ?>
 
     <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
+        <script>
+        // Definir rol_usuario para que esté disponible en todos los scripts
+        const rol_usuario = <?php echo $_SESSION['Rol_ID']; ?>;
+        
+        // Definir la función mostrarInformacion globalmente
+        function mostrarInformacion(contenedorId, icono) {
+            const contenedor = document.getElementById(contenedorId);
+            
+            if (contenedor) {
+                // Alternar la clase 'active' en el contenedor
+                contenedor.classList.toggle('active');
+                
+                // Si el contenedor está activo, mostrarlo
+                if (contenedor.classList.contains('active')) {
+                    contenedor.style.display = 'block';
+                    // Pequeño retraso para asegurar que la transición funcione
+                    setTimeout(() => {
+                        contenedor.style.maxHeight = contenedor.scrollHeight + "px";
+                    }, 10);
+                    icono.classList.add('rotated');
+                } else {
+                    // Si el contenedor no está activo, ocultarlo
+                    contenedor.style.maxHeight = '0';
+                    icono.classList.remove('rotated');
+                    // Agregar un retraso antes de ocultar completamente
+                    setTimeout(() => {
+                        if (!contenedor.classList.contains('active')) {
+                            contenedor.style.display = 'none';
+                        }
+                    }, 200);
+                }
+            }
+        }
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
                 const btn = document.getElementById('nueva-solicitud-btn');
@@ -137,10 +173,20 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 and $_SESSION['Rol_I
                 }
             });
     </script>
+    <script>
+        console.log("Todos los scripts cargados");
+        console.log("Botones de generar PDF:", document.querySelectorAll('.btn-generar-pdf').length);
+        console.log("Botones de descargar PDF:", document.querySelectorAll('.btn-descargar-pdf').length);
+    </script>
     <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
+    <!-- modales -->
     <script src="./JS/personal-solicitud-cambios/modal-baja.js"></script>
     <script src="./JS/personal-solicitud-cambios/modal-propuesta.js"></script>
     <script src="./JS/personal-solicitud-cambios/modal-baja-propuesta.js"></script>
     <script src="./JS/personal-solicitud-cambios/nueva-solicitud.js"></script>
+    <!-- generar pdfs -->
+    <script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js"></script>
+    <!-- JQuerys -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <?php include("./template/footer.php"); ?>

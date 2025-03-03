@@ -59,6 +59,7 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
     $notificaciones[] = $row;
   }
 }
+
 ?>
 
 <head>
@@ -78,13 +79,13 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
       </div>
       <div class="rol">
         <h3><?php echo $nombre_rol; ?></h3>
+        <li class="icono-notificaciones">
+          <a href="javascript:void(0);" id="notification-icon" onclick="toggleNav()">
+            <img src="./Img/Icons/iconos-header/Notificacion.png" alt="">
+            <span id="notification-badge" class="notification-badge"></span>
+          </a>
+        </li>
       </div>
-      <li class="icono-notificaciones">
-        <a href="javascript:void(0);" id="notification-icon" onclick="toggleNav()">
-          <img src="./Img/Icons/iconos-header/Notificacion.png" alt="">
-          <span id="notification-badge" class="notification-badge"></span>
-        </a>
-      </li>
     </div>
 
     <!-- Notificaciones -->

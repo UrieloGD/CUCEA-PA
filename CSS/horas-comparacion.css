@@ -379,6 +379,9 @@
   width: 60%;
   height: 30px;
   border-radius: 20px;
+  display: inherit;
+  justify-content: center;
+  align-items: center;
 }
 
 #porcentaje-dpto { 
