@@ -14,7 +14,7 @@ class BAJA_PDF extends TCPDF {
     }
 }
 
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 1)) {
     http_response_code(403);
     die(json_encode(['success' => false, 'message' => 'Acceso no autorizado']));
 }
