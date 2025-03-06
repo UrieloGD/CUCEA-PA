@@ -95,21 +95,20 @@
 
     <div class="contenedor-botones">
         <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] == 'Pendiente'): ?>
-            <!-- Coordinación: Botón Generar PDF -->
             <button class="boton-generar" 
-                    onclick="generarPDF('<?= $solicitud['folio'] ?>')">
+                    data-folio="<?= $solicitud['folio'] ?>" 
+                    data-tipo="<?= strtolower(str_replace(' ', '-', $solicitud['tipo'])) ?>">
                 <i class="fas fa-file-pdf"></i> Generar PDF
             </button>
         
         <?php elseif ($solicitud['estado'] == 'En revision'): ?>
-            <!-- Para Ambos Roles cuando está en Revisión -->
             <button class="boton-descargar" 
-                    onclick="descargarPDF('<?= $solicitud['folio'] ?>')">
+                    data-folio="<?= $solicitud['folio'] ?>" 
+                    data-tipo="<?= strtolower(str_replace(' ', '-', $solicitud['tipo'])) ?>">
                 <i class="fas fa-download"></i> Descargar PDF
             </button>
         
         <?php else: ?>
-            <!-- Mensaje para Jefes cuando está Pendiente -->
             <div class="aviso-pendiente-no-disponible">
                 <i class="fas fa-info-circle"></i> PDF disponible después de revisión
             </div>

@@ -120,29 +120,6 @@ select:focus {
   font-size: 1rem;
 }
 
-.boton-guardar {
-  background-color: #4caf50;
-  color: white;
-}
-
-.boton-descartar {
-  background-color: #f44336;
-  color: white;
-}
-
-.boton-guardar:hover {
-  background-color: #45a049;
-}
-
-.boton-descartar:hover {
-  background-color: #da190b;
-}
-
-.boton-guardar i,
-.boton-descartar i {
-  font-size: 1.2rem;
-}
-
 /* Media queries para responsividad */
 @media (max-width: 768px) {
   .modal-content {

@@ -186,6 +186,7 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
     <script src="./JS/personal-solicitud-cambios/nueva-solicitud.js"></script>
     <!-- generar pdfs -->
     <script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js"></script>
+    <script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js"></script>
     <!-- JQuerys -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
