@@ -219,6 +219,29 @@
   text-overflow: ellipsis;
 }
 
+.tipo-hora-selector {
+  display: flex;
+  margin-bottom: 5px;
+  justify-content: center;
+}
+
+.tipo-hora-btn {
+  padding: 3px 8px;
+  font-size: 0.8em;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  margin: 0 2px;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.tipo-hora-btn.active {
+  background-color: #0071b0;
+  color: white;
+  border-color: #0071b0;
+}
+
 
 .encabezado-ultimas-mod td:first-child,
 .cuerpo-ultimas-mod td:first-child {
