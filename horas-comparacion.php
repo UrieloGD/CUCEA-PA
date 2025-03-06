@@ -271,11 +271,11 @@
                         <div class="stats-grafica">
                             <div class="circulo-progreso">
                                 <div class="circulo">
-                                    <span class="porcentaje" id="porcentaje-general">50%</span>
+                                    <span class="porcentaje" id="porcentaje-general">Cargando datos...</span>
                                 </div>
                             </div>
                         </div>
-                        <p id="horas-comp-general">5,117 / <strong>10,234</strong></p>
+                        <p id="horas-comp-general"><strong></strong></p>
                         <button class="desglose-button" id="desglose-todos">Desglose</button>
                     </div>
                 </div>
@@ -1009,6 +1009,16 @@
                                     const porcentajeElement = document.getElementById('porcentaje-general');
                                     if (porcentajeElement) {
                                         porcentajeElement.textContent = `${porcentaje}%`;
+                                    }
+
+                                    if (porcentajeElement) {
+                                        porcentajeElement.textContent = '0%';
+                                    }
+
+                                    // Actualizar el círculo de progreso correctamente (vacío)
+                                    const circuloProgreso = document.querySelector('.circulo-progreso');
+                                    if (circuloProgreso) {
+                                        circuloProgreso.style.backgroundImage = 'conic-gradient(transparent 360deg, transparent 360deg)';
                                     }
 
                                     // Actualizar el círculo de progreso
