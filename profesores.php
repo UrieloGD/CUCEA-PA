@@ -277,7 +277,7 @@ try {
                         
                         $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
                         
-                        if ($result_todos_profesores) {
+                        if ($result_todos_profesores && mysqli_num_rows($result_todos_profesores) > 0) {
                             $contador = 1;
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 $departamento_normalizado = normalizeDepartmentName($row['Departamento']);
@@ -323,8 +323,7 @@ try {
                                 $contador = $contador + 1;
                             }
                         } else {
-                            echo "<tr><td colspan='5'>No se encontraron profesores</td></tr>";
-                            echo "<tr><td colspan='3'>Error en la consulta: " . mysqli_error($conexion) . "</td></tr>";
+                            echo "<tr id='no-data-row'><td colspan='8'>No hay información disponible</td></tr>";
                         }
                         ?>
                     </tbody>
