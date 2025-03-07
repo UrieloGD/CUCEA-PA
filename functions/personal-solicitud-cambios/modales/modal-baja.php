@@ -67,16 +67,15 @@
                 </div>
                 <div class="form-group">
                     <label for="oficio_num">Oficio Num.</label>
-                    <input type="text" id="oficio_num" name="oficio_num" readonly 
-                        value="SA/CP/0000/25" class="form-control">
+                    <input type="text" id="oficio_num" name="oficio_num" readonly class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha D/M/A</label>
-                    <input type="date" id="fecha" name="fecha" value="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="fecha" name="fecha" readonly value="<?php echo date('Y-m-d'); ?>">
                     </div>
             </div>
             <!-- Botones de acción al final del modal -->
-            <div class="contenedor-botones">
+            <div class="contenedor-botones-baja">
                 <button type="submit" class="boton-guardar" id="btn-guardar">
                     <i class="fa fa-check-circle"></i>
                     Guardar
