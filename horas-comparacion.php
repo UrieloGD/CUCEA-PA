@@ -39,7 +39,7 @@
         [
             'id' => 3,
             'nombre' => 'Economía',
-            'imagen' => 'economia.png', 
+            'imagen' => 'economia.png',
             'color' => '#F792B4',
             'nombre_lineas' => ['Economía'],
             'style_imagen' => '',
@@ -178,17 +178,18 @@
         ]
     ];
 
-        function generarDepartamento($depto) {
-            $esArriba = $depto['es_arriba'] ? 'true' : 'false';
-            
-            $nombreLineas = implode('', array_map(function($linea, $index) use ($depto) {
-                // Solo aplicar estilos si es multilínea
-                if ($depto['multilinea']) {
-                    $bottom = ($index == 0) ? '-5px' : '-3px'; // Primera línea 10px, segunda 30px
-                    return "<p style='position:relative; bottom:{$bottom}; margin:0;'>$linea</p>";
-                }
-                return "<p>$linea</p>"; // Sin estilos si no es multilínea
-            }, $depto['nombre_lineas'], array_keys($depto['nombre_lineas']))); // Pasamos el índice
+    function generarDepartamento($depto)
+    {
+        $esArriba = $depto['es_arriba'] ? 'true' : 'false';
+
+        $nombreLineas = implode('', array_map(function ($linea, $index) use ($depto) {
+            // Solo aplicar estilos si es multilínea
+            if ($depto['multilinea']) {
+                $bottom = ($index == 0) ? '-5px' : '-3px'; // Primera línea 10px, segunda 30px
+                return "<p style='position:relative; bottom:{$bottom}; margin:0;'>$linea</p>";
+            }
+            return "<p>$linea</p>"; // Sin estilos si no es multilínea
+        }, $depto['nombre_lineas'], array_keys($depto['nombre_lineas']))); // Pasamos el índice
 
         return <<<HTML
         <div class="contenedor-de-contenedores">
@@ -210,6 +211,11 @@
             <div class="contenedor-informacion" id="contenedor-informacion-{$depto['id']}">
                 <div class="hrs-totales-dpto_container">
                     <p class="titulo-totales-dpto">Horas totales</p>
+                    <div class="tipo-hora-selector">
+                        <button class="tipo-hora-btn active" data-tipo="frente-grupo">Frente Grupo</button>
+                        <button class="tipo-hora-btn" data-tipo="definitivas">Definitivas</button>
+                        <button class="tipo-hora-btn" data-tipo="temporales">Temporales</button>
+                    </div>
                     <div class="borde-barra-stats-hrs" style="border: 3px solid {$depto['color']};">
                     <div class="barra-stats-hrs" style="background-color: {$depto['color']};">
                         <p class="porcentaje-dpto" 
@@ -263,23 +269,23 @@
                     <p>Todos los departamentos</p>
                 </div>
                 <div class="titulo-underline"></div>
-                
+
                 <div class="total-general-hrs_container">
                     <p class="titulo-total-general">Total general de horas</p>
                     <div class="stats-general-hrs">
                         <div class="stats-grafica">
                             <div class="circulo-progreso">
                                 <div class="circulo">
-                                    <span class="porcentaje" id="porcentaje-general">50%</span>
+                                    <span class="porcentaje" id="porcentaje-general">Cargando datos...</span>
                                 </div>
                             </div>
                         </div>
-                        <p id="horas-comp-general">5,117 / <strong>10,234</strong></p>
+                        <p id="horas-comp-general"><strong></strong></p>
                         <button class="desglose-button" id="desglose-todos">Desglose</button>
                     </div>
                 </div>
                 <div class="titulo-underline"></div>
-                
+
                 <div class="ultimas-mod_container">
                     <p class="titulo-ultimas-mod">Últimas modificaciones</p>
                     <table class="tabla-ultimas-mod">
@@ -304,13 +310,13 @@
             </div>
 
             <div class="contenedor-dptos-listado">
-                <?php foreach(array_slice($departamentos, 0, 8) as $depto): ?>
+                <?php foreach (array_slice($departamentos, 0, 8) as $depto): ?>
                     <?= generarDepartamento($depto) ?>
                 <?php endforeach; ?>
             </div>
 
             <div class="contenedor-dptos-listado">
-                <?php foreach(array_slice($departamentos, 8, 8) as $depto): ?>
+                <?php foreach (array_slice($departamentos, 8, 8) as $depto): ?>
                     <?= generarDepartamento($depto) ?>
                 <?php endforeach; ?>
             </div>
@@ -359,6 +365,415 @@
                 const modalTitle = document.getElementById('modalTitle');
                 const tablaBody = document.getElementById('tablaBody');
                 const departamentoCards = document.querySelectorAll('.desglose-button-dpto');
+
+                // Variables para almacenar los datos de cada tipo de hora por departamento
+                let datosDepartamentos = {};
+
+                // Función para cargar los datos de un departamento
+                function cargarDatosDepartamento(departamento) {
+                    let endpoint = './functions/horas-comparacion/obtener-personal.php';
+
+                    fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `departamento=${encodeURIComponent(departamento)}`
+                        })
+                        .then(response => response.text())
+                        .then(text => {
+                            try {
+                                return JSON.parse(text);
+                            } catch (e) {
+                                console.error('Error parsing JSON:', text);
+                                throw new Error('Error al procesar la respuesta del servidor');
+                            }
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                throw new Error(data.error);
+                            }
+
+                            // Inicializar datos para este departamento si no existen
+                            if (!datosDepartamentos[departamento]) {
+                                datosDepartamentos[departamento] = {};
+                            }
+
+                            // Calcular totales para cada tipo de hora
+                            let totalFrenteGrupo = 0;
+                            let totalMaxFrenteGrupo = 0;
+                            let totalDefinitivas = 0;
+                            let totalMaxDefinitivas = 0;
+                            let totalTemporales = 0;
+
+                            data.forEach(persona => {
+                                // Horas Frente Grupo
+                                totalFrenteGrupo += parseInt(persona.suma_cargo_plaza) || 0;
+                                totalMaxFrenteGrupo += parseInt(persona.Horas_frente_grupo) || 0;
+
+                                // Horas Definitivas
+                                totalDefinitivas += parseInt(persona.suma_horas_definitivas) || 0;
+                                totalMaxDefinitivas += parseInt(persona.Horas_definitivas) || 0;
+
+                                // Horas Temporales
+                                totalTemporales += parseInt(persona.suma_horas_temporales) || 0;
+                            });
+
+                            // Guardar los datos calculados
+                            datosDepartamentos[departamento] = {
+                                frenteGrupo: {
+                                    total: Math.round(totalFrenteGrupo),
+                                    max: Math.round(totalMaxFrenteGrupo)
+                                },
+                                definitivas: {
+                                    total: Math.round(totalDefinitivas),
+                                    max: Math.round(totalMaxDefinitivas)
+                                },
+                                temporales: {
+                                    total: Math.round(totalTemporales),
+                                    max: 0 // Las horas temporales no tienen máximo
+                                }
+                            };
+
+                            // Actualizar visualización según el departamento
+                            if (departamento === 'todos') {
+                                actualizarVisualizacionGeneral(datosDepartamentos[departamento]);
+                            } else {
+                                actualizarVisualizacionHoras(departamento, 'frente-grupo');
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`Error cargando datos para ${departamento}:`, error);
+                            if (departamento === 'todos') {
+                                actualizarSinDatosGeneral();
+                            } else {
+                                actualizarSinDatos(departamento);
+                            }
+                        });
+                }
+
+                // Actualizar la visualización general
+                function actualizarVisualizacionGeneral(datos) {
+                    const porcentaje = datos.frenteGrupo.max > 0 ?
+                        Math.round((datos.frenteGrupo.total / datos.frenteGrupo.max) * 100) : 0;
+
+                    // Actualizar texto de horas
+                    const horasCompGeneral = document.getElementById('horas-comp-general');
+                    if (horasCompGeneral) {
+                        horasCompGeneral.innerHTML = `${datos.frenteGrupo.total.toLocaleString()} / <strong>${datos.frenteGrupo.max.toLocaleString()}</strong>`;
+                    }
+
+                    // Actualizar porcentaje en el círculo
+                    const porcentajeElement = document.getElementById('porcentaje-general');
+                    if (porcentajeElement) {
+                        porcentajeElement.textContent = `${porcentaje}%`;
+                    }
+
+                    // Actualizar el círculo de progreso
+                    const circuloProgreso = document.querySelector('.circulo-progreso');
+                    if (circuloProgreso) {
+                        circuloProgreso.style.background = `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, #f0f0f0 ${porcentaje * 3.6}deg)`;
+                    }
+                }
+
+                // Manejar el caso sin datos para el total general
+                function actualizarSinDatos(departamento) {
+                    if (departamento !== 'todos') {
+                        // Encontrar todos los elementos que podrían corresponder a este departamento
+                        const deptoElements = document.querySelectorAll('.desglose-button-dpto');
+                        deptoElements.forEach(btn => {
+                            if (btn.getAttribute('data-departamento') === departamento) {
+                                // Encontrar el elemento que contiene las horas en el contenedor padre
+                                const deptoContainer = btn.closest('.contenedor-informacion');
+                                const horasCompElement = deptoContainer.querySelector('.horas-comp-dpto');
+
+                                if (horasCompElement) {
+                                    // Actualizar con mensaje de sin datos
+                                    horasCompElement.innerHTML = `<span style="color: #2684D5;">No se encontraron datos</span>`;
+
+                                    // Actualizar la barra de progreso a 0%
+                                    const barraProgreso = deptoContainer.querySelector('.barra-stats-hrs');
+                                    const porcentajeElement = deptoContainer.querySelector('.porcentaje-dpto');
+
+                                    if (barraProgreso && porcentajeElement) {
+                                        barraProgreso.style.width = '0%';
+                                        porcentajeElement.textContent = '0%';
+                                    }
+
+                                    // Asegurarse de que el botón de Frente Grupo esté activo
+                                    const botonesHora = deptoContainer.querySelectorAll('.tipo-hora-btn');
+                                    botonesHora.forEach(btn => {
+                                        if (btn.getAttribute('data-tipo') === 'frente-grupo') {
+                                            btn.classList.add('active');
+                                        } else {
+                                            btn.classList.remove('active');
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        // Si es "todos", llamar a la función específica para actualizar el contador general
+                        actualizarSinDatosGeneral();
+                    }
+                }
+                // Función para actualizar la visualización con el tipo de hora seleccionado
+                function actualizarVisualizacionHoras(departamento, tipoHora) {
+                    if (!datosDepartamentos[departamento]) {
+                        return; // No tenemos datos para este departamento
+                    }
+
+                    let datos;
+                    let porcentaje;
+                    let textoHoras;
+
+                    switch (tipoHora) {
+                        case 'frente-grupo':
+                            datos = datosDepartamentos[departamento].frenteGrupo;
+                            porcentaje = datos.max > 0 ? Math.round((datos.total / datos.max) * 100) : 0;
+                            textoHoras = `${datos.total.toLocaleString()} / <strong>${datos.max.toLocaleString()}</strong>`;
+                            break;
+                        case 'definitivas':
+                            datos = datosDepartamentos[departamento].definitivas;
+                            porcentaje = datos.max > 0 ? Math.round((datos.total / datos.max) * 100) : 0;
+                            textoHoras = `${datos.total.toLocaleString()} / <strong>${datos.max.toLocaleString()}</strong>`;
+                            break;
+                        case 'temporales':
+                            datos = datosDepartamentos[departamento].temporales;
+                            // Para horas temporales, mostramos solo el total sin máximo
+                            porcentaje = 100; // Siempre 100% para horas temporales
+                            textoHoras = `${datos.total.toLocaleString()}`;
+                            break;
+                    }
+
+                    // Encontrar el contenedor de este departamento
+                    const btnDesglose = document.querySelector(`.desglose-button-dpto[data-departamento="${departamento}"]`);
+                    if (!btnDesglose) return;
+
+                    const contenedorInfo = btnDesglose.closest('.contenedor-informacion');
+                    if (!contenedorInfo) return;
+
+                    // Actualizar texto de horas
+                    const horasCompElement = contenedorInfo.querySelector('.horas-comp-dpto');
+                    if (horasCompElement) {
+                        horasCompElement.innerHTML = textoHoras;
+                    }
+
+                    // Actualizar barra de progreso
+                    const barraProgreso = contenedorInfo.querySelector('.barra-stats-hrs');
+                    const porcentajeElement = contenedorInfo.querySelector('.porcentaje-dpto');
+
+                    if (barraProgreso && porcentajeElement) {
+                        barraProgreso.style.width = `${porcentaje}%`;
+                        porcentajeElement.textContent = `${porcentaje}%`;
+                    }
+
+                    // Actualizar botones de tipo de hora
+                    const botonesHora = contenedorInfo.querySelectorAll('.tipo-hora-btn');
+                    botonesHora.forEach(btn => {
+                        if (btn.getAttribute('data-tipo') === tipoHora) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+
+
+                // Función para cargar datos de todos los departamentos al inicio
+                function cargarDatosDepartamentos() {
+                    // Obtener todos los departamentos
+                    const departamentoCards = document.querySelectorAll('.desglose-button-dpto');
+
+                    // Cargar datos para cada departamento
+                    departamentoCards.forEach(card => {
+                        const departamento = card.getAttribute('data-departamento');
+                        cargarDatosDepartamento(departamento);
+                    });
+
+                    // Cargar datos para el total general
+                    cargarDatosDepartamento('todos');
+                }
+
+                // Añadir event listeners para los botones de tipo de hora
+                document.addEventListener('click', function(e) {
+                    if (e.target && e.target.classList.contains('tipo-hora-btn')) {
+                        const tipoHora = e.target.getAttribute('data-tipo');
+                        const contenedorInfo = e.target.closest('.contenedor-informacion');
+                        const btnDesglose = contenedorInfo.querySelector('.desglose-button-dpto');
+
+                        if (btnDesglose) {
+                            const departamento = btnDesglose.getAttribute('data-departamento');
+                            actualizarVisualizacionHoras(departamento, tipoHora);
+                        }
+                    }
+                });
+
+
+
+                // Función para cargar los totales de un departamento específico
+                function cargarTotalesDepartamento(departamento) {
+                    fetch('./functions/horas-comparacion/obtener-personal.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: `departamento=${encodeURIComponent(departamento)}`
+                        })
+                        .then(response => response.text())
+                        .then(text => {
+                            try {
+                                return JSON.parse(text);
+                            } catch (e) {
+                                console.error('Error parsing JSON:', text);
+                                throw new Error('Error al procesar la respuesta del servidor');
+                            }
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                throw new Error(data.error);
+                            }
+
+                            if (!Array.isArray(data) || data.length === 0) {
+                                // No hay datos para este departamento
+                                actualizarSinDatos(departamento);
+                                return;
+                            }
+
+                            // Calcular totales de horas frente grupo
+                            let totalFrenteGrupo = 0;
+                            let totalMaxFrenteGrupo = 0;
+
+                            data.forEach(persona => {
+                                const horasCargoActual = parseInt(persona.suma_cargo_plaza) || 0;
+                                const horasFrenteRequeridas = parseInt(persona.Horas_frente_grupo) || 0;
+
+                                totalFrenteGrupo += horasCargoActual;
+                                totalMaxFrenteGrupo += horasFrenteRequeridas;
+                            });
+
+                            // Actualizar los valores según el departamento
+                            if (departamento !== 'todos') {
+                                // Encontrar todos los elementos que podrían corresponder a este departamento
+                                const deptoElements = document.querySelectorAll('.desglose-button-dpto');
+                                deptoElements.forEach(btn => {
+                                    if (btn.getAttribute('data-departamento') === departamento) {
+                                        // Encontrar el elemento que contiene las horas en el contenedor padre
+                                        const deptoContainer = btn.closest('.contenedor-informacion');
+                                        const horasCompElement = deptoContainer.querySelector('.horas-comp-dpto');
+
+                                        if (horasCompElement) {
+                                            // Actualizar con los valores calculados
+                                            horasCompElement.innerHTML = `${Math.round(totalFrenteGrupo).toLocaleString()} / <strong>${Math.round(totalMaxFrenteGrupo).toLocaleString()}</strong>`;
+
+                                            // Actualizar también la barra de progreso
+                                            const porcentaje = totalMaxFrenteGrupo > 0 ? Math.round((totalFrenteGrupo / totalMaxFrenteGrupo) * 100) : 0;
+                                            const barraProgreso = deptoContainer.querySelector('.barra-stats-hrs');
+                                            const porcentajeElement = deptoContainer.querySelector('.porcentaje-dpto');
+
+                                            if (barraProgreso && porcentajeElement) {
+                                                barraProgreso.style.width = `${porcentaje}%`;
+                                                porcentajeElement.textContent = `${porcentaje}%`;
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                // Si es "todos", actualizar el contador general
+                                const horasCompGeneral = document.getElementById('horas-comp-general');
+                                if (horasCompGeneral) {
+                                    horasCompGeneral.innerHTML = `${Math.round(totalFrenteGrupo).toLocaleString()} / <strong>${Math.round(totalMaxFrenteGrupo).toLocaleString()}</strong>`;
+
+                                    // Actualizar también el porcentaje en el círculo
+                                    const porcentaje = totalMaxFrenteGrupo > 0 ? Math.round((totalFrenteGrupo / totalMaxFrenteGrupo) * 100) : 0;
+                                    const porcentajeElement = document.getElementById('porcentaje-general');
+                                    if (porcentajeElement) {
+                                        porcentajeElement.textContent = `${porcentaje}%`;
+                                    }
+
+                                    // Actualizar el círculo de progreso
+
+                                    const circuloProgreso = document.querySelector('.circulo-progreso');
+                                    if (circuloProgreso) {
+                                        // Aseguramos que el centro permanece blanco y solo se actualiza el borde
+                                        circuloProgreso.style.backgroundImage =
+                                            `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, transparent ${porcentaje * 3.6}deg)`;
+                                    }
+
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error(`Error cargando datos para ${departamento}:`, error);
+                            actualizarSinDatos(departamento);
+                        });
+                }
+
+                // Nueva función para actualizar cuando no hay datos
+                function actualizarSinDatos(departamento) {
+                    if (departamento !== 'todos') {
+                        // Encontrar todos los elementos que podrían corresponder a este departamento
+                        const deptoElements = document.querySelectorAll('.desglose-button-dpto');
+                        deptoElements.forEach(btn => {
+                            if (btn.getAttribute('data-departamento') === departamento) {
+                                // Encontrar el elemento que contiene las horas en el contenedor padre
+                                const deptoContainer = btn.closest('.contenedor-informacion');
+                                const horasCompElement = deptoContainer.querySelector('.horas-comp-dpto');
+
+                                if (horasCompElement) {
+                                    // Actualizar con mensaje de sin datos
+                                    horasCompElement.innerHTML = `<span style="color: #2684D5;">No se encontraron datos</span>`;
+
+                                    // Actualizar la barra de progreso a 0%
+                                    const barraProgreso = deptoContainer.querySelector('.barra-stats-hrs');
+                                    const porcentajeElement = deptoContainer.querySelector('.porcentaje-dpto');
+
+                                    if (barraProgreso && porcentajeElement) {
+                                        barraProgreso.style.width = '0%';
+                                        porcentajeElement.textContent = '0%';
+                                    }
+
+                                    // Asegurarse de que el botón de Frente Grupo esté activo
+                                    const botonesHora = deptoContainer.querySelectorAll('.tipo-hora-btn');
+                                    botonesHora.forEach(btn => {
+                                        if (btn.getAttribute('data-tipo') === 'frente-grupo') {
+                                            btn.classList.add('active');
+                                        } else {
+                                            btn.classList.remove('active');
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        // Si es "todos", actualizar el contador general
+                        const horasCompGeneral = document.getElementById('horas-comp-general');
+                        if (horasCompGeneral) {
+                            horasCompGeneral.innerHTML = `<span style="color: #999;">No se encontraron datos</span>`;
+
+                            // Actualizar el porcentaje en el círculo
+                            const porcentaje = totalMaxFrenteGrupo > 0 ? Math.round((totalFrenteGrupo / totalMaxFrenteGrupo) * 100) : 0;
+                            const porcentajeElement = document.getElementById('porcentaje-general');
+                            if (porcentajeElement) {
+                                porcentajeElement.textContent = `${porcentaje}%`;
+                            }
+
+                            // Actualizar el círculo de progreso
+                            const circuloProgreso = document.querySelector('.circulo-progreso');
+                            if (circuloProgreso) {
+                                // Aseguramos que el centro permanece blanco y solo se actualiza el borde
+                                circuloProgreso.style.backgroundImage =
+                                    `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, transparent ${porcentaje * 3.6}deg)`;
+                            }
+                        }
+                    }
+                }
+
+                // Mantener la función fetchPersonalData existente para cuando se abre el modal
+                // pero agregando la actualización de totales en la misma función
+
+                // La parte importante: Llamar a la función para cargar todos los departamentos al inicio
+                cargarDatosDepartamentos();
 
                 // Función para abrir el modal
                 function openModal(departamento) {
@@ -411,52 +826,52 @@
                 function agregarFilaTotales() {
                     const tablaBody = document.getElementById('tablaBody');
                     const thead = document.querySelector('.tabla-personal thead');
-                    
+
                     // Eliminar la fila de totales existente si hay una
                     const filaTotalesExistente = document.querySelector('.fila-totales');
                     if (filaTotalesExistente) {
                         filaTotalesExistente.remove();
                     }
-                    
+
                     // Crear una nueva fila para los totales
                     const filaTotales = document.createElement('tr');
                     filaTotales.className = 'fila-totales';
-                    
+
                     // Calcular totales de las columnas numéricas
                     let totalFrenteGrupo = 0;
                     let totalMaxFrenteGrupo = 0;
                     let totalDefinitivas = 0;
                     let totalMaxDefinitivas = 0;
                     let totalTemporales = 0;
-                    
+
                     // Obtener todas las filas de datos (excluyendo la fila de totales)
                     const filas = Array.from(tablaBody.querySelectorAll('tr')).filter(row => !row.classList.contains('fila-totales'));
-                    
+
                     filas.forEach(fila => {
                         // Obtener los valores de las celdas relevantes
                         const celdaFrenteGrupo = fila.querySelector('td:nth-child(7)'); // Horas Frente Grupo
                         const celdaDefinitivas = fila.querySelector('td:nth-child(8)'); // Horas Definitivas
-                        const celdaTemporales = fila.querySelector('td:nth-child(9)');  // Horas Temporales
-                        
+                        const celdaTemporales = fila.querySelector('td:nth-child(9)'); // Horas Temporales
+
                         // Extraer los valores numéricos
                         if (celdaFrenteGrupo) {
                             const [actual, maximo] = celdaFrenteGrupo.textContent.split('/').map(v => parseFloat(v) || 0);
                             totalFrenteGrupo += actual;
                             totalMaxFrenteGrupo += maximo;
                         }
-                        
+
                         if (celdaDefinitivas) {
                             const [actual, maximo] = celdaDefinitivas.textContent.split('/').map(v => parseFloat(v) || 0);
                             totalDefinitivas += actual;
                             totalMaxDefinitivas += maximo;
                         }
-                        
+
                         if (celdaTemporales) {
                             const valorTemporales = parseFloat(celdaTemporales.textContent) || 0;
                             totalTemporales += valorTemporales;
                         }
                     });
-                    
+
                     // Construir la fila de totales con los totales y máximos redondeados
                     filaTotales.innerHTML = `
                         <td colspan="6" style="text-align: right; font-weight: bold;">Totales:</td>
@@ -464,7 +879,7 @@
                         <td style="text-align: center; font-weight: bold;">${Math.round(totalDefinitivas)}/${Math.round(totalMaxDefinitivas)}</td>
                         <td style="text-align: center; font-weight: bold;">${Math.round(totalTemporales)}</td>
                     `;
-                    
+
                     // Insertar la fila de totales después del encabezado
                     thead.parentNode.insertBefore(filaTotales, thead.nextSibling);
                 }
@@ -509,7 +924,7 @@
 
                             //Encabezados de la tabla
                             const thead = document.querySelector('.tabla-personal thead tr');
-                                thead.innerHTML = `
+                            thead.innerHTML = `
                                     <th>Código</th>
                                     <th>Nombre Completo</th>
                                     <th>Departamento</th>
@@ -529,7 +944,7 @@
                                     .replace(/[\u0300-\u036f]/g, "")
                                     .replace(/[^a-z\s]/g, "")
                                     .trim();
-                                
+
                                 // Mapping de departamentos a clases CSS
                                 const classMapping = {
                                     'administracion': 'dept-administracion',
@@ -557,7 +972,7 @@
                                         return value;
                                     }
                                 }
-                                
+
                                 return 'dept-otros'; // Valor por defecto
                             }
 
@@ -618,15 +1033,15 @@
                                     return 'default';
                                 }
 
-                                    function formatTooltipContent(departmentData) {
-                                        if (!departmentData || departmentData.trim() === '') {
-                                            return 'No hay información de departamentos disponible';
-                                        }
-                                        
-                                        // Split by newlines and format each line
-                                        const departments = departmentData.split('\n').filter(line => line.trim());
-                                        return departments.join('<br>');
+                                function formatTooltipContent(departmentData) {
+                                    if (!departmentData || departmentData.trim() === '') {
+                                        return 'No hay información de departamentos disponible';
                                     }
+
+                                    // Split by newlines and format each line
+                                    const departments = departmentData.split('\n').filter(line => line.trim());
+                                    return departments.join('<br>');
+                                }
 
                                 // Función para formatear las horas por departamento
                                 function formatearHorasDepartamento(horasString, tipoHoras) {
@@ -676,11 +1091,11 @@
 
                                 // Procesar horas temporales
                                 const horasTemporales = persona.suma_horas_temporales || 0;
-                                
+
 
                                 // Determinar la clase del departamento para asignar el color a horas temporales
                                 const deptClass = getDepartmentColor(persona.Departamento || 'otros');
-                                
+
                                 const horasFrenteGrupoHTML = `
                                     <div class="tooltip">
                                         <span class="${claseFrenteGrupo}">${horasCargoActual}/${horasFrenteRequeridas}</span>
@@ -700,7 +1115,7 @@
                                         </div>
                                     </div>
                                 `;
-                                
+
                                 // Horas temporales con el color del departamento
                                 const horasTemporalesHTML = `
                                     <div class="tooltip" style="text-align: center; width: 100%;">
@@ -713,14 +1128,14 @@
                                 function generarDesgloseTotalHoras(persona) {
                                     // Combinar todas las horas por departamento
                                     const departamentos = new Map();
-                                    
+
                                     // Procesar horas de cargo
                                     if (persona.horas_cargo_por_departamento) {
                                         persona.horas_cargo_por_departamento.split('\n').forEach(linea => {
                                             if (linea.trim() === '') return;
                                             const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
                                             if (!dept || !horas) return;
-                                            
+
                                             const horasActual = parseInt(horas.split('/')[0]);
                                             if (departamentos.has(dept)) {
                                                 departamentos.set(dept, departamentos.get(dept) + horasActual);
@@ -729,14 +1144,14 @@
                                             }
                                         });
                                     }
-                                    
+
                                     // Procesar horas definitivas
                                     if (persona.horas_definitivas_por_departamento) {
                                         persona.horas_definitivas_por_departamento.split('\n').forEach(linea => {
                                             if (linea.trim() === '') return;
                                             const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
                                             if (!dept || !horas) return;
-                                            
+
                                             const horasActual = parseInt(horas.split('/')[0]);
                                             if (departamentos.has(dept)) {
                                                 departamentos.set(dept, departamentos.get(dept) + horasActual);
@@ -745,14 +1160,14 @@
                                             }
                                         });
                                     }
-                                    
+
                                     // Procesar horas temporales
                                     if (persona.horas_temporales_por_departamento) {
                                         persona.horas_temporales_por_departamento.split('\n').forEach(linea => {
                                             if (linea.trim() === '') return;
                                             const [dept, horas] = linea.split(/:(.+)/).map(s => s?.trim()).filter(Boolean);
                                             if (!dept || !horas) return;
-                                            
+
                                             const horasActual = parseInt(horas);
                                             if (departamentos.has(dept)) {
                                                 departamentos.set(dept, departamentos.get(dept) + horasActual);
@@ -761,7 +1176,7 @@
                                             }
                                         });
                                     }
-                                    
+
                                     // Generar el texto del tooltip
                                     let tooltipText = '';
                                     departamentos.forEach((horas, dept) => {
@@ -769,7 +1184,7 @@
                                             tooltipText += `${dept}: ${horas}\n`;
                                         }
                                     });
-                                    
+
                                     return tooltipText || 'No hay desglose disponible';
                                 }
 
@@ -790,6 +1205,70 @@
                                 row.innerHTML = tdContent;
                                 tablaBody.appendChild(row);
                             });
+
+                            let totalFrenteGrupo = 0;
+                            let totalMaxFrenteGrupo = 0;
+
+                            // Calcular totales de horas frente grupo
+                            data.forEach(persona => {
+                                const horasCargoActual = parseInt(persona.suma_cargo_plaza) || 0;
+                                const horasFrenteRequeridas = parseInt(persona.Horas_frente_grupo) || 0;
+
+                                totalFrenteGrupo += horasCargoActual;
+                                totalMaxFrenteGrupo += horasFrenteRequeridas;
+                            });
+
+                            // Actualizar el valor en la tarjeta del departamento correspondiente
+                            if (departamento !== 'todos') {
+                                // Encontrar el elemento para el departamento actual
+                                const deptoElements = document.querySelectorAll('.desglose-button-dpto');
+                                deptoElements.forEach(btn => {
+                                    if (btn.getAttribute('data-departamento') === departamento) {
+                                        // Encontrar el elemento que contiene "5,117 / 10,234" en el contenedor padre
+                                        const deptoContainer = btn.closest('.contenedor-informacion');
+                                        const horasCompElement = deptoContainer.querySelector('.horas-comp-dpto');
+
+                                        if (horasCompElement) {
+                                            // Actualizar con los valores calculados
+                                            horasCompElement.innerHTML = `${Math.round(totalFrenteGrupo).toLocaleString()} / <strong>${Math.round(totalMaxFrenteGrupo).toLocaleString()}</strong>`;
+
+                                            // Actualizar también la barra de progreso
+                                            const porcentaje = totalMaxFrenteGrupo > 0 ? Math.round((totalFrenteGrupo / totalMaxFrenteGrupo) * 100) : 0;
+                                            const barraProgreso = deptoContainer.querySelector('.barra-stats-hrs');
+                                            const porcentajeElement = deptoContainer.querySelector('.porcentaje-dpto');
+
+                                            if (barraProgreso && porcentajeElement) {
+                                                barraProgreso.style.width = `${porcentaje}%`;
+                                                porcentajeElement.textContent = `${porcentaje}%`;
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                // Si es "todos", actualizar el contador general
+                                const horasCompGeneral = document.getElementById('horas-comp-general');
+                                if (horasCompGeneral) {
+                                    horasCompGeneral.innerHTML = `${Math.round(totalFrenteGrupo).toLocaleString()} / <strong>${Math.round(totalMaxFrenteGrupo).toLocaleString()}</strong>`;
+
+                                    // Actualizar también el porcentaje en el círculo
+                                    const porcentaje = totalMaxFrenteGrupo > 0 ? Math.round((totalFrenteGrupo / totalMaxFrenteGrupo) * 100) : 0;
+                                    const porcentajeElement = document.getElementById('porcentaje-general');
+                                    if (porcentajeElement) {
+                                        porcentajeElement.textContent = `${porcentaje}%`;
+                                    }
+
+                                    // Actualizar el círculo de progreso correctamente (vacío)
+                                    const circuloProgreso = document.querySelector('.circulo-progreso');
+                                    if (circuloProgreso) {
+                                        circuloProgreso.style.backgroundImage = 'conic-gradient(transparent 360deg, transparent 360deg)';
+                                    }
+
+                                    // Actualizar el círculo de progreso
+                                    document.querySelector('.circulo-progreso').style.background =
+                                        `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, #f0f0f0 ${porcentaje * 3.6}deg)`;
+                                }
+                            }
+
                             agregarFilaTotales();
                         })
                         .catch(error => {
@@ -797,7 +1276,7 @@
                             tablaBody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; color: red;">
                             ${error.message || 'Error al cargar los datos'}</td></tr>`;
                         });
-                    }
+                }
 
                 // Event Listeners
                 departamentoCards.forEach(card => {
@@ -866,4 +1345,4 @@
             }
         </script>
 
-        <?php include("./template/footer.php"); ?>  
+        <?php include("./template/footer.php"); ?>
