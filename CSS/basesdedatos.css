@@ -130,7 +130,7 @@ th {
 .iconos-container {
   width: 70%;
   display: flex;
-  align-items: left;
+  align-items:flex-end;
   /* border: solid; */
   justify-content: space-between;
   padding: 0px 40px;
@@ -203,13 +203,6 @@ th {
 
 .icono-buscador i {
   font-size: 18px;
-}
-
-/* Asegúrate de que todos los iconos tengan el mismo tamaño */
-.iconos-container {
-  display: flex;
-  align-items: center;
-  margin-right: 0vw;
 }
 
 /* Ajustar el espacio entre los iconos */
@@ -639,11 +632,17 @@ nav[aria-label="pagination"] {
   position: relative;
 }
 
+#tabla-datos_info.dt-info {
+  font-size: 0.9rem;
+}
+
 /* Uso de iconos en lugar de texto en paginacion de base de datos */
 button.dt-paging-button.previous,
 button.dt-paging-button.next {
   visibility: hidden;
 }
+button.dt-paging-button.previous::after { padding: 10px 5px; }
+button.dt-paging-button.next::before { padding: 0 15px 0 0; }
 button.dt-paging-button.first {
   position: relative;
   left: 50px;
@@ -669,11 +668,25 @@ button.dt-paging-button.last::before
   transition: 0.1s ease-in-out;
 }
 div.dt-container .dt-paging .dt-paging-button.previous:hover,
-div.dt-container .dt-paging .dt-paging-button.next:hover,
+div.dt-container .dt-paging .dt-paging-button.next:hover {
+  cursor: pointer;
+  color: #0071b0!important;
+}
 div.dt-container .dt-paging .dt-paging-button.last:hover,
 div.dt-container .dt-paging .dt-paging-button.first:hover {
   cursor: pointer;
+  background: none;
+  border: none;
   color: #0071b0!important;
+  font-weight: bold;
+}
+.dt-paging-button:hover {
+  background: none;
+  color: #0071b0!important;
+}
+button.dt-paging-button.current {
+  background: none!important;
+  box-shadow: 0 0.5px 1px #000000;
 }
 /* Iconos de avanzar y retroceder...  */
 button.dt-paging-button.disabled.previous::after,
@@ -681,6 +694,13 @@ button.dt-paging-button.previous::after { content: '\f104'; }
 
 button.dt-paging-button.disabled.next::before,
 button.dt-paging-button.next::before { content: '\f105'; }
+
+/* Botones de paginacion numericos */
+div.dt-container .dt-paging .dt-paging-button:hover:not(.last):not(.first):not(.previous):not(.next) {
+  border: 1px solid #696969!important;
+  background: none!important;
+  color: #000000!important;
+}
 
 
 div[class="bottom"] {
@@ -958,7 +978,7 @@ th[data-tooltip] {
   }
   .iconos-container {
     position: relative;
-    margin-right: 12vw;
+    margin-right: 11vw;
     top: 20px;
   }
   .encabezado-derecha {
@@ -996,7 +1016,10 @@ th[data-tooltip] {
     left: 29%;
   }
   #dt-search-0 {
+    position: relative;
+    left: 15px;
     width: 45vw;
+    
   }
   nav[aria-label="pagination"] {
     width: 80vw;
@@ -1019,6 +1042,7 @@ th[data-tooltip] {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
   .encabezado h2 {
     margin: 0;
@@ -1050,24 +1074,27 @@ th[data-tooltip] {
   }
   .encabezado-centro {
     position: relative;
-    margin-bottom: 50px;
     font-size: smaller;
+    width: 30%;
   }
   .datatable-container {
     margin-top: 40px;
   }
   .iconos-container {
     position: relative;
-    margin-right: 20vw;
-    top: 60px;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: flex-end;
+    top: 35px;
   }
   .encabezado-derecha {
-    width: 10%;
+    width: 100vw;
+    margin-right: 0;
+    padding-right: 0;
   }
   .encabezado-izquierda {
-    position: relative;
-    margin-top: 50px;
-    top: 5px;
+   width: 100%;
+   height: fit-content;
   }
   #input-buscador {
     position: absolute;
@@ -1096,8 +1123,11 @@ th[data-tooltip] {
   .contenedor-buttons { 
     left: 25%;
   }
+  .dt-search {
+    width: 100%;
+  }
   #dt-search-0 {
-    width: 90vw;
+    width: 100%;
   }
   nav[aria-label="pagination"] {
     width: 75vw;
@@ -1114,9 +1144,6 @@ th[data-tooltip] {
 }
 
 @media screen and (max-width: 600px) {
-  .iconos-container {
-    margin-right: 30vw;
-  }
   #input-buscador {
     width: 80vw;
   }
@@ -1151,9 +1178,6 @@ th[data-tooltip] {
     width: 150px;
     height: 35px;
   }
-  .iconos-container {
-    margin-right: 35vw;
-  }
 }
 
 @media screen and (max-width: 500px) {
@@ -1161,18 +1185,19 @@ th[data-tooltip] {
   .columns-container-materia {
     column-count: 1;
   }
+  nav[aria-label="pagination"] {
+    width: 92vw;
+    flex-wrap: wrap;
+    margin-top: 5px;
+  }
 }
 
 @media screen and (max-width: 450px) {
-  .iconos-container {
-    margin-right: 50vw;
-  }
   #input-buscador {
     width: 75vw;
   }
   .encabezado-centro {
     position: relative;
-    margin-bottom: 50px;
     font-size: x-small;
   }
   .swal2-success-line-long,
