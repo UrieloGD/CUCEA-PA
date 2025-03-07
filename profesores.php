@@ -218,7 +218,7 @@ try {
             <div class="search-bar">
                 <div class="search-input-container">
                     <i class="fa fa-search" aria-hidden="true"></i>
-                    <input type="text" placeholder="Buscar profesor..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
+                    <input type="text" placeholder="Buscar..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
                 </div>
             </div>
         </div>
@@ -259,7 +259,7 @@ try {
                            <!-- <th class="detalle-column">count</th> --> 
                             <th class="detalle-column col-codigo th-L">Código</th>
                             <th class="detalle-column col-nombre">Nombre Completo</th>
-                            <th class="detalle-column col-categoria">Categoria Actúal</th>
+                            <th class="detalle-column col-categoria">Categoría Actual</th>
                             <th class="detalle-column col-depto">Departamento</th>
                             <th class="detalle-column col-horas-f">Horas frente a grupo</th>
                             <th class="detalle-column col-horas-d">Horas Definitivas</th>

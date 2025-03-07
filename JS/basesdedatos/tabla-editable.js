@@ -736,7 +736,7 @@ function getColumnName(cell) {
   return mappedName;
 }
 
-// Añadir estilos CSS para las celdas seleccionadas
+// Estilos CSS para las celdas seleccionadas
 function addExcelStyleCSS() {
   if (document.getElementById('excel-style-css')) return;
   

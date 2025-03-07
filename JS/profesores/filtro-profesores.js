@@ -16,11 +16,13 @@ function filtrarTodosProfesores() {
         const codigo = fila.getElementsByTagName('td')[0]?.textContent || '';
         const nombre = fila.getElementsByTagName('td')[1]?.textContent || '';
         const categoria = fila.getElementsByTagName('td')[2]?.textContent || '';
+        const departamento = fila.getElementsByTagName('td')[3]?.textContent || '';
         
         // Verificar si el texto de búsqueda aparece en alguna de las columnas
         if (codigo.toLowerCase().includes(filtro) ||
             nombre.toLowerCase().includes(filtro) ||
-            categoria.toLowerCase().includes(filtro)) {
+            categoria.toLowerCase().includes(filtro) ||
+            departamento.toLowerCase().includes(filtro)) {
             mostrarFila = true;
         }
         

@@ -1377,3 +1377,33 @@ table.dataTable {
   visibility: visible !important;
   width: 100% !important;
 }
+
+/* Añade esto a tu archivo CSS (basesdedatos.css) */
+.dataTables_scrollHead {
+  position: sticky !important;
+  top: 0;
+  z-index: 2;
+}
+
+/* Asegura que los filtros en el encabezado tengan el z-index adecuado */
+.datatable-container .filter-icon {
+  z-index: 3;
+}
+
+/* Si tienes una barra de navegación fija, ajusta el top según su altura */
+.fixedHeader-floating {
+  z-index: 10;
+}
+
+/* Para la paginación y controles fijos en la parte inferior */
+.dataTables_wrapper .dataTables_paginate.fixed,
+.dataTables_wrapper .dataTables_info.fixed,
+.dataTables_wrapper .dataTables_length.fixed {
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  z-index: 9;
+  width: 100%;
+  padding: 8px 0;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}

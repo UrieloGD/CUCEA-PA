@@ -7,7 +7,7 @@
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   -webkit-border-radius: 20px;
@@ -67,7 +67,7 @@
 /* Tabla */
 .tabla {
   flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
-  overflow-y: auto; /* Añadir scroll vertical */
+  overflow-y: hidden; /* Añadir scroll vertical */
   padding: 10px;
   /* border-radius: 20px 20px 0px 0px; */
   position: relative; /* Para controlar el contenido interno */
@@ -116,9 +116,10 @@ div.dataTables_wrapper {
   border-radius: 10px;
   /* margin-bottom: 10px; */
   position: relative;
-  overflow-x: auto;
-  overflow-y: visible;
+  overflow-x: hidden;
+  overflow-y: hidden;
   max-height: 90vh;
+  height: 80vh;
 }
 
 /* Texto donde dice: mostrar [10>] registros */
@@ -1479,22 +1480,25 @@ table.dataTable thead .sorting_desc {
   border: 1px solid #3497CE;
   border-radius: 3px;
   cursor: pointer;
+  position: relative;
 }
 
 .input-check[type="checkbox"]:checked {
   background-color: #3497CE;
   border: 1px solid #3497CE;
-}
+} 
 
 .input-check[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
-  left: 5px;
-  top: 1px;
-  width: 6px;
-  height: 12px;
-  border-width: 0 3px 3px 0;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+  display: block;
 }
 
 .fila-botones{

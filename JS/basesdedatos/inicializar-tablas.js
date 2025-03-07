@@ -90,6 +90,7 @@ $(document).ready(function () {
     scrollX: true,        // Scroll horizontal si es necesario
     fixedHeader: {
         header: true,     // Mantiene el encabezado fijo durante el scroll
+        headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
         footer: false
     },
     dom: '<"top"<"custom-search-container">f>rt<"bottom"lip>',
@@ -223,7 +224,6 @@ $(document).ready(function () {
     info: true,
     scrollX: true,
     scrollCollapse: true,
-    fixedHeader: true,
     columnDefs: [
       { targets: "_all", defaultContent: "" },
       { orderable: false, targets: 0 },
@@ -323,6 +323,29 @@ $(document).ready(function () {
         columns: ":not(:first-child)",
       },
     ],
+  });
+
+  // Mantener fijos los controles de paginación
+  $(window).scroll(function() {
+    var tableBottom = $('.datatable-container').offset().top + $('.datatable-container').height();
+    var scrollPosition = $(window).scrollTop() + $(window).height();
+    
+    if (scrollPosition < tableBottom) {
+      // Fijar los controles en la parte inferior
+      $('.dataTables_paginate, .dataTables_info, .dataTables_length')
+        .css('position', 'fixed')
+        .css('bottom', '0')
+        .css('background', '#fff')
+        .css('width', $('.datatable-container').width())
+        .css('z-index', '10')
+        .css('padding', '8px 0')
+        .css('box-shadow', '0 -2px 5px rgba(0,0,0,0.1)');
+    } else {
+      // Volver a la posición normal
+      $('.dataTables_paginate, .dataTables_info, .dataTables_length')
+        .css('position', 'static')
+        .css('box-shadow', 'none');
+    }
   });
 
   // Redibujar tabla - mueve esto dentro de document.ready
