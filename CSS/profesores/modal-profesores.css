@@ -19,6 +19,8 @@
 /* Encabezado */
 .encabezado {
     display: flex;
+    width: 100%;
+    height: fit-content;
     justify-content: space-between;
     align-items: center;
     padding: 0px 0px 20px 0px;
@@ -73,6 +75,7 @@
 
 .search-bar {
     margin-bottom: 20px 0;
+    width: 95%;
 }
   
 .search-input-container {
@@ -92,7 +95,7 @@
 }
   
 .search-input-container input {
-    width: 450px;
+    width: 100%;
     padding: 8px 30px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -171,12 +174,16 @@
   
 .modal-content-detalle {
     background-color: #fefefe;
-    margin: 3% auto;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
     padding: 20px;
     border: 1px solid #888;
     width: 90%;
+    height: fit-content;
     max-width: 1200px;
-    max-height: 80vh;
+    max-height: 85vh;
     overflow-y: hidden;
     border-radius: 15px;
     z-index: 1002;
@@ -228,7 +235,7 @@
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
@@ -324,8 +331,11 @@
 /* Desplegable muestra de profesores por departamento */
 
 .dropdown-check-list {
+    width: 95%;
     position: relative;
-    display: inline-block;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     z-index: 3; /* Asegura que se muestre por encima de otros elementos */
 }
 
@@ -339,7 +349,7 @@
     z-index: 3;
     color: #fff;
     border-radius: 4px;
-    width: 280px;
+    width: 100%;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
@@ -347,33 +357,39 @@
 }
   
 /* Flecha del dropdown */
-.dropdown-check-list .anchor:after {
-    position: relative;
-    content: "";
+.dropdown-check-list i {
+    z-index: 4;
+    position: absolute;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
     padding: 5px;
+    transform: translateY(0%);
     right: 10px;
-    top: 20%;
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
+    transition: 0.3s ease-in-out;
 }
-  
-.dropdown-check-list .anchor:active:after {
-    right: 0pxs;
-    top: 21%;
+
+.fa-caret-down {
+    display: none;
+}
+
+.fa-caret-right {
+    display: inline;
+}
+
+.icon-toggle {
+    transition: opacity 0.3s ease;
 }
   
 .dropdown-check-list ul.items {
     position: absolute;
+    top: 33px;
     border-radius: 4px;
     padding: 2px;
     display: none;
     margin: 0;
     color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
+    border: 2px solid #fff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     max-height: 400px;
     overflow-y: auto;
@@ -381,7 +397,7 @@
     width: max-content;
     max-width: 200px;
     background-color: #0B6A9F;
-    min-width: 100%;
+    min-width: 98%;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
@@ -737,4 +753,147 @@
 .hidden {
     opacity: 0;
     pointer-events: none;
+}
+
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+    .cuadro-principal {
+      background-color: white;
+      border-radius: 20px;
+      width: 92%;
+      height: 90vh;
+      margin-left: 6vw;
+      margin-right: 2vw;
+      margin-top: 1vh;
+      margin-bottom: 2vh;
+    }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+    .cuadro-principal {
+      width: 92%;
+      margin-left: 6vw;
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .profesores-table {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+    .cuadro-principal {
+      width: 91%;
+      margin-left: 7vw;
+      font-size: smaller;
+    }
+    .search-input-container input {
+        height: 25px;
+        font-size: 0.7rem;
+    }
+}
+
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+    .cuadro-principal {
+      width: 90%;
+      margin-left: 8vw;
+      margin-bottom: 2vh;
+      font-size: smaller;
+    }
+    .search-input-container input {
+        height: 25px;
+        font-size: 0.7rem;
+    }
+    .contenido-tabla {
+        padding: 10 25px;
+    }
+    .profesores-table {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cuadro-principal {
+        width: 96%;
+        height: 91vh; 
+        margin-left: 2vw;
+        font-size: smaller;
+    }
+    .search-bar {
+        position: relative;
+        top: 0px;
+        left: -10px;
+        width: 95%;
+        margin-left: 0;
+    }
+    .search-input-container input {
+        height: 25px;
+        font-size: 0.7rem;
+    }
+    .dropdown-check-list {
+        margin-right: -10px;
+    }
+    .search-input-container {
+        margin-left: 5px;
+    }
+    .contenido-tabla {
+        padding: 5 15px;
+    }
+    .encabezado-derecha,
+    .encabezado-izquierda {
+        top: 25px;
+        width: 95%;
+        margin-bottom: 15px;
+        margin-top: 25px;
+    }
+    .encabezado {
+        position: relative;
+    }
+    .encabezado-derecha { 
+        justify-content: flex-end;
+        align-items: flex-end;
+        position: relative;
+        top: 29px;
+    }
+    .encabezado-izquierda {
+        justify-content: flex-start;
+        align-items: flex-start;
+        position: relative;
+    }
+    .encabezado-centro {
+        position: absolute;
+        padding: 15px 10px;
+        top: 0; 
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .encabezado-centro h3 {
+        position: relative;
+    }
+}
+
+@media (max-width: 535px) {
+    .contenido-tabla {
+        padding: 0 10px;
+    }
+    .profesores-table {
+        font-size: 0.7rem;
+    }
+    .btn-detalle {
+        padding: 5;
+        font-size: 0.8rem;
+    }
+    .dropdown-check-list i {
+        right: 1px;
+    }
+    .encabezado-centro h3 {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profesores-table th {
+        white-space: nowrap;
+    }
 }

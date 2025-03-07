@@ -67,6 +67,11 @@ function generateColorForUser($userId)
 </head>
 
 <body>
+    <!-- Boton Hamburguesa -->
+    <button class="hamburguesa" id="toggle-menu">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+    </button>
+
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
@@ -388,45 +393,6 @@ function generateColorForUser($userId)
     </nav>
 
     <script>
-        /* JavaScript para manejar el toggle */
-        const navbar = document.getElementById('navbar');
-        let isExpanded = false;
-
-        function toggleNavbar() {
-            if (window.innerWidth <= 768) {
-                isExpanded = !isExpanded;
-                if (isExpanded) {
-                    navbar.classList.add('nav-expanded');
-                } else {
-                    navbar.classList.remove('nav-expanded');
-                }
-            }
-        }
-
-        // Evento click para el navbar
-        navbar.addEventListener('click', (event) => {
-            // Solo toggle si el click fue directamente en el navbar o en el logo
-            if (event.target.closest('.navbar-logo') || event.target === navbar) {
-                toggleNavbar();
-            }
-        });
-
-        // Cerrar el navbar cuando se hace click fuera de él
-        document.addEventListener('click', (event) => {
-            if (window.innerWidth <= 768 && !navbar.contains(event.target)) {
-                navbar.classList.remove('nav-expanded');
-                isExpanded = false;
-            }
-        });
-
-        // Opcional: Cerrar el navbar cuando se hace scroll
-        document.addEventListener('scroll', () => {
-            if (window.innerWidth <= 768 && isExpanded) {
-                navbar.classList.remove('nav-expanded');
-                isExpanded = false;
-            }
-        });
-
         // Funcion para desplegable en icono BD
         document.addEventListener('DOMContentLoaded', function() {
             const dropdownTriggers = document.querySelectorAll('.dropdown-trigger');
@@ -473,5 +439,80 @@ function generateColorForUser($userId)
                     });
                 }
             });
+            
+
+            // Función para ajustar la visibilidad según el tamaño de la ventana
+            const toggleButton = document.getElementById('toggle-menu');
+function adjustNavbarVisibility() {
+    if (window.innerWidth <= 768) {
+        // En móvil: ocultar navbar inicialmente, a menos que ya esté activo
+        if (!navbar.classList.contains('active')) {
+            navbar.style.display = 'none';
+        }
+        
+        // Configurar eventos para móvil si aún no están configurados
+        if (toggleButton && navbar && !toggleButton.hasEventListener) {
+            // Marcar que ya agregamos los eventos
+            toggleButton.hasEventListener = true;
+            
+            // Función para mostrar el navbar
+            function showNavbar() {
+                navbar.classList.add('active');
+                navbar.style.display = 'flex';
+                navbar.style.width = '16em';
+
+                navbar.offsetHeight; 
+
+                setTimeout(() => {
+                    navbar.classList.add('active');
+                }, 300);
+            }
+            
+            // Función para ocultar el navbar
+            function hideNavbar() {
+                navbar.classList.remove('active');
+                // Esperamos a que termine la transición antes de ocultarlo completamente
+                navbar.addEventListener('transitionend', function hideAfterTransition() {
+                    navbar.style.display = 'none';
+                    navbar.removeEventListener('transitionend', hideAfterTransition);
+                }, { once: true });
+            }
+            
+            // Evento para el botón hamburguesa
+            toggleButton.addEventListener('click', function(event) {
+                event.stopPropagation();
+                
+                if (navbar.classList.contains('active')) {
+                    hideNavbar();
+                } else {
+                    showNavbar();
+                }
+            });
+            
+            // Evitar que clics dentro del navbar lo cierren
+            navbar.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+            
+            // Cerrar navbar al hacer clic fuera
+            document.addEventListener('click', function() {
+                if (window.innerWidth <= 768 && navbar.classList.contains('active')) {
+                    hideNavbar();
+                }
+            });
+        }
+    } else {
+        // En desktop: siempre mostrar navbar
+        navbar.style.display = 'flex'; // o 'block', según tu diseño
+        navbar.classList.remove('active'); // Quitar la clase active si existe
+        navbar.style.width = '';
+    }
+}
+
+// Aplicar inicialmente
+adjustNavbarVisibility();
+
+// Reajustar cuando la ventana cambie de tamaño
+window.addEventListener('resize', adjustNavbarVisibility);
         });
     </script>

@@ -175,4 +175,23 @@ document.addEventListener('DOMContentLoaded', function() {
     checkList.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', actualizarTituloDropdown);
     });
+
+    const anchor = document.querySelector(".anchor");
+    const iconRight = document.querySelector(".fa-caret-right");
+    const iconDown = document.querySelector(".fa-caret-down");
+
+    // Esconde el icono "fa-caret-down" al cargar la página
+    iconDown.style.display = "none";
+
+    // Alternar entre los iconos al hacer click en .anchor
+    anchor.addEventListener("click", function () {
+        // Cambiar la visibilidad de los iconos
+        if (iconRight.style.display === "none") {
+            iconRight.style.display = "inline";  
+            iconDown.style.display = "none";  
+        } else {
+            iconRight.style.display = "none";  
+            iconDown.style.display = "inline";     
+        }
+    });
 });

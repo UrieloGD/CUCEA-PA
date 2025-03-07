@@ -246,8 +246,10 @@ mb_internal_encoding('UTF-8');
             </span>
         </div>
         <div class="profile-info">
-            <h2><?= htmlspecialchars($datos_profesor['Nombre_completo']) ?></h2>
-            <p><?= htmlspecialchars($datos_profesor['Correo']) ?></p>
+            <div class="profile-name-mail">
+                <h2><?= htmlspecialchars($datos_profesor['Nombre_completo']) ?></h2>
+                <p><?= htmlspecialchars($datos_profesor['Correo']) ?></p>
+            </div>
             <div class="profile-details">
             <table class="table-profile">
                     <tbody>
