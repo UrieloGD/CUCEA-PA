@@ -272,6 +272,11 @@
 
                 <div class="total-general-hrs_container">
                     <p class="titulo-total-general">Total general de horas</p>
+                    <div class="tipo-hora-selector">
+                        <button class="tipo-hora-btn active" data-tipo="frente-grupo">Frente Grupo</button>
+                        <button class="tipo-hora-btn" data-tipo="definitivas">Definitivas</button>
+                        <button class="tipo-hora-btn" data-tipo="temporales">Temporales</button>
+                    </div>
                     <div class="stats-general-hrs">
                         <div class="stats-grafica">
                             <div class="circulo-progreso">
@@ -437,7 +442,7 @@
 
                             // Actualizar visualización según el departamento
                             if (departamento === 'todos') {
-                                actualizarVisualizacionGeneral(datosDepartamentos[departamento]);
+                                actualizarVisualizacionGeneral('frente-grupo');
                             } else {
                                 actualizarVisualizacionHoras(departamento, 'frente-grupo');
                             }
@@ -453,27 +458,51 @@
                 }
 
                 // Actualizar la visualización general
-                function actualizarVisualizacionGeneral(datos) {
-                    const porcentaje = datos.frenteGrupo.max > 0 ?
-                        Math.round((datos.frenteGrupo.total / datos.frenteGrupo.max) * 100) : 0;
+                function actualizarVisualizacionGeneral(tipoHora = 'frente-grupo') {
+                    const datos = datosDepartamentos['todos'];
+                    if (!datos) return;
 
-                    // Actualizar texto de horas
+                    let tipoData;
+                    let porcentaje;
+                    let textoHoras;
+
+                    switch (tipoHora) {
+                        case 'frente-grupo':
+                            tipoData = datos.frenteGrupo;
+                            porcentaje = tipoData.max > 0 ? Math.round((tipoData.total / tipoData.max) * 100) : 0;
+                            textoHoras = `${tipoData.total.toLocaleString()} / <strong>${tipoData.max.toLocaleString()}</strong>`;
+                            break;
+                        case 'definitivas':
+                            tipoData = datos.definitivas;
+                            porcentaje = tipoData.max > 0 ? Math.round((tipoData.total / tipoData.max) * 100) : 0;
+                            textoHoras = `${tipoData.total.toLocaleString()} / <strong>${tipoData.max.toLocaleString()}</strong>`;
+                            break;
+                        case 'temporales':
+                            tipoData = datos.temporales;
+                            porcentaje = 100; // Siempre 100% para temporales
+                            textoHoras = `${tipoData.total.toLocaleString()}`;
+                            break;
+                        default:
+                            tipoData = datos.frenteGrupo;
+                            porcentaje = tipoData.max > 0 ? Math.round((tipoData.total / tipoData.max) * 100) : 0;
+                            textoHoras = `${tipoData.total.toLocaleString()} / <strong>${tipoData.max.toLocaleString()}</strong>`;
+                    }
+
+                    // Actualizar elementos del DOM
                     const horasCompGeneral = document.getElementById('horas-comp-general');
-                    if (horasCompGeneral) {
-                        horasCompGeneral.innerHTML = `${datos.frenteGrupo.total.toLocaleString()} / <strong>${datos.frenteGrupo.max.toLocaleString()}</strong>`;
-                    }
-
-                    // Actualizar porcentaje en el círculo
                     const porcentajeElement = document.getElementById('porcentaje-general');
-                    if (porcentajeElement) {
-                        porcentajeElement.textContent = `${porcentaje}%`;
-                    }
-
-                    // Actualizar el círculo de progreso
                     const circuloProgreso = document.querySelector('.circulo-progreso');
+                    const buttons = document.querySelectorAll('.total-general-hrs_container .tipo-hora-btn');
+
+                    if (horasCompGeneral) horasCompGeneral.innerHTML = textoHoras;
+                    if (porcentajeElement) porcentajeElement.textContent = `${porcentaje}%`;
                     if (circuloProgreso) {
                         circuloProgreso.style.background = `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, #f0f0f0 ${porcentaje * 3.6}deg)`;
                     }
+
+                    buttons.forEach(btn => {
+                        btn.classList.toggle('active', btn.getAttribute('data-tipo') === tipoHora);
+                    });
                 }
 
                 // Manejar el caso sin datos para el total general
@@ -600,11 +629,16 @@
                     if (e.target && e.target.classList.contains('tipo-hora-btn')) {
                         const tipoHora = e.target.getAttribute('data-tipo');
                         const contenedorInfo = e.target.closest('.contenedor-informacion');
-                        const btnDesglose = contenedorInfo.querySelector('.desglose-button-dpto');
+                        const generalContainer = e.target.closest('.total-general-hrs_container');
 
-                        if (btnDesglose) {
-                            const departamento = btnDesglose.getAttribute('data-departamento');
-                            actualizarVisualizacionHoras(departamento, tipoHora);
+                        if (contenedorInfo) { // Botones de departamento individual
+                            const btnDesglose = contenedorInfo.querySelector('.desglose-button-dpto');
+                            if (btnDesglose) {
+                                const departamento = btnDesglose.getAttribute('data-departamento');
+                                actualizarVisualizacionHoras(departamento, tipoHora);
+                            }
+                        } else if (generalContainer) { // Botones de "Todos los departamentos"
+                            actualizarVisualizacionGeneral(tipoHora);
                         }
                     }
                 });
