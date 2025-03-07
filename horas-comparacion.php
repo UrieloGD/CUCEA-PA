@@ -470,9 +470,9 @@
                     }
 
                     // Actualizar el círculo de progreso
-                    const circulo = document.querySelector('.circulo-progreso');
-                    if (circulo) {
-                        circulo.style.background = `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, #f0f0f0 ${porcentaje * 3.6}deg)`;
+                    const circuloProgreso = document.querySelector('.circulo-progreso');
+                    if (circuloProgreso) {
+                        circuloProgreso.style.background = `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, #f0f0f0 ${porcentaje * 3.6}deg)`;
                     }
                 }
 
@@ -1264,7 +1264,7 @@
                                     }
 
                                     // Actualizar el círculo de progreso
-                                    document.querySelector('.circulo').style.background =
+                                    document.querySelector('.circulo-progreso').style.background =
                                         `conic-gradient(#0071b0 ${porcentaje * 3.6}deg, #f0f0f0 ${porcentaje * 3.6}deg)`;
                                 }
                             }
