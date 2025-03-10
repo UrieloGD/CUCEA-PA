@@ -443,76 +443,76 @@ function generateColorForUser($userId)
 
             // Función para ajustar la visibilidad según el tamaño de la ventana
             const toggleButton = document.getElementById('toggle-menu');
-function adjustNavbarVisibility() {
-    if (window.innerWidth <= 768) {
-        // En móvil: ocultar navbar inicialmente, a menos que ya esté activo
-        if (!navbar.classList.contains('active')) {
-            navbar.style.display = 'none';
-        }
-        
-        // Configurar eventos para móvil si aún no están configurados
-        if (toggleButton && navbar && !toggleButton.hasEventListener) {
-            // Marcar que ya agregamos los eventos
-            toggleButton.hasEventListener = true;
-            
-            // Función para mostrar el navbar
-            function showNavbar() {
-                navbar.classList.add('active');
-                navbar.style.display = 'flex';
-                navbar.style.width = '16em';
+            function adjustNavbarVisibility() {
+                if (window.innerWidth <= 768) {
+                    // En móvil: ocultar navbar inicialmente, a menos que ya esté activo
+                    if (!navbar.classList.contains('active')) {
+                        navbar.style.display = 'none';
+                    }
+                    
+                    // Configurar eventos para móvil si aún no están configurados
+                    if (toggleButton && navbar && !toggleButton.hasEventListener) {
+                        // Marcar que ya agregamos los eventos
+                        toggleButton.hasEventListener = true;
+                        
+                        // Función para mostrar el navbar
+                        function showNavbar() {
+                            navbar.classList.add('active');
+                            navbar.style.display = 'flex';
+                            navbar.style.width = '16em';
 
-                navbar.offsetHeight; 
+                            navbar.offsetHeight; 
 
-                setTimeout(() => {
-                    navbar.classList.add('active');
-                }, 300);
-            }
-            
-            // Función para ocultar el navbar
-            function hideNavbar() {
-                navbar.classList.remove('active');
-                // Esperamos a que termine la transición antes de ocultarlo completamente
-                navbar.addEventListener('transitionend', function hideAfterTransition() {
-                    navbar.style.display = 'none';
-                    navbar.removeEventListener('transitionend', hideAfterTransition);
-                }, { once: true });
-            }
-            
-            // Evento para el botón hamburguesa
-            toggleButton.addEventListener('click', function(event) {
-                event.stopPropagation();
-                
-                if (navbar.classList.contains('active')) {
-                    hideNavbar();
+                            setTimeout(() => {
+                                navbar.classList.add('active');
+                            }, 300);
+                        }
+                        
+                        // Función para ocultar el navbar
+                        function hideNavbar() {
+                            navbar.classList.remove('active');
+                            // Esperamos a que termine la transición antes de ocultarlo completamente
+                            navbar.addEventListener('transitionend', function hideAfterTransition() {
+                                navbar.style.display = 'none';
+                                navbar.removeEventListener('transitionend', hideAfterTransition);
+                            }, { once: true });
+                        }
+                        
+                        // Evento para el botón hamburguesa
+                        toggleButton.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                            
+                            if (navbar.classList.contains('active')) {
+                                hideNavbar();
+                            } else {
+                                showNavbar();
+                            }
+                        });
+                        
+                        // Evitar que clics dentro del navbar lo cierren
+                        navbar.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                        });
+                        
+                        // Cerrar navbar al hacer clic fuera
+                        document.addEventListener('click', function() {
+                            if (window.innerWidth <= 768 && navbar.classList.contains('active')) {
+                                hideNavbar();
+                            }
+                        });
+                    }
                 } else {
-                    showNavbar();
+                    // En desktop: siempre mostrar navbar
+                    navbar.style.display = 'flex'; // o 'block', según tu diseño
+                    navbar.classList.remove('active'); // Quitar la clase active si existe
+                    navbar.style.width = '';
                 }
-            });
-            
-            // Evitar que clics dentro del navbar lo cierren
-            navbar.addEventListener('click', function(event) {
-                event.stopPropagation();
-            });
-            
-            // Cerrar navbar al hacer clic fuera
-            document.addEventListener('click', function() {
-                if (window.innerWidth <= 768 && navbar.classList.contains('active')) {
-                    hideNavbar();
-                }
-            });
-        }
-    } else {
-        // En desktop: siempre mostrar navbar
-        navbar.style.display = 'flex'; // o 'block', según tu diseño
-        navbar.classList.remove('active'); // Quitar la clase active si existe
-        navbar.style.width = '';
-    }
-}
+            }
 
-// Aplicar inicialmente
-adjustNavbarVisibility();
+            // Aplicar inicialmente
+            adjustNavbarVisibility();
 
-// Reajustar cuando la ventana cambie de tamaño
-window.addEventListener('resize', adjustNavbarVisibility);
+            // Reajustar cuando la ventana cambie de tamaño
+            window.addEventListener('resize', adjustNavbarVisibility);
         });
     </script>

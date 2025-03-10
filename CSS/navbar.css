@@ -786,6 +786,12 @@ Responsividad para distintas resoluciones
   .dropdown-item { font-size: smaller; }
 }
 
+@media screen and (min-width: 769px) {
+  .hamburguesa {
+    display: none!important;
+  }
+}
+
 /*Esconde el navbar despues de alcanzar una resolución de 768px */
 @media screen and (max-width: 768px) {
    .hamburguesa {
@@ -829,8 +835,8 @@ Responsividad para distintas resoluciones
     border: solid 5px #e7e9f2;
     margin-left: -5px;
     margin-top: -5px;
-    transition: 0.3s ease-in-out;
     transform: translateX(-100%); 
+    transition: 0.3s ease-in-out;
     display: none;
   }
   #navbar.active {
