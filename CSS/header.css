@@ -46,7 +46,6 @@ body {
 
 .rol h3 {
   right: 70px;
-  transform: translateY(15%);
   position: absolute;
   white-space: nowrap;
 }

@@ -232,7 +232,8 @@ $result = $stmt->get_result();
 
 <div class="cuadro-principal">
     <div class="encabezado">
-        <div class="encabezado-izquierda" style="display: flex; align-items: center;">
+        <div class="encabezado-izquierda">
+            
         </div>
         <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
