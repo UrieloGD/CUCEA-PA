@@ -402,8 +402,7 @@
 }
 
 .solicitudes-scroll-container {
-  height: calc(100vh - 200px); /* Ajusta este valor según el espacio que necesites */
-  max-height: 630px; /* Altura máxima para pantallas grandes */
+  height: calc(92vh - 200px); /* Ajusta este valor según el espacio que necesites */
   overflow-y: auto;
   /* margin-bottom: 20px; */
   padding-right: 10px; /* Espacio para la barra de scroll */
@@ -498,6 +497,52 @@
   display: inline-block;
   margin-left: 25px;
   width: 30%;
+}
+
+/* Estilos para todos los casos */
+.contenedor-botones {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.boton-pdf {
+  background: #2c3e50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+}
+
+.aviso-pdf-no-disponible {
+  /* background: #f8f9fa; */
+  color: #6c757d;
+  padding: 10px;
+  border-radius: 5px;
+  /* border: 1px solid #dee2e6; */
+  font-size: 0.9em;
+}
+
+/* Botón Generar PDF */
+.boton-generar {
+  background: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Botón Descargar PDF */
+.boton-descargar {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
 }
 
 /* Sweet alert pantalla de carga al generar pdf*/

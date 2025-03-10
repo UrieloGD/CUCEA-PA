@@ -87,14 +87,14 @@ select:focus {
 }
 
 /* Estilos de botones del final (Cancelar o guardar) */
-.contenedor-botones {
+.contenedor-botones-baja {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
 }
 
-.contenedor-botones button {
+.contenedor-botones-baja button {
   margin: 0 7px;
   border-radius: 10px;
   border-style: none;
@@ -118,29 +118,6 @@ select:focus {
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
-}
-
-.boton-guardar {
-  background-color: #4caf50;
-  color: white;
-}
-
-.boton-descartar {
-  background-color: #f44336;
-  color: white;
-}
-
-.boton-guardar:hover {
-  background-color: #45a049;
-}
-
-.boton-descartar:hover {
-  background-color: #da190b;
-}
-
-.boton-guardar i,
-.boton-descartar i {
-  font-size: 1.2rem;
 }
 
 /* Media queries para responsividad */
@@ -240,7 +217,7 @@ select:focus {
     width: 95%;
   }
 
-  .contenedor-botones button {
+  .contenedor-botones-baja button {
     font-size: 0.8rem;
     border-radius: 7px;
   }

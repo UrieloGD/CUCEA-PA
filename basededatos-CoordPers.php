@@ -121,6 +121,7 @@ function formatDateForDisplay($mysqlDate)
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
+            <div class="custom-search-container"></div>
             <!-- <div class="barra-buscador" id="barra-buscador">
                 <div class="icono-buscador" id="icono-buscador">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -164,7 +165,6 @@ function formatDateForDisplay($mysqlDate)
     
     <div class="Tabla datatable-container">
         <div class="table-container">
-            <div class="custom-search-container"></div>
             <table id="tabla-datos" class="display">
                 <thead>
                     <tr>
@@ -454,6 +454,9 @@ function formatDateForDisplay($mysqlDate)
     </div>
 
     <?php include './functions/coord-personal-plantilla/modal-descargar-excel/modal-descargar-excel.php'; ?>
+
+    <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
+    <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
 
 <!-- jQuery y Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
