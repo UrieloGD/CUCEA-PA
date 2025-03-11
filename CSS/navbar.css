@@ -390,6 +390,7 @@ hr {
 
 .dropdown-container {
   position: relative;
+  width: fit-content;
 }
 
 .dropdown-trigger {
@@ -397,6 +398,10 @@ hr {
   width: 100%;
   display: flex;
   align-items: center;
+}
+
+.dropdown-trigger:hover {
+  width: 100%;
 }
 
 .dropdown-menu {
@@ -633,12 +638,18 @@ Responsividad para distintas resoluciones
 @media screen and (max-height: 1080px) { 
   body #navbar { zoom: 90%!important; }
   #navbar { width: min(5.2em, 8%); }
-  .navbar-item { padding: 1 0.5vw; }
+  .navbar-item { padding: 0vh 0.5vw; }
+  .navbar-item-inner-icon-wrapper {
+    width: calc(5.5rem - 1em - 8px);
+  }
 }
 @media screen and (max-height: 900px) { 
   body #navbar { zoom: 85%!important; } 
   #navbar { width: min(5.4em, 8%); }
   .navbar-item { padding: 1.5 0.5vw; }
+  .navbar-item-inner {
+    padding: 0.9em 0;
+  }
 }
 @media screen and (max-height: 768px) { 
   body #navbar { zoom: 73%!important; } 
@@ -656,22 +667,65 @@ Responsividad para distintas resoluciones
     @-moz-document url-prefix() {
         body #navbar { zoom: 90%!important; }
         #navbar { width: min(4.8em, 8%); }
-        .navbar-item-inner { padding: 1em 0; }
+        .navbar-item-inner { padding: 0.9em 0; }
         .navbar-logo { 
           height: fit-content; 
           padding: 30px 0 30px 0;
+        }
+        .link-text { font-size: 1rem; }
+        .navbar-item-inner-icon-wrapper {
+          width: calc(5.5rem - 1em - 8px);
+        }
+        .navbar-item-inner {
+          padding: 0.8em 0;
+        }
+        .dropdown-item a {
+          font-size: 0.9rem;
+        }
+        .dropdown-container {
+          position: relative;
+          width: 100%;
+        }
+        .dropdown-trigger {
+          cursor: pointer;
+          width: 100%;
+          display: flex;
+          align-items: center;
+        } 
+        .dropdown-trigger:hover {
+          width: 93.5%;
         }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
         body #navbar { zoom: 90%!important; }
         #navbar { width: min(4.8em, 8%); }
-        .navbar-item-inner { padding: 1em 0; }
+        .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 50%; }
         .container-iconos-navbar { margin-left: 0em; }
         .navbar-logo { 
           height: fit-content; 
           padding: 30px 0 30px 0;
+        }
+        .link-text { font-size: 1rem; }
+        .navbar-item-inner-icon-wrapper {
+          width: calc(5.5rem - 1em - 8px);
+        }
+        .navbar-item-inner {
+          padding: 0.8em 0;
+        }
+        .dropdown-container {
+          position: relative;
+          width: 100%;
+        }
+        .dropdown-trigger {
+          cursor: pointer;
+          width: 100%;
+          display: flex;
+          align-items: center;
+        } 
+        .dropdown-trigger:hover {
+          width: 93.5%;
         }
     }
 }
@@ -680,7 +734,7 @@ Responsividad para distintas resoluciones
     /* Mozilla */
     @-moz-document url-prefix() {
         body #navbar { zoom: 85%!important; }
-        #navbar { width: min(4.4em, 8%); }
+        #navbar { width: min(4em, 8%); }
         .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 60%; }
         .container-iconos-navbar { margin-left: 0em; }
@@ -688,17 +742,31 @@ Responsividad para distintas resoluciones
           height: fit-content; 
           padding: 30px 0 30px 0;
         }
+        .link-text { font-size: 1rem; }
+        .navbar-item-inner-icon-wrapper {
+          width: calc(5rem - 1em - 8px);
+        }
+        .navbar-item-inner {
+          padding: 0.7em 0;
+        }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
         body #navbar { zoom: 85%!important; }
-        #navbar { width: min(4.4em, 8%); }
+        #navbar { width: min(4em, 8%); }
         .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 60%; }
         .container-iconos-navbar { margin-left: 0em; }
         .navbar-logo { 
           height: fit-content; 
           padding: 30px 0 30px 0;
+        }
+        .link-text { font-size: 1rem; }
+        .navbar-item-inner-icon-wrapper {
+          width: calc(5rem - 1em - 8px);
+        }
+        .navbar-item-inner {
+          padding: 0.7em 0;
         }
     }
 }
@@ -707,7 +775,7 @@ Responsividad para distintas resoluciones
     /* Mozilla */
     @-moz-document url-prefix() {
         body #navbar { zoom: 73%!important; }
-        #navbar { width: min(4em, 8%); }
+        #navbar { width: min(3.6em, 8%); }
         .navbar-item-inner { padding: 0.8em 0.5em; }
         .container-iconos-navbar img { width: 70%; }
         .container-iconos-navbar { margin-left: -0.2em; }
@@ -715,11 +783,12 @@ Responsividad para distintas resoluciones
           height: fit-content; 
           padding: 30px 0 30px 0;
         }
+        .link-text { font-size: 1rem; }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
         body #navbar { zoom: 73%!important; }
-        #navbar { width: min(4em, 8%); }
+        #navbar { width: min(3.6em, 8%); }
         .navbar-item-inner { padding: 0.8em 0.5em; }
         .container-iconos-navbar img { width: 70%; }
         .container-iconos-navbar { margin-left: -0.2em; }
@@ -727,6 +796,7 @@ Responsividad para distintas resoluciones
           height: fit-content; 
           padding: 30px 0 30px 0;
         }
+        .link-text { font-size: 1rem; }
     }
 }
 
@@ -734,7 +804,7 @@ Responsividad para distintas resoluciones
     /* Mozilla */
     @-moz-document url-prefix() {
         body #navbar { zoom: 60%!important; }
-        #navbar { width: min(3.6em, 8%); }
+        #navbar { width: min(3.2em, 8%); }
         .navbar-item-inner { padding: 0.7em 0.5em; }
         .container-iconos-navbar img { width: 75%; }
         .container-iconos-navbar { margin-left: -0.1em; }
@@ -742,11 +812,12 @@ Responsividad para distintas resoluciones
           height: fit-content; 
           padding: 30px 0 30px 0;
         }
+        .link-text { font-size: 1rem; }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
         body #navbar { zoom: 60%!important; }
-        #navbar { width: min(3.6em, 8%); }
+        #navbar { width: min(3.2em, 8%); }
         .navbar-item-inner { padding: 0.7em 0.5em; }
         .container-iconos-navbar img { width: 75%; }
         .container-iconos-navbar { margin-left: -0.1em; }
@@ -754,5 +825,6 @@ Responsividad para distintas resoluciones
           height: fit-content; 
           padding: 30px 0 30px 0;
         }
+        .link-text { font-size: 1rem; }
     }
 }
