@@ -218,6 +218,7 @@ $result = $stmt->get_result();
 <!-- CSS base -->
 <link rel="stylesheet" href="./CSS/basesdedatos.css">
 <link rel="stylesheet" href="./CSS/modal-añadir-registro.css">
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-registros-eliminados.css">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
@@ -246,6 +247,10 @@ $result = $stmt->get_result();
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
                     <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-papelera"
+                data-tooltip="Ver registros eliminados">
+                    <i class="fa fa-trash-restore" aria-hidden="true"></i>
                 </div>
             <?php endif; ?>
             <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
@@ -391,6 +396,7 @@ $result = $stmt->get_result();
 
 <?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php'; ?>
 <?php include './functions/basesdedatos/modal-descargar-excel/modal-descargar-excel.php'; ?>
+<?php include './functions/basesdedatos/modal-registros-eliminados/modal-registros-eliminados.php'; ?>
 
 <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
 <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
@@ -416,5 +422,9 @@ $result = $stmt->get_result();
 <script src="./JS/basesdedatos/añadir-registro.js"></script>
 <script src="./JS/basesdedatos/descargar-data-excel.js"></script>
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+
+<!-- Scrpits registros eliminados -->
+<script src="./JS/basesdedatos/registros-eliminados/modal-eliminados.js"></script>
+<script src="./JS/basesdedatos/registros-eliminados/registros-eliminados.js"></script>
 
 <?php include("./template/footer.php"); ?>

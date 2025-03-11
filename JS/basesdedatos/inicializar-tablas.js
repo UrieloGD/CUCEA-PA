@@ -1,7 +1,9 @@
+// ./JS/basesdedatos/inicializar-tablas.js
 var table;
 
 // Inicializar tooltips personalizados
 function initializeCustomTooltips() {
+  if ($('[data-tooltip]').data('tooltip-initialized')) return;
   const tooltip = document.createElement("div");
   tooltip.className = "custom-tooltip";
   document.body.appendChild(tooltip);
@@ -66,20 +68,8 @@ function initializeCustomTooltips() {
       positionTooltip(activeTooltip, tooltip, content);
     }
   });
+  $('[data-tooltip]').data('tooltip-initialized', true);
 }
-
-// Mostrar el loader al inicio
-Swal.fire({
-  title: "Cargando datos...",
-  html: "Por favor espere mientras se procesan los datos",
-  allowOutsideClick: false,
-  allowEscapeKey: false,
-  showConfirmButton: false,
-  didOpen: () => {
-    Swal.showLoading();
-  },
-});
-
 
 $(document).ready(function () {
 

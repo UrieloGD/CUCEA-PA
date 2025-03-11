@@ -128,7 +128,7 @@ th {
 /* Icono y Boton Buscar */
 
 .iconos-container {
-  width: 70%;
+  width: 80%;
   display: flex;
   align-items:flex-end;
   /* border: solid; */
@@ -540,6 +540,7 @@ th {
 .dt-search {
   width: 30%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
+  margin-top: -50px;
   position: relative;
   border-color: 2px #0071B0;
 }
@@ -1318,7 +1319,7 @@ table.dataTable thead .sorting_desc {
 
 /* Ajustamos el contenedor del DataTable */
 .datatable-container {
-  margin-top: 0px; /* Ajustamos el margen superior */
+  margin-top: 15px; /* Ajustamos el margen superior */
   position: relative;
 }
 
