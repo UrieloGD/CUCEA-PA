@@ -1,3 +1,4 @@
+/* ./CSS/basesdedatos.css */
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
@@ -7,7 +8,8 @@
   margin-right: 2vw;
   margin-top: 1vh;
   margin-bottom: 2vh;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   -webkit-border-radius: 20px;
@@ -62,8 +64,8 @@
   /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
-  margin-right: 25px;
-  width: 10%;
+  margin-right: 15px;
+  width: auto;
 }
 
 /* Tabla */
@@ -127,9 +129,9 @@ th {
 /* Icono y Boton Buscar */
 
 .iconos-container {
-  width: 70%;
+  width: 80%;
   display: flex;
-  align-items: left;
+  align-items: center;
   /* border: solid; */
   justify-content: space-between;
   padding: 0px 40px;
@@ -202,13 +204,6 @@ th {
 
 .icono-buscador i {
   font-size: 18px;
-}
-
-/* Asegúrate de que todos los iconos tengan el mismo tamaño */
-.iconos-container {
-  display: flex;
-  align-items: center;
-  margin-right: 0vw;
 }
 
 /* Ajustar el espacio entre los iconos */
@@ -546,6 +541,8 @@ th {
 .dt-search {
   width: 30%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
+  margin-top: -60px;
+  margin-bottom: 20px;
   position: relative;
   border-color: 2px #0071B0;
 }
@@ -636,15 +633,85 @@ nav[aria-label="pagination"] {
   display: flex;
   flex-wrap: nowrap;
   position: relative;
-  width: 40vw;
 }
+
+#tabla-datos_info.dt-info {
+  font-size: 0.9rem;
+}
+
+/* Uso de iconos en lugar de texto en paginacion de base de datos */
+button.dt-paging-button.previous,
+button.dt-paging-button.next {
+  visibility: hidden;
+}
+button.dt-paging-button.previous::after { padding: 10px 5px; }
+button.dt-paging-button.next::before { padding: 0 15px 0 0; }
+button.dt-paging-button.first {
+  position: relative;
+  left: 50px;
+}
+button.dt-paging-button.next {
+  width: 0;
+}
+button.dt-paging-button.disabled.previous::after,
+button.dt-paging-button.previous::after,
+button.dt-paging-button.disabled.next::after,
+button.dt-paging-button.next::before,
+button.dt-paging-button.disabled.first::before,
+button.dt-paging-button.first::after,
+button.dt-paging-button.disabled.last::before,
+button.dt-paging-button.last::before
+{
+  visibility: visible;
+  margin: 0 auto;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: bold;
+  font-size: 1rem;
+  position: relative;
+  transition: 0.1s ease-in-out;
+}
+div.dt-container .dt-paging .dt-paging-button.previous:hover,
+div.dt-container .dt-paging .dt-paging-button.next:hover {
+  cursor: pointer;
+  color: #0071b0!important;
+}
+div.dt-container .dt-paging .dt-paging-button.last:hover,
+div.dt-container .dt-paging .dt-paging-button.first:hover {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #0071b0!important;
+  font-weight: bold;
+}
+.dt-paging-button:hover {
+  background: none;
+  color: #0071b0!important;
+}
+button.dt-paging-button.current {
+  background: none!important;
+  box-shadow: 0 0.5px 1px #000000;
+}
+/* Iconos de avanzar y retroceder...  */
+button.dt-paging-button.disabled.previous::after,
+button.dt-paging-button.previous::after { content: '\f104'; }
+
+button.dt-paging-button.disabled.next::before,
+button.dt-paging-button.next::before { content: '\f105'; }
+
+/* Botones de paginacion numericos */
+div.dt-container .dt-paging .dt-paging-button:hover:not(.last):not(.first):not(.previous):not(.next) {
+  border: 1px solid #696969!important;
+  background: none!important;
+  color: #000000!important;
+}
+
 
 div[class="bottom"] {
   display: inline-flex;
   flex-wrap: wrap;
   position: relative;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -914,7 +981,7 @@ th[data-tooltip] {
   }
   .iconos-container {
     position: relative;
-    margin-right: 12vw;
+    margin-right: 11vw;
     top: 20px;
   }
   .encabezado-derecha {
@@ -952,7 +1019,10 @@ th[data-tooltip] {
     left: 29%;
   }
   #dt-search-0 {
+    position: relative;
+    left: 15px;
     width: 45vw;
+    
   }
   nav[aria-label="pagination"] {
     width: 80vw;
@@ -975,6 +1045,7 @@ th[data-tooltip] {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
   .encabezado h2 {
     margin: 0;
@@ -1006,24 +1077,27 @@ th[data-tooltip] {
   }
   .encabezado-centro {
     position: relative;
-    margin-bottom: 50px;
     font-size: smaller;
+    width: 30%;
   }
   .datatable-container {
     margin-top: 40px;
   }
   .iconos-container {
     position: relative;
-    margin-right: 20vw;
-    top: 60px;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: flex-end;
+    top: 35px;
   }
   .encabezado-derecha {
-    width: 10%;
+    width: 100vw;
+    margin-right: 0;
+    padding-right: 0;
   }
   .encabezado-izquierda {
-    position: relative;
-    margin-top: 50px;
-    top: 5px;
+   width: 100%;
+   height: fit-content;
   }
   #input-buscador {
     position: absolute;
@@ -1052,8 +1126,11 @@ th[data-tooltip] {
   .contenedor-buttons { 
     left: 25%;
   }
+  .dt-search {
+    width: 100%;
+  }
   #dt-search-0 {
-    width: 90vw;
+    width: 100%;
   }
   nav[aria-label="pagination"] {
     width: 75vw;
@@ -1070,9 +1147,6 @@ th[data-tooltip] {
 }
 
 @media screen and (max-width: 600px) {
-  .iconos-container {
-    margin-right: 30vw;
-  }
   #input-buscador {
     width: 80vw;
   }
@@ -1107,9 +1181,6 @@ th[data-tooltip] {
     width: 150px;
     height: 35px;
   }
-  .iconos-container {
-    margin-right: 35vw;
-  }
 }
 
 @media screen and (max-width: 500px) {
@@ -1117,18 +1188,19 @@ th[data-tooltip] {
   .columns-container-materia {
     column-count: 1;
   }
+  nav[aria-label="pagination"] {
+    width: 92vw;
+    flex-wrap: wrap;
+    margin-top: 5px;
+  }
 }
 
 @media screen and (max-width: 450px) {
-  .iconos-container {
-    margin-right: 50vw;
-  }
   #input-buscador {
     width: 75vw;
   }
   .encabezado-centro {
     position: relative;
-    margin-bottom: 50px;
     font-size: x-small;
   }
   .swal2-success-line-long,
@@ -1249,14 +1321,8 @@ table.dataTable thead .sorting_desc {
 
 /* Ajustamos el contenedor del DataTable */
 .datatable-container {
-  margin-top: 0px; /* Ajustamos el margen superior */
+  margin-top: 15px; /* Ajustamos el margen superior */
   position: relative;
-}
-
-/* Aseguramos que la barra de búsqueda esté por encima */
-.dt-search {
-  position: relative;
-  /* z-index: 3; */
 }
 
 /* Iconos de filtro que serán mostrados en cada columna al seleccionar el botón de filtrar */
@@ -1376,4 +1442,34 @@ table.dataTable {
   display: table !important;
   visibility: visible !important;
   width: 100% !important;
+}
+
+/* Añade esto a tu archivo CSS (basesdedatos.css) */
+.dataTables_scrollHead {
+  position: sticky !important;
+  top: 0;
+  z-index: 2;
+}
+
+/* Asegura que los filtros en el encabezado tengan el z-index adecuado */
+.datatable-container .filter-icon {
+  z-index: 3;
+}
+
+/* Si tienes una barra de navegación fija, ajusta el top según su altura */
+.fixedHeader-floating {
+  z-index: 10;
+}
+
+/* Para la paginación y controles fijos en la parte inferior */
+.dataTables_wrapper .dataTables_paginate.fixed,
+.dataTables_wrapper .dataTables_info.fixed,
+.dataTables_wrapper .dataTables_length.fixed {
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  z-index: 9;
+  width: 100%;
+  padding: 8px 0;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }

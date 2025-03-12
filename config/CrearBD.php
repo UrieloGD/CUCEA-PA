@@ -392,8 +392,9 @@ $sql = "CREATE TABLE IF NOT EXISTS solicitudes_propuesta (
     ESTADO_P VARCHAR(15),
     HORA_CREACION TIME,
     Departamento_ID INT,
-    FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
-    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
+    ESTADO_P VARCHAR(20),
+    PDF_BLOB LONGBLOB,
+    FECHA_MODIFICACION_REVISION TIMESTAMP
 );";
 
 if (mysqli_query($conexion, $sql)) {

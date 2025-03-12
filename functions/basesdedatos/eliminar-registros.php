@@ -1,6 +1,9 @@
 <?php
 include './../../config/db.php';
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
 
 $departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
 
@@ -53,11 +56,12 @@ $ids = explode(',', $_POST['ids']);
 mysqli_autocommit($conexion, false);
 
 foreach ($ids as $id) {
-    $stmt = mysqli_prepare($conexion, "DELETE FROM `$tabla_departamento` WHERE ID_Plantilla = ? AND Departamento_ID = ?");
+    // Cambiamos la consulta DELETE por UPDATE para marcar como inactivo
+    $stmt = mysqli_prepare($conexion, "UPDATE `$tabla_departamento` SET PAPELERA = 'inactivo' WHERE ID_Plantilla = ? AND Departamento_ID = ?");
     mysqli_stmt_bind_param($stmt, "ii", $id, $departamento_id);
     if (!mysqli_stmt_execute($stmt)) {
         mysqli_rollback($conexion);
-        echo "Error al eliminar los registros: " . mysqli_stmt_error($stmt);
+        echo "Error al marcar los registros como inactivos: " . mysqli_stmt_error($stmt);
         exit;
     }
     mysqli_stmt_close($stmt);
@@ -65,3 +69,7 @@ foreach ($ids as $id) {
 
 mysqli_commit($conexion);
 mysqli_close($conexion);
+
+echo "Registros marcados como inactivos correctamente.";
+exit;
+?>

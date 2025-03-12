@@ -201,12 +201,19 @@ try {
     <meta charset="UTF-8">
     <title>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></title>
     <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css">
+    <link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css">
     <!-- Script para mostrar el loader inmediatamente -->
     <script>
         // Esta función se ejecuta inmediatamente, antes de que se cargue el resto del contenido
         (function() {
             document.write('<div id="loading-overlay"><div class="loading-content"><div class="spinner"></div><p>Cargando profesores...</p></div></div>');
         })();
+
+        // Desaparece la tabla en lo que cargan todos los datos:
+        window.addEventListener("load", function() {
+            document.getElementById("loading-overlay").style.display = "none"; // Oculta el loading
+            document.querySelector(".profesores-container").style.display = "block"; // Muestra el contenido
+        });
     </script>
 </head>
 <body>
@@ -218,7 +225,7 @@ try {
             <div class="search-bar">
                 <div class="search-input-container">
                     <i class="fa fa-search" aria-hidden="true"></i>
-                    <input type="text" placeholder="Buscar profesor..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
+                    <input type="text" placeholder="Buscar..." id="buscar-todos-profesores" onkeyup="filtrarTodosProfesores()">
                 </div>
             </div>
         </div>
@@ -228,6 +235,8 @@ try {
         <div class="encabezado-derecha">
             <div id="list1" class="dropdown-check-list" tabindex="100">
                 <span class="anchor">Departamento: </span>
+                <i class="fa fa-caret-right" aria-hidden="true"></i>
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
                 <ul class="items">
                     <li><input type="checkbox" />Administración</li>
                     <li><input type="checkbox" />Auditoría</li>
@@ -257,13 +266,14 @@ try {
                     <thead>
                         <tr>
                            <!-- <th class="detalle-column">count</th> --> 
+                            <!-- Los elementos tienen id's para modificar el atributo "display" -->
                             <th class="detalle-column col-codigo th-L">Código</th>
                             <th class="detalle-column col-nombre">Nombre Completo</th>
-                            <th class="detalle-column col-categoria">Categoria Actúal</th>
+                            <th class="detalle-column col-categoria" id="title-categoria">Categoría Actual</th>
                             <th class="detalle-column col-depto">Departamento</th>
-                            <th class="detalle-column col-horas-f">Horas frente a grupo</th>
-                            <th class="detalle-column col-horas-d">Horas Definitivas</th>
-                            <th class="detalle-column col-horas-t">Horas temporales</th>
+                            <th class="detalle-column col-horas-f" id="title-horas-f">Horas frente a grupo</th>
+                            <th class="detalle-column col-horas-d" id="title-horas-d">Horas Definitivas</th>
+                            <th class="detalle-column col-horas-t" id="title-horas-t">Horas temporales</th>
                             <th class="detalle-column col-detalle th-R">Detalles del Profesor</th>
                         </tr>
                     </thead>
@@ -277,7 +287,7 @@ try {
                         
                         $result_todos_profesores = mysqli_query($conexion, $sql_todos_profesores);
                         
-                        if ($result_todos_profesores) {
+                        if ($result_todos_profesores && mysqli_num_rows($result_todos_profesores) > 0) {
                             $contador = 1;
                             while($row = mysqli_fetch_assoc($result_todos_profesores)) {
                                 $departamento_normalizado = normalizeDepartmentName($row['Departamento']);
@@ -323,8 +333,7 @@ try {
                                 $contador = $contador + 1;
                             }
                         } else {
-                            echo "<tr><td colspan='5'>No se encontraron profesores</td></tr>";
-                            echo "<tr><td colspan='3'>Error en la consulta: " . mysqli_error($conexion) . "</td></tr>";
+                            echo "<tr id='no-data-row'><td colspan='8'>No hay información disponible</td></tr>";
                         }
                         ?>
                     </tbody>
@@ -348,6 +357,7 @@ try {
 <script src="./JS/profesores/desplegable-box.js"></script>
 <script src="./JS/profesores/filtro-departamentos.js"></script>
 <script src="./JS/profesores/carga-profesores.js"></script>
+<script src="./JS/profesores/responsividad-tabla-profesores.js"></script>
 <script>
     // Pass the session department to JavaScript
     const sessionDepartment = "<?php 

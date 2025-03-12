@@ -1,4 +1,8 @@
 let changedCells = new Set();
+let dragStartCell = null;
+let dragInProgress = false;
+let cellsToFill = [];
+let fillHandleVisible = false;
 
 const columnMap = {
   ID: "ID",
@@ -114,7 +118,7 @@ const maxLengths = {
   Ultimo_grado: 5,
   Programa: 70,
   Nivel: 10,
-  Institucion: 30,
+  Institucion: 40,
   Estado_pais: 25,
   Año: 8,
   Gdo_exp: 15,
@@ -136,37 +140,560 @@ const maxLengths = {
   Antiguedad: 25,
 };
 
-function makeEditable() {
-  const table = document.getElementById("tabla-datos");
-  const rows = table.getElementsByTagName("tr");
+// Variables globales para control de estado
+let activeCell = null;
+let editMode = false;
 
-  for (let i = 1; i < rows.length; i++) {
-    const cells = rows[i].getElementsByTagName("td");
-    for (let j = 1; j < cells.length; j++) {
-      // Excluir la columna de estado y la columna de ID
-      if (j !== 1 && !cells[j].classList.contains("estado-cell")) {
-        cells[j].setAttribute(
-          "data-original-value",
-          cells[j].textContent.trim()
-        );
-        cells[j].setAttribute("contenteditable", "true");
-        cells[j].addEventListener("input", function () {
+function makeEditable() {
+
+  // Add at the beginning of makeEditable()
+console.log("makeEditable called");
+console.log("Table found:", !!document.getElementById("tabla-datos"));
+console.log("User role:", document.getElementById("user-role")?.value);
+
+  // Añadir estilos CSS para las celdas seleccionadas
+  addExcelStyleCSS();
+
+  // Verificar el rol del usuario antes de hacer la tabla editable
+  const table = document.getElementById("tabla-datos");
+  if (!table) return;
+
+  // Verificar si la tabla tiene el atributo data-editable="false"
+  if (table.getAttribute("data-editable") === "false") {
+    return;
+  }
+
+  const userRole = document.getElementById("user-role");
+  if (!userRole || userRole.value !== "3") {
+    return;
+  }
+
+  const rows = table.querySelectorAll("tbody tr");
+
+  // Procesar cada celda de la tabla
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    cells.forEach((cell, cellIndex) => {
+      // Omitir la segunda columna (índice 1) que generalmente es la de ID
+      // También omitir celdas que contienen inputs para borrar filas
+      if (cellIndex !== 1 && !cell.querySelector('input')) {
+        // Guardar el valor original
+        cell.setAttribute("data-original-value", cell.textContent.trim());
+        
+        // Añadir clase para marcar como procesada
+        cell.classList.add("excel-behavior-applied");
+        
+        // Añadir eventos
+        cell.addEventListener("click", handleCellClick);
+        cell.addEventListener("dblclick", handleCellDblClick);
+        cell.addEventListener("keydown", handleKeyNavigation);
+        cell.addEventListener("input", function() {
           updateCell(this);
         });
+      }
+    });
+  });
+
+  // Emitir evento de tabla editable
+  const editableEvent = new CustomEvent('tableNowEditable', {
+    detail: { table: table }
+  });
+  document.dispatchEvent(editableEvent);
+
+  // Añadir listener para cuando se haga clic fuera de la tabla
+  document.addEventListener("click", function(e) {
+    if (!table.contains(e.target) && activeCell) {
+      exitEditMode();
+      if (activeCell) {
+        activeCell.classList.remove('selected-cell');
+        activeCell = null;
+      }
+    }
+  });
+}
+
+// Manejo de selección y edición de celdas
+function handleCellClick(event) {
+  // Si ya hay una celda activa en modo edición, salir del modo edición
+  if (activeCell && activeCell !== this && editMode) {
+    exitEditMode();
+  }
+  
+  // Seleccionar esta celda
+  selectCell(this);
+  
+  // Importante: Asegurar que la celda reciba el foco
+  this.focus();
+  
+  event.stopPropagation();
+}
+
+function handleCellDblClick(event) {
+  // Activar modo edición en doble clic
+  enterEditMode(this);
+  event.stopPropagation();
+}
+
+// Función de selección de celda
+function selectCell(cell) {
+  // Deseleccionar la celda activa anterior si existe
+  if (activeCell) {
+    activeCell.classList.remove("selected-cell");
+    // Quitar el manejador de relleno si existe
+    removeFillHandle(activeCell);
+  }
+
+  // Marcar esta celda como seleccionada
+  activeCell = cell;
+  cell.classList.add("selected-cell");
+  editMode = false;
+  
+  // Asegurarse de que la celda no sea editable en modo selección
+  cell.setAttribute("contenteditable", "false");
+  
+  // Importante: Hacer que la celda sea "focusable"
+  cell.setAttribute("tabindex", "0");
+  
+  // Añadir el manejador de relleno
+  addFillHandle(cell);
+  
+  // Dar foco a la celda
+  cell.focus();
+}
+
+function removeFillHandle(cell) {
+  if (!cell) return;
+  
+  // Eliminar el manejador de esta celda específica
+  const existingHandle = cell.querySelector('.fill-handle');
+  if (existingHandle) {
+    cell.removeChild(existingHandle);
+  }
+  
+  // Como medida de seguridad, eliminar cualquier otro manejador que pudiera existir
+  document.querySelectorAll('.fill-handle').forEach(handle => {
+    if (handle.parentNode) {
+      handle.parentNode.removeChild(handle);
+    }
+  });
+  
+  // Actualizar el estado
+  fillHandleVisible = false;
+  
+  // También limpiar cualquier estado de arrastre
+  if (dragInProgress) {
+    dragInProgress = false;
+    dragStartCell = null;
+    document.removeEventListener('mousemove', handleFillDrag);
+    document.removeEventListener('mouseup', endFillDrag);
+  }
+  
+  // Limpiar las marcas de celdas objetivo
+  document.querySelectorAll('.fill-target').forEach(cell => {
+    cell.classList.remove('fill-target');
+  });
+}
+
+// Función para añadir el manejador de relleno a una celda
+function addFillHandle(cell) {
+  // Eliminar primero cualquier manejador existente, tanto en esta celda como en otras
+  removeFillHandle(cell);
+  
+  // Si la celda es válida, añadir el manejador
+  if (cell && cell.classList.contains('excel-behavior-applied')) {
+    // Crear el nuevo manejador
+    const fillHandle = document.createElement('div');
+    fillHandle.className = 'fill-handle';
+    fillHandle.addEventListener('mousedown', startFillDrag);
+    
+    // Asegurar que la celda tenga posición relativa
+    cell.style.position = 'relative';
+    
+    // Añadir el manejador
+    cell.appendChild(fillHandle);
+    fillHandleVisible = true;
+  }
+}
+
+// Función para iniciar el arrastre de relleno
+function startFillDrag(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  
+  if (!activeCell) return;
+  
+  dragStartCell = activeCell;
+  dragInProgress = true;
+  
+  // Añadir listeners para el arrastre
+  document.addEventListener('mousemove', handleFillDrag);
+  document.addEventListener('mouseup', endFillDrag);
+}
+
+// Función para manejar el arrastre durante el relleno
+function handleFillDrag(event) {
+  if (!dragInProgress || !dragStartCell) return;
+  
+  // Obtener la posición del mouse
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+  
+  // Obtener la tabla
+  const table = document.getElementById("tabla-datos");
+  if (!table) return;
+  
+  // Limpiar las marcas previas
+  document.querySelectorAll('.fill-target').forEach(cell => {
+    cell.classList.remove('fill-target');
+  });
+  
+  // Vaciar el array de celdas a rellenar
+  cellsToFill = [];
+  
+  // Detectar qué celdas están bajo el cursor
+  detectCellsInPath(mouseX, mouseY);
+}
+
+// Función para detectar las celdas en el camino del arrastre
+function detectCellsInPath(mouseX, mouseY) {
+  if (!dragStartCell) return;
+  
+  const table = document.getElementById("tabla-datos");
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  
+  // Obtener la posición de inicio (celda original)
+  const startCell = dragStartCell;
+  const startRow = startCell.parentElement;
+  const startRowIndex = rows.indexOf(startRow);
+  const startCellIndex = Array.from(startRow.cells).indexOf(startCell);
+  
+  // Encontrar la celda bajo el cursor
+  let targetCell = null;
+  let targetRow = null;
+  
+  document.querySelectorAll('#tabla-datos td.excel-behavior-applied').forEach(cell => {
+    const rect = cell.getBoundingClientRect();
+    if (
+      mouseX >= rect.left && 
+      mouseX <= rect.right && 
+      mouseY >= rect.top && 
+      mouseY <= rect.bottom
+    ) {
+      targetCell = cell;
+      targetRow = cell.parentElement;
+    }
+  });
+  
+  if (!targetCell) return;
+  
+  const targetRowIndex = rows.indexOf(targetRow);
+  const targetCellIndex = Array.from(targetRow.cells).indexOf(targetCell);
+  
+  // Determinar la dirección del arrastre (vertical u horizontal)
+  const isVertical = startCellIndex === targetCellIndex;
+  
+  if (isVertical) {
+    // Arrastre vertical
+    const startIdx = Math.min(startRowIndex, targetRowIndex);
+    const endIdx = Math.max(startRowIndex, targetRowIndex);
+    
+    for (let i = startIdx; i <= endIdx; i++) {
+      if (i === startRowIndex) continue; // Ignorar la celda de inicio
+      
+      const row = rows[i];
+      const cell = row.cells[startCellIndex];
+      
+      if (cell && cell.classList.contains('excel-behavior-applied')) {
+        cell.classList.add('fill-target');
+        cellsToFill.push(cell);
+      }
+    }
+  } else {
+    // Arrastre horizontal (misma fila)
+    if (startRowIndex === targetRowIndex) {
+      const cells = Array.from(startRow.cells).filter(c => 
+        c.classList.contains('excel-behavior-applied')
+      );
+      
+      const startIdx = cells.indexOf(startCell);
+      const targetIdx = cells.indexOf(targetCell);
+      
+      const minIdx = Math.min(startIdx, targetIdx);
+      const maxIdx = Math.max(startIdx, targetIdx);
+      
+      for (let i = minIdx; i <= maxIdx; i++) {
+        if (i === startIdx) continue; // Ignorar la celda de inicio
+        
+        const cell = cells[i];
+        cell.classList.add('fill-target');
+        cellsToFill.push(cell);
       }
     }
   }
 }
 
-function updateCell(cell) {
-  const row = cell.closest("tr");
-  const id = row.getAttribute("data-id");
+// Función para finalizar el arrastre y aplicar el valor
+function endFillDrag(event) {
+  if (!dragInProgress) return;
+  
+  // Aplicar el valor a todas las celdas marcadas
+  if (dragStartCell && cellsToFill.length > 0) {
+    const valueToFill = dragStartCell.textContent.trim();
+    
+    cellsToFill.forEach(cell => {
+      // Guardar el valor original para posible reversión
+      if (!cell.hasAttribute('data-original-value')) {
+        cell.setAttribute('data-original-value', cell.textContent.trim());
+      }
+      
+      cell.textContent = valueToFill;
+      cell.style.backgroundColor = "#FFFACD"; // Color amarillo claro para indicar cambio
+      changedCells.add(cell);
+      
+      // Limpiar la marca de objetivo de relleno
+      cell.classList.remove('fill-target');
+    });
+    
+    showSaveButton();
+    showEditIcons();
+  }
+  
+  // Limpiar el estado
+  dragInProgress = false;
+  dragStartCell = null;
+  cellsToFill = [];
+  
+  // Quitar los listeners
+  document.removeEventListener('mousemove', handleFillDrag);
+  document.removeEventListener('mouseup', endFillDrag);
+}
 
-  if (!id) {
-    console.error("No se pudo obtener el ID para la fila:", row);
+function enterEditMode(cell) {
+  if (!cell) return;
+  
+  // Primero eliminamos el manejador de relleno para evitar interferencias
+  removeFillHandle(cell);
+  
+  // Activar la edición de la celda
+  cell.setAttribute("contenteditable", "true");
+  editMode = true;
+  
+  // Posicionar el cursor al final del texto usando la función mejorada
+  placeCursorAtEnd(cell);
+  
+  // Asegurarnos de que la celda tenga el foco
+  cell.focus();
+}
+
+function exitEditMode() {
+  if (activeCell && editMode) {
+    // Desactivar la edición de la celda
+    activeCell.setAttribute("contenteditable", "false");
+    editMode = false;
+    
+    // Verificar si ha habido cambios
+    const originalValue = activeCell.getAttribute('data-original-value');
+    const currentValue = activeCell.textContent.trim();
+    
+    if (originalValue !== currentValue) {
+      activeCell.style.backgroundColor = "#FFFACD"; // Color amarillo claro para indicar cambio
+      changedCells.add(activeCell);
+      showSaveButton();
+      showEditIcons();
+    }
+    
+    // Mostrar nuevamente el manejador de relleno
+    addFillHandle(activeCell);
+  }
+}
+
+function placeCursorAtEnd(cell) {
+  // Asegurarnos de que la celda tenga el foco
+  cell.focus();
+  
+  // En lugar de usar el método complejo de selección de rango,
+  // usaremos una técnica más fiable para posicionar el cursor
+  
+  // Primero, guardamos el contenido actual
+  const content = cell.textContent;
+  
+  // Vaciamos la celda
+  cell.textContent = '';
+  
+  // Creamos un nuevo nodo de texto con el contenido original
+  const textNode = document.createTextNode(content);
+  
+  // Añadimos el nodo de texto a la celda
+  cell.appendChild(textNode);
+  
+  // Creamos un rango en la posición correcta (al final del texto)
+  const range = document.createRange();
+  const selection = window.getSelection();
+  
+  // Establecemos el rango al final del nodo de texto
+  range.setStart(textNode, content.length);
+  range.setEnd(textNode, content.length);
+  
+  // Aplicamos la selección
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function handleKeyNavigation(event) {
+  if (!activeCell) return;
+  
+  // Teclas especiales
+  switch (event.key) {
+    case "F2":
+      event.preventDefault();
+      if (!editMode) {
+        enterEditMode(activeCell);
+      }
+      return;
+      
+    case "Escape":
+      event.preventDefault();
+      if (editMode) {
+        // Restaurar valor original
+        activeCell.textContent = activeCell.getAttribute('data-original-value') || '';
+        exitEditMode();
+      } else {
+        // Deseleccionar celda
+        if (activeCell) {
+          activeCell.classList.remove("selected-cell");
+          activeCell = null;
+        }
+      }
+      return;
+      
+    case "Enter":
+      event.preventDefault();
+      if (editMode) {
+        exitEditMode();
+      }
+      navigateToCell("down");
+      return;
+  }
+  
+  // Si estamos en modo edición, permitir que las teclas de flecha muevan el cursor
+  if (editMode) {
+    // No interceptar las teclas de flecha en modo edición
     return;
   }
+  
+  // Si no estamos en modo edición, usar las flechas para navegar entre celdas
+  switch (event.key) {
+    case "ArrowUp":
+      event.preventDefault();
+      navigateToCell("up");
+      break;
+    case "ArrowDown":
+      event.preventDefault();
+      navigateToCell("down");
+      break;
+    case "ArrowLeft":
+      event.preventDefault();
+      navigateToCell("left");
+      break;
+    case "ArrowRight":
+      event.preventDefault();
+      navigateToCell("right");
+      break;
+    case "Tab":
+      event.preventDefault();
+      navigateToCell(event.shiftKey ? "left" : "right");
+      break;
+  }
+}
 
+// Eliminar el manejador al navegar
+const originalHandleKeyNavigation = handleKeyNavigation;
+handleKeyNavigation = function(event) {
+  // Guardar la celda activa actual antes de la navegación
+  const prevActiveCell = activeCell;
+  
+  // Llamar a la función original
+  originalHandleKeyNavigation.call(this, event);
+  
+  // Si la celda activa ha cambiado, remover el manejador de la celda anterior
+  if (prevActiveCell && prevActiveCell !== activeCell) {
+    removeFillHandle(prevActiveCell);
+  }
+};
+
+function navigateToCell(direction) {
+  if (!activeCell) return;
+  
+  const table = document.getElementById("tabla-datos");
+  const rows = table.querySelectorAll('tbody tr');
+  const rowArray = Array.from(rows);
+  const currentRow = activeCell.parentElement;
+  const rowIndex = rowArray.indexOf(currentRow);
+  
+  // Obtener todas las celdas editables (excluyendo la columna de ID)
+  const allEditableCells = Array.from(table.querySelectorAll('td.excel-behavior-applied'));
+  
+  let nextCell = null;
+  
+  switch (direction) {
+    case "up":
+      if (rowIndex > 0) {
+        // Buscar la celda en la misma posición en la fila anterior
+        const cellIndex = Array.from(currentRow.cells).indexOf(activeCell);
+        const upperRow = rowArray[rowIndex - 1];
+        if (upperRow && upperRow.cells[cellIndex]) {
+          const targetCell = upperRow.cells[cellIndex];
+          if (targetCell.classList.contains('excel-behavior-applied')) {
+            nextCell = targetCell;
+          }
+        }
+      }
+      break;
+      
+    case "down":
+      if (rowIndex < rowArray.length - 1) {
+        // Buscar la celda en la misma posición en la fila siguiente
+        const cellIndex = Array.from(currentRow.cells).indexOf(activeCell);
+        const lowerRow = rowArray[rowIndex + 1];
+        if (lowerRow && lowerRow.cells[cellIndex]) {
+          const targetCell = lowerRow.cells[cellIndex];
+          if (targetCell.classList.contains('excel-behavior-applied')) {
+            nextCell = targetCell;
+          }
+        }
+      }
+      break;
+      
+    case "left":
+      // Buscar la celda anterior editable en la misma fila
+      const currentCells = Array.from(currentRow.cells).filter(cell => 
+        cell.classList.contains('excel-behavior-applied')
+      );
+      const currentIndex = currentCells.indexOf(activeCell);
+      if (currentIndex > 0) {
+        nextCell = currentCells[currentIndex - 1];
+      }
+      break;
+      
+    case "right":
+      // Buscar la celda siguiente editable en la misma fila
+      const rowCells = Array.from(currentRow.cells).filter(cell => 
+        cell.classList.contains('excel-behavior-applied')
+      );
+      const cellIdx = rowCells.indexOf(activeCell);
+      if (cellIdx < rowCells.length - 1) {
+        nextCell = rowCells[cellIdx + 1];
+      }
+      break;
+  }
+  
+  // Si encontramos una celda a la que navegar, la seleccionamos
+  if (nextCell) {
+    selectCell(nextCell);
+  }
+}
+
+function updateCell(cell) {
   if (!cell.hasAttribute("data-original-value")) {
     cell.setAttribute("data-original-value", cell.textContent.trim());
   }
@@ -180,27 +707,26 @@ function updateCell(cell) {
   const cursorPosition = range.startOffset;
 
   let newText = cell.textContent;
+  const originalLength = newText.length;
 
   // Validar el tipo de datos por columna
   switch (columnName) {
-    case "Horas_frente_grupo":
-    case "Horas_definitivas":
-    case "Telefono_particular":
-    case "Telefono_oficina":
+    case "CODIGO":
+    case "HORAS_FRENTE_GRUPO":
+    case "HORAS_DEFINITIVAS":
+    case "TELEFONO_PARTICULAR":
+    case "TELEFONO_OFICINA":
     case "CP":
-    case "No_imss":
-    case "Edad":
-    case "Año":
-    case "Otro_año":
-    case "Otro_año_alternativo":
+    case "NO_IMSS":
+    case "AÑO":
+    case "OTRO_AÑO":
+    case "OTRO_AÑO_ALTERNATIVO":
+    case "PROESDE_24_25":
       newText = newText.replace(/\D/g, ""); // Permitir solo dígitos
       break;
-    case "SIN_desde":
-    case "Inicio":
-    case "Fin":
-    case "Fecha_nacimiento":
-    case "A_partir_de":
-    case "Fecha_ingreso":
+    case "INICIO":
+    case "FIN":
+    case "FECHA_NACIMIENTO":
       // No modificar el texto, se manejará con un calendario
       break;
     default:
@@ -214,19 +740,80 @@ function updateCell(cell) {
     newText = newText.slice(0, maxLength);
   }
 
-  // Actualizar el contenido de la celda
-  cell.textContent = newText;
-
-  // Restaurar la posición del cursor
-  range.setStart(cell.firstChild, Math.min(cursorPosition, newText.length));
-  range.setEnd(cell.firstChild, Math.min(cursorPosition, newText.length));
-  selection.removeAllRanges();
-  selection.addRange(range);
+  // Solo actualizar el texto si es diferente, para evitar perder la posición del cursor
+  if (cell.textContent !== newText) {
+    cell.textContent = newText;
+    
+    // Ajustar la posición del cursor en función del cambio de longitud
+    let newCursorPos = cursorPosition;
+    if (newText.length !== originalLength) {
+      // Si el texto se acortó, ajustar la posición del cursor
+      newCursorPos = Math.min(cursorPosition, newText.length);
+    }
+    
+    // Restaurar la posición del cursor
+    if (cell.firstChild) {
+      range.setStart(cell.firstChild, newCursorPos);
+      range.setEnd(cell.firstChild, newCursorPos);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
 
   cell.style.backgroundColor = "#FFFACD";
   changedCells.add(cell);
   showSaveButton();
   showEditIcons();
+}
+
+// Estilos CSS para las celdas seleccionadas
+function addExcelStyleCSS() {
+  if (document.getElementById('excel-style-css')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'excel-style-css';
+  style.textContent = `
+    .selected-cell {
+      outline: 2px solid #217346 !important; /* Color verde Excel */
+      background-color: rgba(33, 115, 70, 0.1) !important;
+    }
+    #tabla-datos td.excel-behavior-applied {
+      position: relative;
+      cursor: cell;
+    }
+    #tabla-datos td[contenteditable="true"] {
+      cursor: text;
+    }
+    #tabla-datos td.excel-behavior-applied::selection {
+      background-color: transparent;
+    }
+    #tabla-datos td[contenteditable="true"]::selection {
+      background-color: #b5d7ff;
+    }
+    .char-count {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 10px;
+      color: #888;
+    }
+    /* Estilos para el manejador de relleno */
+    .fill-handle {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 8px;
+      height: 8px;
+      background-color: #217346;
+      border: 1px solid white;
+      cursor: crosshair;
+      z-index: 100;
+    }
+    .fill-target {
+      background-color: rgba(33, 115, 70, 0.2) !important;
+    }
+  `;
+  document.head.appendChild(style);
 }
 
 function showCharacterCount(cell) {
@@ -391,4 +978,48 @@ function saveAllChanges() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", makeEditable);
+// Inicialización al cargar el documento
+// Listener de documento para eliminar el manejador cuando se hace clic fuera de la tabla
+document.addEventListener("DOMContentLoaded", function() {
+  makeEditable();
+  
+  document.addEventListener("click", function(e) {
+    const table = document.getElementById("tabla-datos");
+    if (!table) return;
+    
+    // Verificar si el clic fue fuera de la tabla o en un elemento que no es una celda editable
+    if (!table.contains(e.target) || !e.target.closest('td.excel-behavior-applied')) {
+      // Clic fuera de la tabla o en un elemento no editable
+      
+      // Primero salir del modo edición si estamos en él
+      if (editMode && activeCell) {
+        exitEditMode();
+      }
+      
+      // Eliminar explícitamente todos los manejadores de relleno que puedan existir
+      document.querySelectorAll('.fill-handle').forEach(handle => {
+        handle.parentNode.removeChild(handle);
+      });
+      
+      // También limpiar cualquier estado de arrastre
+      dragInProgress = false;
+      dragStartCell = null;
+      document.removeEventListener('mousemove', handleFillDrag);
+      document.removeEventListener('mouseup', endFillDrag);
+      
+      // Limpiar las marcas de celdas objetivo
+      document.querySelectorAll('.fill-target').forEach(cell => {
+        cell.classList.remove('fill-target');
+      });
+      
+      // Deseleccionar la celda activa
+      if (activeCell) {
+        activeCell.classList.remove('selected-cell');
+        activeCell = null;
+      }
+      
+      // Actualizar el estado del manejador
+      fillHandleVisible = false;
+    }
+  });
+});

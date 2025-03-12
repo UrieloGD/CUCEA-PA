@@ -289,7 +289,7 @@ Flexbox
 
 .flexbox-left {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin-bottom: auto;
 }
@@ -390,7 +390,6 @@ hr {
 
 .dropdown-container {
   position: relative;
-  width: 100%;
 }
 
 .dropdown-trigger {
@@ -492,478 +491,163 @@ hr {
 Responsividad para distintas resoluciones
 ========= */
 
-@media screen and (max-width: 1600px) and (min-width: 1401px) {
+@media screen and (max-width: 1600px) {
   #navbar {
-    width: 4.5em;
+    width: min(5vw, 8%)!important;
   }
-
   #navbar:hover {
-    width: 15em;
+    width: 16em!important;
+    border: solid 5px #e7e9f2;
+    margin-left: -5px;
+    margin-top: -5px;
   }
-
-  .navbar-item-inner-icon-wrapper {
-    margin-left: 0px;
-  }
-
-  #navbar:hover .link-text {
-    display: inline;
-    width: auto;
-    opacity: 1;
-  }
-
-  /*.navbar-profile-icon,
-  .profile-icon-transition {
-    width: 2rem;
-    height: 2rem;
-  }*/
-
-  /*#navbar:hover .profile-icon-transition {
-    width: 3rem;
-    height: 3rem;
-    margin-bottom: 30%;
-  }*/
-
-  .logout-container {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .logout-button {
-    font-size: 0.8rem;
-    padding: 0.5rem 1rem;
-  }
-
-  span {
-    font-size: smaller;
-  }
-
-  .navbar-logo img {
-    object-fit: contain;
-  }
-
-  /* #navbar:hover .navbar-logo img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  } */
-
-  .flexbox-left {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: auto;
-  }
-  
-  .dropdown-item { font-size: smaller; }
-
-  #navbar:hover .navbar-profile-icon {
-    width: 5.125rem;
-    height: 5.125rem;
-    font-size: 2.5rem;
+  .navbar-item {
+    padding: 0 0.5vw;
   }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   #navbar {
-    width: 4.5em;
+    width: min(5vw, 8%)!important;
   }
-
   #navbar:hover {
-    width: 15em;
-  }
-
-  .navbar-item-inner-icon-wrapper {
-    right: 0.1vw;
-  }
-
-  #navbar:hover .link-text {
-    display: inline;
-    width: auto;
-    opacity: 1;
-  }
-
-  /*.navbar-profile-icon,
-  .profile-icon-transition {
-    width: 2rem;
-    height: 2rem;
-  }*/
-
-  /*#navbar:hover .profile-icon-transition {
-    width: 3rem;
-    height: 3rem;
-    margin-bottom: 30%;
-  }*/
-
-  .logout-container {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .logout-button {
-    font-size: 0.8rem;
-    padding: 0.5rem 1rem;
-  }
-
-  span {
-    font-size: smaller;
-  }
-
-  .navbar-logo img {
-    object-fit: contain;
-  }
-
-  /* #navbar:hover .navbar-logo img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  } */
-
-  .flexbox-left {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: auto;
-  }
-
-  #navbar:hover .navbar-profile-icon {
-    width: 5.125rem;
-    height: 5.125rem;
-    font-size: 2.5rem;
-  }
-
-  .dropdown-item { font-size: smaller; }
-}
-
-@media screen and (max-width: 1200px) and (min-width: 993px) {
-  /* 
-  .profile-icon-transition
-  .navbar-profile-icon {
-    position: relative;
-  }
-  #navbar:hover .profile-icon-transition {
-    position: relative;
-  }
-  */
-  #navbar {
-    width: 4em;
-  } 
-
-  #navbar:hover {
-    width: 14em;
-  }
-
-  .navbar-item-inner-icon-wrapper {
-    right: 0.6vw;
-  }
-
-  #navbar:hover .link-text {
-    display: inline;
-    width: auto;
-    opacity: 1;
-  }
-
-  /*.navbar-profile-icon,
-  .profile-icon-transition {
-    width: 1.8rem;
-    height: 1.8rem;
-  }*/
-
-  /*#navbar:hover .profile-icon-transition {
-    width: 2.8rem;
-    height: 2.8rem;
-    margin-bottom: 25%;
-  }*/
-
-  .logout-container {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 0.8rem;
-  }
-
-  .logout-button {
-    font-size: 0.7rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  span {
-    font-size: smaller;
-  }
-
-  .navbar-profile-icon {
-    width: 2.525rem;
-    height: 2.525rem;
-    font-size: 1.5rem;
-  }
-
-  #navbar:hover .navbar-profile-icon {
-    width: 4.525rem;
-    height: 4.525rem;
-    font-size: 2.5rem;
-  }
-
-  .dropdown-item { font-size: smaller; }
-
-  /*.navbar-logo img {
-    max-width: 40%;
-    max-height: 40%;
-    object-fit: contain;
-  }*/
-
-  /*#navbar:hover .navbar-logo img {
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-
-    .flexbox-left {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin-bottom: auto;
-    }
-  }*/
-}
-
-@media screen and (max-width: 992px) and (min-width: 769px) {
-  #navbar {
-    width: 3.5em;
-  }
-
-  #navbar:hover {
-    width: 14em;
-  }
-
-  .navbar-item-inner-icon-wrapper {
-    right: 0.8vw;
-  }
-
-  #navbar:hover .link-text {
-    display: inline;
-    width: auto;
-    opacity: 1;
-  }
-
-  .profile-icon-transition {
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-
-  .navbar-profile-icon {
-    width: 2.225rem;
-    height: 2.225rem;
-    font-size: 1.5rem;
-  }
-
-  /*#navbar:hover .profile-icon-transition {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-bottom: 20%;
-  }*/
-
-  .logout-container {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-
-  .logout-button {
-    position: relative;
-    font-size: 0.6rem;
-    padding: 0.3rem 0.6rem;
-  }
-
-  span {
-    font-size: smaller;
-  }
-
-  #navbar:hover .navbar-profile-icon {
-    width: 4.125rem;
-    height: 4.125rem;
-    font-size: 2.5rem;
-  }
-
-  .dropdown-item { font-size: smaller; }
-
-  /*.navbar-logo img {
-    max-width: 40%;
-    max-height: 40%;
-    object-fit: contain;
-  }
-
-  #navbar:hover .navbar-logo img {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-  }
-
-  .flexbox-left {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: auto;
-  }*/
-}
-
-/*Responsividad del navbar*/
-
-/*Esconde el navbar después de alcanzar una resolución de 768px */
-@media screen and (max-width: 768px) {
-  #navbar {
-    padding: 0;
-    margin: 0 auto;
-    width: 50px;
-    height: 3.14em;
-    margin-left: 5vw;
-    position: fixed;
-    background-color: #0071b0;
-    /*transition: width 0.35s cubic-bezier(var(--transition-main), 1);*/
-    overflow-y: hidden;
-    overflow-x: hidden;
-    display: inline-flex;
-    flex-wrap: nowrap;
-    flex-flow: column;
-    justify-content: space-between;
-    /*-webkit-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
-    -moz-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
-    -ms-transition: width 0.35s cubic-bezier(var(--transition-main), 1);
-    -o-transition: width 0.35s cubic-bezier(var(--transition-main), 1);*/
-    z-index: 1000;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    transition: all 0.3s ease;
-  }
-
-  #navbar:hover {
-    width: 4em;
-    height: 3.45em;
-    margin-left: 5vw;
-    border: 0;
-    cursor: pointer;
-    content:initial;
-    content: url(../Img/Icons/iconos-navbar/menu-min.png);
-  }
-
-  .navbar-logo img {
-    position: relative;
-    content: url(../Img/logos/LogoPA.png);
-    width: 100%;
-    height: 50%;
-    bottom: 41px;
-    transition: all 0.3s ease;
-  }
-
-  #navbar.nav-expanded:hover {
-    content:normal;
-  }
-
-  #navbar.nav-expanded {
-    width: 15em;
-    height: 100%;
+    width: 16em!important;
     border: solid 5px #e7e9f2;
     margin-left: -5px;
     margin-top: -5px;
   }
+} 
 
-  #navbar.nav-expanded .navbar-logo img {
-    content: url(../Img/logos/LogoPA-Extendido.png);
-    width: 85%;
-    height: 45px;
-    margin-top: 125px;
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  #navbar {
+    width: min(6vw, 8%)!important;
   }
-  
-  /* Navbar Logo */
-  .navbar-logo {
-    margin: 10 0 2em 0;
-    width: 100%;
-    height: 7em;
-    background: #0071b0;
-  }  
-  /* Navbar Items */
-  .navbar-item {
-    padding: 0 0.5em;
+  #navbar:hover {
+    width: 16em!important;
+    border: solid 5px #e7e9f2;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  #navbar {
+    width: min(7vw, 8%)!important;
+  }
+  #navbar:hover {
+    width: 16em!important;
+    border: solid 5px #e7e9f2;
+    margin-left: -5px;
+    margin-top: -5px;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .hamburguesa {
+    display: none!important;
+  }
+}
+
+/*Esconde el navbar despues de alcanzar una resolución de 768px */
+@media screen and (max-width: 768px) {
+   .hamburguesa {
+    position: absolute;
+    background-color: #0071b0;
+    top: 5px;
+    left: 25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 7px;
+    border-width: 5px;
+    border-style: unset;
+    border-color: #fff;
     cursor: pointer;
-  }
- 
-  .link-text {
-    width: calc(100% - calc(5rem - 8px));
-    opacity: 1;
-  }
-  #navbar:hover .navbar-profile-icon {
-    width: 3.625rem;
-    height: 3.625rem;
-    font-size: 2.5rem;
-  }
-  .logout-container {
-    display: block;
-  }
-  span {
-    font-size: small;
-  }
-  .logout-container {
-    flex-direction: column;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    margin-bottom: 1rem;
+    z-index: 500;
+    transition: 0.3s ease-in-out;
   }
-  span {
-    font-size: smaller;
+  .hamburguesa:hover {
+    transform: scale(1.1);
+    background-color: #0081c7;
   }
-  #navbar:hover .navbar-profile-icon {
-    width: 4.125rem;
-    height: 4.125rem;
-    font-size: 2.5rem;
+  .hamburguesa i {
+    font-size: 1.7rem;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    transform: rotate(180deg);
+  }
+  .hamburguesa:hover i {
+    content: url(../Img/logos/LogoPA.png);
+    width: 100%;
+  }
+  .hamburguesa:hover i {
+    transform: rotate(360deg);
+  }
+
+  #navbar {
+    width: 16em!important;
+    border: solid 5px #e7e9f2;
+    margin-left: -5px;
+    margin-top: -5px;
+    transform: translateX(-100%); 
+    transition: 0.3s ease-in-out;
+    display: none;
+  }
+  #navbar.active {
+    transform: translateX(0);
+    transition: 0.3s ease-in-out;
+  }
+  #navbar .navbar-logo img {
+    content: url(../Img/logos/LogoPA-Extendido.png);
+    width: 100%;
+    height: 100%;
+  }
+  .link-text {
+    opacity: 1;
+    width: fit-content;
+  }
+  .profile-icon-transition {
+    width: 5.5rem;
+    height: 5.5rem;
   }
   .navbar-profile-icon {
-    width: 4.125rem;
-    height: 4.125rem;
     font-size: 2.5rem;
   }
   .logout-button {
-    position: relative;
-    font-size: 0.8rem;
-    padding: 0.6rem 1rem;
+    display: flex;
   }
-  #navbar:hover { overflow-y: auto;}
-
-  .dropdown-item { font-size: smaller; }
+  .logout-container {
+    display: flex;
+  }
+  .flexbox-left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: auto;
+  }
 }
 
 /* Media Querys para navegadores Chromium */
 @media screen and (max-height: 1080px) { 
   body #navbar { zoom: 90%!important; }
   #navbar { width: min(5.2em, 8%); }
+  .navbar-item { padding: 1 0.5vw; }
 }
 @media screen and (max-height: 900px) { 
   body #navbar { zoom: 85%!important; } 
   #navbar { width: min(5.4em, 8%); }
-  .container-iconos-navbar { margin-left: 0.4em; }
-  .navbar-profile-icon {
-    width: 3.025rem;
-    height: 3.025rem;
-    font-size: 1.5rem;
-  }
+  .navbar-item { padding: 1.5 0.5vw; }
 }
 @media screen and (max-height: 768px) { 
   body #navbar { zoom: 73%!important; } 
   #navbar { width: min(5.6em, 8%); }
-  .container-iconos-navbar { margin-left: 0.5em; }
-  .navbar-profile-icon {
-    width: 3.525rem;
-    height: 3.525rem;
-    font-size: 1.6rem;
-  }
+  .navbar-item { padding: 2 0.5vw; }
 }
 @media screen and (max-height: 700px) { 
   body #navbar { zoom: 60%!important; } 
   #navbar { width: min(5.8em, 8%); }
-  .container-iconos-navbar { margin-left: 0.8em; }
-  .navbar-profile-icon {
-    width: 4.025rem;
-    height: 4.025rem;
-    font-size: 1.7rem;
-  }
 }
 
 /* Media Querys para navegadores NO Chromium (Firefox y Safari) */
@@ -973,8 +657,10 @@ Responsividad para distintas resoluciones
         body #navbar { zoom: 90%!important; }
         #navbar { width: min(4.8em, 8%); }
         .navbar-item-inner { padding: 1em 0; }
-        .container-iconos-navbar img { width: 50%; }
-        .container-iconos-navbar { margin-left: 0em; }
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
+        }
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
@@ -983,6 +669,10 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 1em 0; }
         .container-iconos-navbar img { width: 50%; }
         .container-iconos-navbar { margin-left: 0em; }
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
+        }
     }
 }
 
@@ -994,10 +684,9 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 60%; }
         .container-iconos-navbar { margin-left: 0em; }
-        .navbar-profile-icon {
-          width: 3.025rem;
-          height: 3.025rem;
-          font-size: 1.5rem;
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
         }
     }
     /* Safari */
@@ -1007,10 +696,9 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.9em 0; }
         .container-iconos-navbar img { width: 60%; }
         .container-iconos-navbar { margin-left: 0em; }
-        .navbar-profile-icon {
-          width: 3.025rem;
-          height: 3.025rem;
-          font-size: 1.5rem;
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
         }
     }
 }
@@ -1023,10 +711,9 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.8em 0.5em; }
         .container-iconos-navbar img { width: 70%; }
         .container-iconos-navbar { margin-left: -0.2em; }
-        .navbar-profile-icon {
-          width: 3.525rem;
-          height: 3.525rem;
-          font-size: 1.6rem;
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
         }
     }
     /* Safari */
@@ -1036,10 +723,9 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.8em 0.5em; }
         .container-iconos-navbar img { width: 70%; }
         .container-iconos-navbar { margin-left: -0.2em; }
-        .navbar-profile-icon {
-          width: 3.525rem;
-          height: 3.525rem;
-          font-size: 1.6rem;
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
         }
     }
 }
@@ -1052,10 +738,9 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.7em 0.5em; }
         .container-iconos-navbar img { width: 75%; }
         .container-iconos-navbar { margin-left: -0.1em; }
-        .navbar-profile-icon {
-          width: 4.025rem;
-          height: 4.025rem;
-          font-size: 1.7rem;
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
         }
     }
     /* Safari */
@@ -1065,10 +750,9 @@ Responsividad para distintas resoluciones
         .navbar-item-inner { padding: 0.7em 0.5em; }
         .container-iconos-navbar img { width: 75%; }
         .container-iconos-navbar { margin-left: -0.1em; }
-        .navbar-profile-icon {
-          width: 4.025rem;
-          height: 4.025rem;
-          font-size: 1.7rem;
+        .navbar-logo { 
+          height: fit-content; 
+          padding: 30px 0 30px 0;
         }
     }
 }
