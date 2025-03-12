@@ -1,3 +1,4 @@
+/* ./CSS/basesdedatos.css */
 .cuadro-principal {
   background-color: white;
   border-radius: 20px;
@@ -63,8 +64,8 @@
   /* border: solid; */
   justify-content: right; /* Asegura que los iconos estén centrados */
   margin-top: 10px;
-  margin-right: 25px;
-  width: 10%;
+  margin-right: 15px;
+  width: auto;
 }
 
 /* Tabla */
@@ -130,7 +131,7 @@ th {
 .iconos-container {
   width: 80%;
   display: flex;
-  align-items:flex-end;
+  align-items: center;
   /* border: solid; */
   justify-content: space-between;
   padding: 0px 40px;
@@ -540,7 +541,8 @@ th {
 .dt-search {
   width: 30%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
-  margin-top: -50px;
+  margin-top: -60px;
+  margin-bottom: 20px;
   position: relative;
   border-color: 2px #0071B0;
 }
@@ -1321,12 +1323,6 @@ table.dataTable thead .sorting_desc {
 .datatable-container {
   margin-top: 15px; /* Ajustamos el margen superior */
   position: relative;
-}
-
-/* Aseguramos que la barra de búsqueda esté por encima */
-.dt-search {
-  position: relative;
-  /* z-index: 3; */
 }
 
 /* Iconos de filtro que serán mostrados en cada columna al seleccionar el botón de filtrar */

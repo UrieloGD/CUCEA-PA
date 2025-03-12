@@ -26,7 +26,7 @@ function inicializarTablaEliminados() {
         // Inicializar la tabla de registros eliminados
         tablaEliminados = $('#tabla-eliminados').DataTable({
             "ajax": {
-                "url": '/CUCEA-PA/functions/basesdedatos/registros-eliminados/obtener-registros-eliminados.php',
+                "url": '/CUCEA-PA/functions/basesdedatos/papelera/obtener-registros-eliminados.php',
                 "type": 'POST',
                 "data": function(d) {
                     d.Papelera = 'inactivo';
@@ -112,7 +112,7 @@ function inicializarTablaEliminados() {
                 "searchPlaceholder": "Buscar...",
             },
             "ordering": true,
-            "dom": "<'row'<'col-sm-6'f><'col-sm-6'l>>rtip",
+            "dom": '<"top"f<"pull-right"l>>t<"bottom"i>',
         });
     }
 }

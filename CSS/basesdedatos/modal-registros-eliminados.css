@@ -1,29 +1,9 @@
-/* ./CSS/basesdedatos/modal-registros-eliminados.css */
-
 /* Estilos para el contenedor de búsqueda del modal de registros eliminados */
 #modalRegistrosEliminados .dt-search {
     width: 50%;
     margin-left: 0;
     float: left;
   }
-
-  /* Reorganizar elementos de control */
-#modalRegistrosEliminados .dataTables_filter {
-    float: left !important;
-    width: 50%;
-    padding-left: 1rem;
-}
-
-#modalRegistrosEliminados .dataTables_length {
-    float: right !important;
-    padding-right: 1rem;
-}
-
-/* Ajustar posición de la barra de búsqueda */
-#modalRegistrosEliminados .dataTables_filter input {
-    width: 80% !important;
-    margin: 0;
-}
   
   /* Estilos personalizados para el botón "Restaurar" del modal de registros eliminados */
   .btn-restaurar {
