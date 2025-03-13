@@ -1,0 +1,1567 @@
+.cuadro-principal {
+  background-color: white;
+  border-radius: 20px;
+  width: 92%;
+  height: 90vh;
+  margin-left: 6vw;
+  margin-right: 2vw;
+  margin-top: 1vh;
+  margin-bottom: 2vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+/* Encabezado */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 0px 20px 0px;
+  /* border: solid; */
+}
+
+.encabezado-izquierda,
+.encabezado-centro,
+.encabezado-derecha {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.encabezado-centro {
+  color: #fff;
+  margin-top: -10px;
+  padding: 13px 10px;
+  background-color: #0071b0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0px 0px 20px 20px;
+}
+
+.encabezado-izquierda{
+  /* border: solid; */
+  align-items: start;
+  justify-content: left;
+  margin-left: 20px;
+}
+
+.encabezado h3 {
+  margin: 0;
+  /* padding: -30px -300px; */
+  margin-top: 10px;
+}
+
+.encabezado-derecha {
+  justify-content: right; /* Asegura que los iconos estén centrados */
+  margin-top: 10px;
+  margin-right: 0px; /* Agrega este margen derecho */
+}
+
+/* Tabla */
+.tabla {
+  flex-grow: 1; /* Permite que la tabla ocupe todo el espacio restante */
+  overflow-y: hidden; /* Añadir scroll vertical */
+  padding: 10px;
+  /* border-radius: 20px 20px 0px 0px; */
+  position: relative; /* Para controlar el contenido interno */
+  margin-top: -70px;
+  overflow-x: auto; /* Permite desplazamiento horizontal */
+  /* padding-top: 10px; */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: -20px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 3px solid #e7e9f2;
+}
+
+th {
+  margin-top: -50px;
+  color: black;
+  border-bottom: 3px solid #0071b0;
+  position: sticky; /* Hacer que el encabezado sea fijo */
+  top: -20px; /* Posición fija en la parte superior */
+  background-color: white; /* Fondo blanco para que el encabezado sea legible */
+  z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Ajus
+   este valor según tus necesidades */
+}
+
+/* Ensure that the demo table scrolls */
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 600px;
+    margin: 0 auto;
+}
+
+/* Estilos-dimensiones de tabla completa */
+.table-container {
+  margin: 0 auto;
+  margin-top: -20px;
+  border-radius: 10px;
+  /* margin-bottom: 10px; */
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  max-height: 90vh;
+  height: 90vh;
+}
+
+/* Texto donde dice: mostrar [10>] registros */
+.dt-layout-start {
+  margin-left: 15px;
+}
+.dt-layout-end {
+  margin-right: 15px;
+}
+#dt-length-0,
+#dt-search-0 {
+  border: 1px solid #a7a5a5;
+}
+
+/* Icono y Boton Buscar */
+
+.iconos-container {
+  width: 80%;
+  display: flex;
+  align-items: flex-end;
+  /* border: solid; */
+  /* padding: 0px 40px; */
+  gap: 10px;
+  margin-right: 20px;
+  z-index: 999;
+}
+
+#icono-deshacer {
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #FFD951;
+  padding: 15px;
+  color: #fff;
+  margin-right: 0;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: visibility 0.2s, opacity 0.2s;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  -moz-transition: visibility 0.2s, opacity 0.2s;
+  -ms-transition: visibility 0.2s, opacity 0.2s;
+  -o-transition: visibility 0.2s, opacity 0.2s;
+}
+
+#icono-deshacer i {
+  font-size: 18px;
+}
+
+#icono-guardar {
+  visibility: hidden;
+  opacity: 0;
+  cursor: pointer;
+  background-color: #57B661;
+  border-radius: 10px;
+  padding: 15px;
+  color: #fff;
+  margin-right: 0;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  transition: visibility 0.2s, opacity 0.2s;
+  -webkit-transition: visibility 0.2s, opacity 0.2s;
+  -moz-transition: visibility 0.2s, opacity 0.2s;
+  -ms-transition: visibility 0.2s, opacity 0.2s;
+  -o-transition: visibility 0.2s, opacity 0.2s;
+}
+
+.icono-buscador {
+  cursor: pointer;
+  background-color: #0071b0;
+  padding: 15px;
+  border-radius: 10px 10px; /* Redondea solo las esquinas izquierdas */
+  color: #fff;
+  margin-right: 0; /* Quita el margen derecho */
+  /* z-index: 1; */
+}
+
+/* .barra-buscador {
+  display: flex;
+  align-items: center;
+  width: 95%; /* Ocupa el 70% del div contenedor */
+  /*border: none; /* Quita el borde azul */
+  /*margin-top: 10px;
+} */
+
+#input-buscador {
+  flex-grow: 1;
+  margin-left: -4px;
+  padding: 14.5px;
+  border: none;
+  border-radius: 0 10px 10px 0;
+  background-color: #f0f0f0;
+  outline: 1px solid transparent; /* Inicialmente transparente */
+}
+
+#input-buscador:focus {
+  outline: 2px solid #0071b0; /* Cambia al color deseado cuando tiene foco */
+}
+
+#input-buscador:focus {
+  outline: 2px solid rgb(0, 114, 176); /* #0071b0 con 50% de opacidad */
+}
+
+/* Estilos para nuevos formularios */
+#formulario-añadir {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 50px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#form-añadir-registro {
+  display: grid;
+  align-items: center;
+}
+
+#formulario-añadir button {
+  padding: 5px;
+  margin: 10px 10px 0px 10px;
+  border: none;
+  background-color: #0071b0;
+  color: #fff;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+
+#formulario-añadir input {
+  width: 90%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: #5d5d5d solid;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.input-formulario {
+  width: 90%;
+  padding: 5px;
+  margin-right: 10px;
+  box-sizing: border-box;
+}
+
+/* css pop up de columnas de descarga excel */
+
+.popup-active {
+  overflow: hidden;
+}
+
+.popup-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 4999;
+}
+
+#popup-columnas {
+  display:none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 5000;
+  width: 50vw;
+  height: 80vh;
+  overflow-y: auto;
+  border: 1px solid black; 
+}
+
+#popup-columnas h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.contenedor-buttons {
+  position: absolute;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  left: 40%;
+}
+
+.contenedor-buttons button {
+  margin-top: 20px;
+  margin-left: 5px;
+  padding: 10px 15px;
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#popup-columnas button:hover {
+  background-color: #005a8c;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal input, .modal select {
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  gap: 20px;
+}
+
+.form-section input,
+.form-movil input {
+  flex: 1;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.form-section h3 {
+  display: flex;
+  position: relative;
+  margin-top: 10px;
+  color: #0071b0;
+}
+
+.form-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.form-section input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 33%;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.weekdays {
+  justify-content: space-between;
+}
+
+.weekdays input {
+  width: 30px;
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7.5px;
+  cursor: pointer;
+}
+
+.form-actions button:first-child {
+  background-color: #0071b0;
+  color: white;
+  font-weight: bold;
+}
+
+.form-actions button:last-child {
+  background-color: #fff;
+  color: #0071b0;
+  border: #0071b0 solid 2px;
+  font-weight: bold;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.input-estrecho {
+  width: 80px; /* Ajusta este valor según sea necesario */
+  /* box-sizing: border-box; */
+  padding: 5px; /* Opcional: ajustar el padding según sea necesario */
+  border: none;
+}
+
+#tabla-datos {
+  position: relative;
+}
+
+.estado-column,
+.estado-cell {
+  position: sticky;
+  right: 0;
+  background-color: #f5f5f5;
+  z-index: 1;
+}
+
+.estado-column {
+  top: 0;
+  z-index: 2;
+}
+
+#tabla-datos thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f8f9fa;
+  z-index: 10;
+}
+
+#tabla-datos thead th.estado-column {
+  z-index: 11;
+  /* Asegura que esté por encima de las otras cabeceras */
+}
+
+/* Añade una sombra sutil para distinguir la columna anclada */
+.estado-column,
+.estado-cell {
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Deja la columna de los checkbox fija a la izquierda */
+.dataTables_scroll {
+    overflow: visible !important;
+}
+
+.DTFC_LeftWrapper, .DTFC_RightWrapper {
+    z-index: 2;
+}
+
+.DTFC_LeftBodyWrapper, .DTFC_RightBodyWrapper {
+    top: 0 !important;
+}
+
+.DTFC_LeftHeadWrapper, .DTFC_RightHeadWrapper {
+    z-index: 3;
+}
+
+.DTFC_LeftBodyLiner, .DTFC_RightBodyLiner {
+    overflow-y: visible !important;
+}
+
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92%;
+    height: 90vh;
+  }
+  .iconos-container {
+    margin-right: 4vw;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .iconos-container > #icono-,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 92%;
+    margin-left: 6vw;
+  }
+  .iconos-container {
+    margin-right: 7vw;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91%;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+  .iconos-container {
+    margin-right: 8.5vw;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 15px;
+  }
+  .iconos-container > #icono-guardar,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-añadir,
+  .iconos-container > #icono-borrar-seleccionados,
+  .iconos-container > #icono-descargar {
+  margin-right: 5px;
+  }
+  #input-buscador {
+    height: 47px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 90%;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .iconos-container {
+    position: relative;
+    margin-right: 12vw;
+    margin-bottom: 25px;
+    top: 50px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    top: 37px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 370px;
+    height: 37px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > #icono-guardar,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-añadir,
+  .iconos-container > #icono-borrar-seleccionados,
+  .iconos-container > #icono-descargar {
+  margin-right: 5px;
+  }
+  
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+  }
+  .form-section input {
+    width: 45%;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96%;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .encabezado h2 {
+    margin: 0;
+    font-size: medium;
+  }
+
+  .encabezado-centro > h3 {
+    margin-bottom: 6px;
+  }
+
+  /* Tabla */
+
+  .tabla {
+    padding: 20px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-size: smaller;
+  }
+
+  th {
+    color: black;
+    border-bottom: solid #0071b0;
+    position: sticky; /* Hacer que el encabezado sea fijo */
+    top: 0; /* Posición fija en la parte superior */
+    background-color: white; /* Fondo blanco para que el encabezado sea legible */
+    z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  }
+}
+
+/* Estilos para el contenedor de búsqueda */
+.dt-search {
+  width: 30%; /* Un tercio del ancho de la pantalla */
+  margin: 20px 0px 30px 10px;
+  position: relative;
+  z-index: 3;
+}
+
+/* Estilos para el input de búsqueda */
+.dt-input {
+width: 100%;
+padding: 8px 12px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 14px;
+outline: none;
+transition: border-color 0.2s ease-in-out;
+box-sizing: border-box;
+}
+
+.dt-input:focus {
+border-color: #0071b0;
+box-shadow: 0 0 5px rgba(0, 113, 176, 0.2);
+}
+
+/* Ocultar la etiqueta */
+.dt-search label {
+display: none;
+}
+
+/* Asegurar que el contenedor padre no restrinja el ancho */
+.dataTables_wrapper .dataTables_filter {
+width: 33.33%;
+float: none;
+text-align: left;
+}
+
+/* Ajustes adicionales para mantener el layout */
+.dataTables_wrapper {
+position: relative;
+}
+
+/* Ajuste específico para el input dentro del contenedor */
+#dt-search-0 {
+width: 100%;
+margin-left: 0;
+}
+
+/* Estilos para el contenedor de longitud */
+.dt-length {
+margin: 10px 0;
+display: inline-block;
+}
+
+/* Estilos para el label */
+.dt-length label {
+display: flex;
+align-items: center;
+gap: 5px;
+font-size: 14px;
+}
+
+/* Estilos específicos para el select */
+.dt-length select.dt-input {
+width: auto;
+padding: 6px 24px 6px 8px;
+border: 1px solid #ddd;
+border-radius: 4px;
+font-size: 14px;
+outline: none;
+margin: 0 5px;
+/* Asegurar que el select no se estire */
+display: inline-block;
+min-width: 70px;
+max-width: 100px;
+}
+
+/* Estilo para el hover y focus del select */
+.dt-length select.dt-input:hover,
+.dt-length select.dt-input:focus {
+border-color: #0071b0;
+}
+
+/* Asegurar que el contenedor no se estire demasiado */
+.dataTables_length {
+width: auto;
+white-space: nowrap;
+}
+
+nav[aria-label="pagination"] {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: -60px;
+}
+
+/* Media Queries para diferentes resoluciones */
+@media screen and (max-width: 1600px) and (min-width: 1401px) {
+  .cuadro-principal {
+    background-color: white;
+    border-radius: 20px;
+    width: 92vw;
+    height: 90vh;
+  }
+  .iconos-container {
+    margin-right: 4vw;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .iconos-container > #icono-,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
+  }
+}
+
+@media screen and (max-width: 1400px) and (min-width: 1201px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 6vw;
+  }
+  .iconos-container {
+    margin-right: 7vw;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-guardar {
+    margin-right: 10px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 60vw;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 993px) {
+  .cuadro-principal {
+    width: 91vw;
+    margin-left: 7vw;
+    font-size: smaller;
+  }
+  .iconos-container {
+    margin-right: 8.5vw;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 15px;
+  }
+  .iconos-container > #icono-guardar,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-añadir,
+  .iconos-container > #icono-borrar-seleccionados,
+  .iconos-container > #icono-descargar {
+  margin-right: 5px;
+  }
+  #input-buscador {
+    height: 47px;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 992px) and (min-width: 769px) {
+  .cuadro-principal {
+    width: 88.5vw;
+    margin-left: 8vw;
+    margin-bottom: 2vh;
+    font-size: smaller;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .iconos-container {
+    position: relative;
+    margin-right: 12vw;
+    margin-bottom: 25px;
+    top: 50px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    top: 37px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 370px;
+    height: 37px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > #icono-guardar,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-añadir,
+  .iconos-container > #icono-borrar-seleccionados,
+  .iconos-container > #icono-descargar {
+  margin-right: 5px;
+  }
+  
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+  }
+  .form-section input {
+    width: 45%;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .cuadro-principal {
+    width: 96vw;
+    height: 91vh; /* Mantener altura fija */
+    margin-left: 2vw;
+    font-size: smaller;
+  }
+
+  .encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .encabezado h2 {
+    margin: 0;
+    font-size: medium;
+  }
+
+  .encabezado-centro > h3 {
+    margin-bottom: 6px;
+  }
+
+  /* Tabla */
+
+  .tabla {
+    padding: 20px;
+    border-radius: 20px 20px 0px 0px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    font-size: smaller;
+  }
+
+  th {
+    color: black;
+    border-bottom: solid #0071b0;
+    position: sticky; /* Hacer que el encabezado sea fijo */
+    top: 0; /* Posición fija en la parte superior */
+    background-color: white; /* Fondo blanco para que el encabezado sea legible */
+    z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  }
+
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+    font-size: small;
+  }
+
+  .table-container {
+    margin-top: 20px;
+  }
+
+  .iconos-container {
+    position: relative;
+    margin-right: 18vw;
+    margin-bottom: 50px;
+    top: 110px;
+  }
+  .encabezado-derecha {
+    width: 10%;
+  }
+  .encabezado-izquierda {
+    position: relative;
+    margin-top: 75px;
+    top: 5px;
+  }
+  #input-buscador {
+    position: absolute;
+    width: 86vw;
+    height: 37px;
+    margin-left: 35px;
+  }
+  .icono-buscador,
+  #icono-deshacer,
+  #icono-guardar {
+    padding: 10px;
+  }
+
+  .iconos-container > #icono-guardar,
+  .iconos-container > #icono-deshacer,
+  .iconos-container > #icono-añadir,
+  .iconos-container > #icono-borrar-seleccionados,
+  .iconos-container > #icono-descargar {
+  margin-right: 5px;
+  }
+
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+  }
+
+  .form-section input {
+    width: 100%;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 80vw;
+  }
+  .contenedor-buttons { 
+    left: 35%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .iconos-container {
+    margin-right: 30vw;
+  }
+  #input-buscador {
+    width: 80vw;
+  }
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .form-movil {
+    flex: 1;
+  }
+
+  .form-row input {
+    width: 5vw;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 85vw;
+  }
+  .contenedor-buttons { 
+    left: 30%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .iconos-container {
+    margin-right: 45vw;
+  }
+  #input-buscador {
+    width: 75vw;
+  }
+  .encabezado-centro {
+    position: relative;
+    margin-bottom: 50px;
+    font-size: x-small;
+  }
+  .form-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; 
+  }
+  
+  .form-movil {
+    flex: 1;
+  }
+
+  .form-row input {
+    width: 10vw;
+  }
+  .swal2-success-line-long,
+  .swal2-success-line-tip {
+    font-size: 1rem;
+  }
+  #popup-columnas {
+    width: 85vw;
+  }
+  .contenedor-buttons { 
+    left: 25%;
+  }
+}
+
+/* Ensure that the demo table scrolls */
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 600px;
+    margin: 0 auto;
+}
+
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 2; /* Aumentamos el z-index */
+  padding: 15px 8px; /* Aumentamos el padding vertical */
+  text-align: left;
+  border-bottom: 3px solid #0071b0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+}
+
+/* Estilo específico para los íconos de ordenamiento */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc {
+  background-position: center right 5px;
+  padding-right: 20px; /* Espacio para el ícono de ordenamiento */
+}
+
+/* Iconos de filtro que serán mostrados en cada columna al seleccionar el botón de filtrar */
+.filter-icon {
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  right: 1;
+  top: 5%;
+  user-select: none;
+}
+
+/* Personalizar el botón de los íconos de filtros por columnas */
+.filter-icon:hover, .filter-icon.active {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* Menú de filtros */
+.filter-menu {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 1px solid #a7a5a5;
+  padding: 0px 5px 0px 5px; /* Disminuir el padding */
+  z-index: 1000;
+  max-height: 50vh; /* Reducir la altura máxima */
+  overflow-y: auto;
+  width: 20%; /* Reducir el ancho */
+}
+
+/* Opciones dentro del menú de filtros */
+.filter-menu label {
+  display: block;
+  margin-bottom: 5px; /* Espacio entre cada opción */
+  font-size: 12px; /* Tamaño de fuente */
+  color: black;
+}
+
+/* Estilo para el checkbox */
+.filter-menu input[type="checkbox"] {
+  margin-right: 5px; /* Espacio entre el checkbox y el texto */
+  accent-color: #0071B0; /* Color del checkbox seleccionado */
+}
+
+/* Estilos para los botones de filtrado */
+.filter-menu .filter-buttons {
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  margin-bottom: 0;
+}
+
+.filter-menu button {
+  background-color: #0071B0; 
+  color: #f5f5f5;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 5px 5px 5px 0;  
+}
+
+.filter-buttons .apply-filter {
+  margin-left: 90px; /* Ajustar el margen izquierdo para centrar los botones */
+}
+
+/* Estilos para la barra de búsqueda */
+.filter-menu .filter-search-container {
+  position: sticky;
+  top: -0.5px;
+  background-color: white;
+}
+
+.filter-search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #a7a5a5;
+  border-radius: 3px;
+  font-size: 13px;
+  margin-bottom: 15px; /* Espacio debajo de la barra de búsqueda */
+  margin-top: 2px; /* Espacio encima de la barra de búsqueda */
+}
+
+/* Acomodar los botones de ordenamiento y filtrar en cada columna */
+.dt-column-order {
+  position: absolute;
+  left: 0;
+}
+
+.dt-column-title {
+  margin-left: 10px;
+}
+
+/*   
+################################################################
+#################### modal descarga excel#######################
+################################################################
+*/
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content-descarga {
+  background-color: #fefefe;
+  margin: 3% auto;
+  left: 50%;
+  top: 50%;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 45vw;
+  height: 80vh;
+  max-width: 1200px;
+  max-height: 85vh;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+
+.modal-content-descarga h2 {
+  margin-bottom: 20px;
+}
+
+.select-all-div {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.select-all-div-label {
+  padding-left: 10px;
+}
+
+.columns-container-js {
+  border-color: #D0E6F2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.columns-container-js-1 {
+  border-color: #D0E6F2;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.columns-container-js-2 {
+  border-color: #D0E6F2;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.check-js {
+  margin: 0 0 5px 0;
+  display: flex;
+  justify-content: left;
+}
+
+.check-js label{
+  padding-left: 5px;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.encabezado-js {
+  color: #0071B0;
+  font-size: 18px;
+  position: relative;
+}
+
+.select-all-materia label, .select-all-profesor label {
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+/*.select-all-materia {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  font-weight: bold;
+}*/
+
+.select-all-profesores, .select-all-basica, .select-all-academica, 
+.select-all-personal, .select-all-academica2, .select-all-antiguedad {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+.select-all-profesores label, .select-all-basica label, .select-all-academica label, 
+.select-all-personal label, .select-all-academica2 label, .select-all-antiguedad label {
+  padding-left: 5px;
+}
+
+.fila-botones button {
+  background-color: #0071b0;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.label-materia,
+.label-profesorado {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.label-materia {
+  margin-top: 25px;
+}
+
+.input-check[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #fff;
+  border: 1px solid #3497CE;
+  border-radius: 3px;
+  cursor: pointer;
+  position: relative;
+}
+
+.input-check[type="checkbox"]:checked {
+  background-color: #3497CE;
+  border: 1px solid #3497CE;
+} 
+
+.input-check[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0px;
+  width: 5px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  display: block;
+}
+
+.fila-botones{
+  display: flex;
+  justify-content: center;
+  height: 35px;
+  margin-top: 10px;
+}
+
+.btn-cotejo{
+  margin-left: 40px;
+}
+
+.select-first {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.columns-container-basica {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+}
+
+.columns-container-basica {
+  padding: 0;
+}
+
+.columns-container-basica div {
+  margin-top: -5px;
+}
+
+.columns-container-academica {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+}
+
+.columns-container-academica {
+  padding: 0;
+}
+
+.columns-container-personal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.columns-container-personal {
+  padding: 0;
+}
+
+.columns-container-academica2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+.select-all-basica, .select-all-academica, .select-all-profesores,
+.select-all-personal, .select-all-academica2, .select-all-antiguedad {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.columns-container-basica, .columns-container-academica, 
+.columns-container-academica2, .columns-container-personal,
+.columns-container-antiguedad, .columns-container-profesores {
+  overflow-y: auto;
+  padding: 10px 0 10px 5px;
+  flex-direction: column;
+  border-style: solid;
+  border-width: 2px 0 0 0;
+  border-color: #0071B0;
+  column-gap: 1rem;
+  list-style: none;
+
+}
+
+.container-all{
+  /*border: 3px solid #005a8c;
+  border-radius: 15px;*/
+  display: block;
+  overflow-y: auto;
+  height: 640px;
+  /*-webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;*/
+}
+
+.columns-subcontainer{
+  width: 360px;
+}
+
+/* Importante mantener este estilo para que funcione el lazy loading */
+#tabla-datos {
+  display: none;
+}
