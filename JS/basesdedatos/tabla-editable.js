@@ -1115,7 +1115,6 @@ addExcelStyleCSS = function() {
   document.head.appendChild(style);
 };
 
-
 // Funciones para los botones de guardar y deshacer
 function showSaveButton() {
   const saveIcon = document.getElementById("icono-guardar");
@@ -1311,6 +1310,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+// Modificación de la inicialización para incluir las nuevas funciones
 const originalDOMContentLoaded = document.addEventListener;
 document.addEventListener = function(event, callback) {
   if (event === 'DOMContentLoaded') {
