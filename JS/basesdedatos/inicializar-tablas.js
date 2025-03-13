@@ -189,28 +189,113 @@ $(document).ready(function () {
       initializeCustomTooltips();
 
       setTimeout(function () {
-        // Hide the original button container
+        // Ocultar el botón original
         $(".dt-buttons").css("display", "none");
 
-        // Create a custom button with the same function but no arrow
+        // Crear un contenedor personalizado para nuestro menú
+        var customColvisMenu = $(
+          '<div class="custom-colvis-menu" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; box-shadow:0 2px 4px rgba(0,0,0,0.2); padding:10px; z-index:1000; max-height:400px; overflow-y:auto;"></div>'
+        );
+        $("body").append(customColvisMenu);
+
+        // Crear un botón personalizado con el mismo icono
         var customButton = $(
-          '<div class="icono-buscador" id="btn-colvis" data-tooltip="Mostrar/ocultar columnas"><i class="fa fa-eye"></i></div>'
+          '<div class="icono-buscador" id="btn-colvis-custom" data-tooltip="Mostrar/ocultar columnas"><i class="fa fa-eye"></i></div>'
         );
 
-        // Add the click handler to call the original button's functionality
-        customButton.on("click", function () {
-          table.buttons(".buttons-colvis:first").trigger();
-        });
-
-        // Insert the custom button in the desired location
+        // Insertar el botón en la ubicación deseada
         customButton.insertBefore("#icono-filtro");
 
-        // Remove the non-functional button
-        $("#icono-visibilidad").remove();
+        // Eliminar el botón no funcional
+        $("#icono-visibilidad, #btn-colvis").remove();
 
-        // Re-initialize tooltips
-        initializeCustomTooltips();
-      }, 100);
+        // Evento para abrir/cerrar el menú personalizado
+        customButton.on("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Si el menú está visible, ocultarlo
+          if (customColvisMenu.is(":visible")) {
+            customColvisMenu.hide();
+            return;
+          }
+
+          // Posicionar el menú debajo del botón
+          var buttonPos = $(this).offset();
+          customColvisMenu.css({
+            top: buttonPos.top + $(this).outerHeight() + 5,
+            left: buttonPos.left,
+          });
+
+          // Llenar el menú con las columnas disponibles
+          customColvisMenu.empty();
+
+          // Añadir un título
+          customColvisMenu.append(
+            '<div style="font-weight:bold; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">Mostrar/Ocultar columnas</div>'
+          );
+
+          // Añadir una opción para cada columna (excepto la primera)
+          table.columns().every(function (index) {
+            if (index > 0) {
+              // Excluir la primera columna
+              var column = this;
+              var isVisible = column.visible();
+              var header = $(column.header()).text().trim();
+
+              var checkbox = $(
+                '<div style="margin:5px 0;">' +
+                  '<label style="display:flex; align-items:center;">' +
+                  '<input type="checkbox" ' +
+                  (isVisible ? "checked" : "") +
+                  "> " +
+                  '<span style="margin-left:5px;">' +
+                  header +
+                  "</span>" +
+                  "</label></div>"
+              );
+
+              checkbox.find("input").data("column-index", index);
+              checkbox.find("input").on("change", function (e) {
+                e.stopPropagation();
+                var colIdx = $(this).data("column-index");
+                var visible = $(this).prop("checked");
+                table.column(colIdx).visible(visible);
+
+                // Redimensionar para corregir anchos después del cambio
+                table.columns.adjust().draw();
+              });
+
+              customColvisMenu.append(checkbox);
+            }
+          });
+
+          // Mostrar el menú
+          customColvisMenu.show();
+
+          // Re-inicializar tooltips si es necesario
+          if (typeof initializeCustomTooltips === "function") {
+            initializeCustomTooltips();
+          }
+        });
+
+        // Cerrar el menú al hacer clic fuera de él
+        $(document).on("click", function (e) {
+          if (
+            !$(e.target).closest(".custom-colvis-menu, #btn-colvis-custom")
+              .length
+          ) {
+            customColvisMenu.hide();
+          }
+        });
+
+        // Cerrar el menú con la tecla ESC
+        $(document).on("keydown", function (e) {
+          if (e.key === "Escape") {
+            customColvisMenu.hide();
+          }
+        });
+      }, 300);
     },
     pageLength: 15,
     lengthMenu: [
