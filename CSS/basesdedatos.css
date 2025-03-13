@@ -135,6 +135,7 @@ th {
   /* border: solid; */
   justify-content: space-between;
   padding: 0px 40px;
+  z-index: 5;
 }
 
 #icono-deshacer {

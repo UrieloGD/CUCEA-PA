@@ -3,7 +3,7 @@ var table;
 
 // Inicializar tooltips personalizados
 function initializeCustomTooltips() {
-  if ($('[data-tooltip]').data('tooltip-initialized')) return;
+  if ($("[data-tooltip]").data("tooltip-initialized")) return;
   const tooltip = document.createElement("div");
   tooltip.className = "custom-tooltip";
   document.body.appendChild(tooltip);
@@ -68,22 +68,21 @@ function initializeCustomTooltips() {
       positionTooltip(activeTooltip, tooltip, content);
     }
   });
-  $('[data-tooltip]').data('tooltip-initialized', true);
+  $("[data-tooltip]").data("tooltip-initialized", true);
 }
 
 $(document).ready(function () {
-
   localStorage.removeItem("DataTables_tabla-datos");
   table = $("#tabla-datos").DataTable({
-    scrollY: '620px',     // Altura fija para el cuerpo de la tabla
+    scrollY: "620px", // Altura fija para el cuerpo de la tabla
     scrollCollapse: true, // Permite que la tabla se colapse cuando hay poco contenido
-    scrollX: true,        // Scroll horizontal si es necesario
+    scrollX: true, // Scroll horizontal si es necesario
     fixedHeader: {
-        header: true,     // Mantiene el encabezado fijo durante el scroll
-        headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
-        footer: false
+      header: true, // Mantiene el encabezado fijo durante el scroll
+      headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
+      footer: false,
     },
-    dom: '<"top"<"custom-search-container">f>rt<"bottom"lip>',
+    dom: '<"top"<"custom-search-container">fB>rt<"bottom"lip>',
     language: {
       url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
       search: "_INPUT_",
@@ -188,6 +187,30 @@ $(document).ready(function () {
 
       // Inicializar tooltips personalizados
       initializeCustomTooltips();
+
+      setTimeout(function () {
+        // Hide the original button container
+        $(".dt-buttons").css("display", "none");
+
+        // Create a custom button with the same function but no arrow
+        var customButton = $(
+          '<div class="icono-buscador" id="btn-colvis" data-tooltip="Mostrar/ocultar columnas"><i class="fa fa-eye"></i></div>'
+        );
+
+        // Add the click handler to call the original button's functionality
+        customButton.on("click", function () {
+          table.buttons(".buttons-colvis:first").trigger();
+        });
+
+        // Insert the custom button in the desired location
+        customButton.insertBefore("#icono-filtro");
+
+        // Remove the non-functional button
+        $("#icono-visibilidad").remove();
+
+        // Re-initialize tooltips
+        initializeCustomTooltips();
+      }, 100);
     },
     pageLength: 15,
     lengthMenu: [
@@ -209,7 +232,7 @@ $(document).ready(function () {
       );
     },
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with
     ordering: true,
     info: true,
     scrollX: true,
@@ -308,33 +331,44 @@ $(document).ready(function () {
       {
         extend: "colvis",
         text: '<i class="fa fa-eye"></i>',
-        titleAttr: "Column visibility",
         collectionLayout: "fixed columns",
         columns: ":not(:first-child)",
+        className: "icono-buscador",
+        attr: {
+          "data-tooltip": "Mostrar/ocultar columnas",
+          id: "btn-colvis",
+        },
+        // Override the default button rendering
+        init: function (api, node, config) {
+          $(node).removeClass("dt-button");
+          $(node).find(".dt-down-arrow").remove();
+        },
       },
     ],
   });
 
   // Mantener fijos los controles de paginación
-  $(window).scroll(function() {
-    var tableBottom = $('.datatable-container').offset().top + $('.datatable-container').height();
+  $(window).scroll(function () {
+    var tableBottom =
+      $(".datatable-container").offset().top +
+      $(".datatable-container").height();
     var scrollPosition = $(window).scrollTop() + $(window).height();
-    
+
     if (scrollPosition < tableBottom) {
       // Fijar los controles en la parte inferior
-      $('.dataTables_paginate, .dataTables_info, .dataTables_length')
-        .css('position', 'fixed')
-        .css('bottom', '0')
-        .css('background', '#fff')
-        .css('width', $('.datatable-container').width())
-        .css('z-index', '10')
-        .css('padding', '8px 0')
-        .css('box-shadow', '0 -2px 5px rgba(0,0,0,0.1)');
+      $(".dataTables_paginate, .dataTables_info, .dataTables_length")
+        .css("position", "fixed")
+        .css("bottom", "0")
+        .css("background", "#fff")
+        .css("width", $(".datatable-container").width())
+        .css("z-index", "10")
+        .css("padding", "8px 0")
+        .css("box-shadow", "0 -2px 5px rgba(0,0,0,0.1)");
     } else {
       // Volver a la posición normal
-      $('.dataTables_paginate, .dataTables_info, .dataTables_length')
-        .css('position', 'static')
-        .css('box-shadow', 'none');
+      $(".dataTables_paginate, .dataTables_info, .dataTables_length")
+        .css("position", "static")
+        .css("box-shadow", "none");
     }
   });
 
@@ -346,8 +380,13 @@ $(document).ready(function () {
     table.columns.adjust().draw();
   }, 200);
 
-  $("#icono-visibilidad").on("click", function () {
-    table.button(".buttons-colvis").trigger();
+  // Asegurar de que los botones de DataTables estén inicializados correctamente
+  $(document).on("click", function (e) {
+    if (
+      !$(e.target).closest(".custom-columns-menu, #icono-visibilidad").length
+    ) {
+      $(".custom-columns-menu").remove();
+    }
   });
 
   new $.fn.dataTable.FixedColumns(table, {
@@ -357,18 +396,18 @@ $(document).ready(function () {
 });
 
 // Ajusta las columnas después de la carga completa
-$(window).on('load', function() {
+$(window).on("load", function () {
   if (table && table.columns) {
-      setTimeout(function() {
-          table.columns.adjust().draw();
-      }, 500); // Un pequeño retraso puede ayudar
+    setTimeout(function () {
+      table.columns.adjust().draw();
+    }, 500); // Un pequeño retraso puede ayudar
   }
 });
 
 // Ajusta las columnas si el tamaño de la ventana cambia
-$(window).on('resize', function() {
+$(window).on("resize", function () {
   if (table) {
-      table.columns.adjust().draw();
+    table.columns.adjust().draw();
   }
 });
 
