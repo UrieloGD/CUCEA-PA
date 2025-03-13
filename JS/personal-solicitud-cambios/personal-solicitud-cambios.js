@@ -122,20 +122,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sistema de inicialización de botones PDF
     function handlePDFButtons() {
-        // Generar PDF
+        // Generar PDF (existente)
         document.querySelectorAll('.boton-generar').forEach(btn => {
             btn.addEventListener('click', function() {
                 const tipo = this.dataset.tipo;
                 const folio = this.dataset.folio;
                 
                 switch(tipo) {
-                    case 'solicitud-de-baja':
+                    case 'baja':
                         generarPDFBaja(folio);
                         break;
-                    case 'solicitud-de-propuesta':
+                    case 'propuesta':
                         generarPDFPropuesta(folio);
                         break;
-                    case 'solicitud-de-baja-propuesta':
+                    case 'baja-propuesta':
                         generarPDFBajaPropuesta(folio);
                         break;
                 }
@@ -144,23 +144,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Descargar PDF
         document.querySelectorAll('.boton-descargar').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
                 const tipo = this.dataset.tipo;
                 const folio = this.dataset.folio;
+                console.log('Descargando PDF tipo:', tipo, 'Folio:', folio); // Debug
                 
+                let url = '';
                 switch(tipo) {
-                    case 'solicitud-de-baja':
-                        descargarPDFBaja(folio);
+                    case 'baja':
+                        url = `./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=${folio}`;
                         break;
-                    case 'solicitud-de-propuesta':
-                        descargarPDFPropuesta(folio);
+                    case 'propuesta':
+                        url = `./functions/personal-solicitud-cambios/pdfs/descargar_pdf_propuesta.php?folio=${folio}`;
                         break;
-                    case 'solicitud-de-baja-propuesta':
-                        descargarPDFBajaPropuesta(folio);
+                    case 'baja-propuesta':
+                        url = `./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja_propuesta.php?folio=${folio}`;
                         break;
+                    default:
+                        console.error('Tipo de PDF no reconocido:', tipo);
+                        return;
                 }
+                
+                window.open(url, '_blank');
             });
         });
+    }
+
+    function descargarPDFBaja(folio) {
+        window.open(`./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=${folio}`, '_blank');
+    }
+    
+    function descargarPDFPropuesta(folio) {
+        window.open(`./functions/personal-solicitud-cambios/pdfs/descargar_pdf_propuesta.php?folio=${folio}`, '_blank');
+    }
+    
+    // Si existe baja-propuesta
+    function descargarPDFBajaPropuesta(folio) {
+        window.open(`./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja_propuesta.php?folio=${folio}`, '_blank');
     }
 
     // Observador de cambios

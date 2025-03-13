@@ -94,17 +94,22 @@
     <?php endif; ?>
 
     <div class="contenedor-botones">
+        <?php 
+        // Determinar el tipo de solicitud normalizado
+        $tipo = strtolower(str_replace(['Solicitud de ', ' '], ['', '-'], $solicitud['tipo']));
+        ?>
+        
         <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] == 'Pendiente'): ?>
             <button class="boton-generar" 
                     data-folio="<?= $solicitud['folio'] ?>" 
-                    data-tipo="<?= strtolower(str_replace(' ', '-', $solicitud['tipo'])) ?>">
+                    data-tipo="<?= $tipo ?>">
                 <i class="fas fa-file-pdf"></i> Generar PDF
             </button>
         
         <?php elseif ($solicitud['estado'] == 'En revision'): ?>
             <button class="boton-descargar" 
                     data-folio="<?= $solicitud['folio'] ?>" 
-                    data-tipo="<?= strtolower(str_replace(' ', '-', $solicitud['tipo'])) ?>">
+                    data-tipo="<?= $tipo ?>">
                 <i class="fas fa-download"></i> Descargar PDF
             </button>
         
