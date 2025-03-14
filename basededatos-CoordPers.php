@@ -56,10 +56,11 @@ function getTotalAssignedHours($conexion, $codigo_profesor)
     return $total_horas;
 }
 
-// Consulta SQL para obtener todos los registros de Coord_Per_Prof
-$sql = "SELECT * FROM $tabla_departamento";
+// Consulta SQL para obtener solo registros activos
+$sql = "SELECT * FROM $tabla_departamento WHERE Papelera = 'activo'";
 $result = mysqli_query($conexion, $sql);
 
+// Función para convertir fechas de Excel a MySQL
 function convertExcelDate($value)
 {
     if (!is_numeric($value)) {
@@ -69,6 +70,7 @@ function convertExcelDate($value)
     return date("Y-m-d", $unix_date);
 }
 
+// Función para convertir fechas de MySQL a formato de visualización
 function formatDateForDisplay($mysqlDate)
 {
     if (!$mysqlDate || $mysqlDate == '0000-00-00') {
@@ -77,6 +79,33 @@ function formatDateForDisplay($mysqlDate)
     $date = DateTime::createFromFormat('Y-m-d', $mysqlDate);
     return $date ? $date->format('d/m/Y') : '';
 }
+
+// Función para implementar el soft delete
+function softDeleteRegistros($conexion, $ids) {
+    $ids = array_map('intval', $ids);
+    $ids_str = implode(',', $ids);
+    
+    $sql = "UPDATE coord_per_prof 
+            SET Papelera = 'inactivo', 
+                Fecha_Modificacion = CURRENT_TIMESTAMP 
+            WHERE ID IN ($ids_str)";
+    
+    return mysqli_query($conexion, $sql);
+}
+
+// Función para restaurar registros
+// function restaurarRegistros($conexion, $ids) {
+//     $ids = array_map('intval', $ids);
+//     $ids_str = implode(',', $ids);
+    
+//     $sql = "UPDATE coord_per_prof 
+//             SET Papelera = 'activo', 
+//                 Fecha_Modificacion = CURRENT_TIMESTAMP 
+//             WHERE ID IN ($ids_str)";
+    
+//     return mysqli_query($conexion, $sql);
+// }
+
 ?>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
@@ -116,13 +145,11 @@ function formatDateForDisplay($mysqlDate)
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.2/css/fixedColumns.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
 
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <div class="custom-search-container"></div>
             <!-- <div class="barra-buscador" id="barra-buscador">
                 <div class="icono-buscador" id="icono-buscador">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -135,12 +162,14 @@ function formatDateForDisplay($mysqlDate)
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
                     <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="icono-papelera" onclick="mostrarModalRegistrosEliminados()">
+                    <i class="fa fa-trash-restore" aria-hidden="true"></i>
                 </div>
                 <div class="icono-buscador" id="icono-visibilidad">
                     <i class="fa fa-eye" aria-hidden="true"></i>
@@ -166,6 +195,7 @@ function formatDateForDisplay($mysqlDate)
     
     <div class="Tabla datatable-container">
         <div class="table-container">
+            <div class="custom-search-container"></div>
             <table id="tabla-datos" class="display">
                 <thead>
                     <tr>
@@ -343,6 +373,8 @@ function formatDateForDisplay($mysqlDate)
 
     <?php include './functions/coord-personal-plantilla/modal-descargar-excel/modal-descargar-excel.php'; ?>
     <?php include './functions/coord-personal-plantilla/modal-anadir-registro/modal-anadir-registro.php'; ?>
+    <?php include './functions/coord-personal-plantilla/registros-eliminados/modal-registros-eliminados-cp.php'; ?>
+
 
     <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
     <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
@@ -365,6 +397,7 @@ function formatDateForDisplay($mysqlDate)
 <!-- Scripts personalizados-->
 <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
 <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
+<script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js"></script>
 <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
 <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
 <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js"></script>

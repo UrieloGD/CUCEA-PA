@@ -8,6 +8,7 @@ function cerrarModalRegistrosEliminados() {
 // Función para mostrar el modal de registros eliminados
 function mostrarModalRegistrosEliminados() {
     $('#modalRegistrosEliminados').modal('show');
+    inicializarTablaEliminados(); // Inicializar tabla al abrir el modal
 }
 
 // Define la función que se llama desde el botón en el HTML
@@ -19,12 +20,12 @@ function cerrarRegistrosEliminados() {
 function inicializarTablaEliminados() {
     if (!$.fn.DataTable.isDataTable('#tabla-eliminados')) {
         // Envolver tabla en un div con scroll
-        $('#tabla-eliminados').wrap('<div class="tabla-container" style="max-height: 60vh; overflow-y: auto;"></div>'); // Estilos para el modal de registros eliminados
+        $('#tabla-eliminados').wrap('<div class="tabla-container" style="max-height: 60vh; overflow-y: auto;"></div>'); 
         
         // Inicializar la tabla de registros eliminados
         tablaEliminados = $('#tabla-eliminados').DataTable({
             "ajax": {
-                "url": '/CUCEA-PA/functions/coord-personal-plantilla/restaurar-registros/obtener-registros.php',
+                "url": './functions/coord-personal-plantilla/registros-eliminados/obtener-registros.php',
                 "type": 'POST',
                 "data": function(d) {
                     d.Papelera = 'inactivo';
@@ -109,8 +110,7 @@ function inicializarTablaEliminados() {
                         if (type === 'display') {
                             return `<button type="button" 
                                     class="btn btn-primary btn-restaurar" 
-                                    data-id="${row.ID}"
-                                    onclick="event.preventDefault();">
+                                    data-id="${row.ID}">
                                     Restaurar
                                     </button>`;
                         }
@@ -118,7 +118,6 @@ function inicializarTablaEliminados() {
                     }
                 }
             ],
-            // "scrollY": Descartado porque no se pueden mantener fijas las columnas extremas
             "scrollX": true,
             "scrollCollapse": true,
             "fixedColumns": {
@@ -127,9 +126,7 @@ function inicializarTablaEliminados() {
             },
             "fixedHeader": true,
             "lengthChange": true,
-            // Define las opciones del menú de longitud
             "lengthMenu": [[-1, 15, 25, 50], ["Todos", 15, 25, 50]],
-            // Establece -1 como la longitud de página predeterminada (para mostrar todos)
             "pageLength": -1,
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
@@ -140,7 +137,51 @@ function inicializarTablaEliminados() {
             "ordering": true,
             "dom": '<"top"f<"pull-right"l>>t<"bottom"i>'
         });
+
+        // Evento para restaurar registros
+        $('#tabla-eliminados tbody').on('click', '.btn-restaurar', function() {
+            const id = $(this).data('id');
+            restaurarRegistro(id);
+        });
     }
+}
+
+// Función para restaurar un registro
+function restaurarRegistro(id) {
+    Swal.fire({
+        title: '¿Restaurar registro?',
+        text: "Esta acción devolverá el registro a la tabla principal",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, restaurar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: './functions/coord-personal-plantilla/registros-eliminados/restaurar-registro.php',
+                type: 'POST',
+                data: { ids: id },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        tablaEliminados.ajax.reload();
+                        // Si tienes una variable tablaPrincipal definida:
+                        if (typeof tablaPrincipal !== 'undefined') {
+                            tablaPrincipal.ajax.reload();
+                        }
+                        Swal.fire('¡Restaurado!', response.message, 'success');
+                    } else {
+                        Swal.fire('Error', response.message, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire('Error', 'Error al conectar con el servidor: ' + error, 'error');
+                }
+            });
+        }
+    });
 }
 
 // Event listeners cuando el DOM está cargado
