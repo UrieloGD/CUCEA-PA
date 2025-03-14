@@ -3,7 +3,7 @@ var table;
 
 // Inicializar tooltips personalizados
 function initializeCustomTooltips() {
-  if ($('[data-tooltip]').data('tooltip-initialized')) return;
+  if ($("[data-tooltip]").data("tooltip-initialized")) return;
   const tooltip = document.createElement("div");
   tooltip.className = "custom-tooltip";
   document.body.appendChild(tooltip);
@@ -68,22 +68,21 @@ function initializeCustomTooltips() {
       positionTooltip(activeTooltip, tooltip, content);
     }
   });
-  $('[data-tooltip]').data('tooltip-initialized', true);
+  $("[data-tooltip]").data("tooltip-initialized", true);
 }
 
 $(document).ready(function () {
-
   localStorage.removeItem("DataTables_tabla-datos");
   table = $("#tabla-datos").DataTable({
-    scrollY: '620px',     // Altura fija para el cuerpo de la tabla
+    scrollY: "620px", // Altura fija para el cuerpo de la tabla
     scrollCollapse: true, // Permite que la tabla se colapse cuando hay poco contenido
-    scrollX: true,        // Scroll horizontal si es necesario
+    scrollX: true, // Scroll horizontal si es necesario
     fixedHeader: {
-        header: true,     // Mantiene el encabezado fijo durante el scroll
-        headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
-        footer: false
+      header: true, // Mantiene el encabezado fijo durante el scroll
+      headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
+      footer: false,
     },
-    dom: '<"top"<"custom-search-container">f>rt<"bottom"lip>',
+    dom: '<"top"<"custom-search-container">fB>rt<"bottom"lip>',
     language: {
       url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
       search: "_INPUT_",
@@ -188,6 +187,115 @@ $(document).ready(function () {
 
       // Inicializar tooltips personalizados
       initializeCustomTooltips();
+
+      setTimeout(function () {
+        // Ocultar el botón original
+        $(".dt-buttons").css("display", "none");
+
+        // Crear un contenedor personalizado para nuestro menú
+        var customColvisMenu = $(
+          '<div class="custom-colvis-menu" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; box-shadow:0 2px 4px rgba(0,0,0,0.2); padding:10px; z-index:1000; max-height:400px; overflow-y:auto;"></div>'
+        );
+        $("body").append(customColvisMenu);
+
+        // Crear un botón personalizado con el mismo icono
+        var customButton = $(
+          '<div class="icono-buscador" id="btn-colvis-custom" data-tooltip="Mostrar/ocultar columnas"><i class="fa fa-eye"></i></div>'
+        );
+
+        // Insertar el botón en la ubicación deseada
+        customButton.insertBefore("#icono-filtro");
+
+        // Eliminar el botón no funcional
+        $("#icono-visibilidad, #btn-colvis").remove();
+
+        // Evento para abrir/cerrar el menú personalizado
+        customButton.on("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Si el menú está visible, ocultarlo
+          if (customColvisMenu.is(":visible")) {
+            customColvisMenu.hide();
+            return;
+          }
+
+          // Posicionar el menú debajo del botón
+          var buttonPos = $(this).offset();
+          customColvisMenu.css({
+            top: buttonPos.top + $(this).outerHeight() + 5,
+            left: buttonPos.left,
+          });
+
+          // Llenar el menú con las columnas disponibles
+          customColvisMenu.empty();
+
+          // Añadir un título
+          customColvisMenu.append(
+            '<div style="font-weight:bold; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">Mostrar/Ocultar columnas</div>'
+          );
+
+          // Añadir una opción para cada columna (excepto la primera)
+          table.columns().every(function (index) {
+            if (index > 0) {
+              // Excluir la primera columna
+              var column = this;
+              var isVisible = column.visible();
+              var header = $(column.header()).text().trim();
+
+              var checkbox = $(
+                '<div style="margin:5px 0;">' +
+                  '<label style="display:flex; align-items:center;">' +
+                  '<input type="checkbox" ' +
+                  (isVisible ? "checked" : "") +
+                  "> " +
+                  '<span style="margin-left:5px;">' +
+                  header +
+                  "</span>" +
+                  "</label></div>"
+              );
+
+              checkbox.find("input").data("column-index", index);
+              checkbox.find("input").on("change", function (e) {
+                e.stopPropagation();
+                var colIdx = $(this).data("column-index");
+                var visible = $(this).prop("checked");
+                table.column(colIdx).visible(visible);
+
+                // Redimensionar para corregir anchos después del cambio
+                table.columns.adjust().draw();
+              });
+
+              customColvisMenu.append(checkbox);
+            }
+          });
+
+          // Mostrar el menú
+          customColvisMenu.show();
+
+          // Re-inicializar tooltips si es necesario
+          if (typeof initializeCustomTooltips === "function") {
+            initializeCustomTooltips();
+          }
+        });
+
+        // Cerrar el menú al hacer clic fuera de él
+        $(document).on("click", function (e) {
+          if (
+            !$(e.target).closest(".custom-colvis-menu, #btn-colvis-custom")
+              .length
+          ) {
+            customColvisMenu.hide();
+          }
+        });
+
+        // Cerrar el menú con la tecla ESC
+        $(document).on("keydown", function (e) {
+          if (e.key === "Escape") {
+            customColvisMenu.hide();
+          }
+        });
+      }, 300);
     },
     pageLength: 15,
     lengthMenu: [
@@ -209,7 +317,7 @@ $(document).ready(function () {
       );
     },
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with
     ordering: true,
     info: true,
     scrollX: true,
@@ -308,33 +416,44 @@ $(document).ready(function () {
       {
         extend: "colvis",
         text: '<i class="fa fa-eye"></i>',
-        titleAttr: "Column visibility",
         collectionLayout: "fixed columns",
         columns: ":not(:first-child)",
+        className: "icono-buscador",
+        attr: {
+          "data-tooltip": "Mostrar/ocultar columnas",
+          id: "btn-colvis",
+        },
+        // Override the default button rendering
+        init: function (api, node, config) {
+          $(node).removeClass("dt-button");
+          $(node).find(".dt-down-arrow").remove();
+        },
       },
     ],
   });
 
   // Mantener fijos los controles de paginación
-  $(window).scroll(function() {
-    var tableBottom = $('.datatable-container').offset().top + $('.datatable-container').height();
+  $(window).scroll(function () {
+    var tableBottom =
+      $(".datatable-container").offset().top +
+      $(".datatable-container").height();
     var scrollPosition = $(window).scrollTop() + $(window).height();
-    
+
     if (scrollPosition < tableBottom) {
       // Fijar los controles en la parte inferior
-      $('.dataTables_paginate, .dataTables_info, .dataTables_length')
-        .css('position', 'fixed')
-        .css('bottom', '0')
-        .css('background', '#fff')
-        .css('width', $('.datatable-container').width())
-        .css('z-index', '10')
-        .css('padding', '8px 0')
-        .css('box-shadow', '0 -2px 5px rgba(0,0,0,0.1)');
+      $(".dataTables_paginate, .dataTables_info, .dataTables_length")
+        .css("position", "fixed")
+        .css("bottom", "0")
+        .css("background", "#fff")
+        .css("width", $(".datatable-container").width())
+        .css("z-index", "10")
+        .css("padding", "8px 0")
+        .css("box-shadow", "0 -2px 5px rgba(0,0,0,0.1)");
     } else {
       // Volver a la posición normal
-      $('.dataTables_paginate, .dataTables_info, .dataTables_length')
-        .css('position', 'static')
-        .css('box-shadow', 'none');
+      $(".dataTables_paginate, .dataTables_info, .dataTables_length")
+        .css("position", "static")
+        .css("box-shadow", "none");
     }
   });
 
@@ -346,8 +465,13 @@ $(document).ready(function () {
     table.columns.adjust().draw();
   }, 200);
 
-  $("#icono-visibilidad").on("click", function () {
-    table.button(".buttons-colvis").trigger();
+  // Asegurar de que los botones de DataTables estén inicializados correctamente
+  $(document).on("click", function (e) {
+    if (
+      !$(e.target).closest(".custom-columns-menu, #icono-visibilidad").length
+    ) {
+      $(".custom-columns-menu").remove();
+    }
   });
 
   new $.fn.dataTable.FixedColumns(table, {
@@ -357,18 +481,18 @@ $(document).ready(function () {
 });
 
 // Ajusta las columnas después de la carga completa
-$(window).on('load', function() {
+$(window).on("load", function () {
   if (table && table.columns) {
-      setTimeout(function() {
-          table.columns.adjust().draw();
-      }, 500); // Un pequeño retraso puede ayudar
+    setTimeout(function () {
+      table.columns.adjust().draw();
+    }, 500); // Un pequeño retraso puede ayudar
   }
 });
 
 // Ajusta las columnas si el tamaño de la ventana cambia
-$(window).on('resize', function() {
+$(window).on("resize", function () {
   if (table) {
-      table.columns.adjust().draw();
+    table.columns.adjust().draw();
   }
 });
 
