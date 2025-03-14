@@ -81,15 +81,16 @@ function formatDateForDisplay($mysqlDate)
 }
 
 // Función para implementar el soft delete
-function softDeleteRegistros($conexion, $ids) {
+function softDeleteRegistros($conexion, $ids)
+{
     $ids = array_map('intval', $ids);
     $ids_str = implode(',', $ids);
-    
+
     $sql = "UPDATE coord_per_prof 
             SET Papelera = 'inactivo', 
                 Fecha_Modificacion = CURRENT_TIMESTAMP 
             WHERE ID IN ($ids_str)";
-    
+
     return mysqli_query($conexion, $sql);
 }
 
@@ -97,12 +98,12 @@ function softDeleteRegistros($conexion, $ids) {
 // function restaurarRegistros($conexion, $ids) {
 //     $ids = array_map('intval', $ids);
 //     $ids_str = implode(',', $ids);
-    
+
 //     $sql = "UPDATE coord_per_prof 
 //             SET Papelera = 'activo', 
 //                 Fecha_Modificacion = CURRENT_TIMESTAMP 
 //             WHERE ID IN ($ids_str)";
-    
+
 //     return mysqli_query($conexion, $sql);
 // }
 
@@ -162,37 +163,37 @@ function softDeleteRegistros($conexion, $ids) {
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()">
+                <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()">
+                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
                     <i class="fa fa-undo" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-papelera" onclick="mostrarModalRegistrosEliminados()">
+                <div class="icono-buscador" id="icono-papelera" onclick="mostrarModalRegistrosEliminados()" data-tooltip="Ver registros eliminados">
                     <i class="fa fa-trash-restore" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-visibilidad">
+                <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
                     <i class="fa fa-eye" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-filtro">
+                <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
                     <i class="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()">
+                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
                     <i class="fa fa-add" aria-hidden="true"></i>
                 </div>
                 <!-- <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </div> -->
-                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()">
+                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()">
+                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()" data-tooltip="Descargar Excel">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <div class="Tabla datatable-container">
         <div class="table-container">
             <div class="custom-search-container"></div>
@@ -379,39 +380,39 @@ function softDeleteRegistros($conexion, $ids) {
     <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
     <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
 
-<!-- jQuery y Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- DataTables Core -->
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <!-- DataTables Core -->
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
-<!-- DataTables Plugins-->
-<script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
-<script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+    <!-- DataTables Plugins-->
+    <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
-<!-- Scripts personalizados-->
-<script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-<script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-<script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js"></script>
-<script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
-<script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-<script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js"></script>
+    <!-- Scripts personalizados-->
+    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
+    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
+    <script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js"></script>
+    <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
+    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
+    <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js"></script>
 
-<!-- Script para cambiar el encabezado por responsividad -->
-<script>
-    window.addEventListener("resize", function() {
-        var tituloContainer = document.querySelector(".encabezado-centro");
-        if (window.innerWidth <= 768) {
-            tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
-        } else {
-            tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
-        }
-    });
-</script>
+    <!-- Script para cambiar el encabezado por responsividad -->
+    <script>
+        window.addEventListener("resize", function() {
+            var tituloContainer = document.querySelector(".encabezado-centro");
+            if (window.innerWidth <= 768) {
+                tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
+            } else {
+                tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
+            }
+        });
+    </script>
 
-<?php include("./template/footer.php"); ?>
+    <?php include("./template/footer.php"); ?>
