@@ -57,22 +57,22 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->SetX(37);
         $pdf->SetFont('helvetica', 'B', 11);
-        $pdf->Cell(0, 6, 'SOLICITUD DE PROPUESTA', 0, 1);
+        $pdf->Cell(0, 6, 'SOLICITUD DE BAJA', 0, 1);
         $pdf->SetX(37);
         $pdf->SetFont('helvetica', '', 9);
         $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);
 
         // Oficio y fecha
-        $pdf->SetXY(130, 10);
+        $pdf->SetXY(125, 10);
         $pdf->SetFont('helvetica', 'B', 10);
-        $pdf->Cell(30, 7, 'OFICIO NUM:', 0, 0, 'L');
+        // Fila de títulos
+        $pdf->Cell(35, 8, 'OFICIO NUM', $border, 0, 'L');
+        $pdf->Cell(35, 8, 'FECHA', $border, 1, 'L');
+        // Fila de valores
+        $pdf->SetX(125);
         $pdf->SetFont('', '');
-        $pdf->Cell(30, 7, $solicitud['OFICIO_NUM_PROP'], 0, 1);
-        $pdf->SetX(130);
-        $pdf->SetFont('helvetica', 'B', 10);
-        $pdf->Cell(30, 7, 'FECHA:', 0, 0, 'L');
-        $pdf->SetFont('', '');
-        $pdf->Cell(30, 7, date('d/m/Y', strtotime($solicitud['FECHA_SOLICITUD_P'])), 0, 1);
+        $pdf->Cell(35, 8, $solicitud['OFICIO_NUM_PROP'], $border, 0, 'L');
+        $pdf->Cell(35, 8, date('d/m/Y', strtotime($solicitud['FECHA_SOLICITUD_P'])), $border, 1, 'L');
 
         // Departamento
         $pdf->SetXY(37, 28);
@@ -90,11 +90,11 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->SetFont('helvetica', '', 10);
         $pdf->Cell(0, 8, 'C. RECTOR GENERAL DE LA UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->Cell(0, 8, 'PRESENTE', 0, 1);
-        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'J');
+        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'L');
         $pdf->Ln(4);        
         
         // Tabla de profesor actual
-        $header1 = ['PROFESIÓN', 'AP. PATERNO', 'AP. MATERNO', 'NOMBRE(S)', 'COD.', 'DÍA', 'MES', 'AÑO'];
+        $header1 = ['PROFESIÓN', 'AP. PATERNO', 'AP. MATERNO', 'NOMBRE(S)', 'CÓDIGO.', 'DÍA', 'MES', 'AÑO'];
         $widths1 = [22, 30, 25, 48, 20, 15, 15, 15]; // Total: 190mm
         $pdf->SetFont('helvetica', 'B', 9);
 
@@ -117,8 +117,8 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Ln(4);
         
         // Segunda tabla (Descripción puesto)
-        $header2 = ['DESCRIPCIÓN DEL PUESTO', 'CÓDIGO', 'CLASIFICACIÓN'];
-        $widths2 = [125, 30, 35]; // Total: 180mm
+        $header2 = ['DESCRIPCIÓN DEL PUESTO QUE OCUPA', 'CÓDIGO', 'CLASIFICACIÓN'];
+        $widths2 = [125, 30, 35]; // Total: 190mm
         $pdf->SetFont('helvetica', 'B', 9);
         
         foreach ($header2 as $i => $col) {
@@ -135,7 +135,7 @@ function generarPDFPropuesta($conexion, $folio) {
         
         // Tercera tabla (Detalles del puesto)
         $header3 = ['HRS SEM.', 'CATEGORIA', 'CARRERA', 'CRN', 'N° PUESTO', 'CARGO A.T.C.'];
-        $widths3 = [20, 50, 60, 15, 20, 25]; // Total: 190mm (ajustado para margen)
+        $widths3 = [20, 45, 60, 20, 20, 25]; // Total: 190mm (ajustado para margen)
         $pdf->SetFont('helvetica', 'B', 9);
 
         // Configurar autoajuste de texto
@@ -159,7 +159,7 @@ function generarPDFPropuesta($conexion, $folio) {
 
         // Cuarta tabla (Motivo)
         $header4 = ['EN SUSTITUCIÓN:', 'CÓDIGO', 'NOMBRE PROFESOR SUSTITUTO', 'CAUSA'];
-        $widths4 = [30, 20, 100, 40]; // Total: 180mm
+        $widths4 = [30, 20, 100, 40]; // Total: 190mm
         $pdf->SetFont('helvetica', 'B', 9);
         
         foreach ($header4 as $i => $col) {
@@ -183,16 +183,16 @@ function generarPDFPropuesta($conexion, $folio) {
         $periodo_desde = $solicitud['PERIODO_ASIG_DESDE_P'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_DESDE_P'])) : 'SIN FECHA';
         $periodo_hasta = $solicitud['PERIODO_ASIG_HASTA_P'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_HASTA_P'])) : 'SIN FECHA';
         
-        // Anchos calculados para 180mm total
+        // Anchos calculados para 190mm total
         $pdf->SetFont('', 'B', 9);
-        $pdf->Cell(65, 8, 'PERIODO DE ASIGNACIÓN DESDE:', $border, 0, 'L');
+        $pdf->Cell(65, 8, 'PERIODO DE ASIGNACIÓN DESDE:', 0, 0, 'L');
         $pdf->SetFont('', '', 9);
-        $pdf->Cell(30, 8, $periodo_desde, $border, 0, 'L');
-        
+        $pdf->Cell(50, 8, $periodo_desde, $border, 0, 'L');
+
         $pdf->SetFont('', 'B', 9);
-        $pdf->Cell(20, 8, 'HASTA:', $border, 0, 'L');
+        $pdf->Cell(25, 8, 'HASTA:', 0, 0, 'L');  // Ancho aumentado
         $pdf->SetFont('', '', 9);
-        $pdf->Cell(30, 8, $periodo_hasta, $border, 1, 'L');
+        $pdf->Cell(35, 8, $periodo_hasta, $border, 1, 'L'); // Ancho aumentado
 
         
         // Firmas (igual que baja)
