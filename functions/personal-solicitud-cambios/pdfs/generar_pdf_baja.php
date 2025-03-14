@@ -63,7 +63,7 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
     $pdf->SetX(37);
     $pdf->SetFont('helvetica', 'B', 11);
-    $pdf->Cell(0, 6, 'SOLICITUD DE PROPUESTA', 0, 1);
+    $pdf->Cell(0, 6, 'SOLICITUD DE BAJA', 0, 1);
     $pdf->SetX(37);
     $pdf->SetFont('helvetica', '', 9);
     $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);

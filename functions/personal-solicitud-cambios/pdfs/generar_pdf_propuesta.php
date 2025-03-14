@@ -57,7 +57,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->SetX(37);
         $pdf->SetFont('helvetica', 'B', 11);
-        $pdf->Cell(0, 6, 'SOLICITUD DE BAJA', 0, 1);
+        $pdf->Cell(0, 6, 'SOLICITUD DE PROPUESTA', 0, 1);
         $pdf->SetX(37);
         $pdf->SetFont('helvetica', '', 9);
         $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);
@@ -90,7 +90,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->SetFont('helvetica', '', 10);
         $pdf->Cell(0, 8, 'C. RECTOR GENERAL DE LA UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->Cell(0, 8, 'PRESENTE', 0, 1);
-        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'L');
+        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'J');
         $pdf->Ln(4);        
         
         // Tabla de profesor actual
@@ -190,7 +190,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Cell(50, 8, $periodo_desde, $border, 0, 'L');
 
         $pdf->SetFont('', 'B', 9);
-        $pdf->Cell(25, 8, 'HASTA:', 0, 0, 'L');  // Ancho aumentado
+        $pdf->Cell(30, 8, 'HASTA:', 0, 0, 'L');  // Ancho aumentado
         $pdf->SetFont('', '', 9);
         $pdf->Cell(35, 8, $periodo_hasta, $border, 1, 'L'); // Ancho aumentado
 
