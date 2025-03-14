@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (noDataRow) {
             tableBody.appendChild(noDataRow.cloneNode(true));
             updateSelectionCount();
+            ajustarColumnas();
             return;
         }
 
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         updateSelectionCount();
+        ajustarColumnas();
     }
     
     // Manejador del checkbox "Seleccionar Todo"

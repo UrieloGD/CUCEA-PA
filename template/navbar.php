@@ -87,17 +87,25 @@ function generateColorForUser($userId)
                 <li class="navbar-item flexbox-left">
                     <?php
                     if (basename($_SERVER['PHP_SELF']) == 'home.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./home.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>
+                            <a class='navbar-item-inner flexbox-left' href='./home.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="hover-icon">
+                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Inicio</span>
+                            </a>
+                        </div>';    
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./home.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-home.png" width="50%" height="50%" alt="icono-home" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Inicio</span>
+                            </a>';
                     }
-                    ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox ">
-                        <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-home.png' width='50%' height='50%' alt='icono-home' class='hover-icon'>
-                        <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-home-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
-                    </div>
-                    <span class='link-text'>Inicio</span>
-                    </a>
+                    ?>   
                 </li>
 
                 <li class="navbar-item flexbox-left">
@@ -109,9 +117,22 @@ function generateColorForUser($userId)
                             // Obtener el nombre del departamento desde la sesión
                             $nombre_departamento = $_SESSION['Nombre_Departamento'];
                             if (basename($_SERVER['PHP_SELF']) == 'plantilla.php') {
-                                echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'><div class='indicador'></div>";
+                                echo "<div class='indicador'>
+                                    <a class='navbar-item-inner flexbox-left' href='./plantilla.php'>";
+                                echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
+                                    </div>
+                                    <span class="link-text-select">Plantilla</span>
+                                </div>';
                             } else {
                                 echo "<a class='navbar-item-inner flexbox-left' href='./plantilla.php'>";
+                                echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
+                                        </div>
+                                        <span class="link-text">Plantilla</span>
+                                    </a>';
                             }
                         } else {
                             // Manejar el caso en que no se encuentre asociado a ningún departamento
@@ -120,24 +141,45 @@ function generateColorForUser($userId)
                     } elseif ($rol_id == 2) {
                         // Si el usuario es secretaria administrativa, redirigir a plantillasPA
                         if (basename($_SERVER['PHP_SELF']) == 'admin-plantilla.php') {
-                            echo "<div class='indicador'><a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'></div>";
+                            echo "<div class='indicador'>
+                                    <a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
+                                    </div>
+                                    <span class="link-text-select">Plantilla</span>
+                                </div>';
                         } else {
                             echo "<a class='navbar-item-inner flexbox-left' href='./admin-plantilla.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
+                                    </div>
+                                    <span class="link-text">Plantilla</span>
+                                </a>';
                         }
                     } else {
                         // Otros roles o manejo de errores aquí
                         if (basename($_SERVER['PHP_SELF']) == 'plantilla-CoordPers.php') {
-                            echo "<a class='navbar-item-inner flexbox-left' href='./plantilla-CoordPers.php'><div class='indicador'></div>";
+                            echo "<div class='indicador'>
+                                    <a class='navbar-item-inner flexbox-left' href='./plantilla-CoordPers.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
+                                    </div>
+                                    <span class="link-text-select">Plantilla</span>
+                                </div>';
                         } else {
                             echo "<a class='navbar-item-inner flexbox-left' href='./plantilla-CoordPers.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-plantilla" class="original-icon">
+                                    </div>
+                                    <span class="link-text">Plantilla</span>
+                                </a>';
                         }
                     }
                     ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-plantilla.png" width="50%" height="50%" alt="icono-plantilla" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-plantilla-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Plantilla</span>
                     </a>
                 </li>
 
@@ -146,16 +188,26 @@ function generateColorForUser($userId)
                     if ($rol_id == 3) { // Para Coordinación de Personal     
                         echo '<div class="dropdown-container">';
                         if (basename($_SERVER['PHP_SELF']) == 'data-departamentos.php' || basename($_SERVER['PHP_SELF']) == 'basededatos-CoordPers.php') {
-                            echo "<a class='navbar-item-inner flexbox-left dropdown-trigger'><div class='indicador'></div>";
+                            echo "<div class='indicador'>
+                                <a class='navbar-item-inner flexbox-left dropdown-trigger'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                </div>
+                                <span class="link-text-select">Bases de datos</span>
+                                </a>
+                            </div>';    
                         } else {
                             echo "<a class='navbar-item-inner flexbox-left dropdown-trigger'>";
-                        }
-                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
                                     <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
                                     <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                                </div>
-                                <span class="link-text">Bases de datos</span>
-                            </a>';
+                                    </div>
+                                    <span class="link-text">Bases de datos</span>
+                                </a>';
+                                
+                        }
+                         // Seccion del desplegable
                         echo '<div class="dropdown-menu">
                                 <div class="dropdown-item">
                                     <span class="tree-line">└</span>
@@ -171,36 +223,52 @@ function generateColorForUser($userId)
                                 </div>
                             </div>';
                         echo '</div>';
+
                     } elseif ($rol_id == 1) { // Para Jefe de Departamento
                         if (isset($_SESSION['Nombre_Departamento'])) {
                             if (basename($_SERVER['PHP_SELF']) == 'basesdedatos.php') {
-                                echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'><div class='indicador'></div>";
+                                echo "<div class='indicador'>";
+                                echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
+                                echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                    </div>
+                                    <span class="link-text-select">Bases de datos</span>
+                                    </a>
+                                </div>';    
                             } else {
                                 echo "<a class='navbar-item-inner flexbox-left' href='./basesdedatos.php'>";
+                                echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                        </div>
+                                        <span class="link-text">Bases de datos</span>
+                                    </a>';
                             }
                         } else {
                             echo "<a class='navbar-item-inner flexbox-left' href='#'>";
                         }
-                        echo '
-                            <div class="navbar-item-inner-icon-wrapper flexbox">
-                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                            </div>
-                            <span class="link-text">Bases de datos</span>
-                        </a>';
+
                     } elseif ($rol_id == 2) { // Para Secretaria Administrativa
                         if (basename($_SERVER['PHP_SELF']) == 'data-departamentos.php') {
-                            echo "<a class='navbar-item-inner flexbox-left' href='./data-departamentos.php'><div class='indicador'></div>";
+                            echo "<div class='indicador'>";
+                            echo "<a class='navbar-item-inner flexbox-left' href='./data-departamentos.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                </div>
+                                <span class="link-text-select">Bases de datos</span>
+                                </a>
+                            </div>';     
                         } else {
                             echo "<a class='navbar-item-inner flexbox-left' href='./data-departamentos.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
+                                    </div>
+                                    <span class="link-text">Bases de datos</span>
+                                </a>';
                         }
-                        echo '
-                            <div class="navbar-item-inner-icon-wrapper flexbox">
-                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-basededatos.png" width="50%" height="50%" alt="icono-registro" class="hover-icon">
-                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                            </div>
-                            <span class="link-text">Bases de datos</span>
-                        </a>';
                     }
                     ?>
                 </li>
@@ -210,17 +278,25 @@ function generateColorForUser($userId)
                     echo "<li class='navbar-item flexbox-left'>";
 
                     if (basename($_SERVER['PHP_SELF']) == 'profesores.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./profesores.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./profesores.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-profesores.png" width="50%" height="50%" alt="icono-profesores" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-profesores.png" width="50%" height="50%" alt="icono-profesores-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Profesores</span>
+                            </a>
+                        </div>';    
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./profesores.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-profesores.png" width="50%" height="50%" alt="icono-profesores" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png" width="50%" height="50%" alt="icono-profesores-hove" class="original-icon">
+                                </div>
+                                <span class="link-text">Profesores</span>
+                            </a>';   
                     }
-
-                    echo "<div class='navbar-item-inner-icon-wrapper flexbox'>";
-                    echo "<img src='./Img/Icons/iconos-navbar/iconos-azules/icono-profesores.png' width='50%' height='50%' alt='icono-profesores' class='hover-icon'>";
-                    echo "<img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>";
-                    echo "</div>";
-                    echo "<span class='link-text'>Profesores</span>";
-                    echo "</a>";
+                    
                     echo "</li>";
                 }
                 ?>
@@ -228,33 +304,49 @@ function generateColorForUser($userId)
                 <li class="navbar-item flexbox-left">
                     <?php
                     if (basename($_SERVER['PHP_SELF']) == 'calendario.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./calendario.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./calendario.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" width="50%" height="50%" alt="icono-calendario" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" width="50%" height="50%" alt="icono-calendario-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Calendario</span>
+                            </a>
+                        </div>';   
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./calendario.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" width="50%" height="50%" alt="icono-calendario" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png" width="50%" height="50%" alt="icono-calendario-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Calendario</span>
+                            </a>';  
                     }
                     ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-calendario.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Calendario</span>
-                    </a>
                 </li>
 
                 <li class="navbar-item flexbox-left">
                     <?php
                     if (basename($_SERVER['PHP_SELF']) == 'espacios.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./espacios.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./espacios.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Espacios</span>
+                            </a>
+                        </div>';  
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./espacios.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-calendario" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-calendario-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Espacios</span>
+                            </a>'; 
                     }
                     ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-espacios.png" width="50%" height="50%" alt="icono-espacios" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-espacios-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Espacios</span>
-                    </a>
                 </li>
 
                 <?php
@@ -262,18 +354,25 @@ function generateColorForUser($userId)
                 if ($rol_id == 3) {
                     echo "<li class='navbar-item flexbox-left'>";
                     if (basename($_SERVER['PHP_SELF']) == 'horas-comparacion.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-horas.png" width="50%" height="50%" alt="icono-horas" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-horas.png" width="50%" height="50%" alt="icono-horas-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Revisión de horas</span>
+                            </a>
+                        </div>';
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./horas-comparacion.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-horas.png" width="50%" height="50%" alt="icono-horas" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-horas-b.png" width="50%" height="50%" alt="icono-horas-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Revisión de horas</span>
+                            </a>'; 
                     }
-                    echo "
-                        <div class='navbar-item-inner-icon-wrapper flexbox'>
-                            <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-horas.png' width='50%' height='50%' alt='icono-horas' class='hover-icon'>
-                            <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-horas-b.png' width='50%' height='50%' alt='icono-horas-hover' class='original-icon'>
-                        </div>
-                        <span class='link-text'>Revisión de horas</span>
-                        </a>
-                    </li>";
+                    echo "</li>";
                 }
                 ?>
 
@@ -282,85 +381,101 @@ function generateColorForUser($userId)
                 if ($rol_id == 1 || $rol_id == 3) {
                     echo "<li class='navbar-item flexbox-left'>";
                     if (basename($_SERVER['PHP_SELF']) == 'personal-solicitud-cambios.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png" width="50%" height="50%" alt="icono-solicitudes" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png" width="50%" height="50%" alt="icono-solicitudes-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Solicitudes</span>
+                            </a>
+                        </div>';
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./personal-solicitud-cambios.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png" width="50%" height="50%" alt="icono-solicitudes" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png" width="50%" height="50%" alt="icono-solicitudes-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Solicitudes</span>
+                            </a>'; 
                     }
-                    echo
-                    "<div class='navbar-item-inner-icon-wrapper flexbox'>
-                            <img src='./Img/Icons/iconos-navbar/iconos-azules/icono-solicitudes.png' width='50%' height='50%' alt='icono-guia' class='hover-icon'>
-                            <img src='./Img/Icons/iconos-navbar/iconos-blancos/icono-solicitudes-b.png' width='50%' height='50%' alt='icono-home-hover' class='original-icon'>
-                        </div>
-                        <span class='link-text'>Solicitudes</span>
-                    </a>
-                </li>";
+                    echo "</li>";
                 }
                 ?>
 
                 <li class="navbar-item flexbox-left">
                     <?php
                     if (basename($_SERVER['PHP_SELF']) == 'dashboard-oferta.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./dashboard-oferta.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./dashboard-oferta.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Oferta</span>
+                            </a>
+                        </div>';
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./dashboard-oferta.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-oferta-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Oferta</span>
+                            </a>'; 
                     }
                     ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-oferta.png" width="50%" height="50%" alt="icono-oferta" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Oferta</span>
-                    </a>
                 </li>
 
                 <li class="navbar-item flexbox-left">
                     <?php
                     if (basename($_SERVER['PHP_SELF']) == 'guiaPA.php') {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'><div class='indicador'></div>";
+                        echo "<div class='indicador'>";
+                        echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia-hover" class="original-icon">
+                            </div>
+                            <span class="link-text-select">Guía</span>
+                            </a>
+                        </div>';
                     } else {
                         echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>";
+                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
+                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-guia-hover" class="original-icon">
+                                </div>
+                                <span class="link-text">Guía</span>
+                            </a>'; 
                     }
                     ?>
-                    <div class="navbar-item-inner-icon-wrapper flexbox">
-                        <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
-                        <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-home-hover" class="original-icon">
-                    </div>
-                    <span class="link-text">Guía</span>
-                    </a>
                 </li>
 
-                <!-- Duplicado por alguna razon -->
-                <!-- <li class="navbar-item flexbox-left">
-                    <a href="#">
-                        <div class="navbar-profile-icon flexbox profile-icon-transition" id="profile-icon">
-                            <?php
-                            $nombreInicial = strtoupper(substr($_SESSION['Nombre'], 0, 1));
-                            $apellidoInicial = strtoupper(substr($_SESSION['Apellido'], 0, 1));
-                            $iniciales = $nombreInicial . $apellidoInicial;
-                            $userId = $_SESSION['Codigo'];
-                            $backgroundColor = generateColorForUser($userId);
-                            echo "<span style='background-color: $backgroundColor;'>$iniciales</span>";
-                            ?>
-                        </div>
-                    </a>
-                </li> -->
                 <?php
                 if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
                 ?>
                     <li class="navbar-item flexbox-left">
                         <?php
                         if (basename($_SERVER['PHP_SELF']) == 'admin-home.php') {
-                            echo "<a class='navbar-item-inner flexbox-left' href='./admin-home.php'><div class='indicador'></div>";
+                            echo "<div class='indicador'>";
+                            echo "<a class='navbar-item-inner flexbox-left' href='./admin-home.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" width="50%" height="50%" alt="icono-admin" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" width="50%" height="50%" alt="icono-admin-hover" class="original-icon">
+                                </div>
+                                <span class="link-text-select">Admin</span>
+                                </a>
+                            </div>';   
                         } else {
                             echo "<a class='navbar-item-inner flexbox-left' href='./admin-home.php'>";
+                            echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" width="50%" height="50%" alt="icono-admin" class="hover-icon">
+                                    <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-admin-b.png" width="50%" height="50%" alt="icono-admin-hover" class="original-icon">
+                                    </div>
+                                    <span class="link-text">Admin</span>
+                                </a>';     
                         }
                         ?>
-                        <div class="navbar-item-inner-icon-wrapper flexbox">
-                            <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-admin.png" width="50%" height="50%" alt="icono-admin" class="hover-icon">
-                            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-admin-b.png" width="50%" height="50%" alt="icono-admin-hover" class="original-icon">
-                        </div>
-                        <span class="link-text">Admin</span>
-                        </a>
                     </li>
                 <?php
                 }
@@ -403,7 +518,11 @@ function generateColorForUser($userId)
                     e.preventDefault();
                     e.stopPropagation();
 
-                    const menu = this.nextElementSibling;
+                    // Buscamos el contenedor padre
+                    const container = this.closest('.dropdown-container');
+                    // Buscamos el menú dentro del contenedor
+                    const menu = container.querySelector('.dropdown-menu');
+                    
                     const isExpanded = menu.classList.contains('show');
 
                     // Primero removemos la clase show de todos los menús
