@@ -221,8 +221,8 @@ $result = $stmt->get_result();
 </script>
 
 <!-- CSS base -->
-<link rel="stylesheet" href="./CSS/basesdedatos.css">
-<link rel="stylesheet" href="./CSS/modal-añadir-registro.css">
+<link rel="stylesheet" href="./CSS/basesdedatos/basesdedatos.css">
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-añadir-registro.css">
 <link rel="stylesheet" href="./CSS/basesdedatos/modal-registros-eliminados.css">
 
 <!-- DataTables CSS Core -->
