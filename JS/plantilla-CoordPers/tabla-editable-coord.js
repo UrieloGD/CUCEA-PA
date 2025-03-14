@@ -4,6 +4,11 @@ let dragInProgress = false;
 let cellsToFill = [];
 let fillHandleVisible = false;
 
+// Variables para portapapeles y el historias de acciones
+let clipboard = null;
+let undoStack = [];
+const MAX_UNDO_STACK = 50;
+
 const columnMap = {
   ID: "ID",
   CODIGO: "Codigo",
@@ -211,6 +216,266 @@ console.log("User role:", document.getElementById("user-role")?.value);
     }
   });
 }
+
+// función para detectar los comandos shortcut
+function setupKeyboardShortcuts(){
+  document.addEventListener('keydown', function(event) {
+    // Solo procesa si tenemos una celda activa
+    if(!activeCell) return;
+
+    // Ctrl + C (Copiar)
+    if (event.ctrlKey && event.key === 'c') {
+      event.preventDefault();
+      copySelectedCell();
+      return;
+    }
+
+    // Ctrl + X (Cortar)
+    if(event.ctrlKey && event.key === 'x'){
+      event.preventDefault();
+      cutSelectedCell();
+      return;
+    }
+
+    // Ctrl + V (Pegar)
+    if(event.ctrlKey && event.key === 'v'){
+      event.preventDefault();
+      pasteToSelectedCell();
+      return;
+    }
+
+    // Ctrl + Z (Deshacer)
+    if(event.ctrlKey && event.key === 'z'){
+      event.preventDefault();
+      undoLastAction();
+      return;
+    }
+  });
+}
+
+// Función para copiar el contenido de la celda seleccionada
+function copySelectedCell() {
+  if(!activeCell) return;
+
+  clipboard = {
+    text: activeCell.textContent,
+    sourceCell: activeCell
+  };
+
+  // Muestra el indicador visual de copiado
+  showFeedbackAnimation(activeCell, 'copied');
+}
+
+// Función para cortar el contenido de la celda seleccionada
+function cutSelectedCell() {
+  if(!activeCell) return;
+
+  // Guarda el valor actual para deshacer
+  saveActionForUndo({
+    type: 'edit',
+    cell: activeCell,
+    previousValue: activeCell.textContent,
+    newValue: ''
+  });
+
+  // guardar en el portapapeles
+  clipboard = {
+    text: activeCell.textContent,
+    sourceCell: activeCell
+  };
+
+  // Limpiar la celda
+  const originalValue = activeCell.getAttribute('data-original-value');
+  activeCell.textContent = '';
+
+  // Marca como cambiada
+  if(activeCell.textContent !== originalValue){
+    activeCell.style.backgroundColor = "#FFFACD";
+    changedCells.add(activeCell);
+    showSaveButton();
+    showEditIcons();
+  }
+
+  // Mostrar indicador visual
+  showFeedbackAnimation(activeCell, 'cut');
+}
+
+// Función para pegar el contenido en la celda seleccionada
+function pasteToSelectedCell() {
+  if(!activeCell || !clipboard) return;
+
+  // No se puede pegar si se ingresa en modo edición
+  if (editMode) {
+    exitEditMode();
+  }
+
+  // Guarda el valor actual para deshacer
+  saveActionForUndo({
+    type: 'edit',
+    cell: activeCell, 
+    previousValue: activeCell.textContent,
+    newValue: clipboard.text
+  });
+
+  // Obtiene el nombre de la columna para validación
+  const columnName = getColumnName(activeCell);
+  
+  // Guarda el texto original antes de validarlo
+  let originalText = clipboard.text;
+  let newText = originalText;
+
+  // Aplica validaciones según el tipo de columna
+  const maxLength = maxLengths[columnName] || 60;
+
+  switch (columnName) {
+    case "CODIGO":
+    case "HORAS_FRENTE_GRUPO":
+    case "HORAS_DEFINITIVAS":
+    case "TELEFONO_PARTICULAR":
+    case "TELEFONO_OFICINA":
+    case "CP":
+    case "NO_IMSS":
+    case "AÑO":
+    case "OTRO_AÑO":
+    case "OTRO_AÑO_ALTERNATIVO":
+    case "PROESDE_24_25":
+      newText = newText.replace(/\D/g, ""); // Permitir solo dígitos
+      break;
+    case "INICIO":
+    case "FIN":
+    case "FECHA_NACIMIENTO":
+      // No modificar el texto, se manejará con un calendario
+      break;
+    default:
+      // Convertir a mayúsculas
+      newText = newText.toUpperCase();
+      break;
+  }
+
+  // Limitar la longitud
+  if(newText.length > maxLength){
+    newText = newText.slice(0, maxLength);
+  }
+
+  // Asigna el valor validado
+  activeCell.textContent = newText;
+
+  // Marcar como cambiaba
+  const originalValue = activeCell.getAttribute('data-original-value');
+  if (activeCell.textContent !== originalValue) {
+    activeCell.style.backgroundColor = "#FFFACD";
+    changedCells.add(activeCell);
+    showSaveButton();
+    showEditIcons();
+  }
+
+  // Mostrar indicador visual
+  showFeedbackAnimation(activeCell, 'pasted');
+}
+
+function saveActionForUndo(action) {
+  // Añade la acción al inicio del array
+  undoStack.unshift(action);
+
+  // Limita el tamaño del historial
+  if (undoStack.length > MAX_UNDO_STACK) {
+    undoStack.pop();
+  }
+}
+
+// Función para deshacer la última acción
+function undoLastAction() {
+  if(undoStack.length === 0) return;
+
+  // Obtiene la última acción
+  const action = undoStack.shift();
+
+  if (action.type === 'edit') {
+    // Restaurar el valor interior
+    action.cell.textContent = action.previousValue;
+
+    // Verifica si vuelve al valor original
+    const originalValue = action.cell.getAttribute('data-original-value');
+    if (action.cell.textContent === originalValue) {
+      action.cell.style.backgroundColor = "";
+      changedCells.delete(action.cell);
+      if (changedCells.size === 0) {
+        hideEditIcons();
+      }
+    } else {
+      action.cell.style.backgroundColor = "#FFFACD";
+      changedCells.add(action.cell);
+      showSaveButton();
+      showEditIcons();
+    }
+
+    // Muestra el indicador visual de deshacer
+    showFeedbackAnimation(action.cell, 'undone');
+  }
+}
+
+function showFeedbackAnimation(cell, action) {
+  if(!cell) return;
+
+  // Crear un div para la animación
+  const feedback = document.createElement('div');
+  feedback.className = 'action-feedback';
+
+  // Configurar el mensaje según la acción
+  let message = '';
+  switch (action) {
+    case 'copied': message = 'Copiado'; break;
+    case 'cut': message = 'Cortado'; break;
+    case 'pasted': message = 'Pegado'; break;
+    case 'undone': message = 'Deshecho'; break;
+  }
+
+  feedback.textContent = message;
+
+  // Establece estilos
+  feedback.style.position = 'absolute';
+  feedback.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+  feedback.style.color = '#fff';
+  feedback.style.padding = '4px 8px';
+  feedback.style.borderRadius = '3px';
+  feedback.style.fontSize = '12px';
+  feedback.style.zIndex = '1000';
+  feedback.style.pointerEvents = 'none';
+
+  // Calcula la posición (encima de la celda)
+  const cellRect = cell.getBoundingClientRect();
+  const tableRect = document.getElementById('tabla-datos').getBoundingClientRect();
+
+  feedback.style.top = (cellRect.top - 25) + 'px';
+  feedback.style.left = (cellRect.left + (cellRect.width / 2) - 40) + 'px';
+
+  // Añadir el documento
+  document.body.appendChild(feedback);
+
+  // Configura la animación
+  feedback.style.opacity = '0';
+  feedback.style.transform = 'translateY(10px)';
+  feedback.style.transition = 'opacity 0.2s, transform 0.2s';
+
+  // Activa la animación después de un pequeño retraso
+  setTimeout(() => {
+    feedback.style.opacity = '1';
+    feedback.style.transform = 'translateY(0)';
+  }, 10);
+
+  // Se elimina despues de un tiempo
+  setTimeout(() => {
+    feedback.style.opacity = '0';
+    feedback.style.transform = 'translateY(-10px)';
+
+    setTimeout(() => {
+      if (feedback.parentNode) {
+        document.body.removeChild(feedback);
+      }
+    }, 200);
+  }, 1000);
+}
+
 
 // Manejo de selección y edición de celdas
 function handleCellClick(event) {
@@ -485,6 +750,27 @@ function enterEditMode(cell) {
   cell.focus();
 }
 
+// Modificación para guardar el estado antes de entrar en edición la función 'enterEditMode'
+
+const originalEnterEditMode = enterEditMode;
+enterEditMode = function(cell) {
+  if(!cell) return;
+
+  // Guarda el valor antes de entrar en edición
+  const previousValue = cell.textContent;
+
+  // Llamar a la función original
+  originalEnterEditMode.call(this, cell);
+
+  // Guarda un punto de referencia para deshacer
+  saveActionForUndo({
+    type: 'edit',
+    cell: cell,
+    previousValue: previousValue,
+    newValue: previousValue // Mismo valor, solo marca un punto en el historial
+  });
+};
+
 function exitEditMode() {
   if (activeCell && editMode) {
     // Desactivar la edición de la celda
@@ -609,6 +895,11 @@ function handleKeyNavigation(event) {
 // Eliminar el manejador al navegar
 const originalHandleKeyNavigation = handleKeyNavigation;
 handleKeyNavigation = function(event) {
+  // Si es uno de los atajos, no se procesa la navegación normal
+  if (event.ctrlKey && ['c', 'x', 'v', 'z'].includes(event.key)) {
+    return;
+  }
+
   // Guardar la celda activa actual antes de la navegación
   const prevActiveCell = activeCell;
   
@@ -766,6 +1057,26 @@ function updateCell(cell) {
   showEditIcons();
 }
 
+// Modificación para guarda el historial de deshacer para la función updateCell
+const originalUpdateCell = updateCell;
+updateCell = function(cell) {
+  // Guarda el valor antes de modificarlo
+  const previousValue = cell.textContent
+
+  // Llamar a la función original
+  originalUpdateCell.call(this, cell);
+
+  // Si el valor cambió, se guarda la acción
+  if (previousValue !== cell.textContent) {
+    saveActionForUndo({
+      type: 'edit',
+      cell: cell,
+      previousValue: previousValue,
+      newValue: cell.textContent
+    });
+  }
+};
+
 // Estilos CSS para las celdas seleccionadas
 function addExcelStyleCSS() {
   if (document.getElementById('excel-style-css')) return;
@@ -815,6 +1126,30 @@ function addExcelStyleCSS() {
   `;
   document.head.appendChild(style);
 }
+
+// Modificación para añadir estilos para las animaciones a la funcion de 'addExcelStyleCSS'
+const originalAddExcelStyleCSS = addExcelStyleCSS;
+addExcelStyleCSS = function(){
+  originalAddExcelStyleCSS();
+
+  if(document.getElementById('excel-shortcuts-css')) return;
+
+  const style = document.createElement('style');
+  style.id = 'excel-shortcuts-css';
+  style.textContent = `
+    .action-feedback {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      z-index: 1000;
+      pointer-events: none;
+    }
+  `;
+  document.head.appendChild(style);
+};
 
 function showCharacterCount(cell) {
   const columnName = getColumnName(cell);
@@ -1023,3 +1358,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 });
+
+// Modificación de la inicialización para incluir las nuevas funciones
+const originalDOMContentLoaded = document.addEventListener;
+document.addEventListener = function(event, callback) {
+  if (event === 'DOMContentLoaded') {
+    const originalCallback = callback;
+    callback = function() {
+      originalCallback();
+      setupKeyboardShortcuts();
+    };
+  }
+
+  return originalDOMContentLoaded.call(this, event, callback);
+};
