@@ -158,7 +158,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             }
 
             // Preparar la consulta SQL
-            $presentFields = array_merge(['Departamento_ID'], array_values($fieldMap));
+            $presentFields = array_merge(['Departamento_ID', 'PAPELERA'], array_values($fieldMap));
             $fields = implode(', ', $presentFields);
             $placeholders = implode(', ', array_fill(0, count($presentFields), '?'));
             $sql = "INSERT INTO $tabla_destino ($fields) VALUES ($placeholders)";
@@ -174,7 +174,10 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $successful_inserts = 0;
             
             for ($row = 2; $row <= $sheet->getHighestRow(); $row++) {
-                $rowData = ['Departamento_ID' => $departamento_id];
+                $rowData = [
+                    'Departamento_ID' => $departamento_id,
+                    'PAPELERA' => 'ACTIVO'
+                ];
                 foreach ($fieldMap as $columnIndex => $field) {
                     $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnIndex + 1);
                     $cellValue = $sheet->getCell($columnLetter . $row)->getCalculatedValue();
