@@ -495,6 +495,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_estudios_regionales (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -548,6 +549,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_finanzas (
     CUPO VARCHAR (3) NOT NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -601,6 +603,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_ciencias_sociales (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -654,6 +657,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_pale (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -707,6 +711,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_posgrados (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -760,6 +765,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_economía (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -813,6 +819,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_recursos_Humanos (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -866,6 +873,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_métodos_cuantitativos (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -919,6 +927,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_políticas_públicas (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -972,6 +981,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_administración (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1025,6 +1035,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_auditoría (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1078,6 +1089,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_mercadotecnia (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1131,6 +1143,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_impuestos (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1184,6 +1197,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_sistemas_de_información (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1237,6 +1251,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_turismo (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1290,6 +1305,7 @@ $sql = "CREATE TABLE IF NOT EXISTS data_contabilidad (
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
     EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 )";
 if (mysqli_query($conexion, $sql)) {
@@ -1367,7 +1383,8 @@ $sql = "CREATE TABLE IF NOT EXISTS coord_per_prof (
     Proesde_24_25 VARCHAR(15) NULL,
     A_partir_de VARCHAR(10) NULL,
     Fecha_ingreso VARCHAR(10) NULL,
-    Antiguedad VARCHAR(5) NULL
+    Antiguedad VARCHAR(5) NULL,
+    PAPELERA VARCHAR(5) NULL
 );";
 
 if (mysqli_query($conexion, $sql)) {
