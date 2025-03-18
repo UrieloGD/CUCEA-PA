@@ -1,24 +1,33 @@
-function mostrarFormularioAñadir() {
-  document.getElementById("modal-añadir").style.display = "block";
+// Función para inicializar la conversión de mayúsculas y minúsculas
+function inicializarFormatoTexto() {
+  // Obtenemos todos los campos de entrada de texto del formulario
+  const inputs = document.querySelectorAll('#form-añadir-registro input[type="text"]');
+  
+  // Para cada campo de texto, agregamos un evento input
+  inputs.forEach(input => {
+    input.addEventListener('input', function() {
+      // Verificamos que no sea un campo numérico por su nombre o ID
+      const camposNumericos = ['codigo', 'cp', 'edad', 'año', 'otro_año', 'otro_año_alternativo', 'horas_frente_grupo', 'horas_definitivas'];
+      if (!camposNumericos.includes(input.id)) {
+        // Convertimos el valor a mayúsculas
+        this.value = this.value.toUpperCase();
+      }
+    });
+  });
+  
+  // Obtenemos todos los campos de correo electrónico
+  const emailInputs = document.querySelectorAll('#form-añadir-registro input[type="email"]');
+  
+  // Para cada campo de correo, agregamos un evento input
+  emailInputs.forEach(input => {
+    input.addEventListener('input', function() {
+      // Convertimos el valor a minúsculas
+      this.value = this.value.toLowerCase();
+    });
+  });
 }
 
-function cerrarFormularioAñadir() {
-  document.getElementById("modal-añadir").style.display = "none";
-  document.getElementById("form-añadir-registro").reset(); // Limpiar el formulario al cerrar
-}
-
-// Cerrar el modal al hacer clic en la X
-document.querySelector(".close").onclick = function () {
-  cerrarFormularioAñadir();
-};
-
-// Cerrar el modal al hacer clic fuera de él
-window.onclick = function (event) {
-  if (event.target == document.getElementById("modal-añadir")) {
-    cerrarFormularioAñadir();
-  }
-};
-
+// Modificamos la función añadirRegistro para asegurar el formato correcto antes de enviar
 function añadirRegistro() {
   // Mostrar loader o deshabilitar botón
   const submitButton = document.querySelector(
@@ -42,6 +51,23 @@ function añadirRegistro() {
       submitButton.disabled = false;
       submitButton.textContent = "Guardar";
       return;
+    }
+  }
+
+  // Asegurar formato correcto de todos los campos
+  const camposNumericos = ['codigo', 'cp', 'edad', 'año', 'otro_año', 'otro_año_alternativo', 'horas_frente_grupo', 'horas_definitivas'];
+  const camposEmail = ['correo', 'correos_oficiales'];
+  
+  for (let pair of formData.entries()) {
+    const [key, value] = pair;
+    if (typeof value === 'string') {
+      if (camposEmail.includes(key)) {
+        // Emails en minúsculas
+        formData.set(key, value.toLowerCase());
+      } else if (!camposNumericos.includes(key)) {
+        // Texto en mayúsculas
+        formData.set(key, value.toUpperCase());
+      }
     }
   }
 
@@ -90,3 +116,28 @@ function añadirRegistro() {
       submitButton.textContent = "Guardar";
     });
 }
+
+// Llamamos a la función cuando el DOM esté cargado
+document.addEventListener('DOMContentLoaded', inicializarFormatoTexto);
+
+// Resto de funciones del archivo
+function mostrarFormularioAñadir() {
+  document.getElementById("modal-añadir").style.display = "block";
+}
+
+function cerrarFormularioAñadir() {
+  document.getElementById("modal-añadir").style.display = "none";
+  document.getElementById("form-añadir-registro").reset(); // Limpiar el formulario al cerrar
+}
+
+// Cerrar el modal al hacer clic en la X
+document.querySelector(".close").onclick = function () {
+  cerrarFormularioAñadir();
+};
+
+// Cerrar el modal al hacer clic fuera de él
+window.onclick = function (event) {
+  if (event.target == document.getElementById("modal-añadir")) {
+    cerrarFormularioAñadir();
+  }
+};

@@ -36,6 +36,33 @@ function normalizarNombreTabla($nombreDepartamento) {
     return $soloAlfanumericos;
 }
 
+// Función para convertir valores a mayúsculas, excepto fechas y ciertos campos numéricos
+function convertirAMayusculas($valor, $campo) {
+    // No convertir valores nulos
+    if ($valor === null) {
+        return null;
+    }
+    
+    // Lista de campos que NO deben convertirse a mayúsculas (fechas, horas, valores numéricos)
+    $camposExcluidos = [
+        'FECHA_INICIAL', 'FECHA_FINAL', 'HORA_INICIAL', 'HORA_FINAL',
+        'C_MIN', 'H_TOTALES', 'HORAS', 'CUPO'
+    ];
+    
+    // Si el campo está en la lista de excluidos, devolver el valor sin cambios
+    if (in_array($campo, $camposExcluidos)) {
+        return $valor;
+    }
+    
+    // Si es un valor numérico, no convertirlo
+    if (is_numeric($valor)) {
+        return $valor;
+    }
+    
+    // Para todos los demás campos, convertir a mayúsculas
+    return mb_strtoupper($valor, 'UTF-8');
+}
+
 $inserted_records = 0;
 
 if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
@@ -131,7 +158,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             }
 
             // Preparar la consulta SQL
-            $presentFields = array_merge(['Departamento_ID'], array_values($fieldMap));
+            $presentFields = array_merge(['Departamento_ID', 'PAPELERA'], array_values($fieldMap));
             $fields = implode(', ', $presentFields);
             $placeholders = implode(', ', array_fill(0, count($presentFields), '?'));
             $sql = "INSERT INTO $tabla_destino ($fields) VALUES ($placeholders)";
@@ -147,7 +174,10 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $successful_inserts = 0;
             
             for ($row = 2; $row <= $sheet->getHighestRow(); $row++) {
-                $rowData = ['Departamento_ID' => $departamento_id];
+                $rowData = [
+                    'Departamento_ID' => $departamento_id,
+                    'PAPELERA' => 'ACTIVO'
+                ];
                 foreach ($fieldMap as $columnIndex => $field) {
                     $columnLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($columnIndex + 1);
                     $cellValue = $sheet->getCell($columnLetter . $row)->getCalculatedValue();
@@ -163,6 +193,9 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                             }
                         }
                     }
+                    
+                    // Convertir a mayúsculas todos los valores de texto
+                    $cellValue = convertirAMayusculas($cellValue, $field);
                     
                     $rowData[$field] = $cellValue;
                 }
