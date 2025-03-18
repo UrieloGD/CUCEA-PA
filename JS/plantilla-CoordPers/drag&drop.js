@@ -37,7 +37,10 @@ form.addEventListener("submit", handleSubmit);
 async function handleFileSelect(e) {
   console.log("Evento de selección de archivo disparado", e.target.files);
   const filesArray = Array.from(e.target.files);
-  console.log("Archivos copiados:", filesArray.map(f => f.name));
+  console.log(
+    "Archivos copiados:",
+    filesArray.map((f) => f.name)
+  );
 
   // Reinicia el estado antes de procesar nuevos archivos
   resetUploadState();
@@ -66,50 +69,86 @@ async function handleDrop(e) {
   e.preventDefault();
   dropArea.classList.remove("active");
   dragText.textContent = "Arrastra tu archivo a subir aquí";
-  
+
   // Obtiene los archivos soltados y crea una copia como hicimos en handleFileSelect
   const filesArray = Array.from(e.dataTransfer.files);
-  console.log("Archivos soltados:", filesArray.map(f => f.name));
-  
+  console.log(
+    "Archivos soltados:",
+    filesArray.map((f) => f.name)
+  );
+
   // Reinicia el estado antes de procesar nuevos archivos
   resetUploadState();
-  
+
   // Procesa los archivos
   await handleFiles(filesArray);
 }
 
 // Ruta correcta al archivo de verificación
-const verificacionUrl = "/CUCEA-PA/functions/coord-personal-plantilla/plantilla/verificar-plantilla.php";
+const verificacionUrl =
+  "./functions/coord-personal-plantilla/plantilla/verificar-plantilla.php";
 
 // Función para verificar si ya existe una plantilla
 async function verificarPlantillaExistente() {
   try {
-    // Añadir un parámetro timestamp para evitar que el navegador use datos en caché
     const timestamp = new Date().getTime();
-    const url = `${verificacionUrl}?t=${timestamp}`; // Se agrega a la URL (?t=${timestamp}) para evitar que el navegador cargue datos antiguos de caché.
-    
-    // Configura los encabezados HTTP para asegurarse de que la respuesta no sea tomada de caché, sino obtenida directamente del servidor.
+    const url = `${verificacionUrl}?t=${timestamp}`;
+
+    console.log("Verificando plantilla en:", url);
+
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'Surrogate-Control': 'no-store'
-      }
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
     });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+
+    // Intenta procesar la respuesta como JSON
+    const responseText = await response.text();
+
+    // Busca una cadena JSON válida en la respuesta
+    // A veces PHP muestra advertencias antes del JSON real
+    let jsonStr = responseText;
+    const jsonStartPos = responseText.indexOf("{");
+    if (jsonStartPos > 0) {
+      jsonStr = responseText.substring(jsonStartPos);
     }
-    
-    const data = await response.json();
-    console.log("Respuesta de verificación:", data);
-    return data.existePlantilla;
+
+    try {
+      const data = JSON.parse(jsonStr);
+      console.log("Respuesta JSON procesada:", data);
+
+      if (data.error) {
+        console.warn("API devolvió error:", data.message);
+        showError(
+          "Error del servidor",
+          data.message || "Error al verificar la plantilla"
+        );
+        return true; // Asumimos que existe para prevenir subidas duplicadas
+      }
+
+      return data.existePlantilla;
+    } catch (jsonError) {
+      console.error(
+        "Error al parsear JSON:",
+        jsonError,
+        "Respuesta:",
+        responseText
+      );
+      showError(
+        "Error de formato",
+        "El servidor devolvió una respuesta no válida"
+      );
+      return true; // Asumimos que existe para prevenir subidas duplicadas
+    }
   } catch (error) {
     console.error("Error al verificar la plantilla:", error);
-    // En caso de error, es más seguro asumir que existe una plantilla
-    showError("Error de verificación", "No se pudo verificar si existe una plantilla. Por precaución, inténtelo nuevamente.");
+    showError(
+      "Error de conexión",
+      "No se pudo verificar si existe una plantilla"
+    );
     return true; // Asumimos que existe para prevenir subidas duplicadas
   }
 }
@@ -117,11 +156,14 @@ async function verificarPlantillaExistente() {
 // ============ PROCESAMIENTO DE ARCHIVOS ============ //
 // Procesa la lista de archivos seleccionados
 async function handleFiles(files) {
-  console.log("Manejando archivos:", files.map(f => f.name));
+  console.log(
+    "Manejando archivos:",
+    files.map((f) => f.name)
+  );
   try {
     // Espera a que se resuelva la promesa
     const existePlantilla = await verificarPlantillaExistente();
-    
+
     if (existePlantilla) {
       showError(
         "Plantilla existente",
@@ -129,7 +171,7 @@ async function handleFiles(files) {
       );
       return;
     }
-    
+
     // Procesa los archivos - ya no necesitamos Array.from aquí
     files.forEach((file) => {
       if (validateFile(file)) {
@@ -208,7 +250,7 @@ async function handleSubmit(e) {
     showError(
       "Ya existe una plantilla en el sistema",
       "Por favor, elimine la plantilla actual antes de subir una nueva."
-    )
+    );
   }
 
   showLoading(); // Muestra indicador de carga
@@ -262,7 +304,7 @@ async function uploadFile(file) {
 // ============ FUNCIONES AUXILIARES ============ //
 // Elimina un archivo de la lista de pendientes
 // Asegúrate de que esta función esté en el ámbito global
-window.cancelUpload = function(id) {
+window.cancelUpload = function (id) {
   filesToUpload = filesToUpload.filter((item) => item.id !== id);
   document.getElementById(id).remove();
 };
@@ -295,7 +337,7 @@ function showError(title, text) {
     willClose: () => {
       // Reinicia el estado para permitir nuevas verificaciones
       resetUploadState();
-    }
+    },
   });
 }
 
