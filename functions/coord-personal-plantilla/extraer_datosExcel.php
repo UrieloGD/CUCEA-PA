@@ -73,8 +73,8 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             Otro_nivel, Otro_institucion, Otro_estado_pais, Otro_año, Otro_gdo_exp,
             Otro_grado_alternativo, Otro_programa_alternativo, Otro_nivel_altenrativo,
             Otro_institucion_alternativo, Otro_estado_pais_alternativo, Otro_año_alternativo,
-            Otro_gdo_exp_alternativo, Proesde_24_25, A_partir_de, Fecha_ingreso, Antiguedad
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            Otro_gdo_exp_alternativo, Proesde_24_25, A_partir_de, Fecha_ingreso, Antiguedad, PAPELERA
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conexion->prepare($sql);
 
@@ -154,8 +154,10 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $fecha_ingreso = convertExcelDate($sheet->getCell('BN' . $row)->getCalculatedValue(), 0, 10);
             $antiguedad = safeSubstr($sheet->getCell('BO' . $row)->getCalculatedValue(), 0, 5);
 
+            $papelera = "ACTIVO"; // Definir la variable con el valor "ACTIVO" para que se muestren los registros
+
             $stmt->bind_param(
-                "sssssssssissssisssssssssiissississssssissssssssissssssissssssisssss",
+                "sssssssssissssisssssssssiissississssssissssssssissssssissssssissssss",
                 $codigo,
                 $paterno,
                 $materno,
@@ -222,7 +224,8 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $proesde_24_25,
                 $a_partir_de,
                 $fecha_ingreso,
-                $antiguedad
+                $antiguedad,
+                $papelera,
             );
 
             if (!$stmt->execute()) {
