@@ -1384,7 +1384,7 @@ $sql = "CREATE TABLE IF NOT EXISTS coord_per_prof (
     A_partir_de VARCHAR(10) NULL,
     Fecha_ingreso VARCHAR(10) NULL,
     Antiguedad VARCHAR(5) NULL,
-    PAPELERA VARCHAR(5) NULL
+    PAPELERA VARCHAR(15) NULL
 );";
 
 if (mysqli_query($conexion, $sql)) {
