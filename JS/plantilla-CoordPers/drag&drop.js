@@ -1,9 +1,15 @@
 // Selección de elementos del DOM que vamos a necesitar
+// Añade esta verificación al inicio del script
+const previewElement = document.querySelector("#preview");
+if (!previewElement) {
+  console.error("Elemento #preview no encontrado en el DOM");
+}
 const dropArea = document.querySelector(".drop-area");
 const dragText = dropArea.querySelector("p");
-const button = dropArea.querySelector("button");
+const button = dropArea.querySelector("#seleccionar-archivo-btn");
 const input = dropArea.querySelector("#input-file");
 const form = document.getElementById("formulario-subida");
+
 // Array para almacenar los archivos pendientes de subir
 let filesToUpload = [];
 
@@ -28,9 +34,15 @@ form.addEventListener("submit", handleSubmit);
 
 // ============ MANEJADORES DE EVENTOS ============ //
 // Maneja la selección de archivos mediante el diálogo
-function handleFileSelect(e) {
-  const files = e.target.files;
-  handleFiles(files);
+async function handleFileSelect(e) {
+  console.log("Evento de selección de archivo disparado", e.target.files);
+  const filesArray = Array.from(e.target.files);
+  console.log("Archivos copiados:", filesArray.map(f => f.name));
+
+  // Reinicia el estado antes de procesar nuevos archivos
+  resetUploadState();
+  // Llamar a handleFiles con la copia de los archivos
+  await handleFiles(filesArray);
 }
 
 // Maneja el evento cuando se arrastra un archivo sobre el área
@@ -38,6 +50,7 @@ function handleDragOver(e) {
   e.preventDefault(); // Previene el comportamiento por defecto del navegador
   dropArea.classList.add("active"); // Añade clase para feedback visual
   dragText.textContent = "Suelta para subir tu archivo";
+  console.log("Archivo sobre el área de drop");
 }
 
 // Maneja el evento cuando el archivo arrastrado sale del área
@@ -45,29 +58,95 @@ function handleDragLeave(e) {
   e.preventDefault();
   dropArea.classList.remove("active"); // Elimina el feedback visual
   dragText.textContent = "Arrastra tu archivo a subir aquí";
+  console.log("Archivo fuera del área de drop");
 }
 
 // Maneja el evento cuando se sueltan los archivos en el área
-function handleDrop(e) {
+async function handleDrop(e) {
   e.preventDefault();
   dropArea.classList.remove("active");
   dragText.textContent = "Arrastra tu archivo a subir aquí";
-  const files = e.dataTransfer.files; // Obtiene los archivos soltados
-  handleFiles(files);
+  
+  // Obtiene los archivos soltados y crea una copia como hicimos en handleFileSelect
+  const filesArray = Array.from(e.dataTransfer.files);
+  console.log("Archivos soltados:", filesArray.map(f => f.name));
+  
+  // Reinicia el estado antes de procesar nuevos archivos
+  resetUploadState();
+  
+  // Procesa los archivos
+  await handleFiles(filesArray);
+}
+
+// Ruta correcta al archivo de verificación
+const verificacionUrl = "/CUCEA-PA/functions/coord-personal-plantilla/plantilla/verificar-plantilla.php";
+
+// Función para verificar si ya existe una plantilla
+async function verificarPlantillaExistente() {
+  try {
+    // Añadir un parámetro timestamp para evitar que el navegador use datos en caché
+    const timestamp = new Date().getTime();
+    const url = `${verificacionUrl}?t=${timestamp}`; // Se agrega a la URL (?t=${timestamp}) para evitar que el navegador cargue datos antiguos de caché.
+    
+    // Configura los encabezados HTTP para asegurarse de que la respuesta no sea tomada de caché, sino obtenida directamente del servidor.
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'Surrogate-Control': 'no-store'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log("Respuesta de verificación:", data);
+    return data.existePlantilla;
+  } catch (error) {
+    console.error("Error al verificar la plantilla:", error);
+    // En caso de error, es más seguro asumir que existe una plantilla
+    showError("Error de verificación", "No se pudo verificar si existe una plantilla. Por precaución, inténtelo nuevamente.");
+    return true; // Asumimos que existe para prevenir subidas duplicadas
+  }
 }
 
 // ============ PROCESAMIENTO DE ARCHIVOS ============ //
 // Procesa la lista de archivos seleccionados
-function handleFiles(files) {
-  Array.from(files).forEach((file) => {
-    if (validateFile(file)) {
-      processFile(file);
+async function handleFiles(files) {
+  console.log("Manejando archivos:", files.map(f => f.name));
+  try {
+    // Espera a que se resuelva la promesa
+    const existePlantilla = await verificarPlantillaExistente();
+    
+    if (existePlantilla) {
+      showError(
+        "Plantilla existente",
+        "Para subir una nueva, elimine primero la actual."
+      );
+      return;
     }
-  });
+    
+    // Procesa los archivos - ya no necesitamos Array.from aquí
+    files.forEach((file) => {
+      if (validateFile(file)) {
+        processFile(file);
+      } else {
+        console.log("Archivo no válido:", file.name);
+      }
+    });
+  } catch (error) {
+    showError("Error", "No se pudo verificar el estado de la plantilla");
+    console.error("Error en la verificación:", error);
+  }
 }
 
 // Valida que el archivo cumpla con los requisitos
 function validateFile(file) {
+  console.log("Validando archivo:", file.name);
   const fileExtension = file.name.split(".").pop().toLowerCase();
 
   // Verifica la extensión del archivo
@@ -82,11 +161,13 @@ function validateFile(file) {
     return false;
   }
 
+  console.log("Archivo válido:", file.name);
   return true;
 }
 
 // Procesa un archivo individual y muestra su preview
 function processFile(file) {
+  console.log("Procesando archivo:", file.name);
   const id = `file-${Math.random().toString(32).substring(7)}`; // ID único para el archivo
   const fileReader = new FileReader();
 
@@ -119,6 +200,15 @@ async function handleSubmit(e) {
   if (filesToUpload.length === 0) {
     showError("No hay archivos", "Por favor, seleccione al menos un archivo.");
     return;
+  }
+
+  // Verificar nuevamente antes de subir (por seguridad)
+  const existePlantilla = await verificarPlantillaExistente();
+  if (existePlantilla) {
+    showError(
+      "Ya existe una plantilla en el sistema",
+      "Por favor, elimine la plantilla actual antes de subir una nueva."
+    )
   }
 
   showLoading(); // Muestra indicador de carga
@@ -171,10 +261,11 @@ async function uploadFile(file) {
 
 // ============ FUNCIONES AUXILIARES ============ //
 // Elimina un archivo de la lista de pendientes
-function cancelUpload(id) {
+// Asegúrate de que esta función esté en el ámbito global
+window.cancelUpload = function(id) {
   filesToUpload = filesToUpload.filter((item) => item.id !== id);
   document.getElementById(id).remove();
-}
+};
 
 // Resetea el estado del formulario
 function resetUploadState() {
@@ -201,6 +292,10 @@ function showError(title, text) {
     icon: "error",
     title,
     text,
+    willClose: () => {
+      // Reinicia el estado para permitir nuevas verificaciones
+      resetUploadState();
+    }
   });
 }
 

@@ -33,20 +33,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Function to update table based on selected departments
+    // Actualiza la tabla con base en los departamentos seleccionados
     function updateTable() {
         const selectedDepartments = Array.from(departmentCheckboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.parentElement.textContent.trim());
         
         tableBody.innerHTML = '';
+        
+        // Verificar si hay una fila de "no hay datos" en los datos originales
+        const noDataRow = originalRows.find(row => row.id === 'no-data-row');
 
-        // Si "Todos los departamentos" está seleccionado o si hay departamentos individuales seleccionados
+        // Si hay una fila de "no hay datos", simplemente mostrarla y salir
+        if (noDataRow) {
+            tableBody.appendChild(noDataRow.cloneNode(true));
+            updateSelectionCount();
+            ajustarColumnas();
+            return;
+        }
+
         if (selectAllCheckbox.checked || selectedDepartments.length > 0) {
             const departmentsToShow = selectAllCheckbox.checked ? [] : selectedDepartments;
             
+            let rowsAdded = 0;
             originalRows.forEach(row => {
-                const departmentCell = row.querySelector('td:nth-child(4)'); // Ajustado el índice por la eliminación de la columna count
+                const departmentCell = row.querySelector('td:nth-child(4)');
                 const departmentValue = departmentCell ? departmentCell.textContent.trim() : '';
                 
                 // Mostrar todas las filas si "Todos los departamentos" está seleccionado
@@ -57,13 +68,28 @@ document.addEventListener('DOMContentLoaded', function() {
                     const newRow = row.cloneNode(true);
                     newRow.style.display = '';
                     tableBody.appendChild(newRow);
+                    rowsAdded++;
                 }
             });
+            
+            // Si no se agregaron filas después del filtrado, mostrar mensaje de no hay datos
+            if (rowsAdded === 0) {
+                const noResultsRow = document.createElement('tr');
+                noResultsRow.innerHTML = '<td colspan="8">No hay información disponible para los filtros seleccionados</td>';
+                tableBody.appendChild(noResultsRow);
+            }
+        } else {
+            // Si no hay departamentos seleccionados, mostrar mensaje de seleccionar departamentos
+            const noSelectionRow = document.createElement('tr');
+            noSelectionRow.innerHTML = '<td colspan="8">Seleccione al menos un departamento para ver la información</td>';
+            tableBody.appendChild(noSelectionRow);
         }
+        
         updateSelectionCount();
+        ajustarColumnas();
     }
     
-    // Handle "Select All" checkbox
+    // Manejador del checkbox "Seleccionar Todo"
     selectAllCheckbox.addEventListener('change', function() {
         if (this.checked) {
             // Guardar selecciones previas antes de seleccionar todos
@@ -85,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateTable();
     });
     
-    // Handle individual department checkboxes
+    // Manejador del checkbox de departamentos individuales
     departmentCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const checkedCount = Array.from(departmentCheckboxes).filter(cb => cb.checked).length;
@@ -100,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Handle initial department selection
+    // Manejador inicial de selección de departamento
     if (typeof sessionDepartment !== 'undefined' && sessionDepartment) {
         if (isPosgrados === 'true') {
             selectAllCheckbox.checked = true;

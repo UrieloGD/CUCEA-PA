@@ -1,4 +1,7 @@
-
+#detalle-profesor-contenido {
+  height: 100%;
+  width: 100%;
+}
 
 .weekdays input {
   width: 30px;
@@ -9,11 +12,13 @@
   color: white;
   font-size: 24px;
   font-weight: bold;
+  padding: 50px;
 }
 
 .weekdays {
   display: flex;
-  gap: 3px;
+  flex-wrap: wrap;
+  gap: 2px;
 }
 
 .day.mixto {
@@ -120,14 +125,13 @@
 }
 
 .header-profesor {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 100;
   width: 100%;
   background: linear-gradient(to bottom, #0071b0 50%, #fff 50%);
   color: white;
   padding: 24px;
-  border-radius: 8px;
   box-shadow: 0px 3px 3px rgb(179, 178, 178);
   display: flex;
   gap: 24px;
@@ -135,7 +139,8 @@
 }
 
 .profesor-avatar-modal {
-  margin-top: 5px;
+  display: flex;
+  top: 50%;
   width: 120px;
   height: 120px;
   background-color: #005ba3;
@@ -143,7 +148,6 @@
   border-width: 4px;
   border-color: white;
   border-style: solid;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 32px;
@@ -154,28 +158,40 @@
   -o-border-radius: 50%;
 }
 
+.profile-name-mail {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .profile-info {
-  width: 1000px;
+  width: 100%;
 }
 
 .profile-info h2 {
   font-size: 1rem;
-  margin-top: 4px;
-  margin-left: 8px;
-  margin-bottom: 4px;
+  margin: 0 0 0 8px;
   color: #ffffff;
 }
 
 .profile-info p {
-  margin-top: 4px;
+  margin-bottom: 20px;
   margin-left: 8px;
+  margin-top: 0;
   color: #ffffff;
 }
 
 .profile-details {
   position: relative;
-  top: 20px;
-  margin-left: 8px;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  top: 10px;
+  margin: 0 0 15 8px;
   font-size: 14px;
   font-weight: bold;
 }
@@ -188,7 +204,7 @@
 }
 
 .table-profile {
-  width: 900px;
+  width: 100%;
   border-collapse: collapse;
 }
 
@@ -248,7 +264,6 @@
   gap: 10px;
   background: #fff;
   border-radius: 8px 8px 0 0;
-  overflow: hidden;
   border-bottom: #0071b0;
   border-width: 0 0 3px 0;
   border-style: solid;
@@ -259,7 +274,7 @@
 }
 
 .navigation-space {
-  padding: 16px 16px;
+  padding: 10px 16px;
   gap: 16px;
 }
 
@@ -360,7 +375,7 @@
 .table-profesor tbody tr {
     display: table;
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
 }
 
 .table-profesor th {
@@ -413,7 +428,7 @@
   vertical-align: middle;
   line-height: 1.4;
   hyphens: auto;
-  padding: 12px 16px;
+  padding: 12px 0px;
   border-bottom: 1px solid #eee;
   align-items: center;
   text-align: center;
@@ -433,40 +448,10 @@
 .col-aula { width: 10%; }
 .col-modalidad { width: 10%; }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .table-profesor,
-  .table-profesor tbody,
-  .table-profesor tr,
-  .table-profesor td {
-    display: block;
-    width: 100%;
-  }
-
-  .table-profesor thead {
-    display: none;
-  }
-
-  .table-profesor tr {
-    margin-bottom: 10px;
-  }
-
-  .table-profesor td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
-  }
-
-  .table-profesor td:before {
-    content: attr(data-label);
-    position: absolute;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    text-align: left;
-    font-weight: bold;
-  }
+.col-materia {
+  white-space: nowrap; /* Evita que el texto haga un salto de línea */
+  overflow: hidden; /* Oculta el texto que se desborda */
+  text-overflow: ellipsis; /* Agrega los puntos suspensivos (...) */
 }
 
 .nav-items-container {
@@ -492,6 +477,7 @@
 
 .curso-seccion.active {
   display: block;
+  overflow: hidden;
 }
 
 .sections-container {
@@ -499,7 +485,6 @@
   flex: 1;
   overflow: hidden;
   width: 100%;
-  min-height: 450px; /* o el valor que necesites */
   height: 100%;
 }
 
@@ -785,4 +770,146 @@
   border-width: 5px;
   border-style: solid;
   border-color: #333 transparent transparent transparent;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .table-profesor tbody tr,
+  .table-profesor thead tr {
+    font-size: 0.8rem;
+  }
+  .table-profesor thead tr {
+    overflow: hidden;
+    word-break: auto-phrase;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+@media (max-width: 996px) {
+  .profile-span {
+    font-size: 0.8rem;
+  }
+  tbody div {
+    margin: 0 0 0 5px;
+  }
+  tbody tr:last-child {
+    margin: 0 0 5px 0;
+  }
+}
+@media (max-width: 768px) {
+  .curso-seccion.active {
+    display: block;
+    overflow: auto;
+  }
+
+  .table-profesor,
+  .table-profesor tbody,
+  .table-profesor tr,
+  .table-profesor td {
+    display:contents;
+    width: 100%;
+  }
+
+  .table-profesor thead {
+    display: none;
+  }
+
+  .table-profesor tr {
+    margin-bottom: 10px;
+  }
+
+  .table-profesor td {
+    padding: 5% 0;
+    margin: 0 40px 0 0;
+    position: relative;
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+  }
+
+  .table-profesor td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .profesor-avatar-modal {
+    width: 100px;
+    height: 100px;
+  }
+
+  .table-profesor thead tr, 
+  .table-profesor tbody tr {
+    width: 80%;
+    display: inline-flex;
+    flex-direction: column;
+    text-align: left;
+    overflow: auto;
+    margin: 0 0 25px 50px;
+    transform: scale(1.1);
+  }
+
+  .table-profile tbody {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0 10px 0;
+  }
+
+  .table-profile tbody tr {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profesor-avatar-modal {
+    display: flex;
+    position: absolute;
+    top: 7%;
+    transform: translateY(-7%);
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-name-mail {
+    margin: 0 0 0 25%;
+  }
+}
+
+@media (max-width: 500px) {
+  .profesor-avatar-modal {
+    display: none;
+  }
+  .profile-name-mail {
+    margin: 0;
+  }
+  tbody div {
+    margin: 0;
+  } 
+  .table-profile tbody {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 35px 0 35px 0;
+  }
+  .table-profesor tbody,
+  .table-profesor tbody tr {
+    height: fit-content;
+  }
+  .table-profesor tbody {
+    overflow: hidden;
+  }
+  .table-profesor thead tr, 
+  .table-profesor tbody tr {
+    width: 90%;
+    margin: 0 10px 10px 10px;
+    transform: scale(1);
+  }
+
 }

@@ -14,7 +14,7 @@ class BAJA_PDF extends TCPDF {
     }
 }
 
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 1)) {
     http_response_code(403);
     die(json_encode(['success' => false, 'message' => 'Acceso no autorizado']));
 }
@@ -46,15 +46,18 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     try {
     // Configurar PDF
     $pdf = new BAJA_PDF('P', 'mm', 'A4', true, 'UTF-8', false);
-    $pdf->SetMargins(15, 40, 15); // Margen superior aumentado
+    $pdf->SetMargins(10, 40, 10); // Margen superior aumentado
     $pdf->setPrintHeader(false);
     $pdf->AddPage();
 
+    $border = 1; // Borde completo para todas las celdas
+    $pdf->SetFillColor(255, 255, 255); // Fondo blanco para celdas
+    
     // Logo y encabezado
-    $logoPath = './../../../img/logos/LogoUDG-Color.png';
+    $logoPath = './../../../Img/logos/LogoUDG-Color.png';
     $pdf->Image($logoPath, 12, 10, 20, 0, 'PNG');
 
-    // Texto lado izquierdo
+    // Encabezado institucional
     $pdf->SetFont('helvetica', 'B', 12);
     $pdf->SetXY(37, 10);
     $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
@@ -65,19 +68,19 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->SetFont('helvetica', '', 9);
     $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);
 
-    // Tabla oficio y fecha (sin fondo)
-    $pdf->SetXY(130, 10);
-    $pdf->SetFont('helvetica', 'B', 10); // Negritas para título
-    $pdf->Cell(30, 7, 'OFICIO NUM:', 0, 0, 'L');
-    $pdf->SetFont('', '');  // Normal para valor
-    $pdf->Cell(30, 7, $solicitud['OFICIO_NUM_BAJA'], 0, 1);
-    $pdf->SetX(130);
-    $pdf->SetFont('helvetica', 'B', 10); // Negritas para título
-    $pdf->Cell(30, 7, 'FECHA:', 0, 0, 'L');
-    $pdf->SetFont('', '');  // Normal para valor
-    $pdf->Cell(30, 7, date('d/m/Y', strtotime($solicitud['FECHA_SOLICITUD_B'])), 0, 1);
-        
-    // Centro universitario y departamento
+    // Oficio y fecha
+    $pdf->SetXY(125, 10);
+    $pdf->SetFont('helvetica', 'B', 10);
+    // Fila de títulos
+    $pdf->Cell(35, 8, 'OFICIO NUM', $border, 0, 'L');
+    $pdf->Cell(35, 8, 'FECHA', $border, 1, 'L');
+    // Fila de valores
+    $pdf->SetX(125);
+    $pdf->SetFont('', '');
+    $pdf->Cell(35, 8, $solicitud['OFICIO_NUM_BAJA'], $border, 0, 'L');
+    $pdf->Cell(35, 8, date('d/m/Y', strtotime($solicitud['FECHA_SOLICITUD_B'])), $border, 1, 'L');
+
+    // Departamento
     $pdf->SetXY(37, 28);
     $pdf->SetFont('helvetica', 'B', 10);
     $pdf->Cell(0, 7, strtoupper('CENTRO UNIVERSITARIO DE CIENCIAS ECONÓMICO ADMINISTRATIVAS'), 0, 1, 'L');
@@ -85,6 +88,9 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $departamento = str_replace('_', ' ', $solicitud['Nombre_Departamento']);
     $pdf->Cell(0, 7, strtoupper('DEPARTAMENTO DE ' . $departamento), 0, 1, 'L');
     
+    // Línea divisoria
+    $pdf->Line(15, 45, 195, 45);;
+
     // Línea divisoria
     $pdf->Line(15, 45, 195, 45);
     
@@ -96,19 +102,20 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     
     // Texto justificado
     $pdf->setCellHeightRatio(1.8); // Aumentar espacio entre líneas
-    $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR A USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO", 0, 'J');
-    $pdf->MultiCell(0, 8, "CON EL NUMERO ____________________ DE FECHA ____________________", 0, 'J');
+    $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR A USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON EL NUMERO ____________________ DE FECHA ____________________", 0, 'L');
+    $pdf->MultiCell(0, 8, "A FAVOR DE", 0, 'L');
     $pdf->setCellHeightRatio(1); // Restaurar valor
-    $pdf->Ln(5);
+    $pdf->Ln(3);
     
     // Tabla de profesor (100% ancho)
     $header = ['PROFESIÓN', 'APELLIDO PATERNO', 'MATERNO', 'NOMBRE(S)', 'CODIGO'];
     $widths = [25, 45, 35, 55, 30];
+    // Header con bordes
     $pdf->SetFont('helvetica', 'B', 10);
     foreach ($header as $i => $col) {
-        $pdf->Cell($widths[$i], 8, $col, 0, 0, 'L');
+        $pdf->Cell($widths[$i], 8, $col, $border, 0, 'L');
     }
-    $pdf->Ln(10);
+    $pdf->Ln(8);;
     
     // Datos
     $pdf->SetFont('', '');
@@ -120,35 +127,33 @@ function generarPDFyActualizarEstado($conexion, $folio) {
         mb_strtoupper($solicitud['CODIGO_PROF_B'], 'UTF-8')
     ];
 
-    // Quitar negritas de valores
     $pdf->SetFont('', '');  // Asegurar fuente normal
     foreach ($data as $i => $val) {
-        $pdf->Cell($widths[$i], 8, $val, 0, 0, 'L');  // Alinear datos a izquierda
+        $pdf->Cell($widths[$i], 7, $val, $border, 0, 'L');
     }
     $pdf->Ln(15);
     
     // Tabla descripción (50%-25%-25%)
     $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(90, 8, 'DESCRIPCIÓN DEL PUESTO QUE OCUPA', 0, 0, 'L');
-    $pdf->Cell(45, 8, 'CRN', 0, 0, 'L');
-    $pdf->Cell(45, 8, 'CLASIFICACIÓN', 0, 1, 'L');
+    $pdf->Cell(105, 8, 'DESCRIPCIÓN DEL PUESTO QUE OCUPA', $border, 0, 'L');
+    $pdf->Cell(40, 8, 'CRN',$border, 0, 'L');
+    $pdf->Cell(45, 8, 'CLASIFICACIÓN', $border, 1, 'L');
     
     $pdf->SetFont('', '');
-    $pdf->Cell(90, 8, mb_strtoupper($solicitud['DESCRIPCION_PUESTO_B'], 'UTF-8'), 0);
-    $pdf->Cell(45, 8, $solicitud['CRN_B'], 0);
-    $pdf->Cell(45, 8, $solicitud['CLASIFICACION_BAJA_B'], 0, 1);
+    $pdf->Cell(105, 7, mb_strtoupper($solicitud['DESCRIPCION_PUESTO_B'], 'UTF-8'), $border, 0);
+    $pdf->Cell(40, 7, $solicitud['CRN_B'], $border, 0);
+    $pdf->Cell(45, 7, $solicitud['CLASIFICACION_BAJA_B'], $border, 1);
     $pdf->Ln(10);
     
     // Efectos y motivo en línea
     $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(70, 8, 'QUEDE SIN EFECTOS A PARTIR DE: ', 0, 0, 'L');
-    $pdf->SetFont('', '');
-    $pdf->Cell(30, 8, mb_strtoupper(date('d/m/Y', strtotime($solicitud['SIN_EFFECTOS_DESDE_B'])), 'UTF-8'), 0, 0, 'L');
-    
+    $pdf->Cell(70, 8, 'QUEDE SIN EFECTOS A PARTIR DE:', 0, 0, 'L');    $pdf->SetFont('', '');
+    $pdf->Cell(45, 7, date('d/m/Y', strtotime($solicitud['SIN_EFFECTOS_DESDE_B'])), $border, 0, 'L');
+
     $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(20, 8, 'MOTIVO: ', 0, 0, 'L');
-    $pdf->SetFont('', '');  // Normal para valor
-    $pdf->Cell(65, 8, mb_strtoupper($solicitud['MOTIVO_B'], 'UTF-8'), 0, 1);
+    $pdf->Cell(25, 8, 'MOTIVO:', 0, 0, 'L');
+    $pdf->SetFont('', '');
+    $pdf->Cell(50, 7, mb_strtoupper($solicitud['MOTIVO_B'], 'UTF-8'), $border, 1, 'L');
     $pdf->Ln(10);
     
     // Firmas más arriba
@@ -219,3 +224,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
 }
+?>

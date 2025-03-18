@@ -1,4 +1,13 @@
 let changedCells = new Set();
+let dragStartCell = null;
+let dragInProgress = false;
+let cellsToFill = [];
+let fillHandleVisible = false;
+
+// Variables para portapapeles y el historias de acciones
+let clipboard = null;
+let undoStack = [];
+const MAX_UNDO_STACK = 50;
 
 const columnMap = {
   ID: "ID_Plantilla",
@@ -156,6 +165,262 @@ function makeEditable() {
   });
 }
 
+// Función de reconocimiento de eventos
+function setupKeyboardShortcuts(){
+  document.addEventListener('keydown', function(event){
+    // Solo procesa si tenemos una celda activa
+    if (!activeCell) return;
+
+    // Ctrl + C (Copiar)
+    if (event.ctrlKey && event.key === 'c'){
+      event.preventDefault();
+      copySelectedCell();
+      return;
+    }
+
+    // Ctrl + X (Cortar)
+    if (event.ctrlKey && event.key === 'x') {
+      event.preventDefault();
+      cutSelectedCell();
+      return;
+    }
+
+    // Ctrl + V (Pegar)
+    if (event.ctrlKey && event.key === 'v') {
+      event.preventDefault();
+      pasteSelectedCell();
+      return;
+    }
+
+    // Ctrl + Z (Deshacer)
+    if (event.ctrlKey && event.key === 'z') {
+      event.preventDefault();
+      undoLastAction();
+      return;
+    }
+  });
+}
+
+// Función para copiar el contenido de una celda seleccionada
+function copySelectedCell() {
+  if (!activeCell) return;
+
+  clipboard = {
+    text: activeCell.textContent,
+    sourceCell: activeCell
+  };
+
+  // Muestra indicador visual de copiado
+  showFeedbackAnimation(activeCell, 'copied');
+}
+
+// Función para cortar el contenido de la celda seleccionada
+function cutSelectedCell() {
+  if(!activeCell) return;
+
+  // Guarda el valor actual para deshacer
+  saveActionForUndo({
+    type: 'edit',
+    cell: activeCell,
+    previousValue: activeCell.textContent,
+    newValue: ''
+  });
+  
+  // Guarda en el portapapeles
+  clipboard = {
+    text: activeCell.textContent,
+    sourceCell: activeCell
+  };
+
+  //Limpia la celda
+
+  const originalValue = activeCell.getAttribute('data-original-value');
+  activeCell.textContent = '';
+
+  // Marca como cambiada
+  if (activeCell.textContent !== originalValue) {
+    activeCell.style.backgroundColor = "#FFFACD";
+    changedCells.add(activeCell);
+    showSaveButton();
+    showEditIcons();
+  }
+
+  // Muestra un indicador visual
+  showFeedbackAnimation(activeCell, 'cut');
+}
+
+function pasteSelectedCell() {
+  if(!activeCell || !clipboard) return;
+
+  // No se puede hacer la acción de pegar si se esta en modo edición
+  if (editMode) {
+    exitEditMode();
+  }
+
+  // Guardar el valor actual para deshacer
+  saveActionForUndo({
+    type: 'edit',
+    cell: activeCell,
+    previousValue: activeCell.textContent,
+    newValue: clipboard.text
+  });
+
+  // Obtiene el nombre de la columna para validación
+  const columnName = getColumnName(activeCell);
+
+  // Guarda el texto original antes de validarlo
+  let originalText = clipboard.text;
+  let newText = originalText
+
+  // Aplica validaciones según el tipo de columna
+  const maxLength = maxLengths[columnName] || 60;
+
+  switch (columnName){
+    case "CICLO":
+    case "CRN":
+    case "C_MIN":
+    case "H_TOTALES":
+    case "CODIGO_PROFESOR":
+    case "CODIGO_DESCARGA":
+    case "HORAS":
+    case "CODIGO_DEPENDENCIA":
+    case "HORA_INICIAL":
+    case "HORA_FIANL":
+    case "CUPO":
+      newText = newText.replace(/\D/g, ""); // Permitir solo dígitos
+      break;
+    default:
+      // Convertir a mayúsculas
+      newText = newText.toUpperCase();
+      break;
+  }
+
+  // Limita la longitud
+  if(newText.length > maxLength){
+    newText = newText.slice(0, maxLength);
+  }
+
+  // Asigna el valor validado
+  activeCell.textContent = newText;
+
+  // Marcar como cambiada
+  const originalValue = activeCell.getAttribute('data-original-value');
+  if (activeCell.textContent !== originalValue) {
+    activeCell.style.backgroundColor = "#FFFACD";
+    changedCells.add(activeCell);
+    showSaveButton();
+    showEditIcons();
+  }
+
+  // Muestra un indicador visual
+  showFeedbackAnimation(activeCell, 'pasted');
+}
+
+// Función para guardar una acccón en el historial de deshacer
+function saveActionForUndo(action){
+  // Añadir la acción al inicio del array
+  undoStack.unshift(action);
+
+  // Limitar el tamaño del historial
+  if(undoStack.length > MAX_UNDO_STACK){
+    undoStack.pop();
+  }
+}
+
+// Función para deshacer la última acción
+function undoLastAction(){
+  if(undoStack.length === 0) return;
+
+  // Obtener la última acción
+  const action = undoStack.shift();
+
+  if(action.type === 'edit'){
+    // Restaurar el valor anterior
+    action.cell.textContent = action.previousValue;
+
+    // Verificar si volvimos al valor original
+    const originalValue = action.cell.getAttribute('data-original-value');
+    if (action.cell.textContent === originalValue) {
+      action.cell.style.backgroundColor = "";
+      changedCells.delete(action.cell);
+      if (changedCells.size === 0) {
+        hideEditIcons();
+      }
+    } else {
+      action.cell.style.backgroundColor = "#FFFACD";
+      changedCells.add(action.cell);
+      showSaveButton();
+      showEditIcons();
+    }
+
+    // Muestra un indicador visual para deshacer
+    showFeedbackAnimation(action.cell, 'undone');
+  }
+}
+
+// Función para mostrar una animación de feedback
+function showFeedbackAnimation(cell, action){
+  if(!cell) return;
+
+  // Crear un div para la animación
+  const feedback = document.createElement('div');
+  feedback.className = 'action-feedback';
+
+  // Configurar el mensaje según la acción
+  let message = '';
+  switch (action) {
+    case 'copied': message = 'Copiado'; break;
+    case 'cut': message = 'Cortado'; break;
+    case 'pasted': message = 'Pegado'; break;
+    case 'undone': message = 'Deshecho'; break;
+  }
+
+  feedback.textContent = message;
+
+  // Establece estilos
+  feedback.style.position = 'absolute';
+  feedback.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+  feedback.style.color = '#fff';
+  feedback.style.padding = '4px 8px';
+  feedback.style.borderRadius = '3px';
+  feedback.style.fontSize = '12px';
+  feedback.style.zIndex = '1000';
+  feedback.style.pointerEvents = 'none';
+
+  // Calcular la posición (encima de la celda)
+  const cellRect = cell.getBoundingClientRect();
+  const tableRect = document.getElementById('tabla-datos').getBoundingClientRect();
+
+  feedback.style.top = (cellRect.top - 25) + 'px';
+  feedback.style.left = (cellRect.left + (cellRect.width / 2) - 40) + 'px';
+
+  // Añade al documento 
+  document.body.appendChild(feedback);
+
+  // Configurar animación
+  feedback.style.opacity = '0';
+  feedback.style.transform = 'translateY(10px)';
+  feedback.style.transition = 'opacity 0.2s, transfom 0.2s';
+
+  // Activar la animación después de un pequeño retraso
+  setTimeout(() => {
+    feedback.style.opacity = '1';
+    feedback.style.transform = 'translateY(0)';
+  }, 10);
+
+  // Eliminar después de un tiempo
+  setTimeout(() => {
+    feedback.style.opacity = '0';
+    feedback.style.transform = 'translateY(-10px)';
+
+    setTimeout(() => {
+      if (feedback.parentNode) {
+        document.body.removeChild(feedback);
+      }
+    }, 200);
+  }, 1000);
+}
+
 // Manejo de selección y edición de celdas
 function handleCellClick(event) {
   // Si ya hay una celda activa en modo edición, salir del modo edición
@@ -178,10 +443,13 @@ function handleCellDblClick(event) {
   event.stopPropagation();
 }
 
+// Función de selección de celda
 function selectCell(cell) {
   // Deseleccionar la celda activa anterior si existe
   if (activeCell) {
     activeCell.classList.remove("selected-cell");
+    // Quitar el manejador de relleno si existe
+    removeFillHandle(activeCell);
   }
 
   // Marcar esta celda como seleccionada
@@ -195,18 +463,256 @@ function selectCell(cell) {
   // Importante: Hacer que la celda sea "focusable"
   cell.setAttribute("tabindex", "0");
   
+  // Añadir el manejador de relleno
+  addFillHandle(cell);
+  
   // Dar foco a la celda
   cell.focus();
 }
 
+function removeFillHandle(cell) {
+  if (!cell) return;
+  
+  // Eliminar el manejador de esta celda específica
+  const existingHandle = cell.querySelector('.fill-handle');
+  if (existingHandle) {
+    cell.removeChild(existingHandle);
+  }
+  
+  // Como medida de seguridad, eliminar cualquier otro manejador que pudiera existir
+  document.querySelectorAll('.fill-handle').forEach(handle => {
+    if (handle.parentNode) {
+      handle.parentNode.removeChild(handle);
+    }
+  });
+  
+  // Actualizar el estado
+  fillHandleVisible = false;
+  
+  // También limpiar cualquier estado de arrastre
+  if (dragInProgress) {
+    dragInProgress = false;
+    dragStartCell = null;
+    document.removeEventListener('mousemove', handleFillDrag);
+    document.removeEventListener('mouseup', endFillDrag);
+  }
+  
+  // Limpiar las marcas de celdas objetivo
+  document.querySelectorAll('.fill-target').forEach(cell => {
+    cell.classList.remove('fill-target');
+  });
+}
+
+// Función para añadir el manejador de relleno a una celda
+function addFillHandle(cell) {
+  // Eliminar primero cualquier manejador existente, tanto en esta celda como en otras
+  removeFillHandle(cell);
+  
+  // Si la celda es válida, añadir el manejador
+  if (cell && cell.classList.contains('excel-behavior-applied')) {
+    // Crear el nuevo manejador
+    const fillHandle = document.createElement('div');
+    fillHandle.className = 'fill-handle';
+    fillHandle.addEventListener('mousedown', startFillDrag);
+    
+    // Asegurar que la celda tenga posición relativa
+    cell.style.position = 'relative';
+    
+    // Añadir el manejador
+    cell.appendChild(fillHandle);
+    fillHandleVisible = true;
+  }
+}
+
+// Función para iniciar el arrastre de relleno
+function startFillDrag(event) {
+  event.preventDefault();
+  event.stopPropagation();
+  
+  if (!activeCell) return;
+  
+  dragStartCell = activeCell;
+  dragInProgress = true;
+  
+  // Añadir listeners para el arrastre
+  document.addEventListener('mousemove', handleFillDrag);
+  document.addEventListener('mouseup', endFillDrag);
+}
+
+// Función para manejar el arrastre durante el relleno
+function handleFillDrag(event) {
+  if (!dragInProgress || !dragStartCell) return;
+  
+  // Obtener la posición del mouse
+  const mouseX = event.clientX;
+  const mouseY = event.clientY;
+  
+  // Obtener la tabla
+  const table = document.getElementById("tabla-datos");
+  if (!table) return;
+  
+  // Limpiar las marcas previas
+  document.querySelectorAll('.fill-target').forEach(cell => {
+    cell.classList.remove('fill-target');
+  });
+  
+  // Vaciar el array de celdas a rellenar
+  cellsToFill = [];
+  
+  // Detectar qué celdas están bajo el cursor
+  detectCellsInPath(mouseX, mouseY);
+}
+
+// Función para detectar las celdas en el camino del arrastre
+function detectCellsInPath(mouseX, mouseY) {
+  if (!dragStartCell) return;
+  
+  const table = document.getElementById("tabla-datos");
+  const rows = Array.from(table.querySelectorAll('tbody tr'));
+  
+  // Obtener la posición de inicio (celda original)
+  const startCell = dragStartCell;
+  const startRow = startCell.parentElement;
+  const startRowIndex = rows.indexOf(startRow);
+  const startCellIndex = Array.from(startRow.cells).indexOf(startCell);
+  
+  // Encontrar la celda bajo el cursor
+  let targetCell = null;
+  let targetRow = null;
+  
+  document.querySelectorAll('#tabla-datos td.excel-behavior-applied').forEach(cell => {
+    const rect = cell.getBoundingClientRect();
+    if (
+      mouseX >= rect.left && 
+      mouseX <= rect.right && 
+      mouseY >= rect.top && 
+      mouseY <= rect.bottom
+    ) {
+      targetCell = cell;
+      targetRow = cell.parentElement;
+    }
+  });
+  
+  if (!targetCell) return;
+  
+  const targetRowIndex = rows.indexOf(targetRow);
+  const targetCellIndex = Array.from(targetRow.cells).indexOf(targetCell);
+  
+  // Determinar la dirección del arrastre (vertical u horizontal)
+  const isVertical = startCellIndex === targetCellIndex;
+  
+  if (isVertical) {
+    // Arrastre vertical
+    const startIdx = Math.min(startRowIndex, targetRowIndex);
+    const endIdx = Math.max(startRowIndex, targetRowIndex);
+    
+    for (let i = startIdx; i <= endIdx; i++) {
+      if (i === startRowIndex) continue; // Ignorar la celda de inicio
+      
+      const row = rows[i];
+      const cell = row.cells[startCellIndex];
+      
+      if (cell && cell.classList.contains('excel-behavior-applied')) {
+        cell.classList.add('fill-target');
+        cellsToFill.push(cell);
+      }
+    }
+  } else {
+    // Arrastre horizontal (misma fila)
+    if (startRowIndex === targetRowIndex) {
+      const cells = Array.from(startRow.cells).filter(c => 
+        c.classList.contains('excel-behavior-applied')
+      );
+      
+      const startIdx = cells.indexOf(startCell);
+      const targetIdx = cells.indexOf(targetCell);
+      
+      const minIdx = Math.min(startIdx, targetIdx);
+      const maxIdx = Math.max(startIdx, targetIdx);
+      
+      for (let i = minIdx; i <= maxIdx; i++) {
+        if (i === startIdx) continue; // Ignorar la celda de inicio
+        
+        const cell = cells[i];
+        cell.classList.add('fill-target');
+        cellsToFill.push(cell);
+      }
+    }
+  }
+}
+
+// Función para finalizar el arrastre y aplicar el valor
+function endFillDrag(event) {
+  if (!dragInProgress) return;
+  
+  // Aplicar el valor a todas las celdas marcadas
+  if (dragStartCell && cellsToFill.length > 0) {
+    const valueToFill = dragStartCell.textContent.trim();
+    
+    cellsToFill.forEach(cell => {
+      // Guardar el valor original para posible reversión
+      if (!cell.hasAttribute('data-original-value')) {
+        cell.setAttribute('data-original-value', cell.textContent.trim());
+      }
+      
+      cell.textContent = valueToFill;
+      cell.style.backgroundColor = "#FFFACD"; // Color amarillo claro para indicar cambio
+      changedCells.add(cell);
+      
+      // Limpiar la marca de objetivo de relleno
+      cell.classList.remove('fill-target');
+    });
+    
+    showSaveButton();
+    showEditIcons();
+  }
+  
+  // Limpiar el estado
+  dragInProgress = false;
+  dragStartCell = null;
+  cellsToFill = [];
+  
+  // Quitar los listeners
+  document.removeEventListener('mousemove', handleFillDrag);
+  document.removeEventListener('mouseup', endFillDrag);
+}
+
+
 function enterEditMode(cell) {
+  if (!cell) return;
+  
+  // Primero eliminamos el manejador de relleno para evitar interferencias
+  removeFillHandle(cell);
+  
   // Activar la edición de la celda
   cell.setAttribute("contenteditable", "true");
   editMode = true;
   
-  // Posicionar el cursor al final del texto
+  // Posicionar el cursor al final del texto usando la función mejorada
   placeCursorAtEnd(cell);
+  
+  // Asegurarnos de que la celda tenga el foco
+  cell.focus();
 }
+
+originalEnterEditMode = enterEditMode;
+enterEditMode = function(cell) {
+  if(!cell) return;
+
+  // GUarda el valor antes de entrar en edición
+  const previousValue = cell.textContent;
+
+  // Llamar a la función original
+  originalEnterEditMode.call(this, cell);
+
+  // Guarda un punto de referencia para deshacer
+  saveActionForUndo({
+    type: 'edit',
+    cell: cell,
+    previousValue: previousValue,
+    newValue: previousValue // Mismo valor, solo marca un punto en el historial
+  });
+};
 
 function exitEditMode() {
   if (activeCell && editMode) {
@@ -224,32 +730,42 @@ function exitEditMode() {
       showSaveButton();
       showEditIcons();
     }
+    
+    // Mostrar nuevamente el manejador de relleno
+    addFillHandle(activeCell);
   }
 }
 
 function placeCursorAtEnd(cell) {
+  // Asegurarnos de que la celda tenga el foco
   cell.focus();
   
-  // Crear un rango al final del contenido
+  // En lugar de usar el método complejo de selección de rango,
+  // usaremos una técnica más fiable para posicionar el cursor
+  
+  // Primero, guardamos el contenido actual
+  const content = cell.textContent;
+  
+  // Vaciamos la celda
+  cell.textContent = '';
+  
+  // Creamos un nuevo nodo de texto con el contenido original
+  const textNode = document.createTextNode(content);
+  
+  // Añadimos el nodo de texto a la celda
+  cell.appendChild(textNode);
+  
+  // Creamos un rango en la posición correcta (al final del texto)
   const range = document.createRange();
   const selection = window.getSelection();
   
-  if (cell.childNodes.length > 0) {
-    const lastNode = cell.childNodes[cell.childNodes.length - 1];
-    const lastNodeLength = lastNode.nodeType === 3 ? lastNode.length : 0;
-    range.setStart(lastNode, lastNodeLength);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  } else {
-    // Si la celda está vacía, crear un nodo de texto
-    const textNode = document.createTextNode("");
-    cell.appendChild(textNode);
-    range.setStart(textNode, 0);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-  }
+  // Establecemos el rango al final del nodo de texto
+  range.setStart(textNode, content.length);
+  range.setEnd(textNode, content.length);
+  
+  // Aplicamos la selección
+  selection.removeAllRanges();
+  selection.addRange(range);
 }
 
 // Manejo de navegación con teclado
@@ -319,6 +835,26 @@ function handleKeyNavigation(event) {
       break;
   }
 }
+
+// Eliminar el manejador al navegar
+const originalHandleKeyNavigation = handleKeyNavigation;
+handleKeyNavigation = function(event) {
+  // Si es uno de nuestros atajos, no procesamos la navegación normal
+  if (event.ctrlKey && ['c', 'x', 'v', 'z'].includes(event.key)) {
+    return;
+  }
+
+  // Guardar la celda activa actual antes de la navegación
+  const prevActiveCell = activeCell;
+  
+  // Llamar a la función original
+  originalHandleKeyNavigation.call(this, event);
+  
+  // Si la celda activa ha cambiado, remover el manejador de la celda anterior
+  if (prevActiveCell && prevActiveCell !== activeCell) {
+    removeFillHandle(prevActiveCell);
+  }
+};
 
 function navigateToCell(direction) {
   if (!activeCell) return;
@@ -465,6 +1001,26 @@ function updateCell(cell) {
   showEditIcons();
 }
 
+// Agrega la funcionalidad para guardad en el historias de deshacer a la función updateCell
+const originalUpdateCell = updateCell;
+updateCell = function(cell) {
+  // Guarda el valor antes de modificarlo
+  const previousValue = cell.textContent;
+
+  // Llamar a la función original
+  originalUpdateCell.call(this, cell);
+
+  // Si el valor cambió, guarda la acción
+  if (previousValue !== cell.textContent) {
+    saveActionForUndo({
+      type: 'edit',
+      cell: cell,
+      previousValue: previousValue,
+      newValue: cell.textContent
+    });
+  }
+};
+
 // Funciones auxiliares
 function getColumnName(cell) {
   const headerRow = document.querySelector("#tabla-datos tr");
@@ -485,7 +1041,7 @@ function getColumnName(cell) {
   return mappedName;
 }
 
-// Añadir estilos CSS para las celdas seleccionadas
+// Estilos CSS para las celdas seleccionadas
 function addExcelStyleCSS() {
   if (document.getElementById('excel-style-css')) return;
   
@@ -516,9 +1072,48 @@ function addExcelStyleCSS() {
       font-size: 10px;
       color: #888;
     }
+    /* Estilos para el manejador de relleno */
+    .fill-handle {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 8px;
+      height: 8px;
+      background-color: #217346;
+      border: 1px solid white;
+      cursor: crosshair;
+      z-index: 100;
+    }
+    .fill-target {
+      background-color: rgba(33, 115, 70, 0.2) !important;
+    }
   `;
   document.head.appendChild(style);
 }
+
+// Añade estilos para las animaciones a la función addExcelStyleCSS
+const originalAddExcelStyleCSS = addExcelStyleCSS;
+addExcelStyleCSS = function() {
+  originalAddExcelStyleCSS();
+
+  if (document.getElementById('excel-shortcuts-css')) return;
+
+  const style = document.createElement('style');
+  style.id = 'excel-shortcuts.css';
+  style.textContent = `
+  .action-feedback {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+    z-index: 1000;
+    pointer-events: none;
+  }
+  `;
+  document.head.appendChild(style);
+};
 
 // Funciones para los botones de guardar y deshacer
 function showSaveButton() {
@@ -670,6 +1265,61 @@ function saveAllChanges() {
 }
 
 // Inicialización al cargar el documento
+// Listener de documento para eliminar el manejador cuando se hace clic fuera de la tabla
 document.addEventListener("DOMContentLoaded", function() {
   makeEditable();
+  
+  document.addEventListener("click", function(e) {
+    const table = document.getElementById("tabla-datos");
+    if (!table) return;
+    
+    // Verificar si el clic fue fuera de la tabla o en un elemento que no es una celda editable
+    if (!table.contains(e.target) || !e.target.closest('td.excel-behavior-applied')) {
+      // Clic fuera de la tabla o en un elemento no editable
+      
+      // Primero salir del modo edición si estamos en él
+      if (editMode && activeCell) {
+        exitEditMode();
+      }
+      
+      // Eliminar explícitamente todos los manejadores de relleno que puedan existir
+      document.querySelectorAll('.fill-handle').forEach(handle => {
+        handle.parentNode.removeChild(handle);
+      });
+      
+      // También limpiar cualquier estado de arrastre
+      dragInProgress = false;
+      dragStartCell = null;
+      document.removeEventListener('mousemove', handleFillDrag);
+      document.removeEventListener('mouseup', endFillDrag);
+      
+      // Limpiar las marcas de celdas objetivo
+      document.querySelectorAll('.fill-target').forEach(cell => {
+        cell.classList.remove('fill-target');
+      });
+      
+      // Deseleccionar la celda activa
+      if (activeCell) {
+        activeCell.classList.remove('selected-cell');
+        activeCell = null;
+      }
+      
+      // Actualizar el estado del manejador
+      fillHandleVisible = false;
+    }
+  });
 });
+
+// Modificación de la inicialización para incluir las nuevas funciones
+const originalDOMContentLoaded = document.addEventListener;
+document.addEventListener = function(event, callback) {
+  if (event === 'DOMContentLoaded') {
+    const originalCallback = callback;
+    callback = function() {
+      originalCallback();
+      setupKeyboardShortcuts();
+    };
+  }
+
+  return originalDOMContentLoaded.call(this, event, callback);
+};

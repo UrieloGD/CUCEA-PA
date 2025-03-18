@@ -78,7 +78,7 @@ function validateFile(file) {
   }
 
   if (file.size > CONFIG.maxFileSize) {
-    showError(
+    showError( 
       "Archivo demasiado grande",
       "El archivo excede el tamaño máximo permitido de 2MB"
     );
@@ -113,7 +113,91 @@ async function handleSubmit(e) {
     return;
   }
 
-  showLoading();
+  // Obtener el ID del departamento usando un endpoint PHP
+  try {
+    // Primer paso: Obtener el departamento_id actual de la sesión
+    const sesionResponse = await fetch('./functions/plantilla/obtener-departamento.php');
+    if (!sesionResponse.ok) {
+      throw new Error(`Error HTTP: ${sesionResponse.status}`);
+    }
+    
+    const sesionData = await sesionResponse.json();
+    
+    if (!sesionData.success || !sesionData.departamento_id) {
+      throw new Error("No se pudo recuperar el ID del departamento");
+    }
+    
+    const departamentoId = sesionData.departamento_id;
+    
+    // Ahora con el departamentoId, verificamos si existe la plantilla
+    const verificacionResponse = await fetch(`./functions/plantilla/verificarPlantillaExistente.php?departamento_id=${departamentoId}`);
+    
+    if (!verificacionResponse.ok) {
+      throw new Error(`Error HTTP: ${verificacionResponse.status}`);
+    }
+    
+    const verificacionResult = await verificacionResponse.json();
+    
+    if (verificacionResult.existe) {
+      // Mostrar alertas de confirmación con SweetAlert2
+      const confirmResult = await Swal.fire({
+        title: 'Plantilla existente',
+        html: 'Ya existe una plantilla subida para este departamento.<br>¿Deseas reemplazarla?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Reemplazar datos',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        width: '600px',
+      });
+      
+      if (confirmResult.isDismissed) {
+        // Usuario canceló la operación
+        return;
+      }
+      
+      // El usuario eligió reemplazar (única opción disponible si no canceló)
+      showLoading("Eliminando datos existentes...");
+      
+      try {
+        const reemplazarResponse = await fetch('./functions/plantilla/reemplazarPlantilla.php', {
+          method: 'POST'
+        });
+        
+        if (!reemplazarResponse.ok) {
+          throw new Error(`Error HTTP: ${reemplazarResponse.status}`);
+        }
+        
+        const reemplazarResult = await reemplazarResponse.json();
+        
+        if (!reemplazarResult.success) {
+          throw new Error(reemplazarResult.message || "Error al eliminar datos existentes");
+        }
+        
+        // Después de eliminar, proceder con la subida normal
+        await realizarSubida();
+        
+      } catch (error) {
+        console.error("Error al reemplazar:", error);
+        showError("Error", "No se pudieron eliminar los datos existentes. " + error.message);
+      }
+    } else {
+      // No existe plantilla previa, subir normalmente
+      await realizarSubida();
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    showError(
+      "Error",
+      "No se pudo completar la operación: " + error.message
+    );
+  }
+}
+
+// Función para realizar la subida del archivo
+async function realizarSubida() {
+  showLoading("Subiendo archivo...");
 
   try {
     const { file } = filesToUpload[0];
@@ -182,9 +266,9 @@ function resetUploadState() {
   input.value = "";
 }
 
-function showLoading() {
+function showLoading(message = "Subiendo archivo...") {
   return Swal.fire({
-    title: "Subiendo archivo...",
+    title: message,
     html: "Por favor, espere. Esto puede tardar varios segundos.",
     allowOutsideClick: false,
     didOpen: () => {

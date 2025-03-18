@@ -8,7 +8,16 @@
     </div>
     <div class="nombre-dpto-solicitud">
         <span>Departamento:</span>
-        <span class="nombre-departamento"><?php echo $solicitud['departamento']; ?></span>
+        <span class="nombre-departamento">
+            <?php 
+            // Convertir a mayúsculas manteniendo acentos y caracteres especiales
+            $departamento = mb_strtoupper(
+                str_replace('_', ' ', $solicitud['departamento']), 
+                'UTF-8'
+            );
+            echo trim($departamento);
+            ?>
+        </span>
     </div>
     <hr style="border: 1px solid #ccc; margin: 10px 0;">
     
@@ -85,23 +94,29 @@
     <?php endif; ?>
 
     <div class="contenedor-botones">
-        <?php if ($solicitud['tipo'] == 'Solicitud de baja'): ?>
-            <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] != 'En revision' && $solicitud['estado'] != 'Aprobada'): ?>
-                <button class="boton-pdf btn-generar-pdf" data-folio="<?php echo $solicitud['folio']; ?>">
-                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>
-                    Generar solicitud en PDF
-                </button>
-            <?php else: ?>
-                <button class="boton-pdf btn-descargar-pdf" data-folio="<?php echo $solicitud['folio']; ?>">
-                    <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>
-                    Descargar
-                </button>
-            <?php endif; ?>
-        <?php else: ?>
-            <button class="boton-pdf btn-descargar-pdf" data-folio="<?php echo $solicitud['folio']; ?>">
-                <i class="fa fa-file-text" aria-hidden="true" style="margin-right: 0.5vw;"></i>
-                Descargar
+        <?php 
+        // Determinar el tipo de solicitud normalizado
+        $tipo = strtolower(str_replace(['Solicitud de ', ' '], ['', '-'], $solicitud['tipo']));
+        ?>
+        
+        <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] == 'Pendiente'): ?>
+            <button class="boton-generar" 
+                    data-folio="<?= $solicitud['folio'] ?>" 
+                    data-tipo="<?= $tipo ?>">
+                <i class="fas fa-file-pdf"></i> Generar PDF
             </button>
+        
+        <?php elseif ($solicitud['estado'] == 'En revision'): ?>
+            <button class="boton-descargar" 
+                    data-folio="<?= $solicitud['folio'] ?>" 
+                    data-tipo="<?= $tipo ?>">
+                <i class="fas fa-download"></i> Descargar PDF
+            </button>
+        
+        <?php else: ?>
+            <div class="aviso-pendiente-no-disponible">
+                <i class="fas fa-info-circle"></i> PDF disponible después de revisión
+            </div>
         <?php endif; ?>
     </div>
 </div>
