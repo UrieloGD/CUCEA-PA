@@ -1,6 +1,41 @@
 // ./JS/basesdedatos/inicializar-tablas.js
 var table;
 
+ // Observar cambios en el DOM y eliminar los elementos en cuanto aparezcan
+ (function() {
+  // Función para eliminar los elementos
+  function removeTargets() {
+    var targets = document.querySelectorAll("#icono-visibilidad, #btn-colvis");
+    targets.forEach(function(el) {
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el);
+        console.log("Elemento eliminado:", el.id);
+      }
+    });
+  }
+  
+  // Configurar MutationObserver para vigilar cambios en el DOM
+  var observer = new MutationObserver(function(mutations) {
+    removeTargets();
+  });
+  
+  // Comenzar observación tan pronto como sea posible
+  observer.observe(document.documentElement || document.body, {
+    childList: true,
+    subtree: true
+  });
+  
+  // Intentar eliminar inmediatamente y periódicamente
+  removeTargets();
+  setInterval(removeTargets, 50);
+  
+  // También cuando el DOM esté listo
+  document.addEventListener("DOMContentLoaded", removeTargets);
+  
+  // Y cuando todo esté cargado
+  window.addEventListener("load", removeTargets);
+})();
+
 // Inicializar tooltips personalizados
 function initializeCustomTooltips() {
   if ($("[data-tooltip]").data("tooltip-initialized")) return;
