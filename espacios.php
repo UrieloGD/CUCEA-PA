@@ -133,6 +133,9 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div id="filtrar-container">
             <button id="filtrar">Filtrar</button>
         </div>
+        <div id="limpiar-container">
+            <button id="limpiar">Limpiar</button>
+        </div>
     </div>
     <!-- -------------------------- -->
      <!-- Solo dispositivos moviles -->
