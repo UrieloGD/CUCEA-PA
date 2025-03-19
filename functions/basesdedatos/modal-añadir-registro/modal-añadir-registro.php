@@ -1,5 +1,7 @@
 <!-- jQuery (requerido para Select2) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
 <!-- Select2 CSS y JS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -22,13 +24,13 @@
                     <div class="form-row">
                         <input type="text" id="ciclo" name="ciclo" placeholder="202520" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
                         <input type="text" id="crn" name="crn" placeholder="128633" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);">
-                        <input type="text" id="cve_materia" name="cve_materia" placeholder="I5095" oninput="this.value = this.value.replace(/[^A-Z0-9]/g, '').slice(0, 5);">
+                        <input type="text" id="cve_materia" name="cve_materia" placeholder="I5095" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-materia">Materia</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="materia" name="materia" placeholder="TEORIA Y DESARROLLO ORGANIZACIONAL" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 80);">
+                        <input type="text" id="materia" name="materia" placeholder="TEORIA Y DESARROLLO ORGANIZACIONAL" class="full-width" oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 90);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-nivel">Nivel</span>
@@ -36,8 +38,8 @@
                     <div class="form-row">
                         <select id="nivel" name="nivel">
                             <option value="" disabled selected></option>
-                            <option value="licenciatura">LICENCIATURA</option>
-                            <option value="tecnico">TECNICO SUP</option>
+                            <option value="LICENCIATURA">LICENCIATURA</option>
+                            <option value="TECNICO">TECNICO SUP</option>
                         </select>
                     </div>
                     <div class="form-row-titles">
@@ -48,8 +50,8 @@
                     <div class="form-row">
                         <select id="tipo" name="tipo">
                             <option value="" disabled selected></option>
-                            <option value="p">P</option>
-                            <option value="t">T</option>
+                            <option value="P">P</option>
+                            <option value="T">T</option>
                         </select>
                         <select id="nivel_tipo" name="nivel_tipo">
                             <option value="" disabled selected></option>
@@ -58,7 +60,7 @@
                             <option value="PRIMERO">PRIMERO</option>
                             <option value="TLAQUEP">TLAQUEP</option>
                         </select>
-                        <input type="text" id="seccion" name="seccion" placeholder="C01" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5);">
+                        <input type="text" id="seccion" name="seccion" placeholder="C001" oninput="this.value = this.value.toUpperCase().replace(/[^a-zA-Z0-9]/g, '').slice(0, 5);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-c_min">C. Min</span>
@@ -66,12 +68,13 @@
                         <span class="title-estatus">Status</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="c_min" name="c_min" placeholder="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
-                        <input type="text" id="h_totales" name="h_totales" placeholder="40" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
+                        <input type="text" id="c_min" name="c_min" placeholder="15" oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 2);">
+                        <input type="text" id="h_totales" name="h_totales" placeholder="40" oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 2);">
                         <select id="estatus" name="estatus">
                             <option value="" disabled selected></option>
-                            <option value="activar">Activar</option>
-                            <option value="inactivar">Inactivar</option>
+                            <option value="ACTIVA">ACTIVA</option>
+                            <option value="VALIDADO">VALIDADO</option>
+                            <option value="INACTIVA">INACTIVA</option>
                         </select>
                     </div>
                     <div class="form-row-titles">
@@ -144,7 +147,9 @@
                         <span class="title-hora_final">Hora final</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="hora_inicial" name="hora_inicial" placeholder="1600" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <input type="text" id="hora_inicial" name="hora_inicial" placeholder="1600" 
+                        minlength="4" maxlength="4" 
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" id="hora_final" name="hora_final" placeholder="1855" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="form-row-titles">
@@ -152,8 +157,14 @@
                         <span class="title-aula">Aula</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="modulo" name="modulo" placeholder="CEDC" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 25);">
-                        <input type="text" id="aula" name="aula" placeholder="207" oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 10);">
+                    <input type="text" id="modulo" name="modulo"
+                        placeholder="CEDC" 
+                        minlength="4" maxlength="5"
+                        oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s]/g, '');">
+                    <input type="text" id="aula" name="aula" 
+                        placeholder="0207" 
+                        minlength="4" maxlength="4"
+                        oninput="this.value = this.value.toUpperCase().replace(/[^a-zA-Z0-9]/g, '');">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-cupo">Cupo</span>
@@ -186,7 +197,9 @@
                         <span class="title-nombre_profesor">Nombre completo del profesor</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_profesor" name="nombre_profesor" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 60);">
+                    <input type="text" id="nombre_profesor" name="nombre_profesor" 
+                            placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ" class="full-width" 
+                            oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-contrato">Tipo contrato</span>
@@ -195,9 +208,9 @@
                     <div class="form-row">
                         <select id="tipo_contrato" name="tipo_contrato">
                             <option value="" disabled selected></option>
-                            <option value="asignatura">Asignatura</option>
-                            <option value="cargo">Cargo a Plaza</option>
-                            <option value="horas">Horas Definitivas</option>
+                            <option value="ASIGNATURA">Asignatura</option>
+                            <option value="CARGO A PLAZA">Cargo a Plaza</option>
+                            <option value="HORAS DEFINITIVAS">Horas Definitivas</option>
                         </select>
                         <select id="categoria" name="categoria">
                             <option value="" disabled selected></option>
@@ -233,22 +246,22 @@
                     <div class="form-row">
                         <select id="descarga" name="descarga">
                             <option value="" disabled selected></option>
-                            <option value="no">NO</option>
-                            <option value="ok">OK</option>
+                            <option value="NO">NO</option>
+                            <option value="OK">OK</option>
                         </select>
-                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="2967799" class="full-width" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 9);">
+                        <input type="text" id="codigo_descarga" name="codigo_descarga" placeholder="2967799" class="full-width" oninput="this.value = this.value.toUpperCase().replace(/[^0-9]/g, '').slice(0, 9);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-nombre_descarga">Nombre descarga</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 60);">
+                        <input type="text" id="nombre_descarga" name="nombre_descarga" placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ" class="full-width" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-nombre_definitivo">Nombre definitivo</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="NOMBRE NOMBRE APELLIDO APELLIDO" class="full-width" oninput="this.value = this.value.replace(/[^A-Z\s]/g, '').slice(0, 60);">
+                        <input type="text" id="nombre_definitivo" name="nombre_definitivo" placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ" class="full-width" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-horas_totales">Horas totales</span>
@@ -258,8 +271,8 @@
                         <input type="text" id="horas_totales" name="horas" placeholder="40" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
                         <select id="titular" name="titular">
                             <option value="" disabled selected></option>
-                            <option value="si">SI</option>
-                            <option value="no">NO</option>
+                            <option value="SI">SI</option>
+                            <option value="NO">NO</option>
                         </select>
                     </div>
                     <div class="form-row-titles">
@@ -267,7 +280,8 @@
                         <span class="title-codigo_dependencia">Código dependencia</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="horas" name="horas" placeholder="2" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 1);">
+                        <input type="text" id="horas" name="horas" placeholder="2.5" 
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').slice(0, 3);">
                         <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="1110" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 4);">
                     </div>
                 </div>

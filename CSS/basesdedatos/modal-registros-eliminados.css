@@ -77,3 +77,18 @@
     max-height: 50vh; /* Ajusta la altura del scroll */
     overflow-y: auto;
   }
+
+  /* Estilos de los botones del modal de la semana */
+  .day-btn {
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .day-btn.active {
+      background: #0071B0;
+      color: white;
+  }
