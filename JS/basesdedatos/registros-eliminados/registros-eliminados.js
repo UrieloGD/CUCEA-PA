@@ -1,12 +1,13 @@
 // ./JS/basesdedatos/registros-eliminados/registros-eliminados.js
-let tablaEliminados; // Variable global
+let tablaEliminados = null;
 
 document.addEventListener('DOMContentLoaded', (function() {
     const departamentoId = document.getElementById('departamento_id').value;
+    const modal = document.getElementById('modalRegistrosEliminados');
 
-    // Función para inicializar la tabla de registros eliminados
+    // Función para inicializar/recargar la tabla
     const inicializarTabla = () => {
-        if (tablaEliminados) {
+        if (tablaEliminados !== null) {
             tablaEliminados.destroy();
         }
 
@@ -20,10 +21,7 @@ document.addEventListener('DOMContentLoaded', (function() {
                 },
                 dataSrc: 'data',
                 error: function(xhr) {
-                    console.error('Detalles del error:', {
-                        status: xhr.status,
-                        response: xhr.responseText
-                    });
+                    console.error('Error al cargar datos:', xhr);
                 }
             },
             columns: [
@@ -74,62 +72,64 @@ document.addEventListener('DOMContentLoaded', (function() {
                     render: function(data, type, row) {
                         return `<button class="btn btn-primary btn-restaurar" 
                                   data-id="${row.ID_Plantilla}" 
-                                  style="width: 100px;">
+                                  style="min-width: 100px;">
                                 Restaurar
                               </button>`;
-                    }
+                    },
+                    orderable: false,
+                    className: 'acciones-col'
                 }
             ],
             scrollX: true,
             scrollY: '60vh',
             scrollCollapse: true,
+            fixedColumns: {
+                leftColumns: 1,
+                rightColumns: 1
+            },
+            fixedHeader: true,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json',
-                searchPlaceholder: 'Buscar registros...',
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                lengthMenu: "Mostrar _MENU_ registros"
+                searchPlaceholder: 'Buscar...',
+                lengthMenu: 'Mostrar _MENU_ registros',
+                info: 'Mostrando _START_ a _END_ de _TOTAL_ registros'
             },
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
             pageLength: 10,
-            dom: "<'row'<'col-sm-6'f><'col-sm-6'l>>rtip",
-            ordering: true
+            dom: '<"top"<"row"<"col-sm-6"f><"col-sm-6"l>>>rt<"bottom"ip>',
+            initComplete: function() {
+                // Inicializar FixedColumns después de cargar los datos
+                new $.fn.dataTable.FixedColumns(this, {
+                    leftColumns: 1,
+                    rightColumns: 1
+                });
+            }
         });
     };
 
-    // Evento para abrir modal
+    // Evento para abrir el modal
     document.getElementById('icono-papelera').addEventListener('click', () => {
-        const modal = new bootstrap.Modal(document.getElementById('modalRegistrosEliminados'));
-        modal.show();
+        const modalInstance = new bootstrap.Modal(modal);
+        modalInstance.show();
         
-        // Inicializar tabla después de que el modal sea visible
-        $('#modalRegistrosEliminados').on('shown.bs.modal', function() {
+        // Inicializar tabla solo una vez cuando el modal se muestra
+        $(modal).one('shown.bs.modal', function() {
             inicializarTabla();
             
-            // Aplicar FixedColumns después de que la tabla tenga datos
+            // Forzar ajuste de columnas después de renderizar
             setTimeout(() => {
-                if (tablaEliminados) {
-                    // Primero ajustar columnas
-                    tablaEliminados.columns.adjust();
-                    
-                    // Verificar si la tabla tiene datos
-                    if (tablaEliminados.data().length > 0) {
-                        new $.fn.dataTable.FixedColumns(tablaEliminados, {
-                            leftColumns: 1,  // Fija la columna ID
-                            rightColumns: 1  // Fija la columna ACCIONES
-                        });
-                    }
-                }
-            }, 500); // Dar tiempo suficiente para que se renderice
+                tablaEliminados.columns.adjust();
+                $(window).trigger('resize');
+            }, 50);
         });
     });
 
     // Evento para restaurar registros
-    document.getElementById('modalRegistrosEliminados').addEventListener('click', async (e) => {
+    modal.addEventListener('click', async (e) => {
         if(e.target.closest('.btn-restaurar')) {
             const boton = e.target.closest('.btn-restaurar');
             const idRegistro = boton.dataset.id;
 
-            // Confirmación con SweetAlert
             const { isConfirmed } = await Swal.fire({
                 title: '¿Restaurar registro?',
                 text: "Esta acción volverá a mostrar el registro en la tabla principal",
@@ -143,7 +143,6 @@ document.addEventListener('DOMContentLoaded', (function() {
 
             if (isConfirmed) {
                 try {
-                    // Crear FormData en lugar de JSON
                     const formData = new FormData();
                     formData.append('id', idRegistro);
                     
@@ -152,50 +151,46 @@ document.addEventListener('DOMContentLoaded', (function() {
                         body: formData
                     });
 
-                    // Para depuración, capturamos primero el texto
-                    const textoRespuesta = await respuesta.text();
-                    console.log('Respuesta del servidor:', textoRespuesta);
+                    const resultado = await respuesta.json();
                     
-                    try {
-                        const resultado = JSON.parse(textoRespuesta);
-                        
-                        if (resultado.success) {
-                            tablaEliminados.ajax.reload();
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Restaurado!',
-                                text: resultado.message,
-                                timer: 1500,
-                                showConfirmButton: false
-                            }).then(() => {
-                                location.reload(); // Recargar la página principal
-                            });
-                        } else {
-                            throw new Error(resultado.message || 'Error desconocido');
-                        }
-                    } catch (parseError) {
-                        throw new Error('Error al procesar la respuesta del servidor');
+                    if (resultado.success) {
+                        tablaEliminados.ajax.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Restaurado!',
+                            text: resultado.message,
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            $('#tabla-datos').DataTable().ajax.reload();
+                        });
+                    } else {
+                        throw new Error(resultado.message || 'Error desconocido');
                     }
                 } catch (error) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: error.message
+                        text: typeof error === 'object' ? error.message : error
                     });
                 }
             }
         }
     });
 
-    // Manejo de eventos para ajustar la tabla cuando cambia el tamaño de la ventana
+    // Manejo de redimensionamiento
     $(window).on('resize', function() {
-        if ($('#modalRegistrosEliminados').is(':visible') && tablaEliminados) {
+        if ($(modal).is(':visible') && tablaEliminados) {
             tablaEliminados.columns.adjust();
+            $.fn.dataTable.FixedColumns.adjust();
         }
     });
 
-    // Función para cerrar el modal
+    // Cerrar modal desde el botón
     window.cerrarRegistrosEliminados = function() {
-        bootstrap.Modal.getInstance(document.getElementById('modalRegistrosEliminados')).hide();
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        if (modalInstance) {
+            modalInstance.hide();
+        }
     };
 })());

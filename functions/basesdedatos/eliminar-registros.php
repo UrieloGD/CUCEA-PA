@@ -57,7 +57,7 @@ mysqli_autocommit($conexion, false);
 
 foreach ($ids as $id) {
     // Cambiamos la consulta DELETE por UPDATE para marcar como inactivo
-    $stmt = mysqli_prepare($conexion, "UPDATE `$tabla_departamento` SET PAPELERA = 'inactivo' WHERE ID_Plantilla = ? AND Departamento_ID = ?");
+    $stmt = mysqli_prepare($conexion, "UPDATE `$tabla_departamento` SET PAPELERA = 'INACTIVO' WHERE ID_Plantilla = ? AND Departamento_ID = ?");
     mysqli_stmt_bind_param($stmt, "ii", $id, $departamento_id);
     if (!mysqli_stmt_execute($stmt)) {
         mysqli_rollback($conexion);

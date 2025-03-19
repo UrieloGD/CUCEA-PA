@@ -183,7 +183,7 @@ $departamento_nombre = $row_departamento['Departamentos'];
 
 $tabla_departamento = "data_" . $nombre_departamento;
 
-$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = ?";
+$sql = "SELECT * FROM $tabla_departamento WHERE Departamento_ID = ? AND PAPELERA = 'activo'";
 $stmt = $conexion->prepare($sql);
 
 if (!$stmt) {
