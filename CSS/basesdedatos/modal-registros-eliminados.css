@@ -6,7 +6,7 @@
   }
   
   /* Estilos personalizados para el botón "Restaurar" del modal de registros eliminados */
-  .btn-restaurar {
+  #modalRegistrosEliminados .btn-restaurar {
     background-color: #0071B0;
     color: white;
     border: none;
@@ -26,12 +26,12 @@
   }
   
   /* Estilo para el título del modal de registros eliminados */
-  #modalRegistrosEliminados .modal-title {
+  .modal-title {
     font-size: 20px;
   }
   
   /* Estilo para el botón de cerrar del modal de registros eliminados */
-  #modalRegistrosEliminados .close {
+  .close {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -50,12 +50,12 @@
   }
   
   /* Estilo para el botón de cerrar del modal de registros eliminados al pasar el cursor sobre él */
-  #modalRegistrosEliminados .close:hover {
+  .close:hover {
     background-color: #f3f4f6;
   }
   
   /* Estilo para el contenido del modal de registros eliminados */
-  #modalRegistrosEliminados .modal-content {
+  .modal-content {
     position: relative;
     background-color: white;
     padding: 2rem;
@@ -66,10 +66,30 @@
     overflow-y: auto;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
+
+  #tabla-eliminados_wrapper .row {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
   
   /* Estilos para el alinear la barra de búsqueda con Mostrar N registros en el modal de registros eliminados*/
   div.dt-container .dt-search input {
     margin-top: -10;
+  }
+
+  div#modalRegistrosEliminados .dt-search input {
+    margin-top: 70;
+    width: 32vw;
+  }
+
+  #tabla-eliminados_info.dt-info {
+    display: none;
+  }
+
+  #tabla-eliminados_wrapper div.dt-paging {
+    display: none!important;
   }
 
   /* Estilo para mantener los encabezados de la tabla de eliminados fijos */

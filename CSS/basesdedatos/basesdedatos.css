@@ -1110,10 +1110,9 @@ th[data-tooltip] {
   .iconos-container {
     position: relative;
     width: 100%;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: center;
+    align-items: center;
     top: 40px;
-    right: 21px;
   }
   .encabezado-derecha {
     width: 100vw;
