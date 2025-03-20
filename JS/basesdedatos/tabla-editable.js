@@ -117,7 +117,8 @@ function makeEditable() {
   }
 
   const userRole = document.getElementById("user-role");
-  if (!userRole || userRole.value !== "1") {
+  if (!userRole || userRole.value !== "1" || !puedeEditar) {
+    hideEditIcons();
     return;
   }
 
@@ -136,20 +137,23 @@ function makeEditable() {
         // Añadir clase para marcar como procesada
         cell.classList.add("excel-behavior-applied");
         
-        // Añadir eventos
-        cell.addEventListener("click", handleCellClick);
-        cell.addEventListener("dblclick", handleCellDblClick);
-        cell.addEventListener("keydown", handleKeyNavigation);
-        cell.addEventListener("input", function() {
-          updateCell(this);
-        });
+        // Solo agregar eventos si puedeEditar es true
+        if (puedeEditar) {
+          cell.addEventListener("click", handleCellClick);
+          cell.addEventListener("dblclick", handleCellDblClick);
+          cell.addEventListener("keydown", handleKeyNavigation);
+          cell.addEventListener("input", function() {
+            updateCell(this);
+          });
+        }
       }
     });
   });
 
-  // Emitir evento de tabla editable
-  const editableEvent = new CustomEvent('tableNowEditable', {
-    detail: { table: table }
+  // Emitir evento de tabla editable solo si puedeEditar es true
+  if (puedeEditar) {
+    const editableEvent = new CustomEvent('tableNowEditable', {
+      detail: { table: table }
   });
   document.dispatchEvent(editableEvent);
 
@@ -160,9 +164,10 @@ function makeEditable() {
       if (activeCell) {
         activeCell.classList.remove('selected-cell');
         activeCell = null;
+        }
       }
-    }
-  });
+    });
+  } 
 }
 
 // Función de reconocimiento de eventos
@@ -250,7 +255,12 @@ function cutSelectedCell() {
 }
 
 function pasteSelectedCell() {
-  if(!activeCell || !clipboard) return;
+  if(!activeCell || !clipboard || !puedeEditar) {
+    if (!puedeEditar) {
+      showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
+  }
+  return;
+  }
 
   // No se puede hacer la acción de pegar si se esta en modo edición
   if (editMode) {
@@ -697,9 +707,13 @@ function enterEditMode(cell) {
 
 originalEnterEditMode = enterEditMode;
 enterEditMode = function(cell) {
-  if(!cell) return;
-
-  // GUarda el valor antes de entrar en edición
+  if(!cell || !puedeEditar) {
+    if (!puedeEditar) {
+      showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
+    }
+    return;
+  }
+  // Guarda el valor antes de entrar en edición
   const previousValue = cell.textContent;
 
   // Llamar a la función original
@@ -1004,6 +1018,10 @@ function updateCell(cell) {
 // Agrega la funcionalidad para guardad en el historias de deshacer a la función updateCell
 const originalUpdateCell = updateCell;
 updateCell = function(cell) {
+  if (!puedeEditar) {
+    showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
+    return;
+  }
   // Guarda el valor antes de modificarlo
   const previousValue = cell.textContent;
 
@@ -1184,6 +1202,10 @@ function undoAllChanges() {
 }
 
 function saveAllChanges() {
+  if (!puedeEditar) {
+    showFeedbackMessage("No puedes guardar cambios fuera de las fechas de Programación Académica.");
+    return;
+  }
   // Añadir console.log para verificar el rol del usuario
   const userRole = document.getElementById("user-role").value;
   console.log("User Role:", userRole);
@@ -1268,6 +1290,10 @@ function saveAllChanges() {
 // Listener de documento para eliminar el manejador cuando se hace clic fuera de la tabla
 document.addEventListener("DOMContentLoaded", function() {
   makeEditable();
+  // Si no puede editar, ocultar íconos por defecto
+  if (!puedeEditar) {
+    hideEditIcons();
+  }
   
   document.addEventListener("click", function(e) {
     const table = document.getElementById("tabla-datos");
