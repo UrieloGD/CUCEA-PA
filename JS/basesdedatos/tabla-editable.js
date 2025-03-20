@@ -1198,21 +1198,19 @@ function undoAllChanges() {
 }
 
 function saveAllChanges() {
-  // Añadir console.log para verificar el rol del usuario
+  // Obtener rol y departamento
   const userRole = document.getElementById("user-role").value;
-  console.log("User Role:", userRole);
+  const departmentId = document.getElementById("departamento_id").value;
+  console.log("User Role:", userRole, "Department ID:", departmentId);
 
   const promises = Array.from(changedCells).map((cell) => {
     const id = cell.parentNode.cells[1].textContent;
     const column = getColumnName(cell);
     let value = cell.textContent;
-
     // Limpieza básica de datos
     value = value.replace(/[^\x00-\x7F]/g, "");
-
-    // Añadir más información de depuración
+    // Añadir info para debug
     console.log("Saving - ID:", id, "Column:", column, "Value:", value);
-
     return fetch("./functions/basesdedatos/actualizar-celda.php", {
       method: "POST",
       headers: {
@@ -1222,7 +1220,8 @@ function saveAllChanges() {
         id,
         column,
         value,
-        user_role: userRole, // Pasar el rol del usuario
+        user_role: userRole,
+        department_id: departmentId, // Enviar el departamento_id actual
       }),
     })
       .then((response) => {
