@@ -1,7 +1,7 @@
     <?php
     session_start();
 
-    if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+    if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {
         header("Location: home.php");
         exit();
     }

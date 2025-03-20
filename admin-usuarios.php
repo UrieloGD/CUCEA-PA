@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
-if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID'] != 0)) {
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID'] != 0) {
   header("Location: home.php");
   exit();
 }
@@ -175,10 +175,10 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_I
 
     // Inicializar roles
     roles.forEach((rol) => {
-        const option = document.createElement("option");
-        option.value = rol.Rol_ID;
-        option.text = rol.Nombre_Rol;
-        rolesSelect.add(option);
+      const option = document.createElement("option");
+      option.value = rol.Rol_ID;
+      option.text = rol.Nombre_Rol;
+      rolesSelect.add(option);
     });
 
     // Inicializar departamentos
@@ -188,11 +188,11 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_I
     departamentosSelect.add(emptyOption);
 
     departamentos.forEach((departamento) => {
-        const option = document.createElement("option");
-        option.value = departamento.Departamento_ID;
-        option.text = departamento.Departamentos;
-        departamentosSelect.add(option);
+      const option = document.createElement("option");
+      option.value = departamento.Departamento_ID;
+      option.text = departamento.Departamentos;
+      departamentosSelect.add(option);
     });
-</script>
+  </script>
 
   <?php include './template/footer.php' ?>

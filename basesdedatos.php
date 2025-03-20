@@ -26,9 +26,9 @@ $rol = $_SESSION['Rol_ID'];
 if ($rol == 1) {
     // Para jefes de departamento, usar su departamento asignado
     $departamento_id = $_SESSION['Departamento_ID'];
-} elseif ($rol == 2 || $rol == 3) {
+} elseif ($rol == 2 || $rol == 3 || $rol == 0) {
     // Para roles 2 y 3, permitir selección de departamento
-    if (isset($_GET['Departamento_ID'])) {  // Cambiado a Departamento_ID con mayúsculas
+    if (isset($_GET['Departamento_ID'])) {
         // Si se proporciona un Departamento_ID específico
         $departamento_id = (int)$_GET['Departamento_ID'];
     } else {
@@ -247,7 +247,7 @@ $result = $stmt->get_result();
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <?php if ($rol == 1): ?>
+                <?php if ($rol == 1 || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                         <i class="fa fa-save" aria-hidden="true"></i>
                     </div>
@@ -265,7 +265,7 @@ $result = $stmt->get_result();
                 <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
                     <i class="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <?php if ($rol == 1): ?>
+                <?php if ($rol == 1 || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
                         <i class="fa fa-add" aria-hidden="true"></i>
                     </div>
@@ -282,7 +282,7 @@ $result = $stmt->get_result();
 
     <?php
     // Verificar rol antes de mostrar la tabla editable
-    if ($_SESSION['Rol_ID'] != 1) {
+    if ($_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0) {
         // Deshabilitar edición o mostrar mensaje
         $tabla_editable = false;
     }
