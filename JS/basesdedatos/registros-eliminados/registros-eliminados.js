@@ -98,10 +98,9 @@ document.addEventListener('DOMContentLoaded', (function() {
             pageLength: 10,
             dom: '<"top"<"row"<"col-sm-6"f><"col-sm-6"l>>>rt<"bottom"ip>',
             initComplete: function() {
-                // Inicializar FixedColumns después de cargar los datos
                 new $.fn.dataTable.FixedColumns(this, {
-                    leftColumns: 1,
-                    rightColumns: 1
+                  leftColumns: 1,
+                  rightColumns: 1
                 });
             }
         });
@@ -181,8 +180,8 @@ document.addEventListener('DOMContentLoaded', (function() {
     // Manejo de redimensionamiento
     $(window).on('resize', function() {
         if ($(modal).is(':visible') && tablaEliminados) {
-            tablaEliminados.columns.adjust();
-            $.fn.dataTable.FixedColumns.adjust();
+          tablaEliminados.columns.adjust();
+          tablaEliminados.fixedColumns().relayout();
         }
     });
 

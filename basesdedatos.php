@@ -415,14 +415,12 @@ $result = $stmt->get_result();
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
 <!-- DataTables Plugins -->
+<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
 <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script> -->
 
 <!-- Scripts personalizados -->
 <script src="./JS/basesdedatos/tabla-editable.js"></script>
@@ -432,7 +430,6 @@ $result = $stmt->get_result();
 <script src="./JS/basesdedatos/inicializar-tablas.js"></script>
 
 <!-- Scrpits registros eliminados -->
-<script src="./JS/basesdedatos/registros-eliminados/modal-eliminados.js"></script>
 <script src="./JS/basesdedatos/registros-eliminados/registros-eliminados.js"></script>
 
 <?php include("./template/footer.php"); ?>
