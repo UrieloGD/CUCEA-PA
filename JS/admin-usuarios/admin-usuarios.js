@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (
       selectedRole === "Secretaría Administrativa" ||
-      selectedRole === "Coordinación de Personal"
+      selectedRole === "Coordinación de Personal" ||
+      selectedRole === "Administrador"
     ) {
       departamentosSelect.disabled = true;
       departamentosSelect.selectedIndex = ""; // Selecciona la opción vacía
@@ -87,7 +88,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const departamentoSelect = document.getElementById("departamento");
     if (
       usuario.Nombre_Rol === "Secretaría Administrativa" ||
-      usuario.Nombre_Rol === "Coordinación de Personal"
+      usuario.Nombre_Rol === "Coordinación de Personal" ||
+      usuario.Nombre_Rol === "Administrador"
     ) {
       // Deshabilitar y limpiar el departamento
       departamentoSelect.disabled = true;

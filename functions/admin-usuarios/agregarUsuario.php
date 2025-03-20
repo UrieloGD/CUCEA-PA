@@ -84,7 +84,8 @@ try {
     $result_rol = $stmt_check_rol->get_result();
     $row_rol = $result_rol->fetch_assoc();
     
-    if ($row_rol['Nombre_Rol'] != "Coordinación de Personal" && $row_rol['Nombre_Rol'] != "Secretaría Administrativa") {
+    $roles_especiales = ["Coordinación de Personal", "Secretaría Administrativa", "Administrador"];
+    if (!in_array($row_rol['Nombre_Rol'], $roles_especiales)){
         // Insertar la relación usuario-departamento solo si no es un rol especial
         $sql_departamento = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES (?, ?)";
         $stmt_departamento = $conexion->prepare($sql_departamento);

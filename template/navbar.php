@@ -185,7 +185,7 @@ function generateColorForUser($userId)
 
                 <li class="navbar-item flexbox-left">
                     <?php
-                    if ($rol_id == 3) { // Para Coordinación de Personal     
+                    if ($rol_id == 3 || $rol_id == 0) { // Para Coordinación de Personal     
                         echo '<div class="dropdown-container">';
                         if (basename($_SERVER['PHP_SELF']) == 'data-departamentos.php' || basename($_SERVER['PHP_SELF']) == 'basededatos-CoordPers.php') {
                             echo "<div class='indicador'>
@@ -350,8 +350,8 @@ function generateColorForUser($userId)
                 </li>
 
                 <?php
-                // Mostrar el ícono de "Horas" solo si el usuario tiene el rol 3 (Coordinación de Personal)
-                if ($rol_id == 3) {
+                // Mostrar el ícono de "Horas" solo si el usuario tiene el rol 3 (Coordinación de Personal) y 4
+                if ($rol_id == 3 || $rol_id == 0) {
                     echo "<li class='navbar-item flexbox-left'>";
                     if (basename($_SERVER['PHP_SELF']) == 'horas-comparacion.php') {
                         echo "<div class='indicador'>";
@@ -452,7 +452,7 @@ function generateColorForUser($userId)
                 </li>
 
                 <?php
-                if ($rol_id == 2) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
+                if ($rol_id == 2 || $rol_id == 0) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa
                 ?>
                     <li class="navbar-item flexbox-left">
                         <?php
