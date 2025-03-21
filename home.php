@@ -98,7 +98,7 @@ require_once './functions/home/eventos-home.php';
             // Manejar el caso en que no se encuentre asociado a ningún departamento
             echo "<a href='#'>";
           }
-        } elseif ($rol_id == 2) {
+        } elseif ($rol_id == 2 || $rol_id == 0) {
           // Si el usuario es secretaria administrativa, redirigir a plantillasPA
           echo "<a href='./admin-plantilla.php'>";
         } else {
