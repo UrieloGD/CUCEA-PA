@@ -1627,3 +1627,41 @@ table.dataTable thead .sorting_desc {
 #tabla-datos {
   display: none;
 }
+
+/* Estilo para el botón de cerrar del modal de descargar archivo */
+.close-modal-desc {
+  position: absolute;
+  right: 550px;
+  top: 100px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+/* Estilo para el botón de cerrar del modal de añadir formulario */
+.close-modal-anadir {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
