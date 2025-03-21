@@ -5,7 +5,15 @@
  * de permisos de edición basados en eventos de Programación Académica
  */
 
+// ./functions/basesdedatos/permisos-jd.php
+
 function tienePermisosDeEdicion($usuario_id, $conexion) {
+    // Verificar si es admin (rol 0)
+    if ($_SESSION['Rol_ID'] == 0) {
+        return true;
+    }
+
+    // El resto de la lógica original para otros roles...
     if (empty($usuario_id)) {
         return false;
     }

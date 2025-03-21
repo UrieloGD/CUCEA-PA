@@ -4,6 +4,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 try {
+    // ./functions/basesdedatos/actualizar-celda.php
     // Función para manejar errores y devolverlos como JSON
     function handleError($errno, $errstr, $errfile, $errline)
     {

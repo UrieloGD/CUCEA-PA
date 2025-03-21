@@ -12,7 +12,8 @@ if (session_status() == PHP_SESSION_NONE) {
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
-//include './config/db.php';
+
+// ./basesdedatos.php
 
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
@@ -21,9 +22,8 @@ if (!isset($_SESSION['email'])) {
 
 // Incluir la función de verificación de permisos
 include_once './functions/basesdedatos/permisos-jd.php';
-$puede_editar = false;
 
-// Verificar el rol del usuario
+$puede_editar = false;
 $rol = $_SESSION['Rol_ID'];
 
 // Verificar si la variable de sesión está definida antes de asignarla
@@ -31,12 +31,22 @@ if (isset($_SESSION['Codigo'])) {
     $usuario_id = $_SESSION['Codigo'];
 }
 
+// Nuevo bloque para admin
+if ($rol == 0) {
+    $puede_editar = true;
+} else if ($rol == 1) {
+    $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
+}
+
 // Lógica para seleccionar el departamento
-if ($rol == 1) {
+if ($rol == 0) { // Admin puede editar siempre
+    $puede_editar = true;
+    $departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : 1; // 1 como fallback
+} elseif ($rol == 1) {
     // Para jefes de departamento, usar su departamento asignado
     $departamento_id = $_SESSION['Departamento_ID'];
     $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
-} elseif ($rol == 2 || $rol == 3 || $rol == 0) {
+} elseif ($rol == 2 || $rol == 3) {
     $puede_editar = false;
     // Para roles 2 y 3, permitir selección de departamento
     if (isset($_GET['Departamento_ID'])) {

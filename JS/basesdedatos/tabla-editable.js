@@ -1,3 +1,4 @@
+// ./JS/basesdedatos/tabla-editable.js
 let changedCells = new Set();
 let dragStartCell = null;
 let dragInProgress = false;
@@ -117,9 +118,9 @@ function makeEditable() {
   }
 
   const userRole = document.getElementById("user-role");
-  if (!userRole || (userRole.value !== "1" || !puedeEditar && userRole.value !== "0")) {
-    hideEditIcons();
-    return;
+  if (!userRole || (userRole.value !== "1" && userRole.value !== "0" || !puedeEditar)) {
+      hideEditIcons();
+      return;
   }
 
   const rows = table.querySelectorAll("tbody tr");
@@ -718,7 +719,7 @@ function enterEditMode(cell) {
 
 originalEnterEditMode = enterEditMode;
 enterEditMode = function(cell) {
-  if(!cell || !puedeEditar) {
+  if(!cell || (!puedeEditar && userRole.value !== "0")) {
     if (!puedeEditar) {
       showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
     }
@@ -1249,6 +1250,10 @@ function saveAllChanges() {
   }
   // Añadir console.log para verificar el rol del usuario
   const userRole = document.getElementById("user-role").value;
+  if ((userRole !== "0" && !puedeEditar) || (userRole === "0" && !puedeEditar)) {
+      hideEditIcons();
+      return;
+  }
   const departmentId = document.getElementById("departamento_id").value;
   console.log("User Role:", userRole, "Department ID:", departmentId);
 
