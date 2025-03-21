@@ -107,6 +107,21 @@
     overflow-y: auto;
   }
 
+  /* Estilos de los botones del modal de la semana */
+  .day-btn {
+    padding: 5px 10px;
+    margin: 2px;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .day-btn.active {
+      background: #0071B0;
+      color: white;
+  }
+
   @media screen and (max-width: 1600px) and (min-width: 1401px) {
     .modal-content {
       width: 90%;

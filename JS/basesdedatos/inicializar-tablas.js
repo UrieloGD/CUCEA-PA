@@ -108,6 +108,9 @@ function initializeCustomTooltips() {
 
 $(document).ready(function () {
   localStorage.removeItem("DataTables_tabla-datos");
+  if ($.fn.dataTable.isDataTable('#tabla-datos')) {
+    table.destroy();
+  }
   table = $("#tabla-datos").DataTable({
     scrollY: "620px", // Altura fija para el cuerpo de la tabla
     scrollCollapse: true, // Permite que la tabla se colapse cuando hay poco contenido

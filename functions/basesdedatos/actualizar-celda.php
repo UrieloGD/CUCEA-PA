@@ -102,11 +102,46 @@ try {
             $column = $columnMap[$column];
         }
 
-        $numericColumns = ['CICLO', 'C_MIN', 'H_TOTALES', 'CODIGO_PROFESOR', 'CODIGO_DESCARGA', 'HORAS', 'HORA_INICIAL', 'HORA_FINAL', 'CUPO'];
+        // Sección de validaciones numéricas:
+        $numericColumns = [
+            'CICLO' => 10,        // Máximo 10 caracteres
+            'C_MIN' => 2,          // Máximo 2 dígitos
+            'H_TOTALES' => 2,      // Máximo 2 dígitos
+            'CODIGO_PROFESOR' => 9,// Código de 9 dígitos
+            'CODIGO_DESCARGA' => 9,
+            'HORA_INICIAL' => 4,   // Formato 24h -> 1330
+            'HORA_FINAL' => 4,
+            'CUPO' => 3            // Máximo 3 dígitos
+        ];
 
-        if (in_array($column, $numericColumns)) {
-            if (!is_numeric($value)) {
-                $response['error'] = "El valor para la columna $column debe ser numérico";
+        if (isset($numericColumns[$column])) {
+            // Permitir vacío o número válido
+            if ($value !== '') {
+                // Validar formato según columna
+                switch ($column) {
+                    case 'HORA_INICIAL':
+                    case 'HORA_FINAL':
+                    default:
+                        // Validar números enteros
+                        if (!preg_match('/^\d+$/', $value)) {
+                            $response['error'] = "$column debe ser un número entero";
+                            echo json_encode($response);
+                            exit;
+                        }
+                        
+                        // Validar longitud máxima
+                        if (strlen($value) > $numericColumns[$column]) {
+                            $response['error'] = "$column no puede exceder {$numericColumns[$column]} dígitos";
+                            echo json_encode($response);
+                            exit;
+                        }
+                }
+            }
+        } 
+        elseif ($column === 'HORAS') {
+            // Validación existente para horas decimales
+            if ($value !== '' && !preg_match('/^\d+\.?\d*$/', $value)) {
+                $response['error'] = "HORAS debe ser un número decimal (ej. 2.5)";
                 echo json_encode($response);
                 exit;
             }

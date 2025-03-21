@@ -75,7 +75,7 @@ const maxLengths = {
   NOMBRE_DESCARGA: 60,
   NOMBRE_DEFINITIVO: 60,
   TITULAR: 2,
-  HORAS: 1,
+  HORAS: 3,
   CODIGO_DEPENDENCIA: 4,
   L: 5,
   M: 5,
@@ -976,15 +976,42 @@ function updateCell(cell) {
   // Validar el tipo de datos por columna
   switch (columnName) {
     case "CICLO":
+        // Permitir 4 dígitos + letra opcional
+        newText = newText.toUpperCase()
+                          .replace(/[^A-Z0-9]/g, "")
+                          .slice(0, 6);
+        break;
     case "CRN":
     case "C_MIN":
     case "H_TOTALES":
+      newText = newText.replace(/\D/g, "").slice(0, 2);
+      break;
     case "CODIGO_PROFESOR":
     case "CODIGO_DESCARGA":
+        newText = newText.replace(/\D/g, "").slice(0, 9);
+        break;
     case "HORAS":
+      // Permitir: vacío, números, un solo punto decimal
+      newText = newText
+          .replace(/[^0-9.]/g, '') // Permite números y puntos
+          .replace(/(\..*)\./g, '$1') // Elimina puntos adicionales
+          .replace(/^\./, '0.'); // Si empieza con punto, añade 0
+      
+      // Limitar a un decimal y 4 caracteres máximo (ej: 99.9)
+      if (newText.includes('.')) {
+          const partes = newText.split('.');
+          newText = partes[0].slice(0, 2) + '.' + (partes[1] ? partes[1].slice(0,1) : '');
+      } else {
+          newText = newText.slice(0, 3);
+      }
+      break;
     case "CODIGO_DEPENDENCIA":
     case "HORA_INICIAL":
     case "HORA_FINAL":
+        // Permitir solo 4 dígitos numéricos
+        newText = newText.replace(/\D/g, "") // Solo números
+                          .slice(0, 4)       // Limitar a 4 dígitos
+        break;
     case "CUPO":
       newText = newText.replace(/\D/g, ""); // Permitir solo dígitos
       break;
