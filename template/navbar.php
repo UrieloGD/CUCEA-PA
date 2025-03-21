@@ -271,7 +271,7 @@ function generateColorForUser($userId)
                 </li>
 
                 <?php
-                if ($rol_id == 1) {
+                if ($rol_id == 1 || $rol_id == 0) {
                     echo "<li class='navbar-item flexbox-left'>";
 
                     if (basename($_SERVER['PHP_SELF']) == 'profesores.php') {

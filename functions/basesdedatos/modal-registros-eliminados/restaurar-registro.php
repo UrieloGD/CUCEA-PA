@@ -26,21 +26,16 @@ if (empty($_POST) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Validar sesión y parámetros
-if (!isset($_SESSION['Departamento_ID'])) {
-    error_log("Sesión inválida: " . json_encode($_SESSION));
-    echo json_encode(['success' => false, 'message' => 'Sesión inválida', 'debug' => $debug_info]);
-    exit();
-}
-
-if (!isset($_POST['id'])) {
-    error_log("ID no proporcionado: " . json_encode($_POST));
-    echo json_encode(['success' => false, 'message' => 'ID requerido', 'debug' => $debug_info]);
+if (!isset($_SESSION['Departamento_ID']) && !isset($_POST['departamento_id'])) {
+    error_log("Departamento_ID no disponible: " . json_encode($_SESSION));
+    echo json_encode(['success' => false, 'message' => 'Departamento_ID requerido', 'debug' => $debug_info]);
     exit();
 }
 
 try {
     $id = (int)$_POST['id'];
-    $departamento_id = (int)$_SESSION['Departamento_ID'];
+    // Usar departamento_id de POST si está disponible, de lo contrario usar el de la sesión
+    $departamento_id = isset($_POST['departamento_id']) ? (int)$_POST['departamento_id'] : (int)$_SESSION['Departamento_ID'];
 
     // Obtener nombre del departamento
     $stmt = $conexion->prepare("SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?");
@@ -74,16 +69,14 @@ try {
 
     $conexion->commit();
     echo json_encode(['success' => true, 'message' => 'Registro restaurado correctamente']);
-
 } catch (Exception $e) {
     if ($conexion->connect_error === null) {
         $conexion->rollback();
     }
     error_log("Error en restaurar-registro.php: " . $e->getMessage());
     echo json_encode([
-        'success' => false, 
+        'success' => false,
         'message' => $e->getMessage(),
         'debug' => $debug_info
     ]);
 }
-?>
