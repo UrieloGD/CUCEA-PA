@@ -61,7 +61,7 @@ require_once './functions/home/eventos-home.php';
         </div>
 
         <button class="boton-carrusel" id="botonAnterior">
-          <<< /button>
+          <<</button>
             <button class="boton-carrusel" id="botonSiguiente">>></button>
 
             <div class="contenedor-puntos">
