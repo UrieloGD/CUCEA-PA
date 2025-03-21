@@ -42,8 +42,8 @@ try {
 
     // Obtener información del departamento
     $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
-            FROM departamentos 
-            WHERE Departamento_ID = ?";
+    FROM departamentos 
+    WHERE Departamento_ID = ?";
     $stmt = $conexion->prepare($sql_departamento);
 
     if (!$stmt) {
@@ -60,6 +60,9 @@ try {
     } else {
         die("No se encontró el departamento especificado.");
     }
+
+    // Añadir esta condición para el título según el rol
+    $titulo_departamento = ($rol == 0) ? "Administrador" : $departamento_nombre;
 
     // Define the mapping array with all possible variations
     $departmentMapping = [
@@ -203,7 +206,7 @@ try {
 
     <head>
         <meta charset="UTF-8">
-        <title>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></title>
+        <title>Profesores - <?php echo htmlspecialchars($titulo_departamento); ?></title>
         <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css">
         <link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css">
         <!-- Script para mostrar el loader inmediatamente -->
@@ -235,7 +238,7 @@ try {
                     </div>
                 </div>
                 <div class="encabezado-centro">
-                    <h3>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></h3>
+                    <h3>Profesores - <?php echo htmlspecialchars($titulo_departamento); ?></h3>
                 </div>
                 <div class="encabezado-derecha">
                     <div id="list1" class="dropdown-check-list" tabindex="100">
@@ -377,6 +380,7 @@ try {
                                         echo htmlspecialchars($normalized_dept, ENT_QUOTES);
                                         ?>";
             const isPosgrados = "<?php echo ($nombre_departamento === 'Posgrados') ? 'true' : 'false'; ?>";
+            const userRol = "<?php echo $_SESSION['Rol_ID']; ?>";
         </script>
 
         <!-- DataTables Scripts -->
