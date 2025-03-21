@@ -20,7 +20,7 @@
 .modal-content {
   background-color: #fefefe;
   margin: 3% auto;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #888;
   width: 60%;
   max-width: 1200px;
@@ -34,7 +34,7 @@
 }
 
 .modal-content h2 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .form-container {
