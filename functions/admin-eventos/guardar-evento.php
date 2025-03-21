@@ -128,8 +128,10 @@ try {
         $horIn = $_POST['HorIn'];
         $horFi = $_POST['HorFi'];
         $etiqueta = $_POST['etiqueta'];
-        $participantes = implode(',', $_POST['participantes'] ?? []);
-
+        $participantes = isset($_POST['participantes']) ? $_POST['participantes'] : [];
+        $participantes = array_unique($participantes); 
+        $participantes = implode(',', $participantes);
+        
         if ($id) {
             // Lógica de actualización
             $sql = "UPDATE eventos_admin SET 
