@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3) {
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {
     header("Location: home.php");
     exit();
 }
@@ -193,6 +193,14 @@ function softDeleteRegistros($conexion, $ids)
             </div>
         </div>
     </div>
+
+    <?php
+    // Verificar rol antes de mostrar la tabla editable
+    if ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {
+        // Deshabilitar edición o mostrar mensaje
+        $tabla_editable = false;
+    }
+    ?>
 
     <div class="Tabla datatable-container">
         <div class="table-container">

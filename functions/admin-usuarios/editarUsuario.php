@@ -84,8 +84,8 @@ try {
         }
 
         // Manejar la actualización del departamento
-        if ($nuevo_rol['Nombre_Rol'] != "Coordinación de Personal" && 
-            $nuevo_rol['Nombre_Rol'] != "Secretaría Administrativa") {
+        $roles_especiales = ["Coordinación de Personal", "Secretaría Administrativa", "Administrador"];
+        if (!in_array($nuevo_rol['Nombre_Rol'], $roles_especiales)) {
             
             // Primero eliminar cualquier asignación existente
             $delete_dept_sql = "DELETE FROM usuarios_departamentos WHERE Usuario_ID = ?";

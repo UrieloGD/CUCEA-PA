@@ -4,9 +4,9 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 try {
-
-// Función para manejar errores y devolverlos como JSON
-    function handleError($errno, $errstr, $errfile, $errline) {
+    // Función para manejar errores y devolverlos como JSON
+    function handleError($errno, $errstr, $errfile, $errline)
+    {
         $response = [
             'success' => false,
             'error' => "Error: [$errno] $errstr en $errfile en la línea $errline"
@@ -36,6 +36,7 @@ try {
         $id = mysqli_real_escape_string($conexion, $_POST['id']);
         $column = mysqli_real_escape_string($conexion, $_POST['column']);
         $value = mysqli_real_escape_string($conexion, $_POST['value']);
+        $user_role = isset($_POST['user_role']) ? intval($_POST['user_role']) : -1;
 
         // Mapear los nombres de las columnas si es necesario
         $columnMap = [
@@ -82,12 +83,19 @@ try {
             'OBSERVACIONES' => 'OBSERVACIONES',
             'EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
         ];
-        
-        // Obtener el nombre de la tabla del departamento actual
-        if (!isset($_SESSION['Departamento_ID'])) {
-            $response['error'] = "No se ha establecido el Departamento_ID en la sesión";
-            echo json_encode($response);
-            exit;
+
+        // Si el usuario es superadmin (rol 0), use el department_id del POST
+        // De lo contrario, use el Departamento_ID de la sesión
+        if ($user_role === 0 && isset($_POST['department_id'])) {
+            $departamento_id = intval($_POST['department_id']);
+        } else {
+            // Para usuarios normales, seguir usando el ID de la sesión
+            if (!isset($_SESSION['Departamento_ID'])) {
+                $response['error'] = "No se ha establecido el Departamento_ID en la sesión";
+                echo json_encode($response);
+                exit;
+            }
+            $departamento_id = $_SESSION['Departamento_ID'];
         }
 
         if (isset($columnMap[$column])) {
@@ -103,8 +111,8 @@ try {
                 exit;
             }
         }
-            
-        $departamento_id = $_SESSION['Departamento_ID'];
+
+        // Usar el departamento_id determinado anteriormente
         $sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = $departamento_id";
         $result_departamento = mysqli_query($conexion, $sql_departamento);
         if (!$result_departamento) {
@@ -114,7 +122,8 @@ try {
         }
         $row_departamento = mysqli_fetch_assoc($result_departamento);
         $tabla_departamento = "data_" . $row_departamento['Nombre_Departamento'];
-        
+
+        // Resto del código igual...
         // Obtener el valor antiguo antes de actualizar
         $sql_old = "SELECT `$column` FROM `$tabla_departamento` WHERE ID_Plantilla = '$id'";
         $result_old = mysqli_query($conexion, $sql_old);
@@ -125,9 +134,9 @@ try {
         }
         $row_old = mysqli_fetch_assoc($result_old);
         $response['oldValue'] = $row_old[$column];
-        
+
         // Actualizar el valor en la base de datos
-        $sql = "UPDATE `$tabla_departamento` SET `$column` = '$value' WHERE `ID_Plantilla` = '$id'";    
+        $sql = "UPDATE `$tabla_departamento` SET `$column` = '$value' WHERE `ID_Plantilla` = '$id'";
         if (mysqli_query($conexion, $sql)) {
             $response['success'] = true;
         } else {
@@ -141,8 +150,6 @@ try {
     error_log("Error: " . mysqli_error($conexion));
 
     echo json_encode($response);
-
 } catch (Exception $e) {
     echo json_encode(['error' => $e->getMessage()]);
 }
-?>

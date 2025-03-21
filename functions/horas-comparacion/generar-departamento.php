@@ -45,7 +45,7 @@ function generarDepartamento($depto)
                     </p>
                 </div>
             </div>
-            <p class="horas-comp-dpto">5,117 / <strong>10,234</strong></p>
+            <p class="horas-comp-dpto">Cargando datos...</p>
             <div class="titulo-underline" style="width:100%;"></div>
         </div>
         <div class="ultima-mod-dpto_container">
