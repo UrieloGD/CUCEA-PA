@@ -1,7 +1,7 @@
     <!-- Modal para añadir registros -->
     <div id="modal-añadir" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close-modal-anadir" onclick="cerrarFormularioAñadir()">&times;</span>
             <h2>Registrar nuevo profesor</h2>
             <hr style="border: 1px solid #0071b0; width: 99%;">
             <form id="form-añadir-registro">
@@ -10,13 +10,14 @@
                         <div class="form-movil">
                             <h3>Datos</h3>
 
+                            <input type="Texto" id="datos" name="datos" placeholder="Datos">
                             <input type="number" id="codigo" name="codigo" placeholder="Código">
                             <input type="text" id="paterno" name="paterno" placeholder="Paterno">
                             <input type="text" id="materno" name="materno" placeholder="Materno">
                             <input type="text" id="nombre" name="nombre" placeholder="Nombre">
 
                             <input type="text" id="completo" name="completo" placeholder="Nombre Completo">
-                            <input type="text" id="sexo" name="sexo" placeholder="Sexo">
+                            
 
                             <input type="text" id="departamento" name="departamento" placeholder="Departamento">
                             <input type="text" id="categoria_actual" name="categoria_actual" placeholder="Categoría Actual">
@@ -30,6 +31,7 @@
 
                             <input type="text" id="carga_horaria" name="carga_horaria" placeholder="Carga Horaria">
                             <input type="text" id="horas_definitivas" name="horas_definitivas" min="0" placeholder="Horas Definitivas ">
+                            <input type="text" id="udg_virtual_cit" name="udg_virtual_cit" placeholder="UDG VIRTUAL CIT OTRO CENTRO">
                             <input type="text" id="horario" name="horario" placeholder="Horario">
                             <input type="text" id="turno" name="turno" placeholder="Turno">
 
@@ -39,9 +41,7 @@
                             <input type="text" id="sni_desde" name="sni_desde" placeholder="SNI Desde">
 
                             <input type="text" id="cambio_dediacion" name="cambio_dediacion" placeholder="Cambio de Dedicación">
-                            <input type="text" id="inicio" name="inicio" placeholder="Inicio">
-                            <input type="text" id="fin" name="fin" placeholder="Fin">
-                            <input type="text" id="a_2024" name="a_2024" placeholder="2024A">
+                            
 
                             <input type="text" id="telefono_particular" name="telefono_particular" placeholder="Telefono Particular">
                             <input type="text" id="telefono_oficina" name="telefono_oficina" placeholder="Telefono Oficina o Celuar">

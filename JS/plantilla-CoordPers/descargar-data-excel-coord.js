@@ -124,7 +124,7 @@ function updateGroupCheckboxes() {
   // Verificar grupo de Información Básica
   const basicaCheckboxes = Array.from(document.querySelectorAll('.columns-container-basica input[type="checkbox"]'));
   const basicaAllChecked = basicaCheckboxes.length > 0 && basicaCheckboxes.every(cb => cb.checked);
-  const basicaSomeChecked = materiaCheckboxes.some(cb => cb.checked);
+  const basicaSomeChecked = basicaCheckboxes.some(cb => cb.checked);
   
   const selectAllBasica = document.querySelector('.select-all-basica input[type="checkbox"]');
   if (selectAllBasica) {
@@ -227,19 +227,25 @@ function descargarExcelSeleccionado() {
   cerrarDescargarExcel();
 }
 
-// Cerrar el modal al hacer clic en la X
-document.querySelector('.close').onclick = function() {
-  cerrarDescargarExcel();
-}
-
-// Cerrar el modal al hacer clic fuera de él
-window.onclick = function(event) {
-  if (event.target == document.getElementById('modal-descargar')) {
-      cerrarDescargarExcel();
-  }
-}
-
 // Inicializar los handlers cuando el DOM esté listo
+// Esta función debe estar en tu JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+  // Inicializa los handlers de checkbox
   initializeCheckboxHandlers();
+  
+  // Asigna el evento para cerrar al hacer clic en la X
+  var closeButton = document.querySelector('.close-modal-desc');
+  if (closeButton) {
+    closeButton.addEventListener('click', cerrarDescargarExcel);
+  }
+  
+  // Asigna el evento para cerrar al hacer clic fuera del modal
+  var modal = document.getElementById('modal-descargar');
+  if (modal) {
+    window.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        cerrarDescargarExcel();
+      }
+    });
+  }
 });

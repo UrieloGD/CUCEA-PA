@@ -118,7 +118,26 @@ function añadirRegistro() {
 }
 
 // Llamamos a la función cuando el DOM esté cargado
-document.addEventListener('DOMContentLoaded', inicializarFormatoTexto);
+document.addEventListener('DOMContentLoaded', function() {
+  // Inicializa el formulario
+  inicializarFormatoTexto();
+
+  // Asigna el evento para cerrar al hacer clic en la X
+  var closeButton = document.querySelector('.close-modal-anadir');
+  if (closeButton) {
+    closeButton.addEventListener('click', cerrarFormularioAñadir);
+  }
+  
+  // Asigna el evento para cerrar al hacer clic fuera del modal
+  var modal = document.getElementById('modal-añadir');
+  if (modal) {
+    window.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        cerrarFormularioAñadir();
+      }
+    });
+  }
+});
 
 // Resto de funciones del archivo
 function mostrarFormularioAñadir() {
@@ -129,15 +148,3 @@ function cerrarFormularioAñadir() {
   document.getElementById("modal-añadir").style.display = "none";
   document.getElementById("form-añadir-registro").reset(); // Limpiar el formulario al cerrar
 }
-
-// Cerrar el modal al hacer clic en la X
-document.querySelector(".close").onclick = function () {
-  cerrarFormularioAñadir();
-};
-
-// Cerrar el modal al hacer clic fuera de él
-window.onclick = function (event) {
-  if (event.target == document.getElementById("modal-añadir")) {
-    cerrarFormularioAñadir();
-  }
-};

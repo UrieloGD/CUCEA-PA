@@ -210,74 +210,72 @@ function softDeleteRegistros($conexion, $ids)
                     <tr>
                         <th></th>
                         <th>ID <span class="filter-icon" data-column="1"><i class="fas fa-filter"></i></span></th>
-                        <th>CODIGO <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
-                        <th>PATERNO <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
-                        <th>MATERNO <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
-                        <th>NOMBRES <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
-                        <th>NOMBRE COMPLETO <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
-                        <th>SEXO <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>
-                        <th>DEPARTAMENTO <span class="filter-icon" data-column="8"><i class="fas fa-filter"></i></span></th>
-                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
+                        <th>DATOS <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
+                        <th>CODIGO <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
+                        <th>PATERNO <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
+                        <th>MATERNO <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRES <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRE COMPLETO <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>   
+                        <th>DEPARTAMENTO <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
                         <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="10"><i class="fas fa-filter"></i></span></th>
-                        <th>HORAS FRENTE A GRUPO <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
-                        <th>DIVISION <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
-                        <th>TIPO DE PLAZA <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
-                        <th>CAT.ACT. <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
-                        <th>CARGA HORARIA <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
-                        <th>HORAS DEFINITIVAS <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
-                        <th>HORARIO <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
-                        <th>TURNO <span class="filter-icon" data-column="18"><i class="fas fa-filter"></i></span></th>
-                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
-                        <th>S.N.I. <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
-                        <th>SNI DESDE <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
-                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
-                        <th>INICIO <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
-                        <th>FIN <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
-                        <th>2024A <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
-                        <th>TELEFONO PARTICULAR <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
-                        <th>TELEFONO OFICINA O CELULAR <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
-                        <th>DOMICILIO <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
-                        <th>COLONIA <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
-                        <th>C.P. <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
-                        <th>CIUDAD <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
-                        <th>NO. AFIL. I.M.S.S. <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
-                        <th>C.U.R.P. <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
-                        <th>RFC <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
-                        <th>LUGAR DE NACIMIENTO <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO CIVIL <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
-                        <th>TIPO DE SANGRE <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
-                        <th>FECHA NAC. <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
-                        <th>EDAD <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
-                        <th>NACIONALIDAD <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
-                        <th>CORREO ELECTRONICO <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
-                        <th>CORREOS OFICIALES <span class="filter-icon" data-column="43"><i class="fas fa-filter"></i></span></th>
-                        <th>ULTIMO GRADO <span class="filter-icon" data-column="44"><i class="fas fa-filter"></i></span></th>
-                        <th>PROGRAMA <span class="filter-icon" data-column="45"><i class="fas fa-filter"></i></span></th>
-                        <th>NIVEL <span class="filter-icon" data-column="46"><i class="fas fa-filter"></i></span></th>
-                        <th>INSTITUCION <span class="filter-icon" data-column="47"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO/PAIS <span class="filter-icon" data-column="48"><i class="fas fa-filter"></i></span></th>
-                        <th>AÑO <span class="filter-icon" data-column="49"><i class="fas fa-filter"></i></span></th>
-                        <th>GDO EXP <span class="filter-icon" data-column="50"><i class="fas fa-filter"></i></span></th>
-                        <th>OTRO GRADO <span class="filter-icon" data-column="51"><i class="fas fa-filter"></i></span></th>
-                        <th>PROGRAMA <span class="filter-icon" data-column="52"><i class="fas fa-filter"></i></span></th>
-                        <th>NIVEL <span class="filter-icon" data-column="53"><i class="fas fa-filter"></i></span></th>
-                        <th>INSTITUCION <span class="filter-icon" data-column="54"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO/PAIS <span class="filter-icon" data-column="55"><i class="fas fa-filter"></i></span></th>
-                        <th>AÑO <span class="filter-icon" data-column="56"><i class="fas fa-filter"></i></span></th>
-                        <th>GDO EXP <span class="filter-icon" data-column="57"><i class="fas fa-filter"></i></span></th>
-                        <th>OTRO GRADO <span class="filter-icon" data-column="58"><i class="fas fa-filter"></i></span></th>
-                        <th>PROGRAMA <span class="filter-icon" data-column="59"><i class="fas fa-filter"></i></span></th>
-                        <th>NIVEL <span class="filter-icon" data-column="60"><i class="fas fa-filter"></i></span></th>
-                        <th>INSTITUCION <span class="filter-icon" data-column="61"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO/PAIS <span class="filter-icon" data-column="62"><i class="fas fa-filter"></i></span></th>
-                        <th>AÑO <span class="filter-icon" data-column="63"><i class="fas fa-filter"></i></span></th>
-                        <th>GDO EXP <span class="filter-icon" data-column="64"><i class="fas fa-filter"></i></span></th>
-                        <th>PROESDE 24-25 <span class="filter-icon" data-column="65"><i class="fas fa-filter"></i></span></th>
-                        <th>A PARTIR DE <span class="filter-icon" data-column="66"><i class="fas fa-filter"></i></span></th>
-                        <th>FECHA DE INGRESO <span class="filter-icon" data-column="67"><i class="fas fa-filter"></i></span></th>
-                        <th>ANTIGÜEDAD <span class="filter-icon" data-column="68"><i class="fas fa-filter"></i></span></th>
-                        <th class="estado-column">ESTADO <span class="filter-icon" data-column="69"><i class="fas fa-filter"></i></span></th>
+                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
+                        <th>HORAS FRENTE A GRUPO <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
+                        <th>DIVISION <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
+                        <th>TIPO DE PLAZA <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
+                        <th>CAT.ACT. <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
+                        <th>CARGA HORARIA <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
+                        <th>HORAS DEFINITIVAS <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
+                        <th>UDG VIRTUAL CIT OTRO CENTRO<span class="filter-icon" data-column="18"><i class= "fas fa-filter"></i></span></th>
+                        <th>HORARIO <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
+                        <th>TURNO <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
+                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
+                        <th>S.N.I. <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
+                        <th>SNI DESDE <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
+                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
+                        <th>TELEFONO PARTICULAR <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
+                        <th>TELEFONO OFICINA O CELULAR <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
+                        <th>DOMICILIO <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
+                        <th>COLONIA <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
+                        <th>C.P. <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
+                        <th>CIUDAD <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
+                        <th>NO. AFIL. I.M.S.S. <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
+                        <th>C.U.R.P. <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
+                        <th>RFC <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
+                        <th>LUGAR DE NACIMIENTO <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO CIVIL <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
+                        <th>TIPO DE SANGRE <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
+                        <th>FECHA NAC. <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
+                        <th>EDAD <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
+                        <th>NACIONALIDAD <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
+                        <th>CORREO ELECTRONICO <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
+                        <th>CORREOS OFICIALES <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
+                        <th>ULTIMO GRADO <span class="filter-icon" data-column="43"><i class="fas fa-filter"></i></span></th>
+                        <th>PROGRAMA <span class="filter-icon" data-column="44"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="45"><i class="fas fa-filter"></i></span></th>
+                        <th>INSTITUCION <span class="filter-icon" data-column="46"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO/PAIS <span class="filter-icon" data-column="47"><i class="fas fa-filter"></i></span></th>
+                        <th>AÑO <span class="filter-icon" data-column="48"><i class="fas fa-filter"></i></span></th>
+                        <th>GDO EXP <span class="filter-icon" data-column="49"><i class="fas fa-filter"></i></span></th>
+                        <th>OTRO GRADO <span class="filter-icon" data-column="50"><i class="fas fa-filter"></i></span></th>
+                        <th>PROGRAMA <span class="filter-icon" data-column="51"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="52"><i class="fas fa-filter"></i></span></th>
+                        <th>INSTITUCION <span class="filter-icon" data-column="53"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO/PAIS <span class="filter-icon" data-column="54"><i class="fas fa-filter"></i></span></th>
+                        <th>AÑO <span class="filter-icon" data-column="55"><i class="fas fa-filter"></i></span></th>
+                        <th>GDO EXP <span class="filter-icon" data-column="56"><i class="fas fa-filter"></i></span></th>
+                        <th>OTRO GRADO <span class="filter-icon" data-column="57"><i class="fas fa-filter"></i></span></th>
+                        <th>PROGRAMA <span class="filter-icon" data-column="58"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="59"><i class="fas fa-filter"></i></span></th>
+                        <th>INSTITUCION <span class="filter-icon" data-column="60"><i class="fas fa-filter"></i></span></th>
+                        <th>ESTADO/PAIS <span class="filter-icon" data-column="61"><i class="fas fa-filter"></i></span></th>
+                        <th>AÑO <span class="filter-icon" data-column="62"><i class="fas fa-filter"></i></span></th>
+                        <th>GDO EXP <span class="filter-icon" data-column="63"><i class="fas fa-filter"></i></span></th>
+                        <th>PROESDE 24-25 <span class="filter-icon" data-column="64"><i class="fas fa-filter"></i></span></th>
+                        <th>A PARTIR DE <span class="filter-icon" data-column="65"><i class="fas fa-filter"></i></span></th>
+                        <th>FECHA DE INGRESO <span class="filter-icon" data-column="66"><i class="fas fa-filter"></i></span></th>
+                        <th>ANTIGÜEDAD <span class="filter-icon" data-column="67"><i class="fas fa-filter"></i></span></th>
+                        <th class="estado-column">ESTADO <span class="filter-icon" data-column="68"><i class="fas fa-filter"></i></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -287,12 +285,12 @@ function softDeleteRegistros($conexion, $ids)
                             echo "<tr data-id='" . htmlspecialchars($row["ID"] ?? '') . "'>";
                             echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . htmlspecialchars($row["ID"] ?? '') . "'></td>";
                             echo "<td>" . htmlspecialchars($row["ID"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Datos"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Codigo"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Paterno"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Materno"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Nombres"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Nombre_completo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Sexo"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Departamento"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Categoria_actual"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Categoria_actual_dos"] ?? '') . "</td>";
@@ -302,15 +300,13 @@ function softDeleteRegistros($conexion, $ids)
                             echo "<td>" . htmlspecialchars($row["Cat_act"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Carga_horaria"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Horas_definitivas"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["Udg_virtual_CIT"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Horario"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Turno"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Investigacion_nombramiento_cambio_funcion"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["SNI"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["SNI_desde"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Cambio_dedicacion"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Inicio"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Fin"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["2024A"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Telefono_particular"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Telefono_oficina"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Domicilio"] ?? '') . "</td>";
@@ -372,7 +368,7 @@ function softDeleteRegistros($conexion, $ids)
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='71'>No hay datos disponibles</td></tr>";
+                        echo "<tr><td colspan='70'>No hay datos disponibles</td></tr>";
                     }
                     ?>
                 </tbody>

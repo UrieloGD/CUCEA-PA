@@ -104,6 +104,35 @@
   height: 29px;
 }
 
+/* Estilo para el botón de limpiar */
+#limpiar {
+  padding: 5px;
+  color: #ffffff;
+  font-weight: 500;
+  width: 100px;
+  background-color: #0071b0;
+  border: 1px solid #0071b0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#limpiar:hover {
+  background-color: #005a8c;
+}
+
+#limpiar-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 15px 15px 15px;
+  min-width: 150px;
+}
+
+#limpiar-container::before {
+  content: "";
+  height: 29px;
+}
+
 /* Estilos para el checkbox de Tiempo Real */
 
 .tiempo-real-container {

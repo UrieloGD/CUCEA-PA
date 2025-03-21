@@ -1,6 +1,6 @@
 <div id="modal-descargar" class="modal">
     <div class="modal-content-descarga">
-    <span class="close" onclick="cerrarDescargarExcel()">&times;</span>
+    <span class="close-modal-desc" onclick="cerrarDescargarExcel()">&times;</span>
         <h3>Selecciona las columnas a descargar</h3>
         <div class="select-first">
                 <input class="input-check" type="checkbox" id="select-all-main">
@@ -38,10 +38,6 @@
                                 <input class="input-check" type="checkbox" id="col-nombre-completo-" name="columnas[]" value="NOMBRE COMPLETO">
                                 <label for="col-nombre-completo-">NOMBRE COMPLETO</label>
                             </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-sexo-" name="columnas[]" value="SEXO">
-                                <label for="col-sexo-">SEXO</label>
-                            </div>
                         </div>
                     </div>
                     <div class="columns-subcontainer">
@@ -53,6 +49,10 @@
                             <label for="select-all-academica">Seleccionar/Deseleccionar grupo completo</label>
                         </div>
                         <div class="columns-container-academica">
+                        <div class="Check-js">
+                                <input class="input-check" type="checkbox" id="col-datos-" name="columnas[]" value="DATOS">
+                                <label for="col-datos-">DATOS</label>
+                            </div>
                             <div class="Check-js">
                                 <input class="input-check" type="checkbox" id="col-departamento-" name="columnas[]" value="DEPARTAMENTO">
                                 <label for="col-departamento-">DEPARTAMENTO</label>
@@ -90,16 +90,16 @@
                                 <label for="col-horas-definitivas-">HORAS DEFINITIVAS</label>
                             </div>
                             <div class="Check-js">
+                                <input class="input-check" type="checkbox" id="col-udg-virtual-cit-otro-centro-" name="columnas[]" value="UDG VIRTUAL CIT OTRO CENTRO">
+                                <label for="col-udg-virtual-cit-otro-centro-">UDG VIRTUAL CIT OTRO CENTRO</label>
+                            </div>
+                            <div class="Check-js">
                                 <input class="input-check" type="checkbox" id="col-horario-" name="columnas[]" value="HORARIO">
                                 <label for="col-horario-">HORARIO</label>
                             </div>
                             <div class="Check-js">
                                 <input class="input-check" type="checkbox" id="col-turno-" name="columnas[]" value="TURNO">
                                 <label for="col-turno-">TURNO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-2024a-" name="columnas[]" value="2024A">
-                                <label for="col-2024a-">2024A</label>
                             </div>
                         </div>
                     </div>

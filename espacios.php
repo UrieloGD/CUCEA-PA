@@ -133,6 +133,9 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div id="filtrar-container">
             <button id="filtrar">Filtrar</button>
         </div>
+        <div id="limpiar-container">
+            <button id="limpiar">Limpiar</button>
+        </div>
     </div>
     <!-- -------------------------- -->
      <!-- Solo dispositivos moviles -->
@@ -379,5 +382,6 @@ function guardarInfoEspacio($modulo, $espacio, $equipo, $observaciones, $reporte
 <script src="./JS/espacios/filtros-espacios.js"></script>
 <script src="./JS/espacios/modal-dias.js"></script>
 <script src="./JS/espacios/aulas-amplias-modal.js"></script>
+<script src="./JS/espacios/limpiar-filtro.js"></script>
 
 <?php include './template/footer.php' ?>
