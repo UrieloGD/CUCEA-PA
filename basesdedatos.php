@@ -19,14 +19,25 @@ if (!isset($_SESSION['email'])) {
     exit();
 }
 
+// Incluir la función de verificación de permisos
+include_once './functions/basesdedatos/permisos-jd.php';
+$puede_editar = false;
+
 // Verificar el rol del usuario
 $rol = $_SESSION['Rol_ID'];
+
+// Verificar si la variable de sesión está definida antes de asignarla
+if (isset($_SESSION['Codigo'])) {
+    $usuario_id = $_SESSION['Codigo'];
+}
 
 // Lógica para seleccionar el departamento
 if ($rol == 1) {
     // Para jefes de departamento, usar su departamento asignado
     $departamento_id = $_SESSION['Departamento_ID'];
+    $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
 } elseif ($rol == 2 || $rol == 3 || $rol == 0) {
+    $puede_editar = false;
     // Para roles 2 y 3, permitir selección de departamento
     if (isset($_GET['Departamento_ID'])) {
         // Si se proporciona un Departamento_ID específico
@@ -46,6 +57,13 @@ if ($rol == 1) {
 } else {
     die("Rol de usuario no autorizado.");
 }
+
+/**
+ * Pasar esta variable a JavaScript para controlar la UI
+ * JavaScript puede leer la variable puedeEditar y decidir qué elementos de la interfaz mostrar u ocultar.
+ * Esto mejora la experiencia del usuario y refuerza la seguridad en la interfaz.
+ */
+echo '<script>var puedeEditar = ' . ($puede_editar ? 'true' : 'false') . ';</script>';
 
 // Consulta para obtener información del departamento
 $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
@@ -247,7 +265,7 @@ $result = $stmt->get_result();
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <?php if ($rol == 1 || $rol == 0): ?>
+                <?php if ($rol == 1 && $puede_editar || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                         <i class="fa fa-save" aria-hidden="true"></i>
                     </div>
@@ -265,7 +283,7 @@ $result = $stmt->get_result();
                 <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
                     <i class="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <?php if ($rol == 1 || $rol == 0): ?>
+                <?php if ($rol == 1 && $puede_editar || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
                         <i class="fa fa-add" aria-hidden="true"></i>
                     </div>
