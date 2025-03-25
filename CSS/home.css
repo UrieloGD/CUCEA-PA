@@ -7,7 +7,6 @@
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
-  margin-bottom: 2vh;
   align-self: flex-end;
   overflow-x: hidden;
   border-radius: 20px;
@@ -1105,4 +1104,63 @@
   .evento-info p { font-size: 0.8rem; }
   .evento-detalle .evento-titulo { font-size: 0.9rem; }
   .evento-detalle .evento-fecha { font-size: 0.8rem; }
+}
+
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  body .cuadro-principal,
+  .header { zoom: 90%; }
+}
+@media screen and (max-height: 768px) { 
+  body .cuadro-principal,
+  .header { zoom: 80%; }
+}
+@media screen and (max-height: 700px) { 
+  body .cuadro-principal,
+  .header { zoom: 65%; }
+}
+@media screen and (max-height: 600px) { 
+  body .cuadro-principal,
+  .header { zoom: 60%; }
+}
+
+/* Responsividad de Zoom para navegadores no Chromium */
+@media screen and (max-height: 900px) {
+    /* Mozilla */
+    @-moz-document url-prefix() {
+        body .cuadro-principal,
+        .header { zoom: 90%; }
+    }
+    /* Safari */
+    @supports (-webkit-touch-callout: none) {
+        body .cuadro-principal,
+        .header { zoom: 90%; }
+    }
+}
+
+@media screen and (max-height: 768px) {
+    /* Mozilla */
+    @-moz-document url-prefix() {
+        body .cuadro-principal,
+        .header { zoom: 80%; }
+    }
+    /* Safari */
+    @supports (-webkit-touch-callout: none) {
+        body .cuadro-principal,
+        .header { zoom: 80%; }
+    }
+}
+
+@media screen and (max-height: 700px) {
+    /* Mozilla */
+    @-moz-document url-prefix() {
+        body .cuadro-principal,
+        .header { zoom: 65%; }
+    }
+    /* Safari */
+    @supports (-webkit-touch-callout: none) {
+        body .cuadro-principal,
+        .header { zoom: 65%; }
+    }
 }
