@@ -80,6 +80,7 @@ if ($departamento_id === null) {
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestañas-->
     <div class="tab-container">
         <div class="tab-buttons">
@@ -187,6 +188,7 @@ if ($departamento_id === null) {
             }
             ?>
         </div>
+    </div>
     </div>
 </div>
 

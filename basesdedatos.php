@@ -266,6 +266,7 @@ $result = $stmt->get_result();
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
 
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="encabezado-izquierda">
 
@@ -425,6 +426,7 @@ $result = $stmt->get_result();
                 ?>
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 

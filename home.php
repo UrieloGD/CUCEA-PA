@@ -12,6 +12,7 @@ require_once './functions/home/eventos-home.php';
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+  <div class="cuadro-scroll">
   <!-- contenedor que incluye banner, texto de bienvenida y eventos proximos.-->
   <div class="container-banner-bienvenida">
     <!--Cuadro de bienvenida-->
@@ -232,6 +233,7 @@ require_once './functions/home/eventos-home.php';
         </a>
         </div>
     </div>
+  </div>
 
     <!-- Script para las funciones del carrusel -->
     <script src="./JS/home/carrusel.js"></script>

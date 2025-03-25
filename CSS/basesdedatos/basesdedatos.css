@@ -1,21 +1,47 @@
 /* ./CSS/basesdedatos.css */
 .cuadro-principal {
   background-color: white;
-  border-radius: 20px;
-  width: 92%;
-  height: 90vh;
+  width: -webkit-fill-available;
+  height: 91.5vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
-  margin-bottom: 2vh;
+  align-self: flex-end;
   overflow-x: hidden;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
+  overflow-y: hidden;
+  padding: 0 5 0 5;
+  border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+}
+
+/* Mozilla */
+@-moz-document url-prefix() {
+  .cuadro-principal {
+    background-color: white;
+    width:-moz-available;
+    height: 91.5vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    align-self: flex-end;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0 5 0 5;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+}
+.cuadro-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Encabezado */
@@ -867,7 +893,7 @@ th[data-tooltip] {
   .cuadro-principal {
     background-color: white;
     border-radius: 20px;
-    width: 92%;
+    /* width: 92%; */
     height: 90vh;
     margin-left: 6vw;
     margin-right: 2vw;
@@ -903,7 +929,7 @@ th[data-tooltip] {
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
-    width: 92%;
+    /* width: 92%; */
     margin-left: 6vw;
   }
   .iconos-container > #icono-deshacer,
@@ -932,7 +958,7 @@ th[data-tooltip] {
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 90%;
+    /* width: 90%; */
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -996,7 +1022,7 @@ th[data-tooltip] {
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90%;
+    /* width: 90%; */
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -1060,7 +1086,7 @@ th[data-tooltip] {
 
 @media screen and (max-width: 768px) {
   .cuadro-principal {
-    width: 96%;
+    /* width: 96%; */
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
@@ -1497,4 +1523,45 @@ table.dataTable {
   width: 100%;
   padding: 8px 0;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .header { 
+    zoom: 90%; 
+  }
+  body .cuadro-principal {
+    zoom: 90%;
+    height: 102vh;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .header { 
+    zoom: 80%; 
+  }
+  body .cuadro-principal {
+    zoom: 80%;
+    height: 114.5vh;
+  }
+  nav[aria-label="pagination"] {
+    width: 100%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .header { 
+    zoom: 65%; 
+  }
+  body .cuadro-principal {
+    zoom: 65%;
+    height: 141.5vh;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .header { 
+    zoom: 60%; 
+  }
+  body .cuadro-principal {
+    zoom: 60%;
+    height: 152.5vh;
+  }
 }
