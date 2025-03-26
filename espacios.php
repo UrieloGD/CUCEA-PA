@@ -64,6 +64,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
@@ -355,7 +356,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
         </div>
     </div>
-</div>
+    </div>
+    </div>
 </div>
 
 <?php
