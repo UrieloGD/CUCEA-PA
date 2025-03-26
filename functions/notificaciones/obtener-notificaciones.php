@@ -13,7 +13,7 @@ if ($rol_id == 1) { // Jefe de departamento
           WHERE n.Usuario_ID = $codigo_usuario
           ORDER BY n.Fecha DESC
           LIMIT 10";
-} else if ($rol_id == 2) { // Secretaría administrativa
+} else if ($rol_id == 0 || $rol_id == 2) { // Administrador y Secretaría administrativa
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
                      d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
                      j.Notificacion_Vista AS vista, 
@@ -70,8 +70,8 @@ foreach ($notificaciones as $notificacion) {
         </div>
         <div class="info-notificacion">
             <div class="descripcion">
-                <?php if ($rol_id == 2) : ?>
-                    <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Secretaría Administrativa'; ?></div>
+                <?php if ($rol_id == 0 || $rol_id == 2) : ?>
+                    <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Administración'; ?></div>
                     <div class="descripcion">
                         <?php
                         if ($notificacion['tipo'] == 'justificacion') {
