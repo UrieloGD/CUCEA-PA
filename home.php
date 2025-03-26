@@ -9,6 +9,8 @@ require_once './functions/home/eventos-home.php';
 <!-- css del home -->
 <title>Home PA</title>
 <link rel="stylesheet" href="./CSS/home.css" />
+<!-- CSS del modal con información de los eventos en pantalla -->
+<link rel="stylesheet" href="./CSS/home/modal-eventos.css" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -233,11 +235,13 @@ require_once './functions/home/eventos-home.php';
         </a>
         </div>
     </div>
-  </div>
-
+    
+    <!-- Script para las funciones del modal con la información de los eventos-->
+    <script src="./JS/home/modal-eventos.js"></script>
     <!-- Script para las funciones del carrusel -->
     <script src="./JS/home/carrusel.js"></script>
     <!-- Script para la funcion del boton de base de datos cuando es responsivo en moviles y es coordinador de personal -->
+    
     <script>
       function triggerBd() {
         var toggleBd = document.getElementById("toggle-bd");
