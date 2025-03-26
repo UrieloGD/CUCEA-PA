@@ -2,11 +2,12 @@
 include('./config/sesioniniciada.php');
 
 date_default_timezone_set('America/Mexico_City');
-if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones para los tres roles
+if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Secretaría Administrativa y Administrador
+
   $notificaciones = [];
   $codigo_usuario = $_SESSION['Codigo'];
 
-  if ($rol_id == 2) { // Secretaría administrativa
+  if ($rol_id == 0 || $rol_id == 2) { // Secretaría Administrativa y Administrador
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
                      d.departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
                      j.Notificacion_Vista AS vista, 
@@ -59,7 +60,6 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
     $notificaciones[] = $row;
   }
 }
-
 ?>
 
 <head>
@@ -97,11 +97,10 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
         </div>
         <button class="marcar-leido">Marcar como leído</button>
       </div>
-      <?php if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) : // Mostrar para los tres roles
-      ?>
-        <?php if (!empty($notificaciones)) : ?>
-          <?php foreach ($notificaciones as $notificacion) : ?>
-            <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
+      <?php if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3) : // Mostrar para los roles ?>
+  <?php if (!empty($notificaciones)) : ?>
+    <?php foreach ($notificaciones as $notificacion) : ?>
+      <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
               <div class="imagen">
                 <?php if (isset($notificacion['Nombre']) && isset($notificacion['Apellido']) && isset($notificacion['IconoColor'])) : ?>
                   <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
@@ -149,22 +148,20 @@ if ($rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Mostrar notificaciones pa
               </div>
             </div>
           <?php endforeach; ?>
-        <?php else : ?>
-          <div class="mensaje-sin-notificaciones">
-            <div class="info-notificacion">
-              <div class="descripcion">No hay nuevas notificaciones</div>
-            </div>
-          </div>
+    <?php else : ?>
+      <div class="mensaje-sin-notificaciones">
+        <div class="info-notificacion">
+          <div class="descripcion">No hay nuevas notificaciones</div>
+        </div>
+      </div>
+    <?php endif; ?>
+  <?php else : ?>
+    <div class="mensaje-sin-notificaciones">
+      <div class="info-notificacion">
+        <div class="descripcion">No tienes notificaciones</div>
+      </div>
     </div>
   <?php endif; ?>
-<?php else : ?>
-  <div class="mensaje-sin-notificaciones">
-    <div class="info-notificacion">
-      <div class="descripcion">No tienes notificaciones</div>
-    </div>
-  </div>
-  </div>
-<?php endif; ?>
 </div>
 </div>
 
