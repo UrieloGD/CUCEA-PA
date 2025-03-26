@@ -64,7 +64,12 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 
 
       // Consulta para obtener los roles
+      $usuario_actual = $_SESSION['Rol_ID'];
       $roles_sql = "SELECT Rol_ID, Nombre_Rol FROM roles";
+      if ($usuario_actual != 0) { // Si no es Administrador
+        $roles_sql .= " WHERE Nombre_Rol <> 'Administrador'"; // No mostrar el rol de Administrador
+      }
+      $roles_sql .= " ORDER BY Nombre_Rol ASC";
       $roles_result = $conexion->query($roles_sql);
 
       $roles = [];
