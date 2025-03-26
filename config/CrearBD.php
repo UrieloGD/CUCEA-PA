@@ -27,43 +27,20 @@ $sql = "CREATE TABLE IF NOT EXISTS roles (
     Rol_ID INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Rol VARCHAR(80) NOT NULL
 )";
+
 if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Roles creada exitosamente";
 } else {
     echo "<br>Error creando tabla Roles: " . mysqli_error($conexion);
 }
 
-// Desactivar modo estricto temporalmente
-$set_mode = "SET SQL_MODE = ''";
-if (mysqli_query($conexion, $set_mode)) {
+// Insertar roles
+$insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal'), ('Administrador')";
 
-    // Insertar roles con IDs específicos
-    $insert_roles = "INSERT INTO roles (Rol_ID, Nombre_Rol) VALUES 
-    (0, 'Administrador'), 
-    (1, 'Jefe de Departamento'), 
-    (2, 'Secretaría Administrativa'), 
-    (3, 'Coordinación de Personal'),
-    (4, 'Asistente de JD')";
-
-    if (mysqli_query($conexion, $insert_roles)) {
-        echo "<br>Roles insertados exitosamente";
-    } else {
-        echo "<br>Error insertando roles: " . mysqli_error($conexion);
-    }
-
-    // Configurar AUTO_INCREMENT para que comience después de los valores manuales
-    $set_auto_increment = "ALTER TABLE roles AUTO_INCREMENT = 4";
-    if (mysqli_query($conexion, $set_auto_increment)) {
-        echo "<br>AUTO_INCREMENT configurado correctamente";
-    } else {
-        echo "<br>Error configurando AUTO_INCREMENT: " . mysqli_error($conexion);
-    }
-
-    // Restaurar el modo SQL predeterminado
-    $reset_mode = "SET SQL_MODE = DEFAULT";
-    mysqli_query($conexion, $reset_mode);
+if (mysqli_query($conexion, $insert_roles)) {
+    echo "<br>Roles insertados exitosamente";
 } else {
-    echo "<br>Error modificando SQL_MODE: " . mysqli_error($conexion);
+    echo "<br>Error insertando roles: " . mysqli_error($conexion);
 }
 
 // Crear tabla Usuarios
