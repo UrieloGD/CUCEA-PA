@@ -8,6 +8,7 @@
 body {
   margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
   background-color: #e7e9f2;
+  overflow-y: hidden;
 }
 
 .container {

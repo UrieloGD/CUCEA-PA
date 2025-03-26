@@ -3,17 +3,26 @@
 .cuadro-principal {
   background-color: white;
   /* width: 92%; */
-  height: 90%;
+  height: 91.5vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
   align-self: flex-end;
   overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 0 5 0 5;
   border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+}
+
+.cuadro-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .container-banner-bienvenida {
@@ -631,7 +640,6 @@
 }
 
 /* Media queries para hacer el diseño responsivo */
-
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
     background-color: white;
@@ -655,6 +663,7 @@
   }
 
   .cuadros-nav {
+    width: 99%;
     flex-wrap: nowrap;
     justify-content: space-between;
   }
@@ -666,7 +675,6 @@
 
   .cuadro-ind img {
     height: auto;
-    max-width: 300px;
   }
 
   .progreso span {
@@ -794,20 +802,10 @@
     transform-origin: center;
     object-fit: contain;
   }
-
-  /* Nuevo home
-  .container-eventos-progreso,
-  .container-banner-bienvenida,
-  .eventos,
-  .banner,
-  .bienvenida {
-    width: 89vw;
-  } */
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
   .cuadro-principal {
-    width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
     font-size: smaller;
@@ -1109,20 +1107,40 @@
 
 /* Responsividad de Zoom para navegadores Chromium */
 @media screen and (max-height: 900px) { 
-  body .cuadro-principal,
-  .header { zoom: 90%; }
+  .header { 
+    zoom: 90%; 
+  }
+  body .cuadro-principal {
+    zoom: 90%;
+    height: 102vh;
+  }
 }
 @media screen and (max-height: 768px) { 
-  body .cuadro-principal,
-  .header { zoom: 80%; }
+  .header { 
+    zoom: 80%; 
+  }
+  body .cuadro-principal {
+    zoom: 80%;
+    height: 114.5vh;
+  }
 }
 @media screen and (max-height: 700px) { 
-  body .cuadro-principal,
-  .header { zoom: 65%; }
+  .header { 
+    zoom: 65%; 
+  }
+  body .cuadro-principal {
+    zoom: 65%;
+    height: 141.5vh;
+  }
 }
 @media screen and (max-height: 600px) { 
-  body .cuadro-principal,
-  .header { zoom: 60%; }
+  .header { 
+    zoom: 60%; 
+  }
+  body .cuadro-principal {
+    zoom: 60%;
+    height: 152.5vh;
+  }
 }
 
 /* Responsividad de Zoom para navegadores no Chromium */
