@@ -107,6 +107,26 @@ function initializeCustomTooltips() {
 }
 
 $(document).ready(function () {
+  // Intentar inicializar con logs de error
+  try {
+    table = $("#tabla-datos").DataTable({
+      // Tus configuraciones existentes...
+    });
+    console.log("Tabla inicializada correctamente"); // Depuración
+  } catch (error) {
+    console.error("Error al inicializar DataTables:", error); // Depuración
+  }
+
+  // Configurar columnas fijas para la tabla
+  // Mantiene las dos primeras columnas (normalmente ID y checkbox) visibles al desplazar
+  try {
+    new $.fn.dataTable.FixedColumns(table, {
+      left: 2,
+    });
+    console.log("FixedColumns inicializado correctamente"); // Depuración
+  } catch (error) {
+    console.error("Error al inicializar FixedColumns:", error); // Depuración
+  }
   localStorage.removeItem("DataTables_tabla-datos");
   if ($.fn.dataTable.isDataTable('#tabla-datos')) {
     table.destroy();
