@@ -244,7 +244,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             if ($successful_inserts > 0) {
                 $inserted_records = $successful_inserts;
             } else {
-                echo json_encode(["success" => false, "message" => "No se pudo insertar ningún registro. Revise el log para más detalles."]);
+                echo json_encode(["success" => false, "message" => "No se pudo insertar ningún registro."]);
                 exit();
             }
 

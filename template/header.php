@@ -2,7 +2,7 @@
 include('./config/sesioniniciada.php');
 
 date_default_timezone_set('America/Mexico_City');
-if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Secretar√≠a Administrativa y Administrador
+if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4) { // Secretar√≠a Administrativa y Administrador
 
   $notificaciones = [];
   $codigo_usuario = $_SESSION['Codigo'];
@@ -37,7 +37,7 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Secretar√
             
             ORDER BY fecha DESC
             LIMIT 10";
-  } else if ($rol_id == 1) { // Jefe de departamento
+  } else if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
               FROM notificaciones n
@@ -97,7 +97,7 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3) { // Secretar√
         </div>
         <button class="marcar-leido">Marcar como le√≠do</button>
       </div>
-      <?php if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3) : // Mostrar para los roles ?>
+      <?php if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4) : // Mostrar para los roles ?>
   <?php if (!empty($notificaciones)) : ?>
     <?php foreach ($notificaciones as $notificacion) : ?>
       <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">

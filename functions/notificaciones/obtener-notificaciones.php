@@ -5,7 +5,7 @@ include './../../config/db.php';
 $rol_id = $_SESSION['Rol_ID'];
 $codigo_usuario = $_SESSION['Codigo'];
 
-if ($rol_id == 1) { // Jefe de departamento
+if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
               e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
           FROM notificaciones n

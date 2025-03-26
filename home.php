@@ -37,8 +37,7 @@ require_once './functions/home/eventos-home.php';
 
         if ($rol_id == 1 || $rol_id == 4) {
           echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
-        } 
-        else {
+        } else {
           echo "<br>", $nombre_rol;
         }
         ?>
@@ -147,9 +146,9 @@ require_once './functions/home/eventos-home.php';
         </a>
       </div>
       <div class="cuadro-ind">
-        <a href="./dashboard-oferta.php">
+        <a href="./calendario.php">
           <div class="overlay">
-            <h4 style="text-shadow: 1px 4px 3px black;">Oferta</h4>
+            <h4 style="text-shadow: 1px 4px 3px black;">Calendario</h4>
           </div>
           <img src="./Img/img-home/oferta.webp" alt="Imagen de fondo de CERI" />
         </a>
@@ -163,11 +162,36 @@ require_once './functions/home/eventos-home.php';
         </a>
       </div>
       <div class="cuadro-ind">
-        <a href="./guiaPA.php">
-          <div class="overlay">
-            <h4 style="text-shadow: 1px 4px 3px black;">Guía</h4>
-          </div>
-          <img src="./Img/img-home/guia.webp" alt="Imagen de CiberJardin" />
+        <?php
+        // Redirigir según el rol del usuario
+        if ($rol_id == 1 || $rol_id == 4) {
+          // Si el usuario es jefe de departamento, redirigir a subir plantilla
+          if (isset($_SESSION['Nombre_Departamento'])) {
+            // Obtener el nombre del departamento desde la sesión
+            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            echo "<a href='./profesores.php'>";
+          } else {
+            // Manejar el caso en que no se encuentre asociado a ningún departamento
+            echo "<a href='#'>";
+          }
+        } elseif ($rol_id == 2 || $rol_id == 0) {
+          // Si el usuario es secretaria administrativa, redirigir a plantillasPA
+          echo "<a href='./profesores.php'>";
+        } else {
+          // Otros roles o manejo de errores aquí
+          echo "<a href='./horas-comparacion.php'>";
+        }
+        ?>
+        <div class="overlay">
+          <?php if ($rol_id == 3) {
+            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Horas comparación</h4>";
+          } else {
+            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Profesores</h4>";
+          }
+          ?>
+          <!-- <h4 style="text-shadow: 1px 4px 3px black;">Profesores</h4> -->
+        </div>
+        <img src="./Img/img-home/plantilla.webp" alt="Imagen de un pasillo arbolado de CUCEA" />
         </a>
       </div>
     </div>
@@ -214,12 +238,12 @@ require_once './functions/home/eventos-home.php';
                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
                 <span>DB</span>
               </div>';
-                                                                            }
-                                                                              ?>
-        <a href="./dashboard-oferta.php">
+        }
+      ?>
+        <a href="./calendario.php">
           <div class="cuadro-acceso" id="cuadro-oferta">
             <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
-            <span>Oferta</span>
+            <span>Calendario</span>
           </div>
         </a>
         <a href="./espacios.php">
@@ -228,10 +252,10 @@ require_once './functions/home/eventos-home.php';
             <span>Espacios</span>
           </div>
         </a>
-        <a href="./guiaPA.php">
+        <a href="./profesores.php">
           <div class="cuadro-acceso" id="cuadro-guia">
             <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
-            <span>Guia</span>
+            <span>Profesores</span>
           </div>
         </a>
         </div>

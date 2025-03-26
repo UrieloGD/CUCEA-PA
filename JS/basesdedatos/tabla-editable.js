@@ -118,7 +118,7 @@ function makeEditable() {
   }
 
   const userRole = document.getElementById("user-role");
-  if (!userRole || (userRole.value !== "1" && userRole.value !== "0" || !puedeEditar)) {
+  if (!userRole || (userRole.value !== "1" && userRole.value !== "4" && userRole.value !== "0" || !puedeEditar)) {
       hideEditIcons();
       return;
   }
@@ -719,7 +719,7 @@ function enterEditMode(cell) {
 
 originalEnterEditMode = enterEditMode;
 enterEditMode = function(cell) {
-  if(!cell || (!puedeEditar && userRole.value !== "0")) {
+  if(!cell || (!puedeEditar && userRole.value !== "0" && userRole.value !== "4")) {
     if (!puedeEditar) {
       showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
     }

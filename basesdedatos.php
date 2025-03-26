@@ -34,7 +34,7 @@ if (isset($_SESSION['Codigo'])) {
 // Nuevo bloque para admin
 if ($rol == 0) {
     $puede_editar = true;
-} else if ($rol == 1) {
+} else if ($rol == 1 || $rol == 4) {
     $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
 }
 
@@ -42,7 +42,7 @@ if ($rol == 0) {
 if ($rol == 0) { // Admin puede editar siempre
     $puede_editar = true;
     $departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : 1; // 1 como fallback
-} elseif ($rol == 1) {
+} elseif ($rol == 1 || $rol == 4) {
     // Para jefes de departamento, usar su departamento asignado
     $departamento_id = $_SESSION['Departamento_ID'];
     $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
@@ -276,7 +276,7 @@ $result = $stmt->get_result();
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <?php if ($rol == 1 && $puede_editar || $rol == 0): ?>
+                <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                         <i class="fa fa-save" aria-hidden="true"></i>
                     </div>
@@ -294,7 +294,7 @@ $result = $stmt->get_result();
                 <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
                     <i class="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <?php if ($rol == 1 && $puede_editar || $rol == 0): ?>
+                <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
                         <i class="fa fa-add" aria-hidden="true"></i>
                     </div>

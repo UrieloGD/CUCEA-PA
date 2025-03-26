@@ -20,7 +20,7 @@ $departamento_id = null;
 
 try {
     // Lógica para seleccionar el departamento
-    if ($rol == 1) {
+    if ($rol == 1 || $rol == 4) {
         $departamento_id = $_SESSION['Departamento_ID'];
     } elseif ($rol == 2 || $rol == 3 || $rol == 0) {
         if (isset($_GET['departamento_id'])) {

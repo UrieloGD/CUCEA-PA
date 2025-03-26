@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0) {
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0 && $_SESSION['Rol_ID'] != 4) {
     header("Location: home.php");
     exit();
 }
