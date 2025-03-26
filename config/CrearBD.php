@@ -35,7 +35,12 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Insertar roles
-$insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES ('Jefe de Departamento'), ('Secretaría Administrativa'), ('Coordinación de Personal'), ('Administrador')";
+$insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES 
+                ('Jefe de Departamento'), 
+                ('Secretaría Administrativa'), 
+                ('Coordinación de Personal'), 
+                ('Administrador'),
+                ('Asistente de JD');";
 
 if (mysqli_query($conexion, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";

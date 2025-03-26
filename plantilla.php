@@ -160,8 +160,11 @@ if ($departamento_id === null) {
             } else {
             ?>
                 <div class="info-subida">
-                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
+                    <p>Sube aquí tu plantilla (Excel) de Programación Académica</b></p>
                 </div>
+                <!-- <div class="info-subida">
+                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
+                </div> -->
                 <?php if ($fecha_limite_pasada && $justificacion_enviada) { ?>
                     <div class="container-precaucion">
                         <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>

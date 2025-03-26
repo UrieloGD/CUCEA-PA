@@ -424,29 +424,29 @@ function generateColorForUser($userId)
                     ?>
                 </li>
 
-                <li class="navbar-item flexbox-left">
-                    <?php
-                    if (basename($_SERVER['PHP_SELF']) == 'guiaPA.php') {
-                        echo "<div class='indicador'>";
-                        echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>";
-                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
-                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
-                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia-hover" class="original-icon">
-                            </div>
-                            <span class="link-text-select">Guía</span>
-                            </a>
-                        </div>';
-                    } else {
-                        echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>";
-                        echo '<div class="navbar-item-inner-icon-wrapper flexbox">
-                                <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
-                                <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-guia-hover" class="original-icon">
-                                </div>
-                                <span class="link-text">Guía</span>
-                            </a>';
-                    }
+                <!-- <li class="navbar-item flexbox-left">
+                    < ?php
+                    // if (basename($_SERVER['PHP_SELF']) == 'guiaPA.php') {
+                    //     echo "<div class='indicador'>";
+                    //     echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>";
+                    //     echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                    //             <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
+                    //             <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia-hover" class="original-icon">
+                    //         </div>
+                    //         <span class="link-text-select">Guía</span>
+                    //         </a>
+                    //     </div>';
+                    // } else {
+                    //     echo "<a class='navbar-item-inner flexbox-left' href='./guiaPA.php'>";
+                    //     echo '<div class="navbar-item-inner-icon-wrapper flexbox">
+                    //             <img src="./Img/Icons/iconos-navbar/iconos-azules/icono-guia.png" width="50%" height="50%" alt="icono-guia" class="hover-icon">
+                    //             <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png" width="50%" height="50%" alt="icono-guia-hover" class="original-icon">
+                    //             </div>
+                    //             <span class="link-text">Guía</span>
+                    //         </a>';
+                    // }
                     ?>
-                </li>
+                </li> -->
 
                 <?php
                 if ($rol_id == 2 || $rol_id == 0) { // Mostrar ícono de admin solo si el usuario es secretaria administrativa

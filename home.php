@@ -35,9 +35,10 @@ require_once './functions/home/eventos-home.php';
       <p>
         <?php
 
-        if ($rol_id == 1) {
+        if ($rol_id == 1 || $rol_id == 4) {
           echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
-        } else {
+        } 
+        else {
           echo "<br>", $nombre_rol;
         }
         ?>
@@ -91,7 +92,7 @@ require_once './functions/home/eventos-home.php';
       <div class="cuadro-ind">
         <?php
         // Redirigir según el rol del usuario
-        if ($rol_id == 1) {
+        if ($rol_id == 1 || $rol_id == 4) {
           // Si el usuario es jefe de departamento, redirigir a subir plantilla
           if (isset($_SESSION['Nombre_Departamento'])) {
             // Obtener el nombre del departamento desde la sesión
@@ -118,7 +119,7 @@ require_once './functions/home/eventos-home.php';
       <div class="cuadro-ind">
         <?php
         // Redirigir según el rol del usuario
-        if ($rol_id == 1) {
+        if ($rol_id == 1 || $rol_id == 4) {
           // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
           if (isset($_SESSION['Nombre_Departamento'])) {
             // Obtener el nombre del departamento desde la sesión
@@ -181,7 +182,7 @@ require_once './functions/home/eventos-home.php';
     </div>
 
     <div class="accesodirecto-moviles">
-      <?php if ($rol_id == 1) echo '<a href="./plantilla.php">';
+      <?php if ($rol_id == 1 || $rol_id == 4) echo '<a href="./plantilla.php">';
       if ($rol_id == 2) echo '<a href="./admin-plantilla.php">';
       if ($rol_id == 3) echo '<a href="./plantilla-CoordPers.php">';
       ?>
@@ -191,7 +192,7 @@ require_once './functions/home/eventos-home.php';
       </div>
       <?php echo '</a>';
       ?>
-      <?php if ($rol_id == 1) {
+      <?php if ($rol_id == 1 || $rol_id == 4) {
         echo '<a href="./basesdedatos.php">
               <div class="cuadro-acceso">
                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
