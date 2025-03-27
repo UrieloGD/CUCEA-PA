@@ -116,17 +116,6 @@ $(document).ready(function () {
   } catch (error) {
     console.error("Error al inicializar DataTables:", error); // Depuración
   }
-
-  // Configurar columnas fijas para la tabla
-  // Mantiene las dos primeras columnas (normalmente ID y checkbox) visibles al desplazar
-  try {
-    new $.fn.dataTable.FixedColumns(table, {
-      left: 2,
-    });
-    console.log("FixedColumns inicializado correctamente"); // Depuración
-  } catch (error) {
-    console.error("Error al inicializar FixedColumns:", error); // Depuración
-  }
   localStorage.removeItem("DataTables_tabla-datos");
   if ($.fn.dataTable.isDataTable('#tabla-datos')) {
     table.destroy();
@@ -139,6 +128,9 @@ $(document).ready(function () {
       header: true, // Mantiene el encabezado fijo durante el scroll
       headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
       footer: false,
+    },
+    fixedColumns: {
+      leftColumns: 2, // Fija las dos primeras columnas
     },
     dom: '<"top"<"custom-search-container">fB>rt<"bottom"lip>',
     language: {
@@ -465,16 +457,14 @@ $(document).ready(function () {
       },
     ],
     order: [[1, "asc"]],
-    colReorder: {
+    colReorder: { 
       columns: ":gt(1)",
-      fixedColumnsLeft: 2,
-      fixedColumnsRight: 0,
     },
     buttons: [
       {
         extend: "colvis",
         text: '<i class="fa fa-eye"></i>',
-        collectionLayout: "fixed columns",
+        collectionLayout: "fixed columns", 
         columns: ":not(:first-child)",
         className: "icono-buscador",
         attr: {
@@ -530,11 +520,6 @@ $(document).ready(function () {
     ) {
       $(".custom-columns-menu").remove();
     }
-  });
-
-  new $.fn.dataTable.FixedColumns(table, {
-    leftColumns: 2,
-    rightColumns: 0,
   });
 });
 

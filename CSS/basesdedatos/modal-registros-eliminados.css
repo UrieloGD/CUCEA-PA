@@ -1,3 +1,10 @@
+/* Ensure that the demo table scrolls */
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 800px;
+    margin: 0 auto;
+}
+
 /* Estilos para el contenedor de búsqueda del modal de registros eliminados */
 #modalRegistrosEliminados .dt-search {
     width: 50%;
