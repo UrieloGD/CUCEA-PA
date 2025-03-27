@@ -14,7 +14,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <?php include './template/navbar.php' ?>
 
 <title>Añadir Usuarios</title>
-<link rel="stylesheet" href="./CSS/admin-usuarios.css" />
+<link rel="stylesheet" href="./CSS/admin-usuarios.css?v=<?php echo filemtime('./CSS/admin-usuarios.css'); ?>">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -168,9 +168,9 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     </div>
   </div>
 
-  <script src="./JS/admin-usuarios/barra-busqueda.js"></script>
-  <script src="./JS/admin-usuarios/admin-usuarios.js"></script>
-  <script src="./JS/admin-usuarios/eliminar-usuario.js"></script>
+  <script src="./JS/admin-usuarios/barra-busqueda.js?v=<?php echo filemtime('./JS/admin-usuarios/barra-busqueda.js'); ?>"></script>
+<script src="./JS/admin-usuarios/admin-usuarios.js?v=<?php echo filemtime('./JS/admin-usuarios/admin-usuarios.js'); ?>"></script>
+<script src="./JS/admin-usuarios/eliminar-usuario.js?v=<?php echo filemtime('./JS/admin-usuarios/eliminar-usuario.js'); ?>"></script>
   <script>
     // Inicializar roles y departamentos
     const roles = <?php echo json_encode($roles); ?>;

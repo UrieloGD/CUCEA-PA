@@ -6,6 +6,7 @@ include './../../config/db.php';
 ob_start();
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+date_default_timezone_set('America/Mexico_City');
 
 function safeSubstr($string, $start, $length = null)
 {

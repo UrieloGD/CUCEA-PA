@@ -135,8 +135,8 @@ function softDeleteRegistros($conexion, $ids)
 </script>
 
 <!-- CSS base -->
-<link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css">
-<link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css">
+<link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css?v=<?php echo filemtime('./CSS/coord-pers/basesdedatos-Coord.css'); ?>">
+<link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css?v=<?php echo filemtime('./CSS/coord-pers/coord-papelera.css'); ?>">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
@@ -400,12 +400,12 @@ function softDeleteRegistros($conexion, $ids)
     <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
     <!-- Scripts personalizados-->
-    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js"></script>
-    <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
-    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js"></script>
+    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/tabla-editable-coord.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/eliminar-registro-coord.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/anadir-profesor.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/anadir-profesor.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/descargar-data-excel-coord.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/inicializar-tablas-cp.js'); ?>"></script>
 
     <!-- Script para cambiar el encabezado por responsividad -->
     <script>

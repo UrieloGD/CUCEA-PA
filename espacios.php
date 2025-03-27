@@ -59,8 +59,8 @@ while ($row = mysqli_fetch_assoc($result)) {
 ?>
 
 <title>Espacios</title>
-<link rel="stylesheet" href="./CSS/espacios.css" />
-<link rel="stylesheet" href="./CSS/espacios-aulas-amplias.css" />
+<link rel="stylesheet" href="./CSS/espacios.css?v=<?php echo filemtime('./CSS/espacios.css'); ?>" />
+<link rel="stylesheet" href="./CSS/espacios-aulas-amplias.css?v=<?php echo filemtime('./CSS/espacios-aulas-amplias.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -381,9 +381,9 @@ function guardarInfoEspacio($modulo, $espacio, $equipo, $observaciones, $reporte
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script src="./JS/espacios/filtros-espacios.js"></script>
-<script src="./JS/espacios/modal-dias.js"></script>
-<script src="./JS/espacios/aulas-amplias-modal.js"></script>
-<script src="./JS/espacios/limpiar-filtro.js"></script>
+<script src="./JS/espacios/filtros-espacios.js?v=<?php echo filemtime('./JS/espacios/filtros-espacios.js'); ?>"></script>
+<script src="./JS/espacios/modal-dias.js?v=<?php echo filemtime('./JS/espacios/modal-dias.js'); ?>"></script>
+<script src="./JS/espacios/aulas-amplias-modal.js?v=<?php echo filemtime('./JS/espacios/aulas-amplias-modal.js'); ?>"></script>
+<script src="./JS/espacios/limpiar-filtro.js?v=<?php echo filemtime('./JS/espacios/limpiar-filtro.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

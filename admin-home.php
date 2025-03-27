@@ -49,7 +49,7 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
 ?>
 
 <title>Centro de Gestión</title>
-<link rel="stylesheet" href="./CSS/admin-home.css" />
+<link rel="stylesheet" href="./CSS/admin-home.css?v=<?php echo filemtime('./CSS/admin-home.css'); ?>">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

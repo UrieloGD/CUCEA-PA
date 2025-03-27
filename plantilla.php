@@ -76,7 +76,7 @@ if ($departamento_id === null) {
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/plantilla.css?v=<?php echo filemtime('./CSS/plantilla.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -195,12 +195,11 @@ if ($departamento_id === null) {
     </div>
 </div>
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./JS/plantilla/guardarJustifiicacion.js"></script>
-<script src="./JS/plantilla/descargarPlantilla.js"></script>
-<script src="./JS/plantilla/drag&drop.js"></script>
-<script src="./JS/plantilla/pestañasPlantilla.js"></script>
+<script src="./JS/plantilla/guardarJustifiicacion.js?v=<?php echo filemtime('./JS/plantilla/guardarJustifiicacion.js'); ?>"></script>
+<script src="./JS/plantilla/descargarPlantilla.js?v=<?php echo filemtime('./JS/plantilla/descargarPlantilla.js'); ?>"></script>
+<script src="./JS/plantilla/drag&drop.js?v=<?php echo filemtime('./JS/plantilla/drag&drop.js'); ?>"></script>
+<script src="./JS/plantilla/pestañasPlantilla.js?v=<?php echo filemtime('./JS/plantilla/pestañasPlantilla.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

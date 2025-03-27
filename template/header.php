@@ -66,8 +66,8 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
   <link rel="icon" href="./Img/Icons/iconos-header/pestaña.png" type="image/png">
 </head>
 
-<link rel="stylesheet" href="./CSS/notificaciones.css" />
-<link rel="stylesheet" href="./CSS/header.css"> <!-- Esto regresa a su lugar -->
+<link rel="stylesheet" href="./CSS/notificaciones.css?v=<?php echo filemtime('./CSS/notificaciones.css'); ?>">
+<link rel="stylesheet" href="./CSS/header.css?v=<?php echo filemtime('./CSS/header.css'); ?>">
 <div class="container">
   <div class="header">
     <div class="header-content"> <!-- Contenedor para alinear contenidos del header creo? -->
@@ -166,10 +166,12 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
 </div>
 
 
-<script src="./JS/header/header.js"></script>
-<script src="./JS/notificaciones/barra-notificaciones.js"></script>
+<script src="./JS/header/header.js?v=<?php echo filemtime('./JS/header/header.js'); ?>"></script>
+<script src="./JS/notificaciones/barra-notificaciones.js?v=<?php echo filemtime('./JS/notificaciones/barra-notificaciones.js'); ?>"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- fa fa icons para firefox y safari -->

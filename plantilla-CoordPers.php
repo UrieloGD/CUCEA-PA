@@ -23,7 +23,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/plantilla.css?v=<?php echo filemtime('./CSS/plantilla.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -55,6 +55,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./JS/plantilla-CoordPers/drag&drop.js"></script>
+<script src="./JS/plantilla-CoordPers/drag&drop.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/drag&drop.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

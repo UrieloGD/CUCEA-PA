@@ -34,7 +34,7 @@ $periodo_actual = "2025B";
 ?>
 
 <title>Reporte de entrega</title>
-<link rel="stylesheet" href="./CSS/admin-reportes.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/admin-reportes.css?v=<?php echo filemtime('./CSS/admin-reportes.css'); ?>">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">

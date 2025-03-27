@@ -25,7 +25,7 @@ include './template/navbar.php';
 ?>
 
 <title>Calendario</title>
-<link rel="stylesheet" href="./CSS/calendario.css" />
+<link rel="stylesheet" href="./CSS/calendario.css?v=<?php echo filemtime('./CSS/calendario.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -302,10 +302,8 @@ require_once './functions/calendario/modal-eventos-info.php';
     var userId = <?php echo json_encode($_SESSION['user_id']); ?>;
 </script>
 
-<script src="./JS/calendario/funciones-calendario.js"></script>
-
-<!-- Script para funciones del modal de crear nuevo evento. -->
-<script src="./JS/calendario/modal-nuevoevento.js"></script>
+<script src="./JS/calendario/funciones-calendario.js?v=<?php echo filemtime('./JS/calendario/funciones-calendario.js'); ?>"></script>
+<script src="./JS/calendario/modal-nuevoevento.js?v=<?php echo filemtime('./JS/calendario/modal-nuevoevento.js'); ?>"></script>
 
 <!-- Script y estilos para boton que abre el modal. -->
 <script>

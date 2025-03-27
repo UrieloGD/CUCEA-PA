@@ -2,6 +2,8 @@
 session_start();
 include './../../config/db.php';
 
+date_default_timezone_set('America/Mexico_City');
+
 $rol_id = $_SESSION['Rol_ID'];
 $codigo_usuario = $_SESSION['Codigo'];
 

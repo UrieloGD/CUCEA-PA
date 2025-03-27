@@ -16,8 +16,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <?php require_once './config/db.php' ?>
 
 <title>Centro de Gestión</title>
-<link rel="stylesheet" href="./CSS/admin-eventos.css" />
-<link rel="stylesheet" href="./CSS/admin-crear-eventos.css" />
+<link rel="stylesheet" href="./CSS/admin-eventos/admin-eventos.css?v=<?php echo filemtime('./CSS/admin-eventos/admin-eventos.css'); ?>" />
+<link rel="stylesheet" href="./CSS/admin-eventos/admin-crear-eventos.css?v=<?php echo filemtime('./CSS/admin-eventos/admin-crear-eventos.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -254,7 +254,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     </div>
 </div>
 
-<script src="./JS/admin-eventos/eliminar-evento.js"></script>
-<script src="./JS/admin-eventos/modal-creacion-y-participantes.js"></script>
+<script src="./JS/admin-eventos/eliminar-evento.js?v=<?php echo filemtime('./JS/admin-eventos/eliminar-evento.js'); ?>"></script>
+<script src="./JS/admin-eventos/modal-creacion-y-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/modal-creacion-y-participantes.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

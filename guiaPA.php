@@ -3,8 +3,7 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Guía PA</title>
-<link rel="stylesheet" href="./CSS/guiaPA.css">
-<?php
+<link rel="stylesheet" href="./CSS/guiaPA.css?v=<?php echo filemtime('./CSS/guiaPA.css'); ?>" /><?php
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
 if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] !=0) {
     header("Location: home.php");
@@ -32,6 +31,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] !=0) {
           </div>
      </div>
 
-     <script src="./JS/pestañas-plantilla.js"></script>
+     <!-- <script src="./JS/pestañas-plantilla.js"></script> -->
 
      <?php include("./template/footer.php"); ?>

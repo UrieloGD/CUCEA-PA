@@ -1,7 +1,7 @@
     <?php
     session_start();
 
-    if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0 && $_SESSION['Rol_ID'] != 4) {
+    if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {
         header("Location: home.php");
         exit();
     }
@@ -18,7 +18,7 @@
     ?>
 
     <title>Revisión de horas asignadas</title>
-    <link rel="stylesheet" href="./CSS/horas-comparacion.css">
+    <link rel="stylesheet" href="./CSS/horas-comparacion.css?v=<?php echo filemtime('./CSS/horas-comparacion.css'); ?>">
 
     <div class="cuadro-principal">
         <div class="encabezado">
@@ -127,8 +127,8 @@
             </div>
         </div>
 
-        <script src="./JS/horas-comparacion/modal.js"></script>
-        <script src="./JS/horas-comparacion/main.js"></script>
-        <script src="./JS/horas-comparacion/desplegable.js"></script>
+        <script src="./JS/horas-comparacion/modal.js?v=<?php echo filemtime('./JS/horas-comparacion/modal.js'); ?>"></script>
+        <script src="./JS/horas-comparacion/main.js?v=<?php echo filemtime('./JS/horas-comparacion/main.js'); ?>"></script>
+        <script src="./JS/horas-comparacion/desplegable.js?v=<?php echo filemtime('./JS/horas-comparacion/desplegable.js'); ?>"></script>
 
         <?php include("./template/footer.php"); ?>
