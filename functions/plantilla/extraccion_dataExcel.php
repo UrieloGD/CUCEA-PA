@@ -266,7 +266,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $departamento = $result_departamento->fetch_assoc();
 
             // Obtener correos de los usuarios de secretaría administrativa
-            $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 2";
+            $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 0 OR Rol_ID = 2";
             $result_secretaria = $conexion->query($sql_secretaria);
 
             $envio_exitoso = true;

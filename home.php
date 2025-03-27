@@ -232,9 +232,9 @@ require_once './functions/home/eventos-home.php';
               </div>
               </a>';
       }
-      if ($rol_id == 3) {
+      if ($rol_id == 3 || $rol_id == 0) {
       ?> <div class="cuadro-acceso" id="cuadro-toggle" onclick="triggerBd()"> <?php
-                                                                              echo '
+          echo '
                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
                 <span>DB</span>
               </div>';
@@ -242,7 +242,7 @@ require_once './functions/home/eventos-home.php';
       ?>
         <a href="./calendario.php">
           <div class="cuadro-acceso" id="cuadro-oferta">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png">
             <span>Calendario</span>
           </div>
         </a>
@@ -254,7 +254,7 @@ require_once './functions/home/eventos-home.php';
         </a>
         <a href="./profesores.php">
           <div class="cuadro-acceso" id="cuadro-guia">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png">
             <span>Profesores</span>
           </div>
         </a>

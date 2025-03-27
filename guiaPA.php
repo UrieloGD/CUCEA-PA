@@ -4,6 +4,13 @@
 <?php include './template/navbar.php' ?>
 <title>Guía PA</title>
 <link rel="stylesheet" href="./CSS/guiaPA.css">
+<?php
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] !=0) {
+    header("Location: home.php");
+    exit();
+}
+?>
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
