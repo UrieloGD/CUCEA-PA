@@ -39,8 +39,8 @@ $insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES
                 ('Jefe de Departamento'), 
                 ('Secretaría Administrativa'), 
                 ('Coordinación de Personal'), 
-                ('Administrador'),
-                ('Asistente de JD');";
+                ('Asistente de JD'),
+                ('Administrador');";
 
 if (mysqli_query($conexion, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";
@@ -90,7 +90,7 @@ $usuarios = [
     [9816054, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Auditoría
     [2212498, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Merca
     [2530872, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Impuestos
-    [2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Sistemas
+    [2116812, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Sistemas
     [2519356, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Turismo
     [8319855, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Contabilidad
     [2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2, '#FF0000'], //fake
@@ -190,22 +190,22 @@ if (mysqli_query($conexion, $sql)) {
 
 // Insertar relación de usuarios con departamentos (jefes de departamento)
 $insert_usuarios_departamentos = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES
-    (2100123456, 1), -- Juan es jefe del Departamento 1 (Estudios Regionales)
-    (2103456789, 2), -- Ana es jefa del Departamento 2 (Finanzas)
-    (2106789012, 3), -- Carlos Hernandez es jefe del Departamento 3 (Ciencias Sociales)
-    (2110123456, 4), -- Pedro es jefe del Departamento 4 (PALE)
-    (2111234567, 5), -- Laura es jefa del Departamento 5 (Posgrados)
-    (2112345678, 6), -- Javier es jefe del Departamento 6 (Economia)
-    (2113456789, 7), -- Sara es jefa del Departamento 7 (Recursos Humanos)
-    (2114567890, 8), -- Guillermo es jefe del Departamento 8 (Metodos Cuantitativos)
-    (2115678901, 9), -- Mariana es jefa del Departamento 9 (Politicas Publicas)
-    (2116789012, 10), -- César es jefe del Departamento 10 (Administracion)
-    (2121234567, 11), -- Alejandro Campos es jefe del Departamento 11 (Auditoria)
-    (2130192837, 12), -- José es jefe del Departamento 12 (Mercadotecnia)
-    (2140596871, 13), -- Cristian es jefe del Departamento 13 (Impuestos)
-    (2151234098, 14), -- Alejandro Lopez es jefe del Departamento 14 (Sistemas de Informacion)
-    (2161098234, 15), -- Carlos Flores es jefe del Departamento 15 (Turismo)
-    (2176859401, 16); -- Javier Ramirez es jefe del Departamento 16 (Contabilidad)";
+    (7200315, 1), -- Jesús Arroyo es jefe del Departamento 1 (Estudios Regionales)
+    (8504032, 2), -- José Ponce es jefa del Departamento 2 (Finanzas)
+    (9023615, 3), -- Blanca Silva es jefe del Departamento 3 (Ciencias Sociales)
+    (2951480, 4), -- Teressa es jefe del Departamento 4 (PALE)
+    (2111234, 5), -- Jesus Cardoso es jefa del Departamento 5 (Posgrados)
+    (8211558, 6), -- Martin Romero es jefe del Departamento 6 (Economia)
+    (8102481, 7), -- Sara Robles es jefa del Departamento 7 (Recursos Humanos)
+    (2946961, 8), -- Guillermo Sierra es jefe del Departamento 8 (Metodos Cuantitativos)
+    (2946961, 9), -- Carla Aceves es jefa del Departamento 9 (Politicas Publicas)
+    (2633086, 10), -- César Mora es jefe del Departamento 10 (Administracion)
+    (9816054, 11), -- Alejandro Campos es jefe del Departamento 11 (Auditoria)
+    (2212498, 12), -- José Sanchez es jefe del Departamento 12 (Mercadotecnia)
+    (2530872, 13), -- Cristian Alcantar es jefe del Departamento 13 (Impuestos)
+    (2116812, 14), -- Alejandro Lopez es jefe del Departamento 14 (Sistemas de Informacion)
+    (2519356, 15), -- Carlos Flores es jefe del Departamento 15 (Turismo)
+    (8319855, 16); -- Javier Ramirez es jefe del Departamento 16 (Contabilidad)";
 
 if (mysqli_query($conexion, $insert_usuarios_departamentos)) {
     echo "<br>Relación de usuarios y departamentos insertada exitosamente";
