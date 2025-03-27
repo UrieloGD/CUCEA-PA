@@ -10,6 +10,7 @@
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
 
     <!--Pestaña azul-->
     <div class="encabezado">

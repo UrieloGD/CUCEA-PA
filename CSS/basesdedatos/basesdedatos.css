@@ -278,6 +278,7 @@ th {
 #form-añadir-registro {
   display: grid;
   align-items: center;
+  margin: 0;
 }
 
 #formulario-añadir button {

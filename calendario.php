@@ -29,6 +29,7 @@ include './template/navbar.php';
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
@@ -239,6 +240,7 @@ include './template/navbar.php';
                 ?>
             </div>
         </div>
+    </div>
     </div>
 </div>
 
