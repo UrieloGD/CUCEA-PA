@@ -21,6 +21,7 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja-propuesta.css">
 
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="titulo-bd">
             <h3>Solicitudes de modificaciones</h3>
@@ -65,6 +66,7 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
             </ul>
         </div>
     <?php } ?>
+    </div>
 </div>
 
 <!-- Modal Solicitudes Baja -->

@@ -7,6 +7,7 @@
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+     <div class="cuadro-scroll">
      <!--Pestañas-->
      <div class="tab-container">
           <div class="tab-buttons">
