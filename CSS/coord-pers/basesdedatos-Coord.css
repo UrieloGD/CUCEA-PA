@@ -1394,7 +1394,7 @@ table.dataTable thead .sorting_desc {
   top: 50%;
   padding: 30px;
   border: 1px solid #888;
-  width: 45vw;
+  width: 90%;
   height: 80vh;
   max-width: 1200px;
   max-height: 85vh;
@@ -1421,7 +1421,7 @@ table.dataTable thead .sorting_desc {
 .columns-container-js {
   border-color: #D0E6F2;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 10px;
 }
 
@@ -1553,7 +1553,7 @@ table.dataTable thead .sorting_desc {
 
 .columns-container-basica {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
 }
 
@@ -1567,7 +1567,7 @@ table.dataTable thead .sorting_desc {
 
 .columns-container-academica {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
 }
 
@@ -1624,7 +1624,7 @@ table.dataTable thead .sorting_desc {
 }
 
 .columns-subcontainer{
-  width: 360px;
+  width: 100%
 }
 
 /* Importante mantener este estilo para que funcione el lazy loading */
@@ -1635,7 +1635,7 @@ table.dataTable thead .sorting_desc {
 /* Estilo para el botón de cerrar del modal de descargar archivo */
 .close-modal-desc {
   position: absolute;
-  right: 550px;
+  right: 380px;
   top: 100px;
   width: 32px;
   height: 32px;

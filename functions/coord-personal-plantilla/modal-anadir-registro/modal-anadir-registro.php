@@ -9,37 +9,90 @@
                     <div class="form-section">
                         <div class="form-movil">
                             <h3>Información Básica</h3>
-                                <!-- Código, paterno, materno, nombres, nombre completo -->
-
-                            <input type="number" id="codigo" name="codigo" placeholder="Código">
-                            <input type="text" id="paterno" name="paterno" placeholder="Paterno">
-                            <input type="text" id="materno" name="materno" placeholder="Materno">
-                            <input type="text" id="nombre" name="nombre" placeholder="Nombre">
-                            <input type="text" id="completo" name="completo" placeholder="Nombre Completo">
-                            <input type="text" id="edad" name="edad" min="0" placeholder="Edad">
+                            <!-- Código, paterno, materno, nombres, nombre completo -->
+                            <div class="form-row-titles">
+                                <span>Código</span>
+                                <span>Paterno</span>
+                                <span>Materno</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="number" id="codigo" name="codigo" placeholder="Código">
+                                <input type="text" id="paterno" name="paterno" placeholder="Paterno">
+                                <input type="text" id="materno" name="materno" placeholder="Materno">
+                            </div>
+                            <div class="form-row-titles">
+                                <span>Nombre</span>
+                                <span>Nombre Completo</span>
+                                <span>Edad</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+                                <input type="text" id="completo" name="completo" placeholder="Nombre Completo">
+                                <input type="text" id="edad" name="edad" min="0" placeholder="Edad">
+                            </div>
                         </div>
                         <div>
                             <h3>Información Académica</h3>
                             <!-- Datos, Categoria actúal, horas frente a grupo, tipo de plaza, carga horaria, udg virtual cit otro centro, turno, departamento,
                              categoria actúal 2, división, cat. act., horas definitivas, horario -->
-                            <input type="text" id="datos" name="datos" placeholder="Datos">
-                            <input type="text" id="categoria_actual" name="categoria_actual" placeholder="Categoría Actual">
-                            <input type="text" id="categoria_actual_dos" name="categoria_actual_dos" placeholder="Categoría Actual">
-                            <input type="text" id="horas_frente_grupo" name="horas_frente_grupo" min="0" placeholder="Horas Frente a Grupo">
-                            <input type="text" id="division" name="division" placeholder="División">
-                            <input type="text" id="tipo_plaza" name="tipo_plaza" placeholder="Tipo de Plaza">
-                            <input type="text" id="cat_act" name="cat_act" placeholder="CAT_ACT">
-                            <input type="text" id="carga_horaria" name="carga_horaria" placeholder="Carga Horaria">
-                            <input type="text" id="horas_definitivas" name="horas_definitivas" min="0" placeholder="Horas Definitivas ">
-                            <input type="text" id="horario" name="horario" placeholder="Horario">
-                            <input type="text" id="turno" name="turno" placeholder="Turno">
-                            <input type="text" id="departamento" name="departamento" placeholder="Departamento">
-                            <input type="text" id="udg_virtual_cit" name="udg_virtual_cit" placeholder="UDG VIRTUAL CIT OTRO CENTRO">
-
-                            <input type="text" id="investigacion" name="investsigacion" placeholder="Investigación / Nombramiento / Cambio de función">
-                            <input type="text" id="sni" name="sni" placeholder="S.N.I">
-                            <input type="text" id="sni_desde" name="sni_desde" placeholder="SNI Desde">
-                            <input type="text" id="cambio_dediacion" name="cambio_dediacion" placeholder="Cambio de Dedicación">
+                             <div class="form-row-titles">
+                                <span>Datos</span>
+                                <span>Categoria Actual (1)</span>
+                                <span>Categoria Actual (2)</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="datos" name="datos" placeholder="Datos">
+                                <input type="text" id="categoria_actual" name="categoria_actual" placeholder="Categoría Actual">
+                                <input type="text" id="categoria_actual_dos" name="categoria_actual_dos" placeholder="Categoría Actual">
+                            </div>
+                            <div class="form-row-titles">
+                                <span>Horas Frente a Grupo</span>
+                                <span>División</span>
+                                <span>Tipo de Plaza</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="horas_frente_grupo" name="horas_frente_grupo" min="0" placeholder="Horas Frente a Grupo">
+                                <input type="text" id="division" name="division" placeholder="División">
+                                <input type="text" id="tipo_plaza" name="tipo_plaza" placeholder="Tipo de Plaza">
+                            </div>
+                            <div class="form-row-titles">
+                                <span>Cat. Act</span>
+                                <span>Carga Horaria</span>
+                                <span>Horas Definitivas</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="cat_act" name="cat_act" placeholder="CAT_ACT">
+                                <input type="text" id="carga_horaria" name="carga_horaria" placeholder="Carga Horaria">
+                                <input type="text" id="horas_definitivas" name="horas_definitivas" min="0" placeholder="Horas Definitivas ">
+                            </div>
+                            <div class="form-row-titles">
+                                <span>Horario</span>
+                                <span>Turno</span>
+                                <span>Departamento</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="horario" name="horario" placeholder="Horario">
+                                <input type="text" id="turno" name="turno" placeholder="Turno">
+                                <input type="text" id="departamento" name="departamento" placeholder="Departamento">
+                            </div>
+                            <div class="form-row-titles">
+                                <span>UDG Virtual Cit</span>
+                                <span>Investigación</span>
+                                <span>SNI</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="udg_virtual_cit" name="udg_virtual_cit" placeholder="UDG VIRTUAL CIT OTRO CENTRO">
+                                <input type="text" id="investigacion" name="investsigacion" placeholder="Investigación / Nombramiento / Cambio de función">
+                                <input type="text" id="sni" name="sni" placeholder="S.N.I">
+                            </div>
+                            <div class="form-row-titles">
+                                <span>SNI Desde</span>
+                                <span>Cambio de Dedicación</span>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" id="sni_desde" name="sni_desde" placeholder="SNI Desde">
+                                <input type="text" id="cambio_dediacion" name="cambio_dediacion" placeholder="Cambio de Dedicación">
+                            </div>                            
                         </div>
                         <div>
                             <h3>Información Personal</h3>

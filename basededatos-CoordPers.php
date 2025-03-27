@@ -137,6 +137,7 @@ function softDeleteRegistros($conexion, $ids)
 <!-- CSS base -->
 <link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css">
 <link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css">
+<link rel="stylesheet" href="./CSS/coord-pers/modal-anadir-registro.css">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
