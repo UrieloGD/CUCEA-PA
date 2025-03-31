@@ -783,7 +783,7 @@ div[class="bottom"] {
 
 /* Tooltip para mostrar detalles de choques */
 .custom-tooltip {
-  position: absolute;
+  position: fixed;
   display: none;
   max-width: 300px;
   padding: 8px 12px;
@@ -1543,11 +1543,14 @@ table.dataTable {
     zoom: 90%;
     height: 102vh;
   }
-  .modal-content {
+  .modal-content,
+  .custom-colvis-menu,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 90%;
   }
-  .custom-colvis-menu {
-    zoom: 90%;
+  .custom-tooltip {
+    font-size: 0.8rem;
   }
 }
 @media screen and (max-height: 768px) { 
@@ -1561,11 +1564,14 @@ table.dataTable {
   nav[aria-label="pagination"] {
     width: 100%;
   }
-  .modal-content {
+  .modal-content,
+  .custom-colvis-menu,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 80%;
   }
-  .custom-colvis-menu {
-    zoom: 80%;
+  .custom-tooltip {
+    font-size: 0.7rem;
   }
 }
 @media screen and (max-height: 700px) { 
@@ -1576,11 +1582,18 @@ table.dataTable {
     zoom: 65%;
     height: 141.5vh;
   }
-  .modal-content {
+  .modal-content,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 65%;
   }
   .custom-colvis-menu {
     zoom: 65%;
+    left: 87% !important;
+    top: 12.3% !important;
+  }
+  .custom-tooltip {
+    font-size: 0.6rem;
   }
 }
 @media screen and (max-height: 600px) { 
@@ -1591,12 +1604,17 @@ table.dataTable {
     zoom: 60%;
     height: 152.5vh;
   }
-  .modal-content {
+  .modal-content,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 60%;
   }
   .custom-colvis-menu {
     zoom: 60%;
-    left: 89%!important;
-    bottom: 25%!important;
+    left: 85.5%!important;
+    top: 18%!important;
+  }
+  .custom-tooltip {
+    font-size: 0.5rem;
   }
 }

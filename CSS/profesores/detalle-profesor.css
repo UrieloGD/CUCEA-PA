@@ -116,8 +116,8 @@
   flex-direction: column;
   overflow: hidden;
   max-width: 1200px;
-  height: 80vh;
-  max-height: 90vh;
+  height: 85vh!important;
+  /* max-height: 90vh; */
   margin: 0 auto;
   background: white;
   border-radius: 8px;
@@ -912,4 +912,26 @@
     transform: scale(1);
   }
 
+}
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .container-profesor {
+    height: 100vh!important;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .container-profesor {
+    height: 100vh!important;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .container-profesor {
+    height: 114vh!important;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .container-profesor {
+    height: 125vh!important;
+  }
 }
