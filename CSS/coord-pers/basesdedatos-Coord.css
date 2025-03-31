@@ -239,6 +239,7 @@ div.dataTables_wrapper {
 }
 
 #form-añadir-registro {
+  max-height: 70vh;
   display: grid;
   align-items: center;
 }
@@ -406,7 +407,7 @@ thead tr .custom-tooltip {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   background-color: rgba(0,0,0,0.4);
 }
 
@@ -418,7 +419,7 @@ thead tr .custom-tooltip {
   width: 90%;
   max-width: 1000px;
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .modal input, .modal select {
@@ -445,6 +446,9 @@ thead tr .custom-tooltip {
 .form-container {
   display: flex;
   gap: 20px;
+  display: block;
+  height: 640px;
+  overflow-y: auto;
 }
 
 .form-section input,
@@ -462,7 +466,6 @@ thead tr .custom-tooltip {
 }
 
 .form-section {
-  display: flex;
   gap: 10px;
   margin-bottom: 10px;
 }
@@ -493,6 +496,7 @@ thead tr .custom-tooltip {
   justify-content: center;
   gap: 10px;
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .form-actions button {
@@ -1367,7 +1371,7 @@ table.dataTable thead .sorting_desc {
 
 /*   
 ################################################################
-#################### modal descarga excel#######################
+#################### modal descarga excel #######################
 ################################################################
 */
 
@@ -1379,7 +1383,7 @@ table.dataTable thead .sorting_desc {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   background-color: rgba(0,0,0,0.4);
 }
 
@@ -1390,7 +1394,7 @@ table.dataTable thead .sorting_desc {
   top: 50%;
   padding: 30px;
   border: 1px solid #888;
-  width: 45vw;
+  width: 90%;
   height: 80vh;
   max-width: 1200px;
   max-height: 85vh;
@@ -1417,7 +1421,7 @@ table.dataTable thead .sorting_desc {
 .columns-container-js {
   border-color: #D0E6F2;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: 10px;
 }
 
@@ -1549,7 +1553,7 @@ table.dataTable thead .sorting_desc {
 
 .columns-container-basica {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
 }
 
@@ -1563,7 +1567,7 @@ table.dataTable thead .sorting_desc {
 
 .columns-container-academica {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
 }
 
@@ -1620,7 +1624,7 @@ table.dataTable thead .sorting_desc {
 }
 
 .columns-subcontainer{
-  width: 360px;
+  width: 100%
 }
 
 /* Importante mantener este estilo para que funcione el lazy loading */
@@ -1631,7 +1635,7 @@ table.dataTable thead .sorting_desc {
 /* Estilo para el botón de cerrar del modal de descargar archivo */
 .close-modal-desc {
   position: absolute;
-  right: 550px;
+  right: 380px;
   top: 100px;
   width: 32px;
   height: 32px;

@@ -1,0 +1,32 @@
+.form-row-titles,
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.form-row-titles span {
+    font-weight: bold;
+    color: #626262;
+    font-size: 0.9rem;
+}
+
+.form-row input {
+    flex: 1;
+    padding: 4px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+.form-row input{
+    outline-color: #0071b0;
+}
+
+.form-row select {
+    outline-color: #0071b0;
+  }
