@@ -171,6 +171,45 @@
     color: #666;
 }
 
+/* Agrupación por fecha */
+.grupo-fecha {
+    /* margin-bottom: 15px; */
+    border-bottom: 1px solid #eee;
+}
+
+.fecha-encabezado {
+    padding: 8px 15px;
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 0.9em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Botón de descarte */
+.boton-descartar {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa;
+    font-size: 24px;
+    line-height: 1;
+    padding: 0 5px;
+    z-index: 2;
+    transition: color 0.2s;
+}
+
+.boton-descartar:hover {
+    color: #dc3545;
+}
+
+.contenedor-notificacion {
+    position: relative;
+    padding-right: 40px; /* Espacio para el botón */
+}
+
 /**/
   
 @media screen and (max-width: 768px) {

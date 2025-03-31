@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Mexico_City');
 /**
  * Configuración de la base de datos según el entorno
  */
