@@ -67,7 +67,7 @@ if ($stmt) {
         }
 
         // Si es jefe de departamento, obtener información adicional
-        if ($rol_id == 1) {
+        if ($rol_id == 1 && $rol_id == 4) {
             $sql_departamento = "SELECT 
                 departamentos.Departamento_ID,
                 departamentos.Nombre_Departamento,
