@@ -1,5 +1,5 @@
 <?php
-include('./config/sesioniniciada.php');
+include('./config/sesiones.php');
 
 date_default_timezone_set('America/Mexico_City');
 if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4) { // Secretaría Administrativa y Administrador
