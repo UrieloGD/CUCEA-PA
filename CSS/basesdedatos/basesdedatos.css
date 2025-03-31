@@ -849,6 +849,14 @@ thead tr .custom-tooltip {
   margin-top: 5px;
 }
 
+.custom-colvis-menu {
+  width: fit-content!important;
+  height: fit-content!important;
+  bottom: 86.5%!important;
+  left: 83%!important;
+  top: 14%!important;
+}
+
 /* Animación de fade in */
 @keyframes tooltipFadeIn {
   from {
@@ -1535,6 +1543,12 @@ table.dataTable {
     zoom: 90%;
     height: 102vh;
   }
+  .modal-content {
+    zoom: 90%;
+  }
+  .custom-colvis-menu {
+    zoom: 90%;
+  }
 }
 @media screen and (max-height: 768px) { 
   .header { 
@@ -1547,6 +1561,12 @@ table.dataTable {
   nav[aria-label="pagination"] {
     width: 100%;
   }
+  .modal-content {
+    zoom: 80%;
+  }
+  .custom-colvis-menu {
+    zoom: 80%;
+  }
 }
 @media screen and (max-height: 700px) { 
   .header { 
@@ -1556,6 +1576,12 @@ table.dataTable {
     zoom: 65%;
     height: 141.5vh;
   }
+  .modal-content {
+    zoom: 65%;
+  }
+  .custom-colvis-menu {
+    zoom: 65%;
+  }
 }
 @media screen and (max-height: 600px) { 
   .header { 
@@ -1564,5 +1590,13 @@ table.dataTable {
   body .cuadro-principal {
     zoom: 60%;
     height: 152.5vh;
+  }
+  .modal-content {
+    zoom: 60%;
+  }
+  .custom-colvis-menu {
+    zoom: 60%;
+    left: 89%!important;
+    bottom: 25%!important;
   }
 }
