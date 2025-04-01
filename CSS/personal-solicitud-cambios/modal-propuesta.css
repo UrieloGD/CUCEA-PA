@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
   z-index: 999; /* Mayor z-index para asegurar que esté por encima */
-  padding: 20px; /* Añadido para responsividad */
 }
 
 .modal-content-propuesta {
@@ -17,10 +16,13 @@
   padding: 2rem;
   border-radius: 8px;
   width: 90%;
-  margin: 3% auto;
+  margin: 0 auto;
   max-width: 1200px;
-  position: relative; /* Para la X de cerrar */
-  max-height: 90vh; /* Para evitar que se salga de la pantalla */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  max-height: 75vh; /* Para evitar que se salga de la pantalla */
   overflow-y: auto; /* Permite scroll si el contenido es muy largo */
 }
 
@@ -140,4 +142,134 @@ input[readonly] {
 /* Ajustes para inputs tipo date */
 input[type="date"] {
     padding: 0.4rem;
+}
+
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+  .modal-content-propuesta {
+    padding: 1rem;
+    width: 95%;
+  }
+
+  .form-group {
+    min-width: 100%; /* En móviles, cada campo ocupa todo el ancho */
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .campos-profesor,
+  .campos-motivos {
+    flex-wrap: nowrap;
+  }
+
+  .campos-materia {
+    flex-wrap: wrap;
+  }
+
+  .borde-CRN,
+  .borde-clave,
+  .borde-SEC {
+    width: 25%;
+  }
+
+  .borde-materia,
+  .borde-apellido-paterno,
+  .borde-apellido-materno,
+  .borde-nombres,
+  .borde-otro,
+  .borde-motivo,
+  .borde-codigo {
+    width: 70%;
+  }
+
+  .borde-folio {
+    width: 45%;
+  }
+
+  .texto-CRN,
+  .texto-materia,
+  .texto-clave,
+  .texto-SEC,
+  .texto-folio,
+  .texto-apellido-paterno,
+  .texto-apellido-materno,
+  .texto-nombres,
+  .texto-codigo,
+  .texto-motivo,
+  .texto-otro,
+  .texto-movimiento,
+  .texto-contrato {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .borde-CRN,
+  .borde-materia,
+  .borde-clave,
+  .borde-SEC,
+  .borde-folio,
+  .borde-apellido-paterno,
+  .borde-apellido-materno,
+  .borde-nombres,
+  .borde-codigo,
+  .borde-motivo,
+  .borde-otro,
+  .borde-movimiento,
+  .borde-contrato {
+    width: 100%;
+    margin-top: 20;
+  }
+
+  .campos-profesor {
+    margin-top: 20;
+  }
+
+  .campos-materia {
+    margin-top: 40;
+  }
+
+  .campos-profesor,
+  .campos-motivos,
+  .campos-materia {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .modal-content {
+    width: 95%;
+  }
+
+  .contenedor-botones-baja button {
+    font-size: 0.8rem;
+    border-radius: 7px;
+  }
+}
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .modal-content-propuesta {
+    max-height: 80vh;
+    zoom: 90%;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .modal-content-propuesta {
+    max-height: 90vh;
+    zoom: 80%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .modal-content-propuesta {
+    max-height: 110vh;
+    zoom: 65%;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .modal-content-propuesta {
+    max-height: 110vh;
+    zoom: 60%;
+  }
 }

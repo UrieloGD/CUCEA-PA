@@ -645,14 +645,18 @@
   background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro */
 }
 
-.modal-content {
+.modal-content-caracteristicasEspacios {
   background-color: #fff;
-  margin: 2.5% auto; /* Quitar el margen superior */
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 20px;
   border-radius: 5px;
   width: 80%;
   max-width: 1000px;
-  max-height: 90vh; /* Limitar la altura al 90% del viewport */
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Permitir scroll solo dentro del modal */
@@ -1140,6 +1144,9 @@ textarea {
     zoom: 90%;
     height: 102vh;
   }
+  .modal-content-caracteristicasEspacios {
+    max-height: 105vh;
+  }
 }
 @media screen and (max-height: 768px) { 
   .header { 
@@ -1148,6 +1155,9 @@ textarea {
   body .cuadro-principal {
     zoom: 80%;
     height: 114.5vh;
+  }
+  .modal-content-caracteristicasEspacios {
+    max-height: 120vh;
   }
 }
 @media screen and (max-height: 700px) { 
@@ -1158,6 +1168,9 @@ textarea {
     zoom: 65%;
     height: 141.5vh;
   }
+  .modal-content-caracteristicasEspacios {
+    max-height: 130vh;
+  }
 }
 @media screen and (max-height: 600px) { 
   .header { 
@@ -1166,5 +1179,8 @@ textarea {
   body .cuadro-principal {
     zoom: 60%;
     height: 152.5vh;
+  }
+  .modal-content-caracteristicasEspacios {
+    max-height: 140vh;
   }
 }

@@ -116,8 +116,8 @@
   flex-direction: column;
   overflow: hidden;
   max-width: 1200px;
-  height: 85vh!important;
-  /* max-height: 90vh; */
+  /* height: 85vh;
+  max-height: 100%; */
   margin: 0 auto;
   background: white;
   border-radius: 8px;
@@ -753,7 +753,7 @@
   overflow-wrap: break-word; /* Palabra clave moderna */
 
   /* Distribuir texto en múltiples líneas */
-  white-space: normal;
+  white-space: normal;  
 }
 
 .tooltip:hover .tooltiptext {
@@ -916,22 +916,26 @@
 
 /* Responsividad de Zoom para navegadores Chromium */
 @media screen and (max-height: 900px) { 
-  .container-profesor {
+  .container-profesor,
+  .table-profesor {
     height: 100vh!important;
   }
 }
 @media screen and (max-height: 768px) { 
-  .container-profesor {
+  .container-profesor,
+  .table-profesor {
     height: 100vh!important;
   }
 }
 @media screen and (max-height: 700px) { 
-  .container-profesor {
+  .container-profesor,
+  .table-profesor {
     height: 114vh!important;
   }
 }
 @media screen and (max-height: 600px) { 
-  .container-profesor {
+  .container-profesor,
+  .table-profesor {
     height: 125vh!important;
   }
 }

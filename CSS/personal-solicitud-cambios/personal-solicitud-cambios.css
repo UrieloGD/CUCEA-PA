@@ -756,3 +756,25 @@
     height: 152.5vh;
   }
 }
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 90%;
+  }
+}
+@media screen and (max-height: 768px) { 
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 80%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 65%;
+  }
+}
+@media screen and (max-height: 600px) { 
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 60%;
+  }
+}

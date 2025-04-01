@@ -936,8 +936,7 @@
       zoom: 90%;
       height: 102vh;
     }
-    .modal-content-detalle,
-    div.sections-container {
+    .modal-content-detalle {
       height: 95vh;
     }
   }
@@ -954,8 +953,7 @@
     nav[aria-label="pagination"] {
       width: 100%;
     }
-    .modal-content-detalle,
-    div.sections-container {
+    .modal-content-detalle {
       height: 105vh;
     }
   }
@@ -969,8 +967,7 @@
       zoom: 65%;
       height: 141.5vh;
     }
-    .modal-content-detalle,
-    div.sections-container {
+    .modal-content-detalle {
       height: 130vh;
     }
   }
@@ -982,6 +979,6 @@
     }
     body .cuadro-principal {
       zoom: 60%;
-      height: 152.5vh;
+      /* height: 152.5vh; */
     }
   }
