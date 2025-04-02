@@ -323,6 +323,7 @@ $sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     Mensaje TEXT NOT NULL,
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
+    Departamento_ID INT(15),
     Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)

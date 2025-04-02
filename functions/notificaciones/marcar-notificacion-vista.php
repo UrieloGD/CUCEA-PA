@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } elseif ($tipo == 'evento_cancelado') {
         $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
+    } elseif ($tipo == 'modificacion_bd' || $tipo == 'modificación_bd') {
+        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } else {
         echo json_encode(['success' => false, 'error' => 'Tipo de notificación no válido']);
         exit;

@@ -159,7 +159,6 @@ try {
         $row_departamento = mysqli_fetch_assoc($result_departamento);
         $tabla_departamento = "data_" . $row_departamento['Nombre_Departamento'];
 
-        // Resto del código igual...
         // Obtener el valor antiguo antes de actualizar
         $sql_old = "SELECT `$column` FROM `$tabla_departamento` WHERE ID_Plantilla = '$id'";
         $result_old = mysqli_query($conexion, $sql_old);
@@ -180,6 +179,30 @@ try {
         }
     } else {
         $response['error'] = "Faltan datos requeridos";
+    }
+
+    if ($response['success']) {
+        // Si es administrador y modificó otro departamento
+        if ($user_role === 0 && isset($_POST['department_id'])) {
+            $departamento_afectado = intval($_POST['department_id']);
+            $columnas_modificadas = [];
+            
+            // Verificar si el valor realmente cambió
+            if ($response['oldValue'] != $value) {
+                $columnas_modificadas[] = $column;
+            }
+    
+            if (!empty($columnas_modificadas)) {
+                $emisor_id = $_SESSION['Codigo'];
+                $mensaje = "El administrador " . $_SESSION['Nombre'] . " modificó la columna: " . implode(", ", $columnas_modificadas) . " en su Base de Datos";
+                
+                // Insertar notificación para el departamento afectado
+                $sql_notificacion = "INSERT INTO notificaciones 
+                                    (Tipo, Usuario_ID, Emisor_ID, Mensaje, Departamento_ID, Fecha)
+                                    VALUES ('modificacion_bd', NULL, $emisor_id, '$mensaje', $departamento_afectado, NOW())";
+                mysqli_query($conexion, $sql_notificacion);
+            }
+        }
     }
 
     error_log("SQL Query: $sql");
