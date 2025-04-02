@@ -65,13 +65,14 @@
   flex: 2;
 }
 
-.form-group.small {
+/* .form-group.small {
   flex: 0.5;
-}
+} */
 
 label {
   color: #666;
   margin-bottom: 0.5rem;
+  white-space: nowrap;
 }
 
 input,
@@ -182,6 +183,10 @@ select:focus {
 }
 
 @media screen and (max-width: 768px) {
+  .modal-content {
+    width: 80%;
+  }
+  
   .borde-CRN,
   .borde-materia,
   .borde-clave,
@@ -215,10 +220,6 @@ select:focus {
 }
 
 @media screen and (max-width: 630px) {
-  .modal-content {
-    width: 95%;
-  }
-
   .contenedor-botones-baja button {
     font-size: 0.8rem;
     border-radius: 7px;

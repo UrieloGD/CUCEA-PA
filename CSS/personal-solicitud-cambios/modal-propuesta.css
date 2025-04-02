@@ -50,7 +50,7 @@
 
 .form-row-propuesta {
   display: flex;
-  flex-wrap: nowrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
@@ -66,12 +66,12 @@
   flex: 1.8 !important;
 }
 
-.form-group-propuesta.small {
+/* .form-group-propuesta.small {
   flex: 0.4 !important;
-}
+} */
 
 .form-group-propuesta.smaller {
-  flex: 0.2 !important;
+  /* flex: 0.2 !important; */
   min-width: 100px !important;
   margin-top: 0px;
 }
@@ -146,105 +146,9 @@ input[type="date"] {
 
 
 /* Media queries para responsividad */
-@media (max-width: 768px) {
-  .modal-content-propuesta {
-    padding: 1rem;
-    width: 95%;
-  }
-
-  .form-group {
-    min-width: 100%; /* En móviles, cada campo ocupa todo el ancho */
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .campos-profesor,
-  .campos-motivos {
-    flex-wrap: nowrap;
-  }
-
-  .campos-materia {
-    flex-wrap: wrap;
-  }
-
-  .borde-CRN,
-  .borde-clave,
-  .borde-SEC {
-    width: 25%;
-  }
-
-  .borde-materia,
-  .borde-apellido-paterno,
-  .borde-apellido-materno,
-  .borde-nombres,
-  .borde-otro,
-  .borde-motivo,
-  .borde-codigo {
-    width: 70%;
-  }
-
-  .borde-folio {
-    width: 45%;
-  }
-
-  .texto-CRN,
-  .texto-materia,
-  .texto-clave,
-  .texto-SEC,
-  .texto-folio,
-  .texto-apellido-paterno,
-  .texto-apellido-materno,
-  .texto-nombres,
-  .texto-codigo,
-  .texto-motivo,
-  .texto-otro,
-  .texto-movimiento,
-  .texto-contrato {
-    font-size: 0.8rem;
-  }
-}
-
 @media screen and (max-width: 768px) {
-  .borde-CRN,
-  .borde-materia,
-  .borde-clave,
-  .borde-SEC,
-  .borde-folio,
-  .borde-apellido-paterno,
-  .borde-apellido-materno,
-  .borde-nombres,
-  .borde-codigo,
-  .borde-motivo,
-  .borde-otro,
-  .borde-movimiento,
-  .borde-contrato {
-    width: 100%;
-    margin-top: 20;
-  }
-
-  .campos-profesor {
-    margin-top: 20;
-  }
-
-  .campos-materia {
-    margin-top: 40;
-  }
-
-  .campos-profesor,
-  .campos-motivos,
-  .campos-materia {
-    flex-wrap: wrap;
-  }
-}
-
-@media screen and (max-width: 630px) {
-  .modal-content {
-    width: 95%;
-  }
-
-  .contenedor-botones-baja button {
-    font-size: 0.8rem;
-    border-radius: 7px;
+  .modal-content-propuesta {
+    width: 80%;
   }
 }
 

@@ -50,7 +50,7 @@
   
   .form-row-baja-propuesta {
     display: flex;
-    flex-wrap: nowrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
     gap: 1rem;
     margin-bottom: 1.5rem;
   }
@@ -66,17 +66,17 @@
     flex: 1.8 !important;
   }
 
-  .form-group-baja-propuesta.compact {
+  /* .form-group-baja-propuesta.compact {
     flex: 0.6 !important;
     min-width: 130px !important;
-  }
-  
+  } */
+/*   
   .form-group-baja-propuesta.small {
     flex: 0.4 !important;
-  }
+  } */
   
   .form-group-baja-propuesta.smaller {
-    flex: 0.2 !important;
+    /* flex: 0.2 !important; */
     min-width: 100px !important;
     margin-top: 0px;
   }
@@ -149,13 +149,12 @@
       padding: 0.4rem;
   }
 
-
-
-  /* aqui va responsivity  */
-
-
-
-
+/* Media queries para responsividad */
+  @media screen and (max-width: 768px) {
+    .modal-content-baja-propuesta {
+      width: 80%;
+    }
+  }
 
 /* Responsividad de Zoom para navegadores Chromium */
 @media screen and (max-height: 900px) { 

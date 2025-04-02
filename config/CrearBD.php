@@ -85,7 +85,7 @@ $usuarios = [
     [8211558, 'Martín', 'Romero', 'mromeromorett@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Economía
     [8102481, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1, '#FF0000'], //RRHH
     [2946961, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Métodos
-    [2946961, 'Carla', 'Aceves', 'carla.aceves@cucea.udg', '123', 'Femenino', 1, '#FF0000'], // Políticas
+    [2946962, 'Carla', 'Aceves', 'carla.aceves@cucea.udg', '123', 'Femenino', 1, '#FF0000'], // Políticas
     [2633086, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Admin
     [9816054, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Auditoría
     [2212498, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Merca
@@ -198,7 +198,7 @@ $insert_usuarios_departamentos = "INSERT INTO usuarios_departamentos (Usuario_ID
     (8211558, 6), -- Martin Romero es jefe del Departamento 6 (Economia)
     (8102481, 7), -- Sara Robles es jefa del Departamento 7 (Recursos Humanos)
     (2946961, 8), -- Guillermo Sierra es jefe del Departamento 8 (Metodos Cuantitativos)
-    (2946961, 9), -- Carla Aceves es jefa del Departamento 9 (Politicas Publicas)
+    (2946962, 9), -- Carla Aceves es jefa del Departamento 9 (Politicas Publicas)
     (2633086, 10), -- César Mora es jefe del Departamento 10 (Administracion)
     (9816054, 11), -- Alejandro Campos es jefe del Departamento 11 (Auditoria)
     (2212498, 12), -- José Sanchez es jefe del Departamento 12 (Mercadotecnia)
