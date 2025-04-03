@@ -40,7 +40,7 @@ $insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES
                 ('Secretaría Administrativa'), 
                 ('Coordinación de Personal'), 
                 ('Asistente de JD'),
-                ('Administrador');";
+                ('Administrador');"; //Esto es rol 0
 
 if (mysqli_query($conexion, $insert_roles)) {
     echo "<br>Roles insertados exitosamente";
