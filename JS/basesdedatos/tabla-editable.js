@@ -1281,6 +1281,10 @@ function saveAllChanges() {
   const departmentId = document.getElementById("departamento_id").value;
   console.log("User Role:", userRole, "Department ID:", departmentId);
 
+  // Para tracking de cambios múltiples
+  const totalChanges = changedCells.size;
+  let completedChanges = 0;
+
   const promises = Array.from(changedCells).map((cell) => {
     const id = cell.parentNode.cells[1].textContent;
     const column = getColumnName(cell);
@@ -1311,6 +1315,7 @@ function saveAllChanges() {
       })
       .then((data) => {
         console.log("Server response:", data);
+        completedChanges++;
         if (data.error) {
           throw new Error(data.error);
         }
