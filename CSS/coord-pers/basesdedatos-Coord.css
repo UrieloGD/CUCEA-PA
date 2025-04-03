@@ -1669,3 +1669,37 @@ table.dataTable thead .sorting_desc {
     border-radius: 4px;
     transition: background-color 0.2s;
 }
+
+
+/* Estilos para las columnas fijas */
+#tabla-datos thead tr th:first-child,
+#tabla-datos tbody tr td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: white;
+}
+
+#tabla-datos thead tr th:nth-child(2),
+#tabla-datos tbody tr td:nth-child(2) {
+  position: sticky;
+  left: var(--first-column-width, 50px);
+  z-index: 2;
+  background-color: white;
+}
+
+/* Asegurar que los headers fijos estén por encima del body */
+#tabla-datos thead tr th {
+  z-index: 3 !important;
+}
+
+/* Ajustes para el scroll */
+.dataTables_scrollBody {
+  overflow-x: auto !important;
+}
+
+/* Estilo para celdas de choque */
+.celda-choque {
+  position: relative;
+  z-index: 1;
+}

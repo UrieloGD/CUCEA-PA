@@ -72,14 +72,47 @@ function initializeCustomTooltips() {
 }
 
 $(document).ready(function () {
-  localStorage.removeItem("DataTables_tabla-datos");
+  // Aplicar estilos CSS para columnas fijas
+  function applyFixedColumnsCSS() {
+    const style = `
+      .DTFC_LeftBodyWrapper table tbody tr td:first-child,
+      .DTFC_LeftBodyWrapper table tbody tr td:nth-child(2) {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: white;
+      }
+      .DTFC_LeftBodyWrapper table tbody tr td:nth-child(2) {
+        left: var(--first-column-width, 50px);
+      }
+      .DTFC_LeftHeadWrapper table thead tr th:first-child,
+      .DTFC_LeftHeadWrapper table thead tr th:nth-child(2) {
+        position: sticky;
+        left: 0;
+        z-index: 3;
+        background-color: white;
+      }
+      .DTFC_LeftHeadWrapper table thead tr th:nth-child(2) {
+        left: var(--first-column-width, 50px);
+      }
+      .dataTables_scrollBody {
+        overflow-x: auto !important;
+      }
+    `;
+    $('<style>').text(style).appendTo('head');
+    
+    // Calcular y establecer el ancho de la primera columna
+    const firstColWidth = $('#tabla-datos thead th:first').outerWidth();
+    document.documentElement.style.setProperty('--first-column-width', `${firstColWidth}px`);
+  }
+
   table = $("#tabla-datos").DataTable({
-    scrollY: "620px", // Altura fija para el cuerpo de la tabla
-    scrollCollapse: true, // Permite que la tabla se colapse cuando hay poco contenido
-    scrollX: true, // Scroll horizontal si es necesario
+    scrollY: "620px",
+    scrollCollapse: true,
+    scrollX: true,
     fixedHeader: {
-      header: true, // Mantiene el encabezado fijo durante el scroll
-      headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
+      header: true,
+      headerOffset: 0,
       footer: false,
     },
     dom: '<"top"<"custom-search-container">fB>rt<"bottom"lip>',
@@ -89,17 +122,16 @@ $(document).ready(function () {
       searchPlaceholder: "Buscar...",
     },
     initComplete: function () {
-      // Cerrar Sweet Alert
       if (typeof Swal !== "undefined") {
         Swal.close();
       }
 
-      // Mostrar la tabla
       $("#tabla-datos").css("display", "table");
-
-      // Mover la barra de búsqueda
       $(".dataTables_filter").appendTo(".custom-search-container");
       $(".dataTables_filter input").addClass("custom-search-input");
+
+      // Aplicar estilos CSS para columnas fijas
+      applyFixedColumnsCSS();
 
       // Configurar tooltips para encabezados
       this.api()
@@ -185,60 +217,45 @@ $(document).ready(function () {
           }
         });
 
-      // Inicializar tooltips personalizados
       initializeCustomTooltips();
 
       setTimeout(function () {
-        // Ocultar el botón original
         $(".dt-buttons").css("display", "none");
 
-        // Crear un contenedor personalizado para nuestro menú
         var customColvisMenu = $(
           '<div class="custom-colvis-menu" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; box-shadow:0 2px 4px rgba(0,0,0,0.2); padding:10px; z-index:1000; max-height:400px; overflow-y:auto;"></div>'
         );
         $("body").append(customColvisMenu);
 
-        // Crear un botón personalizado con el mismo icono
         var customButton = $(
           '<div class="icono-buscador" id="btn-colvis-custom" data-tooltip="Mostrar/ocultar columnas"><i class="fa fa-eye"></i></div>'
         );
 
-        // Insertar el botón en la ubicación deseada
         customButton.insertBefore("#icono-filtro");
-
-        // Eliminar el botón no funcional
         $("#icono-visibilidad, #btn-colvis").remove();
 
-        // Evento para abrir/cerrar el menú personalizado
         customButton.on("click", function (e) {
           e.preventDefault();
           e.stopPropagation();
 
-          // Si el menú está visible, ocultarlo
           if (customColvisMenu.is(":visible")) {
             customColvisMenu.hide();
             return;
           }
 
-          // Posicionar el menú debajo del botón
           var buttonPos = $(this).offset();
           customColvisMenu.css({
             top: buttonPos.top + $(this).outerHeight() + 5,
             left: buttonPos.left,
           });
 
-          // Llenar el menú con las columnas disponibles
           customColvisMenu.empty();
-
-          // Añadir un título
           customColvisMenu.append(
             '<div style="font-weight:bold; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">Mostrar/Ocultar columnas</div>'
           );
 
-          // Añadir una opción para cada columna (excepto la primera)
           table.columns().every(function (index) {
             if (index > 0) {
-              // Excluir la primera columna
               var column = this;
               var isVisible = column.visible();
               var header = $(column.header()).text().trim();
@@ -261,8 +278,7 @@ $(document).ready(function () {
                 var colIdx = $(this).data("column-index");
                 var visible = $(this).prop("checked");
                 table.column(colIdx).visible(visible);
-
-                // Redimensionar para corregir anchos después del cambio
+                table.state.save();
                 table.columns.adjust().draw();
               });
 
@@ -270,16 +286,12 @@ $(document).ready(function () {
             }
           });
 
-          // Mostrar el menú
           customColvisMenu.show();
-
-          // Re-inicializar tooltips si es necesario
           if (typeof initializeCustomTooltips === "function") {
             initializeCustomTooltips();
           }
         });
 
-        // Cerrar el menú al hacer clic fuera de él
         $(document).on("click", function (e) {
           if (
             !$(e.target).closest(".custom-colvis-menu, #btn-colvis-custom")
@@ -289,7 +301,6 @@ $(document).ready(function () {
           }
         });
 
-        // Cerrar el menú con la tecla ESC
         $(document).on("keydown", function (e) {
           if (e.key === "Escape") {
             customColvisMenu.hide();
@@ -316,8 +327,9 @@ $(document).ready(function () {
         localStorage.getItem("DataTables_" + settings.sInstance)
       );
     },
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with
+    stateLoadParams: function(settings, data) {
+      return true;
+    },
     ordering: true,
     info: true,
     scrollX: true,
@@ -360,10 +372,8 @@ $(document).ready(function () {
                   );
                 });
 
-                // Configurar tooltip personalizado
                 $(cell).attr("data-tooltip", tooltipMessages.join("<br>"));
 
-                // Configurar hover
                 $(cell).hover(
                   function () {
                     var currentCell = $(this);
@@ -409,8 +419,11 @@ $(document).ready(function () {
     order: [[1, "asc"]],
     colReorder: {
       columns: ":gt(1)",
-      fixedColumnsLeft: 2,
+      fixedColumnsLeft: 0, // Desactivado ya que usamos CSS
       fixedColumnsRight: 0,
+      reorderCallback: function() {
+        table.state.save();
+      }
     },
     buttons: [
       {
@@ -423,7 +436,6 @@ $(document).ready(function () {
           "data-tooltip": "Mostrar/ocultar columnas",
           id: "btn-colvis",
         },
-        // Override the default button rendering
         init: function (api, node, config) {
           $(node).removeClass("dt-button");
           $(node).find(".dt-down-arrow").remove();
@@ -440,7 +452,6 @@ $(document).ready(function () {
     var scrollPosition = $(window).scrollTop() + $(window).height();
 
     if (scrollPosition < tableBottom) {
-      // Fijar los controles en la parte inferior
       $(".dataTables_paginate, .dataTables_info, .dataTables_length")
         .css("position", "fixed")
         .css("bottom", "0")
@@ -450,22 +461,18 @@ $(document).ready(function () {
         .css("padding", "8px 0")
         .css("box-shadow", "0 -2px 5px rgba(0,0,0,0.1)");
     } else {
-      // Volver a la posición normal
       $(".dataTables_paginate, .dataTables_info, .dataTables_length")
         .css("position", "static")
         .css("box-shadow", "none");
     }
   });
 
-  // Redibujar tabla - mueve esto dentro de document.ready
   table.columns.adjust().draw();
 
-  // Redibujar tabla
   setTimeout(function () {
     table.columns.adjust().draw();
   }, 200);
 
-  // Asegurar de que los botones de DataTables estén inicializados correctamente
   $(document).on("click", function (e) {
     if (
       !$(e.target).closest(".custom-columns-menu, #icono-visibilidad").length
@@ -473,44 +480,39 @@ $(document).ready(function () {
       $(".custom-columns-menu").remove();
     }
   });
-
-  new $.fn.dataTable.FixedColumns(table, {
-    leftColumns: 2,
-    rightColumns: 0,
-  });
 });
 
-// Ajusta las columnas después de la carga completa
 $(window).on("load", function () {
   if (table && table.columns) {
     setTimeout(function () {
       table.columns.adjust().draw();
-    }, 500); // Un pequeño retraso puede ayudar
+    }, 500);
   }
 });
 
-// Ajusta las columnas si el tamaño de la ventana cambia
 $(window).on("resize", function () {
   if (table) {
     table.columns.adjust().draw();
   }
 });
 
-// Ocultar los iconos de filtro
 $(".filter-icon").hide();
 
-// Función para alternar la visibilidad de los iconos de filtro
 function toggleFilterIcons() {
   $(".filter-icon").toggle();
   $("#icono-filtro").toggleClass("active");
 }
 
-// Evento de clic para el botón de filtro
 $("#icono-filtro").on("click", toggleFilterIcons);
 
-// Cerrar menús de filtro al hacer clic fuera
 $(document).on("click", function (e) {
   if (!$(e.target).closest(".filter-menu, .filter-icon").length) {
     $(".filter-menu").hide();
+  }
+});
+
+$(document).on('order.dt length.dt', function(e, settings) {
+  if (table) {
+    table.state.save();
   }
 });
