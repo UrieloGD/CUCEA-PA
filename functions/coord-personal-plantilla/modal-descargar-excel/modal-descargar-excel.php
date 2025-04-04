@@ -348,7 +348,7 @@
             </div>
         </div>
         <div class="fila-botones">
-            <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
+            <button onclick="descargarExcelSeleccionado()">Descargar selección</button>
         </div>
     </div>
 </div>   
