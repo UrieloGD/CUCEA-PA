@@ -15,7 +15,7 @@ if ($rol_id == 1 || $rol_id == 4) {
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               WHERE n.Departamento_ID = " . $_SESSION['Departamento_ID'] . "
-              AND n.Tipo = 'modificacion_bd'
+              AND (n.Tipo = 'modificacion_bd' OR n.Tipo = 'eliminacion_bd')
               ORDER BY n.Fecha DESC
               LIMIT 10";
 } else if ($rol_id == 0 || $rol_id == 2) { // Administrador y Secretaría administrativa
