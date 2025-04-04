@@ -146,10 +146,14 @@ td {
 .modal-contenido {
   background-color: #fefefe;
   border-radius: 10px;
-  margin: 5% auto; /*15% desde la parte superior y centrado horizontalmente*/
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 20px;
   border: 1px solid #888;
-  width: 30%; /*Ancho del modal*/
+  width: 40%; /*Ancho del modal*/
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
@@ -191,8 +195,10 @@ td {
 }
 
 #nuevoUsuarioForm button {
+  width: fit-content;
+  align-self: center;
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 10 50;
   background-color: #0071b0;
   color: white;
   border: none;
@@ -203,6 +209,7 @@ td {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+  font-size: 1rem;
 }
 
 #nuevoUsuarioForm button:hover {
@@ -287,12 +294,18 @@ input[readonly], select[readonly] {
     margin-top: 1vh;
     margin-bottom: 2vh;
   }
+  .modal-contenido {
+    width: 55%; 
+  }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
   .cuadro-principal {
     width: 92%;
     margin-left: 6vw;
+  }
+  .modal-contenido {
+    width: 60%; 
   }
 }
 
@@ -301,6 +314,9 @@ input[readonly], select[readonly] {
     width: 91%;
     margin-left: 7vw;
     font-size: smaller;
+  }
+  .modal-contenido {
+    width: 65%; 
   }
 }
 
@@ -311,6 +327,9 @@ input[readonly], select[readonly] {
     margin-bottom: 2vh;
     font-size: smaller;
   }
+  .modal-contenido {
+    width: 70%; 
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -319,5 +338,15 @@ input[readonly], select[readonly] {
     height: 91vh; /* Mantener altura fija */
     margin-left: 2vw;
     font-size: smaller;
+  }
+  .modal-contenido {
+    width: 80%; 
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .nombre-apellido,
+  .rol-departamento {
+    flex-direction: column;
   }
 }

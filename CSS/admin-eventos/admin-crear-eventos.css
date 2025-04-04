@@ -114,6 +114,50 @@ textarea {
   align-items: center;
   gap: 10px;
   flex: 1;
+  flex-wrap: nowrap;
+  width: fit-content;
+  justify-content: space-between;
+}
+
+.fechas,
+.horas {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.fechas span,
+.horas span {
+  white-space: nowrap;
+}
+
+#FechIn,
+#FechFi,
+#HorIn,
+#HorFin,
+#editFechIn,
+#editFechFi,
+#editHorIn,
+#editHorFin {
+  width: 5vw;
+}
+
+#item-etiqueta {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.split-item label {
+  width: fit-content;
+  margin: 1 5 1 5;
+}
+
+.form-group label {
+  white-space: nowrap;
 }
 
 .btn-agregar {
@@ -263,13 +307,18 @@ textarea {
 
 .modal-content, .modal-content-participantes {
   background-color: #fefefe;
-  margin: 5% auto;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
   max-width: 1000px;
-  height: 65vh;
-  position: relative;
+  height: fit-content;
+  position: absolute;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .modal-content-participantes {
@@ -413,6 +462,9 @@ th {
     margin-bottom: 2vh;
     font-size: smaller;
   }
+  .fecha-hora-group, .notificaciones-group {
+    flex-wrap: wrap;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -421,5 +473,58 @@ th {
     margin-left: 2vw;
     margin-right: 2vw;
     font-size: smaller;
+  }
+  .fecha-hora-group, .notificaciones-group {
+    flex-wrap: wrap;
+  }
+}
+
+@media screen and (max-width: 590px) {
+  .modal-content {
+    max-height: 90vh;
+  }
+  .fecha-hora-group, .notificaciones-group {
+    flex-wrap: wrap;
+  }
+  .fechas, .horas {
+    flex-direction: column;
+    width: 71vw;
+  }
+  .form-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  #FechIn, #FechFi, #HorIn, #HorFin,
+  #editFechIn, #editFechFi, #editHorIn, #editHorFin {
+    width: 100%;
+  }
+  label {
+    margin: 10 0 10 0;
+    align-self: flex-start;
+  }
+  input[type="text"], input[type="date"], input[type="time"], select, textarea {
+    width: 100%;
+  }
+}
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .modal-content {
+    zoom: 90%;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .modal-content {
+    zoom: 80%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .modal-content {
+    zoom: 65%;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .modal-content {
+    zoom: 60%;
   }
 }

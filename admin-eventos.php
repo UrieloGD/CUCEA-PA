@@ -108,12 +108,16 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <span>a las</span>
-                    <input type="time" id="HorIn" name="HorIn" value="" required>
-                    <span> --> </span>
-                    <input type="time" id="HorFin" name="HorFi" value="" required>
+                    <div class="fechas">
+                        <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
+                        <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div class="horas">
+                        <span>a las</span>
+                        <input type="time" id="HorIn" name="HorIn" value="" required>
+                        <span> --> </span>
+                        <input type="time" id="HorFin" name="HorFi" value="" required>
+                    </div>
                 </div>
             </div>
 
@@ -128,7 +132,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <!-- Agregamos un input oculto para asegurar que siempre se envíe algo, incluso vacío -->
                     <input type="hidden" name="participantes[]" value="">
                 </div>
-                <div class="split-item">
+                <div class="split-item" id="item-etiqueta">
                     <label for="etiqueta">
                         <i class="fas fa-tag"></i> Etiqueta
                     </label>
@@ -178,12 +182,16 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <span>a las</span>
-                    <input type="time" id="editHorIn" name="HorIn" value="" required>
-                    <span> --> </span>
-                    <input type="time" id="editHorFin" name="HorFi" value="" required>
+                    <div class="fechas">
+                        <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
+                        <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div class="horas">
+                        <span>a las</span>
+                        <input type="time" id="editHorIn" name="HorIn" value="" required>
+                        <span> --> </span>
+                        <input type="time" id="editHorFin" name="HorFi" value="" required>
+                    </div>
                 </div>
             </div>
 
