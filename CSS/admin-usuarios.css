@@ -2,20 +2,48 @@
 
 .cuadro-principal {
   background-color: white;
-  border-radius: 20px;
-  width: 92%;
-  height: 90vh;
+  width: -webkit-fill-available;
+  height: 91.5vh;
   margin-left: 6vw;
   margin-right: 2vw;
   margin-top: 1vh;
-  margin-bottom: 2vh;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
+  align-self: flex-end;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 0 5 0 5;
+  border-radius: 20px;
   -webkit-border-radius: 20px;
   -moz-border-radius: 20px;
   -ms-border-radius: 20px;
   -o-border-radius: 20px;
+}
+
+/* Mozilla */
+@-moz-document url-prefix() {
+  .cuadro-principal {
+    background-color: white;
+    width:-moz-available;
+    height: 91.5vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    align-self: flex-end;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0 5 0 5;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+}
+
+.cuadro-scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* Encabezado */
@@ -115,8 +143,15 @@ th {
 th,
 td {
   padding: 10px;
-  text-align: left;
+  text-align: left!important;
   border: none; /* Elimina el borde de las celdas */
+}
+
+.buttons-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 5px;
 }
 
 .btn img {
@@ -330,6 +365,12 @@ input[readonly], select[readonly] {
   .modal-contenido {
     width: 70%; 
   }
+  table td:nth-child(1), 
+  table td:nth-child(4), 
+  table th:nth-child(1), 
+  table th:nth-child(4) { 
+    display: none;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -342,11 +383,31 @@ input[readonly], select[readonly] {
   .modal-contenido {
     width: 80%; 
   }
+  table td:nth-child(1), 
+  table td:nth-child(4), 
+  table td:nth-child(5), 
+  table th:nth-child(1), 
+  table th:nth-child(4),
+  table th:nth-child(5) { 
+    display: none;
+  }
+  #add-button,
+  #search-input {
+    padding: 10 20;
+    font-size: 0.9rem;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .nombre-apellido,
   .rol-departamento {
     flex-direction: column;
+  }
+  th,
+  td {
+  font-size: 0.8rem;
+  }
+  .tabla {
+    padding: 0;
   }
 }
