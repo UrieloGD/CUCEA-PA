@@ -1,7 +1,7 @@
 <!-- Modales -->
 <!-- Modal para visualizar detalles del evento -->
 <div id="eventModal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content-visualizarEvento">
         <div class="modal-header">
             <span class="close">&times;</span>
             <h2 id="eventTitle"></h2>

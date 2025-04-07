@@ -565,7 +565,7 @@ th {
 
 /* Estilos para el contenedor de búsqueda de Js */
 .dt-search {
-  width: 30%; /* Un tercio del ancho de la pantalla */
+  width: 35%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
   margin-top: -60px;
   margin-bottom: 20px;
@@ -783,7 +783,7 @@ div[class="bottom"] {
 
 /* Tooltip para mostrar detalles de choques */
 .custom-tooltip {
-  position: absolute;
+  position: fixed;
   display: none;
   max-width: 300px;
   padding: 8px 12px;
@@ -850,11 +850,12 @@ thead tr .custom-tooltip {
 }
 
 .custom-colvis-menu {
+  position: absolute;
   width: fit-content!important;
   height: fit-content!important;
-  bottom: 86.5%!important;
-  left: 83%!important;
+  margin: 0 auto!important;
   top: 14%!important;
+  left: 80%!important;
 }
 
 /* Animación de fade in */
@@ -933,6 +934,10 @@ th[data-tooltip] {
   }
   .iconos-container {
     padding: 0 10 0 0px;
+  }
+  .custom-colvis-menu {
+    top: 13%!important;
+    left: 80%!important;
   }
 }
 
@@ -1027,6 +1032,13 @@ th[data-tooltip] {
   .modal-content-descarga {
     width: 70vw;
   }
+  .custom-colvis-menu {
+    top: 17%!important;
+    left: 75%!important;
+  }
+  div.dt-container .dt-search input {
+    width: 40vw;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -1090,6 +1102,13 @@ th[data-tooltip] {
   }
   .modal-content-descarga {
     width: 70vw;
+  }
+  .custom-colvis-menu {
+    top: 17%!important;
+    left: 70%!important;
+  }
+  div.dt-container .dt-search input {
+    width: 40vw;
   }
 }
 
@@ -1185,7 +1204,11 @@ th[data-tooltip] {
   .contenedor-buttons { 
     left: 25%;
   }
-  .dt-search {
+  .custom-search-container {
+    width: 100%;
+  }
+  .dt-search,
+  div.dt-container .dt-search input {
     width: 100%;
   }
   #dt-search-0 {
@@ -1203,6 +1226,13 @@ th[data-tooltip] {
   .columns-container-profesor,
   .columns-container-materia {
     column-count: 2;
+  }
+  .custom-colvis-menu {
+    top: 21.5% !important;
+    left: 35% !important;
+  }
+  div.dt-scroll-head {
+    margin: 50 0 0 0;
   }
 }
 
@@ -1224,6 +1254,10 @@ th[data-tooltip] {
     width: 85vw;
     margin-left: 2.5vw;
   }
+  .custom-colvis-menu {
+    top: 21.5% !important;
+    left: 35% !important;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -1240,6 +1274,10 @@ th[data-tooltip] {
     padding: 0;
     width: 150px;
     height: 35px;
+  }
+  .custom-colvis-menu {
+    top: 21.5% !important;
+    left: 35% !important;
   }
 }
 
@@ -1543,11 +1581,14 @@ table.dataTable {
     zoom: 90%;
     height: 102vh;
   }
-  .modal-content {
+  .modal-content,
+  .custom-colvis-menu,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 90%;
   }
-  .custom-colvis-menu {
-    zoom: 90%;
+  .custom-tooltip {
+    font-size: 0.8rem;
   }
 }
 @media screen and (max-height: 768px) { 
@@ -1561,11 +1602,14 @@ table.dataTable {
   nav[aria-label="pagination"] {
     width: 100%;
   }
-  .modal-content {
+  .modal-content,
+  .custom-colvis-menu,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 80%;
   }
-  .custom-colvis-menu {
-    zoom: 80%;
+  .custom-tooltip {
+    font-size: 0.7rem;
   }
 }
 @media screen and (max-height: 700px) { 
@@ -1576,11 +1620,18 @@ table.dataTable {
     zoom: 65%;
     height: 141.5vh;
   }
-  .modal-content {
+  .modal-content,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 65%;
   }
   .custom-colvis-menu {
     zoom: 65%;
+    left: 87% !important;
+    top: 12.3% !important;
+  }
+  .custom-tooltip {
+    font-size: 0.6rem;
   }
 }
 @media screen and (max-height: 600px) { 
@@ -1591,12 +1642,17 @@ table.dataTable {
     zoom: 60%;
     height: 152.5vh;
   }
-  .modal-content {
+  .modal-content,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
     zoom: 60%;
   }
   .custom-colvis-menu {
     zoom: 60%;
-    left: 89%!important;
-    bottom: 25%!important;
+    left: 85.5%!important;
+    top: 18%!important;
+  }
+  .custom-tooltip {
+    font-size: 0.5rem;
   }
 }

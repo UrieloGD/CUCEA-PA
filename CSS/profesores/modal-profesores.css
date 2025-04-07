@@ -175,7 +175,7 @@
     border: 1px solid #ccc;
 }
   
-.modal-content {
+.modal-content-detalle {
     background-color: #fefefe;
     padding: 20px;
 }
@@ -209,9 +209,8 @@
     padding: 20px;
     border: 1px solid #888;
     width: 90%;
-    height: fit-content;
+    height: 85vh;
     max-width: 1200px;
-    max-height: 85vh;
     overflow-y: hidden;
     border-radius: 15px;
     z-index: 1002;
@@ -233,14 +232,14 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 1;
+    z-index: 0;
 }
 
 .contenido-tabla {
     padding: 15px 50px;
     overflow: hidden;
     height: 86%;
-    z-index: 1;
+    z-index: 0;
 }
 
 /* Estilos para el botón de cerrar */
@@ -928,16 +927,23 @@
 
 /* Responsividad de Zoom para navegadores Chromium */
 @media screen and (max-height: 900px) { 
-    .header { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content { 
       zoom: 90%; 
     }
     body .cuadro-principal {
       zoom: 90%;
       height: 102vh;
     }
+    .modal-content-detalle {
+      height: 95vh;
+    }
   }
   @media screen and (max-height: 768px) { 
-    .header { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content { 
       zoom: 80%; 
     }
     body .cuadro-principal {
@@ -947,22 +953,32 @@
     nav[aria-label="pagination"] {
       width: 100%;
     }
+    .modal-content-detalle {
+      height: 105vh;
+    }
   }
   @media screen and (max-height: 700px) { 
-    .header { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content  { 
       zoom: 65%; 
     }
     body .cuadro-principal {
       zoom: 65%;
       height: 141.5vh;
     }
+    .modal-content-detalle {
+      height: 130vh;
+    }
   }
   @media screen and (max-height: 600px) { 
-    .header { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content  { 
       zoom: 60%; 
     }
     body .cuadro-principal {
       zoom: 60%;
-      height: 152.5vh;
+      /* height: 152.5vh; */
     }
   }
