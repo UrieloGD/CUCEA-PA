@@ -28,6 +28,7 @@ try {
         'Horas_frente_grupo', 
         'Horas_definitivas', 
         'Edad', 
+        'CP',
         'Año', 
         'Otro_año', 
         'Otro_año_alternativo',
@@ -57,11 +58,11 @@ try {
 
     // Preparar la consulta SQL
     $sql = "INSERT INTO coord_per_prof (
-        Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
+        Datos, Codigo, Paterno, Materno, Nombres, Nombre_completo, Departamento,
         Categoria_actual, Categoria_actual_dos, Horas_frente_grupo, Division, 
-        Tipo_plaza, Cat_act, Carga_horaria, Horas_definitivas, Horario, 
+        Tipo_plaza, Cat_act, Carga_horaria, Horas_definitivas, Udg_virtual_CIT, Horario, 
         Turno, Investigacion_nombramiento_cambio_funcion, SNI, SNI_desde, 
-        Cambio_dedicacion, Inicio, Fin, `2024A`, Telefono_particular, 
+        Cambio_dedicacion, Telefono_particular, 
         Telefono_oficina, Domicilio, Colonia, CP, Ciudad, Estado, No_imss, 
         CURP, RFC, Lugar_nacimiento, Estado_civil, Tipo_sangre, 
         Fecha_nacimiento, Edad, Nacionalidad, Correo, Correos_oficiales, 
@@ -72,7 +73,7 @@ try {
         Otro_institucion_alternativo, Otro_estado_pais_alternativo, 
         Otro_año_alternativo, Otro_gdo_exp_alternativo, Proesde_24_25, 
         A_partir_de, Fecha_ingreso, Antiguedad
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conexion->prepare($sql);
     if (!$stmt) {

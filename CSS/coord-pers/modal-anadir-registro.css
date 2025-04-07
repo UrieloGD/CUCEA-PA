@@ -1,32 +1,190 @@
-.form-row-titles,
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
-  gap: 10px;
-  margin-bottom: 4px;
+/* Contenedores del modal */
+
+.form-subgroup-anadir {
+    margin-top: 5px;
 }
 
-.form-row-titles span {
+.form-section-anadir {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.form-movil-anadir {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-section-anadir input,
+.form-movil-anadir input {
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.form-section-anadir h3 {
+    display: flex;
+    position: relative;
+    margin-top: 10px;
+    color: #0071b0;
+}
+
+.form-movil-anadir h3{
+    margin: 0;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+/* filas de formularios de campos generales */
+
+.form-row-titles-anadir {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.form-row-anadir {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-row-titles-anadir span {
     font-weight: bold;
     color: #626262;
     font-size: 0.9rem;
 }
 
-.form-row input {
+.form-row-anadir input {
     flex: 1;
-    padding: 4px;
+    padding: 6px;
     border: 1px solid #aaa;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
     -o-border-radius: 4px;
+    width: 95%;
 }
 
-.form-row input{
+.form-row-anadir input{
     outline-color: #0071b0;
 }
 
-.form-row select {
-    outline-color: #0071b0;
+.form-row-anadir input::placeholder {
+    opacity: 0.65;
   }
+
+.form-row-anadir  select {
+    outline-color: #0071b0;
+}
+
+input[type="date"] {
+    color: #aaa;
+}
+
+.form-row-anadir select {
+    color: #aaa;
+    border: 1px solid #aaa;
+    width: 95%;
+}
+
+/* filas de formulario de tres columnas para la sección de departamento */
+
+.form-row-anadir-departamento {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-row-anadir-departamento input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 95%;
+}
+
+.form-row-anadir-departamento input{
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-departamento input::placeholder {
+    opacity: 0.65;
+  }
+
+.form-row-anadir-departamento  select {
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-departamento select {
+    color: #aaa;
+    border: 1px solid #aaa;
+    width: 95%;
+}
+
+/* filas de formulario de dos columnas */
+
+.form-row-anadir-dos-D {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-row-anadir-dos-D input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 97%;
+}
+
+.form-row-anadir-dos-D input{
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-dos-D input::placeholder {
+    opacity: 0.65;
+  }
+
+.form-row-anadir-dos-D  select {
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-dos-D select {
+    color: #aaa;
+    border: 1px solid #aaa;
+    width: 97%;
+}
+
+.form-row-anadir-dates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+}
+
+.form-row-anadir-dates input{
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 91%;
+}
+
+.form-row-anadir, .form-row-anadir-dates, .form-row-anadir-departamento, .form-row-anadir-dos-D option:not(first-child) {
+    color: #000;
+}
