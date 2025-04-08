@@ -15,7 +15,6 @@ error_reporting(E_ALL);
 
 // Verificar que los archivos existan
 $required_files = [
-    './config/sesioniniciada.php',
     './config/db.php',
     './template/header.php',
     './template/navbar.php'
@@ -29,7 +28,6 @@ foreach ($required_files as $file) {
 
 // Incluir los archivos
 require_once './config/db.php';
-require_once './config/sesioniniciada.php';
 ?>
 
 <?php
@@ -58,7 +56,7 @@ $codigo_usuario =  $_SESSION['Codigo'];
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-12-25 23:50";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2025-05-25 23:50";
 
 $departamento_id = null;
 if (isset($_SESSION['Codigo'])) {

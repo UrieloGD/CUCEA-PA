@@ -377,7 +377,7 @@ $(document).ready(function () {
       { orderable: false, targets: 0 },
       { reorderable: false, targets: 0 },
       {
-        targets: [1, 24, 25, 26, 27, 28, 29, 30, 36, 37, 38, 39],
+        targets: [1, 24, 25, 26, 27, 28, 29, 30, 31, 36, 37, 38, 39],
         createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
           var $row = $(cell).closest("tr");
           var choquesStr = $row.attr("data-choques");
