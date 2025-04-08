@@ -7,6 +7,8 @@ if (!isset($_SESSION['Codigo'])) {
     die("Usuario no autenticado.");
 }
 
+$papelera = "ACTIVO";
+
 // Obtener el ID del departamento
 $departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
 
@@ -33,9 +35,9 @@ $sql = "INSERT INTO `$tabla_departamento` (
     CATEGORIA, DESCARGA, CODIGO_DESCARGA, NOMBRE_DESCARGA, NOMBRE_DEFINITIVO,
     TITULAR, HORAS, CODIGO_DEPENDENCIA, L, M, I, J, V, S, D, DIA_PRESENCIAL,
     DIA_VIRTUAL, MODALIDAD, FECHA_INICIAL, FECHA_FINAL, HORA_INICIAL, HORA_FINAL,
-    MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO
+    MODULO, AULA, CUPO, OBSERVACIONES, EXAMEN_EXTRAORDINARIO, PAPELERA
 ) VALUES (
-    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
 )";
 
 $stmt = $conexion->prepare($sql);
@@ -45,7 +47,7 @@ if ($stmt === false) {
 }
 
 // Vincular parámetros
-$stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss", 
+$stmt->bind_param("issssssssssssssssssssssssssssssssssssssssss", 
     $departamento_id, 
     $_POST['ciclo'],
     $_POST['crn'],
@@ -87,7 +89,8 @@ $stmt->bind_param("isssssssssssssssssssssssssssssssssssssssss",
     $_POST['aula'],
     $_POST['cupo'],
     $_POST['observaciones'],
-    $_POST['examen_extraordinario']
+    $_POST['examen_extraordinario'],
+    $papelera
 );
 
 // Ejecutar la consulta
