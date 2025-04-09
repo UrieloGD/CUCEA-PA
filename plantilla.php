@@ -92,7 +92,7 @@ if ($departamento_id === null) {
                 </div>
                 <div class="icono-descarga">
                     <a href="#" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">
-                        <img src="./Img/Icons/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
+                        <img src="./Img/Icons/iconos-plantilla/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
                     </a>
                 </div>
                 <div class="div-boton-descargar">
@@ -134,7 +134,7 @@ if ($departamento_id === null) {
                 <div class="justification-container">
                     <div class="access-restricted">
                         <div class="icon-circle">
-                            <img src="./Img/Icons/icono-entrega-tardia.png" alt="Access Restricted" />
+                            <img src="./Img/Icons/iconos-plantilla/icono-entrega-tardia.png" alt="Access Restricted" />
                         </div>
                         <h2>Acceso restringido</h2>
                         <p>La fecha límite para subir tu plantilla fue el día <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></p>
