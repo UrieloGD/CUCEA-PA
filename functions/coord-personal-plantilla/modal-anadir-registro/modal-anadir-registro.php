@@ -29,8 +29,8 @@
                                         <span>Nombre Completo</span>
                                     </div>
                                     <div class="form-row-anadir-dos-D">
-                                        <input type="text" id="nombre" name="nombre" placeholder="ÁNGEL RAFAEL">
-                                        <input type="text" id="completo" name="completo" placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ">
+                                        <input type="text" id="nombres" name="nombres" placeholder="ÁNGEL RAFAEL">
+                                        <input type="text" id="nombre_completo" name="nombre_completo" placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ">
                                     </div>
                                 </div>  
                             </div>
@@ -153,7 +153,7 @@
                                         <input type="date" id="sni_desde" name="sni_desde">
                                         <div class="form-row-anadir-dates">
                                             <input type="date" id="cambio_dediacion_inicio" name="cambio_dediacion_inicio">
-                                            <input type="date" id="cambio_dediacion_final" name="cambio_dediacion_final">
+                                            <!--<input type="date" id="cambio_dediacion_final" name="cambio_dediacion_final">-->
                                         </div>
                                     </div>
                                 </div>
@@ -172,8 +172,8 @@
                                         <span>Domicilio</span>
                                     </div>
                                     <div class="form-row-anadir">
-                                        <input type="text" id="telefono_particular" name="telefono_particular" placeholder="3315000099" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 30);">
-                                        <input type="text" id="telefono_oficina" name="telefono_oficina" placeholder="3315000099" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 30);">
+                                        <input type="text" id="telefono_particular" name="telefono_particular" placeholder="3315000099" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);">
+                                        <input type="text" id="telefono_oficina" name="telefono_oficina" placeholder="3315000099" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15);">
                                         <input type="text" id="domicilio" name="domicilio" placeholder="CANARIO 512">
                                     </div>
                                     <div class="form-row-titles-anadir">
@@ -355,6 +355,7 @@
                                     <div class="form-row-anadir-dos-D">
                                         <input type="date" id="fecha_ingreso" name="fecha_ingreso">
                                         <input type="text" id="Antiguedad" name="Antiguedad" placeholder="40" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);">
+                                        <input type="text" id="PAPELERA" name="PAPELERA" style="display: none" value="ACTIVO">
                                     </div>
                                 </div>
                             </div>
