@@ -143,10 +143,10 @@ function verificarChoques($registro_actual, $departamentos, $conexion)
 
             // Si hay choque de horario, días y aula/módulo
             if (
+                $registro['DIA_PRESENCIAL'] == $registro_actual['DIA_PRESENCIAL'] &&
                 $registro['MODULO'] == $registro_actual['MODULO'] &&
                 $registro['AULA'] == $registro_actual['AULA'] &&
-                $choque_horario &&
-                $dias_choque
+                $choque_horario && $dias_choque
             ) {
 
                 // Obtener el timestamp del otro departamento
@@ -191,6 +191,7 @@ while ($dep = mysqli_fetch_assoc($departamentos_result)) {
         HORA_INICIAL, 
         HORA_FINAL, 
         AULA,
+        DIA_PRESENCIAL,
         L, M, I, J, V, S, D,
         '$dep[Nombre_Departamento]' as Departamento
     FROM $tabla_dep 

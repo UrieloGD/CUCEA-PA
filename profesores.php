@@ -1,10 +1,6 @@
 <?php
 require_once './config/db.php';
-
-require_once './template/header.php';
-require_once './template/navbar.php';
-
-
+require_once './config/sesiones.php';
 require_once './functions/profesores/funciones-horas.php';
 
 // Verificar conexión

@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
   z-index: 999; /* Mayor z-index para asegurar que esté por encima */
-  padding: 20px; /* Añadido para responsividad */
 }
 
 .modal-content {
@@ -17,10 +16,13 @@
   padding: 2rem;
   border-radius: 8px;
   width: 90%;
-  margin: 10% auto;
+  margin: 0 auto;
   max-width: 1200px;
-  position: relative; /* Para la X de cerrar */
-  max-height: 90vh; /* Para evitar que se salga de la pantalla */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  max-height: 75vh; /* Para evitar que se salga de la pantalla */
   overflow-y: auto; /* Permite scroll si el contenido es muy largo */
 }
 
@@ -63,13 +65,14 @@
   flex: 2;
 }
 
-.form-group.small {
+/* .form-group.small {
   flex: 0.5;
-}
+} */
 
 label {
   color: #666;
   margin-bottom: 0.5rem;
+  white-space: nowrap;
 }
 
 input,
@@ -180,6 +183,10 @@ select:focus {
 }
 
 @media screen and (max-width: 768px) {
+  .modal-content {
+    width: 80%;
+  }
+  
   .borde-CRN,
   .borde-materia,
   .borde-clave,
@@ -213,12 +220,30 @@ select:focus {
 }
 
 @media screen and (max-width: 630px) {
-  .modal-content {
-    width: 95%;
-  }
-
   .contenedor-botones-baja button {
     font-size: 0.8rem;
     border-radius: 7px;
+  }
+}
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .modal-content {
+    zoom: 90%;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .modal-content {
+    zoom: 80%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .modal-content {
+    zoom: 65%;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .modal-content {
+    zoom: 60%;
   }
 }

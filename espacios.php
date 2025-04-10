@@ -5,7 +5,6 @@ error_reporting(E_ALL);
 
 // Verificar que los archivos existan
 $required_files = [
-    './config/sesioniniciada.php',
     './config/db.php',
     './template/header.php',
     './template/navbar.php'
@@ -19,7 +18,6 @@ foreach ($required_files as $file) {
 
 // Incluir los archivos
 require_once './config/db.php';
-require_once './config/sesioniniciada.php';
 ?>
 
 <!--header -->
@@ -295,7 +293,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 
     <div id="claseModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content-caracteristicasEspacios">
             <div class="modal-header">
                 <h2 id="modalTitle">Características del espacio</h2>
                 <span class="close">&times;</span>

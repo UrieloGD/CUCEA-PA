@@ -1487,6 +1487,7 @@ table.dataTable thead .sorting_desc {
 .fila-botones button {
   background-color: #0071b0;
   color: white;
+  font-weight: bold;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
