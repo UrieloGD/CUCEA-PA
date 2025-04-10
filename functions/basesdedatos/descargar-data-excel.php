@@ -81,7 +81,7 @@ if (empty($columnas_reales)) {
 }
 
 $tabla_departamento = "`data_" . str_replace(' ', '_', $nombre_departamento) . "`";
-$sql = "SELECT " . implode(", ", $columnas_reales) . " FROM " . $tabla_departamento . " WHERE Departamento_ID = ?";
+$sql = "SELECT " . implode(", ", $columnas_reales) . " FROM " . $tabla_departamento . " WHERE Departamento_ID = ? AND (PAPELERA <> 'INACTIVO' OR PAPELERA IS NULL)";
 
 $stmt = $conexion->prepare($sql);
 if ($stmt === false) {
