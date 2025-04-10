@@ -1,7 +1,5 @@
 <?php
 require_once './config/db.php';
-require_once './template/header.php';
-require_once './template/navbar.php';
 require_once './config/sesiones.php';
 require_once './functions/profesores/funciones-horas.php';
 
@@ -198,6 +196,9 @@ try {
         return str_replace("\n", "<br>", htmlspecialchars($horasString));
     }
 
+    // Aquí comienza el HTML
+    include './template/header.php';
+    include './template/navbar.php';
 ?>
 
     <!DOCTYPE html>

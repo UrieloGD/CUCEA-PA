@@ -6,7 +6,7 @@
 }
 
 body {
-  margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
+  margin: 0;
   background-color: #e7e9f2;
   overflow-y: hidden;
 }

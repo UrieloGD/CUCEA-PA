@@ -64,10 +64,10 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                 </div>
                 <div class="event-actions">
                     <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
-                        <img src="./Img/Icons/iconos-adminAU/editar2.png" alt="Editar">
+                        <img src="./Img/Icons/iconos-adminAU/editar.png" alt="Editar">
                     </button>
                     <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
-                        <img src="./Img/Icons/iconos-adminAU/borrar2.png" alt="Borrar">
+                        <img src="./Img/Icons/iconos-adminAU/borrar.png" alt="Borrar">
                     </button>
                 </div>
             </div>
