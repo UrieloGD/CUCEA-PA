@@ -38,6 +38,7 @@ $periodo_actual = "2025B";
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
@@ -123,6 +124,7 @@ $periodo_actual = "2025B";
                 </div>
             </div>
         <?php endwhile; ?>
+    </div>
     </div>
 </div>
 

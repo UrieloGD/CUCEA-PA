@@ -150,7 +150,7 @@
                     <i class="fa fa-check-circle"></i>
                     Guardar
                 </button>
-                <button type="button" class="boton-descartar" id="btn-descartar">
+                <button type="button" class="boton-descartar" id="btn-descartar-propuesta">
                     <i class="fa fa-times-circle"></i>
                     Descartar
                 </button>

@@ -131,7 +131,6 @@ include './template/navbar.php';
                             <div class="box-buttons">
                                 <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png"></button>
                                 <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png"></button>
-                                <!-- <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button> -->
                             </div>
                     </div>
                 </div>

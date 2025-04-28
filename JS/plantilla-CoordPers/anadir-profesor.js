@@ -40,7 +40,7 @@ function añadirRegistro() {
   var formData = new FormData(form);
 
   // Validar campos requeridos
-  const requiredFields = ["codigo", "paterno", "materno", "nombre"];
+  const requiredFields = ["codigo", "paterno", "materno", "nombres"];
   for (let field of requiredFields) {
     if (!formData.get(field)) {
       Swal.fire({
@@ -148,3 +148,45 @@ function cerrarFormularioAñadir() {
   document.getElementById("modal-añadir").style.display = "none";
   document.getElementById("form-añadir-registro").reset(); // Limpiar el formulario al cerrar
 }
+
+// Cambia el color a #000000 cuando se selecciona una opción en los select
+$(document).ready(function(){
+
+  $("select").change(function(){
+    if ($(this).val()=="") $(this).css({color: "#aaa"});
+    else $(this).css({color: "#000"});
+  });
+  
+});	
+
+// Cambiar el texto a color #000000 cuando se selecciona alguna fecha.
+const fechaSnidesde = document.getElementById('sni_desde');
+const fechaCambioDI = document.getElementById('cambio_dediacion_inicio');
+const fechaCambioDF = document.getElementById('cambio_dediacion_final');
+const fechaNacimiento = document.getElementById('fecha_nacimiento');
+const fechaAnio = document.getElementById('año');
+const fechaAnioOtro = document.getElementById('otro_año');
+const fechaAnioOtroAlternativo = document.getElementById('otro_año_alternativo');
+const fechaApartirDe = document.getElementById('a_partir_de');
+const fechaIngreso = document.getElementById('fecha_ingreso');
+
+function cambiarColorTexto(event) {
+    const input = event.target; 
+    if (input.value) {
+      input.style.color = '#000000'; 
+      input.style.fontStyle = 'normal';
+    } else {
+      input.style.color = ''; 
+      input.style.fontStyle = 'italic';
+    }
+}
+
+fechaSnidesde.addEventListener('change', cambiarColorTexto);
+fechaCambioDI.addEventListener('change', cambiarColorTexto);
+fechaCambioDF.addEventListener('change', cambiarColorTexto);
+fechaNacimiento.addEventListener('change', cambiarColorTexto);
+fechaAnio.addEventListener('change', cambiarColorTexto);
+fechaAnioOtro.addEventListener('change', cambiarColorTexto);
+fechaAnioOtroAlternativo.addEventListener('change', cambiarColorTexto);
+fechaApartirDe.addEventListener('change', cambiarColorTexto);
+fechaIngreso.addEventListener('change', cambiarColorTexto);

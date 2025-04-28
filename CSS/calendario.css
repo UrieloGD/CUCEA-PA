@@ -348,9 +348,8 @@
 }
 
 #monthYearPicker {
-    position: absolute;
+    position: relative;
     top: -18%;
-    left: 100%;
     z-index: 1000;
     display: none;
     animation-duration: 0.3s;
@@ -606,9 +605,10 @@
     transition: opacity 0.3s ease;
 }
 
-.modal-content {
+.modal-content-visualizarEvento {
+    position: relative;
     background-color: #ffffff;
-    margin: 10% auto;
+    margin: 0 auto;
     padding: 0;
     border: none;
     width: 90%;
@@ -616,22 +616,23 @@
     box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
     border-radius: 8px;
     overflow: hidden;
-    transform: translateY(-50px);
+    top: 50%;
+    transform: translateY(-50%);
     transition: transform 0.3s ease;
 }
 .modal.show {
     opacity: 1;
 }
 
-.modal.show .modal-content {
+/* .modal.show .modal-content {
+    transform: translateY(0);
+} */
+
+.modal-content-visualizarEvento.show {
     transform: translateY(0);
 }
 
-.modal-content.show {
-    transform: translateY(0);
-}
-
-.modal-content.hide {
+.modal-content-visualizarEvento.hide {
     transform: translateY(-100px);
     opacity: 0;
 }
@@ -725,7 +726,7 @@ hr {
 
   /* Estilos para modal mostrar más eventos */
 
-  #eventsModal .modal-content {
+  #eventsModal .modal-content-visualizarEvento {
     max-width: 800px;
 }
 
@@ -1423,7 +1424,8 @@ hr {
 
 /* Responsividad de Zoom para navegadores Chromium */
 @media screen and (max-height: 900px) { 
-    .header { 
+    .header,
+    .modal-content-visualizarEvento { 
       zoom: 90%; 
     }
     body .cuadro-principal {
@@ -1435,7 +1437,8 @@ hr {
     }
   }
   @media screen and (max-height: 768px) { 
-    .header { 
+    .header,
+    .modal-content-visualizarEvento { 
       zoom: 80%; 
     }
     body .cuadro-principal {
@@ -1447,7 +1450,8 @@ hr {
     }
   }
   @media screen and (max-height: 700px) { 
-    .header { 
+    .header,
+    .modal-content-visualizarEvento { 
       zoom: 65%; 
     }
     body .cuadro-principal {
@@ -1459,7 +1463,8 @@ hr {
     }
   }
   @media screen and (max-height: 600px) { 
-    .header { 
+    .header,
+    .modal-content-visualizarEvento { 
       zoom: 60%; 
     }
     body .cuadro-principal {

@@ -18,6 +18,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+  <div class="cuadro-scroll">
 
   <!--Pestaña azul-->
   <div class="encabezado">
@@ -100,11 +101,11 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
           echo "<td class='editable' data-field='Rol' style='text-align: center;'>" . $row["Nombre_Rol"] . "</td>";
           echo "<td class='editable' data-field='Departamento' style='text-align: center;'>" . $row["departamento"] . "</td>";
           echo "<td style='display: none;' data-genero='" . $row["Genero"] . "'></td>";
-          echo "<td style='text-align: center;'>
-                          <a href='#' class='btn edit'><img src='./Img/Icons/iconos-adminAU/editar2.png'></a>
+          echo "<td class='buttons-options' style='text-align: center;'>
+                          <a href='#' class='btn edit'><img src='./Img/Icons/iconos-adminAU/editar.png'></a>
                           <a href='#' class='btn save' style='display:none;'><img src='./Img/Icons/iconos-adminAU/guardar.png'></a>
                           <a href='#' class='btn cancel' style='display:none;'><img src='./Img/Icons/iconos-adminAU/cancelar.png'></a>
-                          <a href='#' class='btn delete'><img src='./Img/Icons/iconos-adminAU/borrar2.png'></a>
+                          <a href='#' class='btn delete'><img src='./Img/Icons/iconos-adminAU/borrar.png'></a>
                       </td>";
           echo "</tr>";
         }
@@ -167,6 +168,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
       </form>
     </div>
   </div>
+</div>
 
   <script src="./JS/admin-usuarios/barra-busqueda.js?v=<?php echo filemtime('./JS/admin-usuarios/barra-busqueda.js'); ?>"></script>
 <script src="./JS/admin-usuarios/admin-usuarios.js?v=<?php echo filemtime('./JS/admin-usuarios/admin-usuarios.js'); ?>"></script>

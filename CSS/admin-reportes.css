@@ -1,15 +1,52 @@
+
 .cuadro-principal {
   background-color: white;
-  border-radius: 20px;
-  width: 92%;
+  width: -webkit-fill-available;
+  height: 91.5vh;
   margin-left: 6vw;
-  margin-right: 6vw;
+  margin-right: 2vw;
   margin-top: 1vh;
-  margin-bottom: 2vh;
-  overflow: auto;
+  align-self: flex-end;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  padding: 0 5 0 5;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
+/* Mozilla */
+@-moz-document url-prefix() {
+  .cuadro-principal {
+    background-color: white;
+    width:-moz-available;
+    height: 91.5vh;
+    margin-left: 6vw;
+    margin-right: 2vw;
+    margin-top: 1vh;
+    align-self: flex-end;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0 5 0 5;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+  }
+}
+
+.cuadro-scroll {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
 }
 
 .encabezado {
@@ -47,7 +84,7 @@
 }
 
 .reporte-container {
-  width: 85%;
+  width: 90%;
 }
 
 .departamento-info {
