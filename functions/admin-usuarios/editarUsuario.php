@@ -21,6 +21,29 @@ try {
     $departamento = $data['Departamento'];
     $genero = $data['Genero'];
 
+    // Verificar el rol del usuario que se intenta modificar
+    $sql_verificar_rol = "SELECT r.Nombre_Rol 
+                         FROM usuarios u 
+                         JOIN roles r ON u.Rol_ID = r.Rol_ID 
+                         WHERE u.Codigo = ?";
+    $stmt_verificar_rol = $conexion->prepare($sql_verificar_rol);
+    $stmt_verificar_rol->bind_param("i", $userId);
+    $stmt_verificar_rol->execute();
+    $result_verificar = $stmt_verificar_rol->get_result();
+    
+    if ($result_verificar->num_rows === 0) {
+        echo json_encode(["success" => false, "message" => "Usuario a modificar no encontrado"]);
+        exit();
+    }
+    
+    $usuario_a_modificar = $result_verificar->fetch_assoc();
+    
+    // Restricción: Solo los administradores pueden modificar a otros administradores
+    if ($usuario_a_modificar['Nombre_Rol'] === "Administrador" && !$es_admin) {
+        echo json_encode(["success" => false, "message" => "No tiene permisos para modificar un usuario Administrador"]);
+        exit();
+    }
+
     // Iniciar transacción
     $conexion->begin_transaction();
 
@@ -123,6 +146,8 @@ try {
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 } finally {
     // Cerrar conexiones
+    if (isset($stmt_rol_editor)) $stmt_rol_editor->close();
+    if (isset($stmt_verificar_rol)) $stmt_verificar_rol->close();
     if (isset($stmt)) $stmt->close();
     if (isset($stmt_departamento)) $stmt_departamento->close();
     if (isset($check_stmt)) $check_stmt->close();
