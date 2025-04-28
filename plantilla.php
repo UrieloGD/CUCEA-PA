@@ -15,7 +15,7 @@ error_reporting(E_ALL);
 
 // Verificar que los archivos existan
 $required_files = [
-    './config/sesioniniciada.php',
+    './config/sesiones.php',
     './config/db.php',
     './template/header.php',
     './template/navbar.php'
@@ -29,7 +29,7 @@ foreach ($required_files as $file) {
 
 // Incluir los archivos
 require_once './config/db.php';
-require_once './config/sesioniniciada.php';
+require_once './config/sesiones.php';
 ?>
 
 <?php
