@@ -196,9 +196,6 @@ try {
         return str_replace("\n", "<br>", htmlspecialchars($horasString));
     }
 
-    // Aquí comienza el HTML
-    include './template/header.php';
-    include './template/navbar.php';
 ?>
 
     <!DOCTYPE html>

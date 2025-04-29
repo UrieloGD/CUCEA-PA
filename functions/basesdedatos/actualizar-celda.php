@@ -159,7 +159,6 @@ try {
         $row_departamento = mysqli_fetch_assoc($result_departamento);
         $tabla_departamento = "data_" . $row_departamento['Nombre_Departamento'];
 
-        // Resto del código igual...
         // Obtener el valor antiguo antes de actualizar
         $sql_old = "SELECT `$column` FROM `$tabla_departamento` WHERE ID_Plantilla = '$id'";
         $result_old = mysqli_query($conexion, $sql_old);
@@ -180,6 +179,85 @@ try {
         }
     } else {
         $response['error'] = "Faltan datos requeridos";
+    }
+
+    if ($response['success']) {
+        // Si es administrador y modificó otro departamento
+        if ($user_role === 0 && isset($_POST['department_id'])) {
+            $departamento_afectado = intval($_POST['department_id']);
+            
+            // Verificar si el valor realmente cambió
+            if ($response['oldValue'] != $value) {
+                $emisor_id = $_SESSION['Codigo'];
+                
+                // Verificar si ya existe una notificación pendiente para este admin y departamento en la última hora
+                $sql_verificar = "SELECT ID, Mensaje FROM notificaciones 
+                               WHERE Tipo = 'modificacion_bd' 
+                               AND Departamento_ID = $departamento_afectado 
+                               AND Emisor_ID = $emisor_id 
+                               AND Vista = 0 
+                               AND Fecha > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+                               AND Mensaje LIKE '%ha modificado varias columnas%'
+                               ORDER BY ID DESC LIMIT 1";
+                
+                $result_verificar = mysqli_query($conexion, $sql_verificar);
+                
+                if (mysqli_num_rows($result_verificar) > 0) {
+                    // Ya existe una notificación agrupada, actualizarla
+                    $row = mysqli_fetch_assoc($result_verificar);
+                    $notif_id = $row['ID'];
+                    
+                    // Actualizar la notificación existente
+                    $sql_actualizar = "UPDATE notificaciones 
+                                      SET Fecha = NOW() 
+                                      WHERE ID = $notif_id";
+                    mysqli_query($conexion, $sql_actualizar);
+                } else {
+                    // Contar cuántas notificaciones hay del mismo admin al mismo departamento en la última hora
+                    $sql_contar = "SELECT COUNT(*) as total FROM notificaciones 
+                                WHERE Tipo = 'modificacion_bd' 
+                                AND Departamento_ID = $departamento_afectado 
+                                AND Emisor_ID = $emisor_id 
+                                AND Vista = 0 
+                                AND Fecha > DATE_SUB(NOW(), INTERVAL 1 HOUR)";
+                    
+                    $result_contar = mysqli_query($conexion, $sql_contar);
+                    $row_contar = mysqli_fetch_assoc($result_contar);
+                    $total_notificaciones = $row_contar['total'];
+                    
+                    if ($total_notificaciones >= 1) {
+                        // Si ya hay al menos una notificación, crear una notificación agrupada
+                        // y eliminar las individuales
+                        $mensaje = "El administrador " . $_SESSION['Nombre'] . " ha modificado varias columnas de su Base de Datos";
+                        
+                        // Insertar la notificación agrupada
+                        $sql_insertar_agrupada = "INSERT INTO notificaciones 
+                                               (Tipo, Usuario_ID, Emisor_ID, Mensaje, Departamento_ID, Fecha)
+                                               VALUES ('modificacion_bd', NULL, $emisor_id, '$mensaje', $departamento_afectado, NOW())";
+                        mysqli_query($conexion, $sql_insertar_agrupada);
+                        
+                        // Eliminar las notificaciones individuales anteriores
+                        $sql_eliminar = "DELETE FROM notificaciones 
+                                      WHERE Tipo = 'modificacion_bd' 
+                                      AND Departamento_ID = $departamento_afectado 
+                                      AND Emisor_ID = $emisor_id 
+                                      AND Vista = 0 
+                                      AND Fecha > DATE_SUB(NOW(), INTERVAL 1 HOUR)
+                                      AND Mensaje LIKE 'El administrador %modificó la columna%'";
+                        mysqli_query($conexion, $sql_eliminar);
+                    } else {
+                        // Si es la primera notificación, crearla de forma individual
+                        $mensaje = "El administrador " . $_SESSION['Nombre'] . " modificó la columna: " . $column . " en su Base de Datos";
+                        
+                        // Insertar notificación individual
+                        $sql_notificacion = "INSERT INTO notificaciones 
+                                          (Tipo, Usuario_ID, Emisor_ID, Mensaje, Departamento_ID, Fecha)
+                                          VALUES ('modificacion_bd', NULL, $emisor_id, '$mensaje', $departamento_afectado, NOW())";
+                        mysqli_query($conexion, $sql_notificacion);
+                    }
+                }
+            }
+        }
     }
 
     error_log("SQL Query: $sql");

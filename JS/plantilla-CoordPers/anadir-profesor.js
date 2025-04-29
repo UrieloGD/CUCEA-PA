@@ -40,7 +40,7 @@ function añadirRegistro() {
   var formData = new FormData(form);
 
   // Validar campos requeridos
-  const requiredFields = ["codigo", "paterno", "materno", "nombre"];
+  const requiredFields = ["codigo", "paterno", "materno", "nombres"];
   for (let field of requiredFields) {
     if (!formData.get(field)) {
       Swal.fire({

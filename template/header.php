@@ -133,14 +133,18 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
                   <div class="descripcion">
                     <?php
                     if ($notificacion['tipo'] == 'justificacion') {
-                      echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha enviado una justificación';
+                        echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha enviado una justificación';
                     } elseif ($notificacion['tipo'] == 'plantilla') {
-                      echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
+                        echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
+                    } elseif (($notificacion['tipo'] == 'modificacion_bd')) {
+                        echo "El administrador " . ($notificacion['Nombre'] ?? '') . " modificó su base de datos";
+                    } elseif (($notificacion['tipo'] == 'eliminacion_bd')) {
+                        echo $notificacion['Mensaje']; // Mostrará "El administrador X ha borrado la fila con el ID Y de su base de datos"
                     } else {
-                      echo $notificacion['Mensaje'] ?? 'Nueva notificación';
+                        echo $notificacion['Mensaje'] ?? 'Nueva notificación';
                     }
                     ?>
-                  </div>
+                </div>
                 <?php else : ?>
                   <div class="descripcion"><?= $notificacion['Mensaje'] ?? 'Nueva notificación' ?></div>
                 <?php endif; ?>
@@ -200,7 +204,6 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
 
     document.getElementById('fecha-dinamica').textContent = fechaFormateada;
   }
-
   // Actualizar cada segundo
   setInterval(actualizarFechaHora, 1000);
 

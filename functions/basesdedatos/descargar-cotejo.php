@@ -28,7 +28,13 @@ $columnas_exportar = [
     'CRN',
     'FECHA_INICIAL',
     'FECHA_FINAL',
-    'L', 'M', 'I', 'J', 'V', 'S', 'D',
+    'L',
+    'M',
+    'I',
+    'J',
+    'V',
+    'S',
+    'D',
     'HORA_INICIAL',
     'HORA_FINAL',
     'MODULO',
@@ -48,7 +54,7 @@ WITH modalidades_conteo AS (
         MODULO,
         COUNT(DISTINCT MODALIDAD) as modalidades_distintas
     FROM `$tabla_departamento`
-    WHERE Departamento_ID = ?
+    WHERE Departamento_ID = ? AND (PAPELERA <> 'INACTIVO' OR PAPELERA IS NULL)
     GROUP BY CRN, HORA_INICIAL, HORA_FINAL, MODULO
 ),
 registros_base AS (
@@ -61,7 +67,7 @@ registros_base AS (
         t.HORA_INICIAL = mc.HORA_INICIAL AND 
         t.HORA_FINAL = mc.HORA_FINAL AND 
         t.MODULO = mc.MODULO
-    WHERE t.Departamento_ID = ?
+    WHERE t.Departamento_ID = ? AND (t.PAPELERA <> 'INACTIVO' OR t.PAPELERA IS NULL)
 )
 SELECT 
     MAX(CICLO) as CICLO,
@@ -201,7 +207,7 @@ if ($result->num_rows > 0) {
         $col = 1;
         foreach ($columnas_exportar as $columna) {
             $valor = $data[$columna] ?? '';
-            
+
             $sheet->setCellValue(
                 \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
                 $valor
