@@ -24,7 +24,7 @@ try {
     $departamento = $data['Departamento'];
     $genero = $data['Genero'];
 
-    // Verificar si el usuario actual es Administrador
+    // Verificar autenticación
     if (!isset($_SESSION['Rol_ID'])) {
         echo json_encode(["success" => false, "message" => "No autenticado"]);
         exit();
