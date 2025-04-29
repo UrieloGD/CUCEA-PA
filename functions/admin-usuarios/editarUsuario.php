@@ -1,6 +1,9 @@
 <?php
 header('Content-Type: application/json');
 
+// Iniciar sesión al principio del script
+session_start();
+
 include './../../config/db.php';
 
 try {
@@ -21,11 +24,15 @@ try {
     $departamento = $data['Departamento'];
     $genero = $data['Genero'];
 
+    // Verificar si el usuario actual es Administrador
+    if (!isset($_SESSION['Rol_ID'])) {
+        echo json_encode(["success" => false, "message" => "No autenticado"]);
+        exit();
+    }
+    $es_admin = ($_SESSION['Rol_ID'] === 0);
+
     // Verificar el rol del usuario que se intenta modificar
-    $sql_verificar_rol = "SELECT r.Nombre_Rol 
-                         FROM usuarios u 
-                         JOIN roles r ON u.Rol_ID = r.Rol_ID 
-                         WHERE u.Codigo = ?";
+    $sql_verificar_rol = "SELECT Rol_ID FROM usuarios WHERE Codigo = ?";
     $stmt_verificar_rol = $conexion->prepare($sql_verificar_rol);
     $stmt_verificar_rol->bind_param("i", $userId);
     $stmt_verificar_rol->execute();
@@ -39,7 +46,7 @@ try {
     $usuario_a_modificar = $result_verificar->fetch_assoc();
     
     // Restricción: Solo los administradores pueden modificar a otros administradores
-    if ($usuario_a_modificar['Nombre_Rol'] === "Administrador" && !$es_admin) {
+    if ($usuario_a_modificar['Rol_ID'] === 0 && !$es_admin) {
         echo json_encode(["success" => false, "message" => "No tiene permisos para modificar un usuario Administrador"]);
         exit();
     }
@@ -146,10 +153,14 @@ try {
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 } finally {
     // Cerrar conexiones
-    if (isset($stmt_rol_editor)) $stmt_rol_editor->close();
     if (isset($stmt_verificar_rol)) $stmt_verificar_rol->close();
     if (isset($stmt)) $stmt->close();
     if (isset($stmt_departamento)) $stmt_departamento->close();
     if (isset($check_stmt)) $check_stmt->close();
+    if (isset($stmt_get_rol)) $stmt_get_rol->close();
+    if (isset($stmt_check_new_rol)) $stmt_check_new_rol->close();
+    if (isset($check_jefe_stmt)) $check_jefe_stmt->close();
+    if (isset($stmt_delete)) $stmt_delete->close();
+    if (isset($stmt_delete_departamento)) $stmt_delete_departamento->close();
     $conexion->close();
 }
