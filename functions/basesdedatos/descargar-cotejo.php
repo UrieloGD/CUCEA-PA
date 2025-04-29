@@ -44,15 +44,16 @@ $columnas_exportar = [
     'MODALIDAD'
 ];
 
-// Consulta SQL modificada para ser compatible con MySQL
+// Consulta SQL modificada para no combinar cuando MODALIDAD es MIXTA/HIBRIDA
 $sql_select = "
-WITH modalidades_conteo AS (
+WITH modalidades_info AS (
     SELECT 
         CRN,
         HORA_INICIAL,
         HORA_FINAL,
         MODULO,
-        COUNT(DISTINCT MODALIDAD) as modalidades_distintas
+        COUNT(DISTINCT MODALIDAD) as modalidades_distintas,
+        MAX(CASE WHEN UPPER(MODALIDAD) IN ('MIXTA', 'HIBRIDA') THEN 1 ELSE 0 END) as tiene_modalidad_mixta
     FROM `$tabla_departamento`
     WHERE Departamento_ID = ? AND (PAPELERA <> 'INACTIVO' OR PAPELERA IS NULL)
     GROUP BY CRN, HORA_INICIAL, HORA_FINAL, MODULO
@@ -60,13 +61,14 @@ WITH modalidades_conteo AS (
 registros_base AS (
     SELECT 
         t.*,
-        mc.modalidades_distintas
+        mi.modalidades_distintas,
+        mi.tiene_modalidad_mixta
     FROM `$tabla_departamento` t
-    JOIN modalidades_conteo mc ON 
-        t.CRN = mc.CRN AND 
-        t.HORA_INICIAL = mc.HORA_INICIAL AND 
-        t.HORA_FINAL = mc.HORA_FINAL AND 
-        t.MODULO = mc.MODULO
+    JOIN modalidades_info mi ON 
+        t.CRN = mi.CRN AND 
+        t.HORA_INICIAL = mi.HORA_INICIAL AND 
+        t.HORA_FINAL = mi.HORA_FINAL AND 
+        t.MODULO = mi.MODULO
     WHERE t.Departamento_ID = ? AND (t.PAPELERA <> 'INACTIVO' OR t.PAPELERA IS NULL)
 )
 SELECT 
@@ -78,6 +80,7 @@ SELECT
     MAX(FECHA_INICIAL) as FECHA_INICIAL,
     MAX(FECHA_FINAL) as FECHA_FINAL,
     CASE 
+        WHEN tiene_modalidad_mixta = 1 THEN L
         WHEN modalidades_distintas = 1 THEN MAX(L)
         WHEN MODALIDAD = 'VIRTUAL' THEN
             CASE 
@@ -91,6 +94,7 @@ SELECT
             END
     END as L,
     CASE 
+        WHEN tiene_modalidad_mixta = 1 THEN M
         WHEN modalidades_distintas = 1 THEN MAX(M)
         WHEN MODALIDAD = 'VIRTUAL' THEN
             CASE 
@@ -104,6 +108,7 @@ SELECT
             END
     END as M,
     CASE 
+        WHEN tiene_modalidad_mixta = 1 THEN I
         WHEN modalidades_distintas = 1 THEN MAX(I)
         WHEN MODALIDAD = 'VIRTUAL' THEN
             CASE 
@@ -117,6 +122,7 @@ SELECT
             END
     END as I,
     CASE 
+        WHEN tiene_modalidad_mixta = 1 THEN J
         WHEN modalidades_distintas = 1 THEN MAX(J)
         WHEN MODALIDAD = 'VIRTUAL' THEN
             CASE 
@@ -130,6 +136,7 @@ SELECT
             END
     END as J,
     CASE 
+        WHEN tiene_modalidad_mixta = 1 THEN V
         WHEN modalidades_distintas = 1 THEN MAX(V)
         WHEN MODALIDAD = 'VIRTUAL' THEN
             CASE 
@@ -142,14 +149,29 @@ SELECT
                 ELSE V
             END
     END as V,
-    MAX(S) as S,
-    MAX(D) as D,
+    CASE
+        WHEN tiene_modalidad_mixta = 1 THEN S
+        ELSE MAX(S)
+    END as S,
+    CASE
+        WHEN tiene_modalidad_mixta = 1 THEN D
+        ELSE MAX(D)
+    END as D,
     rb.HORA_INICIAL,
     rb.HORA_FINAL,
     rb.MODULO,
-    MAX(AULA) as AULA,
-    MAX(DIA_PRESENCIAL) as DIA_PRESENCIAL,
-    MAX(DIA_VIRTUAL) as DIA_VIRTUAL,
+    CASE
+        WHEN tiene_modalidad_mixta = 1 THEN AULA
+        ELSE MAX(AULA)
+    END as AULA,
+    CASE
+        WHEN tiene_modalidad_mixta = 1 THEN DIA_PRESENCIAL
+        ELSE MAX(DIA_PRESENCIAL)
+    END as DIA_PRESENCIAL,
+    CASE
+        WHEN tiene_modalidad_mixta = 1 THEN DIA_VIRTUAL
+        ELSE MAX(DIA_VIRTUAL)
+    END as DIA_VIRTUAL,
     rb.MODALIDAD
 FROM registros_base rb
 GROUP BY 
@@ -158,7 +180,9 @@ GROUP BY
     rb.HORA_FINAL,
     rb.MODULO,
     rb.MODALIDAD,
-    modalidades_distintas
+    modalidades_distintas,
+    tiene_modalidad_mixta,
+    CASE WHEN tiene_modalidad_mixta = 1 THEN rb.ID_Plantilla ELSE 0 END
 ORDER BY 
     rb.CRN,
     rb.HORA_INICIAL,
