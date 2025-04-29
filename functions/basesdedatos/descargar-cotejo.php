@@ -54,8 +54,7 @@ $columnas_exportar = [
     'MODALIDAD'
 ];
 
-// Consulta SQL modificada para no combinar cuando MODALIDAD es MIXTA/HIBRIDA
-// y para asegurarse que cada registro solo tenga los días que corresponden a su modalidad
+// Consulta SQL modificada para mantener siempre la información en DIA_PRESENCIAL y DIA_VIRTUAL
 $sql_select = "
 WITH modalidades_info AS (
     SELECT 
@@ -153,18 +152,10 @@ SELECT
         WHEN tiene_modalidad_mixta = 1 THEN AULA
         ELSE MAX(AULA)
     END as AULA,
-    -- Para DIA_PRESENCIAL
-    CASE
-        WHEN tiene_modalidad_mixta = 1 THEN DIA_PRESENCIAL
-        WHEN rb.MODALIDAD = 'PRESENCIAL' THEN DIA_PRESENCIAL
-        ELSE NULL  -- Si es VIRTUAL, no debería tener día presencial
-    END as DIA_PRESENCIAL,
-    -- Para DIA_VIRTUAL
-    CASE
-        WHEN tiene_modalidad_mixta = 1 THEN DIA_VIRTUAL
-        WHEN rb.MODALIDAD = 'VIRTUAL' THEN DIA_VIRTUAL
-        ELSE NULL  -- Si es PRESENCIAL, no debería tener día virtual
-    END as DIA_VIRTUAL,
+    -- Mantener siempre DIA_PRESENCIAL tal como está
+    GROUP_CONCAT(DISTINCT CASE WHEN DIA_PRESENCIAL IS NOT NULL AND DIA_PRESENCIAL != '' THEN DIA_PRESENCIAL END SEPARATOR ',') as DIA_PRESENCIAL,
+    -- Mantener siempre DIA_VIRTUAL tal como está
+    GROUP_CONCAT(DISTINCT CASE WHEN DIA_VIRTUAL IS NOT NULL AND DIA_VIRTUAL != '' THEN DIA_VIRTUAL END SEPARATOR ',') as DIA_VIRTUAL,
     rb.MODALIDAD
 FROM registros_base rb
 GROUP BY 
