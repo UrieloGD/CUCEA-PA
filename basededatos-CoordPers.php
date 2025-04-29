@@ -150,6 +150,7 @@ function softDeleteRegistros($conexion, $ids)
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
 
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
             <!-- <div class="barra-buscador" id="barra-buscador">
@@ -374,6 +375,7 @@ function softDeleteRegistros($conexion, $ids)
                     ?>
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 
