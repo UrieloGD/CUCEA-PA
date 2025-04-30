@@ -11,7 +11,6 @@
                             <div>
                                 <h3>Información Básica</h3>
                             </div>
-                            <!-- Código, paterno, materno, nombres, nombre completo -->
                             <div class="form-group-anadir">
                                 <div class="form-subgroup-anadir">
                                     <div class="form-row-titles-anadir">
@@ -39,13 +38,11 @@
                             <h3>Información Académica</h3>
                             <div class="form-group-anadir">
                                 <div class="form-subgroup-anadir">
-                                    <!-- Datos, Categoria actúal, horas frente a grupo, tipo de plaza, carga horaria, udg virtual cit otro centro, turno, departamento,
-                                    categoria actúal 2, división, cat. act., horas definitivas, horario -->
                                     <div class="form-row-titles-anadir">
                                         <span>Departamento</span>
                                         <span>Datos</span>
                                     </div>
-                                    <div class="form-row-anadir">
+                                    <div class="form-row-anadir-dos-D">
                                         <select name="departamento" id="departamento">
                                             <option value="" disabled selected>Seleccione la opción correspondiente...</option>
                                             <option value="ADMINISTRACION">Administración</option>
@@ -153,7 +150,7 @@
                                         <input type="date" id="sni_desde" name="sni_desde">
                                         <div class="form-row-anadir-dates">
                                             <input type="date" id="cambio_dediacion_inicio" name="cambio_dediacion_inicio">
-                                            <!--<input type="date" id="cambio_dediacion_final" name="cambio_dediacion_final">-->
+                                            <input type="date" id="cambio_dediacion_final" name="cambio_dediacion_final">
                                         </div>
                                     </div>
                                 </div>
@@ -163,9 +160,6 @@
                             <h3>Información Personal</h3>
                             <div class="form-group-anadir">
                                 <div class="form-subgroup-anadir">
-                                    <!-- Telefono Particular, colonia, estado, rfc, tipo de sangre, correo electronico, telefono de oficina o celular, C.P., 
-                                    No. Afil. I.M.S.S., lugar de nacimiento, fecha nac. correos oficiales, domicilio, ciudad, C.u.r.p., estado civil, nacionalidad
-                                    -->
                                     <div class="form-row-titles-anadir">
                                         <span>Telefono Particular</span>
                                         <span>Telefono de Oficina</span>
@@ -238,7 +232,7 @@
                                         <span>Correo Eletronico</span>
                                         <span>Correos Oficiales</span>
                                     </div>
-                                    <div class="form-row-anadir-dos-D">
+                                    <div class="form-row-anadir">
                                         <input type="text" id="nacionalidad" name="nacionalidad" placeholder="MEXICANA">
                                         <input type="email" id="correo" name="correo" placeholder="ejemplo@cucea.udg.mx">
                                         <input type="email" id="correos_oficiales" name="correos_oficiales" placeholder="angel@cucea.udg.mx">
@@ -250,10 +244,6 @@
                             <h3>Formación Académica</h3>
                             <div class="form-group-anadir">
                                 <div class="form-subgroup-anadir">
-                                    <!-- Último grado, Institución, Gdo. exp., nivel, año, programa, estado/país,
-                                    Último grado, Institución, Gdo. exp., nivel, año, programa, estado/país,
-                                    Último grado, Institución, Gdo. exp., nivel, año, programa, estado/país
-                                    -->
                                     <div class="form-row-titles-anadir">
                                         <span>Último grado</span>
                                         <span>Último grado</span>
@@ -331,7 +321,6 @@
                             <h3>Profesores 24-25</h3> 
                             <div class="form-group-anadir">
                                 <div class="form-subgroup">
-                                    <!-- Proesde 24-25, A partir de  -->
                                     <div class="form-row-titles-anadir">
                                         <span>Proesde</span>
                                         <span>A partir de</span>
@@ -347,7 +336,6 @@
                             <h3>Antigüedad</h3>
                             <div class="form-group-anadir">
                                 <div class="form-subgroup-anadir">
-                                    <!-- Fecha de ingreso, Antigüedad  -->
                                     <div class="form-row-titles-anadir">
                                         <span>Fecha de Ingreso</span>
                                         <span>Antigüedad</span>
@@ -355,7 +343,7 @@
                                     <div class="form-row-anadir-dos-D">
                                         <input type="date" id="fecha_ingreso" name="fecha_ingreso">
                                         <input type="text" id="Antiguedad" name="Antiguedad" placeholder="40" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 5);">
-                                        <input type="text" id="PAPELERA" name="PAPELERA" style="display: none" value="ACTIVO">
+                                        <input type="text" id="papelera" name="papelera" style="display: none" value="ACTIVO">
                                     </div>
                                 </div>
                             </div>
