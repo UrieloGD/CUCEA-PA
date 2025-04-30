@@ -276,7 +276,6 @@ function softDeleteRegistros($conexion, $ids)
                         <th>A PARTIR DE <span class="filter-icon" data-column="65"><i class="fas fa-filter"></i></span></th>
                         <th>FECHA DE INGRESO <span class="filter-icon" data-column="66"><i class="fas fa-filter"></i></span></th>
                         <th>ANTIGÜEDAD <span class="filter-icon" data-column="67"><i class="fas fa-filter"></i></span></th>
-                        <th class="estado-column">ESTADO <span class="filter-icon" data-column="68"><i class="fas fa-filter"></i></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -351,22 +350,6 @@ function softDeleteRegistros($conexion, $ids)
                             echo "<td>" . htmlspecialchars($row["A_partir_de"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Fecha_ingreso"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Antiguedad"] ?? '') . "</td>";
-
-                            $total_assigned_hours = getTotalAssignedHours($conexion, $row['Codigo']);
-                            $carga_horaria = intval($row['Carga_horaria']);
-                            $comparison = $total_assigned_hours . "/" . $carga_horaria;
-
-                            if ($total_assigned_hours > $carga_horaria) {
-                                $estado_class = "estado-excedido";
-                            } elseif ($total_assigned_hours < $carga_horaria) {
-                                $estado_class = "estado-pendiente";
-                            } else {
-                                $estado_class = "estado-completo";
-                            }
-
-                            echo "<td class='estado-cell'><span class='estado-indicator " . $estado_class . "'>" . htmlspecialchars($comparison) . "</span></td>";
-
-                            echo "</tr>";
                         }
                     } else {
                         echo "<tr><td colspan='70'>No hay datos disponibles</td></tr>";
