@@ -76,29 +76,54 @@ try {
     $values = [];
     $types = '';
 
+    // Array asociativo para facilitar el acceso a los datos POST
+    $post_data = array_change_key_case($_POST, CASE_LOWER);
+
     // Mapea cada columna a su valor correspondiente de POST o a un valor predeterminado
     foreach ($columns as $column) {
-        $post_key = strtolower(str_replace('_', '', $column)); // Convierte nombre de columna para buscar en $_POST
+        // Caso especial para el campo PAPELERA
+        if($column === 'PAPELERA'){
+            // Si se proporciona en POST, usa ese valor, de lo contrario usar "ACTIVO"
+            if(isset($post_data['papelera'])){
+                $values[] = $post_data['papelera'];
+            } else {
+                $values[] = 'ACTIVO'; // Valor predeterminado
+            }
+            $types .= 's';
+            continue;
+        }
+        
+        // Convierte nombre de columna para buscar en $_POST (cambio a minúsculas y sin guiones bajos)
+        $post_key = strtolower(str_replace('_', '', $column));
+        
+        // Caso especial para Cambio_dedicacion
+        if ($column === 'Cambio_dedicacion' && isset($post_data['cambio_dedicacion'])) {
+            $values[] = $post_data['cambio_dedicacion'];
+            $types .= 's';
+            error_log("Asignando valor a Cambio_dedicacion: " . $post_data['cambio_dedicacion']);
+            continue;
+        }
 
-        if (isset($_POST[$post_key])) {
+        if (isset($post_data[$post_key])) {
             if (in_array($column, $integer_fields)) {
-                $values[] = convertToIntOrZero($_POST[$post_key]);
+                $values[] = convertToIntOrZero($post_data[$post_key]);
                 $types .= 'i';
             } else {
-                $values[] = $_POST[$post_key];
+                $values[] = $post_data[$post_key];
                 $types .= 's';
             }
         } else {
             // Si no existe en $_POST, usar valor predeterminado según el tipo
             if (in_array($column, $integer_fields)) {
-                $values[] .= 0;
+                $values[] = 0;
                 $types .= 'i';
             } else {
-                $values[] .= '';
+                $values[] = '';
                 $types .= 's';
             }
         }
     }
+    
     // Construye la parte de placeholders de la consulta SQL
     $placeholders = implode(', ', array_fill(0, count($columns), '?'));
 
@@ -107,7 +132,7 @@ try {
 
     $stmt = $conexion->prepare($sql);
     if(!$stmt){
-        throw new Exception("Error peparando la consulta: " . $conexion->error);
+        throw new Exception("Error preparando la consulta: " . $conexion->error);
     }
 
     // Crea el array de referencias para bind_param
