@@ -601,7 +601,8 @@ div[class="bottom"] {
   background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
+.modal-content-rEliminados,
+.modal-content-aRegistro {
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
@@ -618,18 +619,25 @@ div[class="bottom"] {
   border: 1px solid #ccc;
 }
 
-.modal-content {
+.modal-content-rEliminados,
+.modal-content-aRegistro {
   background-color: #fefefe;
-  margin: 5% auto;
+  margin: 0;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
   padding: 20px;
   border: 1px solid #888;
+  border-radius: 7px;
   width: 90%;
-  max-width: 1000px;
-  max-height: 80vh;
+  max-width: 1200px;
+  max-height: 90vh;
   overflow-y: auto;
 }
 
-.modal-content h2 {
+.modal-content-rEliminados h2,
+.modal-content-aRegistro h2 {
   margin-bottom: 20px;
 }
 
@@ -1377,8 +1385,8 @@ table.dataTable thead .sorting_desc {
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
   .cuadro-principal {
-    width: 90%;
-    margin-left: 8vw;
+    /* width: 90%; */
+    margin-left: 7vw;
     margin-bottom: 2vh;
     font-size: smaller;
   }
@@ -1729,7 +1737,6 @@ table.dataTable thead .sorting_desc {
     zoom: 90%;
     height: 102vh;
   }
-  .modal-content,
   .custom-colvis-menu,
   div:where(.swal2-container).swal2-center>.swal2-popup,
   .modal-content-descarga {
@@ -1750,7 +1757,6 @@ table.dataTable thead .sorting_desc {
   nav[aria-label="pagination"] {
     width: 100%;
   }
-  .modal-content,
   .custom-colvis-menu,
   div:where(.swal2-container).swal2-center>.swal2-popup,
   .modal-content-descarga {
@@ -1768,7 +1774,6 @@ table.dataTable thead .sorting_desc {
     zoom: 65%;
     height: 141.5vh;
   }
-  .modal-content,
   div:where(.swal2-container).swal2-center>.swal2-popup,
   .modal-content-descarga {
     zoom: 65%;
@@ -1790,7 +1795,6 @@ table.dataTable thead .sorting_desc {
     zoom: 60%;
     height: 152.5vh;
   }
-  .modal-content,
   div:where(.swal2-container).swal2-center>.swal2-popup,
   .modal-content-descarga {
     zoom: 60%;
