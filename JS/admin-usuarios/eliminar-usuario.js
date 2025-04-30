@@ -66,8 +66,8 @@ document.querySelectorAll('.delete').forEach(btn => {
           // Manejo de errores en la solicitud o en la respuesta
           console.error("Error completo:", error);
           Swal.fire(
-            "Error!",
-            "Error al eliminar el usuario. Detalles: " + error.message,
+            "Error",
+            error.message,
             "error"
           );
         });
