@@ -54,7 +54,7 @@ $columnas_exportar = [
     'MODALIDAD'
 ];
 
-// Consulta SQL modificada para mantener siempre la información en DIA_PRESENCIAL y DIA_VIRTUAL
+// Consulta SQL corregida para cumplir con only_full_group_by
 $sql_select = "
 WITH modalidades_info AS (
     SELECT 
@@ -89,69 +89,69 @@ SELECT
     MAX(SECCION) as SECCION,
     MAX(FECHA_INICIAL) as FECHA_INICIAL,
     MAX(FECHA_FINAL) as FECHA_FINAL,
-    -- Para L (LUNES)
-    CASE 
+    -- Para L (LUNES) - utilizando MAX() para todas las expresiones
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN L
-        WHEN modalidades_distintas = 1 THEN MAX(L)
+        WHEN modalidades_distintas = 1 THEN L
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('LUNES', rb.DIA_PRESENCIAL) > 0 THEN L
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('LUNES', rb.DIA_VIRTUAL) > 0 THEN L
         ELSE NULL
-    END as L,
+    END) as L,
     -- Para M (MARTES)
-    CASE 
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN M
-        WHEN modalidades_distintas = 1 THEN MAX(M)
+        WHEN modalidades_distintas = 1 THEN M
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('MARTES', rb.DIA_PRESENCIAL) > 0 THEN M
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('MARTES', rb.DIA_VIRTUAL) > 0 THEN M
         ELSE NULL
-    END as M,
+    END) as M,
     -- Para I (MIERCOLES)
-    CASE 
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN I
-        WHEN modalidades_distintas = 1 THEN MAX(I)
+        WHEN modalidades_distintas = 1 THEN I
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('MIERCOLES', rb.DIA_PRESENCIAL) > 0 THEN I
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('MIERCOLES', rb.DIA_VIRTUAL) > 0 THEN I
         ELSE NULL
-    END as I,
+    END) as I,
     -- Para J (JUEVES)
-    CASE 
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN J
-        WHEN modalidades_distintas = 1 THEN MAX(J)
+        WHEN modalidades_distintas = 1 THEN J
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('JUEVES', rb.DIA_PRESENCIAL) > 0 THEN J
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('JUEVES', rb.DIA_VIRTUAL) > 0 THEN J
         ELSE NULL
-    END as J,
+    END) as J,
     -- Para V (VIERNES)
-    CASE 
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN V
-        WHEN modalidades_distintas = 1 THEN MAX(V)
+        WHEN modalidades_distintas = 1 THEN V
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('VIERNES', rb.DIA_PRESENCIAL) > 0 THEN V
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('VIERNES', rb.DIA_VIRTUAL) > 0 THEN V
         ELSE NULL
-    END as V,
+    END) as V,
     -- Para S (SABADO)
-    CASE 
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN S
-        WHEN modalidades_distintas = 1 THEN MAX(S)
+        WHEN modalidades_distintas = 1 THEN S
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('SABADO', rb.DIA_PRESENCIAL) > 0 THEN S
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('SABADO', rb.DIA_VIRTUAL) > 0 THEN S
         ELSE NULL
-    END as S,
+    END) as S,
     -- Para D (DOMINGO)
-    CASE 
+    MAX(CASE 
         WHEN tiene_modalidad_mixta = 1 THEN D
-        WHEN modalidades_distintas = 1 THEN MAX(D)
+        WHEN modalidades_distintas = 1 THEN D
         WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('DOMINGO', rb.DIA_PRESENCIAL) > 0 THEN D
         WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('DOMINGO', rb.DIA_VIRTUAL) > 0 THEN D
         ELSE NULL
-    END as D,
+    END) as D,
     rb.HORA_INICIAL,
     rb.HORA_FINAL,
     rb.MODULO,
-    CASE
+    MAX(CASE
         WHEN tiene_modalidad_mixta = 1 THEN AULA
-        ELSE MAX(AULA)
-    END as AULA,
+        ELSE AULA
+    END) as AULA,
     -- Mantener siempre DIA_PRESENCIAL tal como está
     GROUP_CONCAT(DISTINCT CASE WHEN DIA_PRESENCIAL IS NOT NULL AND DIA_PRESENCIAL != '' THEN DIA_PRESENCIAL END SEPARATOR ',') as DIA_PRESENCIAL,
     -- Mantener siempre DIA_VIRTUAL tal como está
@@ -164,9 +164,8 @@ GROUP BY
     rb.HORA_FINAL,
     rb.MODULO,
     rb.MODALIDAD,
-    modalidades_distintas,
-    tiene_modalidad_mixta,
-    CASE WHEN tiene_modalidad_mixta = 1 THEN rb.ID_Plantilla ELSE 0 END
+    rb.modalidades_distintas,
+    rb.tiene_modalidad_mixta
 ORDER BY 
     rb.CRN,
     rb.HORA_INICIAL,
