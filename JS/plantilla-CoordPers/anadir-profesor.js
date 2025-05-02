@@ -54,6 +54,20 @@ function añadirRegistro() {
     }
   }
 
+  // Concatenar fechas de cambio de dedicación
+  const fechaInicio = formData.get('cambio_dediacion_inicio') || '';
+  const fechaFinal = formData.get('cambio_dediacion_final') || '';
+  
+  // Si al menos una de las fechas tiene valor, creamos el campo combinado
+  if (fechaInicio || fechaFinal) {
+    const cambioCompleto = `${fechaInicio}${fechaInicio && fechaFinal ? ' - ' : ''}${fechaFinal}`;
+    formData.set('cambio_dedicacion', cambioCompleto);
+  }
+  
+  // Eliminar los campos individuales para que no se procesen por separado
+  formData.delete('cambio_dediacion_inicio');
+  formData.delete('cambio_dediacion_final');
+
   // Asegurar formato correcto de todos los campos
   const camposNumericos = ['codigo', 'cp', 'edad', 'año', 'otro_año', 'otro_año_alternativo', 'horas_frente_grupo', 'horas_definitivas'];
   const camposEmail = ['correo', 'correos_oficiales'];
