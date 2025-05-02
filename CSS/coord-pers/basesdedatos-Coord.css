@@ -277,6 +277,12 @@ div.dataTables_wrapper {
   outline: 2px solid rgb(0, 114, 176); /* #0071b0 con 50% de opacidad */
 }
 
+#icono-visibilidad, #btn-colvis {
+  z-index: -5;
+  position: absolute;
+  display: none;
+}
+
 /* Estilos para nuevos formularios */
 #formulario-añadir {
   width: 100%;
@@ -661,7 +667,7 @@ div[class="bottom"] {
   border-radius: 7px;
   width: 90%;
   max-width: 1200px;
-  height: 80%;
+  height: 85%;
   overflow-y: hidden;
 }
 
@@ -1856,6 +1862,9 @@ table.dataTable thead .sorting_desc {
   }
   .custom-tooltip {
     font-size: 0.6rem;
+  }
+  .modal-content-aRegistro {
+    height: 80%;
   }
 }
 @media screen and (max-height: 600px) { 

@@ -231,6 +231,10 @@ th {
   font-size: 18px;
 }
 
+#icono-visibilidad, #btn-colvis {
+  z-index: -5;
+}
+
 /* Ajustar el espacio entre los iconos */
 .iconos-container > div {
   margin-right: 5px;
