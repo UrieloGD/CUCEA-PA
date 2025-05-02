@@ -95,41 +95,41 @@ if ($departamento_id === null) {
                         <img src="./Img/Icons/iconos-plantilla/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
                     </a>
                 </div>
-                    <div class="div-boton-descargar">
-                        <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
-                    </div>
-                    <div class="info-descarga">
+                <div class="div-boton-descargar">
+                    <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
+                </div>
+                <div class="info-descarga">
                         <p>Si necesitas ayuda, puedes preguntarnos por la mesa de ayuda (boton inferior derecha).</p>
                             <!-- consultar la Guía de Programación Académica haciendo clic  -->
                             <!-- <a href="./guiaPA.php">aquí.</a></p> -->
                     </div>
-                </div>
             </div>
+        </div>
 
-            <?php
-            $justificacion_enviada = false;
-            if ($departamento_id) {
-                $sql_justificacion = "SELECT Justificacion_Enviada FROM justificaciones
+        <?php
+        $justificacion_enviada = false;
+        if ($departamento_id) {
+            $sql_justificacion = "SELECT Justificacion_Enviada FROM justificaciones
         WHERE Departamento_ID = ? AND Codigo_Usuario = ?
         ORDER BY Fecha_Justificacion DESC LIMIT 1";
 
-                $stmt = $conexion->prepare($sql_justificacion);
-                $stmt->bind_param("is", $departamento_id, $codigo_usuario);
-                $stmt->execute();
-                $result_justificacion = $stmt->get_result();
+            $stmt = $conexion->prepare($sql_justificacion);
+            $stmt->bind_param("is", $departamento_id, $codigo_usuario);
+            $stmt->execute();
+            $result_justificacion = $stmt->get_result();
 
-                if ($result_justificacion->num_rows > 0) {
-                    $row_justificacion = $result_justificacion->fetch_assoc();
-                    $justificacion_enviada = $row_justificacion['Justificacion_Enviada'] == 1;
-                }
-                $stmt->close();
+            if ($result_justificacion->num_rows > 0) {
+                $row_justificacion = $result_justificacion->fetch_assoc();
+                $justificacion_enviada = $row_justificacion['Justificacion_Enviada'] == 1;
             }
-            ?>
+            $stmt->close();
+        }
+        ?>
 
-            <div class="tab-pane">
-                <?php
-                $fecha_actual = date("Y-m-d H:i:s");
-                $fecha_limite_pasada = strtotime($fecha_actual) > strtotime($fecha_limite);
+        <div class="tab-pane">
+            <?php
+            $fecha_actual = date("Y-m-d H:i:s");
+            $fecha_limite_pasada = strtotime($fecha_actual) > strtotime($fecha_limite);
 
             if ($fecha_limite_pasada && !$justificacion_enviada) {
             ?>
@@ -165,33 +165,33 @@ if ($departamento_id === null) {
                 <!-- <div class="info-subida">
                     <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
                 </div> -->
-                    <?php if ($fecha_limite_pasada && $justificacion_enviada) { ?>
-                        <div class="container-precaucion">
-                            <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>
+                <?php if ($fecha_limite_pasada && $justificacion_enviada) { ?>
+                    <div class="container-precaucion">
+                        <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>
+                    </div>
+                <?php } ?>
+                <form id="formulario-subida" enctype="multipart/form-data" class="upload-form">
+                    <div class="container-inf">
+                        <div class="drop-area">
+                            <p>Arrastra tu archivo a subir aquí</p>
+                            <p>o</p>
+                            <button type="button" class="boton-seleccionar-archivo" role="button">
+                                Selecciona archivo
+                            </button>
+                            <input type="file" name="file" id="input-file" accept=".xlsx,.xls" hidden>
                         </div>
-                    <?php } ?>
-                    <form id="formulario-subida" enctype="multipart/form-data" class="upload-form">
-                        <div class="container-inf">
-                            <div class="drop-area">
-                                <p>Arrastra tu archivo a subir aquí</p>
-                                <p>o</p>
-                                <button type="button" class="boton-seleccionar-archivo" role="button">
-                                    Selecciona archivo
-                                </button>
-                                <input type="file" name="file" id="input-file" accept=".xlsx,.xls" hidden>
-                            </div>
-                            <div id="preview"></div>
-                            <div class="container-peso">
-                                <h3>Tamaño máximo de archivo permitido: 2MB</h3>
-                            </div>
-                            <button type="submit" class="boton-descargar" role="button">Guardar</button>
+                        <div id="preview"></div>
+                        <div class="container-peso">
+                            <h3>Tamaño máximo de archivo permitido: 2MB</h3>
                         </div>
-                    </form>
-                <?php
-                }
-                ?>
-            </div>
+                        <button type="submit" class="boton-descargar" role="button">Guardar</button>
+                    </div>
+                </form>
+            <?php
+            }
+            ?>
         </div>
+    </div>
     </div>
 </div>
 

@@ -31,6 +31,16 @@ $mapeo_dias = [
     'S' => 'SABADO',
     'D' => 'DOMINGO'
 ];
+$dias_semana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+$mapeo_dias = [
+    'L' => 'LUNES',
+    'M' => 'MARTES',
+    'I' => 'MIERCOLES',
+    'J' => 'JUEVES',
+    'V' => 'VIERNES',
+    'S' => 'SABADO',
+    'D' => 'DOMINGO'
+];
 
 // Columnas a exportar en el orden especificado
 $columnas_exportar = [
@@ -57,11 +67,14 @@ $columnas_exportar = [
 // Consulta SQL corregida para cumplir con only_full_group_by
 $sql_select = "
 WITH modalidades_info AS (
+WITH modalidades_info AS (
     SELECT 
         CRN,
         HORA_INICIAL,
         HORA_FINAL,
         MODULO,
+        COUNT(DISTINCT MODALIDAD) as modalidades_distintas,
+        MAX(CASE WHEN UPPER(MODALIDAD) IN ('MIXTA', 'HIBRIDA') THEN 1 ELSE 0 END) as tiene_modalidad_mixta
         COUNT(DISTINCT MODALIDAD) as modalidades_distintas,
         MAX(CASE WHEN UPPER(MODALIDAD) IN ('MIXTA', 'HIBRIDA') THEN 1 ELSE 0 END) as tiene_modalidad_mixta
     FROM `$tabla_departamento`
@@ -73,7 +86,14 @@ registros_base AS (
         t.*,
         mi.modalidades_distintas,
         mi.tiene_modalidad_mixta
+        mi.modalidades_distintas,
+        mi.tiene_modalidad_mixta
     FROM `$tabla_departamento` t
+    JOIN modalidades_info mi ON 
+        t.CRN = mi.CRN AND 
+        t.HORA_INICIAL = mi.HORA_INICIAL AND 
+        t.HORA_FINAL = mi.HORA_FINAL AND 
+        t.MODULO = mi.MODULO
     JOIN modalidades_info mi ON 
         t.CRN = mi.CRN AND 
         t.HORA_INICIAL = mi.HORA_INICIAL AND 
