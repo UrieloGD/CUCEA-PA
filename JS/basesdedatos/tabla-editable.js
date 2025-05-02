@@ -57,7 +57,7 @@ const columnMap = {
 
 const maxLengths = {
   CICLO: 10,
-  CRN: 15,
+  CRN: 10,
   MATERIA: 80,
   CVE_MATERIA: 5,
   SECCION: 5,
@@ -997,6 +997,9 @@ function updateCell(cell) {
         .slice(0, 6);
       break;
     case "CRN":
+      // Permitir hasta 10 dígitos para CRN
+      newText = newText.replace(/\D/g, "").slice(0, 10);
+      break;
     case "C_MIN":
     case "H_TOTALES":
       newText = newText.replace(/\D/g, "").slice(0, 2);
