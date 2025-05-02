@@ -628,6 +628,11 @@ th {
   font-size: 14px;
 }
 
+/* Altura maxima de la tabla de base de datos */
+.dt-scroll-body {
+  max-height: 650px!important;
+}
+
 /* Estilos específicos para el select */
 .dt-length select.dt-input {
   width: auto;
@@ -904,7 +909,7 @@ th[data-tooltip] {
     background-color: white;
     border-radius: 20px;
     /* width: 92%; */
-    height: 90vh;
+    /* height: 90vh; */
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -1038,6 +1043,10 @@ th[data-tooltip] {
   div.dt-container .dt-search input {
     width: 40vw;
   }
+  /* Altura maxima de la tabla de base de datos */
+  .dt-scroll-body {
+    max-height: 550px!important;
+  }
 }
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
@@ -1109,6 +1118,10 @@ th[data-tooltip] {
   div.dt-container .dt-search input {
     width: 40vw;
   }
+  /* Altura maxima de la tabla de base de datos */
+  .dt-scroll-body {
+    max-height: 550px!important;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1151,6 +1164,10 @@ th[data-tooltip] {
     top: 0; /* Posición fija en la parte superior */
     background-color: white; /* Fondo blanco para que el encabezado sea legible */
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  }
+  /* Altura maxima de la tabla de base de datos */
+  .dt-scroll-body {
+    max-height: 500px!important;
   }
   .encabezado-centro {
     position: relative;

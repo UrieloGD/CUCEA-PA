@@ -256,3 +256,26 @@ body {
     z-index: 99;
   }
 }
+
+/* tawk.to: zoom */
+/* Chromium */
+@media screen and (max-height: 900px) { 
+  iframe {
+    zoom: 95%!important;
+  }
+}
+@media screen and (max-height: 768px) { 
+  iframe {
+    zoom: 80%!important;
+  }
+}
+@media screen and (max-height: 700px) { 
+  iframe {
+    zoom: 65%!important;
+  }
+}
+@media screen and (max-height: 600px) { 
+  iframe {
+    zoom: 60%!important;
+  }
+}
