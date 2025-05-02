@@ -183,7 +183,7 @@ require_once './functions/home/eventos-home.php';
         ?>
         <div class="overlay">
           <?php if ($rol_id == 3) {
-            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Horas comparación</h4>";
+            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Revisión de horas</h4>";
           } else {
             echo "<h4 style='text-shadow: 1px 4px 3px black;'>Profesores</h4>";
           }
@@ -251,12 +251,24 @@ require_once './functions/home/eventos-home.php';
             <span>Espacios</span>
           </div>
         </a>
-        <a href="./profesores.php">
+        <?php if ($rol_id == 3 || $rol_id == 0) { 
+          echo 
+          '<a href="./horas-comparacion.php">
           <div class="cuadro-acceso" id="cuadro-guia">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png">
-            <span>Profesores</span>
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-horas-b.png">
+            <span>Revisión de horas</span>
           </div>
-        </a>
+          </a>';
+          } else {
+            echo 
+            '<a href="./profesores.php">
+            <div class="cuadro-acceso" id="cuadro-guia">
+              <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png">
+              <span>Profesores</span>
+            </div>
+            </a>';
+          }
+        ?>
         </div>
     </div>
     

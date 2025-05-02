@@ -118,7 +118,7 @@
   }
 
   #tabla-eliminados_wrapper div.dt-scroll-body {
-    max-height: 48vh!important;
+    height: 350px;
   }
 
   /* Estilo para mantener los encabezados de la tabla de eliminados fijos */
@@ -165,10 +165,22 @@
     #tabla-eliminados_wrapper .top {
       flex-direction: column;
       align-items: flex-start;
+      top: 20px;
+      position: relative;
     }
     div#modalRegistrosEliminados .dt-length {
       margin: -5 0 15 0;
     }
-
   }
   
+/* ZOOM */
+@media screen and (max-height: 700px) { 
+  #tabla-eliminados_wrapper div.dt-scroll-body {
+    height: 250px;
+  }
+}
+@media screen and (max-height: 600px) { 
+  #tabla-eliminados_wrapper div.dt-scroll-body {
+    height: 250px;
+  }
+}
