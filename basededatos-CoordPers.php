@@ -13,12 +13,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID
 <?php
 require_once './config/db.php';
 
-
 // Obtener el total de horas asignadas
-$tabla_departamento = "coord_per_prof";
-
-function getTotalAssignedHours($conexion, $codigo_profesor)
-{
+function getTotalAssignedHours($conexion, $codigo_profesor) {
     $tablas_departamentos = [
         'data_administración',
         'data_auditoría',
@@ -57,59 +53,27 @@ function getTotalAssignedHours($conexion, $codigo_profesor)
 }
 
 // Consulta SQL para obtener solo registros activos
+$tabla_departamento = "coord_per_prof";
 $sql = "SELECT * FROM $tabla_departamento WHERE Papelera = 'activo'";
 $result = mysqli_query($conexion, $sql);
 
-// Función para convertir fechas de Excel a MySQL
-function convertExcelDate($value)
-{
-    if (!is_numeric($value)) {
-        return $value;
-    }
-    $unix_date = ($value - 25569) * 86400;
-    return date("Y-m-d", $unix_date);
+// Preparar datos para AG Grid
+$rowData = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    // Aquí podrías añadir información de choques o cálculos adicionales
+    // Por ejemplo:
+    // $row['choques'] = calcularChoques($conexion, $row['Codigo']);
+    
+    // Incluir las horas asignadas para cada profesor si es necesario
+    // $row['total_horas_asignadas'] = getTotalAssignedHours($conexion, $row['Codigo']);
+    
+    $rowData[] = $row;
 }
-
-// Función para convertir fechas de MySQL a formato de visualización
-function formatDateForDisplay($mysqlDate)
-{
-    if (!$mysqlDate || $mysqlDate == '0000-00-00') {
-        return '';
-    }
-    $date = DateTime::createFromFormat('Y-m-d', $mysqlDate);
-    return $date ? $date->format('d/m/Y') : '';
-}
-
-// Función para implementar el soft delete
-function softDeleteRegistros($conexion, $ids)
-{
-    $ids = array_map('intval', $ids);
-    $ids_str = implode(',', $ids);
-
-    $sql = "UPDATE coord_per_prof 
-            SET Papelera = 'inactivo', 
-                Fecha_Modificacion = CURRENT_TIMESTAMP 
-            WHERE ID IN ($ids_str)";
-
-    return mysqli_query($conexion, $sql);
-}
-
-// Función para restaurar registros
-// function restaurarRegistros($conexion, $ids) {
-//     $ids = array_map('intval', $ids);
-//     $ids_str = implode(',', $ids);
-
-//     $sql = "UPDATE coord_per_prof 
-//             SET Papelera = 'activo', 
-//                 Fecha_Modificacion = CURRENT_TIMESTAMP 
-//             WHERE ID IN ($ids_str)";
-
-//     return mysqli_query($conexion, $sql);
-// }
-
 ?>
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.1.0/styles/ag-grid.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.1.0/styles/ag-theme-alpine.css">
 
 <title>Coordinación de Personal - Plantilla Académica</title>
 
@@ -118,10 +82,9 @@ function softDeleteRegistros($conexion, $ids)
 <script>
     // Mostrar el loader inmediatamente
     window.addEventListener('load', function() {
-        Swal.close(); // Cerrar el loader cuando todo esté cargado
+        Swal.close();
     });
 
-    // Mostrar Sweet Alert inmediatamente
     Swal.fire({
         title: 'Cargando datos...',
         html: 'Por favor espere mientras se procesan los datos',
@@ -138,271 +101,892 @@ function softDeleteRegistros($conexion, $ids)
 <link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css?v=<?php echo filemtime('./CSS/coord-pers/basesdedatos-Coord.css'); ?>">
 <link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css?v=<?php echo filemtime('./CSS/coord-pers/coord-papelera.css'); ?>">
 <link rel="stylesheet" href="./CSS/coord-pers/modal-anadir-registro.css?v=<?php echo filemtime('./CSS/coord-pers/modal-anadir-registro.css'); ?>">
+<link rel="stylesheet" href="./CSS/coord-pers/test.css?v=<?php echo filemtime('./CSS/coord-pers/test.css'); ?>">
 
-<!-- DataTables CSS Core -->
-<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
-
-<!-- DataTables CSS Plugins -->
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.2.2/css/fixedColumns.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
+<!-- Agregamos un estilo específico para AG Grid -->
+<style>
+    .ag-theme-alpine {
+        --ag-header-height: 40px;
+        --ag-header-background-color: #f8f9fa;
+        --ag-row-hover-color: #e9ecef;
+        --ag-selected-row-background-color: rgba(33, 150, 243, 0.1);
+    }
+    
+    /* Estilo para celdas con choque */
+    .celda-choque {
+        background-color: rgba(255, 0, 0, 0.2) !important;
+    }
+    
+    /* Tooltip personalizado */
+    .ag-tooltip {
+        position: absolute;
+        background: #333;
+        color: #fff;
+        border-radius: 3px;
+        padding: 5px;
+        z-index: 1000;
+        max-width: 200px;
+    }
+    
+    /* Asegurar que el contenedor de la tabla permite scroll horizontal */
+    #myGrid {
+        overflow-x: auto !important;
+        width: 100% !important;
+    }
+    
+    /* Forzar ancho mínimo para el contenedor de la tabla */
+    .ag-root-wrapper {
+        min-width: 100% !important;
+    }
+    
+    /* Asegurar que las columnas pinned se mantienen visibles */
+    .ag-pinned-left-cols-container {
+        z-index: 10;
+    }
+</style>
 
 <div class="cuadro-principal">
     <div class="cuadro-scroll">
-    <div class="encabezado">
-        <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <!-- <div class="barra-buscador" id="barra-buscador">
-                <div class="icono-buscador" id="icono-buscador">
-                    <i class="fa fa-search" aria-hidden="true"></i>
+        <div class="encabezado">
+            <div class="encabezado-izquierda" style="display: flex; align-items: center;">
+                <!-- Búsqueda rápida personalizada -->
+                <div class="campo-busqueda">
+                    <input type="text" id="quickFilter" placeholder="Buscar..." onInput="onQuickFilterChanged()">
+                    <i aria-hidden="true"></i>
                 </div>
-                <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div> -->
-        </div>
-        <div class="encabezado-centro">
-            <h3>Plantilla Académica - Coordinación de Personal</h3>
-        </div>
-        <div class="encabezado-derecha">
-            <div class="iconos-container">
-                <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
-                    <i class="fa fa-save" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
-                    <i class="fa fa-undo" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-papelera" onclick="mostrarModalRegistrosEliminados()" data-tooltip="Ver registros eliminados">
-                    <i class="fa fa-trash-restore" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
-                    <i class="fa fa-add" aria-hidden="true"></i>
-                </div>
-                <!-- <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </div> -->
-                <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
-                    <i class="fa fa-trash" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()" data-tooltip="Descargar Excel">
-                    <i class="fa fa-download" aria-hidden="true"></i>
+            </div>
+            <div class="encabezado-centro">
+                <h3>Plantilla Académica - Coordinación de Personal</h3>
+            </div>
+            <div class="encabezado-derecha">
+                <div class="iconos-container">
+                    <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
+                        <i class="fa fa-save" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
+                        <i class="fa fa-undo" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-papelera" onclick="mostrarModalRegistrosEliminados()" data-tooltip="Ver registros eliminados">
+                        <i class="fa fa-trash-restore" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-visibilidad" onclick="toggleColumnVisibility()" data-tooltip="Mostrar/ocultar columnas">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-filtro" onclick="toggleFilter()" data-tooltip="Mostrar/ocultar filtros">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
+                        <i class="fa fa-add" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </div>
+                    <div class="icono-buscador" id="icono-descargar" onclick="exportToExcel()" data-tooltip="Descargar Excel">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div id="myGrid" class="ag-theme-alpine" style="height: 620px; width: 100%;"></div>
     </div>
+</div>
 
-    <?php
-    // Verificar rol antes de mostrar la tabla editable
-    if ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {
-        // Deshabilitar edición o mostrar mensaje
-        $tabla_editable = false;
-    }
-    ?>
+<!-- Modales incluidos -->
+<?php include './functions/coord-personal-plantilla/modal-descargar-excel/modal-descargar-excel.php'; ?>
+<?php include './functions/coord-personal-plantilla/modal-anadir-registro/modal-anadir-registro.php'; ?>
+<?php include './functions/coord-personal-plantilla/registros-eliminados/modal-registros-eliminados-cp.php'; ?>
 
-    <div class="Tabla datatable-container">
-        <div class="table-container">
-            <div class="custom-search-container"></div>
-            <table id="tabla-datos" class="display">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>ID <span class="filter-icon" data-column="1"><i class="fas fa-filter"></i></span></th>
-                        <th>DATOS <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
-                        <th>CODIGO <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
-                        <th>PATERNO <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
-                        <th>MATERNO <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
-                        <th>NOMBRES <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
-                        <th>NOMBRE COMPLETO <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>   
-                        <th>DEPARTAMENTO <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
-                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="10"><i class="fas fa-filter"></i></span></th>
-                        <th>CATEGORIA ACTUAL <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
-                        <th>HORAS FRENTE A GRUPO <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
-                        <th>DIVISION <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
-                        <th>TIPO DE PLAZA <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
-                        <th>CAT.ACT. <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
-                        <th>CARGA HORARIA <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
-                        <th>HORAS DEFINITIVAS <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
-                        <th>UDG VIRTUAL CIT OTRO CENTRO<span class="filter-icon" data-column="18"><i class= "fas fa-filter"></i></span></th>
-                        <th>HORARIO <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
-                        <th>TURNO <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
-                        <th>INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
-                        <th>S.N.I. <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
-                        <th>SNI DESDE <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
-                        <th>CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
-                        <th>TELEFONO PARTICULAR <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
-                        <th>TELEFONO OFICINA O CELULAR <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
-                        <th>DOMICILIO <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
-                        <th>COLONIA <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
-                        <th>C.P. <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
-                        <th>CIUDAD <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
-                        <th>NO. AFIL. I.M.S.S. <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
-                        <th>C.U.R.P. <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
-                        <th>RFC <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
-                        <th>LUGAR DE NACIMIENTO <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO CIVIL <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
-                        <th>TIPO DE SANGRE <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
-                        <th>FECHA NAC. <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
-                        <th>EDAD <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
-                        <th>NACIONALIDAD <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
-                        <th>CORREO ELECTRONICO <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
-                        <th>CORREOS OFICIALES <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
-                        <th>ULTIMO GRADO <span class="filter-icon" data-column="43"><i class="fas fa-filter"></i></span></th>
-                        <th>PROGRAMA <span class="filter-icon" data-column="44"><i class="fas fa-filter"></i></span></th>
-                        <th>NIVEL <span class="filter-icon" data-column="45"><i class="fas fa-filter"></i></span></th>
-                        <th>INSTITUCION <span class="filter-icon" data-column="46"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO/PAIS <span class="filter-icon" data-column="47"><i class="fas fa-filter"></i></span></th>
-                        <th>AÑO <span class="filter-icon" data-column="48"><i class="fas fa-filter"></i></span></th>
-                        <th>GDO EXP <span class="filter-icon" data-column="49"><i class="fas fa-filter"></i></span></th>
-                        <th>OTRO GRADO <span class="filter-icon" data-column="50"><i class="fas fa-filter"></i></span></th>
-                        <th>PROGRAMA <span class="filter-icon" data-column="51"><i class="fas fa-filter"></i></span></th>
-                        <th>NIVEL <span class="filter-icon" data-column="52"><i class="fas fa-filter"></i></span></th>
-                        <th>INSTITUCION <span class="filter-icon" data-column="53"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO/PAIS <span class="filter-icon" data-column="54"><i class="fas fa-filter"></i></span></th>
-                        <th>AÑO <span class="filter-icon" data-column="55"><i class="fas fa-filter"></i></span></th>
-                        <th>GDO EXP <span class="filter-icon" data-column="56"><i class="fas fa-filter"></i></span></th>
-                        <th>OTRO GRADO <span class="filter-icon" data-column="57"><i class="fas fa-filter"></i></span></th>
-                        <th>PROGRAMA <span class="filter-icon" data-column="58"><i class="fas fa-filter"></i></span></th>
-                        <th>NIVEL <span class="filter-icon" data-column="59"><i class="fas fa-filter"></i></span></th>
-                        <th>INSTITUCION <span class="filter-icon" data-column="60"><i class="fas fa-filter"></i></span></th>
-                        <th>ESTADO/PAIS <span class="filter-icon" data-column="61"><i class="fas fa-filter"></i></span></th>
-                        <th>AÑO <span class="filter-icon" data-column="62"><i class="fas fa-filter"></i></span></th>
-                        <th>GDO EXP <span class="filter-icon" data-column="63"><i class="fas fa-filter"></i></span></th>
-                        <th>PROESDE 24-25 <span class="filter-icon" data-column="64"><i class="fas fa-filter"></i></span></th>
-                        <th>A PARTIR DE <span class="filter-icon" data-column="65"><i class="fas fa-filter"></i></span></th>
-                        <th>FECHA DE INGRESO <span class="filter-icon" data-column="66"><i class="fas fa-filter"></i></span></th>
-                        <th>ANTIGÜEDAD <span class="filter-icon" data-column="67"><i class="fas fa-filter"></i></span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr data-id='" . htmlspecialchars($row["ID"] ?? '') . "'>";
-                            echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . htmlspecialchars($row["ID"] ?? '') . "'></td>";
-                            echo "<td>" . htmlspecialchars($row["ID"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Datos"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Codigo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Paterno"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Materno"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Nombres"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Nombre_completo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Departamento"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Categoria_actual"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Categoria_actual_dos"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Horas_frente_grupo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Division"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Tipo_plaza"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Cat_act"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Carga_horaria"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Horas_definitivas"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Udg_virtual_CIT"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Horario"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Turno"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Investigacion_nombramiento_cambio_funcion"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["SNI"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["SNI_desde"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Cambio_dedicacion"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Telefono_particular"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Telefono_oficina"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Domicilio"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Colonia"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["CP"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Ciudad"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Estado"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["No_imss"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["CURP"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["RFC"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Lugar_nacimiento"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Estado_civil"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Tipo_sangre"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Fecha_nacimiento"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Edad"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Nacionalidad"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Correo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Correos_oficiales"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Ultimo_grado"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Programa"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Nivel"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Institucion"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Estado_pais"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Año"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Gdo_exp"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_grado"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_programa"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_nivel"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_institucion"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_estado_pais"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_año"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_gdo_exp"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_grado_alternativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_programa_alternativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_nivel_altenrativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_institucion_alternativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_estado_pais_alternativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_año_alternativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Otro_gdo_exp_alternativo"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Proesde_24_25"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["A_partir_de"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Fecha_ingreso"] ?? '') . "</td>";
-                            echo "<td>" . htmlspecialchars($row["Antiguedad"] ?? '') . "</td>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='70'>No hay datos disponibles</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+<!-- Modal para selección de columnas visibles -->
+<div class="modal fade" id="columnVisibilityModal" tabindex="-1" aria-labelledby="columnVisibilityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="columnVisibilityModalLabel">Visibilidad de columnas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="columnVisibilityList">
+                <!-- Se llenará dinámicamente desde JS -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="applyColumnVisibility()">Aplicar</button>
+            </div>
         </div>
     </div>
+</div>
 
-    <?php include './functions/coord-personal-plantilla/modal-descargar-excel/modal-descargar-excel.php'; ?>
-    <?php include './functions/coord-personal-plantilla/modal-anadir-registro/modal-anadir-registro.php'; ?>
-    <?php include './functions/coord-personal-plantilla/registros-eliminados/modal-registros-eliminados-cp.php'; ?>
+<!-- Linea que valida el rol id del usuario para mandarlo a JS -->
+<input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
 
+<!-- jQuery y Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Linea que valida el rol id del usuario para mandarlo a JS -->
-    <input type="hidden" id="user-role" value="<?php echo $_SESSION['Rol_ID']; ?>">
+<!-- AG Grid -->
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.1.0/dist/ag-grid-community.min.js"></script>
 
-    <!-- jQuery y Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Scripts personalizados-->
+<script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/eliminar-registro-coord.js'); ?>"></script>
+<script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js'); ?>"></script>
+<script src="./JS/plantilla-CoordPers/anadir-profesor.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/anadir-profesor.js'); ?>"></script>
+<script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/descargar-data-excel-coord.js'); ?>"></script>
 
-    <!-- DataTables Core -->
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script>
+// Variable global para la grid
+let gridApi;
+let columnApi;
+let changedData = {}; // Para almacenar cambios pendientes
 
-    <!-- DataTables Plugins-->
-    <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
-    <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
-    <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+// Configuración principal de AG Grid
+document.addEventListener('DOMContentLoaded', function() {
+    const userRole = document.getElementById('user-role').value;
+    const isEditable = userRole == 3 || userRole == 0;
+    
+    // Definir columnas
+    const columnDefs = [
+        {
+            headerName: 'ID',
+            field: 'ID',
+            checkboxSelection: true,
+            headerCheckboxSelection: true,
+            width: 50,
+            sortable: false,
+            filter: false,
+            resizable: false,
+            pinned: 'left'
+        },
+        { 
+            headerName: 'DATOS', 
+            field: 'Datos', 
+            width: 100,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        { 
+            headerName: 'CODIGO', 
+            field: 'Codigo', 
+            width: 100,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        { 
+            headerName: 'PATERNO', 
+            field: 'Paterno', 
+            width: 120,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        { 
+            headerName: 'MATERNO', 
+            field: 'Materno', 
+            width: 120,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        { 
+            headerName: 'NOMBRES', 
+            field: 'Nombres', 
+            width: 150,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        { 
+            headerName: 'NOMBRE COMPLETO', 
+            field: 'Nombre_completo', 
+            width: 200,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        { 
+            headerName: 'DEPARTAMENTO', 
+            field: 'Departamento', 
+            width: 150,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            }
+        },
+        // Columna editable con reglas de estilo condicional
+        {
+            headerName: 'CATEGORIA ACTUAL', 
+            field: 'Categoria_actual',
+            editable: isEditable,
+            width: 150,
+            filter: 'agNumberColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            },
+            cellClassRules: {
+                'celda-choque': params => {
+                    // Lógica para resaltar celdas con choques
+                    return params.data.choques && params.data.choques.length > 0;
+                }
+            },
+            // Validador de celdas (solo números)
+            valueParser: params => {
+                const newValue = Number(params.newValue);
+                return isNaN(newValue) ? params.oldValue : newValue;
+            }
+        },
+        {
+            headerName: 'CATEGORIA ACTUAL 2',
+            field: 'Categoria_actual_dos',
+            editable: isEditable,
+            width: 150,
+            filter: 'agTextColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            },
+        },
+        {
+            headerName: 'HORAS FRENTE GRUPO',
+            field: 'Horas_frente_grupo',
+            editable: isEditable,
+            width: 150,
+            filter: 'agNumberColumnFilter',
+            filterParams: {
+                buttons: ['reset', 'apply'],
+                closeOnApply: true
+            },
+        },
+        {
+        headerName: 'DIVISIÓN',
+        field: 'Division',
+        width: 180,
+        filter: 'agTextColumnFilter',
+        filterParams: {
+            buttons: ['reset', 'apply'],
+            closeOnApply: true
+        }
+    },
+    {
+        headerName: 'TIPO DE PLAZA',
+        field: 'Tipo_plaza',
+        width: 220,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'CAT.ACT.',
+        field: 'Cat_act',
+        width: 100,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'CARGA HORARIA',
+        field: 'Carga_horaria',
+        width: 120,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'HORAS DEFINITIVAS',
+        field: 'Horas_definitivas',
+        width: 150,
+        filter: 'agNumberColumnFilter',
+        editable: isEditable,
+        valueParser: params => {
+            const newValue = Number(params.newValue);
+            return isNaN(newValue) ? params.oldValue : newValue;
+        }
+    },
+    {
+        headerName: 'UDG VIRTUAL CIT OTRO CENTRO',
+        field: 'Udg_virtual_CIT',
+        width: 200,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'HORARIO',
+        field: 'Horario',
+        width: 180,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'TURNO',
+        field: 'Turno',
+        width: 80,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCIÓN',
+        field: 'Investigacion_nombramiento_cambio_funcion',
+        width: 300,
+        filter: 'agTextColumnFilter',
+        tooltipField: 'Investigacion_nombramiento_cambio_funcion'
+    },
+    {
+        headerName: 'S.N.I.',
+        field: 'SNI',
+        width: 80,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'SNI DESDE',
+        field: 'SNI_desde',
+        width: 120,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'CAMBIO DEDICACIÓN DE PLAZA DOCENTE A INVESTIGADOR',
+        field: 'Cambio_dedicacion',
+        width: 300,
+        filter: 'agTextColumnFilter'
+    },
+    {
+        headerName: 'TELÉFONO PARTICULAR',
+        field: 'Telefono_particular',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'TELÉFONO OFICINA O CELULAR',
+        field: 'Telefono_oficina',
+        width: 180,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'DOMICILIO',
+        field: 'Domicilio',
+        width: 200,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'COLONIA',
+        field: 'Colonia',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'C.P.',
+        field: 'CP',
+        width: 80,
+        filter: 'agNumberColumnFilter',
+        editable: isEditable,
+        valueParser: params => {
+            const newValue = Number(params.newValue);
+            return isNaN(newValue) ? params.oldValue : newValue;
+        }
+    },
+    {
+        headerName: 'CIUDAD',
+        field: 'Ciudad',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'ESTADO',
+        field: 'Estado',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'NO. AFIL. I.M.S.S.',
+        field: 'No_imss',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'C.U.R.P.',
+        field: 'CURP',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'RFC',
+        field: 'RFC',
+        width: 100,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'LUGAR DE NACIMIENTO',
+        field: 'Lugar_nacimiento',
+        width: 180,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'ESTADO CIVIL',
+        field: 'Estado_civil',
+        width: 100,
+        filter: 'agTextColumnFilter',
+        editable: isEditable,
+        cellEditor: 'agSelectCellEditor',
+        cellEditorParams: {
+            values: ['Soltero', 'Casado', 'Divorciado', 'Viudo', 'Unión Libre']
+        }
+    },
+    {
+        headerName: 'TIPO DE SANGRE',
+        field: 'Tipo_sangre',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        editable: isEditable,
+        cellEditor: 'agSelectCellEditor',
+        cellEditorParams: {
+            values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+        }
+    },
+    {
+        headerName: 'FECHA NAC.',
+        field: 'Fecha_nacimiento',
+        width: 120,
+        filter: 'agDateColumnFilter',
+        editable: isEditable,
+        cellEditor: 'agDateStringCellEditor'
+    },
+    {
+        headerName: 'EDAD',
+        field: 'Edad',
+        width: 80,
+        filter: 'agNumberColumnFilter',
+        editable: false // No editable, se calcula automáticamente
+    },
+    {
+        headerName: 'NACIONALIDAD',
+        field: 'Nacionalidad',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'CORREO ELECTRÓNICO',
+        field: 'Correo',
+        width: 200,
+        filter: 'agTextColumnFilter',
+        editable: isEditable,
+        valueParser: params => {
+            // Validación básica de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(params.newValue) ? params.newValue : params.oldValue;
+        }
+    },
+    {
+        headerName: 'CORREOS OFICIALES',
+        field: 'Correos_oficiales',
+        width: 200,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'ÚLTIMO GRADO',
+        field: 'Ultimo_grado',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'PROGRAMA',
+        field: 'Programa',
+        width: 200,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'NIVEL',
+        field: 'Nivel',
+        width: 80,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'INSTITUCIÓN',
+        field: 'Institucion',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'ESTADO/PAÍS',
+        field: 'Estado_pais',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'AÑO',
+        field: 'Año',
+        width: 80,
+        filter: 'agNumberColumnFilter',
+        editable: isEditable,
+        valueParser: params => {
+            const newValue = Number(params.newValue);
+            return isNaN(newValue) ? params.oldValue : newValue;
+        }
+    },
+    {
+        headerName: 'GDO EXP',
+        field: 'Gdo_exp',
+        width: 120,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },        // Aquí irían las demás columnas según su estructura...
+    ];
 
-    <!-- Scripts personalizados-->
-    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/tabla-editable-coord.js'); ?>"></script>
-    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/eliminar-registro-coord.js'); ?>"></script>
-    <script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js'); ?>"></script>
-    <script src="./JS/plantilla-CoordPers/anadir-profesor.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/anadir-profesor.js'); ?>"></script>
-    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/descargar-data-excel-coord.js'); ?>"></script>
-    <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/inicializar-tablas-cp.js'); ?>"></script>
+    // Configuración de la grid
+    const gridOptions = {
+        columnDefs: columnDefs,
+        rowData: <?php echo json_encode($rowData); ?>,
+        defaultColDef: {
+            sortable: true,
+            filter: true,
+            resizable: true,
+            editable: isEditable,
+            floatingFilter: false, // Se activa con el botón de filtro
+            suppressMenu: false,   // Mostrar menú de columna
+            minWidth: 80
+        },
+        rowSelection: 'multiple',
+        pagination: true,
+        paginationPageSize: 15,
+        paginationAutoPageSize: false,
+        suppressRowClickSelection: true,
+        animateRows: true,
+        enableCellTextSelection: true,
+        ensureDomOrder: true,
+        rowHeight: 40,
+        suppressColumnVirtualisation: true, // Impide que las columnas se virtualicen (oculten)
+        enableRangeSelection: true, // Permite selección de rangos de celdas
+        // Configuración del fill handle (arrastrar para copiar)
+        cellSelection: {
+            handle: {
+                mode: 'fill'
+            }
+        },
+        fillHandleDirection: 'y', // Solo permitir copiar hacia abajo (eje y)
+        onGridReady: function(params) {
+            gridApi = params.api;
+            columnApi = params.columnApi;
+            
+            // No ajustamos columnas automáticamente al tamaño disponible
+            // para permitir scroll horizontal cuando hay muchas columnas
+            
+            // Cerrar el loader
+            Swal.close();
+            
+            // Configurar tooltips para celdas con errores/choques
+            params.api.addEventListener('cellMouseOver', function(event) {
+                if (event.colDef.field === 'Horas_frente_grupo' && event.data.choques && event.data.choques.length > 0) {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'ag-tooltip';
+                    tooltip.innerHTML = 'Choques: ' + event.data.choques.join(', ');
+                    event.event.target.appendChild(tooltip);
+                }
+            });
+            
+            params.api.addEventListener('cellMouseOut', function(event) {
+                const tooltip = event.event.target.querySelector('.ag-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
+            });
+        },
+        onCellValueChanged: function(event) {
+            // Guardar cambios cuando se edita una celda
+            if (event.oldValue !== event.newValue) {
+                // Almacenar cambio en el objeto de cambios pendientes
+                if (!changedData[event.data.ID]) {
+                    changedData[event.data.ID] = {};
+                }
+                changedData[event.data.ID][event.colDef.field] = event.newValue;
+                
+                // Opcional: Mostrar un indicador de cambios pendientes
+                const saveButton = document.getElementById('icono-guardar');
+                saveButton.classList.add('has-changes');
+                
+                // También se puede guardar inmediatamente si se prefiere
+                // saveCellChange(event.data.ID, event.colDef.field, event.newValue);
+            }
+        },
+        // Componente personalizado para el filtro rápido (buscar en todas las columnas)
+        isExternalFilterPresent: function() {
+            return document.getElementById('quickFilter').value !== '';
+        },
+        doesExternalFilterPass: function(node) {
+            const filterText = document.getElementById('quickFilter').value.toLowerCase();
+            if (!filterText) return true;
+            
+            // Buscar en todas las columnas visibles
+            const rowData = node.data;
+            return Object.keys(rowData).some(key => {
+                const value = rowData[key];
+                return value && value.toString().toLowerCase().includes(filterText);
+            });
+        }
+    };
 
-    <!-- Script para cambiar el encabezado por responsividad -->
-    <script>
-        window.addEventListener("resize", function() {
-            var tituloContainer = document.querySelector(".encabezado-centro");
-            if (window.innerWidth <= 768) {
-                tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
-            } else {
-                tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
+    // Crear la grid
+    new agGrid.Grid(document.getElementById('myGrid'), gridOptions);
+
+    // Redimensionar cuando cambia el tamaño de la ventana, pero respetando el ancho mínimo de columnas
+    window.addEventListener('resize', function() {
+        if (gridApi) {
+            // Calculamos el ancho total de todas las columnas
+            let totalWidth = 0;
+            columnApi.getAllColumns().forEach(col => {
+                totalWidth += col.getActualWidth();
+            });
+            
+            // Solo ajustamos automáticamente si el ancho total es menor que el contenedor
+            const containerWidth = document.getElementById('myGrid').offsetWidth;
+            if (totalWidth < containerWidth) {
+                gridApi.sizeColumnsToFit();
+            }
+        }
+    });
+});
+
+// Función para el filtro rápido
+function onQuickFilterChanged() {
+    gridApi.onFilterChanged();
+}
+
+// Función para alternar la visibilidad de las columnas
+function toggleColumnVisibility() {
+    // Crear el contenido del modal dinámicamente
+    const columnVisibilityList = document.getElementById('columnVisibilityList');
+    columnVisibilityList.innerHTML = '';
+    
+    // Obtener todas las columnas y su estado actual
+    columnApi.getAllColumns().forEach(column => {
+        if (column.getColId() !== '') { // Excluir columna de selección
+            const isVisible = column.isVisible();
+            const checkbox = document.createElement('div');
+            checkbox.className = 'form-check';
+            checkbox.innerHTML = `
+                <input class="form-check-input column-visibility-checkbox" type="checkbox" 
+                       value="${column.getColId()}" id="col-${column.getColId()}" 
+                       ${isVisible ? 'checked' : ''}>
+                <label class="form-check-label" for="col-${column.getColId()}">
+                    ${column.getColDef().headerName || column.getColId()}
+                </label>
+            `;
+            columnVisibilityList.appendChild(checkbox);
+        }
+    });
+    
+    // Mostrar el modal
+    const columnVisibilityModal = new bootstrap.Modal(document.getElementById('columnVisibilityModal'));
+    columnVisibilityModal.show();
+}
+
+// Aplicar cambios de visibilidad de columnas
+function applyColumnVisibility() {
+    const checkboxes = document.querySelectorAll('.column-visibility-checkbox');
+    const columnsToShow = [];
+    const columnsToHide = [];
+    
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            columnsToShow.push(checkbox.value);
+        } else {
+            columnsToHide.push(checkbox.value);
+        }
+    });
+    
+    // Actualizar visibilidad
+    columnApi.setColumnsVisible(columnsToShow, true);
+    columnApi.setColumnsVisible(columnsToHide, false);
+    
+    // Cerrar el modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('columnVisibilityModal'));
+    modal.hide();
+}
+
+// Alternar filtros
+function toggleFilter() {
+    const currentValue = gridApi.getFilterModel() ? Object.keys(gridApi.getFilterModel()).length > 0 : false;
+    
+    if (currentValue) {
+        // Si hay filtros activos, limpiarlos
+        gridApi.setFilterModel(null);
+        document.getElementById('icono-filtro').classList.remove('active');
+    } else {
+        // Activar filtros flotantes
+        columnApi.getColumns().forEach(column => {
+            const colDef = column.getColDef();
+            if (colDef.filter) {
+                // No hacemos nada aquí, solo queremos que el usuario vea los filtros
             }
         });
-    </script>
+        
+        // Mostrar filtros flotantes
+        gridOptions.defaultColDef.floatingFilter = !gridOptions.defaultColDef.floatingFilter;
+        gridApi.refreshHeader();
+        document.getElementById('icono-filtro').classList.add('active');
+    }
+}
 
-    <?php include("./template/footer.php"); ?>
+// Guardar todos los cambios pendientes
+function saveAllChanges() {
+    if (Object.keys(changedData).length === 0) {
+        Swal.fire('Información', 'No hay cambios pendientes por guardar', 'info');
+        return;
+    }
+    
+    Swal.fire({
+        title: 'Guardando cambios',
+        html: 'Por favor espere mientras se guardan los cambios',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+            
+            // Enviar cambios al servidor
+            $.ajax({
+                url: './functions/coord-personal-plantilla/guardar-cambios.php',
+                method: 'POST',
+                data: {
+                    changes: JSON.stringify(changedData)
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        // Limpiar cambios pendientes
+                        changedData = {};
+                        document.getElementById('icono-guardar').classList.remove('has-changes');
+                        
+                        Swal.fire('Éxito', 'Cambios guardados correctamente', 'success');
+                    } else {
+                        Swal.fire('Error', response.message || 'Hubo un error al guardar los cambios', 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'Error de conexión al servidor', 'error');
+                }
+            });
+        }
+    });
+}
+
+// Deshacer todos los cambios pendientes
+function undoAllChanges() {
+    if (Object.keys(changedData).length === 0) {
+        Swal.fire('Información', 'No hay cambios pendientes por deshacer', 'info');
+        return;
+    }
+    
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: 'Se descartarán todos los cambios pendientes',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, deshacer cambios',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Recargar datos originales
+            location.reload();
+        }
+    });
+}
+
+// Eliminar registros seleccionados
+function eliminarRegistrosSeleccionados() {
+    const selectedNodes = gridApi.getSelectedNodes();
+    const selectedIds = selectedNodes.map(node => node.data.ID);
+    
+    if (selectedIds.length === 0) {
+        Swal.fire('Error', 'Por favor seleccione al menos un registro', 'warning');
+        return;
+    }
+    
+    Swal.fire({
+        title: '¿Está seguro?',
+        text: `Se eliminarán ${selectedIds.length} registros`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Mostrar loader
+            Swal.fire({
+                title: 'Eliminando registros',
+                html: 'Por favor espere...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                    
+                    // Llamar a tu función PHP para eliminar
+                    $.ajax({
+                        url: './functions/coord-personal-plantilla/eliminar-registros.php',
+                        method: 'POST',
+                        data: {
+                            ids: selectedIds
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                // Eliminar filas de la grid
+                                gridApi.applyTransaction({
+                                    remove: selectedNodes.map(node => node.data)
+                                });
+                                Swal.fire('Éxito', 'Registros eliminados correctamente', 'success');
+                            } else {
+                                Swal.fire('Error', response.message || 'Hubo un error al eliminar los registros', 'error');
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error', 'Error de conexión al servidor', 'error');
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+// Exportar a Excel
+function exportToExcel() {
+    // Configuración de la exportación
+    const exportParams = {
+        fileName: 'Plantilla_Academica_' + new Date().toISOString().split('T')[0],
+        sheetName: 'Datos',
+        exportMode: 'xlsx'
+    };
+    
+    // Exportar
+    gridApi.exportDataAsExcel(exportParams);
+}
+
+// Script para cambiar el encabezado por responsividad
+window.addEventListener("resize", function() {
+    var tituloContainer = document.querySelector(".encabezado-centro");
+    if (window.innerWidth <= 768) {
+        tituloContainer.innerHTML = "<h3>Plantilla Académica (C.P)</h3>";
+    } else {
+        tituloContainer.innerHTML = "<h3>Plantilla Académica - Coordinación de Personal</h3>";
+    }
+});
+</script>
+
+<?php include("./template/footer.php"); ?>
