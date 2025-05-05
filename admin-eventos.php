@@ -22,13 +22,24 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <!--Pestaña azul-->
-    <div class="encabezado">
+    <!-- <div class="encabezado">
         <div class="titulo-bd">
             <h3>Próximos Eventos</h3>
         </div>
-    </div>
+    </div> -->
 
-    <div class="section-title">Próximos eventos</div>
+    <div class="buttons-functions">
+        <div class="button-nuevo-evento" id="btnCrearEvento"><i class="fa fa-plus" aria-hidden="true"></i>Nuevo evento</div>
+        <div class="contenedor-select">
+            <select name="desplegable-estado-evento" id="desplegable-estado-evento">
+                <option value="Selecciona..." disabled selected>Selecciona un estado</option>
+                <option value="En proceso">En proceso</option>
+                <option value="Finalizado">Finalizado</option>
+                <option value="Proximos">Proximos</option>
+            </select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </div>
+    </div>
 
     <!-- Contenido -->
     <?php
@@ -47,30 +58,67 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
     ?>
-            <div class="event-container">
-                <div class="event-header">
-                    <div class="event-day-container">
-                        <div class="event-day"><?php echo date('d/m/Y', strtotime($row['Fecha_Inicio'])); ?></div>
-                        <div class="event-time"><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></div>
+        <div class="evento-fila">
+            <div class="event-header">
+                <div class="event-day-container">
+                    <div class="event-monthday">
+                        <?php
+                            $mes_evento = '';
+                            if(date('M', strtotime($row['Fecha_Inicio'])) === 'Jan') { $mes_evento = 'Ene'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Feb') { $mes_evento = 'Feb'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Mar') { $mes_evento = 'Mar'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Apr') { $mes_evento = 'Abr'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='May') { $mes_evento = 'May'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Jun') { $mes_evento = 'Jun'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Jul') { $mes_evento = 'Jul'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Aug') { $mes_evento = 'Ago'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Sep') { $mes_evento = 'Sep'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Oct') { $mes_evento = 'Oct'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Nov') { $mes_evento = 'Nov'; }
+                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Dec') { $mes_evento = 'Dic'; }
+                            echo date('d ', strtotime($row['Fecha_Inicio'])); 
+                            echo $mes_evento;
+                        ?>
                     </div>
-                </div>
-                <div class="event-details">
-                    <h3><?php echo htmlspecialchars($row['Nombre_Evento']); ?></h3>
-                    <p><?php echo htmlspecialchars($row['Descripcion_Evento']); ?></p>
-                    <p>Participantes: <?php echo htmlspecialchars($row['NombresParticipantes']); ?></p>
-                    <div class="event-footer">
-                        <span class="department"><?php echo htmlspecialchars($row['Etiqueta']); ?></span>
+                    <div class="event-writtenday">
+                        <?php
+                            $dia_evento = ''; 
+                            if(date('D', strtotime($row['Fecha_Inicio'])) === 'Mon') { $dia_evento = 'Lunes'; }
+                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Tue') { $dia_evento = 'Martes'; }
+                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Wed') { $dia_evento = 'Miércoles'; }
+                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Thu') { $dia_evento = 'Jueves'; }
+                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Fri') { $dia_evento = 'Viernes'; }
+                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Sat') { $dia_evento = 'Sábado'; }
+                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Sun') { $dia_evento = 'Domingo'; }
+                            echo $dia_evento;
+                        ?>
                     </div>
-                </div>
-                <div class="event-actions">
-                    <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
-                        <img src="./Img/Icons/iconos-adminAU/editar.png" alt="Editar">
-                    </button>
-                    <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
-                        <img src="./Img/Icons/iconos-adminAU/borrar.png" alt="Borrar">
-                    </button>
                 </div>
             </div>
+            <?php $maxLength = '110'; ?>
+            <div class="event-container">
+                <div class="event-details">
+                    <h3><?php echo htmlspecialchars($row['Nombre_Evento']); ?></h3>
+                    <span class="descripcion-evento"><?php echo htmlspecialchars(substr($row['Descripcion_Evento'],0, $maxLength). '...'); ?></span>
+                    <div class="event-actions">
+                        <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
+                            <img src="./Img/Icons/iconos-adminAU/editar.png" alt="Editar">
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
+                            <img src="./Img/Icons/iconos-adminAU/borrar.png" alt="Borrar">
+                        </button>
+                    </div>
+                </div>
+                <div class="event-participantes-more">
+                    <span><?php echo htmlspecialchars($row['NombresParticipantes']); ?></span>
+                    <!-- <span class="department"><?php echo htmlspecialchars($row['Etiqueta']); ?></span> -->
+                    <div class="datetime-event">
+                        <span><i class="fa-solid fa-clock" style="margin: 0 5 0 0;"></i><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></span>
+                        <span><i class="fas fa-map-marker-alt" style="margin: 0 5 0 10;"></i>Modulo O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php
         }
     } else {
@@ -81,10 +129,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     <?php
     }
     ?>
-
-    <div class="form-actions">
-        <button type="button" class="btn" id="btnCrearEvento">Crear evento</button>
-    </div>
 </div>
 
 <!-- Modal para crear evento -->
