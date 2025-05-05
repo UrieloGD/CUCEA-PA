@@ -241,11 +241,15 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
             <span class="close">&times;</span>
         </div>
         <hr style="border: 2px solid #0071b0; width: 99%;">
+        <div class="header-filtrarParticipantes">
+            <input type="search" name="filtrarParticipantes" id="filtrarParticipantes" onkeyup="filtrarParticipantes()">
+            <i class="fa fa-search" id="icono-busc" aria-hidden="true"></i>
+        </div>
         <div class="table-container">
-            <table>
+            <table class="part-table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th><input type="checkbox" name="seleccionarTodos" id="seleccionarTodos" onclick="checkTodosParticipantes()" placeholder="Hola"></th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Rol</th>
@@ -264,5 +268,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 
 <script src="./JS/admin-eventos/eliminar-evento.js?v=<?php echo filemtime('./JS/admin-eventos/eliminar-evento.js'); ?>"></script>
 <script src="./JS/admin-eventos/modal-creacion-y-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/modal-creacion-y-participantes.js'); ?>"></script>
+<script src="./JS/admin-eventos/filtro-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/filtro-participantes.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>
