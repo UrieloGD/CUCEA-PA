@@ -4,7 +4,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['Codigo'])) {
-    die("Usuario no autenticado.");
+    die(json_encode(["success" => false, "message" => "Usuario no autenticado."]));
 }
 
 $papelera = "ACTIVO";
@@ -13,17 +13,18 @@ $papelera = "ACTIVO";
 $departamento_id = isset($_POST['departamento_id']) ? $_POST['departamento_id'] : '';
 
 if (empty($departamento_id)) {
-    die("ID de departamento no proporcionado.");
+    die(json_encode(["success" => false, "message" => "ID de departamento no proporcionado."]));
 }
 
 // Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Departamentos FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result_departamento = $stmt->get_result();
 $row_departamento = $result_departamento->fetch_assoc();
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$nombre_departamento = $row_departamento['Departamentos'];
+$stmt->close();
 
 // Construir el nombre de la tabla
 $tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
@@ -43,7 +44,7 @@ $sql = "INSERT INTO `$tabla_departamento` (
 $stmt = $conexion->prepare($sql);
 
 if ($stmt === false) {
-    die("Error en la preparación de la consulta: " . $conexion->error);
+    die(json_encode(["success" => false, "message" => "Error en la preparación de la consulta: " . $conexion->error]));
 }
 
 // Vincular parámetros
@@ -93,12 +94,57 @@ $stmt->bind_param("issssssssssssssssssssssssssssssssssssssssss",
     $papelera
 );
 
-// Ejecutar la consulta
-if ($stmt->execute()) {
-    echo json_encode(["success" => true, "message" => "Registro añadido correctamente"]);
-} else {
-    echo json_encode(["success" => false, "message" => "Error añadiendo registro: " . $stmt->error]);
+try {
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        $stmt->close();
+        
+        // Si el usuario es administrador (ROL 0), enviar notificación
+        if ($_SESSION['Rol_ID'] == 0) {
+            try {
+                // Creamos una notificación a nivel de departamento en lugar de usuario específico
+                // basándonos en cómo se muestran las notificaciones en obtener-notificaciones.php
+                $mensaje = "El administrador ha añadido un nuevo registro a la base de datos: " . 
+                           $_POST['materia'] . " (CRN: " . $_POST['crn'] . ")";
+                
+                // Insertar la notificación directamente para el departamento
+                $sql_notificacion = "INSERT INTO notificaciones 
+                                   (Tipo, Mensaje, Departamento_ID, Vista, Emisor_ID) 
+                                   VALUES ('modificacion_bd', ?, ?, 0, ?)";
+                
+                $stmt_notificacion = $conexion->prepare($sql_notificacion);
+                
+                if ($stmt_notificacion === false) {
+                    throw new Exception("Error preparando consulta de notificación: " . $conexion->error);
+                }
+                
+                $stmt_notificacion->bind_param("sii", $mensaje, $departamento_id, $_SESSION['Codigo']);
+                $result_notificacion = $stmt_notificacion->execute();
+                
+                if (!$result_notificacion) {
+                    throw new Exception("Error al enviar la notificación: " . $stmt_notificacion->error);
+                }
+                
+                $stmt_notificacion->close();
+                
+                // Adicionalmente, podemos registrar el evento para depuración
+                error_log("Notificación enviada al departamento ID: $departamento_id");
+                
+            } catch (Exception $e) {
+                error_log("Error al enviar notificación: " . $e->getMessage());
+            }
+        }
+        
+        echo json_encode(["success" => true, "message" => "Registro añadido correctamente"]);
+    } else {
+        echo json_encode(["success" => false, "message" => "Error añadiendo registro: " . $stmt->error]);
+        $stmt->close();
+    }
+} catch (Exception $e) {
+    echo json_encode(["success" => false, "message" => "Error al procesar: " . $e->getMessage()]);
+    if (isset($stmt) && $stmt) {
+        $stmt->close();
+    }
 }
 
-$stmt->close();
 $conexion->close();
