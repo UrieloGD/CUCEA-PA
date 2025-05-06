@@ -43,9 +43,46 @@ try {
         'ID' => 'ID_Plantilla',
         'CICLO' => 'CICLO',
         'CRN' => 'CRN',
-        // ... (mantener el resto de tu mapeo de columnas)
+        'MATERIA' => 'MATERIA',
+        'CVE MATERIA' => 'CVE_MATERIA',
+        'SECCIÓN' => 'SECCION',
+        'NIVEL' => 'NIVEL',
+        'NIVEL TIPO' => 'NIVEL_TIPO',
+        'TIPO' => 'TIPO',
+        'C. MIN' => 'C_MIN',
+        'H. TOTALES' => 'H_TOTALES',
+        'STATUS' => 'ESTATUS',
+        'TIPO CONTRATO' => 'TIPO_CONTRATO',
+        'CÓDIGO' => 'CODIGO_PROFESOR',
+        'NOMBRE PROFESOR' => 'NOMBRE_PROFESOR',
+        'CATEGORIA' => 'CATEGORIA',
+        'DESCARGA' => 'DESCARGA',
+        'CÓDIGO DESCARGA' => 'CODIGO_DESCARGA',
+        'NOMBRE DESCARGA' => 'NOMBRE_DESCARGA',
+        'NOMBRE DEFINITIVO' => 'NOMBRE_DEFINITIVO',
+        'TITULAR' => 'TITULAR',
+        'HORAS' => 'HORAS',
+        'CÓDIGO DEPENDENCIA' => 'CODIGO_DEPENDENCIA',
+        'L' => 'L',
+        'M' => 'M',
+        'I' => 'I',
+        'J' => 'J',
+        'V' => 'V',
+        'S' => 'S',
+        'D' => 'D',
+        'DÍA PRESENCIAL' => 'DIA_PRESENCIAL',
+        'DÍA VIRTUAL' => 'DIA_VIRTUAL',
+        'MODALIDAD' => 'MODALIDAD',
+        'FECHA INICIAL' => 'FECHA_INICIAL',
+        'FECHA FINAL' => 'FECHA_FINAL',
+        'HORA INICIAL' => 'HORA_INICIAL',
+        'HORA FINAL' => 'HORA_FINAL',
+        'MÓDULO' => 'MODULO',
+        'AULA' => 'AULA',
+        'CUPO' => 'CUPO',
+        'OBSERVACIONES' => 'OBSERVACIONES',
+        'EXTRAORDINARIO' => 'EXAMEN_EXTRAORDINARIO'
     ];
-
     // Validación de department_id
     if ($user_role === 0) {
         if (!$department_id || $department_id <= 0) {
@@ -78,6 +115,7 @@ try {
 
     $nombre_departamento = str_replace(' ', '_', $row_departamento['Nombre_Departamento']);
     $tabla_departamento = "data_" . $nombre_departamento;
+    $departamento_nombre = $row_departamento['Departamentos'];
 
     // Verificar si la tabla existe
     $sql_check_table = "SHOW TABLES LIKE '$tabla_departamento'";
@@ -103,9 +141,14 @@ try {
 
     // Validaciones específicas por columna
     $numericColumns = [
-        'CICLO' => 10,
-        'CRN' => 10,
-        // ... (mantener tus validaciones existentes)
+        'CICLO' => 10,        // Máximo 10 caracteres
+        'C_MIN' => 2,          // Máximo 2 dígitos
+        'H_TOTALES' => 2,      // Máximo 2 dígitos
+        'CODIGO_PROFESOR' => 9,// Código de 9 dígitos
+        'CODIGO_DESCARGA' => 9,
+        'HORA_INICIAL' => 4,   // Formato 24h -> 1330
+        'HORA_FINAL' => 4,
+        'CUPO' => 3            // Máximo 3 dígitos
     ];
 
     if (isset($numericColumns[$column_db])) {
@@ -122,9 +165,49 @@ try {
     if ($stmt_update->execute()) {
         $response['success'] = true;
         
-        // Lógica de notificaciones (mantener tu código existente)
+        // Lógica de notificaciones restaurada
         if ($user_role === 0 && $response['oldValue'] != $value) {
-            // ... (tu código de notificaciones)
+            // Obtener el ID del usuario administrador
+            $usuario_admin_id = $_SESSION['Codigo'];
+            
+            // Crear mensaje de notificación
+            $mensaje = "Un administrador ha modificado el campo '$column' del registro #$id en la base de datos del departamento de $departamento_nombre";
+            
+            // Insertar notificación para el departamento
+            $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Departamento_ID, Emisor_ID) 
+                                VALUES ('modificacion_bd', ?, ?, ?)";
+            $stmt_notificacion = $conexion->prepare($sql_notificacion);
+            $stmt_notificacion->bind_param("sii", $mensaje, $department_id, $usuario_admin_id);
+            
+            if (!$stmt_notificacion->execute()) {
+                error_log("Error al crear notificación de modificación: " . $stmt_notificacion->error);
+            }
+            
+            // También notificar al jefe del departamento
+            $sql_jefe = "SELECT u.Codigo 
+                         FROM usuarios u 
+                         JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+                         WHERE ud.Departamento_ID = ? AND u.rol_id = 1";
+            $stmt_jefe = $conexion->prepare($sql_jefe);
+            $stmt_jefe->bind_param("i", $department_id);
+            $stmt_jefe->execute();
+            $result_jefe = $stmt_jefe->get_result();
+            
+            if ($row_jefe = $result_jefe->fetch_assoc()) {
+                $jefe_id = $row_jefe['Codigo'];
+                
+                // Mensaje específico para el jefe
+                $mensaje_jefe = "Un administrador ha modificado el campo '$column' del registro #$id. Valor anterior: '{$response['oldValue']}'. Nuevo valor: '$value'";
+                
+                $sql_notificacion_jefe = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                                         VALUES ('modificacion_bd', ?, ?, ?)";
+                $stmt_notificacion_jefe = $conexion->prepare($sql_notificacion_jefe);
+                $stmt_notificacion_jefe->bind_param("sii", $mensaje_jefe, $jefe_id, $usuario_admin_id);
+                
+                if (!$stmt_notificacion_jefe->execute()) {
+                    error_log("Error al crear notificación para el jefe: " . $stmt_notificacion_jefe->error);
+                }
+            }
         }
     } else {
         throw new Exception("Error al actualizar: " . $stmt_update->error);
