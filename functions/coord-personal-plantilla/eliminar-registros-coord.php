@@ -181,7 +181,7 @@ try {
     mysqli_stmt_close($stmt);
     
     // Crear notificación de eliminación de registros
-    $mensaje = "Un administrador ha eliminado $num_registros registro" . ($num_registros > 1 ? "s" : "") . " de la base de datos de coordinación";
+    $mensaje = "Un administrador ha eliminado $num_registros registro" . ($num_registros > 1 ? "s" : "") . " de su base de datos";
     crearNotificacion($conexion, "eliminacion_bd", $mensaje, $usuario_admin_id);
     
     // Enviar notificación por correo
