@@ -9,29 +9,24 @@ if (empty($departamento_id)) {
     die("Error: Falta el ID del departamento.");
 }
 
-// Obtener el nombre del departamento
-$sql_departamento = "SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?";
+$sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
 $stmt = $conexion->prepare($sql_departamento);
 $stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result_departamento = $stmt->get_result();
+
+if ($result_departamento->num_rows == 0) {
+    die("Error: No se encontró el departamento con ID $departamento_id.");
+}
+
 $row_departamento = $result_departamento->fetch_assoc();
-$nombre_departamento = $row_departamento['Nombre_Departamento'];
+$nombre_departamento = $row_departamento['Nombre_Departamento']; // Ya tiene guiones bajos
+$nombre_departamento_display = $row_departamento['Departamentos']; // Nombre con espacios/acentos
 
-$tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
+// Construir el nombre de la tabla correctamente
+$tabla_departamento = "data_" . $nombre_departamento;
 
-$dias_columnas = ['L', 'M', 'I', 'J', 'V', 'S', 'D'];
-$dias_semana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
-$mapeo_dias = [
-    'L' => 'LUNES',
-    'M' => 'MARTES',
-    'I' => 'MIERCOLES',
-    'J' => 'JUEVES',
-    'V' => 'VIERNES',
-    'S' => 'SABADO',
-    'D' => 'DOMINGO'
-];
-$dias_semana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO'];
+// Mapeo de días de la semana
 $mapeo_dias = [
     'L' => 'LUNES',
     'M' => 'MARTES',
@@ -44,159 +39,87 @@ $mapeo_dias = [
 
 // Columnas a exportar en el orden especificado
 $columnas_exportar = [
-    'CICLO',
-    'CRN',
-    'FECHA_INICIAL',
-    'FECHA_FINAL',
-    'L',
-    'M',
-    'I',
-    'J',
-    'V',
-    'S',
-    'D',
-    'HORA_INICIAL',
-    'HORA_FINAL',
-    'MODULO',
-    'AULA',
-    'DIA_PRESENCIAL',
-    'DIA_VIRTUAL',
-    'MODALIDAD'
+    'CICLO', 'CRN', 'FECHA_INICIAL', 'FECHA_FINAL',
+    'L', 'M', 'I', 'J', 'V', 'S', 'D',
+    'HORA_INICIAL', 'HORA_FINAL', 'MODULO', 'AULA',
+    'DIA_PRESENCIAL', 'DIA_VIRTUAL', 'MODALIDAD'
 ];
 
-// Consulta SQL corregida para cumplir con only_full_group_by
+// Consulta SQL mejorada para manejar correctamente las modalidades y días
 $sql_select = "
-WITH modalidades_info AS (
-WITH modalidades_info AS (
-    SELECT 
-        CRN,
-        HORA_INICIAL,
-        HORA_FINAL,
-        MODULO,
-        COUNT(DISTINCT MODALIDAD) as modalidades_distintas,
-        MAX(CASE WHEN UPPER(MODALIDAD) IN ('MIXTA', 'HIBRIDA') THEN 1 ELSE 0 END) as tiene_modalidad_mixta
-        COUNT(DISTINCT MODALIDAD) as modalidades_distintas,
-        MAX(CASE WHEN UPPER(MODALIDAD) IN ('MIXTA', 'HIBRIDA') THEN 1 ELSE 0 END) as tiene_modalidad_mixta
-    FROM `$tabla_departamento`
-    WHERE Departamento_ID = ? AND (PAPELERA <> 'INACTIVO' OR PAPELERA IS NULL)
-    GROUP BY CRN, HORA_INICIAL, HORA_FINAL, MODULO
-),
-registros_base AS (
+WITH clases_normalizadas AS (
     SELECT 
         t.*,
-        mi.modalidades_distintas,
-        mi.tiene_modalidad_mixta
-        mi.modalidades_distintas,
-        mi.tiene_modalidad_mixta
+        CASE 
+            WHEN t.MODALIDAD IS NULL OR TRIM(t.MODALIDAD) = '' THEN 'SIN_ESPECIFICAR'
+            WHEN UPPER(t.MODALIDAD) IN ('MIXTA', 'HIBRIDA', 'MIXTO') THEN 'MIXTO'
+            WHEN UPPER(t.MODALIDAD) LIKE '%PRESENCIAL%' THEN 'PRESENCIAL'
+            WHEN UPPER(t.MODALIDAD) = 'VIRTUAL' THEN 'VIRTUAL'
+            ELSE t.MODALIDAD
+        END AS modalidad_normalizada,
+        CASE 
+            WHEN t.MODULO LIKE '%CVIRTU%' THEN 'VIRTUAL'
+            WHEN t.MODULO LIKE '%CED%' OR t.MODULO LIKE '%CEDA%' OR t.MODULO LIKE '%CEDC%' OR t.MODULO LIKE '%CEDN%' THEN 'PRESENCIAL'
+            ELSE NULL
+        END AS tipo_sesion
     FROM `$tabla_departamento` t
-    JOIN modalidades_info mi ON 
-        t.CRN = mi.CRN AND 
-        t.HORA_INICIAL = mi.HORA_INICIAL AND 
-        t.HORA_FINAL = mi.HORA_FINAL AND 
-        t.MODULO = mi.MODULO
-    JOIN modalidades_info mi ON 
-        t.CRN = mi.CRN AND 
-        t.HORA_INICIAL = mi.HORA_INICIAL AND 
-        t.HORA_FINAL = mi.HORA_FINAL AND 
-        t.MODULO = mi.MODULO
     WHERE t.Departamento_ID = ? AND (t.PAPELERA <> 'INACTIVO' OR t.PAPELERA IS NULL)
+),
+registros_finales AS (
+    -- Para modalidades únicas, incluyendo registros sin modalidad especificada
+    SELECT DISTINCT
+        CICLO, CRN, FECHA_INICIAL, FECHA_FINAL,
+        L, M, I, J, V, S, D,
+        HORA_INICIAL, HORA_FINAL, MODULO, AULA,
+        DIA_PRESENCIAL, DIA_VIRTUAL, modalidad_normalizada AS MODALIDAD
+    FROM clases_normalizadas
+    WHERE modalidad_normalizada IN ('PRESENCIAL', 'VIRTUAL', 'SIN_ESPECIFICAR')
+    
+    UNION ALL
+    
+    -- Para modalidades mixtas, procesar los días según el tipo de sesión
+    SELECT 
+        cn.CICLO, cn.CRN, cn.FECHA_INICIAL, cn.FECHA_FINAL,
+        -- Solo mostrar el día si corresponde al tipo de sesión
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('LUNES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.L ELSE NULL END AS L,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('MARTES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.M ELSE NULL END AS M,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('MIERCOLES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.I ELSE NULL END AS I,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('JUEVES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.J ELSE NULL END AS J,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('VIERNES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.V ELSE NULL END AS V,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('SABADO', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.S ELSE NULL END AS S,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('DOMINGO', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.D ELSE NULL END AS D,
+        cn.HORA_INICIAL, cn.HORA_FINAL, cn.MODULO, cn.AULA,
+        cn.DIA_PRESENCIAL, cn.DIA_VIRTUAL, cn.modalidad_normalizada AS MODALIDAD
+    FROM clases_normalizadas cn
+    WHERE cn.modalidad_normalizada = 'MIXTO' AND cn.tipo_sesion = 'PRESENCIAL'
+    
+    UNION ALL
+    
+    SELECT 
+        cn.CICLO, cn.CRN, cn.FECHA_INICIAL, cn.FECHA_FINAL,
+        -- Solo mostrar el día si corresponde al tipo de sesión
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('LUNES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.L ELSE NULL END AS L,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('MARTES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.M ELSE NULL END AS M,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('MIERCOLES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.I ELSE NULL END AS I,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('JUEVES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.J ELSE NULL END AS J,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('VIERNES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.V ELSE NULL END AS V,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('SABADO', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.S ELSE NULL END AS S,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('DOMINGO', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.D ELSE NULL END AS D,
+        cn.HORA_INICIAL, cn.HORA_FINAL, cn.MODULO, cn.AULA,
+        cn.DIA_PRESENCIAL, cn.DIA_VIRTUAL, cn.modalidad_normalizada AS MODALIDAD
+    FROM clases_normalizadas cn
+    WHERE cn.modalidad_normalizada = 'MIXTO' AND cn.tipo_sesion = 'VIRTUAL'
 )
-SELECT 
-    MAX(CICLO) as CICLO,
-    rb.CRN,
-    MAX(MATERIA) as MATERIA,
-    MAX(CVE_MATERIA) as CVE_MATERIA,
-    MAX(SECCION) as SECCION,
-    MAX(FECHA_INICIAL) as FECHA_INICIAL,
-    MAX(FECHA_FINAL) as FECHA_FINAL,
-    -- Para L (LUNES) - utilizando MAX() para todas las expresiones
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN L
-        WHEN modalidades_distintas = 1 THEN L
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('LUNES', rb.DIA_PRESENCIAL) > 0 THEN L
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('LUNES', rb.DIA_VIRTUAL) > 0 THEN L
-        ELSE NULL
-    END) as L,
-    -- Para M (MARTES)
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN M
-        WHEN modalidades_distintas = 1 THEN M
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('MARTES', rb.DIA_PRESENCIAL) > 0 THEN M
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('MARTES', rb.DIA_VIRTUAL) > 0 THEN M
-        ELSE NULL
-    END) as M,
-    -- Para I (MIERCOLES)
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN I
-        WHEN modalidades_distintas = 1 THEN I
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('MIERCOLES', rb.DIA_PRESENCIAL) > 0 THEN I
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('MIERCOLES', rb.DIA_VIRTUAL) > 0 THEN I
-        ELSE NULL
-    END) as I,
-    -- Para J (JUEVES)
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN J
-        WHEN modalidades_distintas = 1 THEN J
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('JUEVES', rb.DIA_PRESENCIAL) > 0 THEN J
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('JUEVES', rb.DIA_VIRTUAL) > 0 THEN J
-        ELSE NULL
-    END) as J,
-    -- Para V (VIERNES)
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN V
-        WHEN modalidades_distintas = 1 THEN V
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('VIERNES', rb.DIA_PRESENCIAL) > 0 THEN V
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('VIERNES', rb.DIA_VIRTUAL) > 0 THEN V
-        ELSE NULL
-    END) as V,
-    -- Para S (SABADO)
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN S
-        WHEN modalidades_distintas = 1 THEN S
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('SABADO', rb.DIA_PRESENCIAL) > 0 THEN S
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('SABADO', rb.DIA_VIRTUAL) > 0 THEN S
-        ELSE NULL
-    END) as S,
-    -- Para D (DOMINGO)
-    MAX(CASE 
-        WHEN tiene_modalidad_mixta = 1 THEN D
-        WHEN modalidades_distintas = 1 THEN D
-        WHEN rb.MODALIDAD = 'PRESENCIAL' AND FIND_IN_SET('DOMINGO', rb.DIA_PRESENCIAL) > 0 THEN D
-        WHEN rb.MODALIDAD = 'VIRTUAL' AND FIND_IN_SET('DOMINGO', rb.DIA_VIRTUAL) > 0 THEN D
-        ELSE NULL
-    END) as D,
-    rb.HORA_INICIAL,
-    rb.HORA_FINAL,
-    rb.MODULO,
-    MAX(CASE
-        WHEN tiene_modalidad_mixta = 1 THEN AULA
-        ELSE AULA
-    END) as AULA,
-    -- Mantener siempre DIA_PRESENCIAL tal como está
-    GROUP_CONCAT(DISTINCT CASE WHEN DIA_PRESENCIAL IS NOT NULL AND DIA_PRESENCIAL != '' THEN DIA_PRESENCIAL END SEPARATOR ',') as DIA_PRESENCIAL,
-    -- Mantener siempre DIA_VIRTUAL tal como está
-    GROUP_CONCAT(DISTINCT CASE WHEN DIA_VIRTUAL IS NOT NULL AND DIA_VIRTUAL != '' THEN DIA_VIRTUAL END SEPARATOR ',') as DIA_VIRTUAL,
-    rb.MODALIDAD
-FROM registros_base rb
-GROUP BY 
-    rb.CRN,
-    rb.HORA_INICIAL,
-    rb.HORA_FINAL,
-    rb.MODULO,
-    rb.MODALIDAD,
-    rb.modalidades_distintas,
-    rb.tiene_modalidad_mixta
-ORDER BY 
-    rb.CRN,
-    rb.HORA_INICIAL,
-    rb.MODALIDAD";
+SELECT * FROM registros_finales
+ORDER BY CRN, HORA_INICIAL, MODALIDAD, MODULO
+";
 
 $stmt = $conexion->prepare($sql_select);
 if ($stmt === false) {
     die("Error preparando la consulta: " . $conexion->error);
 }
 
-$stmt->bind_param("ii", $departamento_id, $departamento_id);
+$stmt->bind_param("i", $departamento_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -204,18 +127,43 @@ $result = $stmt->get_result();
 $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
+// Aplicar estilo de encabezado
+$headerStyle = [
+    'font' => [
+        'bold' => true,
+        'color' => ['rgb' => 'FFFFFF'],
+    ],
+    'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+        'startColor' => ['rgb' => '4472C4'],
+    ],
+    'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+    ],
+];
+
 // Escribir encabezados en el Excel
 foreach ($columnas_exportar as $index => $header) {
     $col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1);
     $sheet->setCellValue($col . '1', $header);
-
-    // Formatear todas las columnas como texto
-    $sheet->getStyle($col . '1:' . $col . ($result->num_rows + 1))
+    
+    // Formatear todas las columnas como texto por defecto
+    $sheet->getStyle($col . '2:' . $col . ($result->num_rows + 1))
         ->getNumberFormat()
         ->setFormatCode(\PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_TEXT);
 }
 
-// Formatear columnas de fecha con formato de fecha corta
+// Aplicar estilo de encabezado
+$lastCol = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex(count($columnas_exportar));
+$sheet->getStyle('A1:' . $lastCol . '1')->applyFromArray($headerStyle);
+
+// Ajustar el ancho de las columnas
+foreach($columnas_exportar as $index => $header) {
+    $col = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($index + 1);
+    $sheet->getColumnDimension($col)->setAutoSize(true);
+}
+
+// Formatear columnas de fecha con formato de fecha específico
 $fecha_columns = ['FECHA_INICIAL', 'FECHA_FINAL'];
 foreach ($fecha_columns as $fecha_column) {
     $col_index = array_search($fecha_column, $columnas_exportar);
@@ -234,26 +182,87 @@ if ($result->num_rows > 0) {
         $col = 1;
         foreach ($columnas_exportar as $columna) {
             $valor = $data[$columna] ?? '';
-
-            $sheet->setCellValue(
-                \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
-                $valor
-            );
+            
+            // Convertir fechas al formato correcto
+            if (in_array($columna, $fecha_columns) && !empty($valor)) {
+                // Asegurarse de que las fechas se formateen correctamente
+                try {
+                    $date = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel(
+                        \DateTime::createFromFormat('d/m/Y', $valor) ?: 
+                        \DateTime::createFromFormat('Y-m-d', $valor)
+                    );
+                    $sheet->setCellValue(
+                        \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
+                        $date
+                    );
+                } catch (Exception $e) {
+                    // Si hay error en el formato, mantener el valor original
+                    $sheet->setCellValueExplicit(
+                        \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
+                        $valor,
+                        \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+                    );
+                }
+            } else {
+                // Para valores que no son fechas
+                $sheet->setCellValueExplicit(
+                    \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col) . $row,
+                    $valor,
+                    \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+                );
+            }
             $col++;
         }
         $row++;
     }
 }
 
-$sheet->setTitle("Data_Cotejada_$nombre_departamento");
+// Aplicar formato de tabla con filas alternadas
+$lastRow = $result->num_rows + 1;
+$tableStyle = [
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['rgb' => 'BFBFBF'],
+        ],
+    ],
+];
+$sheet->getStyle('A1:' . $lastCol . $lastRow)->applyFromArray($tableStyle);
+
+// Aplicar colores alternados a las filas
+for ($i = 2; $i <= $lastRow; $i++) {
+    if ($i % 2 == 0) {
+        $sheet->getStyle('A' . $i . ':' . $lastCol . $i)->getFill()
+            ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+            ->getStartColor()->setRGB('EAF1FB');
+    }
+}
+
+$sheet->setTitle(mb_substr("Data_Cotejada_" . transliterarTexto($nombre_departamento), 0, 31));
+
+// Sanitizar el nombre del archivo para la descarga
+$nombre_archivo_seguro = transliterarTexto($nombre_departamento_display);
+$nombre_archivo_seguro = preg_replace('/[^a-zA-Z0-9_-]/', '_', $nombre_archivo_seguro);
 
 // Configurar headers para la descarga
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="Data_Cotejada_' . $nombre_departamento . '.xlsx"');
+header('Content-Disposition: attachment;filename="Data_Cotejada_' . $nombre_archivo_seguro . '.xlsx"');
 header('Cache-Control: max-age=0');
 
-$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-$writer->save('php://output');
+// Función para transliterar texto (quitar acentos y caracteres especiales)
+function transliterarTexto($texto) {
+    $no_permitidos = array("á","é","í","ó","ú","Á","É","Í","Ó","Ú","ñ","Ñ","À","Ã","Ì","Ò","Ù","Ã™","Ã ","Ã¨","Ã¬","Ã²","Ã¹","ç","Ç","Ã¢","ê","Ã®","Ã´","Ã»","Ã‚","ÃŠ","ÃŽ","Ã","Ã›","ü","Ãœ","Ã¶","Ã–","Ã¯","Ã¤","«","Ò","Ã","Ã„","Ã‹");
+    $permitidos = array("a","e","i","o","u","A","E","I","O","U","n","N","A","E","I","O","U","a","e","i","o","u","c","C","a","e","i","o","u","A","E","I","O","U","u","U","o","O","i","a","e","U","I","A","E");
+    return str_replace($no_permitidos, $permitidos, $texto);
+}
+
+try {
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+    $writer->save('php://output');
+} catch (\Exception $e) {
+    error_log('Error al generar Excel: ' . $e->getMessage());
+    echo 'Error al generar el archivo: ' . $e->getMessage();
+}
 
 $stmt->close();
 $conexion->close();
