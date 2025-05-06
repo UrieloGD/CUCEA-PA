@@ -45,42 +45,54 @@ $columnas_exportar = [
     'DIA_PRESENCIAL', 'DIA_VIRTUAL', 'MODALIDAD'
 ];
 
-// Consulta SQL mejorada para manejar correctamente las modalidades y días
+// Consulta SQL modificada para preservar el orden exacto de la base de datos
 $sql_select = "
-WITH clases_normalizadas AS (
+WITH clases_base AS (
     SELECT 
         t.*,
-        CASE 
-            WHEN t.MODALIDAD IS NULL OR TRIM(t.MODALIDAD) = '' THEN 'SIN_ESPECIFICAR'
-            WHEN UPPER(t.MODALIDAD) IN ('MIXTA', 'HIBRIDA', 'MIXTO') THEN 'MIXTO'
-            WHEN UPPER(t.MODALIDAD) LIKE '%PRESENCIAL%' THEN 'PRESENCIAL'
-            WHEN UPPER(t.MODALIDAD) = 'VIRTUAL' THEN 'VIRTUAL'
-            ELSE t.MODALIDAD
-        END AS modalidad_normalizada,
-        CASE 
-            WHEN t.MODULO LIKE '%CVIRTU%' THEN 'VIRTUAL'
-            WHEN t.MODULO LIKE '%CED%' OR t.MODULO LIKE '%CEDA%' OR t.MODULO LIKE '%CEDC%' OR t.MODULO LIKE '%CEDN%' THEN 'PRESENCIAL'
-            ELSE NULL
-        END AS tipo_sesion
-    FROM `$tabla_departamento` t
+        (@row_num := @row_num + 1) AS orden_original
+    FROM `$tabla_departamento` t, (SELECT @row_num := 0) r
     WHERE t.Departamento_ID = ? AND (t.PAPELERA <> 'INACTIVO' OR t.PAPELERA IS NULL)
 ),
-registros_finales AS (
-    -- Para modalidades únicas, incluyendo registros sin modalidad especificada
-    SELECT DISTINCT
+clases_normalizadas AS (
+    SELECT 
+        cb.*,
+        CASE 
+            WHEN cb.MODALIDAD IS NULL OR TRIM(cb.MODALIDAD) = '' THEN 'SIN_ESPECIFICAR'
+            WHEN UPPER(cb.MODALIDAD) IN ('MIXTA', 'HIBRIDA', 'MIXTO') THEN 'MIXTO'
+            WHEN UPPER(cb.MODALIDAD) LIKE '%PRESENCIAL%' THEN 'PRESENCIAL'
+            WHEN UPPER(cb.MODALIDAD) = 'VIRTUAL' THEN 'VIRTUAL'
+            ELSE cb.MODALIDAD
+        END AS modalidad_normalizada,
+        CASE 
+            WHEN cb.MODULO LIKE '%CVIRTU%' THEN 'VIRTUAL'
+            WHEN cb.MODULO LIKE '%CED%' OR cb.MODULO LIKE '%CEDA%' OR cb.MODULO LIKE '%CEDC%' OR cb.MODULO LIKE '%CEDN%' THEN 'PRESENCIAL'
+            ELSE NULL
+        END AS tipo_sesion
+    FROM clases_base cb
+),
+registros_consolidados AS (
+    -- Para modalidades únicas: primero agrupamos para eliminar duplicados
+    SELECT 
+        MIN(orden_original) AS orden_original,
         CICLO, CRN, FECHA_INICIAL, FECHA_FINAL,
         L, M, I, J, V, S, D,
         HORA_INICIAL, HORA_FINAL, MODULO, AULA,
         DIA_PRESENCIAL, DIA_VIRTUAL, modalidad_normalizada AS MODALIDAD
     FROM clases_normalizadas
     WHERE modalidad_normalizada IN ('PRESENCIAL', 'VIRTUAL', 'SIN_ESPECIFICAR')
+    GROUP BY 
+        CICLO, CRN, FECHA_INICIAL, FECHA_FINAL,
+        L, M, I, J, V, S, D,
+        HORA_INICIAL, HORA_FINAL, MODULO, AULA,
+        DIA_PRESENCIAL, DIA_VIRTUAL, modalidad_normalizada
     
     UNION ALL
     
-    -- Para modalidades mixtas, procesar los días según el tipo de sesión
+    -- Para modalidades mixtas, procesar los días según el tipo de sesión (presencial)
     SELECT 
+        MIN(cn.orden_original) AS orden_original,
         cn.CICLO, cn.CRN, cn.FECHA_INICIAL, cn.FECHA_FINAL,
-        -- Solo mostrar el día si corresponde al tipo de sesión
         CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('LUNES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.L ELSE NULL END AS L,
         CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('MARTES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.M ELSE NULL END AS M,
         CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('MIERCOLES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.I ELSE NULL END AS I,
@@ -92,12 +104,24 @@ registros_finales AS (
         cn.DIA_PRESENCIAL, cn.DIA_VIRTUAL, cn.modalidad_normalizada AS MODALIDAD
     FROM clases_normalizadas cn
     WHERE cn.modalidad_normalizada = 'MIXTO' AND cn.tipo_sesion = 'PRESENCIAL'
+    GROUP BY 
+        cn.CICLO, cn.CRN, cn.FECHA_INICIAL, cn.FECHA_FINAL,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('LUNES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.L ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('MARTES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.M ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('MIERCOLES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.I ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('JUEVES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.J ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('VIERNES', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.V ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('SABADO', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.S ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'PRESENCIAL' AND FIND_IN_SET('DOMINGO', COALESCE(cn.DIA_PRESENCIAL, '')) > 0 THEN cn.D ELSE NULL END,
+        cn.HORA_INICIAL, cn.HORA_FINAL, cn.MODULO, cn.AULA,
+        cn.DIA_PRESENCIAL, cn.DIA_VIRTUAL, cn.modalidad_normalizada
     
     UNION ALL
     
+    -- Para modalidades mixtas, procesar los días según el tipo de sesión (virtual)
     SELECT 
+        MIN(cn.orden_original) AS orden_original,
         cn.CICLO, cn.CRN, cn.FECHA_INICIAL, cn.FECHA_FINAL,
-        -- Solo mostrar el día si corresponde al tipo de sesión
         CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('LUNES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.L ELSE NULL END AS L,
         CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('MARTES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.M ELSE NULL END AS M,
         CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('MIERCOLES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.I ELSE NULL END AS I,
@@ -109,9 +133,25 @@ registros_finales AS (
         cn.DIA_PRESENCIAL, cn.DIA_VIRTUAL, cn.modalidad_normalizada AS MODALIDAD
     FROM clases_normalizadas cn
     WHERE cn.modalidad_normalizada = 'MIXTO' AND cn.tipo_sesion = 'VIRTUAL'
+    GROUP BY 
+        cn.CICLO, cn.CRN, cn.FECHA_INICIAL, cn.FECHA_FINAL,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('LUNES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.L ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('MARTES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.M ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('MIERCOLES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.I ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('JUEVES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.J ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('VIERNES', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.V ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('SABADO', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.S ELSE NULL END,
+        CASE WHEN cn.tipo_sesion = 'VIRTUAL' AND FIND_IN_SET('DOMINGO', COALESCE(cn.DIA_VIRTUAL, '')) > 0 THEN cn.D ELSE NULL END,
+        cn.HORA_INICIAL, cn.HORA_FINAL, cn.MODULO, cn.AULA,
+        cn.DIA_PRESENCIAL, cn.DIA_VIRTUAL, cn.modalidad_normalizada
 )
-SELECT * FROM registros_finales
-ORDER BY CRN, HORA_INICIAL, MODALIDAD, MODULO
+SELECT 
+    CICLO, CRN, FECHA_INICIAL, FECHA_FINAL,
+    L, M, I, J, V, S, D,
+    HORA_INICIAL, HORA_FINAL, MODULO, AULA,
+    DIA_PRESENCIAL, DIA_VIRTUAL, MODALIDAD
+FROM registros_consolidados
+ORDER BY orden_original
 ";
 
 $stmt = $conexion->prepare($sql_select);
