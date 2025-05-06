@@ -1,5 +1,6 @@
 <?php
 include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php'; // Incluimos la función de correo
 session_start();
 
 header('Content-Type: application/json');
@@ -149,6 +150,52 @@ try {
         throw new Exception("Error ejecutando la consulta: " . $stmt->error);
     }
 
+    // Si el usuario es administrador (ROL 0), enviar notificación
+    if (isset($_SESSION['Rol_ID']) && $_SESSION['Rol_ID'] == 0) {
+        try {
+            // Crear mensaje de notificación
+            $nombre_completo = $_POST['nombres'] . ' ' . $_POST['paterno'] . ' ' . $_POST['materno'];
+            $mensaje = "El administrador ha añadido un nuevo profesor a su base de datos: " . 
+                      $nombre_completo;
+            
+            // Obtener todos los coordinadores
+            $sql_coordinadores = "SELECT Codigo FROM usuarios WHERE rol_id = 3";
+            $result_coordinadores = mysqli_query($conexion, $sql_coordinadores);
+            
+            if (!$result_coordinadores) {
+                throw new Exception("Error al obtener coordinadores: " . mysqli_error($conexion));
+            }
+            
+            // Crear una notificación para cada coordinador
+            while ($coordinador = mysqli_fetch_assoc($result_coordinadores)) {
+                $sql_notificacion = "INSERT INTO notificaciones 
+                                    (Tipo, Mensaje, Usuario_ID, Vista, Emisor_ID) 
+                                    VALUES ('modificacion_bd', ?, ?, 0, ?)";
+                
+                $stmt_notificacion = $conexion->prepare($sql_notificacion);
+                
+                if ($stmt_notificacion === false) {
+                    throw new Exception("Error preparando consulta de notificación: " . $conexion->error);
+                }
+                
+                $stmt_notificacion->bind_param("sii", $mensaje, $coordinador['Codigo'], $_SESSION['Codigo']);
+                $result_notificacion = $stmt_notificacion->execute();
+                
+                if (!$result_notificacion) {
+                    throw new Exception("Error al enviar la notificación: " . $stmt_notificacion->error);
+                }
+                
+                $stmt_notificacion->close();
+            }
+            
+            // Enviar correo a todos los coordinadores
+            enviarCorreoNotificacion($conexion, $mensaje);
+            
+        } catch (Exception $e) {
+            error_log("Error al enviar notificación: " . $e->getMessage());
+        }
+    }
+
     echo json_encode([
         "success" => true,
         "message" => "Registro añadido correctamente"
@@ -163,3 +210,79 @@ try {
     if (isset($stmt)) $stmt->close();
     if (isset($conexion)) $conexion->close();
 }
+
+// Función para enviar correo a los coordinadores
+function enviarCorreoNotificacion($conexion, $mensaje) {
+    // Obtener todos los coordinadores
+    $sql_coordinadores = "SELECT Codigo, Nombre, Correo FROM usuarios WHERE rol_id = 3";
+    $result_coordinadores = mysqli_query($conexion, $sql_coordinadores);
+    
+    if (!$result_coordinadores) {
+        error_log("Error al obtener coordinadores: " . mysqli_error($conexion));
+        return false;
+    }
+    
+    // Obtener información del administrador emisor
+    $sql_emisor = "SELECT Nombre FROM usuarios WHERE Codigo = ?";
+    $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
+    mysqli_stmt_bind_param($stmt_emisor, "i", $_SESSION['Codigo']);
+    mysqli_stmt_execute($stmt_emisor);
+    $result_emisor = mysqli_stmt_get_result($stmt_emisor);
+    $emisor = mysqli_fetch_assoc($result_emisor);
+    $nombre_emisor = $emisor ? $emisor['Nombre'] . $emisor['Apellido'] : 'Un administrador';
+    
+    // Información adicional para el correo
+    $fecha_accion = date('d/m/Y H:i');
+    
+    $correos_enviados = 0;
+    
+    // Enviar un correo a cada coordinador
+    while ($coordinador = mysqli_fetch_assoc($result_coordinadores)) {
+        // Asunto y cuerpo del correo
+        $asunto = "Nuevo profesor añadido - Programación Académica";
+        $cuerpo = "
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                .header { text-align: center; padding-bottom: 20px; }
+                .header img { width: 300px; }
+                .content { padding: 20px; }
+                h2 { color: #2c3e50; }
+                p { line-height: 1.5; color: #333; }
+                .info { color: #3498db; font-weight: bold; }
+                .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                </div>
+                <div class='content'>
+                    <h2>Notificación de actualización de datos</h2>
+                    <p class='info'>{$mensaje}</p>
+                    <p><strong>Acción realizada por:</strong> {$nombre_emisor}</p>
+                    <p><strong>Fecha y hora:</strong> {$fecha_accion}</p>
+                    <p>Por favor, ingrese al sistema para ver los detalles completos.</p>
+                </div>
+                <div class='footer'>
+                    <p>Centro para la Sociedad Digital</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+        
+        if (enviarCorreo($coordinador['Correo'], $asunto, $cuerpo)) {
+            error_log("Correo enviado exitosamente al coordinador {$coordinador['Nombre']}");
+            $correos_enviados++;
+        } else {
+            error_log("Error al enviar correo al coordinador {$coordinador['Nombre']}");
+        }
+    }
+    
+    return $correos_enviados > 0;
+}
+?>
