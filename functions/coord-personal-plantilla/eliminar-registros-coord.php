@@ -131,7 +131,7 @@ if (isset($_POST['truncate']) && $_POST['truncate'] == '1') {
         }
         
         // Crear notificación de eliminación completa
-        $mensaje = "Un administrador ha eliminado toda la base de datos de coordinación";
+        $mensaje = "Un administrador ha eliminado toda su base de datos";
         crearNotificacion($conexion, "eliminacion_bd", $mensaje, $usuario_admin_id);
         
         // Enviar notificación por correo
