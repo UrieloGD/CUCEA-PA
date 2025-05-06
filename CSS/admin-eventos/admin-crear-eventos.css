@@ -489,7 +489,6 @@ th {
   .cuadro-principal {
     width: 91%;
     margin-left: 7vw;
-    font-size: smaller;
   }
   .modal-content-participantes {
     width: 70%;
@@ -501,7 +500,6 @@ th {
     width: 90%;
     margin-left: 8vw;
     margin-bottom: 2vh;
-    font-size: smaller;
   }
   .fecha-hora-group, .notificaciones-group {
     flex-wrap: wrap;
@@ -516,7 +514,6 @@ th {
     width: 96%;
     margin-left: 2vw;
     margin-right: 2vw;
-    font-size: smaller;
   }
   .fecha-hora-group, .notificaciones-group {
     flex-wrap: wrap;

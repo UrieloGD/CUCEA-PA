@@ -54,48 +54,64 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     LIMIT 5";
 
     $result = mysqli_query($conexion, $sql);
+    $eventoAnterior = null;
 
     if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-    ?>
-        <div class="evento-fila">
-            <div class="event-header">
-                <div class="event-day-container">
-                    <div class="event-monthday">
-                        <?php
-                            $mes_evento = '';
-                            if(date('M', strtotime($row['Fecha_Inicio'])) === 'Jan') { $mes_evento = 'Ene'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Feb') { $mes_evento = 'Feb'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Mar') { $mes_evento = 'Mar'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Apr') { $mes_evento = 'Abr'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='May') { $mes_evento = 'May'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Jun') { $mes_evento = 'Jun'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Jul') { $mes_evento = 'Jul'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Aug') { $mes_evento = 'Ago'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Sep') { $mes_evento = 'Sep'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Oct') { $mes_evento = 'Oct'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Nov') { $mes_evento = 'Nov'; }
-                            else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Dec') { $mes_evento = 'Dic'; }
-                            echo date('d ', strtotime($row['Fecha_Inicio'])); 
-                            echo $mes_evento;
-                        ?>
-                    </div>
-                    <div class="event-writtenday">
-                        <?php
-                            $dia_evento = ''; 
-                            if(date('D', strtotime($row['Fecha_Inicio'])) === 'Mon') { $dia_evento = 'Lunes'; }
-                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Tue') { $dia_evento = 'Martes'; }
-                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Wed') { $dia_evento = 'Miércoles'; }
-                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Thu') { $dia_evento = 'Jueves'; }
-                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Fri') { $dia_evento = 'Viernes'; }
-                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Sat') { $dia_evento = 'Sábado'; }
-                            else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Sun') { $dia_evento = 'Domingo'; }
-                            echo $dia_evento;
-                        ?>
+    while ($row = mysqli_fetch_assoc($result)) {
+        $eventoActual = $row['Fecha_Inicio'];
+        
+        if ($eventoAnterior === null || $eventoAnterior !== $eventoActual) {
+            $eventoAnterior = $eventoActual; 
+            ?>
+            
+            <div class="evento-fila">
+                <div class="event-header">
+                    <div class="event-day-container">
+                        <div class="event-monthday">
+                            <?php
+                                $mes_evento = '';
+                                if(date('M', strtotime($row['Fecha_Inicio'])) === 'Jan') { $mes_evento = 'Ene'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Feb') { $mes_evento = 'Feb'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Mar') { $mes_evento = 'Mar'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Apr') { $mes_evento = 'Abr'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='May') { $mes_evento = 'May'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Jun') { $mes_evento = 'Jun'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Jul') { $mes_evento = 'Jul'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Aug') { $mes_evento = 'Ago'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Sep') { $mes_evento = 'Sep'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Oct') { $mes_evento = 'Oct'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Nov') { $mes_evento = 'Nov'; }
+                                else if(date('M', strtotime($row['Fecha_Inicio'])) ==='Dec') { $mes_evento = 'Dic'; }
+                                echo date('d ', strtotime($row['Fecha_Inicio'])); 
+                                echo $mes_evento;
+                            ?>
+                        </div>
+                        <div class="event-writtenday">
+                            <?php
+                                $dia_evento = ''; 
+                                if(date('D', strtotime($row['Fecha_Inicio'])) === 'Mon') { $dia_evento = 'Lunes'; }
+                                else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Tue') { $dia_evento = 'Martes'; }
+                                else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Wed') { $dia_evento = 'Miércoles'; }
+                                else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Thu') { $dia_evento = 'Jueves'; }
+                                else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Fri') { $dia_evento = 'Viernes'; }
+                                else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Sat') { $dia_evento = 'Sábado'; }
+                                else if(date('D', strtotime($row['Fecha_Inicio'])) ==='Sun') { $dia_evento = 'Domingo'; }
+                                echo $dia_evento;
+                            ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <?php $maxLength = '110'; ?>
+            <?php 
+            } else if ($eventoAnterior === $eventoActual) { 
+            // La fecha es igual a la anterior
+            ?>
+            <div class="evento-fila">
+                <div class="event-header-repeat">
+                </div>
+            <?php
+            } ?>
+
+            <?php $maxLength = '130'; ?>
             <div class="event-container">
                 <div class="event-details">
                     <h3><?php echo htmlspecialchars($row['Nombre_Evento']); ?></h3>
@@ -110,7 +126,17 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     </div>
                 </div>
                 <div class="event-participantes-more">
-                    <span><?php echo htmlspecialchars($row['NombresParticipantes']); ?></span>
+                    <span class="perfil">
+                        <div class="icono-perfil">
+                            <?php 
+                            $nombreCompleto = $row['NombresParticipantes']; 
+                            $nombreSeparado = explode(" ", $nombreCompleto);
+                            $iniciales = strtoupper($nombreSeparado[0][0] . $nombreSeparado[1][0]);
+                            echo $iniciales;
+                            ?>
+                        </div>
+                        <?php echo htmlspecialchars($row['NombresParticipantes']); ?>
+                    </span>
                     <!-- <span class="department"><?php echo htmlspecialchars($row['Etiqueta']); ?></span> -->
                     <div class="datetime-event">
                         <span><i class="fa-solid fa-clock" style="margin: 0 5 0 0;"></i><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></span>
@@ -313,5 +339,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <script src="./JS/admin-eventos/eliminar-evento.js?v=<?php echo filemtime('./JS/admin-eventos/eliminar-evento.js'); ?>"></script>
 <script src="./JS/admin-eventos/modal-creacion-y-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/modal-creacion-y-participantes.js'); ?>"></script>
 <script src="./JS/admin-eventos/filtro-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/filtro-participantes.js'); ?>"></script>
+<script src="./JS/admin-eventos/icono-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/icono-participantes.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>
