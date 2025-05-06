@@ -59,7 +59,7 @@ function enviarCorreoNotificacion($conexion, $mensaje, $tipo_accion, $registros_
     mysqli_stmt_execute($stmt_emisor);
     $result_emisor = mysqli_stmt_get_result($stmt_emisor);
     $emisor = mysqli_fetch_assoc($result_emisor);
-    $nombre_emisor = $emisor ? $emisor['Nombre'] : 'Un administrador';
+    $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
     
     // Información adicional para el correo
     $fecha_accion = date('d/m/Y H:i');

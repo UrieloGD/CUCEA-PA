@@ -213,23 +213,33 @@ try {
 
 // Función para enviar correo a los coordinadores
 function enviarCorreoNotificacion($conexion, $mensaje) {
+    // Evitar imprimir información de depuración
+    ob_start();
+    
     // Obtener todos los coordinadores
     $sql_coordinadores = "SELECT Codigo, Nombre, Correo FROM usuarios WHERE rol_id = 3";
     $result_coordinadores = mysqli_query($conexion, $sql_coordinadores);
     
     if (!$result_coordinadores) {
         error_log("Error al obtener coordinadores: " . mysqli_error($conexion));
+        ob_end_clean(); // Limpiar el buffer
         return false;
     }
     
     // Obtener información del administrador emisor
-    $sql_emisor = "SELECT Nombre FROM usuarios WHERE Codigo = ?";
+    $sql_emisor = "SELECT Nombre, Apellido FROM usuarios WHERE Codigo = ?";
     $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
+    if (!$stmt_emisor) {
+        error_log("Error preparando consulta del emisor: " . mysqli_error($conexion));
+        ob_end_clean(); // Limpiar el buffer
+        return false;
+    }
+    
     mysqli_stmt_bind_param($stmt_emisor, "i", $_SESSION['Codigo']);
     mysqli_stmt_execute($stmt_emisor);
     $result_emisor = mysqli_stmt_get_result($stmt_emisor);
     $emisor = mysqli_fetch_assoc($result_emisor);
-    $nombre_emisor = $emisor ? $emisor['Nombre'] . $emisor['Apellido'] : 'Un administrador';
+    $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
     
     // Información adicional para el correo
     $fecha_accion = date('d/m/Y H:i');
@@ -238,6 +248,11 @@ function enviarCorreoNotificacion($conexion, $mensaje) {
     
     // Enviar un correo a cada coordinador
     while ($coordinador = mysqli_fetch_assoc($result_coordinadores)) {
+        if (empty($coordinador['Correo'])) {
+            error_log("Coordinador sin correo: " . $coordinador['Codigo']);
+            continue;
+        }
+        
         // Asunto y cuerpo del correo
         $asunto = "Nuevo profesor añadido - Programación Académica";
         $cuerpo = "
@@ -282,6 +297,9 @@ function enviarCorreoNotificacion($conexion, $mensaje) {
             error_log("Error al enviar correo al coordinador {$coordinador['Nombre']}");
         }
     }
+    
+    // Limpiar el buffer para evitar que los datos de depuración se incluyan en la respuesta
+    ob_end_clean();
     
     return $correos_enviados > 0;
 }
