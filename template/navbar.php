@@ -399,9 +399,11 @@ function generateColorForUser($userId)
                     echo "</li>";
                 }
                 ?>
-
-                <!-- <li class="navbar-item flexbox-left">
-                    < ?php
+                <?php
+                if ($rol_id == 0) {
+                ?>
+                <li class="navbar-item flexbox-left">
+                    <?php
                     if (basename($_SERVER['PHP_SELF']) == 'dashboard-oferta.php') {
                         echo "<div class='indicador'>";
                         echo "<a class='navbar-item-inner flexbox-left' href='./dashboard-oferta.php'>";
@@ -422,7 +424,8 @@ function generateColorForUser($userId)
                             </a>';
                     }
                     ?>
-                </li> -->
+                </li>
+                <?php } ?>
 
                 <!-- <li class="navbar-item flexbox-left">
                     < ?php

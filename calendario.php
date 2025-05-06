@@ -96,7 +96,7 @@ include './template/navbar.php';
                                 echo '<div class="event-content">';
                                 echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . '</strong>';
                                 echo '<br><span class="event-tag">' . htmlspecialchars($row['Etiqueta']) . '</span>';
-                                echo '<br><span class="event-tag" data-event-id="' . $row['ID_Evento'] . '">' . htmlspecialchars($row['Etiqueta']) . '</span>';
+                                // echo '<br><span class="event-tag" data-event-id="' . $row['ID_Evento'] . '">' . htmlspecialchars($row['Etiqueta']) . '</span>';
                                 echo '<br><span class="event-status">' . $estadoEvento . '</span>';
                                 echo '</div>';
                                 echo '</div>';
