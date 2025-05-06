@@ -13,7 +13,7 @@ if (session_status() == PHP_SESSION_NONE) {
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
-
+}
 
 // Obtener la conexión
 require_once './config/db.php';

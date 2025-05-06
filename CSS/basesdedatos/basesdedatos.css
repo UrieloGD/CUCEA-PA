@@ -231,6 +231,10 @@ th {
   font-size: 18px;
 }
 
+#icono-visibilidad, #btn-colvis {
+  z-index: -5;
+}
+
 /* Ajustar el espacio entre los iconos */
 .iconos-container > div {
   margin-right: 5px;
@@ -278,6 +282,7 @@ th {
 #form-añadir-registro {
   display: grid;
   align-items: center;
+  margin: 0;
 }
 
 #formulario-añadir button {
@@ -564,7 +569,7 @@ th {
 
 /* Estilos para el contenedor de búsqueda de Js */
 .dt-search {
-  width: 30%; /* Un tercio del ancho de la pantalla */
+  width: 35%; /* Un tercio del ancho de la pantalla */
   margin: 10px 0;
   margin-top: -60px;
   margin-bottom: 20px;
@@ -625,6 +630,11 @@ th {
   align-items: center;
   gap: 5px;
   font-size: 14px;
+}
+
+/* Altura maxima de la tabla de base de datos */
+.dt-scroll-body {
+  max-height: 650px!important;
 }
 
 /* Estilos específicos para el select */
@@ -782,7 +792,7 @@ div[class="bottom"] {
 
 /* Tooltip para mostrar detalles de choques */
 .custom-tooltip {
-  position: absolute;
+  position: fixed;
   display: none;
   max-width: 300px;
   padding: 8px 12px;
@@ -848,6 +858,15 @@ thead tr .custom-tooltip {
   margin-top: 5px;
 }
 
+.custom-colvis-menu {
+  position: absolute;
+  width: fit-content!important;
+  height: fit-content!important;
+  margin: 0 auto!important;
+  top: 14%!important;
+  left: 80%!important;
+}
+
 /* Animación de fade in */
 @keyframes tooltipFadeIn {
   from {
@@ -894,7 +913,7 @@ th[data-tooltip] {
     background-color: white;
     border-radius: 20px;
     /* width: 92%; */
-    height: 90vh;
+    /* height: 90vh; */
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
@@ -924,6 +943,10 @@ th[data-tooltip] {
   }
   .iconos-container {
     padding: 0 10 0 0px;
+  }
+  .custom-colvis-menu {
+    top: 13%!important;
+    left: 80%!important;
   }
 }
 
@@ -1008,7 +1031,6 @@ th[data-tooltip] {
   #dt-search-0 {
     position: relative;
     width: 35vw;
-    
   }
   nav[aria-label="pagination"] {
     width: 80vw;
@@ -1017,6 +1039,17 @@ th[data-tooltip] {
   }
   .modal-content-descarga {
     width: 70vw;
+  }
+  .custom-colvis-menu {
+    top: 17%!important;
+    left: 75%!important;
+  }
+  div.dt-container .dt-search input {
+    width: 40vw;
+  }
+  /* Altura maxima de la tabla de base de datos */
+  .dt-scroll-body {
+    max-height: 550px!important;
   }
 }
 
@@ -1082,6 +1115,17 @@ th[data-tooltip] {
   .modal-content-descarga {
     width: 70vw;
   }
+  .custom-colvis-menu {
+    top: 17%!important;
+    left: 70%!important;
+  }
+  div.dt-container .dt-search input {
+    width: 40vw;
+  }
+  /* Altura maxima de la tabla de base de datos */
+  .dt-scroll-body {
+    max-height: 550px!important;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -1124,6 +1168,10 @@ th[data-tooltip] {
     top: 0; /* Posición fija en la parte superior */
     background-color: white; /* Fondo blanco para que el encabezado sea legible */
     z-index: 1; /* Asegurar que el encabezado esté por encima de las filas */
+  }
+  /* Altura maxima de la tabla de base de datos */
+  .dt-scroll-body {
+    max-height: 500px!important;
   }
   .encabezado-centro {
     position: relative;
@@ -1176,7 +1224,11 @@ th[data-tooltip] {
   .contenedor-buttons { 
     left: 25%;
   }
-  .dt-search {
+  .custom-search-container {
+    width: 100%;
+  }
+  .dt-search,
+  div.dt-container .dt-search input {
     width: 100%;
   }
   #dt-search-0 {
@@ -1194,6 +1246,13 @@ th[data-tooltip] {
   .columns-container-profesor,
   .columns-container-materia {
     column-count: 2;
+  }
+  .custom-colvis-menu {
+    top: 21.5% !important;
+    left: 35% !important;
+  }
+  div.dt-scroll-head {
+    margin: 50 0 0 0;
   }
 }
 
@@ -1215,6 +1274,10 @@ th[data-tooltip] {
     width: 85vw;
     margin-left: 2.5vw;
   }
+  .custom-colvis-menu {
+    top: 21.5% !important;
+    left: 35% !important;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -1231,6 +1294,10 @@ th[data-tooltip] {
     padding: 0;
     width: 150px;
     height: 35px;
+  }
+  .custom-colvis-menu {
+    top: 21.5% !important;
+    left: 35% !important;
   }
 }
 
@@ -1534,6 +1601,15 @@ table.dataTable {
     zoom: 90%;
     height: 102vh;
   }
+  .modal-content,
+  .custom-colvis-menu,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
+    zoom: 90%;
+  }
+  .custom-tooltip {
+    font-size: 0.8rem;
+  }
 }
 @media screen and (max-height: 768px) { 
   .header { 
@@ -1546,6 +1622,15 @@ table.dataTable {
   nav[aria-label="pagination"] {
     width: 100%;
   }
+  .modal-content,
+  .custom-colvis-menu,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
+    zoom: 80%;
+  }
+  .custom-tooltip {
+    font-size: 0.7rem;
+  }
 }
 @media screen and (max-height: 700px) { 
   .header { 
@@ -1555,6 +1640,19 @@ table.dataTable {
     zoom: 65%;
     height: 141.5vh;
   }
+  .modal-content,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
+    zoom: 65%;
+  }
+  .custom-colvis-menu {
+    zoom: 65%;
+    left: 87% !important;
+    top: 12.3% !important;
+  }
+  .custom-tooltip {
+    font-size: 0.6rem;
+  }
 }
 @media screen and (max-height: 600px) { 
   .header { 
@@ -1563,5 +1661,18 @@ table.dataTable {
   body .cuadro-principal {
     zoom: 60%;
     height: 152.5vh;
+  }
+  .modal-content,
+  div:where(.swal2-container).swal2-center>.swal2-popup,
+  .modal-content-descarga {
+    zoom: 60%;
+  }
+  .custom-colvis-menu {
+    zoom: 60%;
+    left: 85.5%!important;
+    top: 18%!important;
+  }
+  .custom-tooltip {
+    font-size: 0.5rem;
   }
 }

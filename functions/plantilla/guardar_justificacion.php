@@ -61,7 +61,7 @@ try {
         $departamento = $result_departamento->fetch_assoc();
 
         // Enviar correos a secretaría administrativa
-        $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 2";
+        $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 0 OR Rol_ID = 2";
         $result_secretaria = $conexion->query($sql_secretaria);
 
         while ($secretaria = $result_secretaria->fetch_assoc()) {

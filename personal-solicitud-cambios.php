@@ -15,12 +15,13 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Solicitudes de modificaciones</title>
-<link rel="stylesheet" href="./CSS//personal-solicitud-cambios/personal-solicitud-cambios.css">
-<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja.css">
-<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-propuesta.css">
-<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja-propuesta.css">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/personal-solicitud-cambios.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/personal-solicitud-cambios.css'); ?>">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-baja.css'); ?>">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-propuesta.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-propuesta.css'); ?>">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja-propuesta.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-baja-propuesta.css'); ?>">
 
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="titulo-bd">
             <h3>Solicitudes de modificaciones</h3>
@@ -65,6 +66,7 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
             </ul>
         </div>
     <?php } ?>
+    </div>
 </div>
 
 <!-- Modal Solicitudes Baja -->
@@ -178,15 +180,15 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
     console.log("Botones de generar PDF:", document.querySelectorAll('.btn-generar-pdf').length);
     console.log("Botones de descargar PDF:", document.querySelectorAll('.btn-descargar-pdf').length);
 </script>
-<script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js"></script>
+<script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/personal-solicitud-cambios.js'); ?>"></script>
 <!-- modales -->
-<script src="./JS/personal-solicitud-cambios/modal-baja.js"></script>
-<script src="./JS/personal-solicitud-cambios/modal-propuesta.js"></script>
-<script src="./JS/personal-solicitud-cambios/modal-baja-propuesta.js"></script>
-<script src="./JS/personal-solicitud-cambios/nueva-solicitud.js"></script>
+<script src="./JS/personal-solicitud-cambios/modal-baja.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/modal-baja.js'); ?>"></script>
+<script src="./JS/personal-solicitud-cambios/modal-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/modal-propuesta.js'); ?>"></script>
+<script src="./JS/personal-solicitud-cambios/modal-baja-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/modal-baja-propuesta.js'); ?>"></script>
+<script src="./JS/personal-solicitud-cambios/nueva-solicitud.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/nueva-solicitud.js'); ?>"></script>
 <!-- generar pdfs -->
-<script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js"></script>
-<script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js"></script>
+<script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js'); ?>"></script>
+<script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js'); ?>"></script>
 <!-- JQuerys -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

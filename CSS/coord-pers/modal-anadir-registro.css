@@ -1,0 +1,305 @@
+/* Contenedores del modal */
+
+.form-subgroup-anadir {
+    margin-top: 5px;
+}
+
+.form-section-anadir {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.form-movil-anadir {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-section-anadir input,
+.form-movil-anadir input {
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.form-section-anadir h3 {
+    display: flex;
+    position: relative;
+    margin-top: 10px;
+    color: #0071b0;
+}
+
+.form-movil-anadir h3{
+    margin: 0;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+[class^="titulo-reemplazo-"] {
+    display: none;
+}
+
+.title-bottom {
+    align-self: flex-end;
+}
+
+/* filas de formularios de campos generales */
+
+.form-row-titles-anadir {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.form-row-anadir {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-row-titles-anadir span {
+    font-weight: bold;
+    color: #626262;
+    font-size: 0.9rem;
+}
+
+.form-row-anadir input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 95%;
+}
+
+.form-row-anadir input{
+    outline-color: #0071b0;
+}
+
+.form-row-anadir input::placeholder {
+    opacity: 0.65;
+  }
+
+.form-row-anadir  select {
+    outline-color: #0071b0;
+}
+
+input[type="date"] {
+    color: #aaa;
+}
+
+.form-row-anadir select {
+    color: #aaa;
+    border: 1px solid #aaa;
+    width: 95%;
+}
+
+/* filas de formulario de tres columnas para la sección de departamento */
+
+.form-row-anadir-departamento {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-row-anadir-departamento input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 95%;
+}
+
+.form-row-anadir-departamento input{
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-departamento input::placeholder {
+    opacity: 0.65;
+  }
+
+.form-row-anadir-departamento  select {
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-departamento select {
+    color: #aaa;
+    border: 1px solid #aaa;
+    width: 95%;
+}
+
+/* filas de formulario de dos columnas */
+
+.form-row-anadir-dos-D {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.form-row-anadir-dos-D input {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 97%;
+}
+
+.form-row-anadir-dos-D input{
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-dos-D input::placeholder {
+    opacity: 0.65;
+  }
+
+.form-row-anadir-dos-D  select {
+    outline-color: #0071b0;
+}
+
+.form-row-anadir-dos-D select {
+    color: #aaa;
+    border: 1px solid #aaa;
+    width: 97%;
+}
+
+.form-row-anadir-dates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+    gap: 10px;
+}
+
+.form-row-anadir-dates input{
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    width: 91%;
+}
+
+.form-row-anadir, .form-row-anadir-dates, .form-row-anadir-departamento, .form-row-anadir-dos-D option:not(first-child) {
+    color: #000;
+}
+
+@media screen and (max-width: 768px) {
+    .form-row-anadir-dates {
+        grid-template-columns: none;
+    }
+    #sni, #sni_desde {
+        height: min-content;
+    }
+    .modal-content-aRegistro {
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .form-row-anadir,
+    .form-row-anadir-dates,
+    .form-row-anadir-departamento,
+    .form-row-anadir-dos-D {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-movil-anadir input,
+    .form-movil-anadir select {
+        width: 100%;
+    }
+    .form-row-titles-anadir {
+        display: none;
+    }
+    [class^="titulo-reemplazo-"] {
+        display: flex;
+        font-weight: bold;
+        color: #626262;
+        font-size: 0.9rem;
+    }
+    .titulo-reemplazo-1::after { content: 'Código'; }
+    .titulo-reemplazo-2::after { content: 'Paterno'; }
+    .titulo-reemplazo-3::after { content: 'Materno'; }
+    .titulo-reemplazo-4::after { content: 'Nombre'; }
+    .titulo-reemplazo-5::after { content: 'Nombre Completo'; }
+    .titulo-reemplazo-6::after { content: 'Departamento'; }
+    .titulo-reemplazo-7::after { content: 'Datos'; }
+    .titulo-reemplazo-8::after { content: 'Categoria Actual (1)'; }
+    .titulo-reemplazo-9::after { content: 'Categoria Actual (2)'; }
+    .titulo-reemplazo-10::after { content: 'Horas Frente a Grupo'; }
+
+    .titulo-reemplazo-11::after { content: 'División'; }
+    .titulo-reemplazo-12::after { content: 'Tipo de Plaza'; }
+    .titulo-reemplazo-13::after { content: 'Cat. Act'; }
+    .titulo-reemplazo-14::after { content: 'Carga Horaria'; }
+    .titulo-reemplazo-15::after { content: 'Horas Definitivas'; }
+    .titulo-reemplazo-16::after { content: 'UDG Virtual Cit'; }
+    .titulo-reemplazo-17::after { content: 'Horario'; }
+    .titulo-reemplazo-18::after { content: 'Turno'; }
+    .titulo-reemplazo-19::after { content: 'Investigador por nombramiento o cambio de función'; }
+    .titulo-reemplazo-20::after { content: 'SNI'; }
+
+    .titulo-reemplazo-21::after { content: 'SNI Desde'; }
+    .titulo-reemplazo-22::after { content: 'Cambio Dedicación de plaza'; }
+    .titulo-reemplazo-23::after { content: 'Telefono Particular'; }
+    .titulo-reemplazo-24::after { content: 'Telefono de Oficina'; }
+    .titulo-reemplazo-25::after { content: 'Domicilio'; }
+    .titulo-reemplazo-26::after { content: 'Colonia'; }
+    .titulo-reemplazo-27::after { content: 'CP'; }
+    .titulo-reemplazo-28::after { content: 'Ciudad'; }
+    .titulo-reemplazo-29::after { content: 'Estado'; }
+    .titulo-reemplazo-30::after { content: 'No. I.M.S.S.'; }
+
+    .titulo-reemplazo-31::after { content: 'CURP'; }
+    .titulo-reemplazo-32::after { content: 'RFC'; }
+    .titulo-reemplazo-33::after { content: 'Lugar de Nacimiento'; }
+    .titulo-reemplazo-34::after { content: 'Estado Civil'; }
+    .titulo-reemplazo-35::after { content: 'Tipo de Sangre'; }
+    .titulo-reemplazo-36::after { content: 'Fecha de Nacimiento'; }
+    .titulo-reemplazo-37::after { content: 'Edad'; }
+    .titulo-reemplazo-38::after { content: 'Nacionalidad'; }
+    .titulo-reemplazo-39::after { content: 'Correo Eletronico'; }
+    .titulo-reemplazo-40::after { content: 'Correos Oficiales'; }
+
+    .titulo-reemplazo-41::after { content: 'Último grado (1)'; }
+    .titulo-reemplazo-42::after { content: 'Último grado (2)'; }
+    .titulo-reemplazo-43::after { content: 'Último grado (3)'; }
+    .titulo-reemplazo-44::after { content: 'Institución (1)'; }
+    .titulo-reemplazo-45::after { content: 'Institución (2)'; }
+    .titulo-reemplazo-46::after { content: 'Institución (3)'; }
+    .titulo-reemplazo-47::after { content: 'Grado de Experiencia (1)'; }
+    .titulo-reemplazo-48::after { content: 'Grado de Experiencia (2)'; }
+    .titulo-reemplazo-49::after { content: 'Grado de Experiencia (3)'; }
+    .titulo-reemplazo-50::after { content: 'Nivel (1)'; }
+
+    .titulo-reemplazo-51::after { content: 'Nivel (2)'; }
+    .titulo-reemplazo-52::after { content: 'Nivel (3)'; }
+    .titulo-reemplazo-53::after { content: 'Año (1)'; }
+    .titulo-reemplazo-54::after { content: 'Año (2)'; }
+    .titulo-reemplazo-55::after { content: 'Año (3)'; }
+    .titulo-reemplazo-56::after { content: 'Programa (1)'; }
+    .titulo-reemplazo-57::after { content: 'Programa (2)'; }
+    .titulo-reemplazo-58::after { content: 'Programa (3)'; }
+    .titulo-reemplazo-59::after { content: 'Estado/País (1)'; }
+    .titulo-reemplazo-60::after { content: 'Estado/País (2)'; }
+
+    .titulo-reemplazo-61::after { content: 'Estado/País (3)'; }
+    .titulo-reemplazo-62::after { content: 'Proesde'; }
+    .titulo-reemplazo-63::after { content: 'A partir de'; }
+    .titulo-reemplazo-64::after { content: 'Fecha de Ingreso'; }
+    .titulo-reemplazo-65::after { content: 'Antigüedad'; }
+}
+

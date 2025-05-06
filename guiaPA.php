@@ -3,10 +3,17 @@
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Guía PA</title>
-<link rel="stylesheet" href="./CSS/guiaPA.css">
+<link rel="stylesheet" href="./CSS/guiaPA.css?v=<?php echo filemtime('./CSS/guiaPA.css'); ?>" /><?php
+// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] !=0) {
+    header("Location: home.php");
+    exit();
+}
+?>
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+     <div class="cuadro-scroll">
      <!--Pestañas-->
      <div class="tab-container">
           <div class="tab-buttons">
@@ -24,6 +31,6 @@
           </div>
      </div>
 
-     <script src="./JS/pestañas-plantilla.js"></script>
+     <!-- <script src="./JS/pestañas-plantilla.js"></script> -->
 
      <?php include("./template/footer.php"); ?>

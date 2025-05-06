@@ -8,9 +8,8 @@ require_once './functions/home/eventos-home.php';
 ?>
 <!-- css del home -->
 <title>Home PA</title>
-<link rel="stylesheet" href="./CSS/home.css" />
-<!-- CSS del modal con información de los eventos en pantalla -->
-<link rel="stylesheet" href="./CSS/home/modal-eventos.css" />
+<link rel="stylesheet" href="./CSS/home.css?v=<?php echo filemtime('./CSS/home.css'); ?>" />
+<link rel="stylesheet" href="./CSS/home/modal-eventos.css?v=<?php echo filemtime('./CSS/home/modal-eventos.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -184,7 +183,7 @@ require_once './functions/home/eventos-home.php';
         ?>
         <div class="overlay">
           <?php if ($rol_id == 3) {
-            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Horas comparación</h4>";
+            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Revisión de horas</h4>";
           } else {
             echo "<h4 style='text-shadow: 1px 4px 3px black;'>Profesores</h4>";
           }
@@ -232,9 +231,9 @@ require_once './functions/home/eventos-home.php';
               </div>
               </a>';
       }
-      if ($rol_id == 3) {
+      if ($rol_id == 3 || $rol_id == 0) {
       ?> <div class="cuadro-acceso" id="cuadro-toggle" onclick="triggerBd()"> <?php
-                                                                              echo '
+          echo '
                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
                 <span>DB</span>
               </div>';
@@ -242,7 +241,7 @@ require_once './functions/home/eventos-home.php';
       ?>
         <a href="./calendario.php">
           <div class="cuadro-acceso" id="cuadro-oferta">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png">
             <span>Calendario</span>
           </div>
         </a>
@@ -252,19 +251,30 @@ require_once './functions/home/eventos-home.php';
             <span>Espacios</span>
           </div>
         </a>
-        <a href="./profesores.php">
+        <?php if ($rol_id == 3 || $rol_id == 0) { 
+          echo 
+          '<a href="./horas-comparacion.php">
           <div class="cuadro-acceso" id="cuadro-guia">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
-            <span>Profesores</span>
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-horas-b.png">
+            <span>Revisión de horas</span>
           </div>
-        </a>
+          </a>';
+          } else {
+            echo 
+            '<a href="./profesores.php">
+            <div class="cuadro-acceso" id="cuadro-guia">
+              <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png">
+              <span>Profesores</span>
+            </div>
+            </a>';
+          }
+        ?>
         </div>
     </div>
     
     <!-- Script para las funciones del modal con la información de los eventos-->
-    <script src="./JS/home/modal-eventos.js"></script>
-    <!-- Script para las funciones del carrusel -->
-    <script src="./JS/home/carrusel.js"></script>
+    <script src="./JS/home/modal-eventos.js?v=<?php echo filemtime('./JS/home/modal-eventos.js'); ?>"></script>
+    <script src="./JS/home/carrusel.js?v=<?php echo filemtime('./JS/home/carrusel.js'); ?>"></script>
     <!-- Script para la funcion del boton de base de datos cuando es responsivo en moviles y es coordinador de personal -->
     
     <script>

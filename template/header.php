@@ -1,5 +1,5 @@
 <?php
-include('./config/sesioniniciada.php');
+include('./config/sesiones.php');
 
 date_default_timezone_set('America/Mexico_City');
 if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4) { // Secretaría Administrativa y Administrador
@@ -59,6 +59,12 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
   while ($row = mysqli_fetch_assoc($result)) {
     $notificaciones[] = $row;
   }
+
+  $notificaciones_agrupadas = [];
+  foreach ($notificaciones as $notificacion) {
+      $fecha = date('Y-m-d', strtotime($notificacion['fecha']));
+      $notificaciones_agrupadas[$fecha][] = $notificacion;
+  }
 }
 ?>
 
@@ -66,8 +72,8 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
   <link rel="icon" href="./Img/Icons/iconos-header/pestaña.png" type="image/png">
 </head>
 
-<link rel="stylesheet" href="./CSS/notificaciones.css" />
-<link rel="stylesheet" href="./CSS/header.css"> <!-- Esto regresa a su lugar -->
+<link rel="stylesheet" href="./CSS/notificaciones.css?v=<?php echo filemtime('./CSS/notificaciones.css'); ?>">
+<link rel="stylesheet" href="./CSS/header.css?v=<?php echo filemtime('./CSS/header.css'); ?>">
 <div class="container">
   <div class="header">
     <div class="header-content"> <!-- Contenedor para alinear contenidos del header creo? -->
@@ -89,7 +95,7 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
     </div>
 
     <!-- Notificaciones -->
-    <div id="mySidebar" class="sidebar">
+    <div class="sidebar" id="mySidebar">
       <div class="contenedor-fecha-hora">
         <div class="fecha-hora-info">
           <div id="hora-dinamica" class="hora"></div>
@@ -97,57 +103,59 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
         </div>
         <button class="marcar-leido">Marcar como leído</button>
       </div>
-      <?php if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4) : // Mostrar para los roles ?>
-  <?php if (!empty($notificaciones)) : ?>
-    <?php foreach ($notificaciones as $notificacion) : ?>
-      <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
+
+  <?php if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4) : ?>
+    <?php if (!empty($notificaciones_agrupadas)) : ?>
+      <?php foreach ($notificaciones_agrupadas as $fecha => $grupo) : ?>
+        <div class="grupo-fecha">
+          <div class="fecha-encabezado">
+            <?= date('d \d\e F', strtotime($fecha)) ?>
+          </div>
+          <?php foreach ($grupo as $notificacion) : ?>
+            <div class="contenedor-notificacion <?= $notificacion['vista'] ? 'vista' : '' ?>" 
+                 data-id="<?= $notificacion['id'] ?>" 
+                 data-tipo="<?= $notificacion['tipo'] ?>">
+              <div class="boton-descartar" onclick="descartarNotificacion(event, <?= $notificacion['id'] ?>, '<?= $notificacion['tipo'] ?>')">
+                ×
+              </div>
               <div class="imagen">
                 <?php if (isset($notificacion['Nombre']) && isset($notificacion['Apellido']) && isset($notificacion['IconoColor'])) : ?>
-                  <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor']; ?>">
-                    <?php
-                    $nombreInicial = strtoupper(substr($notificacion['Nombre'], 0, 1));
-                    $apellidoInicial = strtoupper(substr($notificacion['Apellido'], 0, 1));
-                    echo $nombreInicial . $apellidoInicial;
-                    ?>
+                  <div class="circulo-notificaciones" style="background-color: <?= $notificacion['IconoColor'] ?>">
+                    <?= strtoupper(substr($notificacion['Nombre'], 0, 1)) . strtoupper(substr($notificacion['Apellido'], 0, 1)) ?>
                   </div>
                 <?php else : ?>
-                  <div class="circulo-notificaciones" style="background-color: #ccc;">
-                    <span>SA</span>
-                  </div>
+                  <div class="circulo-notificaciones" style="background-color: #ccc;">SA</div>
                 <?php endif; ?>
               </div>
               <div class="info-notificacion">
-                <?php if ($rol_id == 2) : ?>
-                  <div class="usuario"><?php echo $notificacion['departamentos'] ?? 'Secretaría Administrativa'; ?></div>
+                <?php if ($rol_id == 2 || $rol_id == 0) : ?>
+                  <div class="usuario"><?= $notificacion['departamentos'] ?? 'Secretaría Administrativa' ?></div>
                   <div class="descripcion">
-                    <?php if ($rol_id == 2) : ?>
-                      <div class="usuario"><?php echo $notificacion['departamentos'] ?? 'Secretaría Administrativa'; ?></div>
-                      <div class="descripcion">
-                        <?php
-                        if ($notificacion['tipo'] == 'justificacion') {
-                          echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha enviado una justificación';
-                        } elseif ($notificacion['tipo'] == 'plantilla') {
-                          echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
-                        } elseif (!empty($notificacion['Mensaje'])) {
-                          echo $notificacion['Mensaje'];
-                        } else {
-                          echo 'Nueva notificación';
-                        }
-                        ?>
-                      </div>
-                    <?php else : ?>
-                      <div class="descripcion"><?php echo $notificacion['Mensaje'] ?? 'Nueva notificación'; ?></div>
-                    <?php endif; ?>
-                  </div>
+                    <?php
+                    if ($notificacion['tipo'] == 'justificacion') {
+                        echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha enviado una justificación';
+                    } elseif ($notificacion['tipo'] == 'plantilla') {
+                        echo ($notificacion['Nombre'] ?? 'Usuario') . ' ' . ($notificacion['Apellido'] ?? '') . ' ha subido su Base de Datos';
+                    } elseif (($notificacion['tipo'] == 'modificacion_bd')) {
+                        echo "El administrador " . ($notificacion['Nombre'] ?? '') . " modificó su base de datos";
+                    } elseif (($notificacion['tipo'] == 'eliminacion_bd')) {
+                        echo $notificacion['Mensaje']; // Mostrará "El administrador X ha borrado la fila con el ID Y de su base de datos"
+                    } else {
+                        echo $notificacion['Mensaje'] ?? 'Nueva notificación';
+                    }
+                    ?>
+                </div>
                 <?php else : ?>
-                  <div class="descripcion"><?php echo $notificacion['Mensaje'] ?? 'Nueva notificación'; ?></div>
+                  <div class="descripcion"><?= $notificacion['Mensaje'] ?? 'Nueva notificación' ?></div>
                 <?php endif; ?>
                 <div class="fecha-hora">
-                  <?php echo date('d/m/Y H:i:s', strtotime($notificacion['fecha'])); ?>
+                  <?= date('H:i', strtotime($notificacion['fecha'])) ?>
                 </div>
               </div>
             </div>
           <?php endforeach; ?>
+        </div>
+      <?php endforeach; ?>
     <?php else : ?>
       <div class="mensaje-sin-notificaciones">
         <div class="info-notificacion">
@@ -155,21 +163,17 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
         </div>
       </div>
     <?php endif; ?>
-  <?php else : ?>
-    <div class="mensaje-sin-notificaciones">
-      <div class="info-notificacion">
-        <div class="descripcion">No tienes notificaciones</div>
-      </div>
-    </div>
   <?php endif; ?>
 </div>
 </div>
 
 
-<script src="./JS/header/header.js"></script>
-<script src="./JS/notificaciones/barra-notificaciones.js"></script>
+<script src="./JS/header/header.js?v=<?php echo filemtime('./JS/header/header.js'); ?>"></script>
+<script src="./JS/notificaciones/barra-notificaciones.js?v=<?php echo filemtime('./JS/notificaciones/barra-notificaciones.js'); ?>"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- fa fa icons para firefox y safari -->
@@ -200,7 +204,6 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
 
     document.getElementById('fecha-dinamica').textContent = fechaFormateada;
   }
-
   // Actualizar cada segundo
   setInterval(actualizarFechaHora, 1000);
 

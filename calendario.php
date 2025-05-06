@@ -25,10 +25,11 @@ include './template/navbar.php';
 ?>
 
 <title>Calendario</title>
-<link rel="stylesheet" href="./CSS/calendario.css" />
+<link rel="stylesheet" href="./CSS/calendario.css?v=<?php echo filemtime('./CSS/calendario.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
@@ -95,7 +96,7 @@ include './template/navbar.php';
                                 echo '<div class="event-content">';
                                 echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . '</strong>';
                                 echo '<br><span class="event-tag">' . htmlspecialchars($row['Etiqueta']) . '</span>';
-                                echo '<br><span class="event-tag" data-event-id="' . $row['ID_Evento'] . '">' . htmlspecialchars($row['Etiqueta']) . '</span>';
+                                // echo '<br><span class="event-tag" data-event-id="' . $row['ID_Evento'] . '">' . htmlspecialchars($row['Etiqueta']) . '</span>';
                                 echo '<br><span class="event-status">' . $estadoEvento . '</span>';
                                 echo '</div>';
                                 echo '</div>';
@@ -130,7 +131,6 @@ include './template/navbar.php';
                             <div class="box-buttons">
                                 <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png"></button>
                                 <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png"></button>
-                                <!-- <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button> -->
                             </div>
                     </div>
                 </div>
@@ -240,6 +240,7 @@ include './template/navbar.php';
             </div>
         </div>
     </div>
+    </div>
 </div>
 
 <!-- Llamada al modal con la información sobre los eventos -->
@@ -300,10 +301,8 @@ require_once './functions/calendario/modal-eventos-info.php';
     var userId = <?php echo json_encode($_SESSION['user_id']); ?>;
 </script>
 
-<script src="./JS/calendario/funciones-calendario.js"></script>
-
-<!-- Script para funciones del modal de crear nuevo evento. -->
-<script src="./JS/calendario/modal-nuevoevento.js"></script>
+<script src="./JS/calendario/funciones-calendario.js?v=<?php echo filemtime('./JS/calendario/funciones-calendario.js'); ?>"></script>
+<script src="./JS/calendario/modal-nuevoevento.js?v=<?php echo filemtime('./JS/calendario/modal-nuevoevento.js'); ?>"></script>
 
 <!-- Script y estilos para boton que abre el modal. -->
 <script>

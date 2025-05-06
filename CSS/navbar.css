@@ -658,12 +658,12 @@ Responsividad para distintas resoluciones
   }
 }
 @media screen and (max-height: 768px) { 
-  body #navbar { zoom: 73%!important; } 
+  body #navbar, .hamburguesa { zoom: 73%!important; } 
   #navbar { width: min(5.6em, 8%); }
   .navbar-item { padding: 2 0.5vw; }
 }
 @media screen and (max-height: 700px) { 
-  body #navbar { zoom: 60%!important; } 
+  body #navbar, .hamburguesa { zoom: 60%!important; } 
   #navbar { width: min(5.8em, 8%); }
 }
 
@@ -782,7 +782,7 @@ Responsividad para distintas resoluciones
 @media screen and (max-height: 768px) {
     /* Mozilla */
     @-moz-document url-prefix() {
-        body #navbar { zoom: 73%!important; }
+        body #navbar, .hamburguesa { zoom: 73%!important; }
         #navbar { width: min(3.6em, 8%); }
         #navbar:hover { width: 12em!important; }
         .navbar-item-inner { padding: 0.8em 0em; }
@@ -796,7 +796,7 @@ Responsividad para distintas resoluciones
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
-        body #navbar { zoom: 73%!important; }
+        body #navbar, .hamburguesa { zoom: 73%!important; }
         #navbar { width: min(3.6em, 8%); }
         #navbar:hover { width: 12em!important; }
         .navbar-item-inner { padding: 0.8em 0em; }
@@ -813,7 +813,7 @@ Responsividad para distintas resoluciones
 @media screen and (max-height: 700px) {
     /* Mozilla */
     @-moz-document url-prefix() {
-        body #navbar { zoom: 60%!important; }
+        body #navbar, .hamburguesa { zoom: 60%!important; }
         #navbar { width: min(3.2em, 8%); }
         #navbar:hover { width: 10em!important; }
         .navbar-item-inner { padding: 0.7em 0em; }
@@ -827,7 +827,7 @@ Responsividad para distintas resoluciones
     }
     /* Safari */
     @supports (-webkit-touch-callout: none) {
-        body #navbar { zoom: 60%!important; }
+        body #navbar, .hamburguesa { zoom: 60%!important; }
         #navbar { width: min(3.2em, 8%); }
         #navbar:hover { width: 10em!important; }
         .navbar-item-inner { padding: 0.7em 0em; }

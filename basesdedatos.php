@@ -143,10 +143,10 @@ function verificarChoques($registro_actual, $departamentos, $conexion)
 
             // Si hay choque de horario, días y aula/módulo
             if (
+                $registro['DIA_PRESENCIAL'] == $registro_actual['DIA_PRESENCIAL'] &&
                 $registro['MODULO'] == $registro_actual['MODULO'] &&
                 $registro['AULA'] == $registro_actual['AULA'] &&
-                $choque_horario &&
-                $dias_choque
+                $choque_horario && $dias_choque
             ) {
 
                 // Obtener el timestamp del otro departamento
@@ -191,6 +191,7 @@ while ($dep = mysqli_fetch_assoc($departamentos_result)) {
         HORA_INICIAL, 
         HORA_FINAL, 
         AULA,
+        DIA_PRESENCIAL,
         L, M, I, J, V, S, D,
         '$dep[Nombre_Departamento]' as Departamento
     FROM $tabla_dep 
@@ -249,9 +250,9 @@ $result = $stmt->get_result();
 </script>
 
 <!-- CSS base -->
-<link rel="stylesheet" href="./CSS/basesdedatos/basesdedatos.css">
-<link rel="stylesheet" href="./CSS/basesdedatos/modal-añadir-registro.css">
-<link rel="stylesheet" href="./CSS/basesdedatos/modal-registros-eliminados.css">
+<link rel="stylesheet" href="./CSS/basesdedatos/basesdedatos.css?v=<?php echo filemtime('./CSS/basesdedatos/basesdedatos.css'); ?>">
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-añadir-registro.css?v=<?php echo filemtime('./CSS/basesdedatos/modal-añadir-registro.css'); ?>">
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-registros-eliminados.css?v=<?php echo filemtime('./CSS/basesdedatos/modal-registros-eliminados.css'); ?>">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
@@ -264,6 +265,9 @@ $result = $stmt->get_result();
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
+<!-- FixedColumns -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.4/css/fixedColumns.dataTables.css">
 
 <div class="cuadro-principal">
     <div class="cuadro-scroll">
@@ -445,21 +449,22 @@ $result = $stmt->get_result();
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
 <!-- DataTables Plugins -->
-<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
 <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
-<!-- <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script> -->
+<!-- FixedColumns -->
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.4/js/dataTables.fixedColumns.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.4/js/fixedColumns.dataTables.js"></script>
 
-<!-- Scripts personalizados -->
-<script src="./JS/basesdedatos/tabla-editable.js"></script>
-<script src="./JS/basesdedatos/eliminar-registro.js"></script>
-<script src="./JS/basesdedatos/añadir-registro.js"></script>
-<script src="./JS/basesdedatos/descargar-data-excel.js"></script>
-<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<!-- Scripts personalizados con control de caché -->
+<script src="./JS/basesdedatos/tabla-editable.js?v=<?php echo filemtime('./JS/basesdedatos/tabla-editable.js'); ?>"></script>
+<script src="./JS/basesdedatos/eliminar-registro.js?v=<?php echo filemtime('./JS/basesdedatos/eliminar-registro.js'); ?>"></script>
+<script src="./JS/basesdedatos/añadir-registro.js?v=<?php echo filemtime('./JS/basesdedatos/añadir-registro.js'); ?>"></script>
+<script src="./JS/basesdedatos/descargar-data-excel.js?v=<?php echo filemtime('./JS/basesdedatos/descargar-data-excel.js'); ?>"></script>
+<script src="./JS/basesdedatos/inicializar-tablas.js?v=<?php echo filemtime('./JS/basesdedatos/inicializar-tablas.js'); ?>"></script>
 
-<!-- Scrpits registros eliminados -->
-<script src="./JS/basesdedatos/registros-eliminados/registros-eliminados.js"></script>
+<!-- Scripts registros eliminados -->
+<script src="./JS/basesdedatos/registros-eliminados/registros-eliminados.js?v=<?php echo filemtime('./JS/basesdedatos/registros-eliminados/registros-eliminados.js'); ?>"></script>
 
 <?php include("./template/footer.php"); ?>

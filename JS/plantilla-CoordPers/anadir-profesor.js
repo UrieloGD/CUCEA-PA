@@ -40,7 +40,7 @@ function añadirRegistro() {
   var formData = new FormData(form);
 
   // Validar campos requeridos
-  const requiredFields = ["codigo", "paterno", "materno", "nombre"];
+  const requiredFields = ["codigo", "paterno", "materno", "nombres"];
   for (let field of requiredFields) {
     if (!formData.get(field)) {
       Swal.fire({
@@ -53,6 +53,20 @@ function añadirRegistro() {
       return;
     }
   }
+
+  // Concatenar fechas de cambio de dedicación
+  const fechaInicio = formData.get('cambio_dediacion_inicio') || '';
+  const fechaFinal = formData.get('cambio_dediacion_final') || '';
+  
+  // Si al menos una de las fechas tiene valor, creamos el campo combinado
+  if (fechaInicio || fechaFinal) {
+    const cambioCompleto = `${fechaInicio}${fechaInicio && fechaFinal ? ' - ' : ''}${fechaFinal}`;
+    formData.set('cambio_dedicacion', cambioCompleto);
+  }
+  
+  // Eliminar los campos individuales para que no se procesen por separado
+  formData.delete('cambio_dediacion_inicio');
+  formData.delete('cambio_dediacion_final');
 
   // Asegurar formato correcto de todos los campos
   const camposNumericos = ['codigo', 'cp', 'edad', 'año', 'otro_año', 'otro_año_alternativo', 'horas_frente_grupo', 'horas_definitivas'];
@@ -148,3 +162,45 @@ function cerrarFormularioAñadir() {
   document.getElementById("modal-añadir").style.display = "none";
   document.getElementById("form-añadir-registro").reset(); // Limpiar el formulario al cerrar
 }
+
+// Cambia el color a #000000 cuando se selecciona una opción en los select
+$(document).ready(function(){
+
+  $("select").change(function(){
+    if ($(this).val()=="") $(this).css({color: "#aaa"});
+    else $(this).css({color: "#000"});
+  });
+  
+});	
+
+// Cambiar el texto a color #000000 cuando se selecciona alguna fecha.
+const fechaSnidesde = document.getElementById('sni_desde');
+const fechaCambioDI = document.getElementById('cambio_dediacion_inicio');
+const fechaCambioDF = document.getElementById('cambio_dediacion_final');
+const fechaNacimiento = document.getElementById('fecha_nacimiento');
+const fechaAnio = document.getElementById('año');
+const fechaAnioOtro = document.getElementById('otro_año');
+const fechaAnioOtroAlternativo = document.getElementById('otro_año_alternativo');
+const fechaApartirDe = document.getElementById('a_partir_de');
+const fechaIngreso = document.getElementById('fecha_ingreso');
+
+function cambiarColorTexto(event) {
+    const input = event.target; 
+    if (input.value) {
+      input.style.color = '#000000'; 
+      input.style.fontStyle = 'normal';
+    } else {
+      input.style.color = ''; 
+      input.style.fontStyle = 'italic';
+    }
+}
+
+fechaSnidesde.addEventListener('change', cambiarColorTexto);
+fechaCambioDI.addEventListener('change', cambiarColorTexto);
+fechaCambioDF.addEventListener('change', cambiarColorTexto);
+fechaNacimiento.addEventListener('change', cambiarColorTexto);
+fechaAnio.addEventListener('change', cambiarColorTexto);
+fechaAnioOtro.addEventListener('change', cambiarColorTexto);
+fechaAnioOtroAlternativo.addEventListener('change', cambiarColorTexto);
+fechaApartirDe.addEventListener('change', cambiarColorTexto);
+fechaIngreso.addEventListener('change', cambiarColorTexto);

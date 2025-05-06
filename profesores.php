@@ -1,6 +1,8 @@
 <?php
 require_once './config/db.php';
-require_once './config/sesioniniciada.php';
+require_once './template/header.php';
+require_once './template/navbar.php';
+require_once './config/sesiones.php';
 require_once './functions/profesores/funciones-horas.php';
 
 // Verificar conexión
@@ -195,10 +197,6 @@ try {
         }
         return str_replace("\n", "<br>", htmlspecialchars($horasString));
     }
-
-    // Aquí comienza el HTML
-    include './template/header.php';
-    include './template/navbar.php';
 ?>
 
     <!DOCTYPE html>
@@ -207,8 +205,8 @@ try {
     <head>
         <meta charset="UTF-8">
         <title>Profesores - <?php echo htmlspecialchars($titulo_departamento); ?></title>
-        <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css">
-        <link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css">
+        <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css?v=<?php echo filemtime('./CSS/profesores/modal-profesores.css'); ?>">
+        <link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css?v=<?php echo filemtime('./CSS/profesores/detalle-profesor.css'); ?>">
         <!-- Script para mostrar el loader inmediatamente -->
         <script>
             // Esta función se ejecuta inmediatamente, antes de que se cargue el resto del contenido
@@ -367,12 +365,12 @@ try {
             </div>
         </div>
 
-        <script src="./JS/profesores/detalle-profesor.js"></script>
-        <script src="./JS/profesores/filtro-profesores.js"></script>
-        <script src="./JS/profesores/desplegable-box.js"></script>
-        <script src="./JS/profesores/filtro-departamentos.js"></script>
-        <script src="./JS/profesores/carga-profesores.js"></script>
-        <script src="./JS/profesores/responsividad-tabla-profesores.js"></script>
+        <script src="./JS/profesores/detalle-profesor.js?v=<?php echo filemtime('./JS/profesores/detalle-profesor.js'); ?>"></script>
+        <script src="./JS/profesores/filtro-profesores.js?v=<?php echo filemtime('./JS/profesores/filtro-profesores.js'); ?>"></script>
+        <script src="./JS/profesores/desplegable-box.js?v=<?php echo filemtime('./JS/profesores/desplegable-box.js'); ?>"></script>
+        <script src="./JS/profesores/filtro-departamentos.js?v=<?php echo filemtime('./JS/profesores/filtro-departamentos.js'); ?>"></script>
+        <script src="./JS/profesores/carga-profesores.js?v=<?php echo filemtime('./JS/profesores/carga-profesores.js'); ?>"></script>
+        <script src="./JS/profesores/responsividad-tabla-profesores.js?v=<?php echo filemtime('./JS/profesores/responsividad-tabla-profesores.js'); ?>"></script>
         <script>
             // Pass the session department to JavaScript
             const sessionDepartment = "<?php
