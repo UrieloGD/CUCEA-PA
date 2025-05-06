@@ -12,7 +12,8 @@ require_once './../../../config/db.php';
 $debug_info = [
     'method' => $_SERVER['REQUEST_METHOD'],
     'post_data' => $_POST,
-    'request' => file_get_contents('php://input')
+    'request' => file_get_contents('php://input'),
+    'session' => $_SESSION
 ];
 
 // Comprobar si hay datos en POST
@@ -38,7 +39,7 @@ try {
     $departamento_id = isset($_POST['departamento_id']) ? (int)$_POST['departamento_id'] : (int)$_SESSION['Departamento_ID'];
 
     // Obtener nombre del departamento
-    $stmt = $conexion->prepare("SELECT Nombre_Departamento FROM departamentos WHERE Departamento_ID = ?");
+    $stmt = $conexion->prepare("SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?");
     $stmt->bind_param("i", $departamento_id);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -49,6 +50,7 @@ try {
     }
 
     $nombre_departamento = $departamento['Nombre_Departamento'];
+    $departamento_nombre = $departamento['Departamentos'];
     $tabla = "data_" . str_replace(' ', '_', $nombre_departamento);
 
     // Comprobar si la tabla existe
@@ -65,6 +67,82 @@ try {
 
     if ($stmt->affected_rows === 0) {
         throw new Exception("Registro no encontrado: ID=$id en tabla $tabla");
+    }
+    
+    // Si el usuario es administrador (rol_id = 0) o secretaría administrativa (rol_id = 2)
+    $rol_id = isset($_SESSION['Rol_ID']) ? (int)$_SESSION['Rol_ID'] : -1;
+    
+    if ($rol_id == 0 || $rol_id == 2) {
+        // Modificación: Buscar jefes de departamento en la tabla usuarios_departamentos
+        $query_jefe = "SELECT u.Codigo FROM usuarios u 
+                      JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID 
+                      WHERE ud.Departamento_ID = ? AND u.rol_id = 1 
+                      LIMIT 1";
+        
+        $stmt_jefe = $conexion->prepare($query_jefe);
+        $stmt_jefe->bind_param("i", $departamento_id);
+        $stmt_jefe->execute();
+        $result_jefe = $stmt_jefe->get_result();
+        
+        // Si encontramos al jefe del departamento
+        if ($result_jefe->num_rows > 0) {
+            $jefe_info = $result_jefe->fetch_assoc();
+            $codigo_jefe = $jefe_info['Codigo'];
+            
+            // Asegurar que el ID del emisor esté disponible
+            if (isset($_SESSION['Codigo'])) {
+                $emisor_id = (int)$_SESSION['Codigo'];
+                
+                // Crear mensaje de notificación
+                $mensaje = "Un administrador ha restaurado un registro en la base de datos del departamento de $departamento_nombre.";
+                
+                // Inserción con prepared statement
+                // Cambiamos el tipo de notificación a "modificacion_bd" para que sea reconocido por obtener-notificaciones.php
+                $tipo = "modificacion_bd";
+                $fecha_actual = date('Y-m-d H:i:s');
+                $vista = 0;
+                
+                $stmt_notif = $conexion->prepare("INSERT INTO notificaciones 
+                                             (Tipo, Fecha, Mensaje, Vista, Usuario_ID, Emisor_ID, Departamento_ID) 
+                                             VALUES (?, ?, ?, ?, ?, ?, ?)");
+                
+                $stmt_notif->bind_param("sssiiii", $tipo, $fecha_actual, $mensaje, $vista, $codigo_jefe, $emisor_id, $departamento_id);
+                $result_stmt = $stmt_notif->execute();
+                
+                if (!$result_stmt) {
+                    error_log("Error al insertar notificación: " . $stmt_notif->error);
+                } else {
+                    error_log("Notificación insertada correctamente: Jefe ID=$codigo_jefe, Departamento ID=$departamento_id");
+                }
+            } else {
+                error_log("No se encontró el código del usuario en la sesión");
+            }
+        } else {
+            error_log("No se encontró jefe de departamento para Departamento_ID=$departamento_id");
+            
+            // Alternativa: Guardar la notificación a nivel de departamento
+            if (isset($_SESSION['Codigo'])) {
+                $emisor_id = (int)$_SESSION['Codigo'];
+                $mensaje = "Un administrador ha restaurado un registro en la base de datos del departamento de $departamento_nombre.";
+                $tipo = "modificacion_bd";
+                $fecha_actual = date('Y-m-d H:i:s');
+                $vista = 0;
+                
+                // Insertar notificación a nivel departamento
+                $stmt_notif_dep = $conexion->prepare("INSERT INTO notificaciones 
+                                         (Tipo, Fecha, Mensaje, Vista, Emisor_ID, Departamento_ID) 
+                                         VALUES (?, ?, ?, ?, ?, ?)");
+                
+                $stmt_notif_dep->bind_param("sssiii", $tipo, $fecha_actual, $mensaje, $vista, $emisor_id, $departamento_id);
+                $result_stmt_dep = $stmt_notif_dep->execute();
+                
+                if (!$result_stmt_dep) {
+                    error_log("Error al insertar notificación a nivel departamento: " . $stmt_notif_dep->error);
+                } else {
+                    error_log("Notificación a nivel departamento insertada correctamente para Departamento_ID=$departamento_id");
+                }
+            }
+        }
     }
 
     $conexion->commit();

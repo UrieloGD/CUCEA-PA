@@ -15,7 +15,7 @@ if ($rol_id == 1 || $rol_id == 4) {
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               WHERE n.Departamento_ID = " . $_SESSION['Departamento_ID'] . "
-              AND (n.Tipo = 'modificacion_bd' OR n.Tipo = 'eliminacion_bd')
+              AND (n.Tipo = 'modificacion_bd' OR n.Tipo = 'eliminacion_bd' OR n.Tipo = 'restauracion_bd')
               ORDER BY n.Fecha DESC
               LIMIT 10";
 } else if ($rol_id == 0 || $rol_id == 2) { // Administrador y Secretaría administrativa
@@ -40,12 +40,14 @@ if ($rol_id == 1 || $rol_id == 4) {
             
             UNION ALL
             
-            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS Departamentos, 
-                e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, 
-                n.Vista AS vista, n.Emisor_ID, n.Mensaje
+            SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, 
+                   d.Departamentos, 
+                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, 
+                   n.Vista AS vista, n.Emisor_ID, n.Mensaje
             FROM notificaciones n
             LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
-            WHERE n.Usuario_ID = $codigo_usuario
+            LEFT JOIN departamentos d ON n.Departamento_ID = d.Departamento_ID
+            WHERE n.Usuario_ID = $codigo_usuario OR (n.Usuario_ID IS NULL AND n.Departamento_ID IS NOT NULL)
             
             ORDER BY fecha DESC
             LIMIT 10";
