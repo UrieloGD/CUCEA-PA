@@ -2,6 +2,8 @@
 // Asegurarse de que los errores no se muestren en la salida
 ini_set('display_errors', 0);
 error_reporting(E_ALL);
+// Establecer zona horaria
+date_default_timezone_set('America/Mexico_City');
 
 // Función para manejar errores y devolverlos como JSON
 function handleError($errno, $errstr, $errfile, $errline) {
@@ -24,8 +26,106 @@ header('Content-Type: application/json');
 session_start();
 
 include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php'; // Incluimos la función de correo
 
 $response = ['success' => false, 'oldValue' => '', 'error' => ''];
+
+// Función para enviar correo al jefe de departamento
+function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor_id, $campo, $id_registro, $valor_anterior, $valor_nuevo) {
+    // Obtener el correo del jefe de departamento
+    $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
+                 FROM usuarios u 
+                 JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+                 JOIN departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 WHERE d.Departamento_ID = ? AND u.rol_id = 1";
+    $stmt = mysqli_prepare($conexion, $sql_jefe);
+    mysqli_stmt_bind_param($stmt, "i", $departamento_id);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $jefe = mysqli_fetch_assoc($result);
+
+    if ($jefe) {
+        // Obtener información del administrador emisor
+        $sql_emisor = "SELECT Nombre FROM usuarios WHERE Codigo = ?";
+        $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
+        mysqli_stmt_bind_param($stmt_emisor, "i", $emisor_id);
+        mysqli_stmt_execute($stmt_emisor);
+        $result_emisor = mysqli_stmt_get_result($stmt_emisor);
+        $emisor = mysqli_fetch_assoc($result_emisor);
+        $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
+
+        // Fecha de la acción
+        $fecha_accion = date('d/m/Y H:i');
+
+        // Enviar correo electrónico
+        $asunto = "Modificación de datos - Programación Académica";
+        $cuerpo = "
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                .header { text-align: center; padding-bottom: 20px; }
+                .header img { width: 300px; }
+                .content { padding: 20px; }
+                h2 { color: #2c3e50; }
+                p { line-height: 1.5; color: #333; }
+                .changes { margin: 20px 0; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #3498db; }
+                .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+                th { background-color: #f2f2f2; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                </div>
+                <div class='content'>
+                    <h2>Notificación de modificación de datos</h2>
+                    <p>{$mensaje}</p>
+                    <p><strong>Departamento:</strong> {$jefe['Departamentos']}</p>
+                    <p><strong>Acción realizada por:</strong> {$nombre_emisor}</p>
+                    <p><strong>Fecha y hora:</strong> {$fecha_accion}</p>
+                    <div class='changes'>
+                        <p><strong>Detalles del cambio:</strong></p>
+                        <table>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Valor anterior</th>
+                                <th>Valor nuevo</th>
+                            </tr>
+                            <tr>
+                                <td>{$campo}</td>
+                                <td>{$valor_anterior}</td>
+                                <td>{$valor_nuevo}</td>
+                            </tr>
+                        </table>
+                        <p><strong>ID del registro:</strong> {$id_registro}</p>
+                    </div>
+                    <p>Por favor, ingrese al sistema para más información.</p>
+                </div>
+                <div class='footer'>
+                    <p>Centro para la Sociedad Digital</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+
+        if (enviarCorreo($jefe['Correo'], $asunto, $cuerpo)) {
+            error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
+            return true;
+        } else {
+            error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
+            return false;
+        }
+    } else {
+        error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
+        return false;
+    }
+}
 
 try {
     if (!isset($_POST['id']) || !isset($_POST['column']) || !isset($_POST['value'])) {
@@ -197,7 +297,7 @@ try {
                 $jefe_id = $row_jefe['Codigo'];
                 
                 // Mensaje específico para el jefe
-                $mensaje_jefe = "Un administrador ha modificado el campo '$column' del registro #$id. Valor anterior: '{$response['oldValue']}'. Nuevo valor: '$value'";
+                $mensaje_jefe = "Un administrador ha modificado el campo '$column' del registro #$id.'";
                 
                 $sql_notificacion_jefe = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
                                          VALUES ('modificacion_bd', ?, ?, ?)";
@@ -207,6 +307,9 @@ try {
                 if (!$stmt_notificacion_jefe->execute()) {
                     error_log("Error al crear notificación para el jefe: " . $stmt_notificacion_jefe->error);
                 }
+                
+                // Enviar correo de notificación al jefe
+                enviarCorreoNotificacion($conexion, $department_id, $mensaje_jefe, $usuario_admin_id, $column, $id, $response['oldValue'], $value);
             }
         }
     } else {

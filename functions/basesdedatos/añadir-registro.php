@@ -1,6 +1,9 @@
 <?php
 include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php'; // Incluimos la función de correo
 session_start();
+// Establecer zona horaria
+date_default_timezone_set('America/Mexico_City');
 
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['Codigo'])) {
@@ -28,6 +31,97 @@ $stmt->close();
 
 // Construir el nombre de la tabla
 $tabla_departamento = "data_" . str_replace(' ', '_', $nombre_departamento);
+
+// Función para enviar correo al jefe de departamento
+function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor_id, $detalles_materia) {
+    // Obtener el correo del jefe de departamento
+    $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
+                 FROM usuarios u 
+                 JOIN usuarios_departamentos ud ON u.Codigo = ud.Usuario_ID
+                 JOIN departamentos d ON ud.Departamento_ID = d.Departamento_ID 
+                 WHERE d.Departamento_ID = ? AND u.rol_id = 1";
+    
+    // Usar el estilo orientado a objetos consistentemente
+    $stmt_jefe = $conexion->prepare($sql_jefe);
+    $stmt_jefe->bind_param("i", $departamento_id);
+    $stmt_jefe->execute();
+    $result_jefe = $stmt_jefe->get_result();
+    $jefe = $result_jefe->fetch_assoc();
+    $stmt_jefe->close();
+
+    if ($jefe) {
+        // Obtener información del administrador emisor
+        $sql_emisor = "SELECT Nombre, Apellido FROM usuarios WHERE Codigo = ?";
+        $stmt_emisor = $conexion->prepare($sql_emisor);
+        $stmt_emisor->bind_param("i", $emisor_id);
+        $stmt_emisor->execute();
+        $result_emisor = $stmt_emisor->get_result();
+        $emisor = $result_emisor->fetch_assoc();
+        $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
+        $stmt_emisor->close();
+
+        // Fecha de la acción
+        $fecha_accion = date('d/m/Y H:i');
+
+        // Enviar correo electrónico
+        $asunto = "Nuevo registro añadido - Programación Académica";
+        $cuerpo = "
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                .header { text-align: center; padding-bottom: 20px; }
+                .header img { width: 300px; }
+                .content { padding: 20px; }
+                h2 { color: #2c3e50; }
+                p { line-height: 1.5; color: #333; }
+                .info { margin: 20px 0; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #3498db; }
+                .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                </div>
+                <div class='content'>
+                    <h2>Notificación de nuevo registro</h2>
+                    <p>{$mensaje}</p>
+                    <p><strong>Departamento:</strong> {$jefe['Departamentos']}</p>
+                    <p><strong>Acción realizada por:</strong> {$nombre_emisor}</p>
+                    <p><strong>Fecha y hora:</strong> {$fecha_accion}</p>
+                    <div class='info'>
+                        <p><strong>Detalles del nuevo registro:</strong></p>
+                        <p><strong>Materia:</strong> {$detalles_materia['materia']}</p>
+                        <p><strong>CRN:</strong> {$detalles_materia['crn']}</p>
+                        <p><strong>Clave de materia:</strong> {$detalles_materia['cve_materia']}</p>
+                        <p><strong>Profesor:</strong> {$detalles_materia['profesor']}</p>
+                        <p><strong>Código del profesor:</strong> {$detalles_materia['codigo_profesor']}</p>
+                    </div>
+                    <p>Por favor, ingrese al sistema para ver el registro completo.</p>
+                </div>
+                <div class='footer'>
+                    <p>Centro para la Sociedad Digital</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+
+        $result = enviarCorreo($jefe['Correo'], $asunto, $cuerpo);
+        if ($result) {
+            error_log("Correo enviado exitosamente al jefe del departamento {$jefe['Departamentos']}");
+            return true;
+        } else {
+            error_log("Error al enviar correo al jefe del departamento {$jefe['Departamentos']}");
+            return false;
+        }
+    } else {
+        error_log("No se encontró jefe de departamento para el Departamento_ID: $departamento_id");
+        return false;
+    }
+}
 
 // Preparar la consulta SQL
 $sql = "INSERT INTO `$tabla_departamento` (
@@ -103,7 +197,6 @@ try {
         if ($_SESSION['Rol_ID'] == 0) {
             try {
                 // Creamos una notificación a nivel de departamento en lugar de usuario específico
-                // basándonos en cómo se muestran las notificaciones en obtener-notificaciones.php
                 $mensaje = "El administrador ha añadido un nuevo registro a la base de datos: " . 
                            $_POST['materia'] . " (CRN: " . $_POST['crn'] . ")";
                 
@@ -127,24 +220,70 @@ try {
                 
                 $stmt_notificacion->close();
                 
-                // Adicionalmente, podemos registrar el evento para depuración
-                error_log("Notificación enviada al departamento ID: $departamento_id");
+                // Datos para el correo
+                $detalles_materia = [
+                    'materia' => $_POST['materia'],
+                    'crn' => $_POST['crn'],
+                    'cve_materia' => $_POST['cve_materia'],
+                    'profesor' => $_POST['nombre_profesor'],
+                    'codigo_profesor' => $_POST['codigo_profesor']
+                ];
                 
+                // Enviar correo electrónico
+                $correo_enviado = enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $_SESSION['Codigo'], $detalles_materia);
+                
+                // Registrar el evento para depuración
+                error_log("Notificación enviada para el departamento ID: $departamento_id, correo enviado: " . ($correo_enviado ? "Sí" : "No"));
             } catch (Exception $e) {
-                error_log("Error al enviar notificación: " . $e->getMessage());
+                error_log("Error al procesar notificación: " . $e->getMessage());
+                // Continuar con la respuesta exitosa aunque falle la notificación
             }
         }
         
-        echo json_encode(["success" => true, "message" => "Registro añadido correctamente"]);
+        // Guardar el registro en la tabla de historial
+        try {
+            $accion = "INSERTAR";
+            $descripcion = "Se ha añadido un nuevo registro con CRN: " . $_POST['crn'] . " en la materia: " . $_POST['materia'];
+            $usuario = $_SESSION['Codigo'];
+            $fecha = date('Y-m-d H:i:s');
+            
+            $sql_historial = "INSERT INTO historial_cambios (Accion, Descripcion, Usuario_ID, Fecha, Departamento_ID) 
+                             VALUES (?, ?, ?, ?, ?)";
+            
+            $stmt_historial = $conexion->prepare($sql_historial);
+            
+            if ($stmt_historial === false) {
+                throw new Exception("Error preparando consulta de historial: " . $conexion->error);
+            }
+            
+            $stmt_historial->bind_param("ssisi", $accion, $descripcion, $usuario, $fecha, $departamento_id);
+            $stmt_historial->execute();
+            $stmt_historial->close();
+            
+        } catch (Exception $e) {
+            error_log("Error al registrar en historial: " . $e->getMessage());
+            // Continuar con la respuesta exitosa aunque falle el registro en historial
+        }
+        
+        // Devolver respuesta exitosa
+        echo json_encode([
+            "success" => true, 
+            "message" => "Registro añadido correctamente.",
+            "departamento" => $nombre_departamento,
+            "crn" => $_POST['crn']
+        ]);
+        
     } else {
-        echo json_encode(["success" => false, "message" => "Error añadiendo registro: " . $stmt->error]);
-        $stmt->close();
+        throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
     }
 } catch (Exception $e) {
-    echo json_encode(["success" => false, "message" => "Error al procesar: " . $e->getMessage()]);
-    if (isset($stmt) && $stmt) {
-        $stmt->close();
-    }
+    // En caso de error, devolvemos un mensaje de error
+    echo json_encode([
+        "success" => false, 
+        "message" => "Error al añadir el registro: " . $e->getMessage()
+    ]);
 }
 
+// Cerrar la conexión
 $conexion->close();
+?>

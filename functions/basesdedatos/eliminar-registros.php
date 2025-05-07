@@ -60,7 +60,7 @@ function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $tipo_a
         mysqli_stmt_execute($stmt_emisor);
         $result_emisor = mysqli_stmt_get_result($stmt_emisor);
         $emisor = mysqli_fetch_assoc($result_emisor);
-        $nombre_emisor = $emisor ? $emisor['Nombre'] : 'Un administrador';
+        $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
 
         // Insertar notificación en la tabla Notificaciones para el jefe
         $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, emisor_ID) 
