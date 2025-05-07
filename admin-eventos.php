@@ -21,6 +21,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestaña azul-->
     <!-- <div class="encabezado">
         <div class="titulo-bd">
@@ -129,17 +130,25 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <span class="perfil">
                         <div class="icono-perfil">
                             <?php 
-                            $nombreCompleto = $row['NombresParticipantes']; 
+                            $nombreCompleto = $row['NombresParticipantes'];
                             $nombreSeparado = explode(" ", $nombreCompleto);
                             $iniciales = strtoupper($nombreSeparado[0][0] . $nombreSeparado[1][0]);
-                            echo $iniciales;
-                            ?>
+                            ?> <strong> <?php echo $iniciales; ?> </strong>
                         </div>
-                        <?php echo htmlspecialchars($row['NombresParticipantes']); ?>
+                        <?php // echo htmlspecialchars($row['NombresParticipantes']); ?>
                     </span>
                     <!-- <span class="department"><?php echo htmlspecialchars($row['Etiqueta']); ?></span> -->
                     <div class="datetime-event">
-                        <span><i class="fa-solid fa-clock" style="margin: 0 5 0 0;"></i><?php echo date('H:i', strtotime($row['Hora_Inicio'])); ?></span>
+                        <?php
+                        $horaInicio = strtotime($row['Hora_Inicio']);
+                        $pm_am = ($horaInicio >= strtotime("12:00:00")) ? 'P.M.' : 'A.M.';
+                        if ($row['Hora_Inicio'] >= "12:00:00") {
+                            $pm_am = 'P.M.';
+                        } else {
+                            $pm_am = 'A.M.';
+                        }
+                        ?>
+                        <span><i class="fa-solid fa-clock" style="margin: 0 5 0 0;"></i><?php echo date('h:i', $horaInicio) . " " . $pm_am; ?></span>
                         <span><i class="fas fa-map-marker-alt" style="margin: 0 5 0 10;"></i>Modulo O</span>
                     </div>
                 </div>
@@ -155,6 +164,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     <?php
     }
     ?>
+    </div>
 </div>
 
 <!-- Modal para crear evento -->
