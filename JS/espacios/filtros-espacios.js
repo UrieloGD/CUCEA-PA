@@ -51,6 +51,46 @@ $(document).ready(function () {
     }
   });
 
+  // Función mejorada para actualizar las aulas amplias
+  function actualizarAulasAmplias(espacios_ocupados) {
+    console.log("Actualizando aulas amplias con datos:", espacios_ocupados);
+    
+    // Mapeo de los IDs de espacios que llegan del servidor a los elementos visuales
+    // Se asume que 0001, 0001A o 0001B corresponden al aula 1, 0002 al aula 2, etc.
+    const mapping = {
+      // Mapeo para números simples (0001, 0002, etc.)
+      "0001": 1, "0002": 2, "0003": 3, 
+      "0004": 4, "0005": 5, "0006": 6,
+      // Mapeo para variantes con letras (0001A, 0001B, etc.)
+      "0001A": 1, "0001B": 1, "0001C": 1, 
+      "0002A": 2, "0002B": 2, "0002C": 2, 
+      "0003A": 3, "0003B": 3, "0003C": 3, 
+      "0004A": 4, "0004B": 4, "0004C": 4, 
+      "0005A": 5, "0005B": 5, "0005C": 5,
+      "0006A": 6, "0006B": 6, "0006C": 6 
+    };
+    
+    // Resetear todas las aulas amplias a su estado original
+    for (let i = 1; i <= 6; i++) {
+      $(`#azul-${i}`).removeClass("aula-azul-ocupada").addClass("aula-azul");
+      $(`#AA${i}`).removeAttr("data-info");
+    }
+    
+    // Marcar las aulas amplias que estén ocupadas
+    Object.keys(espacios_ocupados).forEach(function(espacio) {
+      // Verificar si el espacio está en nuestro mapeo
+      const aulaNum = mapping[espacio];
+      
+      if (aulaNum) {
+        console.log(`Marcando ${espacio} como ocupada (aula ${aulaNum})`);
+        $(`#azul-${aulaNum}`).removeClass("aula-azul").addClass("aula-azul-ocupada");
+        
+        // Añadir los datos para mostrar en el hover
+        $(`#AA${aulaNum}`).attr("data-info", JSON.stringify(espacios_ocupados[espacio]));
+      }
+    });
+  }
+
   $("#filtrar").click(function () {
     var modulo = $("#modulo").val();
     var dia = $("#dia").val();
@@ -64,6 +104,25 @@ $(document).ready(function () {
       hora_fin = calcularHoraFin(hora_inicio);
     }
 
+    // Validar que se hayan seleccionado todos los campos necesarios
+    if (!modulo) {
+      console.error("Módulo no seleccionado");
+      return;
+    }
+    
+    // En módulo CEDAA permitir filtrado aunque falten algunos campos
+    if (modulo !== "CEDAA" && (!dia || !hora_inicio || !hora_fin)) {
+      alert("Por favor complete todos los campos de filtrado");
+      return;
+    }
+
+    console.log("Filtrando espacios:", {
+      modulo: modulo,
+      dia: dia,
+      hora_inicio: hora_inicio,
+      hora_fin: hora_fin
+    });
+
     $.ajax({
       url: "./functions/espacios/obtener-espacios.php",
       method: "GET",
@@ -74,12 +133,15 @@ $(document).ready(function () {
         hora_fin: hora_fin,
       },
       success: function (response) {
+        console.log("Respuesta del servidor:", response);
         var espacios_ocupados = JSON.parse(response);
 
+        // Restablecer todas las salas a su estado original
         $(".sala")
           .removeClass("aula-ocupada laboratorio-ocupado ocupado")
           .removeAttr("data-info");
 
+        // Marcar las salas ocupadas
         Object.keys(espacios_ocupados).forEach(function (espacio) {
           var salaElement = $('[data-espacio="' + espacio + '"]');
           var info = espacios_ocupados[espacio];
@@ -94,13 +156,46 @@ $(document).ready(function () {
 
           salaElement.attr("data-info", JSON.stringify(info));
         });
+        
+        // Actualizar aulas amplias si estamos en el módulo CEDAA
+        if (modulo === "CEDAA") {
+          console.log("Actualizando aulas amplias");
+          actualizarAulasAmplias(espacios_ocupados);
+        }
       },
+      error: function(xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        console.error("Respuesta del servidor:", xhr.responseText);
+        alert("Hubo un error al filtrar los espacios. Por favor, intente de nuevo.");
+      }
     });
   });
 
+  // Manejador de eventos para mostrar información en hover
   $(document)
-    .on("mouseenter", ".sala[data-info]", function (e) {
-      var info = JSON.parse($(this).attr("data-info"));
+    .on("mouseenter", ".sala[data-info], [id^='azul-'], [id^='AA']", function (e) {
+      // Para aulas amplias, buscar info en el elemento AA correspondiente
+      var info;
+      if (this.id && this.id.startsWith('azul-')) {
+        var aulaNum = this.id.split('-')[1];
+        var $aaElement = $(`#AA${aulaNum}`);
+        if ($aaElement.attr('data-info')) {
+          info = JSON.parse($aaElement.attr('data-info'));
+        } else {
+          return; // No hay info que mostrar
+        }
+      } else if (this.id && this.id.startsWith('AA')) {
+        if ($(this).attr('data-info')) {
+          info = JSON.parse($(this).attr('data-info'));
+        } else {
+          return; // No hay info que mostrar
+        }
+      } else if ($(this).attr('data-info')) {
+        info = JSON.parse($(this).attr('data-info'));
+      } else {
+        return; // No hay info que mostrar
+      }
+      
       var infoHtml =
         '<div class="info-hover">' +
         "<p><strong>CVE Materia:</strong> " +
@@ -129,14 +224,14 @@ $(document).ready(function () {
 
       $(this).data("infoElement", $infoElement);
     })
-    .on("mouseleave", ".sala[data-info]", function () {
+    .on("mouseleave", ".sala[data-info], [id^='azul-'], [id^='AA']", function () {
       var $infoElement = $(this).data("infoElement");
       if ($infoElement) {
         $infoElement.remove();
       }
     });
 
-  // Evento de clic para abrir el modal en cualquier espacio
+  // Evento de clic para abrir el modal en espacios normales
   $(document).on("click", ".sala", function () {
     var espacio = $(this).data("espacio");
     var modulo = $("#modulo").val();
@@ -167,6 +262,42 @@ $(document).ready(function () {
     });
   });
 
+  // Evento de clic para AA1-AA6
+  $(document).on("click", "[id^='AA']", function() {
+    var aulaNum = this.id.substring(2);
+    var espacio = "000" + aulaNum;
+    var modulo = "CEDAA";
+
+    console.log("Clic en aula amplia:", espacio);
+
+    $.ajax({
+      url: "./functions/espacios/obtener-horario-aula.php",
+      method: "GET",
+      data: { espacio: espacio, modulo: modulo },
+      dataType: "json",
+      success: function(horarios) {
+        console.log("Respuesta del servidor para aula amplia:", horarios);
+        if (typeof horarios === "object" && horarios !== null) {
+          mostrarModal(espacio, horarios);
+        } else {
+          console.error("La respuesta no es un objeto válido:", horarios);
+          alert("Hubo un error al cargar los horarios. Por favor, intente de nuevo.");
+        }
+      },
+      error: function(xhr, status, error) {
+        console.error("Error en la solicitud AJAX:", error);
+        console.error("Respuesta del servidor:", xhr.responseText);
+        alert("Hubo un error al cargar los horarios. Por favor, intente de nuevo.");
+      }
+    });
+  });
+
+  // También permitir clic en los elementos visuales azul-N
+  $(document).on("click", "[id^='azul-']", function() {
+    var aulaNum = this.id.split('-')[1];
+    $(`#AA${aulaNum}`).trigger('click');
+  });
+
   // Cerrar el modal
   $(".close").click(function () {
     $("#claseModal").hide();
@@ -178,4 +309,36 @@ $(document).ready(function () {
       $("#claseModal").hide();
     }
   });
+  
+  // Limpiar filtros
+  $("#limpiar").click(function() {
+    $("#dia").val("").prop("disabled", false);
+    $("#horario_inicio").val("").prop("disabled", false);
+    $("#horario_fin").val("").prop("disabled", false);
+    $("#tiempo-real").prop("checked", false);
+    
+    // Restablecer todas las salas a su estado original
+    $(".sala")
+      .removeClass("aula-ocupada laboratorio-ocupado ocupado")
+      .removeAttr("data-info");
+    
+    // Restablecer todas las aulas amplias
+    for (let i = 1; i <= 6; i++) {
+      $(`#azul-${i}`).removeClass("aula-azul-ocupada").addClass("aula-azul");
+      $(`#AA${i}`).removeAttr("data-info");
+    }
+  });
+  
+  // Ejecutar filtrado inicial si estamos en el módulo CEDAA y los filtros están completos
+  if ($("#modulo").val() === "CEDAA") {
+    // Comprobar si hay filtros seleccionados
+    var dia = $("#dia").val();
+    var hora_inicio = $("#horario_inicio").val();
+    var hora_fin = $("#horario_fin").val();
+    
+    if (dia && hora_inicio && hora_fin) {
+      console.log("Ejecutando filtrado inicial para CEDAA");
+      $("#filtrar").click();
+    }
+  }
 });
