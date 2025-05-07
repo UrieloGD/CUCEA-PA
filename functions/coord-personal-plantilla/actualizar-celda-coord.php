@@ -64,7 +64,8 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
         }
         
         // Asunto y cuerpo del correo
-        $asunto = "Modificación de datos - Programación Académica";
+
+        $asunto = "Modificación por coordinador - Programación Académica";
         $cuerpo = "
         <html>
         <head>
@@ -76,8 +77,11 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
                 .content { padding: 20px; }
                 h2 { color: #2c3e50; }
                 p { line-height: 1.5; color: #333; }
-                .details { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; }
+                .changes { margin: 20px 0; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #3498db; }
                 .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+                th { background-color: #f2f2f2; }
             </style>
         </head>
         <body>
@@ -86,15 +90,24 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
                     <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
                 </div>
                 <div class='content'>
-                    <h2>Notificación de modificación de datos</h2>
-                    <p>Un $tipo_usuario ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en la base de datos de Coordinación.</p>
-                    <div class='details'>
-                        <p><strong>Acción realizada por:</strong> $nombre_emisor</p>
-                        <p><strong>Fecha y hora:</strong> $fecha_accion</p>
-                        <p><strong>Campo modificado:</strong> $campo</p>
-                        <p><strong>ID del registro:</strong> $id_registro</p>
-                        <p><strong>Valor anterior:</strong> $valor_anterior</p>
-                        <p><strong>Nuevo valor:</strong> $valor_nuevo</p>
+                    <h2>Notificación de modificación por coordinador</h2>
+                    <p>El Administrador $nombre_emisor ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en su base de datos.</p>
+                    <p><strong>Fecha y hora:</strong> $fecha_accion</p>
+                    <div class='changes'>
+                        <p><strong>Detalles del cambio:</strong></p>
+                        <table>
+                            <tr>
+                                <th>Campo</th>
+                                <th>Valor anterior</th>
+                                <th>Valor nuevo</th>
+                            </tr>
+                            <tr>
+                                <td>{$campo}</td>
+                                <td>{$valor_anterior}</td>
+                                <td>{$valor_nuevo}</td>
+                            </tr>
+                        </table>
+                        <p><strong>ID del registro:</strong> {$id_registro}</p>
                     </div>
                     <p>Por favor, ingrese al sistema para más información o si necesita revisar este cambio.</p>
                 </div>

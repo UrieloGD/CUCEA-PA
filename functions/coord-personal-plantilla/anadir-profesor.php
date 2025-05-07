@@ -155,8 +155,7 @@ try {
         try {
             // Crear mensaje de notificación
             $nombre_completo = $_POST['nombres'] . ' ' . $_POST['paterno'] . ' ' . $_POST['materno'];
-            $mensaje = "El administrador ha añadido un nuevo profesor a su base de datos: " . 
-                      $nombre_completo;
+            $mensaje = "El administrador ha añadido un nuevo profesor a su base de datos.";
             
             // Obtener todos los coordinadores
             $sql_coordinadores = "SELECT Codigo FROM usuarios WHERE rol_id = 3";
@@ -244,6 +243,14 @@ function enviarCorreoNotificacion($conexion, $mensaje) {
     // Información adicional para el correo
     $fecha_accion = date('d/m/Y H:i');
     
+    // Obtener los detalles del profesor recién agregado
+    $detalles_profesor = [
+        'codigo' => $_POST['codigo'],
+        'nombre_completo' => $_POST['nombres'] . ' ' . $_POST['paterno'] . ' ' . $_POST['materno'],
+        'departamento' => isset($_POST['departamento']) ? $_POST['departamento'] : '',
+        'categoria' => isset($_POST['categoria_actual']) ? $_POST['categoria_actual'] : ''
+    ];
+    
     $correos_enviados = 0;
     
     // Enviar un correo a cada coordinador
@@ -266,7 +273,7 @@ function enviarCorreoNotificacion($conexion, $mensaje) {
                 .content { padding: 20px; }
                 h2 { color: #2c3e50; }
                 p { line-height: 1.5; color: #333; }
-                .info { color: #3498db; font-weight: bold; }
+                .info { margin: 20px 0; padding: 10px; background-color: #f9f9f9; border-left: 4px solid #3498db; }
                 .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
             </style>
         </head>
@@ -276,10 +283,17 @@ function enviarCorreoNotificacion($conexion, $mensaje) {
                     <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
                 </div>
                 <div class='content'>
-                    <h2>Notificación de actualización de datos</h2>
-                    <p class='info'>{$mensaje}</p>
+                    <h2>Notificación de nuevo profesor</h2>
+                    <p>{$mensaje}</p>
                     <p><strong>Acción realizada por:</strong> {$nombre_emisor}</p>
                     <p><strong>Fecha y hora:</strong> {$fecha_accion}</p>
+                    <div class='info'>
+                        <p><strong>Detalles del nuevo profesor:</strong></p>
+                        <p><strong>Código:</strong> {$detalles_profesor['codigo']}</p>
+                        <p><strong>Nombre completo:</strong> {$detalles_profesor['nombre_completo']}</p>
+                        <p><strong>Departamento:</strong> {$detalles_profesor['departamento']}</p>
+                        <p><strong>Categoría:</strong> {$detalles_profesor['categoria']}</p>
+                    </div>
                     <p>Por favor, ingrese al sistema para ver los detalles completos.</p>
                 </div>
                 <div class='footer'>
