@@ -24,8 +24,154 @@ header('Content-Type: application/json');
 session_start();
 
 include './../../config/db.php';
+include './../notificaciones-correos/email_functions.php'; // Incluimos la función de correo
+date_default_timezone_set('America/Mexico_City');
 
 $response = ['success' => false, 'oldValue' => '', 'error' => ''];
+
+// Función para enviar correo a los coordinadores
+function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anterior, $valor_nuevo, $emisor_id) {
+    // Obtener todos los coordinadores
+    $sql_coordinadores = "SELECT Codigo, Nombre, Apellido, Correo FROM usuarios WHERE rol_id = 3";
+    $result_coordinadores = mysqli_query($conexion, $sql_coordinadores);
+    
+    if (!$result_coordinadores) {
+        error_log("Error al obtener coordinadores: " . mysqli_error($conexion));
+        return false;
+    }
+    
+    // Obtener información del usuario emisor
+    $sql_emisor = "SELECT Nombre, Apellido, rol_id FROM usuarios WHERE Codigo = ?";
+    $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
+    mysqli_stmt_bind_param($stmt_emisor, "i", $emisor_id);
+    mysqli_stmt_execute($stmt_emisor);
+    $result_emisor = mysqli_stmt_get_result($stmt_emisor);
+    $emisor = mysqli_fetch_assoc($result_emisor);
+    
+    $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un usuario';
+    $tipo_usuario = ($emisor && $emisor['rol_id'] === 0) ? "administrador" : "usuario";
+    
+    // Información adicional para el correo
+    $fecha_accion = date('d/m/Y H:i');
+    
+    $correos_enviados = 0;
+    
+    // Enviar un correo a cada coordinador
+    while ($coordinador = mysqli_fetch_assoc($result_coordinadores)) {
+        // No enviar al mismo usuario que hizo el cambio si es coordinador
+        if ($coordinador['Codigo'] == $emisor_id) {
+            continue;
+        }
+        
+        // Asunto y cuerpo del correo
+        $asunto = "Modificación de datos - Programación Académica";
+        $cuerpo = "
+        <html>
+        <head>
+            <style>
+                body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                .header { text-align: center; padding-bottom: 20px; }
+                .header img { width: 300px; }
+                .content { padding: 20px; }
+                h2 { color: #2c3e50; }
+                p { line-height: 1.5; color: #333; }
+                .details { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; }
+                .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                </div>
+                <div class='content'>
+                    <h2>Notificación de modificación de datos</h2>
+                    <p>Un $tipo_usuario ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en la base de datos de Coordinación.</p>
+                    <div class='details'>
+                        <p><strong>Acción realizada por:</strong> $nombre_emisor</p>
+                        <p><strong>Fecha y hora:</strong> $fecha_accion</p>
+                        <p><strong>Campo modificado:</strong> $campo</p>
+                        <p><strong>ID del registro:</strong> $id_registro</p>
+                        <p><strong>Valor anterior:</strong> $valor_anterior</p>
+                        <p><strong>Nuevo valor:</strong> $valor_nuevo</p>
+                    </div>
+                    <p>Por favor, ingrese al sistema para más información o si necesita revisar este cambio.</p>
+                </div>
+                <div class='footer'>
+                    <p>Centro para la Sociedad Digital</p>
+                </div>
+            </div>
+        </body>
+        </html>";
+        
+        if (enviarCorreo($coordinador['Correo'], $asunto, $cuerpo)) {
+            error_log("Correo enviado exitosamente al coordinador {$coordinador['Nombre']}");
+            $correos_enviados++;
+        } else {
+            error_log("Error al enviar correo al coordinador {$coordinador['Nombre']}");
+        }
+    }
+    
+    // Si el cambio lo hizo un coordinador, notificar a los administradores
+    if ($emisor && $emisor['rol_id'] == 3) {
+        $sql_admins = "SELECT Codigo, Nombre, Apellido, Correo FROM usuarios WHERE rol_id = 0";
+        $result_admins = mysqli_query($conexion, $sql_admins);
+        
+        if ($result_admins) {
+            while ($admin = mysqli_fetch_assoc($result_admins)) {
+                $asunto = "Modificación por coordinador - Programación Académica";
+                $cuerpo = "
+                <html>
+                <head>
+                    <style>
+                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+                        .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+                        .header { text-align: center; padding-bottom: 20px; }
+                        .header img { width: 300px; }
+                        .content { padding: 20px; }
+                        h2 { color: #2c3e50; }
+                        p { line-height: 1.5; color: #333; }
+                        .details { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; }
+                        .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
+                        </div>
+                        <div class='content'>
+                            <h2>Notificación de modificación por coordinador</h2>
+                            <p>El coordinador $nombre_emisor ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en la base de datos de Coordinación.</p>
+                            <div class='details'>
+                                <p><strong>Fecha y hora:</strong> $fecha_accion</p>
+                                <p><strong>Campo modificado:</strong> $campo</p>
+                                <p><strong>ID del registro:</strong> $id_registro</p>
+                                <p><strong>Valor anterior:</strong> $valor_anterior</p>
+                                <p><strong>Nuevo valor:</strong> $valor_nuevo</p>
+                            </div>
+                            <p>Por favor, ingrese al sistema para más información o si necesita revisar este cambio.</p>
+                        </div>
+                        <div class='footer'>
+                            <p>Centro para la Sociedad Digital</p>
+                        </div>
+                    </div>
+                </body>
+                </html>";
+                
+                if (enviarCorreo($admin['Correo'], $asunto, $cuerpo)) {
+                    error_log("Correo enviado exitosamente al administrador {$admin['Nombre']}");
+                    $correos_enviados++;
+                } else {
+                    error_log("Error al enviar correo al administrador {$admin['Nombre']}");
+                }
+            }
+        }
+    }
+    
+    return $correos_enviados > 0;
+}
 
 try {
     if (!isset($_POST['id']) || !isset($_POST['column']) || !isset($_POST['value'])) {
@@ -231,6 +377,9 @@ try {
                     }
                 }
             }
+            
+            // Enviar notificaciones por correo electrónico
+            enviarCorreoModificacion($conexion, $column, $id, $response['oldValue'], $value, $usuario_emisor_id);
         }
     } else {
         throw new Exception("Error al actualizar: " . $stmt_update->error);

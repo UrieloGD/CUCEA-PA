@@ -64,7 +64,7 @@ function enviarCorreoNotificacion($conexion, $mensaje, $tipo_accion, $registros_
     // Información adicional para el correo
     $fecha_accion = date('d/m/Y H:i');
     $detalles_accion = $tipo_accion === 'truncate' 
-        ? "Se han eliminado todos los registros de la base de datos de coordinación." 
+        ? "Se han eliminado todos los registros de su base de datos." 
         : "Se han marcado como inactivos $registros_afectados registro" . ($registros_afectados > 1 ? "s" : "") . ".";
     
     $correos_enviados = 0;
