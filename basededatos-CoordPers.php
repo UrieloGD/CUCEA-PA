@@ -101,7 +101,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 <link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css?v=<?php echo filemtime('./CSS/coord-pers/basesdedatos-Coord.css'); ?>">
 <link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css?v=<?php echo filemtime('./CSS/coord-pers/coord-papelera.css'); ?>">
 <link rel="stylesheet" href="./CSS/coord-pers/modal-anadir-registro.css?v=<?php echo filemtime('./CSS/coord-pers/modal-anadir-registro.css'); ?>">
-<link rel="stylesheet" href="./CSS/coord-pers/test.css?v=<?php echo filemtime('./CSS/coord-pers/test.css'); ?>">
+<link rel="stylesheet" href="./CSS/coord-pers/ag-grid-test.css?v=<?php echo filemtime('./CSS/coord-pers/test.css'); ?>">
 
 <!-- Agregamos un estilo específico para AG Grid -->
 <style>
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         {
-            headerName: 'CATEGORIA ACTUAL 2',
+            headerName: 'CATEGORIA ACTUAL',
             field: 'Categoria_actual_dos',
             editable: isEditable,
             width: 150,
@@ -361,7 +361,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         },
         {
-            headerName: 'HORAS FRENTE GRUPO',
+            headerName: 'HORAS FRENTE A GRUPO',
             field: 'Horas_frente_grupo',
             editable: isEditable,
             width: 150,
@@ -372,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         },
         {
-        headerName: 'DIVISIÓN',
+        headerName: 'DIVISION',
         field: 'Division',
         width: 180,
         filter: 'agTextColumnFilter',
@@ -429,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filter: 'agTextColumnFilter'
     },
     {
-        headerName: 'INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCIÓN',
+        headerName: 'INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION',
         field: 'Investigacion_nombramiento_cambio_funcion',
         width: 300,
         filter: 'agTextColumnFilter',
@@ -448,20 +448,20 @@ document.addEventListener('DOMContentLoaded', function() {
         filter: 'agTextColumnFilter'
     },
     {
-        headerName: 'CAMBIO DEDICACIÓN DE PLAZA DOCENTE A INVESTIGADOR',
+        headerName: 'CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR',
         field: 'Cambio_dedicacion',
         width: 300,
         filter: 'agTextColumnFilter'
     },
     {
-        headerName: 'TELÉFONO PARTICULAR',
+        headerName: 'TELEFONO PARTICULAR',
         field: 'Telefono_particular',
         width: 150,
         filter: 'agTextColumnFilter',
         editable: isEditable
     },
     {
-        headerName: 'TELÉFONO OFICINA O CELULAR',
+        headerName: 'TELEFONO OFICINA O CELULAR',
         field: 'Telefono_oficina',
         width: 180,
         filter: 'agTextColumnFilter',
@@ -598,7 +598,7 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: isEditable
     },
     {
-        headerName: 'ÚLTIMO GRADO',
+        headerName: 'ULTIMO GRADO',
         field: 'Ultimo_grado',
         width: 120,
         filter: 'agTextColumnFilter',
@@ -619,14 +619,14 @@ document.addEventListener('DOMContentLoaded', function() {
         editable: isEditable
     },
     {
-        headerName: 'INSTITUCIÓN',
+        headerName: 'INSTITUCION',
         field: 'Institucion',
         width: 150,
         filter: 'agTextColumnFilter',
         editable: isEditable
     },
     {
-        headerName: 'ESTADO/PAÍS',
+        headerName: 'ESTADO/PAIS',
         field: 'Estado_pais',
         width: 120,
         filter: 'agTextColumnFilter',
@@ -649,7 +649,85 @@ document.addEventListener('DOMContentLoaded', function() {
         width: 120,
         filter: 'agTextColumnFilter',
         editable: isEditable
-    },        // Aquí irían las demás columnas según su estructura...
+    },
+    {
+        headerName: 'OTRO GRADO',
+        field: 'Otro_grado_alternativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'PROGRAMA',
+        field: 'Otro_programa_alternativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'NIVEL',
+        field: 'Otro_nivel_altenrativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'INSTITUCION',
+        field: 'Otro_institucion_alternativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'ESTADO/PAIS',
+        field: 'Otro_estado_pais_alternativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'AÑO',
+        field: 'Otro_año_alternativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'GDO EXP',
+        field: 'Otro_gdo_exp_alternativo',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'PROESDE 24-25',
+        field: 'Proesde_24_25',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'A PARTIR DE',
+        field: 'A_partir_de',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'FECHA DE INGRESO',
+        field: 'Fecha_ingreso',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+    {
+        headerName: 'ANTIGÜEDAD',
+        field: 'Antiguedad',
+        width: 150,
+        filter: 'agTextColumnFilter',
+        editable: isEditable
+    },
+
     ];
 
     // Configuración de la grid
@@ -657,6 +735,7 @@ document.addEventListener('DOMContentLoaded', function() {
         columnDefs: columnDefs,
         rowData: <?php echo json_encode($rowData); ?>,
         defaultColDef: {
+            autoHeaderHeight: true,
             sortable: true,
             filter: true,
             resizable: true,
@@ -684,6 +763,8 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         fillHandleDirection: 'y', // Solo permitir copiar hacia abajo (eje y)
         onGridReady: function(params) {
+            // Ajusta automáticamente el tamaño de todas las columnas según su contenido
+            params.api.autoSizeAllColumns();
             gridApi = params.api;
             columnApi = params.columnApi;
             

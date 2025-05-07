@@ -1887,3 +1887,8 @@ table.dataTable thead .sorting_desc {
     font-size: 0.5rem;
   }
 }
+
+/* Barra de búsqueda de la tabla AG-Grid */
+#quickFilter {
+  width: 490px;
+}
