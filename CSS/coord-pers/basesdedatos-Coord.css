@@ -1888,50 +1888,7 @@ table.dataTable thead .sorting_desc {
   }
 }
 
-/* Estilos generales para el contenedor de la tabla */
-#tabla-datos-tabulator {
-    width: 100%;
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
-    border-radius: 5px;
-    overflow: auto; /* Cambiar a auto para permitir scroll en ambas direcciones */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 100%; /* Asegurar que no exceda el ancho del contenedor */
-}
-
-#tabla-datos-tabulator .tabulator-cell { 
-  border-right: 1px solid #ddd;
-}
-
-.frozen-column {
-  background-color: white !important;
-}
-
-.frozen-header {
-  background-color: #f3f3f3 !important;
-}
-
-/* Color para filas seleccionadas */
-#tabla-datos-tabulator .tabulator-row.tabulator-selected {
-  background-color: #0071B0 !important;
-  color: white !important;
-}
-
-/* Color al pasar el mouse sobre filas seleccionadas */
-#tabla-datos-tabulator .tabulator-row.tabulator-selected:hover {
-  background-color: #0071B0 !important;
-}
-
-/* Color para celdas seleccionadas individualmente */
-#tabla-datos-tabulator .tabulator-cell.tabulator-range-selected {
-  background-color: #0071B0 !important;
-  color: white !important;
-}
-
-/* Color para el borde de selección */
-#tabla-datos-tabulator .tabulator-cell.tabulator-range-selected-top {
-  border-top: 2px solid #0071B0 !important;
-}
-#tabla-datos-tabulator .tabulator-cell.tabulator-range-selected-left {
-  border-left: 2px solid #0071B0 !important;
+/* Barra de búsqueda de la tabla AG-Grid */
+#quickFilter {
+  width: 490px;
 }
