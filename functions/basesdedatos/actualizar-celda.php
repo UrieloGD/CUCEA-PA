@@ -6,7 +6,8 @@ error_reporting(E_ALL);
 date_default_timezone_set('America/Mexico_City');
 
 // Función para manejar errores y devolverlos como JSON
-function handleError($errno, $errstr, $errfile, $errline) {
+function handleError($errno, $errstr, $errfile, $errline)
+{
     $response = [
         'success' => false,
         'error' => "Error: [$errno] $errstr en $errfile en la línea $errline"
@@ -31,7 +32,8 @@ include './../notificaciones-correos/email_functions.php'; // Incluimos la funci
 $response = ['success' => false, 'oldValue' => '', 'error' => ''];
 
 // Función para enviar correo al jefe de departamento
-function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor_id, $campo, $id_registro, $valor_anterior, $valor_nuevo) {
+function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor_id, $campo, $id_registro, $valor_anterior, $valor_nuevo)
+{
     // Obtener el correo del jefe de departamento
     $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
                  FROM usuarios u 
@@ -46,7 +48,7 @@ function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor
 
     if ($jefe) {
         // Obtener información del administrador emisor
-        $sql_emisor = "SELECT Nombre FROM usuarios WHERE Codigo = ?";
+        $sql_emisor = "SELECT Nombre, Apellido FROM usuarios WHERE Codigo = ?";
         $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
         mysqli_stmt_bind_param($stmt_emisor, "i", $emisor_id);
         mysqli_stmt_execute($stmt_emisor);
@@ -207,7 +209,7 @@ try {
     }
 
     $row_departamento = $result_departamento->fetch_assoc();
-    
+
     // Validar que exista el campo Nombre_Departamento
     if (!isset($row_departamento['Nombre_Departamento'])) {
         throw new Exception("El campo Nombre_Departamento no existe en los resultados");
@@ -244,7 +246,7 @@ try {
         'CICLO' => 10,        // Máximo 10 caracteres
         'C_MIN' => 2,          // Máximo 2 dígitos
         'H_TOTALES' => 2,      // Máximo 2 dígitos
-        'CODIGO_PROFESOR' => 9,// Código de 9 dígitos
+        'CODIGO_PROFESOR' => 9, // Código de 9 dígitos
         'CODIGO_DESCARGA' => 9,
         'HORA_INICIAL' => 4,   // Formato 24h -> 1330
         'HORA_FINAL' => 4,
@@ -264,25 +266,25 @@ try {
 
     if ($stmt_update->execute()) {
         $response['success'] = true;
-        
+
         // Lógica de notificaciones restaurada
         if ($user_role === 0 && $response['oldValue'] != $value) {
             // Obtener el ID del usuario administrador
             $usuario_admin_id = $_SESSION['Codigo'];
-            
+
             // Crear mensaje de notificación
             $mensaje = "Un administrador ha modificado el campo '$column' del registro #$id en la base de datos del departamento de $departamento_nombre";
-            
+
             // Insertar notificación para el departamento
             $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Departamento_ID, Emisor_ID) 
                                 VALUES ('modificacion_bd', ?, ?, ?)";
             $stmt_notificacion = $conexion->prepare($sql_notificacion);
             $stmt_notificacion->bind_param("sii", $mensaje, $department_id, $usuario_admin_id);
-            
+
             if (!$stmt_notificacion->execute()) {
                 error_log("Error al crear notificación de modificación: " . $stmt_notificacion->error);
             }
-            
+
             // También notificar al jefe del departamento
             $sql_jefe = "SELECT u.Codigo 
                          FROM usuarios u 
@@ -292,22 +294,22 @@ try {
             $stmt_jefe->bind_param("i", $department_id);
             $stmt_jefe->execute();
             $result_jefe = $stmt_jefe->get_result();
-            
+
             if ($row_jefe = $result_jefe->fetch_assoc()) {
                 $jefe_id = $row_jefe['Codigo'];
-                
+
                 // Mensaje específico para el jefe
                 $mensaje_jefe = "Un administrador ha modificado el campo '$column' del registro #$id.'";
-                
+
                 $sql_notificacion_jefe = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
                                          VALUES ('modificacion_bd', ?, ?, ?)";
                 $stmt_notificacion_jefe = $conexion->prepare($sql_notificacion_jefe);
                 $stmt_notificacion_jefe->bind_param("sii", $mensaje_jefe, $jefe_id, $usuario_admin_id);
-                
+
                 if (!$stmt_notificacion_jefe->execute()) {
                     error_log("Error al crear notificación para el jefe: " . $stmt_notificacion_jefe->error);
                 }
-                
+
                 // Enviar correo de notificación al jefe
                 enviarCorreoNotificacion($conexion, $department_id, $mensaje_jefe, $usuario_admin_id, $column, $id, $response['oldValue'], $value);
             }
@@ -315,7 +317,6 @@ try {
     } else {
         throw new Exception("Error al actualizar: " . $stmt_update->error);
     }
-
 } catch (Exception $e) {
     $response['error'] = $e->getMessage();
     error_log("Error en actualizar-celda.php: " . $e->getMessage());
@@ -328,4 +329,3 @@ if (isset($stmt_update)) $stmt_update->close();
 if (isset($conexion)) mysqli_close($conexion);
 
 echo json_encode($response);
-?>
