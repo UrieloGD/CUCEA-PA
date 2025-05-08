@@ -1887,3 +1887,36 @@ table.dataTable thead .sorting_desc {
     font-size: 0.5rem;
   }
 }
+
+/* Añade esto a tu archivo CSS */
+#tabla-datos-tabulator {
+  width: 100% !important;
+  height: 620px !important;
+  background-color: white !important;
+}
+
+.tabulator {
+  font-size: 12px !important;
+}
+
+.tabulator .tabulator-header {
+  background-color: #f8f9fa !important;
+}
+
+.tabulator .tabulator-tableHolder {
+  overflow: auto !important;
+}
+
+#tabla-datos-tabulator {
+  width: 100% !important;
+  height: 620px !important;
+  background-color: white !important;
+  border: 1px solid #ddd !important; /* Temporal para debug */
+}
+
+/* Reset de estilos heredados que puedan interferir */
+.tabulator {
+  all: initial !important; 
+  font-family: inherit !important;
+}
+
