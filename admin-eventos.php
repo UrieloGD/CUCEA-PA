@@ -172,8 +172,10 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
         }
     } else {
         ?>
-        <div class="event-container" style="text-align: center;">
-            <h3>No hay próximos eventos registrados</h3>
+        <div class="evento-fila">
+            <div class="event-container" style="text-align: center;">
+                <h3>No hay próximos eventos registrados</h3>
+            </div>
         </div>
     <?php
     }
