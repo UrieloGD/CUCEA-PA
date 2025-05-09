@@ -1,3 +1,31 @@
+const containers = document.querySelectorAll(".event-container");
+
+  containers.forEach(container => {
+    const actions = container.querySelector(".event-actions");
+
+    container.addEventListener("click", function (e) {
+      if (e.target.closest(".event-actions")) return;
+      hideAllActions();
+      actions.classList.add("visible");
+    });
+
+    actions.addEventListener("click", function () {
+      actions.classList.remove("visible");
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".event-container")) {
+      hideAllActions();
+    }
+  });
+
+  function hideAllActions() {
+    document.querySelectorAll(".event-actions.visible").forEach(el => {
+      el.classList.remove("visible");
+    });
+  }
+
 document.addEventListener("DOMContentLoaded", function () {
   const modalCrearEvento = document.getElementById("modalCrearEvento");
   const modalParticipantes = document.getElementById("modalParticipantes");
