@@ -82,17 +82,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function highlightCurrentDay(month, year) {
     const today = new Date();
     if (today.getMonth() + 1 === month && today.getFullYear() === year) {
-      const currentDay = today.getDate();
-      const dayElement = document.querySelector(
-        `.calendar-table td:not(:empty):nth-child(7n+${
-          currentDay % 7 || 7
-        }):nth-of-type(${Math.ceil(currentDay / 7)})`
-      );
-      if (dayElement) {
-        dayElement.classList.add("current-day");
-      }
+        const todayFormatted = today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+        const dayElement = document.querySelector(`.calendar-table td[data-date="${todayFormatted}"]`);
+        if (dayElement) {
+            dayElement.classList.add("current-day");
+        }
     }
-  }
+}
 
   function updateEventListeners() {
     document.querySelectorAll(".event-indicator").forEach((indicator) => {
