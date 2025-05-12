@@ -29,18 +29,22 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
         </div>
     </div> -->
 
-    <div class="buttons-functions">
-        <div class="button-nuevo-evento" id="btnCrearEvento"><i class="fa fa-plus" aria-hidden="true"></i><div class="titulo-nuevoevento">Nuevo evento</div></div>
-        <div class="contenedor-select">
-            <select name="desplegable-estado-evento" id="desplegable-estado-evento">
-                <option value="Selecciona..." disabled selected id="disabled-option">Selecciona un estado</option>
-                <option value="En proceso">En proceso</option>
-                <option value="Finalizado">Finalizado</option>
-                <option value="Proximos">Proximos</option>
-            </select>
-            <i class="fa fa-caret-down" aria-hidden="true"></i>
+    
+        <div class="buttons-functions">
+            <div class="button-nuevo-evento" id="btnCrearEvento"><i class="fa fa-plus" aria-hidden="true"></i><div class="titulo-nuevoevento">Nuevo evento</div></div>
+            <div class="contenedor-select">
+                <form action="" method="GET">
+                    <select name="desplegable-estado-evento" id="desplegable-estado-evento" onchange="this.form.submit()">
+                        <option value="Todos los eventos" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Todos los eventos') ? 'selected' : ''; ?> selected>Todos los eventos</option>
+                        <option value="En proceso" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'En proceso')  || !isset($_GET['desplegable-estado-evento']) ? 'selected' : ''; ?> >En proceso</option>
+                        <option value="Proximos" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Proximos') ? 'selected' : '' ?> >Proximos</option>
+                        <option value="Finalizado" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Finalizado') ? 'selected' : '' ?> >Finalizado</option>
+                    </select>
+                 </form>
+                <i class="fa fa-caret-down" aria-hidden="true"></i>
+            </div>
         </div>
-    </div>
+   
 
     <!-- Contenido -->
     <?php
@@ -48,18 +52,16 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     $sql = "SELECT e.*, GROUP_CONCAT(CONCAT(u.Nombre, ' ', u.Apellido) SEPARATOR ', ') AS NombresParticipantes
     FROM eventos_admin e
     LEFT JOIN usuarios u ON FIND_IN_SET(u.Codigo, e.Participantes)
-    WHERE (e.Fecha_Fin >= CURDATE() OR (e.Fecha_Inicio <= CURDATE() AND e.Fecha_Fin >= CURDATE()))
-    AND e.Estado = 'activo'/* Mostrar solo eventos que no han sido cancelados */
+    WHERE e.Estado = 'activo'
     GROUP BY e.ID_Evento
     ORDER BY e.Fecha_Inicio, e.Hora_Inicio";
 
     $result = mysqli_query($conexion, $sql);
+    $estadoEvento = isset($_GET['desplegable-estado-evento']) ? $_GET['desplegable-estado-evento'] : 'Todos los eventos';
     $eventoAnterior = null;
 
-    if (mysqli_num_rows($result) > 0) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $eventoActual = $row['Fecha_Inicio'];
-        
+    function mostrarEventos() {
+        global $row, $eventoActual, $eventoAnterior, $eventoFinalizado, $dateNow;
         if ($eventoAnterior === null || $eventoAnterior !== $eventoActual) {
             $eventoAnterior = $eventoActual; 
             ?>
@@ -168,7 +170,23 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                 </div>
             </div>
         </div>
-        <?php
+    
+    <?php
+    }
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+
+        $eventoActual = $row['Fecha_Inicio'];
+        $eventoFinalizado = $row['Fecha_Fin'];
+        $dateNow = date('Y-m-d H:i:s');
+            
+            if ($estadoEvento == 'Todos los eventos' ||
+                ($estadoEvento == 'En proceso' && $dateNow > $eventoActual && $dateNow < $eventoFinalizado) ||
+                ($estadoEvento == 'Finalizado' && $dateNow > $eventoFinalizado) ||
+                ($estadoEvento == 'Proximos' && $dateNow < $eventoActual)) {
+                    mostrarEventos();
+            }
+
         }
     } else {
         ?>
