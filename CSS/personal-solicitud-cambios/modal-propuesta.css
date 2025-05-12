@@ -144,6 +144,9 @@ input[type="date"] {
     padding: 0.4rem;
 }
 
+.uppercase-input {
+  text-transform: uppercase;
+}
 
 /* Media queries para responsividad */
 @media screen and (max-width: 768px) {
