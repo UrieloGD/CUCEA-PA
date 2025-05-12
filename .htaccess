@@ -1,0 +1,1 @@
+    ErrorDocument 404 http://localhost:8888/git/CUCEA-PA/404.php
