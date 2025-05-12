@@ -11,83 +11,84 @@ document.addEventListener('DOMContentLoaded', function() {
   // Definir todas las columnas para Tabulator
   const columns = [
     {
+      // Columna de selección de filas
       title: "",
       field: "checkbox",
       formatter: "rowSelection",
       titleFormatter: "rowSelection",
       hozAlign: "center",
       headerSort: false,
-      frozen: true,
-      width: 40
+      width: 50
     },
-    {title: "ID", field: "ID", width: 80, frozen: true, editor: isEditable ? "input" : false},
-    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false},
-    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false},
-    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false},
-    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false},
-    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false},
-    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false},
-    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false},
-    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false},
-    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false},
-    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false},
-    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false},
-    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false},
-    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false},
-    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false},
-    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false},
-    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false},
-    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false},
-    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false},
-    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false},
-    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false},
-    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false},
-    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false},
-    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false},
-    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false},
-    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false},
-    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false},
-    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false},
-    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false},
-    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false},
-    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false},
-    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false},
-    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false},
-    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false},
-    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false},
-    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false},
-    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false},
-    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false},
-    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false},
-    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false},
-    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false},
-    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false},
-    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false},
-    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false},
-    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false},
-    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false},
-    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false},
-    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false},
-    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false},
-    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false},
-    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false},
-    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false},
-    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false},
-    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false},
-    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false},
-    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false},
-    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false},
-    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false},
-    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false},
-    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false},
-    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false},
-    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false},
-    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false},
-    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false},
-    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false},
-    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false}
+    {title: "ID", field: "ID", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true}
   ];
 
+  // Mostrar las columnas en la consola para depuración
   console.log('Columnas configuradas:', columns);
 
   // Mostrar loader
@@ -112,30 +113,61 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   console.log('Inicializando Tabulator...');
-  // Inicializar Tabulator
+  // Inicializar Tabulator con configuración optimizada para ajuste automático de columnas
   const table = new Tabulator("#tabla-datos-tabulator", {
-    // data: [], // No necesitamos esto si usamos ajaxURL
     ajaxURL: 'http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php',
     columns: columns,
-    layout: "fitDataStretch",
-    responsiveLayout: "hide",
+    layout: "fitData", // Cambiamos a fitData para ajustar al contenido
+    autoColumns: false, // Desactivamos autoColumns para usar nuestra definición
+    responsiveLayout: false, // Desactivar el responsive layout para mantener todas las columnas
     pagination: "local",
     paginationSize: 15,
     paginationSizeSelector: [15, 25, 50, 100],
     movableColumns: true,
     height: "620px",
     placeholder: "No hay datos disponibles",
+    
+    // Configuración para la selección de rangos y portapapeles
     selectable: true,
-    selectableRangeMode: "click",
+    selectableRange: true, // Habilitar selección de rangos
+    selectableRangeColumns: true, // Permitir selección de columnas completas
+    selectableRangeRows: true, // Permitir selección de filas completas
+    selectableRangeClearCells: true, // Permitir borrado de celdas seleccionadas
+    
+    // Configuración del portapapeles
+    clipboard: true, // Habilitar funcionalidad de portapapeles
+    clipboardCopyStyled: false, // Copiar solo datos sin estilos
+    clipboardCopyConfig: {
+        rowHeaders: false,
+        columnHeaders: false,
+    },
+    clipboardCopyRowRange: "range", // Copiar rangos de celdas
+    clipboardPasteParser: "range", // Analizar datos pegados como rangos
+    clipboardPasteAction: "range", // Pegar datos como rangos
+    
+    // Cambiar el modo de activación de edición para mejor navegación
+    editTriggerEvent: "dblclick", // Solo editar al hacer doble click
+    
+    // Configuración para habilitar desplazamiento horizontal
+    horizontalScroll: true,
+    columnHeaderVertAlign: "middle",
+    
+    // Opciones para el ajuste automático de columnas
+    resizableColumns: true,
+    columnMinWidth: 80,
+    
+    // Recalcular ancho basado en contenido
+    columnCalcLayout: "fitData",
+    
     langs: {
       "es": {
         "pagination": {
-          "first": "Primera",
+          "first": "Primero",
           "first_title": "Primera página",
-          "last": "Última",
+          "last": "Último",
           "last_title": "Última página",
           "prev": "Anterior",
-          "prev_title": "Página anterior",
+          "prev_title": "Página anterior", 
           "next": "Siguiente",
           "next_title": "Página siguiente"
         },
@@ -146,6 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     locale: "es",
+    // Aplicar el tema Bulma
+    theme: "bulma",
     // Configuración para mejorar rendimiento
     virtualDom: true,
     renderVertical: "virtual",
@@ -156,6 +190,18 @@ document.addEventListener('DOMContentLoaded', function() {
     dataLoaded: function(data) {
       console.log('Datos cargados correctamente:', data);
       Swal.close();
+      
+      // Calcular y ajustar los anchos de columna basados en el contenido
+      adjustColumnWidths();
+      
+      // Asegurar que el scroll horizontal esté disponible
+      const tableHolder = document.querySelector('.tabulator-tableHolder');
+      if (tableHolder) {
+        tableHolder.style.overflowX = 'auto';
+      }
+      
+      // Aplicar clases de Bulma específicas tras cargar los datos
+      applyBulmaClasses();
     },
     ajaxError: function(xhr, textStatus, errorThrown) {
       console.error('Error en la carga AJAX:', {
@@ -167,200 +213,110 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     tableBuilt: function() {
       console.log('Tabla construida');
+      
+      // Aplicar clases de Bulma al construir la tabla
+      applyBulmaClasses();
     },
     renderStarted: function() {
       console.log('Renderizado iniciado');
     },
     renderComplete: function() {
       console.log('Renderizado completado');
+      
+      // Ajustar columnas después del renderizado
+      adjustColumnWidths();
+      
+      // Asegurar que las clases de Bulma se aplican después del renderizado
+      applyBulmaClasses();
+    },
+    columnResized: function(column) {
+      // Guardar el ancho personalizado si es necesario
+      console.log(`Columna ${column.getField()} redimensionada a ${column.getWidth()}px`);
     }
   });
 
   console.log('Tabulator inicializado:', table);
 
+  // Función para ajustar los anchos de columna basados en el contenido
+  function adjustColumnWidths() {
+    // Solo ejecutar si la tabla y los datos están disponibles
+    if (!table || !table.getColumns().length) return;
+    
+    console.log('Ajustando anchos de columnas basados en contenido...');
+    
+    // Calcular el ancho necesario para cada columna basado en su contenido
+    table.columnManager.columns.forEach(column => {
+      // Ignorar la columna de checkbox que ya tiene un ancho fijo
+      if (column.getField() === "checkbox") return;
+      
+      let field = column.getField();
+      let title = column.getDefinition().title;
+      
+      // Calcular ancho necesario basado en el título (header) y el contenido más largo
+      let headerLength = title ? title.length : 0;
+      let maxContentLength = 0;
+      
+      // Iterar sobre los datos visibles para encontrar el contenido más largo
+      let visibleData = table.getData();
+      visibleData.forEach(row => {
+        let cellValue = row[field];
+        if (cellValue) {
+          let valueLength = String(cellValue).length;
+          maxContentLength = Math.max(maxContentLength, valueLength);
+        }
+      });
+      
+      // Determinar el ancho necesario (aproximadamente 8px por carácter más un padding)
+      let charWidth = 8; // aproximado para la mayoría de fuentes
+      let padding = 20; // padding adicional
+      let calculatedWidth = Math.max(headerLength, maxContentLength) * charWidth + padding;
+      
+      // Establecer un ancho mínimo y máximo razonable
+      calculatedWidth = Math.max(calculatedWidth, 80); // mínimo 80px
+      calculatedWidth = Math.min(calculatedWidth, 300); // máximo 300px
+      
+      // Aplicar el ancho calculado
+      column.setWidth(calculatedWidth);
+    });
+  }
+
+  // Función para aplicar clases de Bulma a elementos específicos
+  function applyBulmaClasses() {
+    // Aplicar clases de Bulma a los botones de paginación
+    document.querySelectorAll('.tabulator-paginator button').forEach(button => {
+      button.classList.add('button', 'is-small');
+    });
+    
+    // Aplicar clase de Bulma al selector de tamaño de página
+    const pageSizeSelector = document.querySelector('.tabulator-page-size');
+    if (pageSizeSelector) {
+      pageSizeSelector.classList.add('select', 'is-small');
+      // Envolver el select en un div para el estilo de Bulma
+      if (!pageSizeSelector.parentNode.classList.contains('select')) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'select is-small';
+        pageSizeSelector.parentNode.insertBefore(wrapper, pageSizeSelector);
+        wrapper.appendChild(pageSizeSelector);
+      }
+    }
+    
+    // Aplicar estilo a los inputs de filtro
+    document.querySelectorAll('.tabulator-header-filter input').forEach(input => {
+      input.classList.add('input', 'is-small');
+    });
+  }
+
   // Hacer la tabla accesible globalmente para depuración
   window.tabulatorTable = table;
 
-  // Función para cargar datos (alternativa si no funciona ajaxURL)
-  window.loadData = function() {
-    console.log('Ejecutando loadData()');
-    Swal.fire({
-      title: 'Cargando datos...',
-      html: 'Por favor espere mientras se procesan los datos',
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showConfirmButton: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-    
-    fetch('http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php')
-      .then(response => {
-        console.log('Respuesta recibida del servidor:', response);
-        if (!response.ok) {
-          throw new Error(`Error HTTP: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Datos recibidos del servidor:", data);
-        table.setData(data)
-          .then(() => {
-            console.log('Datos establecidos en la tabla');
-            Swal.close();
-          })
-          .catch(error => {
-            console.error('Error al establecer datos:', error);
-            Swal.fire('Error', 'Error al mostrar los datos en la tabla', 'error');
-          });
-      })
-      .catch(error => {
-        console.error('Error al cargar datos:', error);
-        Swal.fire('Error', 'No se pudieron cargar los datos. Detalles: ' + error.message, 'error');
-      });
-  };
-
-  // Inicializar tooltips personalizados
-  function initializeCustomTooltips() {
-    console.log('Inicializando tooltips...');
-    document.querySelectorAll('[data-tooltip]').forEach(element => {
-      element.addEventListener('mouseenter', function() {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'custom-tooltip';
-        tooltip.textContent = this.getAttribute('data-tooltip');
-        
-        document.body.appendChild(tooltip);
-        
-        const rect = this.getBoundingClientRect();
-        tooltip.style.top = (rect.top - tooltip.offsetHeight - 5) + 'px';
-        tooltip.style.left = (rect.left + (rect.width - tooltip.offsetWidth) / 2) + 'px';
-        
-        this.addEventListener('mouseleave', function() {
-          document.querySelectorAll('.custom-tooltip').forEach(t => t.remove());
-        }, { once: true });
-      });
-    });
-  }
-
-  // Configurar eventos para botones de filtro, visibilidad, etc.
-  function setupEventHandlers() {
-    console.log('Configurando event handlers...');
-    
-    // Botón de filtro
-    const filterBtn = document.getElementById('icono-filtro');
-    if (filterBtn) {
-      filterBtn.addEventListener('click', function() {
-        console.log('Botón de filtro clickeado');
-        table.toggleHeaderFilter();
-      });
-    } else {
-      console.warn('No se encontró el botón de filtro');
-    }
-    
-    // Botón de visibilidad
-    const visibilityBtn = document.getElementById('icono-visibilidad');
-    if (visibilityBtn) {
-      visibilityBtn.addEventListener('click', function() {
-        console.log('Botón de visibilidad clickeado');
-        // Implementar lógica para mostrar/ocultar columnas
-      });
-    } else {
-      console.warn('No se encontró el botón de visibilidad');
-    }
-    
-    // Botón de guardar cambios
-    const saveBtn = document.getElementById('icono-guardar');
-    if (saveBtn) {
-      saveBtn.addEventListener('click', function() {
-        console.log('Botón de guardar clickeado');
-        saveAllChanges();
-      });
-    } else {
-      console.warn('No se encontró el botón de guardar');
-    }
-    
-    // Botón de deshacer cambios
-    const undoBtn = document.getElementById('icono-deshacer');
-    if (undoBtn) {
-      undoBtn.addEventListener('click', function() {
-        console.log('Botón de deshacer clickeado');
-        undoAllChanges();
-      });
-    } else {
-      console.warn('No se encontró el botón de deshacer');
-    }
-  }
-
-  // Función para guardar cambios
-  window.saveAllChanges = function() {
-    console.log('Ejecutando saveAllChanges()');
-    const editedData = table.getEditedCells();
-    console.log('Celdas editadas:', editedData);
-    
-    if (editedData.length === 0) {
-      console.log('No hay cambios para guardar');
-      Swal.fire('Información', 'No hay cambios para guardar', 'info');
-      return;
-    }
-    
-    console.log('Preparando para guardar cambios...');
-    // Implementar lógica para guardar cambios
-    // Aquí deberías implementar una petición AJAX para guardar los cambios
-  };
-  
-  // Función para deshacer cambios
-  window.undoAllChanges = function() {
-    console.log('Ejecutando undoAllChanges()');
-    table.clearCellEdited();
-    console.log('Cambios deshechos');
-    // Recargar datos originales
-    table.setData('http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php')
-      .then(() => console.log('Datos recargados'))
-      .catch(error => console.error('Error al recargar datos:', error));
-  };
-  
-  // Función para eliminar registros seleccionados
-  window.eliminarRegistrosSeleccionados = function() {
-    console.log('Ejecutando eliminarRegistrosSeleccionados()');
-    const selectedRows = table.getSelectedRows();
-    console.log('Filas seleccionadas:', selectedRows);
-    
-    if (selectedRows.length === 0) {
-      console.log('No hay registros seleccionados');
-      Swal.fire('Información', 'No hay registros seleccionados para eliminar', 'info');
-      return;
-    }
-    
-    console.log('Mostrando confirmación para eliminar');
-    Swal.fire({
-      title: '¿Está seguro?',
-      text: `¿Desea eliminar ${selectedRows.length} registro(s)?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log('Usuario confirmó eliminación');
-        // Implementar lógica para eliminar registros
-        console.log('Registros a eliminar:', selectedRows.map(row => row.getData()));
-        
-        // Aquí deberías implementar una petición AJAX para eliminar los registros
-      } else {
-        console.log('Usuario canceló la eliminación');
-      }
-    });
-  };
-
   // Inicializar componentes
-  initializeCustomTooltips();
-  setupEventHandlers();
+  if (typeof initializeCustomTooltips === 'function') {
+    initializeCustomTooltips();
+  }
   
-  // Forzar carga de datos si es necesario (comentar si usas ajaxURL)
-  // loadData();
-
+  if (typeof setupEventHandlers === 'function') {
+    setupEventHandlers();
+  }
+  
   console.log('Inicialización completada');
 });

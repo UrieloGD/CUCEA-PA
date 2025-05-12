@@ -136,6 +136,8 @@ function softDeleteRegistros($conexion, $ids)
 
 <!-- Tabulator CSS Plugins -->
 <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+<link href="https://unpkg.com/tabulator-tables/dist/css/tabulator_bulma.min.css" rel="stylesheet">
+
 <!-- Tabulator JS -->
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
 
@@ -200,8 +202,8 @@ function softDeleteRegistros($conexion, $ids)
     }
     ?>
 
-    <div class="Tabla datatable-container">
-        <div class="table-container">
+    <!-- <div class="Tabla datatable-container">
+        <div class="table-container"> -->
             <div id="tabla-datos-tabulator"></div> <!-- Solo este elemento es necesario para Tabulator -->
         </div>
     </div>
