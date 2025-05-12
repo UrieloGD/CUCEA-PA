@@ -120,9 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
     layout: "fitData", // Cambiamos a fitData para ajustar al contenido
     autoColumns: false, // Desactivamos autoColumns para usar nuestra definición
     responsiveLayout: false, // Desactivar el responsive layout para mantener todas las columnas
-    pagination: "local",
-    paginationSize: 15,
-    paginationSizeSelector: [15, 25, 50, 100],
+    pagination: true,
+    paginationSize: 50,
+    paginationSizeSelector: true,
     movableColumns: true,
     height: "620px",
     placeholder: "No hay datos disponibles",
@@ -286,19 +286,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.tabulator-paginator button').forEach(button => {
       button.classList.add('button', 'is-small');
     });
-    
-    // Aplicar clase de Bulma al selector de tamaño de página
-    const pageSizeSelector = document.querySelector('.tabulator-page-size');
-    if (pageSizeSelector) {
-      pageSizeSelector.classList.add('select', 'is-small');
-      // Envolver el select en un div para el estilo de Bulma
-      if (!pageSizeSelector.parentNode.classList.contains('select')) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'select is-small';
-        pageSizeSelector.parentNode.insertBefore(wrapper, pageSizeSelector);
-        wrapper.appendChild(pageSizeSelector);
-      }
-    }
     
     // Aplicar estilo a los inputs de filtro
     document.querySelectorAll('.tabulator-header-filter input').forEach(input => {
