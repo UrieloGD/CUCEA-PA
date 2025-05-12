@@ -560,3 +560,16 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   };
 });
+
+// Checkbox para realizar checked en todos. (Modal de participantes)
+function checkTodosParticipantes() {
+  if (document.getElementById("seleccionarTodos").checked)  {
+    document.querySelectorAll(".checkbox-usuario").forEach(function(checkbox) {
+      checkbox.checked = true;
+    });
+  } else {
+    document.querySelectorAll(".checkbox-usuario").forEach(function(checkbox) {
+      checkbox.checked = false;
+    });
+  }
+}

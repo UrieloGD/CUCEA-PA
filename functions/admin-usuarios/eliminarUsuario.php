@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
 
+session_start();
+
 // Conexión a la base de datos
 include './../../config/db.php';
 
@@ -13,6 +15,35 @@ if (!$data) {
 }
 
 $userId = $data['id'];
+
+// Verificar autenticación
+if (!isset($_SESSION['Rol_ID'])) {
+    echo json_encode(["success" => false, "message" => "No autenticado"]);
+    exit();
+}
+
+// Verificar si el usuario actual es Administrador
+$es_admin = ($_SESSION['Rol_ID'] === 0);
+
+// Verificar el rol del usuario que se intenta modificar
+$sql_verificar_rol = "SELECT Rol_ID FROM usuarios WHERE Codigo = ?";
+$stmt_verificar_rol = $conexion->prepare($sql_verificar_rol);
+$stmt_verificar_rol->bind_param("i", $userId);
+$stmt_verificar_rol->execute();
+$result_verificar = $stmt_verificar_rol->get_result();
+
+if ($result_verificar->num_rows === 0) {
+    echo json_encode(["success" => false, "message" => "Usuario a eliminar no encontrado"]);
+    exit();
+}
+
+$usuario_a_eliminar = $result_verificar->fetch_assoc();
+
+// Restricción: Solo los administradores pueden eliminar a otros administradores
+if ($usuario_a_eliminar['Rol_ID'] === 0 && !$es_admin) {
+    echo json_encode(["success" => false, "message" => "No tiene permisos para eliminar un usuario Administrador"]);
+    exit();
+}
 
 // Iniciar una transacción
 $conexion->autocommit(false);

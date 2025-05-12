@@ -16,8 +16,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <?php require_once './config/db.php' ?>
 
 <title>Centro de Gestión</title>
-<link rel="stylesheet" href="./CSS/admin-eventos.css" />
-<link rel="stylesheet" href="./CSS/admin-crear-eventos.css" />
+<link rel="stylesheet" href="./CSS/admin-eventos/admin-eventos.css?v=<?php echo filemtime('./CSS/admin-eventos/admin-eventos.css'); ?>" />
+<link rel="stylesheet" href="./CSS/admin-eventos/admin-crear-eventos.css?v=<?php echo filemtime('./CSS/admin-eventos/admin-crear-eventos.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -64,10 +64,10 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                 </div>
                 <div class="event-actions">
                     <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
-                        <img src="./Img/Icons/iconos-adminAU/editar2.png" alt="Editar">
+                        <img src="./Img/Icons/iconos-adminAU/editar.png" alt="Editar">
                     </button>
                     <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
-                        <img src="./Img/Icons/iconos-adminAU/borrar2.png" alt="Borrar">
+                        <img src="./Img/Icons/iconos-adminAU/borrar.png" alt="Borrar">
                     </button>
                 </div>
             </div>
@@ -108,12 +108,16 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <span>a las</span>
-                    <input type="time" id="HorIn" name="HorIn" value="" required>
-                    <span> --> </span>
-                    <input type="time" id="HorFin" name="HorFi" value="" required>
+                    <div class="fechas">
+                        <input type="date" id="FechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
+                        <input type="date" id="FechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div class="horas">
+                        <span>a las</span>
+                        <input type="time" id="HorIn" name="HorIn" value="" required>
+                        <span> --> </span>
+                        <input type="time" id="HorFin" name="HorFi" value="" required>
+                    </div>
                 </div>
             </div>
 
@@ -128,7 +132,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <!-- Agregamos un input oculto para asegurar que siempre se envíe algo, incluso vacío -->
                     <input type="hidden" name="participantes[]" value="">
                 </div>
-                <div class="split-item">
+                <div class="split-item" id="item-etiqueta">
                     <label for="etiqueta">
                         <i class="fas fa-tag"></i> Etiqueta
                     </label>
@@ -178,12 +182,16 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                     <i class="fas fa-calendar"></i> Fecha y hora
                 </label>
                 <div class="fecha-hora-group">
-                    <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
-                    <span>a las</span>
-                    <input type="time" id="editHorIn" name="HorIn" value="" required>
-                    <span> --> </span>
-                    <input type="time" id="editHorFin" name="HorFi" value="" required>
+                    <div class="fechas">
+                        <input type="date" id="editFechIn" name="FechIn" value="" required min="<?php echo date('Y-m-d'); ?>">
+                        <input type="date" id="editFechFi" name="FechFi" value="" required min="<?php echo date('Y-m-d'); ?>">
+                    </div>
+                    <div class="horas">
+                        <span>a las</span>
+                        <input type="time" id="editHorIn" name="HorIn" value="" required>
+                        <span> --> </span>
+                        <input type="time" id="editHorFin" name="HorFi" value="" required>
+                    </div>
                 </div>
             </div>
 
@@ -233,11 +241,15 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
             <span class="close">&times;</span>
         </div>
         <hr style="border: 2px solid #0071b0; width: 99%;">
+        <div class="header-filtrarParticipantes">
+            <input type="search" name="filtrarParticipantes" id="filtrarParticipantes" onkeyup="filtrarParticipantes()">
+            <i class="fa fa-search" id="icono-busc" aria-hidden="true"></i>
+        </div>
         <div class="table-container">
-            <table>
+            <table class="part-table">
                 <thead>
                     <tr>
-                        <th></th>
+                        <th><input type="checkbox" name="seleccionarTodos" id="seleccionarTodos" onclick="checkTodosParticipantes()" placeholder="Hola"></th>
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Rol</th>
@@ -254,7 +266,8 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     </div>
 </div>
 
-<script src="./JS/admin-eventos/eliminar-evento.js"></script>
-<script src="./JS/admin-eventos/modal-creacion-y-participantes.js"></script>
+<script src="./JS/admin-eventos/eliminar-evento.js?v=<?php echo filemtime('./JS/admin-eventos/eliminar-evento.js'); ?>"></script>
+<script src="./JS/admin-eventos/modal-creacion-y-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/modal-creacion-y-participantes.js'); ?>"></script>
+<script src="./JS/admin-eventos/filtro-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/filtro-participantes.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

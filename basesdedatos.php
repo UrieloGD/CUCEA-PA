@@ -12,21 +12,42 @@ if (session_status() == PHP_SESSION_NONE) {
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
 <?php
-//include './config/db.php';
+
+// ./basesdedatos.php
 
 if (!isset($_SESSION['email'])) {
     header("Location: login.php");
     exit();
 }
 
-// Verificar el rol del usuario
+// Incluir la función de verificación de permisos
+include_once './functions/basesdedatos/permisos-jd.php';
+
+$puede_editar = false;
 $rol = $_SESSION['Rol_ID'];
 
+// Verificar si la variable de sesión está definida antes de asignarla
+if (isset($_SESSION['Codigo'])) {
+    $usuario_id = $_SESSION['Codigo'];
+}
+
+// Nuevo bloque para admin
+if ($rol == 0) {
+    $puede_editar = true;
+} else if ($rol == 1 || $rol == 4) {
+    $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
+}
+
 // Lógica para seleccionar el departamento
-if ($rol == 1) {
+if ($rol == 0) { // Admin puede editar siempre
+    $puede_editar = true;
+    $departamento_id = isset($_GET['Departamento_ID']) ? (int)$_GET['Departamento_ID'] : 1; // 1 como fallback
+} elseif ($rol == 1 || $rol == 4) {
     // Para jefes de departamento, usar su departamento asignado
     $departamento_id = $_SESSION['Departamento_ID'];
-} elseif ($rol == 2 || $rol == 3 || $rol == 0) {
+    $puede_editar = tienePermisosDeEdicion($usuario_id, $conexion);
+} elseif ($rol == 2 || $rol == 3) {
+    $puede_editar = false;
     // Para roles 2 y 3, permitir selección de departamento
     if (isset($_GET['Departamento_ID'])) {
         // Si se proporciona un Departamento_ID específico
@@ -46,6 +67,13 @@ if ($rol == 1) {
 } else {
     die("Rol de usuario no autorizado.");
 }
+
+/**
+ * Pasar esta variable a JavaScript para controlar la UI
+ * JavaScript puede leer la variable puedeEditar y decidir qué elementos de la interfaz mostrar u ocultar.
+ * Esto mejora la experiencia del usuario y refuerza la seguridad en la interfaz.
+ */
+echo '<script>var puedeEditar = ' . ($puede_editar ? 'true' : 'false') . ';</script>';
 
 // Consulta para obtener información del departamento
 $sql_departamento = "SELECT Nombre_Departamento, Departamentos FROM departamentos WHERE Departamento_ID = ?";
@@ -115,10 +143,10 @@ function verificarChoques($registro_actual, $departamentos, $conexion)
 
             // Si hay choque de horario, días y aula/módulo
             if (
+                $registro['DIA_PRESENCIAL'] == $registro_actual['DIA_PRESENCIAL'] &&
                 $registro['MODULO'] == $registro_actual['MODULO'] &&
                 $registro['AULA'] == $registro_actual['AULA'] &&
-                $choque_horario &&
-                $dias_choque
+                $choque_horario && $dias_choque
             ) {
 
                 // Obtener el timestamp del otro departamento
@@ -163,6 +191,7 @@ while ($dep = mysqli_fetch_assoc($departamentos_result)) {
         HORA_INICIAL, 
         HORA_FINAL, 
         AULA,
+        DIA_PRESENCIAL,
         L, M, I, J, V, S, D,
         '$dep[Nombre_Departamento]' as Departamento
     FROM $tabla_dep 
@@ -221,9 +250,9 @@ $result = $stmt->get_result();
 </script>
 
 <!-- CSS base -->
-<link rel="stylesheet" href="./CSS/basesdedatos/basesdedatos.css">
-<link rel="stylesheet" href="./CSS/basesdedatos/modal-añadir-registro.css">
-<link rel="stylesheet" href="./CSS/basesdedatos/modal-registros-eliminados.css">
+<link rel="stylesheet" href="./CSS/basesdedatos/basesdedatos.css?v=<?php echo filemtime('./CSS/basesdedatos/basesdedatos.css'); ?>">
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-añadir-registro.css?v=<?php echo filemtime('./CSS/basesdedatos/modal-añadir-registro.css'); ?>">
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-registros-eliminados.css?v=<?php echo filemtime('./CSS/basesdedatos/modal-registros-eliminados.css'); ?>">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
@@ -236,8 +265,12 @@ $result = $stmt->get_result();
 <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.0.4/css/colReorder.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
+<!-- FixedColumns -->
+<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/5.0.4/css/fixedColumns.dataTables.css">
 
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="encabezado-izquierda">
 
@@ -247,7 +280,7 @@ $result = $stmt->get_result();
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
-                <?php if ($rol == 1 || $rol == 0): ?>
+                <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                         <i class="fa fa-save" aria-hidden="true"></i>
                     </div>
@@ -265,7 +298,7 @@ $result = $stmt->get_result();
                 <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
                     <i class="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <?php if ($rol == 1 || $rol == 0): ?>
+                <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
                     <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
                         <i class="fa fa-add" aria-hidden="true"></i>
                     </div>
@@ -398,6 +431,7 @@ $result = $stmt->get_result();
             </tbody>
         </table>
     </div>
+    </div>
 </div>
 
 <?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php'; ?>
@@ -415,21 +449,22 @@ $result = $stmt->get_result();
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
 <!-- DataTables Plugins -->
-<script src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/4.0.1/js/fixedHeader.dataTables.js"></script>
 <script src="https://cdn.datatables.net/colreorder/2.0.4/js/dataTables.colReorder.js"></script>
 <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
-<!-- <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script> -->
+<!-- FixedColumns -->
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.4/js/dataTables.fixedColumns.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/5.0.4/js/fixedColumns.dataTables.js"></script>
 
-<!-- Scripts personalizados -->
-<script src="./JS/basesdedatos/tabla-editable.js"></script>
-<script src="./JS/basesdedatos/eliminar-registro.js"></script>
-<script src="./JS/basesdedatos/añadir-registro.js"></script>
-<script src="./JS/basesdedatos/descargar-data-excel.js"></script>
-<script src="./JS/basesdedatos/inicializar-tablas.js"></script>
+<!-- Scripts personalizados con control de caché -->
+<script src="./JS/basesdedatos/tabla-editable.js?v=<?php echo filemtime('./JS/basesdedatos/tabla-editable.js'); ?>"></script>
+<script src="./JS/basesdedatos/eliminar-registro.js?v=<?php echo filemtime('./JS/basesdedatos/eliminar-registro.js'); ?>"></script>
+<script src="./JS/basesdedatos/añadir-registro.js?v=<?php echo filemtime('./JS/basesdedatos/añadir-registro.js'); ?>"></script>
+<script src="./JS/basesdedatos/descargar-data-excel.js?v=<?php echo filemtime('./JS/basesdedatos/descargar-data-excel.js'); ?>"></script>
+<script src="./JS/basesdedatos/inicializar-tablas.js?v=<?php echo filemtime('./JS/basesdedatos/inicializar-tablas.js'); ?>"></script>
 
-<!-- Scrpits registros eliminados -->
-<script src="./JS/basesdedatos/registros-eliminados/registros-eliminados.js"></script>
+<!-- Scripts registros eliminados -->
+<script src="./JS/basesdedatos/registros-eliminados/registros-eliminados.js?v=<?php echo filemtime('./JS/basesdedatos/registros-eliminados/registros-eliminados.js'); ?>"></script>
 
 <?php include("./template/footer.php"); ?>

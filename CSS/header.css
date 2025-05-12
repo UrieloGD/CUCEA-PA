@@ -6,8 +6,9 @@
 }
 
 body {
-  margin: 0; /* Eliminamos el margen predeterminado del cuerpo */
+  margin: 0;
   background-color: #e7e9f2;
+  overflow-y: hidden;
 }
 
 .container {
@@ -253,5 +254,28 @@ body {
   .header {
     margin-left: 2vw;
     z-index: 99;
+  }
+}
+
+/* tawk.to: zoom */
+/* Chromium */
+@media screen and (max-height: 900px) { 
+  iframe {
+    zoom: 95%!important;
+  }
+}
+@media screen and (max-height: 768px) { 
+  iframe {
+    zoom: 80%!important;
+  }
+}
+@media screen and (max-height: 700px) { 
+  iframe {
+    zoom: 65%!important;
+  }
+}
+@media screen and (max-height: 600px) { 
+  iframe {
+    zoom: 60%!important;
   }
 }

@@ -17,14 +17,13 @@
   border: 1px solid #ccc;
 }
 
-.modal-content {
+.modal-content-añadirRegistro {
   background-color: #fefefe;
   margin: 3% auto;
-  padding: 20px;
+  padding: 15px;
   border: 1px solid #888;
   width: 60%;
   max-width: 1200px;
-  max-height: 85vh;
   overflow-y: auto;
   border-radius: 15px;
   -webkit-border-radius: 15px;
@@ -33,8 +32,8 @@
   -o-border-radius: 15px;
 }
 
-.modal-content h2 {
-  margin-bottom: 20px;
+.modal-content-añadirRegistro h2 {
+  margin-bottom: 10px;
 }
 
 .form-container {
@@ -58,7 +57,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
   gap: 10px;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .form-row-titles input {
@@ -297,7 +296,7 @@ select:focus {
   .swal2-success-line-tip {
     font-size: 1rem;
   }
-  .modal-content {
+  .modal-content-añadirRegistro {
     width: 70%;
   }
   .form-row-titles span {
@@ -317,7 +316,7 @@ select:focus {
   .swal2-success-line-tip {
     font-size: 1rem;
   }
-  .modal-content {
+  .modal-content-añadirRegistro {
     width: 80%;
   }
   .form-row-titles,
@@ -346,7 +345,7 @@ select:focus {
     cursor: pointer;
     margin-left: 10px;
   }
-  .modal-content {
+  .modal-content-añadirRegistro {
     width: 80%;
   }
   .form-row-titles,
@@ -378,5 +377,27 @@ select:focus {
   .swal2-success-line-long,
   .swal2-success-line-tip {
     font-size: 1rem;
+  }
+}
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .modal-content-añadirRegistro {
+    zoom: 90%;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .modal-content-añadirRegistro {
+    zoom: 80%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .modal-content-añadirRegistro {
+    zoom: 65%;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .modal-content-añadirRegistro {
+    zoom: 60%;
   }
 }

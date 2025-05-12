@@ -82,17 +82,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function highlightCurrentDay(month, year) {
     const today = new Date();
     if (today.getMonth() + 1 === month && today.getFullYear() === year) {
-      const currentDay = today.getDate();
-      const dayElement = document.querySelector(
-        `.calendar-table td:not(:empty):nth-child(7n+${
-          currentDay % 7 || 7
-        }):nth-of-type(${Math.ceil(currentDay / 7)})`
-      );
-      if (dayElement) {
-        dayElement.classList.add("current-day");
-      }
+        const todayFormatted = today.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+        const dayElement = document.querySelector(`.calendar-table td[data-date="${todayFormatted}"]`);
+        if (dayElement) {
+            dayElement.classList.add("current-day");
+        }
     }
-  }
+}
 
   function updateEventListeners() {
     document.querySelectorAll(".event-indicator").forEach((indicator) => {
@@ -110,6 +106,22 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
+
+    // Event listener para los eventos próximos del lado izquierdo del calendario
+    document.querySelectorAll(".event-item").forEach((eventItem) => {
+      // Buscar el primer span dentro del evento que contiene el ID
+      const eventIndicator = eventItem.querySelector('span[data-event-id]');
+      if (eventIndicator) {
+        // Obtener el ID del evento y añadir un listener al evento
+        const eventId = eventIndicator.getAttribute('data-event-id');
+        // Añadir un cursor de puntero al elemento para ser interactivo
+        eventItem.style.cursor = 'pointer';
+        // Añadir un listener al evento para abrir el modal
+        eventItem.addEventListener('click', () => {
+          openEventModal(eventId);
+        });
+      }
+    });
 
   expandEvents = function (date, moreLink) {
     fetch(
@@ -168,11 +180,11 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch(`./functions/calendario/detalles-eventos.php?event_id=${eventId}`)
       .then((response) => response.text()) // Cambia esto de response.json() a response.text()
       .then((text) => {
-        console.log("Respuesta del servidor:", text); // Registra la respuesta completa
+        console.log("Respuesta del servidor: ", text); // Registra la respuesta completa
         try {
           return JSON.parse(text);
         } catch (error) {
-          console.error("Error al analizar JSON:", error);
+          console.error("Error al analizar JSON: ", error);
           throw error;
         }
       })

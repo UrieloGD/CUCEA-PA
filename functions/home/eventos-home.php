@@ -76,7 +76,9 @@ function obtenerEventosProximos($conexion, $codigo_usuario, $limite = 4) {
 }
 
 function renderizarEventosProximos($eventos) {
+    // Verifica si el array de eventos está vacío
     if (empty($eventos)) {
+        // Retorna un mensaje indicando que no hay eventos próximos
         return '<div class="evento-item">
             <div class="evento-vacio">
                 <span>No hay eventos próximos</span>
@@ -84,12 +86,20 @@ function renderizarEventosProximos($eventos) {
         </div>';
     }
 
-    $html = '';
-    $total_eventos = count($eventos);
-    $clase_contenedor = 'eventos-' . $total_eventos;
+    $html = ''; // Variable que almacenará el HTML generado
+    $total_eventos = count($eventos); // Obtiene el número total de eventos
+    $clase_contenedor = 'eventos-' . $total_eventos; // Crea una clase CSS dinámica basada en la cantidad de eventos
 
     foreach ($eventos as $index => $evento) {
-        $html .= '<div class="evento-item ' . $clase_contenedor . '">';
+        // Convierte el array del evento en JSON y lo escapa para evitar ataques XSS
+        $evento_json = htmlspecialchars(
+            json_encode($evento, JSON_UNESCAPED_UNICODE | JSON_HEX_QUOT | JSON_HEX_AMP), 
+            ENT_QUOTES, 
+            'UTF-8'
+        );
+
+        // Agrega una nueva entrada de evento al HTML con la información en data-evento (para uso en JS)
+        $html .= '<div class="evento-item ' . $clase_contenedor . '" data-evento=\'' . $evento_json . '\'>';
         
         // El cuadro del número se ajusta según la cantidad de eventos
         $html .= '<div class="evento-icono">

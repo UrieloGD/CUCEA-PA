@@ -198,3 +198,32 @@ document
   .addEventListener("click", function (event) {
     event.stopPropagation();
   });
+
+  function descartarNotificacion(event, id, tipo) {
+    event.stopPropagation();
+    
+    const notificacion = event.target.closest('.contenedor-notificacion');
+    
+    // Ocultar inmediatamente la notificación
+    notificacion.style.display = 'none';
+    
+    // Marcar como descartada en la base de datos
+    fetch('./functions/notificaciones/descartar-notificacion.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `id=${id}&tipo=${tipo}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            console.error('Error al descartar notificación');
+            notificacion.style.display = 'flex';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        notificacion.style.display = 'flex';
+    });
+}

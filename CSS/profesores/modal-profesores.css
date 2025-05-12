@@ -1,20 +1,48 @@
 .cuadro-principal {
     background-color: white;
-    border-radius: 20px;
-    width: 92%;
-    height: 90vh;
+    width: -webkit-fill-available;
+    height: 91.5vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
-    margin-bottom: 2vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    align-self: flex-end;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0 5 0 5;
+    border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
-}
+  }
+  
+  /* Mozilla */
+  @-moz-document url-prefix() {
+    .cuadro-principal {
+      background-color: white;
+      width:-moz-available;
+      height: 91.5vh;
+      margin-left: 6vw;
+      margin-right: 2vw;
+      margin-top: 1vh;
+      align-self: flex-end;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      padding: 0 5 0 5;
+      border-radius: 20px;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      -ms-border-radius: 20px;
+      -o-border-radius: 20px;
+    }
+  }
+  
+  .cuadro-scroll {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
 /* Encabezado */
 .encabezado {
@@ -147,7 +175,7 @@
     border: 1px solid #ccc;
 }
   
-.modal-content {
+.modal-content-detalle {
     background-color: #fefefe;
     padding: 20px;
 }
@@ -181,9 +209,8 @@
     padding: 20px;
     border: 1px solid #888;
     width: 90%;
-    height: fit-content;
+    height: 85vh;
     max-width: 1200px;
-    max-height: 85vh;
     overflow-y: hidden;
     border-radius: 15px;
     z-index: 1002;
@@ -205,14 +232,14 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 1;
+    z-index: 0;
 }
 
 .contenido-tabla {
     padding: 15px 50px;
     overflow: hidden;
-    height: 96%;
-    z-index: 1;
+    height: 86%;
+    z-index: 0;
 }
 
 /* Estilos para el botón de cerrar */
@@ -759,7 +786,7 @@
     .cuadro-principal {
       background-color: white;
       border-radius: 20px;
-      width: 92%;
+      /* width: 92%; */
       height: 90vh;
       margin-left: 6vw;
       margin-right: 2vw;
@@ -770,7 +797,7 @@
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
     .cuadro-principal {
-      width: 92%;
+      /* width: 92%; */
       margin-left: 6vw;
     }
 }
@@ -783,7 +810,7 @@
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
     .cuadro-principal {
-      width: 91%;
+      /* width: 91%; */
       margin-left: 7vw;
       font-size: smaller;
     }
@@ -796,7 +823,7 @@
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
     .cuadro-principal {
-      width: 90%;
+      /* width: 90%; */
       margin-left: 8vw;
       margin-bottom: 2vh;
       font-size: smaller;
@@ -815,7 +842,7 @@
 
 @media (max-width: 768px) {
     .cuadro-principal {
-        width: 96%;
+        /* width: 96%; */
         height: 91vh; 
         margin-left: 2vw;
         font-size: smaller;
@@ -897,3 +924,61 @@
         white-space: nowrap;
     }
 }
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content { 
+      zoom: 90%; 
+    }
+    body .cuadro-principal {
+      zoom: 90%;
+      height: 102vh;
+    }
+    .modal-content-detalle {
+      height: 95vh;
+    }
+  }
+  @media screen and (max-height: 768px) { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content { 
+      zoom: 80%; 
+    }
+    body .cuadro-principal {
+      zoom: 80%;
+      height: 114.5vh;
+    }
+    nav[aria-label="pagination"] {
+      width: 100%;
+    }
+    .modal-content-detalle {
+      height: 105vh;
+    }
+  }
+  @media screen and (max-height: 700px) { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content  { 
+      zoom: 65%; 
+    }
+    body .cuadro-principal {
+      zoom: 65%;
+      height: 141.5vh;
+    }
+    .modal-content-detalle {
+      height: 130vh;
+    }
+  }
+  @media screen and (max-height: 600px) { 
+    .header,
+    .modal-content-detalle,
+    div.loading-content  { 
+      zoom: 60%; 
+    }
+    body .cuadro-principal {
+      zoom: 60%;
+      /* height: 152.5vh; */
+    }
+  }

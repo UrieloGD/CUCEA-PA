@@ -49,7 +49,7 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
 ?>
 
 <title>Centro de Gestión</title>
-<link rel="stylesheet" href="./CSS/admin-home.css" />
+<link rel="stylesheet" href="./CSS/admin-home.css?v=<?php echo filemtime('./CSS/admin-home.css'); ?>">
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -100,7 +100,9 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
                         $sql_departamentos = "SELECT d.Departamento_ID, d.departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
                                             FROM departamentos d
                                             LEFT JOIN plantilla_dep p ON d.Departamento_ID = p.Departamento_ID
-                                            GROUP BY d.Departamento_ID, d.departamentos";
+                                            GROUP BY d.Departamento_ID, d.departamentos
+                                            ORDER BY d.departamentos ASC";
+
                         $result_departamentos = mysqli_query($conexion, $sql_departamentos);
 
                         while ($row = mysqli_fetch_assoc($result_departamentos)) {

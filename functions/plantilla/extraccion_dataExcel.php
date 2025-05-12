@@ -6,6 +6,7 @@ include './../../config/db.php';
 ob_start();
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+date_default_timezone_set('America/Mexico_City');
 
 function safeSubstr($string, $start, $length = null)
 {
@@ -244,7 +245,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             if ($successful_inserts > 0) {
                 $inserted_records = $successful_inserts;
             } else {
-                echo json_encode(["success" => false, "message" => "No se pudo insertar ningún registro. Revise el log para más detalles."]);
+                echo json_encode(["success" => false, "message" => "No se pudo insertar ningún registro."]);
                 exit();
             }
 
@@ -266,7 +267,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $departamento = $result_departamento->fetch_assoc();
 
             // Obtener correos de los usuarios de secretaría administrativa
-            $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 2";
+            $sql_secretaria = "SELECT Correo FROM usuarios WHERE Rol_ID = 0 OR Rol_ID = 2";
             $result_secretaria = $conexion->query($sql_secretaria);
 
             $envio_exitoso = true;

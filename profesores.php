@@ -1,6 +1,8 @@
 <?php
 require_once './config/db.php';
-require_once './config/sesioniniciada.php';
+require_once './template/header.php';
+require_once './template/navbar.php';
+require_once './config/sesiones.php';
 require_once './functions/profesores/funciones-horas.php';
 
 // Verificar conexión
@@ -20,7 +22,7 @@ $departamento_id = null;
 
 try {
     // Lógica para seleccionar el departamento
-    if ($rol == 1) {
+    if ($rol == 1 || $rol == 4) {
         $departamento_id = $_SESSION['Departamento_ID'];
     } elseif ($rol == 2 || $rol == 3 || $rol == 0) {
         if (isset($_GET['departamento_id'])) {
@@ -42,8 +44,8 @@ try {
 
     // Obtener información del departamento
     $sql_departamento = "SELECT Nombre_Departamento, Departamentos 
-            FROM departamentos 
-            WHERE Departamento_ID = ?";
+    FROM departamentos 
+    WHERE Departamento_ID = ?";
     $stmt = $conexion->prepare($sql_departamento);
 
     if (!$stmt) {
@@ -60,6 +62,9 @@ try {
     } else {
         die("No se encontró el departamento especificado.");
     }
+
+    // Añadir esta condición para el título según el rol
+    $titulo_departamento = ($rol == 0) ? "Administrador" : $departamento_nombre;
 
     // Define the mapping array with all possible variations
     $departmentMapping = [
@@ -192,10 +197,6 @@ try {
         }
         return str_replace("\n", "<br>", htmlspecialchars($horasString));
     }
-
-    // Aquí comienza el HTML
-    include './template/header.php';
-    include './template/navbar.php';
 ?>
 
     <!DOCTYPE html>
@@ -203,9 +204,9 @@ try {
 
     <head>
         <meta charset="UTF-8">
-        <title>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></title>
-        <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css">
-        <link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css">
+        <title>Profesores - <?php echo htmlspecialchars($titulo_departamento); ?></title>
+        <link rel="stylesheet" href="./CSS/profesores/modal-profesores.css?v=<?php echo filemtime('./CSS/profesores/modal-profesores.css'); ?>">
+        <link rel="stylesheet" href="./CSS/profesores/detalle-profesor.css?v=<?php echo filemtime('./CSS/profesores/detalle-profesor.css'); ?>">
         <!-- Script para mostrar el loader inmediatamente -->
         <script>
             // Esta función se ejecuta inmediatamente, antes de que se cargue el resto del contenido
@@ -235,7 +236,7 @@ try {
                     </div>
                 </div>
                 <div class="encabezado-centro">
-                    <h3>Profesores - <?php echo htmlspecialchars($departamento_nombre); ?></h3>
+                    <h3>Profesores - <?php echo htmlspecialchars($titulo_departamento); ?></h3>
                 </div>
                 <div class="encabezado-derecha">
                     <div id="list1" class="dropdown-check-list" tabindex="100">
@@ -364,12 +365,12 @@ try {
             </div>
         </div>
 
-        <script src="./JS/profesores/detalle-profesor.js"></script>
-        <script src="./JS/profesores/filtro-profesores.js"></script>
-        <script src="./JS/profesores/desplegable-box.js"></script>
-        <script src="./JS/profesores/filtro-departamentos.js"></script>
-        <script src="./JS/profesores/carga-profesores.js"></script>
-        <script src="./JS/profesores/responsividad-tabla-profesores.js"></script>
+        <script src="./JS/profesores/detalle-profesor.js?v=<?php echo filemtime('./JS/profesores/detalle-profesor.js'); ?>"></script>
+        <script src="./JS/profesores/filtro-profesores.js?v=<?php echo filemtime('./JS/profesores/filtro-profesores.js'); ?>"></script>
+        <script src="./JS/profesores/desplegable-box.js?v=<?php echo filemtime('./JS/profesores/desplegable-box.js'); ?>"></script>
+        <script src="./JS/profesores/filtro-departamentos.js?v=<?php echo filemtime('./JS/profesores/filtro-departamentos.js'); ?>"></script>
+        <script src="./JS/profesores/carga-profesores.js?v=<?php echo filemtime('./JS/profesores/carga-profesores.js'); ?>"></script>
+        <script src="./JS/profesores/responsividad-tabla-profesores.js?v=<?php echo filemtime('./JS/profesores/responsividad-tabla-profesores.js'); ?>"></script>
         <script>
             // Pass the session department to JavaScript
             const sessionDepartment = "<?php
@@ -377,6 +378,7 @@ try {
                                         echo htmlspecialchars($normalized_dept, ENT_QUOTES);
                                         ?>";
             const isPosgrados = "<?php echo ($nombre_departamento === 'Posgrados') ? 'true' : 'false'; ?>";
+            const userRol = "<?php echo $_SESSION['Rol_ID']; ?>";
         </script>
 
         <!-- DataTables Scripts -->

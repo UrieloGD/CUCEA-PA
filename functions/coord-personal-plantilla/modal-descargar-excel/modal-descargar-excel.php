@@ -1,6 +1,6 @@
 <div id="modal-descargar" class="modal">
     <div class="modal-content-descarga">
-    <span class="close" onclick="cerrarDescargarExcel()">&times;</span>
+    <span class="close-modal-desc" onclick="cerrarDescargarExcel()">&times;</span>
         <h3>Selecciona las columnas a descargar</h3>
         <div class="select-first">
                 <input class="input-check" type="checkbox" id="select-all-main">
@@ -9,98 +9,119 @@
         <div id="opciones-columnas" class="container-all">
             <div class="select-all-div">
                 <div class="columns-container-js">
-                    <div class="columns-subcontainer"> <!-- materia -->
-                        <div class="label-profesorado">
-                            <label class="encabezado-js">Información Básica</label>
+                    <div class="label-profesorado">
+                        <label class="encabezado-js">Información Básica</label>
+                    </div>
+                    <div class="select-all-basica">
+                        <input class="input-check" type="checkbox" id="select-all-basica">
+                        <label for="select-all-basica">Seleccionar/Deseleccionar grupo completo</label>
+                    </div>
+                    <div class="columns-container-basica">
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-codigo-" name="columnas[]" value="CODIGO">
+                            <label for="col-codigo-">CÓDIGO</label>
                         </div>
-                        <div class="select-all-basica">
-                            <input class="input-check" type="checkbox" id="select-all-basica">
-                            <label for="select-all-basica">Seleccionar/Deseleccionar grupo completo</label>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-paterno-" name="columnas[]" value="PATERNO">
+                            <label for="col-paterno-">PATERNO</label>
                         </div>
-                        <div class="columns-container-basica">
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-codigo-" name="columnas[]" value="CODIGO">
-                                <label for="col-codigo-">CÓDIGO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-paterno-" name="columnas[]" value="PATERNO">
-                                <label for="col-paterno-">PATERNO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-materno-" name="columnas[]" value="MATERNO">
-                                <label for="col-materno-">MATERNO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-nombres-" name="columnas[]" value="NOMBRES">
-                                <label for="col-nombres-">NOMBRES</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-nombre-completo-" name="columnas[]" value="NOMBRE COMPLETO">
-                                <label for="col-nombre-completo-">NOMBRE COMPLETO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-sexo-" name="columnas[]" value="SEXO">
-                                <label for="col-sexo-">SEXO</label>
-                            </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-materno-" name="columnas[]" value="MATERNO">
+                            <label for="col-materno-">MATERNO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-nombres-" name="columnas[]" value="NOMBRES">
+                            <label for="col-nombres-">NOMBRES</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-nombre-completo-" name="columnas[]" value="NOMBRE COMPLETO">
+                            <label for="col-nombre-completo-">NOMBRE COMPLETO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-edad-" name="columnas[]" value="EDAD">
+                            <label for="col-edad-">EDAD</label>
                         </div>
                     </div>
-                    <div class="columns-subcontainer">
-                        <div class="label-profesorado">
-                            <label class="encabezado-js">Información Académica</label>
+                </div>
+            </div>
+            <div class="select-all-div">
+                <div class="columns-container-js-1">
+                    <div class="label-profesorado">
+                        <label class="encabezado-js">Información Académica</label>
+                    </div>
+                    <div class="select-all-academica">
+                        <input class="input-check" type="checkbox" id="select-all-academica">
+                        <label for="select-all-academica">Seleccionar/Deseleccionar grupo completo</label>
+                    </div>
+                    <div class="columns-container-academica">
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-datos-" name="columnas[]" value="DATOS">
+                            <label for="col-datos-">DATOS</label>
                         </div>
-                        <div class="select-all-academica">
-                            <input class="input-check" type="checkbox" id="select-all-academica">
-                            <label for="select-all-academica">Seleccionar/Deseleccionar grupo completo</label>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-cat.-act.-" name="columnas[]" value="CAT.ACT.">
+                            <label for="col-cat.-act.-">CAT. ACT.</label>
                         </div>
-                        <div class="columns-container-academica">
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-departamento-" name="columnas[]" value="DEPARTAMENTO">
-                                <label for="col-departamento-">DEPARTAMENTO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-categoria-actual-" name="columnas[]" value="CATEGORIA ACTUAL">
-                                <label for="col-categoria-actual-">CATEGORIA ACTUAL (1)</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-categoria-actual-dos-" name="columnas[]" value="CATEGORIA ACTUAL DOS">
-                                <label for="col-categoria-actual-dos-">CATEGORIA ACTUAL (2)</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-horas-frente-a-grupo-" name="columnas[]" value="HORAS FRENTE A GRUPO">
-                                <label for="col-horas-frente-a-grupo-">HORAS FRENTE A GRUPO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-division-" name="columnas[]" value="DIVISION">
-                                <label for="col-division-">DIVISIÓN</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-tipo-de-plaza-" name="columnas[]" value="TIPO DE PLAZA">
-                                <label for="col-tipo-de-plaza-">TIPO DE PLAZA</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-cat.-act.-" name="columnas[]" value="CAT.ACT.">
-                                <label for="col-cat.-act.-">CAT. ACT.</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-carga-horaria-" name="columnas[]" value="CARGA HORARIA">
-                                <label for="col-carga-horaria-">CARGA HORARIA</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-horas-definitivas-" name="columnas[]" value="HORAS DEFINITIVAS">
-                                <label for="col-horas-definitivas-">HORAS DEFINITIVAS</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-horario-" name="columnas[]" value="HORARIO">
-                                <label for="col-horario-">HORARIO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-turno-" name="columnas[]" value="TURNO">
-                                <label for="col-turno-">TURNO</label>
-                            </div>
-                            <div class="Check-js">
-                                <input class="input-check" type="checkbox" id="col-2024a-" name="columnas[]" value="2024A">
-                                <label for="col-2024a-">2024A</label>
-                            </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-categoria-actual-" name="columnas[]" value="CATEGORIA ACTUAL">
+                            <label for="col-categoria-actual-">CATEGORIA ACTUAL (1)</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-horas-frente-a-grupo-" name="columnas[]" value="HORAS FRENTE A GRUPO">
+                            <label for="col-horas-frente-a-grupo-">HORAS FRENTE A GRUPO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-categoria-actual-dos-" name="columnas[]" value="CATEGORIA ACTUAL DOS">
+                            <label for="col-categoria-actual-dos-">CATEGORIA ACTUAL (2)</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-departamento-" name="columnas[]" value="DEPARTAMENTO">
+                            <label for="col-departamento-">DEPARTAMENTO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-division-" name="columnas[]" value="DIVISION">
+                            <label for="col-division-">DIVISIÓN</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-tipo-de-plaza-" name="columnas[]" value="TIPO DE PLAZA">
+                            <label for="col-tipo-de-plaza-">TIPO DE PLAZA</label>
+                        </div>
+                        
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-carga-horaria-" name="columnas[]" value="CARGA HORARIA">
+                            <label for="col-carga-horaria-">CARGA HORARIA</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-horas-definitivas-" name="columnas[]" value="HORAS DEFINITIVAS">
+                            <label for="col-horas-definitivas-">HORAS DEFINITIVAS</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-udg-virtual-cit-otro-centro-" name="columnas[]" value="UDG VIRTUAL CIT OTRO CENTRO">
+                            <label for="col-udg-virtual-cit-otro-centro-">UDG VIRTUAL CIT OTRO CENTRO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-horario-" name="columnas[]" value="HORARIO">
+                            <label for="col-horario-">HORARIO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-turno-" name="columnas[]" value="TURNO">
+                            <label for="col-turno-">TURNO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-sni-" name="columnas[]" value="S.N.I.">
+                            <label for="col-sni-">S.N.I</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-sni-desde-" name="columnas[]" value="SNI DESDE">
+                            <label for="col-sni-desde-">SNI DESDE</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-cambio-dedicacion-de-plaza-docente-a-investigador-" name="columnas[]" value="CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR">
+                            <label for="col-cambio-dedicacion-de-plaza-docente-a-investigador-">CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-investigador-por-nombramiento-o-cambio-de-funcion-" name="columnas[]" value="INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION">
+                            <label for="col-investigador-por-nombramiento-o-cambio-de-funcion-">INVESTIGACIÓN / NOMBRAMIENTO / CAMBIO DE FUNCIÓN </label>
                         </div>
                     </div>
                 </div>
@@ -201,11 +222,35 @@
                             <label for="col-ultimo-grado-">ÚLTIMO GRADO</label>
                         </div>
                         <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-otro-grado-" name="columnas[]" value="OTRO GRADO2">
+                            <label for="col-otro-grado-">OTRO GRADO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-otro-grado-" name="columnas[]" value="OTRO GRADO3">
+                            <label for="col-otro-grado-">OTRO GRADO</label>
+                        </div>
+                        <div class="Check-js">
                             <input class="input-check" type="checkbox" id="col-programa-" name="columnas[]" value="PROGRAMA">
                             <label for="col-programa-">PROGRAMA</label>
                         </div>
                         <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-programa-" name="columnas[]" value="PROGRAMA2">
+                            <label for="col-programa-">PROGRAMA</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-programa-" name="columnas[]" value="PROGRAMA3">
+                            <label for="col-PROGRAMA-">PROGRAMA</label>
+                        </div>
+                        <div class="Check-js">
                             <input class="input-check" type="checkbox" id="col-nivel-" name="columnas[]" value="NIVEL">
+                            <label for="col-nivel-">NIVEL</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-nivel-" name="columnas[]" value="NIVEL2">
+                            <label for="col-nivel-">NIVEL</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-nivel-" name="columnas[]" value="NIVEL3">
                             <label for="col-nivel-">NIVEL</label>
                         </div>
                         <div class="Check-js">
@@ -213,7 +258,23 @@
                             <label for="col-institucion-">INSTITUCIÓN</label>
                         </div>
                         <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-institucion-" name="columnas[]" value="INSTITUCION2">
+                            <label for="col-institucion-">INSTITUCIÓN</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-institucion-" name="columnas[]" value="INSTITUCION3">
+                            <label for="col-institucion-">INSTITUCIÓN</label>
+                        </div>
+                        <div class="Check-js">
                             <input class="input-check" type="checkbox" id="col-estado/pais-" name="columnas[]" value="ESTADO/PAIS">
+                            <label for="col-estado/pais-">ESTADO/PAÍS</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-estado/pais-" name="columnas[]" value="ESTADO/PAIS2">
+                            <label for="col-estado/pais-">ESTADO/PAÍS</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-estado/pais-" name="columnas[]" value="ESTADO/PAIS3">
                             <label for="col-estado/pais-">ESTADO/PAÍS</label>
                         </div>
                         <div class="Check-js">
@@ -221,60 +282,20 @@
                             <label for="col-anio-">AÑO</label>
                         </div>
                         <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-gdo-exp-" name="columnas[]" value="GDO EXP">
-                            <label for="col-gdo-exp-">GDO. EXP.</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-otro-grado-" name="columnas[]" value="OTRO GRADO2">
-                            <label for="col-otro-grado-">OTRO GRADO</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-programa-" name="columnas[]" value="PROGRAMA2">
-                            <label for="col-programa-">PROGRAMA</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-nivel-" name="columnas[]" value="NIVEL2">
-                            <label for="col-nivel-">NIVEL</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-institucion-" name="columnas[]" value="INSTITUCION2">
-                            <label for="col-institucion-">INSTITUCIÓN</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-estado/pais-" name="columnas[]" value="ESTADO/PAIS2">
-                            <label for="col-estado/pais-">ESTADO/PAÍS</label>
-                        </div>
-                        <div class="Check-js">
                             <input class="input-check" type="checkbox" id="col-anio-" name="columnas[]" value="ANIO2">
                             <label for="col-anio-">AÑO</label>
                         </div>
                         <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-gdo-exp-" name="columnas[]" value="GDO EXP2">
+                            <input class="input-check" type="checkbox" id="col-anio-" name="columnas[]" value="ANIO3">
+                            <label for="col-anio-">AÑO</label>
+                        </div>
+                        <div class="Check-js">
+                            <input class="input-check" type="checkbox" id="col-gdo-exp-" name="columnas[]" value="GDO EXP">
                             <label for="col-gdo-exp-">GDO. EXP.</label>
                         </div>
                         <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-otro-grado-" name="columnas[]" value="OTRO GRADO3">
-                            <label for="col-otro-grado-">OTRO GRADO</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-programa-" name="columnas[]" value="PROGRAMA3">
-                            <label for="col-PROGRAMA-">PROGRAMA</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-nivel-" name="columnas[]" value="NIVEL3">
-                            <label for="col-nivel-">NIVEL</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-institucion-" name="columnas[]" value="INSTITUCION3">
-                            <label for="col-institucion-">INSTITUCIÓN</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-estado/pais-" name="columnas[]" value="ESTADO/PAIS3">
-                            <label for="col-estado/pais-">ESTADO/PAÍS</label>
-                        </div>
-                        <div class="Check-js">
-                            <input class="input-check" type="checkbox" id="col-anio-" name="columnas[]" value="ANIO3">
-                            <label for="col-anio-">AÑO</label>
+                            <input class="input-check" type="checkbox" id="col-gdo-exp-" name="columnas[]" value="GDO EXP2">
+                            <label for="col-gdo-exp-">GDO. EXP.</label>
                         </div>
                         <div class="Check-js">
                             <input class="input-check" type="checkbox" id="col-gdo-exp-" name="columnas[]" value="GDO EXP3">
@@ -327,7 +348,7 @@
             </div>
         </div>
         <div class="fila-botones">
-            <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
+            <button onclick="descargarExcelSeleccionado()">Descargar selección</button>
         </div>
     </div>
 </div>   

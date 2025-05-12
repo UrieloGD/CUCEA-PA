@@ -136,18 +136,16 @@
                     <label for="hrs_practica_prop">Hrs/Sem/Mes (Práctica)</label>
                     <input type="number" id="hrs_practica_prop" name="hrs_practica_prop" min="0" max="99" required>
                 </div>
-                <div class="form-row-baja-propuesta">
-                    <div class="form-group-baja-propuesta small">
-                        <label for="num_puesto_teoria_prop">Num. Puesto (Teoría)</label>
-                        <input type="text" id="num_puesto_teoria_prop" name="num_puesto_teoria_prop" maxlength="10" pattern="[0-9]*" required>
-                    </div>
-                    <div class="form-group-baja-propuesta small">
-                        <label for="num_puesto_practica_prop">Num. Puesto (Práctica)</label>
-                        <input type="text" id="num_puesto_practica_prop" name="num_puesto_practica_prop" maxlength="10" pattern="[0-9]*" required>
-                    </div>
+                <div class="form-group-baja-propuesta small">
+                    <label for="num_puesto_teoria_prop">Num. Puesto (Teoría)</label>
+                    <input type="text" id="num_puesto_teoria_prop" name="num_puesto_teoria_prop" maxlength="10" pattern="[0-9]*" required>
+                </div>
+                <div class="form-group-baja-propuesta small">
+                    <label for="num_puesto_practica_prop">Num. Puesto (Práctica)</label>
+                    <input type="text" id="num_puesto_practica_prop" name="num_puesto_practica_prop" maxlength="10" pattern="[0-9]*" required>
                 </div>
                 <div class="form-group-baja-propuesta">
-                    <label for="inter_temp_def_prop">Interino/Temporal/Definitivo</label>
+                    <label for="inter_temp_def_prop">Interino/Temporal/Def.</label>
                     <select id="inter_temp_def_prop" name="inter_temp_def_prop" required>
                         <option value="" disabled selected>Seleccione una opción</option>
                         <option value="Interino">Interino</option>
@@ -180,12 +178,12 @@
                 </div>
             </div>
 
-            <div class="contenedor-botones">
-                <button type="submit" class="boton-guardar" id="btn-guardar-baja-propuesta">
+            <div class="contenedor-botones-baja-propuesta">
+                <button type="submit" class="btn-guardar" id="btn-guardar-baja-propuesta">
                     <i class="fa fa-check-circle"></i>
                     Guardar
                 </button>
-                <button type="button" class="boton-descartar" id="btn-descartar-baja-propuesta">
+                <button type="button" class="btn-descartar" id="btn-descartar-baja-propuesta">
                     <i class="fa fa-times-circle"></i>
                     Descartar
                 </button>

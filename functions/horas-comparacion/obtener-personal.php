@@ -19,7 +19,7 @@ function getDepartamentoQuery($departamento)
 {
     $departamentosMap = [
         'Administración'  => ['Administracion'],
-        'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA E', 'PALE', 'Programa de Aprendizaje de Lengua Extranjera'],
+        'PALE'  => ['ADMINISTRACION/PROGRAMA DE APRENDIZAJE DE LENGUA EXTRANJERA', 'PALE', 'Programa de Aprendizaje de Lengua Extranjera'],
         'Auditoría'  => ['Auditoria', 'SECRETARIA ADMINISTRATIVA/AUDITORIA'],
         'Ciencias_Sociales'  => ['CERI/CIENCIAS SOCIALES', 'CIENCIAS SOCIALES'],
         'Politicas_Públicas'  => ['POLITICAS PUBLICAS'],
@@ -32,7 +32,7 @@ function getDepartamentoQuery($departamento)
         'Métodos_Cuantitativos'  => ['METODOS CUANTITATIVOS'],
         'Recursos_Humanos'  => ['RECURSOS_HUMANOS'],
         'Mercadotecnia'  => ['MERCADOTECNIA'],
-        'Sistemas_de_Información'  => ['SISTEMAS DE INFORMACION'],
+        'Sistemas_de_Información'  => ['SISTEMAS DE INFORMACION', 'SISTEMAS DE LA INFORMACION'],
         'Turismo' => ['Turismo', 'Turismo R. y S.']
     ];
 

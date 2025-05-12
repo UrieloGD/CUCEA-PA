@@ -63,10 +63,10 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $highestRow = $sheet->getHighestRow();
 
         $sql = "INSERT INTO coord_per_prof (
-            Codigo, Paterno, Materno, Nombres, Nombre_completo, Sexo, Departamento,
+            Datos, Codigo, Paterno, Materno, Nombres, Nombre_completo, Departamento,
             Categoria_actual, Categoria_actual_dos, Horas_frente_grupo, Division, Tipo_plaza, Cat_act,
-            Carga_horaria, Horas_definitivas, Horario, Turno, Investigacion_nombramiento_cambio_funcion,
-            SNI, SNI_desde, Cambio_dedicacion, Inicio, Fin, `2024A`, Telefono_particular, Telefono_oficina,
+            Carga_horaria, Horas_definitivas, Udg_virtual_CIT, Horario, Turno, Investigacion_nombramiento_cambio_funcion,
+            SNI, SNI_desde, Cambio_dedicacion, Telefono_particular, Telefono_oficina,
             Domicilio, Colonia, CP, Ciudad, Estado, No_imss, CURP, RFC, Lugar_nacimiento, Estado_civil,
             Tipo_sangre, Fecha_nacimiento, Edad, Nacionalidad, Correo, Correos_oficiales, Ultimo_grado,
             Programa, Nivel, Institucion, Estado_pais, Año, Gdo_exp, Otro_grado, Otro_programa,
@@ -74,7 +74,7 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             Otro_grado_alternativo, Otro_programa_alternativo, Otro_nivel_altenrativo,
             Otro_institucion_alternativo, Otro_estado_pais_alternativo, Otro_año_alternativo,
             Otro_gdo_exp_alternativo, Proesde_24_25, A_partir_de, Fecha_ingreso, Antiguedad, PAPELERA
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $conexion->prepare($sql);
 
@@ -86,12 +86,12 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
         $errores = array();
 
         for ($row = 2; $row <= $highestRow; $row++) {
-            $codigo = safeSubstr($sheet->getCell('A' . $row)->getCalculatedValue(), 0, 12);
-            $paterno = convertToUppercase(safeSubstr($sheet->getCell('B' . $row)->getCalculatedValue(), 0, 50));
-            $materno = convertToUppercase(safeSubstr($sheet->getCell('C' . $row)->getCalculatedValue(), 0, 50));
-            $nombres = convertToUppercase(safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 70));
-            $nombre_completo = convertToUppercase(safeSubstr($sheet->getCell('E' . $row)->getCalculatedValue(), 0, 80));
-            $sexo = convertToUppercase(safeSubstr($sheet->getCell('F' . $row)->getCalculatedValue(), 0, 5));
+            $datos = safeSubstr($sheet->getCell('A' . $row)->getCalculatedValue(), 0, 20);
+            $codigo = safeSubstr($sheet->getCell('B' . $row)->getCalculatedValue(), 0, 12);
+            $paterno = convertToUppercase(safeSubstr($sheet->getCell('C' . $row)->getCalculatedValue(), 0, 50));
+            $materno = convertToUppercase(safeSubstr($sheet->getCell('D' . $row)->getCalculatedValue(), 0, 50));
+            $nombres = convertToUppercase(safeSubstr($sheet->getCell('E' . $row)->getCalculatedValue(), 0, 70));
+            $nombre_completo = convertToUppercase(safeSubstr($sheet->getCell('F' . $row)->getCalculatedValue(), 0, 80));
             $departamento = convertToUppercase(safeSubstr($sheet->getCell('G' . $row)->getCalculatedValue(), 0, 70));
             $categoria_actual = convertToUppercase(safeSubstr($sheet->getCell('H' . $row)->getCalculatedValue(), 0, 60));
             $categoria_actual_dos = convertToUppercase(safeSubstr($sheet->getCell('I' . $row)->getCalculatedValue(), 0, 20));
@@ -101,69 +101,67 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
             $cat_act = convertToUppercase(safeSubstr($sheet->getCell('M' . $row)->getCalculatedValue(), 0, 70));
             $carga_horaria = safeSubstr($sheet->getCell('N' . $row)->getCalculatedValue(), 0, 10);
             $horas_definitivas = intval($sheet->getCell('O' . $row)->getCalculatedValue());
-            $horario = convertToUppercase(safeSubstr($sheet->getCell('P' . $row)->getCalculatedValue(), 0, 60));
-            $turno = convertToUppercase(safeSubstr($sheet->getCell('Q' . $row)->getCalculatedValue(), 0, 5));
-            $investigacion_nombramiento_cambio_funcion = convertToUppercase(safeSubstr($sheet->getCell('R' . $row)->getCalculatedValue(), 0, 50));
-            $sni = convertToUppercase(safeSubstr($sheet->getCell('S' . $row)->getCalculatedValue(), 0, 10));
-            $sni_desde = convertExcelDate($sheet->getCell('T' . $row)->getCalculatedValue());
-            $cambio_dedicacion = convertToUppercase(safeSubstr($sheet->getCell('U' . $row)->getCalculatedValue(), 0, 40));
-            $inicio = convertExcelDate($sheet->getCell('V' . $row)->getCalculatedValue());
-            $fin = convertExcelDate($sheet->getCell('W' . $row)->getCalculatedValue());
-            $a_2024 = convertToUppercase(safeSubstr($sheet->getCell('X' . $row)->getCalculatedValue(), 0, 50));
-            $telefono_particular = safeSubstr($sheet->getCell('Y' . $row)->getCalculatedValue(), 0, 30);
-            $telefono_oficina = safeSubstr($sheet->getCell('Z' . $row)->getCalculatedValue(),0 , 30);
-            $domicilio = convertToUppercase(safeSubstr($sheet->getCell('AA' . $row)->getCalculatedValue(), 0, 70));
-            $colonia = convertToUppercase(safeSubstr($sheet->getCell('AB' . $row)->getCalculatedValue(), 0, 60));
-            $cp = intval($sheet->getCell('AC' . $row)->getCalculatedValue());
-            $ciudad = convertToUppercase(safeSubstr($sheet->getCell('AD' . $row)->getCalculatedValue(), 0, 30));
-            $estado = convertToUppercase(safeSubstr($sheet->getCell('AE' . $row)->getCalculatedValue(), 0, 30));
-            $no_imss = safeSubstr($sheet->getCell('AF' . $row)->getCalculatedValue(),0, 12);
-            $curp = convertToUppercase(safeSubstr($sheet->getCell('AG' . $row)->getCalculatedValue(), 0, 25));
-            $rfc = convertToUppercase(safeSubstr($sheet->getCell('AH' . $row)->getCalculatedValue(), 0, 15));
-            $lugar_nacimiento = convertToUppercase(safeSubstr($sheet->getCell('AI' . $row)->getCalculatedValue(), 0, 50));
-            $estado_civil = convertToUppercase(safeSubstr($sheet->getCell('AJ' . $row)->getCalculatedValue(), 0, 5));
-            $tipo_sangre = convertToUppercase(safeSubstr($sheet->getCell('AK' . $row)->getCalculatedValue(), 0, 5));
-            $fecha_nacimiento = convertExcelDate($sheet->getCell('AL' . $row)->getCalculatedValue(), 0, 15);
-            $edad = intval($sheet->getCell('AM' . $row)->getCalculatedValue());
-            $nacionalidad = convertToUppercase(safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 40));
-            $correo = safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 60);
-            $correos_oficiales = safeSubstr($sheet->getCell('AP' . $row)->getCalculatedValue(), 0, 60);
-            $ultimo_grado = convertToUppercase(safeSubstr($sheet->getCell('AQ' . $row)->getCalculatedValue(), 0, 5));
-            $programa = convertToUppercase(safeSubstr($sheet->getCell('AR' . $row)->getCalculatedValue(), 0, 70));
-            $nivel = convertToUppercase(safeSubstr($sheet->getCell('AS' . $row)->getCalculatedValue(), 0, 5));
-            $institucion = convertToUppercase(safeSubstr($sheet->getCell('AT' . $row)->getCalculatedValue(), 0, 50));
-            $estado_pais = convertToUppercase(safeSubstr($sheet->getCell('AU' . $row)->getCalculatedValue(), 0, 50));
-            $año = intval($sheet->getCell('AV' . $row)->getCalculatedValue());
-            $gdo_exp = convertToUppercase(safeSubstr($sheet->getCell('AW' . $row)->getCalculatedValue(), 0, 25));
-            $otro_grado = convertToUppercase(safeSubstr($sheet->getCell('AX' . $row)->getCalculatedValue(), 0, 5));
-            $otro_programa = convertToUppercase(safeSubstr($sheet->getCell('AY' . $row)->getCalculatedValue(), 0, 70));
-            $otro_nivel = convertToUppercase(safeSubstr($sheet->getCell('AZ' . $row)->getCalculatedValue(), 0, 10));
-            $otro_institucion = convertToUppercase(safeSubstr($sheet->getCell('BA' . $row)->getCalculatedValue(), 0, 30));
-            $otro_estado_pais = convertToUppercase(safeSubstr($sheet->getCell('BB' . $row)->getCalculatedValue(), 0, 25));
-            $otro_año = intval($sheet->getCell('BC' . $row)->getCalculatedValue());
-            $otro_gdo_exp = convertToUppercase(safeSubstr($sheet->getCell('BD' . $row)->getCalculatedValue(), 0, 25));
-            $otro_grado_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BE' . $row)->getCalculatedValue(), 0, 5));
-            $otro_programa_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BF' . $row)->getCalculatedValue(), 0, 70));
-            $otro_nivel_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BG' . $row)->getCalculatedValue(), 0, 10));
-            $otro_institucion_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BH' . $row)->getCalculatedValue(), 0, 30));
-            $otro_estado_pais_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BI' . $row)->getCalculatedValue(), 0, 25));
-            $otro_año_alternativo = safeSubstr($sheet->getCell('BJ' . $row)->getCalculatedValue(), 0, 10);
-            $otro_gdo_exp_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BK' . $row)->getCalculatedValue(), 0, 15));
-            $proesde_24_25 = convertToUppercase(safeSubstr($sheet->getCell('BL' . $row)->getCalculatedValue(), 0, 15));
-            $a_partir_de = convertExcelDate($sheet->getCell('BM' . $row)->getCalculatedValue(), 0, 10);
-            $fecha_ingreso = convertExcelDate($sheet->getCell('BN' . $row)->getCalculatedValue(), 0, 10);
-            $antiguedad = safeSubstr($sheet->getCell('BO' . $row)->getCalculatedValue(), 0, 5);
+            $udg_virtual_cit = safeSubstr($sheet->getCell('P' . $row)->getCalculatedValue(), 0, 20);
+            $horario = convertToUppercase(safeSubstr($sheet->getCell('Q' . $row)->getCalculatedValue(), 0, 60));
+            $turno = convertToUppercase(safeSubstr($sheet->getCell('R' . $row)->getCalculatedValue(), 0, 5));
+            $investigacion_nombramiento_cambio_funcion = convertToUppercase(safeSubstr($sheet->getCell('S' . $row)->getCalculatedValue(), 0, 50));
+            $sni = convertToUppercase(safeSubstr($sheet->getCell('T' . $row)->getCalculatedValue(), 0, 10));
+            $sni_desde = convertExcelDate($sheet->getCell('U' . $row)->getCalculatedValue());
+            $cambio_dedicacion = convertToUppercase(safeSubstr($sheet->getCell('V' . $row)->getCalculatedValue(), 0, 40));
+            $telefono_particular = safeSubstr($sheet->getCell('W' . $row)->getCalculatedValue(), 0, 30);
+            $telefono_oficina = safeSubstr($sheet->getCell('X' . $row)->getCalculatedValue(),0 , 30);
+            $domicilio = convertToUppercase(safeSubstr($sheet->getCell('Y' . $row)->getCalculatedValue(), 0, 70));
+            $colonia = convertToUppercase(safeSubstr($sheet->getCell('Z' . $row)->getCalculatedValue(), 0, 60));
+            $cp = intval($sheet->getCell('AA' . $row)->getCalculatedValue());
+            $ciudad = convertToUppercase(safeSubstr($sheet->getCell('AB' . $row)->getCalculatedValue(), 0, 30));
+            $estado = convertToUppercase(safeSubstr($sheet->getCell('AC' . $row)->getCalculatedValue(), 0, 30));
+            $no_imss = safeSubstr($sheet->getCell('AD' . $row)->getCalculatedValue(),0, 12);
+            $curp = convertToUppercase(safeSubstr($sheet->getCell('AE' . $row)->getCalculatedValue(), 0, 25));
+            $rfc = convertToUppercase(safeSubstr($sheet->getCell('AF' . $row)->getCalculatedValue(), 0, 15));
+            $lugar_nacimiento = convertToUppercase(safeSubstr($sheet->getCell('AG' . $row)->getCalculatedValue(), 0, 50));
+            $estado_civil = convertToUppercase(safeSubstr($sheet->getCell('AH' . $row)->getCalculatedValue(), 0, 5));
+            $tipo_sangre = convertToUppercase(safeSubstr($sheet->getCell('AI' . $row)->getCalculatedValue(), 0, 5));
+            $fecha_nacimiento = convertExcelDate($sheet->getCell('AJ' . $row)->getCalculatedValue(), 0, 15);
+            $edad = intval($sheet->getCell('AK' . $row)->getCalculatedValue());
+            $nacionalidad = convertToUppercase(safeSubstr($sheet->getCell('AL' . $row)->getCalculatedValue(), 0, 40));
+            $correo = safeSubstr($sheet->getCell('AM' . $row)->getCalculatedValue(), 0, 60);
+            $correos_oficiales = safeSubstr($sheet->getCell('AN' . $row)->getCalculatedValue(), 0, 60);
+            $ultimo_grado = convertToUppercase(safeSubstr($sheet->getCell('AO' . $row)->getCalculatedValue(), 0, 5));
+            $programa = convertToUppercase(safeSubstr($sheet->getCell('AP' . $row)->getCalculatedValue(), 0, 70));
+            $nivel = convertToUppercase(safeSubstr($sheet->getCell('AQ' . $row)->getCalculatedValue(), 0, 5));
+            $institucion = convertToUppercase(safeSubstr($sheet->getCell('AR' . $row)->getCalculatedValue(), 0, 50));
+            $estado_pais = convertToUppercase(safeSubstr($sheet->getCell('AS' . $row)->getCalculatedValue(), 0, 50));
+            $año = intval($sheet->getCell('AT' . $row)->getCalculatedValue());
+            $gdo_exp = convertToUppercase(safeSubstr($sheet->getCell('AU' . $row)->getCalculatedValue(), 0, 25));
+            $otro_grado = convertToUppercase(safeSubstr($sheet->getCell('AV' . $row)->getCalculatedValue(), 0, 5));
+            $otro_programa = convertToUppercase(safeSubstr($sheet->getCell('AW' . $row)->getCalculatedValue(), 0, 70));
+            $otro_nivel = convertToUppercase(safeSubstr($sheet->getCell('AX' . $row)->getCalculatedValue(), 0, 10));
+            $otro_institucion = convertToUppercase(safeSubstr($sheet->getCell('AY' . $row)->getCalculatedValue(), 0, 30));
+            $otro_estado_pais = convertToUppercase(safeSubstr($sheet->getCell('AZ' . $row)->getCalculatedValue(), 0, 25));
+            $otro_año = intval($sheet->getCell('BA' . $row)->getCalculatedValue());
+            $otro_gdo_exp = convertToUppercase(safeSubstr($sheet->getCell('BB' . $row)->getCalculatedValue(), 0, 25));
+            $otro_grado_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BC' . $row)->getCalculatedValue(), 0, 5));
+            $otro_programa_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BD' . $row)->getCalculatedValue(), 0, 70));
+            $otro_nivel_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BE' . $row)->getCalculatedValue(), 0, 10));
+            $otro_institucion_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BF' . $row)->getCalculatedValue(), 0, 30));
+            $otro_estado_pais_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BG' . $row)->getCalculatedValue(), 0, 25));
+            $otro_año_alternativo = safeSubstr($sheet->getCell('BH' . $row)->getCalculatedValue(), 0, 10);
+            $otro_gdo_exp_alternativo = convertToUppercase(safeSubstr($sheet->getCell('BI' . $row)->getCalculatedValue(), 0, 15));
+            $proesde_24_25 = convertToUppercase(safeSubstr($sheet->getCell('BJ' . $row)->getCalculatedValue(), 0, 15));
+            $a_partir_de = convertExcelDate($sheet->getCell('BK' . $row)->getCalculatedValue(), 0, 10);
+            $fecha_ingreso = convertExcelDate($sheet->getCell('BL' . $row)->getCalculatedValue(), 0, 10);
+            $antiguedad = safeSubstr($sheet->getCell('BM' . $row)->getCalculatedValue(), 0, 5);
 
             $papelera = "ACTIVO"; // Definir la variable con el valor "ACTIVO" para que se muestren los registros
 
             $stmt->bind_param(
-                "sssssssssissssisssssssssiissississssssissssssssissssssissssssissssss",
+                "sssssssssissssisssssssiissississssssissssssssissssssissssssissssss",
+                $datos,
                 $codigo,
                 $paterno,
                 $materno,
                 $nombres,
                 $nombre_completo,
-                $sexo,
                 $departamento,
                 $categoria_actual,
                 $categoria_actual_dos,
@@ -173,15 +171,13 @@ if (isset($_FILES["file"]) && $_FILES["file"]["error"] == 0) {
                 $cat_act,
                 $carga_horaria,
                 $horas_definitivas,
+                $udg_virtual_cit,
                 $horario,
                 $turno,
                 $investigacion_nombramiento_cambio_funcion,
                 $sni,
                 $sni_desde,
                 $cambio_dedicacion,
-                $inicio,
-                $fin,
-                $a_2024,
                 $telefono_particular,
                 $telefono_oficina,
                 $domicilio,

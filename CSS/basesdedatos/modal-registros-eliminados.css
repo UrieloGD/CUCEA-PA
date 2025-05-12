@@ -1,3 +1,10 @@
+/* Ensure that the demo table scrolls */
+th, td { white-space: nowrap; }
+div.dataTables_wrapper {
+    width: 800px;
+    margin: 0 auto;
+}
+
 /* Estilos para el contenedor de búsqueda del modal de registros eliminados */
 #modalRegistrosEliminados .dt-search {
     width: 50%;
@@ -28,6 +35,7 @@
   /* Estilo para el título del modal de registros eliminados */
   .modal-title {
     font-size: 20px;
+    margin: 0 0 15 0;
   }
   
   /* Estilo para el botón de cerrar del modal de registros eliminados */
@@ -56,9 +64,13 @@
   
   /* Estilo para el contenido del modal de registros eliminados */
   .modal-content {
-    position: relative;
+    margin: 0;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
     background-color: white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 8px;
     width: 90%;
     max-width: 1200px;
@@ -73,7 +85,7 @@
     flex-direction: row;
     justify-content: space-between;
   }
-  
+
   /* Estilos para el alinear la barra de búsqueda con Mostrar N registros en el modal de registros eliminados*/
   div.dt-container .dt-search input {
     margin-top: -10;
@@ -90,6 +102,10 @@
 
   #tabla-eliminados_wrapper div.dt-paging {
     display: none!important;
+  }
+
+  #tabla-eliminados_wrapper div.dt-scroll-body {
+    max-height: 48vh!important;
   }
 
   /* Estilo para mantener los encabezados de la tabla de eliminados fijos */
@@ -112,3 +128,44 @@
       background: #0071B0;
       color: white;
   }
+
+  @media screen and (max-width: 1600px) and (min-width: 1401px) {
+    .modal-content {
+      width: 90%;
+    }
+  }
+  
+  @media screen and (max-width: 1400px) and (min-width: 1201px) {
+    .modal-content {
+      width: 90%;
+    }
+  }
+  
+  @media screen and (max-width: 1200px) and (min-width: 993px) {
+    .modal-content {
+      width: 90%;
+    }
+  }
+  
+  @media screen and (max-width: 992px) and (min-width: 769px) {
+    .modal-content {
+      width: 85%;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    div#modalRegistrosEliminados .dt-search input {
+      margin-top: 70;
+      width: 79vw;
+    }
+    .modal-content {
+      width: 80%;
+    }
+    #tabla-eliminados_wrapper .row {
+      flex-direction: column;
+    }
+    div#modalRegistrosEliminados .dt-length {
+      margin: -5 0 15 0;
+    }
+  }
+  

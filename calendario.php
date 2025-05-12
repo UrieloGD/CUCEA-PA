@@ -25,11 +25,11 @@ include './template/navbar.php';
 ?>
 
 <title>Calendario</title>
-<link rel="stylesheet" href="./CSS/calendario.css" />
-
+<link rel="stylesheet" href="./CSS/calendario.css?v=<?php echo filemtime('./CSS/calendario.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">
@@ -53,7 +53,7 @@ include './template/navbar.php';
                 </div> -->
                 <?php
                 // Consultar eventos futuros o en curso del usuario
-                $sql = "SELECT Nombre_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Etiqueta
+                $sql = "SELECT ID_Evento, Nombre_Evento, Fecha_Inicio, Fecha_Fin, Hora_Inicio, Etiqueta
                         FROM eventos_admin 
                         WHERE (Fecha_Inicio >= CURDATE() OR (Fecha_Inicio <= CURDATE() AND Fecha_Fin >= CURDATE()))
                         AND FIND_IN_SET(?, Participantes)
@@ -89,11 +89,14 @@ include './template/navbar.php';
 
                                 $fecha_formateada = $fechaMostrar->format('d/m/Y');
 
+                                // Imprime un evento con su fecha, hora, nombre, etiqueta y estado. 
+                                // Cada evento tiene un ID único (ej: data-event-id) para la interacción en JavaScript.
                                 echo '<div class="event-item">';
                                 echo '<div class="event-date">' . $fecha_formateada . '<br>' . $row['Hora_Inicio'] . '</div>';
                                 echo '<div class="event-content">';
                                 echo '<strong>' . htmlspecialchars($row['Nombre_Evento']) . '</strong>';
                                 echo '<br><span class="event-tag">' . htmlspecialchars($row['Etiqueta']) . '</span>';
+                                // echo '<br><span class="event-tag" data-event-id="' . $row['ID_Evento'] . '">' . htmlspecialchars($row['Etiqueta']) . '</span>';
                                 echo '<br><span class="event-status">' . $estadoEvento . '</span>';
                                 echo '</div>';
                                 echo '</div>';
@@ -128,7 +131,6 @@ include './template/navbar.php';
                             <div class="box-buttons">
                                 <button class="search-icon"><img src="./Img/Icons/iconos-calendario/lupa.png"></button>
                                 <button class="list-icon"><img src="./Img/Icons/iconos-calendario/filtro.png"></button>
-                                <!-- <button class="grid-icon"><img src="./Img/Icons/iconos-calendario/escala.png"></button> -->
                             </div>
                     </div>
                 </div>
@@ -238,41 +240,13 @@ include './template/navbar.php';
             </div>
         </div>
     </div>
-</div>
-
-<!-- Modales -->
-<!-- Modal para visualizar detalles del evento -->
-<div id="eventModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2 id="eventTitle"></h2>
-        </div>
-        <div class="modal-body">
-            <div class="event-time">
-                <span id="eventDate"></span> • <span id="eventTime"></span>
-            </div>
-            <div class="event-location">
-                <img src="./Img/Icons/iconos-calendario/etiqueta.png" alt="Icono de etiqueta" class="event-icon">
-                <span id="eventTag"></span>
-            </div>
-            <div class="event-description">
-                <p id="eventDescription"></p>
-            </div>
-        </div>
     </div>
 </div>
 
-<!-- Modal para visualizar todos los eventos -->
-<div id="eventsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2 class="modal-title"></h2>
-        </div>
-        <div class="modal-body"></div>
-    </div>
-</div>
+<!-- Llamada al modal con la información sobre los eventos -->
+<?php
+require_once './functions/calendario/modal-eventos-info.php';
+?>
 
 <!-- Modal para crear nuevo evento, temporalmente deshabilitado
 <div id="modalOverlay" class="modal-overlay"></div>
@@ -327,10 +301,8 @@ include './template/navbar.php';
     var userId = <?php echo json_encode($_SESSION['user_id']); ?>;
 </script>
 
-<script src="./JS/calendario/funciones-calendario.js"></script>
-
-<!-- Script para funciones del modal de crear nuevo evento. -->
-<script src="./JS/calendario/modal-nuevoevento.js"></script>
+<script src="./JS/calendario/funciones-calendario.js?v=<?php echo filemtime('./JS/calendario/funciones-calendario.js'); ?>"></script>
+<script src="./JS/calendario/modal-nuevoevento.js?v=<?php echo filemtime('./JS/calendario/modal-nuevoevento.js'); ?>"></script>
 
 <!-- Script y estilos para boton que abre el modal. -->
 <script>

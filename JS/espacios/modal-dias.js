@@ -124,8 +124,8 @@ function mostrarModal(espacio, horarios) {
         // Eliminamos la columna del aula
         contenido += `<tr${estiloConflicto}>
             <td>${clase.hora_inicial} - ${clase.hora_final}</td>
-            <td>${clase.materia.toUpperCase()}</td>
-            <td>${clase.profesor.toUpperCase()}</td>
+            <td>${(clase.materia || "Sin información").toUpperCase()}</td>
+            <td>${(clase.profesor || "Sin información").toUpperCase()}</td>
             <td>${(clase.departamento || "Sin información").toUpperCase()}</td>
           </tr>`;
       });
