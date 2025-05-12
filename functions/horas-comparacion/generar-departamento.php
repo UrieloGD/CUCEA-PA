@@ -50,7 +50,7 @@ function generarDepartamento($depto)
         </div>
         <div class="ultima-mod-dpto_container">
             <p class="titulo-totales-dpto">Última modificación</p>
-            <table class="tabla-ultimas-mod-dpto">
+            <!-- <table class="tabla-ultimas-mod-dpto">
                 <thead class="encabezado-ultimas-mod-dpto" style="background-color: {$depto['color']};">
                     <tr>
                         <td>Fecha</td>
@@ -60,12 +60,12 @@ function generarDepartamento($depto)
                 </thead>
                 <tbody class="cuerpo-ultimas-mod-dpto">
                     <tr>
-                        <td>23/10/24</td>
-                        <td>13:00</td>
-                        <td>Rafael Castanedo Escobedo</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
             <button class="desglose-button-dpto"
                 data-departamento="{$depto['nombre']}"
                 style="background-color: {$depto['color']};">Desglose</button>
