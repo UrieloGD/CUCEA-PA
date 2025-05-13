@@ -30,16 +30,17 @@ date_default_timezone_set('America/Mexico_City');
 $response = ['success' => false, 'oldValue' => '', 'error' => ''];
 
 // Función para enviar correo a los coordinadores
-function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anterior, $valor_nuevo, $emisor_id) {
+function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anterior, $valor_nuevo, $emisor_id)
+{
     // Obtener todos los coordinadores
     $sql_coordinadores = "SELECT Codigo, Nombre, Apellido, Correo FROM usuarios WHERE rol_id = 3";
     $result_coordinadores = mysqli_query($conexion, $sql_coordinadores);
-    
+
     if (!$result_coordinadores) {
         error_log("Error al obtener coordinadores: " . mysqli_error($conexion));
         return false;
     }
-    
+
     // Obtener información del usuario emisor
     $sql_emisor = "SELECT Nombre, Apellido, rol_id FROM usuarios WHERE Codigo = ?";
     $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
@@ -47,22 +48,22 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
     mysqli_stmt_execute($stmt_emisor);
     $result_emisor = mysqli_stmt_get_result($stmt_emisor);
     $emisor = mysqli_fetch_assoc($result_emisor);
-    
+
     $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un usuario';
     $tipo_usuario = ($emisor && $emisor['rol_id'] === 0) ? "administrador" : "usuario";
-    
+
     // Información adicional para el correo
     $fecha_accion = date('d/m/Y H:i');
-    
+
     $correos_enviados = 0;
-    
+
     // Enviar un correo a cada coordinador
     while ($coordinador = mysqli_fetch_assoc($result_coordinadores)) {
         // No enviar al mismo usuario que hizo el cambio si es coordinador
         if ($coordinador['Codigo'] == $emisor_id) {
             continue;
         }
-        
+
         // Asunto y cuerpo del correo
 
         $asunto = "Modificación por coordinador - Programación Académica";
@@ -117,7 +118,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
             </div>
         </body>
         </html>";
-        
+
         if (enviarCorreo($coordinador['Correo'], $asunto, $cuerpo)) {
             error_log("Correo enviado exitosamente al coordinador {$coordinador['Nombre']}");
             $correos_enviados++;
@@ -125,12 +126,12 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
             error_log("Error al enviar correo al coordinador {$coordinador['Nombre']}");
         }
     }
-    
+
     // Si el cambio lo hizo un coordinador, notificar a los administradores
     if ($emisor && $emisor['rol_id'] == 3) {
         $sql_admins = "SELECT Codigo, Nombre, Apellido, Correo FROM usuarios WHERE rol_id = 0";
         $result_admins = mysqli_query($conexion, $sql_admins);
-        
+
         if ($result_admins) {
             while ($admin = mysqli_fetch_assoc($result_admins)) {
                 $asunto = "Modificación por coordinador - Programación Académica";
@@ -172,7 +173,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
                     </div>
                 </body>
                 </html>";
-                
+
                 if (enviarCorreo($admin['Correo'], $asunto, $cuerpo)) {
                     error_log("Correo enviado exitosamente al administrador {$admin['Nombre']}");
                     $correos_enviados++;
@@ -182,7 +183,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
             }
         }
     }
-    
+
     return $correos_enviados > 0;
 }
 
@@ -190,6 +191,8 @@ try {
     if (!isset($_POST['id']) || !isset($_POST['column']) || !isset($_POST['value'])) {
         throw new Exception("Faltan datos requeridos (id, column o value)");
     }
+
+    $multiple = filter_var($_POST['multiple'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
     $id = mysqli_real_escape_string($conexion, $_POST['id']);
     $column = mysqli_real_escape_string($conexion, $_POST['column']);
@@ -282,7 +285,7 @@ try {
 
     // Para el sistema de notificaciones de coordinación (no requiere department_id)
     $departamento_nombre = "Coordinación";
-    
+
     // Identificar el rol del usuario que hace la modificación
     if (!isset($user_role)) {
         $user_role = isset($_SESSION['rol_id']) ? intval($_SESSION['rol_id']) : -1;
@@ -311,11 +314,11 @@ try {
     $stmt_old->bind_param("s", $id);
     $stmt_old->execute();
     $result_old = $stmt_old->get_result();
-    
+
     if (!$result_old || $result_old->num_rows === 0) {
         throw new Exception("No se encontró ningún registro con el ID proporcionado: $id");
     }
-    
+
     $row_old = $result_old->fetch_assoc();
     $response['oldValue'] = $row_old[$column];
 
@@ -326,78 +329,78 @@ try {
 
     if ($stmt_update->execute()) {
         $response['success'] = true;
-        
+
         // Sistema de notificaciones
         if ($response['oldValue'] != $value) {
-            // Obtener el ID del usuario que hace la modificación
-            $usuario_emisor_id = $_SESSION['Codigo'] ?? 0;
-            
-            // Determinar tipo de usuario que hace la modificación
-            $tipo_usuario = ($user_role === 0) ? "administrador" : "usuario";
-            
-            // Crear mensaje de notificación
-            $mensaje = "Un $tipo_usuario ha modificado el campo '$column' del registro #$id en la base de datos de Coordinación";
-            
-            // Notificar a todos los coordinadores (rol 3)
-            $sql_coordinadores = "SELECT u.Codigo 
+            if (!$multiple) {
+                $usuario_emisor_id = $_SESSION['Codigo'] ?? 0; // Obtener el ID del usuario que hace la modificación
+
+                // Determinar tipo de usuario que hace la modificación
+                $tipo_usuario = ($user_role === 0) ? "administrador" : "usuario";
+
+                // Crear mensaje de notificación
+                $mensaje = "Un $tipo_usuario ha modificado el campo '$column' del registro #$id en la base de datos de Coordinación";
+
+                // Notificar a todos los coordinadores (rol 3)
+                $sql_coordinadores = "SELECT u.Codigo 
                                  FROM usuarios u 
                                  WHERE u.rol_id = 3";
-            $stmt_coordinadores = $conexion->prepare($sql_coordinadores);
-            $stmt_coordinadores->execute();
-            $result_coordinadores = $stmt_coordinadores->get_result();
-            
-            while ($coordinador = $result_coordinadores->fetch_assoc()) {
-                // No notificar al mismo usuario que hizo el cambio
-                if ($coordinador['Codigo'] == $usuario_emisor_id) {
-                    continue;
-                }
-                
-                $coordinador_id = $coordinador['Codigo'];
-                
-                // Mensaje detallado para coordinadores
-                $mensaje_detallado = "Se ha modificado el campo '$column' del registro #$id. "; //Valor anterior: '{$response['oldValue']}'. Nuevo valor: '$value'"
-                
-                $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                $stmt_coordinadores = $conexion->prepare($sql_coordinadores);
+                $stmt_coordinadores->execute();
+                $result_coordinadores = $stmt_coordinadores->get_result();
+
+                while ($coordinador = $result_coordinadores->fetch_assoc()) {
+                    // No notificar al mismo usuario que hizo el cambio
+                    if ($coordinador['Codigo'] == $usuario_emisor_id) {
+                        continue;
+                    }
+
+                    $coordinador_id = $coordinador['Codigo'];
+
+                    // Mensaje detallado para coordinadores
+                    $mensaje_detallado = "Se ha modificado el campo '$column' del registro #$id. "; //Valor anterior: '{$response['oldValue']}'. Nuevo valor: '$value'"
+
+                    $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
                                     VALUES ('modificacion_bd', ?, ?, ?)";
-                $stmt_notificacion = $conexion->prepare($sql_notificacion);
-                $stmt_notificacion->bind_param("sii", $mensaje_detallado, $coordinador_id, $usuario_emisor_id);
-                
-                if (!$stmt_notificacion->execute()) {
-                    error_log("Error al crear notificación para coordinador ID $coordinador_id: " . $stmt_notificacion->error);
-                }
-            }
-            
-            // Si el cambio lo hizo un administrador, notificar también a los administradores
-            if ($user_role === 0) {
-                $sql_admins = "SELECT u.Codigo 
-                              FROM usuarios u 
-                              WHERE u.rol_id = 0 AND u.Codigo != ?";
-                $stmt_admins = $conexion->prepare($sql_admins);
-                $stmt_admins->bind_param("i", $usuario_emisor_id);
-                $stmt_admins->execute();
-                $result_admins = $stmt_admins->get_result();
-                
-                while ($admin = $result_admins->fetch_assoc()) {
-                    $admin_id = $admin['Codigo'];
-                    
-                    $sql_notificacion_admin = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
-                                              VALUES ('modificacion_bd', ?, ?, ?)";
-                    $stmt_notificacion_admin = $conexion->prepare($sql_notificacion_admin);
-                    $stmt_notificacion_admin->bind_param("sii", $mensaje, $admin_id, $usuario_emisor_id);
-                    
-                    if (!$stmt_notificacion_admin->execute()) {
-                        error_log("Error al crear notificación para admin ID $admin_id: " . $stmt_notificacion_admin->error);
+                    $stmt_notificacion = $conexion->prepare($sql_notificacion);
+                    $stmt_notificacion->bind_param("sii", $mensaje_detallado, $coordinador_id, $usuario_emisor_id);
+
+                    if (!$stmt_notificacion->execute()) {
+                        error_log("Error al crear notificación para coordinador ID $coordinador_id: " . $stmt_notificacion->error);
                     }
                 }
+
+                // Si el cambio lo hizo un administrador, notificar también a los administradores
+                if ($user_role === 0) {
+                    $sql_admins = "SELECT u.Codigo 
+                              FROM usuarios u 
+                              WHERE u.rol_id = 0 AND u.Codigo != ?";
+                    $stmt_admins = $conexion->prepare($sql_admins);
+                    $stmt_admins->bind_param("i", $usuario_emisor_id);
+                    $stmt_admins->execute();
+                    $result_admins = $stmt_admins->get_result();
+
+                    while ($admin = $result_admins->fetch_assoc()) {
+                        $admin_id = $admin['Codigo'];
+
+                        $sql_notificacion_admin = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
+                                              VALUES ('modificacion_bd', ?, ?, ?)";
+                        $stmt_notificacion_admin = $conexion->prepare($sql_notificacion_admin);
+                        $stmt_notificacion_admin->bind_param("sii", $mensaje, $admin_id, $usuario_emisor_id);
+
+                        if (!$stmt_notificacion_admin->execute()) {
+                            error_log("Error al crear notificación para admin ID $admin_id: " . $stmt_notificacion_admin->error);
+                        }
+                    }
+                }
+
+                // Enviar notificaciones por correo electrónico
+                enviarCorreoModificacion($conexion, $column, $id, $response['oldValue'], $value, $usuario_emisor_id);
             }
-            
-            // Enviar notificaciones por correo electrónico
-            enviarCorreoModificacion($conexion, $column, $id, $response['oldValue'], $value, $usuario_emisor_id);
         }
     } else {
         throw new Exception("Error al actualizar: " . $stmt_update->error);
     }
-
 } catch (Exception $e) {
     $response['error'] = $e->getMessage();
     error_log("Error en actualizar-celda-coord.php: " . $e->getMessage());
@@ -414,4 +417,3 @@ if (isset($stmt_notificacion_admin)) $stmt_notificacion_admin->close();
 if (isset($conexion)) mysqli_close($conexion);
 
 echo json_encode($response);
-?>
