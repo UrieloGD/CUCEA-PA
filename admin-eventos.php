@@ -35,7 +35,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
             <div class="contenedor-select">
                 <form action="" method="GET">
                     <select name="desplegable-estado-evento" id="desplegable-estado-evento" onchange="this.form.submit()">
-                        <option value="Todos los eventos" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Todos los eventos') ? 'selected' : ''; ?> selected>Todos los eventos</option>
+                        <option value="Todos los eventos" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Todos los eventos') ? 'selected' : ''; ?> selected>Mostrar todo</option>
                         <option value="En proceso" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'En proceso')  || !isset($_GET['desplegable-estado-evento']) ? 'selected' : ''; ?> >En proceso</option>
                         <option value="Proximos" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Proximos') ? 'selected' : '' ?> >Proximos</option>
                         <option value="Finalizado" <?php echo (isset($_GET['desplegable-estado-evento']) && $_GET['desplegable-estado-evento'] == 'Finalizado') ? 'selected' : '' ?> >Finalizado</option>
@@ -57,7 +57,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     ORDER BY e.Fecha_Inicio, e.Hora_Inicio";
 
     $result = mysqli_query($conexion, $sql);
-    $estadoEvento = isset($_GET['desplegable-estado-evento']) ? $_GET['desplegable-estado-evento'] : 'Todos los eventos';
+    $estadoEvento = isset($_GET['desplegable-estado-evento']) ? $_GET['desplegable-estado-evento'] : 'En proceso';
     $eventoAnterior = null;
 
     function mostrarEventos() {
@@ -135,11 +135,11 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                                 $iniciales = strtoupper(substr($participante, 0, 2));
                             }
                             
-                            echo '<div class="icono-perfil"><strong>' . $iniciales . '</strong></div>';
-                            
                             // Solo mostramos los nombres si el total de participantes es 5 o menos
                             if ($totalParticipantes <= 5) {
-                                echo '<div style="margin: 0 20 0 0; white-space: nowrap; font-size: 1rem;">' . htmlspecialchars($participante) . '</div>';
+                                echo '<div class="icono-perfil"><strong>' . $iniciales . '</strong></div><div style="margin: 0 20 0 0; white-space: nowrap; font-size: 1rem;">' . htmlspecialchars($participante) . '</div>';
+                            } else {
+                                echo '<div class="icono-perfil"><strong>' . $iniciales . '</strong><span class="tooltip-texto">' . $participante . '</span></div>';
                             }
                         }
                         ?>
@@ -157,15 +157,21 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                         }
                         ?>
                         <span><i class="fa-solid fa-clock" style="margin: 0 5 0 0;"></i><?php echo date('h:i', $horaInicio) . " " . $pm_am; ?></span>
-                        <span><i class="fas fa-map-marker-alt" style="margin: 0 5 0 10;"></i>Modulo O</span>
+                        <!-- <span><i class="fas fa-map-marker-alt" style="margin: 0 5 0 10;"></i>Modulo O</span> -->
                     </div>
                 </div>
                 <div class="event-actions">
                     <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
                         <img src="./Img/Icons/iconos-adminAU/editar.png" alt="Editar">
+                        <div class="tooltip-texto-trigger">
+                            <span class="tooltip-texto-buttons">Editar evento</span>
+                        </div>
                     </button>
                     <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
                         <img src="./Img/Icons/iconos-adminAU/borrar.png" alt="Borrar">
+                        <div class="tooltip-texto-trigger">
+                            <span class="tooltip-texto-buttons">Eliminar evento</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -180,13 +186,14 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
         $eventoFinalizado = $row['Fecha_Fin'];
         $dateNow = date('Y-m-d H:i:s');
             
-            if ($estadoEvento == 'Todos los eventos' ||
-                ($estadoEvento == 'En proceso' && $dateNow > $eventoActual && $dateNow < $eventoFinalizado) ||
+            if (($estadoEvento == 'En proceso' && $dateNow > $eventoActual && $dateNow < $eventoFinalizado) ||
                 ($estadoEvento == 'Finalizado' && $dateNow > $eventoFinalizado) ||
                 ($estadoEvento == 'Proximos' && $dateNow < $eventoActual)) {
                     mostrarEventos();
             }
-
+            else if ($estadoEvento == 'Todos los eventos') {
+                mostrarEventos();
+            }
         }
     } else {
         ?>
@@ -384,6 +391,5 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <script src="./JS/admin-eventos/modal-creacion-y-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/modal-creacion-y-participantes.js'); ?>"></script>
 <script src="./JS/admin-eventos/filtro-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/filtro-participantes.js'); ?>"></script>
 <script src="./JS/admin-eventos/icono-participantes.js?v=<?php echo filemtime('./JS/admin-eventos/icono-participantes.js'); ?>"></script>
-<script src="./JS/admin-eventos/filtro-eventos.js?v=<?php echo filemtime('./JS/admin-eventos/filtro-eventos.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

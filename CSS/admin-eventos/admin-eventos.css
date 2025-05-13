@@ -90,6 +90,10 @@
   width: fit-content; 
 }
 
+.contenedor-select form {
+  margin: 0;
+}
+
 #desplegable-estado-evento {
   display: inherit;
   color:#0071b0;
@@ -377,6 +381,70 @@
   font-size: 0.8rem;
 }
 
+.tooltip-texto,
+.tooltip-texto-buttons {
+  position: fixed;
+  visibility: hidden;
+  width: 150px;
+  padding: 4px 12px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+  background-color: rgba(33, 37, 41, 0.95);
+  border-left: 4px solid #0071b0;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  pointer-events: none;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: left;
+  align-self: flex-start;
+  margin: 0 0 0 210;
+}
+
+.tooltip-texto-buttons {
+  position: absolute;
+  padding: 10px 16px;
+  margin: 0;
+}
+
+.tooltip-texto-trigger {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.tooltip-texto::before,
+.tooltip-texto-buttons::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+.tooltip-texto[data-position="top"]::before,
+.tooltip-texto-buttons[data-position="top"]::before {
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: rgba(33, 37, 41, 0.95);
+}
+
+.tooltip-texto[data-position="bottom"]::before,
+.tooltip-texto-buttons[data-position="bottom"]::before {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: rgba(33, 37, 41, 0.95);
+}
+
+.icono-perfil:hover .tooltip-texto,
+.tooltip-texto-trigger:hover .tooltip-texto-buttons {
+  visibility: visible;
+}
+
 .form-actions {
   display: flex;
   justify-content: center;
@@ -603,7 +671,7 @@
     width: 50px;
   }
   #desplegable-estado-evento {
-    width: 180px;
+    width: 195px;
   }
   .event-actions button:nth-child(2) {
     margin: 0;
