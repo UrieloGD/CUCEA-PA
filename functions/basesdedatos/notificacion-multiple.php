@@ -43,7 +43,7 @@ try {
     $stmt_notif->execute();
 
     // Construir correo electrónico
-    $asunto = "Modificaciones múltiples en Programación Académica";
+    $asunto = "Cambios en su base de datos";
     $cuerpo = "
     <html>
     <head>
@@ -65,7 +65,7 @@ try {
                 <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
             </div>
             <div class='content'>
-                <h2>Notificación de modificaciones de registros múltiples</h2>
+                <h2>Notificación de cambios en su base de datos</h2>
                 <p><strong>Administrador:</strong> $nombre_admin</p>
                 <p><strong>Departamento:</strong> {$departamento['Departamentos']}</p>
                 <p><strong>Total de registros modificados:</strong> $count</p>

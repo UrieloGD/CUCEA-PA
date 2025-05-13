@@ -134,7 +134,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
 
         if ($result_admins) {
             while ($admin = mysqli_fetch_assoc($result_admins)) {
-                $asunto = "Modificación por coordinador - Programación Académica";
+                $asunto = "Cambios en su base de datos";
                 $cuerpo = "
                 <html>
                 <head>
@@ -156,7 +156,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
                             <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
                         </div>
                         <div class='content'>
-                            <h2>Notificación de modificación por coordinador</h2>
+                            <h2>Notificación de cambios en su base de datos</h2>
                             <p>El coordinador $nombre_emisor ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en la base de datos de Coordinación.</p>
                             <div class='details'>
                                 <p><strong>Fecha y hora:</strong> $fecha_accion</p>

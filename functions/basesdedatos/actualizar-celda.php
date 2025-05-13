@@ -47,7 +47,7 @@ function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor
         $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
 
         $fecha_accion = date('d/m/Y H:i');
-        $asunto = "Modificación de datos - Programación Académica";
+        $asunto = "Cambios en su base de datos";
         $cuerpo = "
         <html>
         <head>
@@ -72,7 +72,7 @@ function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $emisor
                     <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
                 </div>
                 <div class='content'>
-                    <h2>Notificación de modificación de datos</h2>
+                    <h2>Notificación de cambios en su base de datos</h2>
                     <p>{$mensaje}</p>
                     <p><strong>Departamento:</strong> {$jefe['Departamentos']}</p>
                     <p><strong>Acción realizada por:</strong> {$nombre_emisor}</p>

@@ -40,7 +40,7 @@ try {
     $fecha_accion = date('d/m/Y H:i');
 
     // Crear mensaje para la notificación en el sistema
-    $mensajeSistema = "$nombre_emisor realizó $count modificaciones en registros de la base de datos de Coordinación";
+    $mensajeSistema = "El administrador $nombre_emisor realizó $count modificaciones en los registros de su base de datos";
 
     // Notificar a todos los coordinadores (rol 3)
     $stmt_coordinadores = $conexion->prepare("SELECT u.Codigo, u.Correo 
@@ -116,7 +116,7 @@ try {
     }
 
     // Preparar y enviar correo electrónico para notificaciones múltiples
-    $asunto = "Modificaciones múltiples en base de datos de Coordinación";
+    $asunto = "Cambios en su base de datos";
     $cuerpo = "
     <html>
     <head>
@@ -138,7 +138,7 @@ try {
                 <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
             </div>
             <div class='content'>
-                <h2>Notificación de modificaciones múltiples</h2>
+                <h2>Notificación de cambios en su base de datos</h2>
                 <p><strong>$tipo_usuario:</strong> $nombre_emisor</p>
                 <p><strong>Total de registros modificados:</strong> $count</p>
                 <p><strong>Fecha y hora:</strong> $fecha_accion</p>
