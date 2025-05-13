@@ -127,63 +127,6 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
         }
     }
 
-    // Si el cambio lo hizo un coordinador, notificar a los administradores
-    if ($emisor && $emisor['rol_id'] == 3) {
-        $sql_admins = "SELECT Codigo, Nombre, Apellido, Correo FROM usuarios WHERE rol_id = 0";
-        $result_admins = mysqli_query($conexion, $sql_admins);
-
-        if ($result_admins) {
-            while ($admin = mysqli_fetch_assoc($result_admins)) {
-                $asunto = "Cambios en su base de datos";
-                $cuerpo = "
-                <html>
-                <head>
-                    <style>
-                        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-                        .container { width: 80%; margin: 40px auto; padding: 20px; border: 1px solid #ccc; border-radius: 10px; background-color: #fff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-                        .header { text-align: center; padding-bottom: 20px; }
-                        .header img { width: 300px; }
-                        .content { padding: 20px; }
-                        h2 { color: #2c3e50; }
-                        p { line-height: 1.5; color: #333; }
-                        .details { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 10px 0; }
-                        .footer { text-align: center; padding-top: 20px; color: #999; font-size: 8px; }
-                    </style>
-                </head>
-                <body>
-                    <div class='container'>
-                        <div class='header'>
-                            <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
-                        </div>
-                        <div class='content'>
-                            <h2>Notificación de cambios en su base de datos</h2>
-                            <p>El coordinador $nombre_emisor ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en la base de datos de Coordinación.</p>
-                            <div class='details'>
-                                <p><strong>Fecha y hora:</strong> $fecha_accion</p>
-                                <p><strong>Campo modificado:</strong> $campo</p>
-                                <p><strong>ID del registro:</strong> $id_registro</p>
-                                <p><strong>Valor anterior:</strong> $valor_anterior</p>
-                                <p><strong>Nuevo valor:</strong> $valor_nuevo</p>
-                            </div>
-                            <p>Por favor, ingrese al sistema para más información o si necesita revisar este cambio.</p>
-                        </div>
-                        <div class='footer'>
-                            <p>Centro para la Sociedad Digital</p>
-                        </div>
-                    </div>
-                </body>
-                </html>";
-
-                if (enviarCorreo($admin['Correo'], $asunto, $cuerpo)) {
-                    error_log("Correo enviado exitosamente al administrador {$admin['Nombre']}");
-                    $correos_enviados++;
-                } else {
-                    error_log("Error al enviar correo al administrador {$admin['Nombre']}");
-                }
-            }
-        }
-    }
-
     return $correos_enviados > 0;
 }
 
@@ -375,6 +318,7 @@ try {
                     $sql_admins = "SELECT u.Codigo 
                               FROM usuarios u 
                               WHERE u.rol_id = 0 AND u.Codigo != ?";
+
                     $stmt_admins = $conexion->prepare($sql_admins);
                     $stmt_admins->bind_param("i", $usuario_emisor_id);
                     $stmt_admins->execute();

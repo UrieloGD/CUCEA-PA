@@ -70,30 +70,8 @@ try {
             error_log("Error al crear notificación para coordinador ID $coordinador_id: " . $stmt_notificacion->error);
         }
     }
-
-    // Notificar a los administradores si el cambio lo hizo un coordinador
-    if ($emisor['rol_id'] == 3) {
-        $stmt_admins = $conexion->prepare("SELECT u.Codigo, u.Correo 
-                                          FROM usuarios u 
-                                          WHERE u.rol_id = 0");
-        $stmt_admins->execute();
-        $result_admins = $stmt_admins->get_result();
-
-        while ($admin = $result_admins->fetch_assoc()) {
-            $admin_id = $admin['Codigo'];
-
-            // Insertar notificación en el sistema
-            $stmt_notificacion_admin = $conexion->prepare("INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, Emisor_ID) 
-                                                         VALUES ('modificacion_bd', ?, ?, ?)");
-            $stmt_notificacion_admin->bind_param("sii", $mensajeSistema, $admin_id, $emisor_id);
-
-            if (!$stmt_notificacion_admin->execute()) {
-                error_log("Error al crear notificación para admin ID $admin_id: " . $stmt_notificacion_admin->error);
-            }
-        }
-    }
     // Si el cambio lo hizo un administrador, notificar a otros administradores
-    else if ($emisor['rol_id'] == 0) {
+    if ($emisor['rol_id'] == 0) {
         $stmt_admins = $conexion->prepare("SELECT u.Codigo, u.Correo 
                                           FROM usuarios u 
                                           WHERE u.rol_id = 0 AND u.Codigo != ?");
