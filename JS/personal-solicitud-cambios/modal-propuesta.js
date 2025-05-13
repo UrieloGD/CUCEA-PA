@@ -86,6 +86,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Llamar a la función para llenar los selectores al cargar la página
     llenarSelectoresFecha();
 
+    const generarNumeroOficio = () => {
+        const oficioInput = document.getElementById('oficio_num_prop');
+        if (oficioInput) {
+            const añoActual = new Date().getFullYear();
+            const añoCorto = añoActual.toString().slice(-2);
+            
+            fetch('./functions/personal-solicitud-cambios/obtener_oficio_propuesta.php')
+                .then(response => {
+                    if (!response.ok) throw new Error('Error en la red');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        let numeroSecuencial = parseInt(data.ultimo_numero) + 1;
+                        const numeroFormateado = numeroSecuencial.toString().padStart(4, '0');
+                        oficioInput.value = `${numeroFormateado}/${añoCorto}`;
+                        console.log('Número generado:', oficioInput.value); // Depuración
+                    } else {
+                        throw new Error(data.message || 'Error en el servidor');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Valor por defecto si falla la consulta
+                    const numeroFormateado = '0001';
+                    oficioInput.value = `${numeroFormateado}/${añoCorto}`;
+                });
+        }
+    };
+
     // NUEVAS FUNCIONES DE VALIDACIÓN Y TRANSFORMACIÓN
 
     // Definir restricciones según el esquema de la base de datos
@@ -208,6 +238,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Función para abrir el modal y generar el número de oficio
+    window.abrirModalPropuesta = function() {
+        if (modalPropuesta) {
+            modalPropuesta.style.display = 'block';
+            generarNumeroOficio(); // Asegurar que esta línea está presente
+            console.log("Modal abierto, número de oficio generado"); // Para depuración
+        }
+    };
 
     // Manejo del formulario (mantenemos la lógica existente)
     if (formPropuesta) {

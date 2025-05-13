@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Límites máximos para inputs
     const maxLengths = {
-        'oficio_num': 15,
+        'oficio_num_baja': 15,
         'profesion': 15,
         'apellido_paterno': 40,
         'apellido_materno': 40,
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 data.siguiente_numero && 
-                    (document.getElementById('oficio_num').value = data.siguiente_numero);
+                    (document.getElementById('oficio_num_baja').value = data.siguiente_numero);
             });
     };
 

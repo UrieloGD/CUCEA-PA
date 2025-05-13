@@ -169,8 +169,8 @@
                     <input type="date" id="periodo_hasta_prop" name="periodo_hasta_prop" required>
                 </div>
                 <div class="form-group-baja-propuesta">
-                    <label for="oficio_num">Oficio Num.</label>
-                    <input type="text" id="oficio_num" name="oficio_num" readonly>
+                    <label for="oficio_num_baja_prop">Oficio Num.</label>
+                    <input type="text" id="oficio_num_baja_prop" name="oficio_num_baja_prop" readonly>
                 </div>
                 <div class="form-group-baja-propuesta">
                     <label for="fecha">Fecha D/M/A</label>

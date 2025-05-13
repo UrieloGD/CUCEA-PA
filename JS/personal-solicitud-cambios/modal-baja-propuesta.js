@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Generar número de oficio automáticamente
     const setupOficioNum = () => {
-        const oficioNum = document.getElementById('oficio_num');
+        const oficioNum = document.getElementById('oficio_num_baja_prop');
         if (oficioNum) {
             // Aquí podrías agregar la lógica para generar el número de oficio
             // Por ejemplo, un contador automático o una llamada al servidor
