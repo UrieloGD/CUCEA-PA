@@ -18,15 +18,23 @@ document.addEventListener('DOMContentLoaded', function() {
       titleFormatter: "rowSelection",
       hozAlign: "center",
       headerSort: false,
-      width: 50
+      width: 50,
+      frozen: true, // Fijar la columna de selección
     },
-    {title: "ID", field: "ID", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ID", field: "ID", editor: isEditable ? "input" : false, variableHeight: true, frozen: true},
     {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true},
+    {
+      title: "NOMBRE COMPLETO", 
+      field: "Nombre_completo", 
+      editor: isEditable ? "input" : false, 
+      variableHeight: true,
+      headerFilter: "input",
+      headerFilterPlaceholder: "Buscar nombre..."
+  },
     {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true},
@@ -113,16 +121,58 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   console.log('Inicializando Tabulator...');
-  // Inicializar Tabulator con configuración optimizada para ajuste automático de columnas
+  
+  // Inicializar Tabulator con configuración de paginación del lado del servidor
   const table = new Tabulator("#tabla-datos-tabulator", {
     ajaxURL: 'http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php',
+    ajaxConfig: "GET",
+    ajaxParams: {},
+    // Desactivar el loader interno de Tabulator
+    // ajaxLoader: false,
+      ajaxLoader: false,
+      ajaxLoaderLoading: "", 
+    
+    // IMPORTANTE: Configuración de paginación para comunicación con el servidor
+    ajaxURLGenerator: function(url, config, params) {
+      // Agregar parámetros de paginación a la URL
+      let ajaxURL = url + "?";
+      
+      // Si usa paginación, enviar la página actual y tamaño de página
+      if (this.options.pagination) {
+        // Verificar si se están mostrando todos los registros
+        if (params.size === true) {
+          ajaxURL += "all=true";
+        } else {
+          ajaxURL += "page=" + params.page + "&size=" + params.size;
+        }
+      }
+      
+      console.log("URL generada para AJAX:", ajaxURL);
+      return ajaxURL;
+    },
+    
     columns: columns,
     layout: "fitData", // Cambiamos a fitData para ajustar al contenido
     autoColumns: false, // Desactivamos autoColumns para usar nuestra definición
     responsiveLayout: false, // Desactivar el responsive layout para mantener todas las columnas
+    frozenRowsField: "id",
+    
+    // IMPORTANTE: Configuración de paginación corregida
     pagination: true,
-    paginationSize: 50,
-    paginationSizeSelector: true,
+    paginationMode: "remote", // Modo de paginación remota
+    paginationSize: 50, // Tamaño de página predeterminado
+    paginationSizeSelector: [20, 50, 100, 300, true], // Opciones de tamaño de página
+    paginationCounter: "rows", // Mostrar contador de filas
+    paginationDataReceived: {
+      "last_page": "last_page",
+      "data": "data",
+      "total": "total"
+    },
+    paginationDataSent: {
+      "page": "page",
+      "size": "size"
+    },
+    
     movableColumns: true,
     height: "620px",
     placeholder: "No hay datos disponibles",
@@ -169,7 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
           "prev": "Anterior",
           "prev_title": "Página anterior", 
           "next": "Siguiente",
-          "next_title": "Página siguiente"
+          "next_title": "Página siguiente",
+          "all": "Todo",
+          "page_size": "Registros por página"
         },
         "headerFilters": {
           "default": "Filtrar columna...",
@@ -183,6 +235,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configuración para mejorar rendimiento
     virtualDom: true,
     renderVertical: "virtual",
+    
     // Callbacks
     dataLoading: function(data) {
       console.log('Cargando datos...', data);
@@ -232,6 +285,12 @@ document.addEventListener('DOMContentLoaded', function() {
     columnResized: function(column) {
       // Guardar el ancho personalizado si es necesario
       console.log(`Columna ${column.getField()} redimensionada a ${column.getWidth()}px`);
+    },
+    pageLoaded: function(pageno) {
+      console.log(`Página ${pageno} cargada correctamente`);
+    },
+    pageSizeChanged: function(size) {
+      console.log(`Tamaño de página cambiado a: ${size}`);
     }
   });
 
@@ -286,6 +345,20 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.tabulator-paginator button').forEach(button => {
       button.classList.add('button', 'is-small');
     });
+    
+    // Mejorar el aspecto del selector de tamaño de página
+    const pageSizeSelector = document.querySelector('.tabulator-page-size');
+    if (pageSizeSelector) {
+      pageSizeSelector.classList.add('select', 'is-small');
+      
+      // Envolver el select con un div para aplicar estilo Bulma adecuado
+      if (!pageSizeSelector.parentElement.classList.contains('select')) {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('select', 'is-small');
+        pageSizeSelector.parentNode.insertBefore(wrapper, pageSizeSelector);
+        wrapper.appendChild(pageSizeSelector);
+      }
+    }
     
     // Aplicar estilo a los inputs de filtro
     document.querySelectorAll('.tabulator-header-filter input').forEach(input => {

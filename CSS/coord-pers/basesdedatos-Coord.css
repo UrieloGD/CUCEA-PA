@@ -1935,3 +1935,93 @@ table.dataTable thead .sorting_desc {
 #tabla-datos-tabulator .tabulator-cell.tabulator-range-selected-left {
   border-left: 2px solid #0071B0 !important;
 }
+
+.tabulator-loading {
+  display: none !important;
+}
+.tabulator-loading-mask {
+  display: none !important;
+}
+
+.barra-buscador {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1);
+  margin-right: 10px;
+}
+
+.input-buscador {
+  border: none;
+  outline: none;
+  padding: 5px;
+  width: 250px;
+  font-size: 14px;
+}
+
+.input-buscador:focus {
+  outline: none;
+}
+
+/* Estilos para la barra de búsqueda */
+.barra-buscador {
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  padding: .5px .5px;
+  transition: all 0.3s ease;
+  border: 1px solid #dbdbdb;
+  margin-right: 15px;
+}
+
+.barra-buscador:focus-within {
+  border-color: #3273dc;
+  box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
+}
+
+.icono-buscador {
+  margin-right: 8px;
+}
+
+#input-buscador {
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 5px;
+  width: 200px;
+  font-size: 14px;
+  transition: width 0.3s ease;
+}
+
+#input-buscador:focus {
+  width: 250px;
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-range-selected {
+  background-color: #0071B0 !important;
+  color: white !important;
+}
+
+#tabla-datos-tabulator .tabulator-cell.tabulator-range-selected {
+  background-color: #D9EDF6 !important;
+  color: black !important;
+}
+
+#tabla-datos-tabulator .tabulator-cell.tabulator-frozen.tabulator-frozen-left {
+  background-color: white !important;
+}
+
+#tabla-datos-tabulator .tabulator-cell.tabulator-range-row-header.tabulator-frozen {
+  background-color: white !important;
+}
+
+#tabla-datos-tabulator .tabulator-col.tabulator-frozen.tabulator-frozen-left {
+  background-color: white !important;
+}
+
+#tabla-datos-tabulator .tabulator-col.tabulator-frozen {
+  background-color: white !important;
+}

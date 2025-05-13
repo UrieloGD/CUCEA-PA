@@ -151,12 +151,12 @@ function softDeleteRegistros($conexion, $ids)
     <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <!-- <div class="barra-buscador" id="barra-buscador">
+            <div class="barra-buscador" id="barra-buscador">
                 <div class="icono-buscador" id="icono-buscador">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </div>
                 <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div> -->
+            </div>
         </div>
         <div class="encabezado-centro">
             <h3>Plantilla Académica - Coordinación de Personal</h3>
@@ -227,6 +227,7 @@ function softDeleteRegistros($conexion, $ids)
     <script src="./JS/plantilla-CoordPers/anadir-profesor.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/anadir-profesor.js'); ?>"></script>
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/descargar-data-excel-coord.js'); ?>"></script>
     <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/inicializar-tablas-cp.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/barra-busqueda.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/barra-busqueda.js'); ?>"></script>
 
     <!-- Script para cambiar el encabezado por responsividad -->
     <script>

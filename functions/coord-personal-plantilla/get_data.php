@@ -12,9 +12,12 @@ if (!isset($_SESSION['Codigo'])) {
 
 $tabla_departamento = "coord_per_prof";
 
-// Obtener parámetros de paginación (para futura implementación de paginación server-side)
+// Obtener parámetros de paginación
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$size = isset($_GET['size']) ? intval($_GET['size']) : 0; // 0 = todos los registros
+$size = isset($_GET['size']) ? intval($_GET['size']) : 50; // Valor predeterminado: 50
+
+// Verificar si se solicitan todos los registros
+$showAll = isset($_GET['all']) && $_GET['all'] === "true";
 
 // Consulta SQL para obtener registros activos
 $sql = "SELECT * FROM $tabla_departamento WHERE Papelera = 'activo'";
@@ -30,9 +33,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
 }
 
-// Si se solicita paginación desde el servidor (para futuras implementaciones)
-if ($size > 0) {
-    $total = count($data);
+$total = count($data);
+
+// Determinar si se muestran todos los registros o se pagina
+if ($showAll) {
+    // Mostrar todos los registros
+    echo json_encode([
+        'last_page' => 1,
+        'data' => $data,
+        'total' => $total
+    ]);
+} else {
+    // Paginar los datos
     $totalPages = ceil($total / $size);
     $offset = ($page - 1) * $size;
     $paginatedData = array_slice($data, $offset, $size);
@@ -42,8 +54,5 @@ if ($size > 0) {
         'data' => $paginatedData,
         'total' => $total
     ]);
-} else {
-    // Enviar todos los datos (paginación se hará del lado del cliente)
-    echo json_encode($data);
 }
 ?>
