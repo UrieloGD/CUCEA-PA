@@ -89,10 +89,7 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->Cell(0, 7, strtoupper('DEPARTAMENTO DE ' . $departamento), 0, 1, 'L');
     
     // Línea divisoria
-    $pdf->Line(15, 45, 195, 45);;
-
-    // Línea divisoria
-    $pdf->Line(15, 45, 195, 45);
+    $pdf->Line(11, 45, 199, 45);
     
     // Destinatario
     $pdf->SetY(50);

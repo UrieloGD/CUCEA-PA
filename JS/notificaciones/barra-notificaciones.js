@@ -1,7 +1,5 @@
 function actualizarNotificaciones() {
-  fetch(
-    `./functions/notificaciones/obtener-notificaciones.php?timestamp=${new Date().getTime()}`
-  )
+  fetch("./functions/notificaciones/obtener-notificaciones.php")
     .then((response) => response.text())
     .then((html) => {
       const sidebar = document.getElementById("mySidebar");
@@ -164,15 +162,7 @@ function marcarNotificacionesComoVistas() {
   }
 }
 
-// Añadir esta función para forzar actualización inicial
-function cargarNotificacionesIniciales() {
-  actualizarNotificaciones();
-  actualizarBadgeNotificaciones();
-}
-
 document.addEventListener("DOMContentLoaded", function () {
-  cargarNotificacionesIniciales();
-
   const notificaciones = document.querySelectorAll(".contenedor-notificacion");
   notificaciones.forEach((notificacion) => {
     notificacion.addEventListener("click", manejarClicNotificacion);
@@ -209,31 +199,31 @@ document
     event.stopPropagation();
   });
 
-function descartarNotificacion(event, id, tipo) {
-  event.stopPropagation();
-
-  const notificacion = event.target.closest(".contenedor-notificacion");
-
-  // Ocultar inmediatamente la notificación
-  notificacion.style.display = "none";
-
-  // Marcar como descartada en la base de datos
-  fetch("./functions/notificaciones/descartar-notificacion.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `id=${id}&tipo=${tipo}`,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (!data.success) {
-        console.error("Error al descartar notificación");
-        notificacion.style.display = "flex";
-      }
+  function descartarNotificacion(event, id, tipo) {
+    event.stopPropagation();
+    
+    const notificacion = event.target.closest('.contenedor-notificacion');
+    
+    // Ocultar inmediatamente la notificación
+    notificacion.style.display = 'none';
+    
+    // Marcar como descartada en la base de datos
+    fetch('./functions/notificaciones/descartar-notificacion.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `id=${id}&tipo=${tipo}`
     })
-    .catch((error) => {
-      console.error("Error:", error);
-      notificacion.style.display = "flex";
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            console.error('Error al descartar notificación');
+            notificacion.style.display = 'flex';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        notificacion.style.display = 'flex';
     });
 }
