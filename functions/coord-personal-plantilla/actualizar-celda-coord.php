@@ -66,7 +66,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
 
         // Asunto y cuerpo del correo
 
-        $asunto = "Modificación por coordinador - Programación Académica";
+        $asunto = "Cambios en su base de datos";
         $cuerpo = "
         <html>
         <head>
@@ -91,7 +91,7 @@ function enviarCorreoModificacion($conexion, $campo, $id_registro, $valor_anteri
                     <img src='https://i.imgur.com/gi5dvbb.png' alt='Logo PA'>
                 </div>
                 <div class='content'>
-                    <h2>Notificación de modificación por coordinador</h2>
+                    <h2>Notificación de cambios en su base de datos</h2>
                     <p>El Administrador $nombre_emisor ha modificado el campo <strong>'$campo'</strong> del registro #$id_registro en su base de datos.</p>
                     <p><strong>Fecha y hora:</strong> $fecha_accion</p>
                     <div class='changes'>

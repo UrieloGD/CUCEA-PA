@@ -1265,9 +1265,23 @@ function saveAllChanges() {
 
   if (!userRoleElement || !userIdElement) {
     console.error("Elementos críticos no encontrados en el DOM");
-    alert("Error de configuración del sistema. Recarga la página.");
+    Swal.fire({
+      icon: "error",
+      title: "Error de configuración",
+      text: "Error de configuración del sistema. Recarga la página.",
+    });
     return;
   }
+
+  // Mostrar SweetAlert de carga desde el inicio
+  Swal.fire({
+    title: "Procesando cambios",
+    html: "Por favor espere mientras se guardan los cambios...",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
 
   const userRole = userRoleElement.value;
   const usuarioAdminId = userIdElement.value;
@@ -1311,20 +1325,38 @@ function saveAllChanges() {
     .then((results) => {
       const successfulChanges = results.filter((r) => !r.data.error).length;
 
+      // Actualizar mensaje del SweetAlert mientras se procesan las notificaciones
+      Swal.update({
+        title: "Procesando cambios",
+        html: "Por favor espere mientras se guardan los cambios...",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
       // Notificación agrupada
+      let notificationPromise = Promise.resolve();
       if (successfulChanges > 1) {
-        fetch(
+        notificationPromise = fetch(
           "./functions/coord-personal-plantilla/notificacion-multiple-coord.php",
           {
             method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams({
               user_id: usuarioAdminId,
               count: successfulChanges,
             }),
           }
-        );
+        ).then((response) => {
+          if (!response.ok) throw new Error("Error al enviar notificaciones");
+          return response.json();
+        });
       }
 
+      return notificationPromise.then(() => results);
+    })
+    .then((results) => {
       // Actualizar UI
       results.forEach(({ cell, data }) => {
         cell.style.backgroundColor = data.success ? "#90EE90" : "#FFB6C1";
@@ -1338,11 +1370,14 @@ function saveAllChanges() {
       changedCells.clear();
       hideEditIcons();
 
+      // Ocultar el SweetAlert de carga y mostrar mensaje de éxito
       Swal.fire({
         icon: "success",
-        title: `${successfulChanges} cambios guardados`,
-        showConfirmButton: false,
-        timer: 1500,
+        title: `Cambios realizados`,
+        text: `Se guardaron los cambios correctamente`,
+        showConfirmButton: true,
+        timer: 2000,
+        timerProgressBar: true,
       });
     })
     .catch((error) => {

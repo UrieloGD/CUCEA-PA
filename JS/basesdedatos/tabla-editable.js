@@ -1252,9 +1252,12 @@ function undoAllChanges() {
 
 function saveAllChanges() {
   if (!puedeEditar) {
-    showFeedbackMessage(
-      "No puedes guardar cambios fuera de las fechas de Programación Académica."
-    );
+    Swal.fire({
+      icon: "warning",
+      title: "Acceso restringido",
+      text: "No puedes guardar cambios fuera de las fechas de Programación Académica.",
+      confirmButtonText: "Entendido",
+    });
     return;
   }
 
@@ -1267,12 +1270,29 @@ function saveAllChanges() {
     return;
   }
 
-  const departmentId = document.getElementById("departamento_id").value;
-  const usuarioAdminId = document.getElementById("user-id").value; // Asegúrate de tener este campo
+  // Verificar que haya cambios para guardar
+  if (changedCells.size === 0) {
+    Swal.fire({
+      icon: "info",
+      title: "Sin cambios",
+      text: "No hay cambios pendientes para guardar.",
+      confirmButtonText: "Entendido",
+    });
+    return;
+  }
 
-  // Para tracking de cambios múltiples
-  const totalChanges = changedCells.size;
-  let completedChanges = 0;
+  // Mostrar SweetAlert de carga desde el inicio
+  Swal.fire({
+    title: "Guardando cambios",
+    html: `Procesando cambios. Por favor espere...`,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  const departmentId = document.getElementById("departamento_id").value;
+  const usuarioAdminId = document.getElementById("user-id").value;
 
   const promises = Array.from(changedCells).map((cell) => {
     const id = cell.parentNode.cells[1].textContent;
@@ -1293,7 +1313,7 @@ function saveAllChanges() {
         value,
         user_role: userRole,
         department_id: departmentId,
-        multiple: changedCells.size > 1, // Nuevo parámetro para indicar operación múltiple
+        multiple: changedCells.size > 1,
       }),
     })
       .then((response) => {
@@ -1311,21 +1331,43 @@ function saveAllChanges() {
     .then((results) => {
       const successfulChanges = results.filter((r) => r.data.success).length;
 
-      // Notificación agrupada si hay múltiples cambios exitosos
+      // Actualizar mensaje del SweetAlert mientras se procesan las notificaciones
       if (successfulChanges > 1) {
-        fetch("./functions/basesdedatos/notificacion-multiple.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+        Swal.fire({
+          title: "Guardando cambios",
+          html: `Procesando cambios. Por favor espere...`,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
           },
-          body: new URLSearchParams({
-            department_id: departmentId,
-            user_id: usuarioAdminId,
-            count: successfulChanges,
-          }),
         });
       }
 
+      // Notificación agrupada si hay múltiples cambios exitosos
+      let notificationPromise = Promise.resolve();
+      if (successfulChanges > 1) {
+        notificationPromise = fetch(
+          "./functions/basesdedatos/notificacion-multiple.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              department_id: departmentId,
+              user_id: usuarioAdminId,
+              count: successfulChanges,
+            }),
+          }
+        ).then((response) => {
+          if (!response.ok) throw new Error("Error al enviar notificaciones");
+          return response.json();
+        });
+      }
+
+      return notificationPromise.then(() => results);
+    })
+    .then((results) => {
       // Actualizar UI y valores originales
       results.forEach(({ cell, data }) => {
         if (data.success) {
@@ -1344,19 +1386,25 @@ function saveAllChanges() {
 
       changedCells.clear();
       hideEditIcons();
+
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        icon: "success",
+        title: "¡Cambios guardados!",
+        text: `Se guardaron los cambios correctamente.`,
+        confirmButtonText: "¡Excelente!",
+        timer: 2000,
+        timerProgressBar: true,
+      });
     })
     .catch((error) => {
       console.error("Error saving changes:", error);
-      if (typeof Swal !== "undefined") {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: `Error al guardar cambios: ${error.message}`,
-          confirmButtonText: "Entendido",
-        });
-      } else {
-        alert("Error al guardar los cambios: " + error.message);
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Error al guardar",
+        text: error.message || "Ocurrió un error al procesar los cambios.",
+        confirmButtonText: "Entendido",
+      });
     });
 }
 
