@@ -12,17 +12,64 @@ if (!isset($_SESSION['Codigo'])) {
 
 $tabla_departamento = "coord_per_prof";
 
-// Obtener parámetros de paginación
+// Obtener parámetros
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$size = isset($_GET['size']) ? intval($_GET['size']) : 50; // Valor predeterminado: 50
-
-// Verificar si se solicitan todos los registros
+$size = isset($_GET['size']) ? intval($_GET['size']) : 50;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : null;
+$dir = isset($_GET['dir']) ? $_GET['dir'] : "asc";
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conexion, $_GET['search']) : "";
 $showAll = isset($_GET['all']) && $_GET['all'] === "true";
 
-// Consulta SQL para obtener registros activos
-$sql = "SELECT * FROM $tabla_departamento WHERE Papelera = 'activo'";
-$result = mysqli_query($conexion, $sql);
+// Obtener filtros por columna
+$filters = [];
+foreach ($_GET as $key => $value) {
+    if (strpos($key, 'headerFilter_') === 0 && !empty($value)) {
+        $field = str_replace('headerFilter_', '', $key);
+        $filters[$field] = mysqli_real_escape_string($conexion, $value);
+    }
+}
 
+// Construir consulta SQL
+$sql = "SELECT * FROM $tabla_departamento WHERE Papelera = 'activo'";
+
+// Búsqueda global
+if (!empty($search)) {
+    $searchFields = ['ID', 'Datos', 'Codigo', 'Paterno', 'Materno', 'Nombres', 'Nombre_completo'];
+    $conditions = [];
+    foreach ($searchFields as $field) {
+        $conditions[] = "$field LIKE '%$search%'";
+    }
+    $sql .= " AND (" . implode(" OR ", $conditions) . ")";
+    $showAll = true;
+}
+
+// Filtros por columna
+foreach ($filters as $field => $value) {
+    $sql .= " AND $field LIKE '%$value%'";
+}
+
+// Ordenación
+if ($sort) {
+    $sql .= " ORDER BY $sort $dir";
+} else {
+    $sql .= " ORDER BY ID ASC";
+}
+
+// Obtener total de registros
+$totalResult = mysqli_query($conexion, $sql);
+if (!$totalResult) {
+    echo json_encode(['error' => 'Error en la consulta: ' . mysqli_error($conexion)]);
+    exit();
+}
+$total = mysqli_num_rows($totalResult);
+
+// Paginación
+if (!$showAll) {
+    $offset = ($page - 1) * $size;
+    $sql .= " LIMIT $offset, $size";
+}
+
+$result = mysqli_query($conexion, $sql);
 if (!$result) {
     echo json_encode(['error' => 'Error en la consulta: ' . mysqli_error($conexion)]);
     exit();
@@ -33,25 +80,18 @@ while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
 }
 
-$total = count($data);
-
-// Determinar si se muestran todos los registros o se pagina
+// Respuesta
 if ($showAll) {
-    // Mostrar todos los registros
     echo json_encode([
         'last_page' => 1,
         'data' => $data,
         'total' => $total
     ]);
 } else {
-    // Paginar los datos
     $totalPages = ceil($total / $size);
-    $offset = ($page - 1) * $size;
-    $paginatedData = array_slice($data, $offset, $size);
-    
     echo json_encode([
         'last_page' => $totalPages,
-        'data' => $paginatedData,
+        'data' => $data,
         'total' => $total
     ]);
 }

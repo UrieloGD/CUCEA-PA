@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const isEditable = userRole == 3 || userRole == 0;
   console.log('¿Es editable?', isEditable);
 
+  // Variable para almacenar el término de búsqueda global
+  let searchTerm = "";
+
   // Definir todas las columnas para Tabulator
   const columns = [
     {
@@ -20,21 +23,21 @@ document.addEventListener('DOMContentLoaded', function() {
       headerSort: false,
       width: 50,
       frozen: true, // Fijar la columna de selección
+      editor: false // Explícitamente no editable
     },
-    {title: "ID", field: "ID", editor: isEditable ? "input" : false, variableHeight: true, frozen: true},
+    {
+      title: "ID", 
+      field: "ID", 
+      editor: false, // Siempre no editable, independientemente del rol
+      variableHeight: true, 
+      frozen: true,  // Fijar la columna ID
+    },
     {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true},
-    {
-      title: "NOMBRE COMPLETO", 
-      field: "Nombre_completo", 
-      editor: isEditable ? "input" : false, 
-      variableHeight: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Buscar nombre..."
-  },
+    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true},
@@ -127,25 +130,38 @@ document.addEventListener('DOMContentLoaded', function() {
     ajaxURL: 'http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php',
     ajaxConfig: "GET",
     ajaxParams: {},
-    // Desactivar el loader interno de Tabulator
-    // ajaxLoader: false,
+    ajaxConfig:{
       ajaxLoader: false,
-      ajaxLoaderLoading: "", 
+      ajaxLoaderLoading: false,
+    },
     
     // IMPORTANTE: Configuración de paginación para comunicación con el servidor
     ajaxURLGenerator: function(url, config, params) {
-      // Agregar parámetros de paginación a la URL
+      // Agregar parámetros de paginación, ordenación y búsqueda a la URL
       let ajaxURL = url + "?";
       
-      // Si usa paginación, enviar la página actual y tamaño de página
+      // Parámetros de paginación
       if (this.options.pagination) {
         // Verificar si se están mostrando todos los registros
         if (params.size === true) {
-          ajaxURL += "all=true";
+          ajaxURL += "all=true&";
         } else {
-          ajaxURL += "page=" + params.page + "&size=" + params.size;
+          ajaxURL += "page=" + params.page + "&size=" + params.size + "&";
         }
       }
+      
+      // Parámetros de ordenación
+      if (params.sort && params.sort.length) {
+        ajaxURL += "sort=" + params.sort[0].field + "&dir=" + params.sort[0].dir + "&";
+      }
+      
+      // Parámetro de búsqueda global
+      if (searchTerm) {
+        ajaxURL += "search=" + encodeURIComponent(searchTerm) + "&";
+      }
+      
+      // Eliminar el último '&' o '?' si existe
+      ajaxURL = ajaxURL.replace(/[&?]$/, "");
       
       console.log("URL generada para AJAX:", ajaxURL);
       return ajaxURL;
@@ -172,6 +188,9 @@ document.addEventListener('DOMContentLoaded', function() {
       "page": "page",
       "size": "size"
     },
+    
+    // Configuración para ordenación remota
+    sortMode: "remote",
     
     movableColumns: true,
     height: "620px",
@@ -230,9 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     },
     locale: "es",
-    // Aplicar el tema Bulma
     theme: "bulma",
-    // Configuración para mejorar rendimiento
     virtualDom: true,
     renderVertical: "virtual",
     
@@ -364,6 +381,28 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.tabulator-header-filter input').forEach(input => {
       input.classList.add('input', 'is-small');
     });
+  }
+
+  // Implementar la búsqueda global cuando se escribe en el input
+  // Implementar la búsqueda global cuando se escribe en el input
+  const searchInput = document.getElementById('input-buscador');
+  if (searchInput) {
+      let searchTimeout;
+      
+      searchInput.addEventListener('input', function(e) {
+          searchTerm = e.target.value;
+          
+          // Clear previous timeout
+          clearTimeout(searchTimeout);
+          
+          // Set new timeout
+          searchTimeout = setTimeout(() => {
+              // Reset to first page and reload data
+              table.setPage(1).then(() => {
+                  table.replaceData();
+              });
+          }, 500); // 500ms debounce time
+      });
   }
 
   // Hacer la tabla accesible globalmente para depuración
