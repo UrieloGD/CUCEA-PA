@@ -457,7 +457,7 @@
   background: #555;
 }
 
-/* Estilos del contenedor de la materia, en el contenedor desplegable */
+/* Estilos del contenedor de la puesto, en el contenedor desplegable */
 .info {
   display: flex;
   flex-direction: row;
@@ -477,7 +477,7 @@
   border-radius: 10px;
 }
 .CRN,
-.materia,
+.puesto,
 .clave,
 .SEC,
 .folio,
@@ -485,11 +485,17 @@
 .materno,
 .nombres,
 .codigo,
+.efecto,
+.periodo_hasta,
+.periodo_desde,
+.clasificacion_p,
+.clasificacion_b,
+.horas_sem,
 .motivo {
   font-weight: bold;
 }
 #info-CRN,
-#info-materia,
+#info-puesto,
 #info-clave,
 #info-SEC,
 #info-folio,
@@ -498,6 +504,14 @@
 #info-nombres,
 #info-codigo,
 #info-motivo,
+#info-codigo,
+#info-materia,
+#info-efecto,
+#info-periodo_hasta,
+#info-periodo_desde,
+#info-clasificacion_p,
+#info-clasificacion_b,
+#info-horas_sem,
 #info-paterno-propuesto,
 #info-materno-propuesto,
 #info-nombres-propuesto,
@@ -655,7 +669,7 @@
     font-size: 0.8rem;
   }
   #info-CRN,
-  #info-materia,
+  #info-puesto,
   #info-clave,
   #info-SEC,
   #info-folio,
