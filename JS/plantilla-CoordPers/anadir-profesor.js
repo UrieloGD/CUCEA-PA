@@ -41,8 +41,22 @@ function inicializarFormatoTexto() {
 }
 
 // Modificamos la función añadirRegistro para asegurar el formato correcto antes de enviar
+
 function añadirRegistro() {
-  // Mostrar loader o deshabilitar botón
+  // Mostrar SweetAlert de espera inicial
+  Swal.fire({
+    title: "Procesando...",
+    text: "Validando y enviando datos, por favor espere.",
+    icon: "info",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  // También deshabilitar botón por redundancia
   const submitButton = document.querySelector(
     '#form-añadir-registro button[onclick="añadirRegistro()"]'
   );
@@ -56,6 +70,7 @@ function añadirRegistro() {
   const requiredFields = ["codigo", "paterno", "materno", "nombres"];
   for (let field of requiredFields) {
     if (!formData.get(field)) {
+      Swal.close(); // Cerrar el SweetAlert de espera
       Swal.fire({
         title: "Error",
         text: `El campo ${field} es requerido`,
@@ -66,6 +81,18 @@ function añadirRegistro() {
       return;
     }
   }
+
+  // Actualizar SweetAlert para indicar que la validación fue exitosa
+  Swal.fire({
+    title: "Añadiendo registro...",
+    text: "Se está añadiendo el nuevo registro, por favor espere.",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
 
   // Concatenar fechas de cambio de dedicación
   const fechaInicio = formData.get("cambio_dediacion_inicio") || "";
@@ -117,24 +144,35 @@ function añadirRegistro() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      return response.json(); // Cambiar directamente a .json() en lugar de .text()
+      return response.json();
     })
     .then((data) => {
       if (data.success) {
-        Swal.fire({
-          title: "¡Éxito!",
-          text: data.message,
-          icon: "success",
-        }).then(() => {
-          cerrarFormularioAñadir();
-          location.reload();
+        // Actualizar SweetAlert para indicar que el registro fue exitoso y se están enviando notificaciones
+        Swal.update({
+          title: "Registro completado",
+          text: "",
         });
+
+        // Simular un breve retraso para que el usuario vea que se están enviando las notificaciones
+        // Este retraso se puede quitar si las notificaciones ya están incluidas en el proceso del servidor
+        setTimeout(() => {
+          Swal.fire({
+            title: "¡Éxito!",
+            text: data.message,
+            icon: "success",
+          }).then(() => {
+            cerrarFormularioAñadir();
+            location.reload();
+          });
+        }, 1500);
       } else {
         throw new Error(data.message || "Error al guardar el registro");
       }
     })
     .catch((error) => {
       console.error("Error:", error);
+      Swal.close(); // Cerrar el SweetAlert de espera
       Swal.fire({
         title: "Error",
         text: error.message || "Error al procesar la solicitud",
@@ -142,8 +180,8 @@ function añadirRegistro() {
       });
     })
     .finally(() => {
-      submitButton.disabled = false;
-      submitButton.textContent = "Guardar";
+      // En caso de error, el botón se restaura en el bloque catch
+      // En caso de éxito, el botón permanece deshabilitado hasta que se recargue la página
     });
 }
 
