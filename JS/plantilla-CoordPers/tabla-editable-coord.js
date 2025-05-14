@@ -1278,6 +1278,8 @@ function saveAllChanges() {
     title: "Procesando cambios",
     html: "Por favor espere mientras se guardan los cambios...",
     allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
     didOpen: () => {
       Swal.showLoading();
     },
@@ -1330,6 +1332,8 @@ function saveAllChanges() {
         title: "Procesando cambios",
         html: "Por favor espere mientras se guardan los cambios...",
         allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
         didOpen: () => {
           Swal.showLoading();
         },
