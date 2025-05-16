@@ -6,6 +6,12 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID
     header("Location: home.php");
     exit();
 }
+
+$current_section = 'plantilla';
+
+require_once 'mantenimiento-check.php';
+
+checkMaintenance($current_section);
 ?>
 
 <?php

@@ -1,0 +1,31 @@
+<?php
+// Página de mantenimiento para secciones
+// Esta página se muestra cuando una sección está en mantenimiento
+
+// Si no están definidas, establecer valores por defecto
+if (!isset($section)) $section = 'esta sección';
+if (!isset($message)) $message = 'Esta sección se encuentra temporalmente en mantenimiento. disculpe las molestias.';
+
+?>
+
+<title>Mantenimiento</title>
+<link rel="stylesheet" href="./CSS/errores/404.css" />
+
+<div class="cuadro-principal">
+    <div class="container-error">
+        <div class="img-error">
+            <img src="./Img/img-errores/mantenimiento.png" alt="Mantenimiento">
+        </div>
+        <div class="text-error">
+            <p>
+                Página en mantenimiento<br>
+                Lamentamos las molestias
+            </p>
+        </div>
+    </div>
+    <div class="container-btn">
+        <button class="boton-inicio">Regresar al inicio</button>
+    </div>
+</div>
+
+<?php include './template/footer.php'?>

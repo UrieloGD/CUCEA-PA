@@ -22,6 +22,11 @@ error_reporting(E_ALL);
 //       die("Error: No se encuentra el archivo $file");
 //   }
 // }
+$current_section = 'admin-plantilla';
+
+require_once 'mantenimiento-check.php';
+
+checkMaintenance($current_section);
 ?>
 
 <title>Progreso Plantillas</title>

@@ -5,6 +5,12 @@ include './config/db.php';
 include './template/header.php';
 include './template/navbar.php';
 require_once './functions/home/eventos-home.php';
+
+$current_section = 'home';
+
+require_once 'mantenimiento-check.php';
+
+checkMaintenance($current_section);
 ?>
 <!-- css del home -->
 <title>Home PA</title>
