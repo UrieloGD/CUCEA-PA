@@ -8,27 +8,27 @@
 $global_maintenance = false; // Si es true, todo el sitio estará en mantenimiento
 
 // IPs que siempre pueden acceder incluso durante el mantenimiento
-$allowedIPs = array('127.0.0.1', '::1'); // '127.0.0.1', '::1' para local
+$allowedIPs = array('', ''); // '127.0.0.1', '::1' para local
 
 // Configuración por secciones
 $section_maintenance = array(
-    'home' => true,
-    'plantilla' => true,
+    'home' => false,
+    'plantilla' => false,
     'admin-plantilla' => false,
     'data-departamentos' => false,
-    'calendario' => true,
-    'espacios' => true,
+    'calendario' => false,
+    'espacios' => false,
     'admin-home' => false,
     'admin-reportes' => false,
     'admin-eventos' => false,
     'admin-usuarios' => false,
-    'basesdedatos' => true,
+    'basesdedatos' => false,
     'plantilla-coordpers' => false,
-    'bd-coordpers' => true,
-    'horas-comparacion' => true,
-    'personal-solicitud-cambios' => true,
-    'guiaPA' => true,
-    'oferta-dash' => true
+    'bd-coordpers' => false,
+    'horas-comparacion' => false,
+    'personal-solicitud-cambios' => false,
+    'guiaPA' => false,
+    'oferta-dash' => false
 );
 
 // Configuración de mensajes personalizados por sección 
