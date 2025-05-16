@@ -138,14 +138,41 @@
 }
 
 .nohayevento-fila {
+  margin: 10 30;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  height: 35%;
+  background-color: #fff;
+  border-radius: 10px;
+  border: solid 1px #e7e7f2;
+  box-shadow: 1px 3px 3px 0px rgba(122,122,122,0.5);
+  -webkit-box-shadow: 1px 3px 3px 0px rgba(122,122,122,0.5);
+  -moz-box-shadow: 1px 3px 3px 0px rgba(122,122,122,0.5);
 }
 
 .nohayevento-fila h3 {
   font-size: 1.5rem;
+}
+
+#calendarioNoEventos {
+  font-size: 7rem;
+  margin: 30 0 0 0;
+  position: relative;
+  color:#ccc;
+  opacity: 1;
+}
+
+#calendarioNoEventos::after { 
+  content: '\f128';
+  color:#fff;
+  font-size: 3.5rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -15%);
 }
 
 .event-container {

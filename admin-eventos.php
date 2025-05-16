@@ -141,9 +141,9 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                             
                             // Solo mostramos los nombres si el total de participantes es 5 o menos
                             if ($totalParticipantes <= 5) {
-                                echo '<div class="icono-perfil"><strong>' . $iniciales . '</strong></div><div style="margin: 0 20 0 0; white-space: nowrap; font-size: 1rem;">' . htmlspecialchars($participante) . '</div>';
+                                echo '<div class="icono-perfil" data-usuario="' . $iniciales . '"><strong>' . $iniciales . '</strong></div><div style="margin: 0 20 0 0; white-space: nowrap; font-size: 1rem;">' . htmlspecialchars($participante) . '</div>';
                             } else {
-                                echo '<div class="icono-perfil"><strong>' . $iniciales . '</strong><span class="tooltip-texto">' . $participante . '</span></div>';
+                                echo '<div class="icono-perfil" data-usuario="' . $iniciales . '"><strong>' . $iniciales . '</strong><span class="tooltip-texto">' . $participante . '</span></div>';
                             }
                         }
                         ?>
@@ -208,10 +208,13 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     } 
     if ( $eventosEnProceso === 0 && $estadoEvento == 'En proceso' || 
          $eventosFinalizados === 0 && $estadoEvento == 'Finalizado' ||
-         $eventosProximos === 0 && $estadoEvento == 'Proximos' ) {
+         $eventosProximos === 0 && $estadoEvento == 'Proximos' ||
+         mysqli_num_rows($result) < 1 && $estadoEvento == 'Todos los eventos') {
         ?>
         <div class="nohayevento-fila">
+            <i class="fa fa-calendar" id="calendarioNoEventos" aria-hidden="true"></i>
             <h3>No hay eventos disponibles</h3>
+            <span></span>
         </div>
     <?php
     }
