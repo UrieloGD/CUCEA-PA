@@ -59,6 +59,10 @@
   gap: 15px;
   font-weight: bold;
   padding: 25 0 25 30;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 100;
 }
 
 .button-nuevo-evento {
@@ -114,7 +118,7 @@
 
 .fa-caret-down:before {
   position: relative;
-  right: 40px;
+  right: 20px;
   font-size: 1.1rem;
   color: #0071b0;
 }
@@ -131,6 +135,17 @@
   align-items: center;
   margin: 10 30;
   gap: 15px;
+}
+
+.nohayevento-fila {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.nohayevento-fila h3 {
+  font-size: 1.5rem;
 }
 
 .event-container {
@@ -383,7 +398,7 @@
 
 .tooltip-texto,
 .tooltip-texto-buttons {
-  position: fixed;
+  position: absolute;
   visibility: hidden;
   width: 150px;
   padding: 4px 12px;
@@ -394,7 +409,7 @@
   border-left: 4px solid #0071b0;
   border-radius: 6px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 9999;
+  z-index: 9998;
   pointer-events: none;
   white-space: normal;
   word-wrap: break-word;
@@ -403,45 +418,29 @@
   margin: 0 0 0 210;
 }
 
+.action-btn {
+  display: flex;
+  flex-direction: row;
+}
+
 .tooltip-texto-buttons {
+  display: flex;
   position: absolute;
-  padding: 10px 16px;
+  justify-content: center;
+  align-items: center;
+  left: -123;
+  width: 100px;
+  height: 35px;
   margin: 0;
 }
 
 .tooltip-texto-trigger {
   position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.tooltip-texto::before,
-.tooltip-texto-buttons::before {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-}
-
-.tooltip-texto[data-position="top"]::before,
-.tooltip-texto-buttons[data-position="top"]::before {
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-top-color: rgba(33, 37, 41, 0.95);
-}
-
-.tooltip-texto[data-position="bottom"]::before,
-.tooltip-texto-buttons[data-position="bottom"]::before {
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-bottom-color: rgba(33, 37, 41, 0.95);
+  z-index: 9999;
 }
 
 .icono-perfil:hover .tooltip-texto,
-.tooltip-texto-trigger:hover .tooltip-texto-buttons {
+.action-btn:hover .tooltip-texto-buttons {
   visibility: visible;
 }
 

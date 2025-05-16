@@ -60,6 +60,10 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     $estadoEvento = isset($_GET['desplegable-estado-evento']) ? $_GET['desplegable-estado-evento'] : 'En proceso';
     $eventoAnterior = null;
 
+    $eventosEnProceso = 0;
+    $eventosFinalizados = 0;
+    $eventosProximos = 0;
+
     function mostrarEventos() {
         global $row, $eventoActual, $eventoAnterior, $eventoFinalizado, $dateNow;
         if ($eventoAnterior === null || $eventoAnterior !== $eventoActual) {
@@ -162,16 +166,12 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
                 </div>
                 <div class="event-actions">
                     <button class="action-btn edit-btn" data-event-id="<?php echo $row['ID_Evento']; ?>">
+                        <span class="tooltip-texto-buttons">Editar evento</span>
                         <img src="./Img/Icons/iconos-adminAU/editar.png" alt="Editar">
-                        <div class="tooltip-texto-trigger">
-                            <span class="tooltip-texto-buttons">Editar evento</span>
-                        </div>
                     </button>
                     <button class="action-btn delete-btn" onclick="deleteEvent(<?php echo $row['ID_Evento']; ?>)">
+                        <span class="tooltip-texto-buttons">Eliminar evento</span>
                         <img src="./Img/Icons/iconos-adminAU/borrar.png" alt="Borrar">
-                        <div class="tooltip-texto-trigger">
-                            <span class="tooltip-texto-buttons">Eliminar evento</span>
-                        </div>
                     </button>
                 </div>
             </div>
@@ -186,21 +186,32 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
         $eventoFinalizado = $row['Fecha_Fin'];
         $dateNow = date('Y-m-d H:i:s');
             
-            if (($estadoEvento == 'En proceso' && $dateNow > $eventoActual && $dateNow < $eventoFinalizado) ||
-                ($estadoEvento == 'Finalizado' && $dateNow > $eventoFinalizado) ||
-                ($estadoEvento == 'Proximos' && $dateNow < $eventoActual)) {
-                    mostrarEventos();
+            if ($estadoEvento == 'En proceso' && $dateNow > $eventoActual && $dateNow < $eventoFinalizado) {
+                mostrarEventos();
+                $eventosEnProceso++;
             }
-            else if ($estadoEvento == 'Todos los eventos') {
+
+            if ($estadoEvento == 'Finalizado' && $dateNow > $eventoFinalizado) {
+                mostrarEventos();
+                $eventosFinalizados++;
+            }
+
+            if ($estadoEvento == 'Proximos' && $dateNow < $eventoActual) {
+                mostrarEventos();
+                $eventosProximos++;
+            }
+
+            if ($estadoEvento == 'Todos los eventos') {
                 mostrarEventos();
             }
         }
-    } else {
+    } 
+    if ( $eventosEnProceso === 0 && $estadoEvento == 'En proceso' || 
+         $eventosFinalizados === 0 && $estadoEvento == 'Finalizado' ||
+         $eventosProximos === 0 && $estadoEvento == 'Proximos' ) {
         ?>
-        <div class="evento-fila">
-            <div class="event-container" style="text-align: center;">
-                <h3>No hay próximos eventos registrados</h3>
-            </div>
+        <div class="nohayevento-fila">
+            <h3>No hay eventos disponibles</h3>
         </div>
     <?php
     }
