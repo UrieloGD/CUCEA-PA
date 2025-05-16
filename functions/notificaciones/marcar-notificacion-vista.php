@@ -9,21 +9,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sql = "UPDATE justificaciones SET Notificacion_Vista = 1 WHERE ID_Justificacion = ?";
     } elseif ($tipo == 'plantilla') {
         $sql = "UPDATE plantilla_dep SET Notificacion_Vista = 1 WHERE ID_Archivo_Dep = ?";
-    } elseif ($tipo == 'fecha_limite') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'evento') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'evento_actualizado') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'evento_removido') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'evento_cancelado') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'modificacion_bd' || $tipo == 'modificación_bd') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'eliminacion_bd') {
-        $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
-    } elseif ($tipo == 'restauracion_bd') {
+    } elseif (
+        $tipo == 'fecha_limite' || $tipo == 'evento' || $tipo == 'evento_actualizado' ||
+        $tipo == 'evento_removido' || $tipo == 'evento_cancelado' ||
+        $tipo == 'modificacion_bd' || $tipo == 'modificación_bd' ||
+        $tipo == 'eliminacion_bd' || $tipo == 'restauracion_bd'
+    ) {
         $sql = "UPDATE notificaciones SET Vista = 1 WHERE ID = ?";
     } else {
         echo json_encode(['success' => false, 'error' => 'Tipo de notificación no válido']);

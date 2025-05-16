@@ -3,34 +3,28 @@ function actualizarNotificaciones() {
     .then((response) => response.text())
     .then((html) => {
       const sidebar = document.getElementById("mySidebar");
+
+      // Conservar el contenedor de fecha/hora si existe
       const contenedorFechaHora = sidebar.querySelector(
         ".contenedor-fecha-hora"
       );
 
-      // Crear un contenedor temporal para el nuevo contenido
+      // Limpiar el sidebar pero mantener el contenedor de fecha/hora
+      while (sidebar.firstChild) {
+        sidebar.removeChild(sidebar.firstChild);
+      }
+
+      // Agregar el contenedor de fecha/hora de vuelta si existía
+      if (contenedorFechaHora) {
+        sidebar.appendChild(contenedorFechaHora);
+      }
+
+      // Añadir el nuevo contenido
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
 
-      // Reemplazar solo la sección de notificaciones
-      const viejoContenido = sidebar.querySelectorAll(
-        ".grupo-fecha, .mensaje-sin-notificaciones"
-      );
-      viejoContenido.forEach((element) => element.remove());
-
-      // Insertar nuevo contenido después del contenedor de fecha/hora
-      tempDiv.childNodes.forEach((node) => {
-        if (node.nodeType === 1) {
-          // Solo elementos HTML
-          sidebar.insertBefore(node, contenedorFechaHora.nextSibling);
-        }
-      });
-
-      // Actualizar el contenido de las notificaciones
-      sidebar.innerHTML = html;
-
-      // Volver a insertar el contenedor de fecha y hora al principio
-      if (contenedorFechaHora) {
-        sidebar.insertBefore(contenedorFechaHora, sidebar.firstChild);
+      while (tempDiv.firstChild) {
+        sidebar.appendChild(tempDiv.firstChild);
       }
 
       // Volver a añadir los event listeners
@@ -58,6 +52,7 @@ window.actualizarBadgeNotificaciones = function () {
 
   if (notificacionesSinVer.length > 0) {
     badge.style.display = "block";
+    badge.textContent = notificacionesSinVer.length;
   } else {
     badge.style.display = "none";
   }
@@ -79,24 +74,18 @@ function toggleNav() {
       sidebar.style.width = "250px";
       sidebar.style.right = "0";
     }
+    // Actualizar notificaciones cuando se abre el panel
+    actualizarNotificaciones();
   }
   isNavOpen = !isNavOpen;
 }
 
-function actualizarBadgeNotificaciones() {
-  const notificacionesSinVer = document.querySelectorAll(
-    ".contenedor-notificacion:not(.vista)"
-  );
-  const badge = document.getElementById("notification-badge");
-
-  if (notificacionesSinVer.length > 0) {
-    badge.style.display = "block";
-  } else {
-    badge.style.display = "none";
-  }
-}
-
 function manejarClicNotificacion(event) {
+  // No procesar si se hizo clic en el botón de descartar
+  if (event.target.classList.contains("boton-descartar")) {
+    return;
+  }
+
   const notificacion = event.currentTarget;
 
   if (!notificacion.classList.contains("vista")) {
@@ -124,10 +113,10 @@ function marcarNotificacionComoVista(id, tipo) {
   })
     .then((response) => response.text())
     .then((text) => {
-      console.log("Respuesta completa del servidor:", text);
       try {
         return JSON.parse(text);
       } catch (error) {
+        console.error(`Respuesta no válida del servidor: ${text}`);
         throw new Error(`Respuesta no válida del servidor: ${text}`);
       }
     })
@@ -151,8 +140,16 @@ function marcarNotificacionesComoVistas() {
     ".contenedor-notificacion:not(.vista)"
   );
 
+  if (notificaciones.length === 0) return;
+
+  const ids = [];
+  const tipos = [];
+
   notificaciones.forEach((notificacion) => {
     notificacion.classList.add("vista");
+    ids.push(notificacion.dataset.id);
+    tipos.push(notificacion.dataset.tipo);
+
     marcarNotificacionComoVista(
       notificacion.dataset.id,
       notificacion.dataset.tipo
@@ -160,34 +157,109 @@ function marcarNotificacionesComoVistas() {
   });
 
   actualizarBadgeNotificaciones();
+}
 
-  if (ids.length > 0) {
-    fetch("./functions/notificaciones/marcar-notificacion-vista.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `ids=${JSON.stringify(ids)}&tipos=${JSON.stringify(tipos)}`,
+function descartarNotificacion(event, id, tipo) {
+  event.stopPropagation();
+
+  const notificacion = event.target.closest(".contenedor-notificacion");
+
+  // Ocultar inmediatamente la notificación con animación
+  notificacion.style.opacity = "0";
+  notificacion.style.transition = "opacity 0.3s ease";
+
+  setTimeout(() => {
+    notificacion.style.display = "none";
+
+    // Verificar si era la última notificación de su grupo
+    const grupoFecha = notificacion.closest(".grupo-fecha");
+    const notificacionesRestantes = grupoFecha.querySelectorAll(
+      ".contenedor-notificacion[style='display: flex'], .contenedor-notificacion:not([style])"
+    );
+
+    if (notificacionesRestantes.length <= 1) {
+      // La única que queda es la que estamos ocultando
+      grupoFecha.style.display = "none";
+    }
+
+    // Verificar si no quedan más notificaciones
+    const todasLasNotificacionesVisibles = document.querySelectorAll(
+      ".contenedor-notificacion:not([style='display: none'])"
+    );
+    if (todasLasNotificacionesVisibles.length <= 1) {
+      // Solo queda la que estamos ocultando
+      const sinNotificaciones = document.createElement("div");
+      sinNotificaciones.className = "mensaje-sin-notificaciones";
+      sinNotificaciones.innerHTML = `
+        <div class="info-notificacion">
+          <div class="descripcion">No hay nuevas notificaciones</div>
+        </div>
+      `;
+
+      const sidebar = document.getElementById("mySidebar");
+      sidebar.appendChild(sinNotificaciones);
+    }
+  }, 300);
+
+  // Marcar como descartada en la base de datos
+  fetch("./functions/notificaciones/descartar-notificacion.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `id=${id}&tipo=${tipo}`,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.success) {
+        console.error("Error al descartar notificación:", data.error);
+        notificacion.style.opacity = "1";
+        notificacion.style.display = "flex";
+      } else {
+        actualizarBadgeNotificaciones();
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          console.log("Notificaciones marcadas como vistas");
-        }
-      });
-  }
+    .catch((error) => {
+      console.error("Error:", error);
+      notificacion.style.opacity = "1";
+      notificacion.style.display = "flex";
+    });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Añadir event listeners a las notificaciones
   const notificaciones = document.querySelectorAll(".contenedor-notificacion");
   notificaciones.forEach((notificacion) => {
     notificacion.addEventListener("click", manejarClicNotificacion);
   });
 
+  // Añadir event listener al botón de marcar todo como leído
   const botonMarcarLeido = document.querySelector(".marcar-leido");
   if (botonMarcarLeido) {
     botonMarcarLeido.addEventListener("click", marcarNotificacionesComoVistas);
   }
+
+  // Asignar eventos a los botones de descartar
+  document.querySelectorAll(".boton-descartar").forEach((boton) => {
+    boton.addEventListener("click", function (e) {
+      const notificacion = this.closest(".contenedor-notificacion");
+      descartarNotificacion(
+        e,
+        notificacion.dataset.id,
+        notificacion.dataset.tipo
+      );
+    });
+  });
+
+  // Asignar evento al icono de notificaciones
+  const notificationIcon = document.getElementById("notification-icon");
+  if (notificationIcon) {
+    notificationIcon.addEventListener("click", function (e) {
+      e.stopPropagation();
+      toggleNav();
+    });
+  }
+
   actualizarBadgeNotificaciones();
   // Iniciar la actualización automática cada 30 segundos
   setInterval(actualizarNotificaciones, 30000);
@@ -208,38 +280,13 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// Prevenir que el clic en el icono de notificaciones propague el evento
-document
-  .getElementById("notification-icon")
-  .addEventListener("click", function (event) {
-    event.stopPropagation();
-  });
-
-function descartarNotificacion(event, id, tipo) {
-  event.stopPropagation();
-
-  const notificacion = event.target.closest(".contenedor-notificacion");
-
-  // Ocultar inmediatamente la notificación
-  notificacion.style.display = "none";
-
-  // Marcar como descartada en la base de datos
-  fetch("./functions/notificaciones/descartar-notificacion.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `id=${id}&tipo=${tipo}`,
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (!data.success) {
-        console.error("Error al descartar notificación");
-        notificacion.style.display = "flex";
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      notificacion.style.display = "flex";
+// Asignar evento al icono de notificaciones
+document.addEventListener("DOMContentLoaded", function () {
+  const notificationIcon = document.getElementById("notification-icon");
+  if (notificationIcon) {
+    notificationIcon.addEventListener("click", function (event) {
+      event.stopPropagation();
+      toggleNav();
     });
-}
+  }
+});

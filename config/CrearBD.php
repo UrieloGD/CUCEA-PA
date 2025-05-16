@@ -327,6 +327,7 @@ $sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     Departamento_ID INT(15),
     Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
+    Oculta BOOLEAN DEFAULT 0,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 );";
 

@@ -19,6 +19,7 @@ if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               WHERE n.Departamento_ID = " . $_SESSION['Departamento_ID'] . "
               AND (n.Tipo = 'modificacion_bd' OR n.Tipo = 'eliminacion_bd' OR n.Tipo = 'restauracion_bd')
+              AND (n.Oculta = 0 OR n.Oculta IS NULL) 
               ORDER BY n.Fecha DESC
               LIMIT 10";
 } else if ($rol_id == 0 || $rol_id == 2) { // Administrador y Secretaría administrativa
@@ -31,6 +32,7 @@ if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
               JOIN departamentos d ON j.Departamento_ID = d.Departamento_ID
               JOIN usuarios u ON j.Codigo_Usuario = u.Codigo
               WHERE j.Justificacion_Enviada = 1
+              AND (j.Oculta = 0 OR j.Oculta IS NULL)
               
               UNION ALL
               
@@ -40,6 +42,7 @@ if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
               FROM plantilla_dep p
               JOIN departamentos d ON p.Departamento_ID = d.Departamento_ID
               JOIN usuarios u ON p.Usuario_ID = u.Codigo
+              WHERE (p.Oculta = 0 OR p.Oculta IS NULL)
               
               UNION ALL
               
@@ -50,7 +53,8 @@ if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               LEFT JOIN departamentos d ON n.Departamento_ID = d.Departamento_ID
-              WHERE n.Usuario_ID = $codigo_usuario OR (n.Usuario_ID IS NULL AND n.Departamento_ID IS NOT NULL)
+              WHERE (n.Usuario_ID = $codigo_usuario OR (n.Usuario_ID IS NULL AND n.Departamento_ID IS NOT NULL))
+              AND (n.Oculta = 0 OR n.Oculta IS NULL)
               
               ORDER BY fecha DESC
               LIMIT 10";
@@ -60,6 +64,7 @@ if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               WHERE n.Usuario_ID = $codigo_usuario
+              AND (n.Oculta = 0 OR n.Oculta IS NULL)
               ORDER BY n.Fecha DESC
               LIMIT 10";
 }
