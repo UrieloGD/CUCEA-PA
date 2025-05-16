@@ -2,21 +2,49 @@
 
 .cuadro-principal {
     background-color: white;
-    border-radius: 20px;
-    width: 92%;
-    height: 90vh;
+    width: -webkit-fill-available;
+    height: 91.5vh;
     margin-left: 6vw;
     margin-right: 2vw;
     margin-top: 1vh;
-    margin-bottom: 2vh;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
+    align-self: flex-end;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 0 5 0 5;
+    border-radius: 20px;
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     -ms-border-radius: 20px;
     -o-border-radius: 20px;
-}
+  }
+  
+  /* Mozilla */
+  @-moz-document url-prefix() {
+    .cuadro-principal {
+      background-color: white;
+      width:-moz-available;
+      height: 91.5vh;
+      margin-left: 6vw;
+      margin-right: 2vw;
+      margin-top: 1vh;
+      align-self: flex-end;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      padding: 0 5 0 5;
+      border-radius: 20px;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      -ms-border-radius: 20px;
+      -o-border-radius: 20px;
+    }
+  }
+  
+  .cuadro-scroll {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
 /* Encabezado */
 .encabezado {
@@ -267,6 +295,7 @@
 .date-selector {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
 }
 
 .date-selector {
@@ -319,9 +348,8 @@
 }
 
 #monthYearPicker {
-    position: absolute;
+    position: relative;
     top: -18%;
-    left: 100%;
     z-index: 1000;
     display: none;
     animation-duration: 0.3s;
@@ -356,6 +384,7 @@
 
 .view-options {
     display: flex;
+    justify-content: flex-end;
 }
 
 .view-options button {
@@ -374,13 +403,17 @@
     
 }
 
+.calendar-table tbody {
+    height: fit-content;
+}
+
 
 .calendar-table th, .calendar-table td {
     border: 1px solid #b9bcc9;
     text-align: center;
     font-size: medium;
     width: 15vh;
-    height: 11vh;
+    height: 10vh;
     position: relative;
     padding: 0;
 }
@@ -572,9 +605,10 @@
     transition: opacity 0.3s ease;
 }
 
-.modal-content {
+.modal-content-visualizarEvento {
+    position: relative;
     background-color: #ffffff;
-    margin: 10% auto;
+    margin: 0 auto;
     padding: 0;
     border: none;
     width: 90%;
@@ -582,22 +616,23 @@
     box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
     border-radius: 8px;
     overflow: hidden;
-    transform: translateY(-50px);
+    top: 50%;
+    transform: translateY(-50%);
     transition: transform 0.3s ease;
 }
 .modal.show {
     opacity: 1;
 }
 
-.modal.show .modal-content {
+/* .modal.show .modal-content {
+    transform: translateY(0);
+} */
+
+.modal-content-visualizarEvento.show {
     transform: translateY(0);
 }
 
-.modal-content.show {
-    transform: translateY(0);
-}
-
-.modal-content.hide {
+.modal-content-visualizarEvento.hide {
     transform: translateY(-100px);
     opacity: 0;
 }
@@ -691,7 +726,7 @@ hr {
 
   /* Estilos para modal mostrar más eventos */
 
-  #eventsModal .modal-content {
+  #eventsModal .modal-content-visualizarEvento {
     max-width: 800px;
 }
 
@@ -1128,7 +1163,7 @@ hr {
     .cuadro-principal {
       background-color: white;
       border-radius: 20px;
-      width: 92%;
+      /* width: 92%; */
       height: 90vh;
       margin-left: 6vw;
       margin-right: 2vw;
@@ -1139,14 +1174,14 @@ hr {
 
 @media screen and (max-width: 1400px) and (min-width: 1201px) {
     .cuadro-principal {
-      width: 92%;
+      /* width: 92%; */
       margin-left: 6vw;
     }
 }
 
 @media screen and (max-width: 1200px) and (min-width: 993px) {
     .cuadro-principal {
-      width: 91%;
+      /* width: 91%; */
       margin-left: 7vw;
       font-size: smaller;
     }
@@ -1154,7 +1189,7 @@ hr {
 
 @media screen and (max-width: 992px) and (min-width: 769px) {
     .cuadro-principal {
-      width: 90%;
+      /* width: 90%; */
       margin-left: 8vw;
       margin-bottom: 2vh;
       font-size: smaller;
@@ -1179,7 +1214,7 @@ hr {
 
 @media (max-width: 768px) {
     .cuadro-principal {
-        width: 96%;
+        /* width: 96%; */
         height: 91vh; 
         margin-left: 2vw;
         font-size: smaller;
@@ -1223,7 +1258,7 @@ hr {
 
 @media (max-width: 535px) {
     .cuadro-principal {
-        width: 96%;
+        /* width: 96%; */
         height: 91vh; 
         margin-left: 2vw;
         font-size: smaller;
@@ -1311,7 +1346,7 @@ hr {
 
 @media (max-width: 480px) {
     .cuadro-principal {
-        width: 96%;
+        /* width: 96%; */
         height: 91vh; 
         margin-left: 2vw;
         font-size: smaller;
@@ -1386,3 +1421,57 @@ hr {
         margin-right: 0px;
     }
 }
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+    .header,
+    .modal-content-visualizarEvento { 
+      zoom: 90%; 
+    }
+    body .cuadro-principal {
+      zoom: 90%;
+      height: 102vh;
+    }
+    .calendar-table th, .calendar-table td {
+        height: 11vh;
+    }
+  }
+  @media screen and (max-height: 768px) { 
+    .header,
+    .modal-content-visualizarEvento { 
+      zoom: 80%; 
+    }
+    body .cuadro-principal {
+      zoom: 80%;
+      height: 114.5vh;
+    }
+    .calendar-table th, .calendar-table td {
+        height: 12vh;
+    }
+  }
+  @media screen and (max-height: 700px) { 
+    .header,
+    .modal-content-visualizarEvento { 
+      zoom: 65%; 
+    }
+    body .cuadro-principal {
+      zoom: 65%;
+      height: 141.5vh;
+    }
+    .calendar-table th, .calendar-table td {
+        height: 15vh;
+    }
+  }
+  @media screen and (max-height: 600px) { 
+    .header,
+    .modal-content-visualizarEvento { 
+      zoom: 60%; 
+    }
+    body .cuadro-principal {
+      zoom: 60%;
+      height: 152.5vh;
+    }
+    .calendar-table th, .calendar-table td {
+        height: 16vh;
+    }
+  }

@@ -76,11 +76,11 @@
             </div>
             <!-- Botones de acción al final del modal -->
             <div class="contenedor-botones-baja">
-                <button type="submit" class="boton-guardar" id="btn-guardar">
+                <button type="submit" class="btn-guardar" id="btn-guardar">
                     <i class="fa fa-check-circle"></i>
                     Guardar
                 </button>
-                <button type="button" class="boton-descartar" id="btn-descartar">
+                <button type="button" class="btn-descartar" id="btn-descartar">
                     <i class="fa fa-times-circle"></i>
                     Descartar
                 </button>

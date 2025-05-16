@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
-if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0) {
+if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0 && $_SESSION['Rol_ID'] != 4) {
     header("Location: home.php");
     exit();
 }
@@ -21,7 +21,6 @@ error_reporting(E_ALL);
 
 // Verificar que los archivos existan
 $required_files = [
-    './config/sesioniniciada.php',
     './config/db.php',
     './template/header.php',
     './template/navbar.php'
@@ -35,7 +34,6 @@ foreach ($required_files as $file) {
 
 // Incluir los archivos
 require_once './config/db.php';
-require_once './config/sesioniniciada.php';
 ?>
 
 <?php
@@ -64,7 +62,7 @@ $codigo_usuario =  $_SESSION['Codigo'];
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";
 $result_fecha_limite = mysqli_query($conexion, $sql_fecha_limite);
 $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
-$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2024-12-25 23:50";
+$fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2025-05-25 23:50";
 
 $departamento_id = null;
 if (isset($_SESSION['Codigo'])) {
@@ -82,10 +80,11 @@ if ($departamento_id === null) {
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 <title>Plantilla</title>
-<link rel="stylesheet" href="./CSS/plantilla.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/plantilla.css?v=<?php echo filemtime('./CSS/plantilla.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <!--Pestañas-->
     <div class="tab-container">
         <div class="tab-buttons">
@@ -99,15 +98,17 @@ if ($departamento_id === null) {
                 </div>
                 <div class="icono-descarga">
                     <a href="#" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">
-                        <img src="./Img/Icons/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
+                        <img src="./Img/Icons/iconos-plantilla/icono-descarga-plantilla.png" alt="imagen de edificios de CUCEA" />
                     </a>
                 </div>
                 <div class="div-boton-descargar">
                     <button class="boton-descargar" role="button" onclick="descargarArchivo(<?php echo json_encode($departamento_id); ?>)">Descargar</button>
                 </div>
                 <div class="info-descarga">
-                    <p>Si necesitas ayuda, puedes consultar la Guía de Programación Académica haciendo clic <a href="./guiaPA.php">aquí.</a></p>
-                </div>
+                        <p>Si necesitas ayuda, puedes preguntarnos por la mesa de ayuda (boton inferior derecha).</p>
+                            <!-- consultar la Guía de Programación Académica haciendo clic  -->
+                            <!-- <a href="./guiaPA.php">aquí.</a></p> -->
+                    </div>
             </div>
         </div>
 
@@ -141,7 +142,7 @@ if ($departamento_id === null) {
                 <div class="justification-container">
                     <div class="access-restricted">
                         <div class="icon-circle">
-                            <img src="./Img/Icons/icono-entrega-tardia.png" alt="Access Restricted" />
+                            <img src="./Img/Icons/iconos-plantilla/icono-entrega-tardia.png" alt="Access Restricted" />
                         </div>
                         <h2>Acceso restringido</h2>
                         <p>La fecha límite para subir tu plantilla fue el día <?php echo date('d/m/Y', strtotime($fecha_limite)); ?></p>
@@ -165,8 +166,11 @@ if ($departamento_id === null) {
             } else {
             ?>
                 <div class="info-subida">
-                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
+                    <p>Sube aquí tu plantilla (Excel) de Programación Académica</b></p>
                 </div>
+                <!-- <div class="info-subida">
+                    <p>Recuerda que la fecha límite para subir tu plantilla de Programación académica es <b><?php echo date('d/m/Y', strtotime($fecha_limite)); ?></b></p>
+                </div> -->
                 <?php if ($fecha_limite_pasada && $justificacion_enviada) { ?>
                     <div class="container-precaucion">
                         <h3>Estás subiendo tu plantilla después de la fecha límite. Tu justificación ha sido recibida.</h3>
@@ -194,14 +198,14 @@ if ($departamento_id === null) {
             ?>
         </div>
     </div>
+    </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="./JS/plantilla/guardarJustifiicacion.js"></script>
-<script src="./JS/plantilla/descargarPlantilla.js"></script>
-<script src="./JS/plantilla/drag&drop.js"></script>
-<script src="./JS/plantilla/pestañasPlantilla.js"></script>
+<script src="./JS/plantilla/guardarJustifiicacion.js?v=<?php echo filemtime('./JS/plantilla/guardarJustifiicacion.js'); ?>"></script>
+<script src="./JS/plantilla/descargarPlantilla.js?v=<?php echo filemtime('./JS/plantilla/descargarPlantilla.js'); ?>"></script>
+<script src="./JS/plantilla/drag&drop.js?v=<?php echo filemtime('./JS/plantilla/drag&drop.js'); ?>"></script>
+<script src="./JS/plantilla/pestañasPlantilla.js?v=<?php echo filemtime('./JS/plantilla/pestañasPlantilla.js'); ?>"></script>
 
 <?php include './template/footer.php' ?>

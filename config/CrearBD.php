@@ -27,42 +27,25 @@ $sql = "CREATE TABLE IF NOT EXISTS roles (
     Rol_ID INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Rol VARCHAR(80) NOT NULL
 )";
+
 if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Roles creada exitosamente";
 } else {
     echo "<br>Error creando tabla Roles: " . mysqli_error($conexion);
 }
 
-// Desactivar modo estricto temporalmente
-$set_mode = "SET SQL_MODE = ''";
-if (mysqli_query($conexion, $set_mode)) {
+// Insertar roles
+$insert_roles = "INSERT INTO roles (Nombre_Rol) VALUES 
+                ('Jefe de Departamento'), 
+                ('Secretaría Administrativa'), 
+                ('Coordinación de Personal'), 
+                ('Asistente de JD'),
+                ('Administrador');"; //Esto es rol 0
 
-    // Insertar roles con IDs específicos
-    $insert_roles = "INSERT INTO roles (Rol_ID, Nombre_Rol) VALUES 
-    (0, 'Administrador'), 
-    (1, 'Jefe de Departamento'), 
-    (2, 'Secretaría Administrativa'), 
-    (3, 'Coordinación de Personal')";
-
-    if (mysqli_query($conexion, $insert_roles)) {
-        echo "<br>Roles insertados exitosamente";
-    } else {
-        echo "<br>Error insertando roles: " . mysqli_error($conexion);
-    }
-
-    // Configurar AUTO_INCREMENT para que comience después de los valores manuales
-    $set_auto_increment = "ALTER TABLE roles AUTO_INCREMENT = 4";
-    if (mysqli_query($conexion, $set_auto_increment)) {
-        echo "<br>AUTO_INCREMENT configurado correctamente";
-    } else {
-        echo "<br>Error configurando AUTO_INCREMENT: " . mysqli_error($conexion);
-    }
-
-    // Restaurar el modo SQL predeterminado
-    $reset_mode = "SET SQL_MODE = DEFAULT";
-    mysqli_query($conexion, $reset_mode);
+if (mysqli_query($conexion, $insert_roles)) {
+    echo "<br>Roles insertados exitosamente";
 } else {
-    echo "<br>Error modificando SQL_MODE: " . mysqli_error($conexion);
+    echo "<br>Error insertando roles: " . mysqli_error($conexion);
 }
 
 // Crear tabla Usuarios
@@ -94,29 +77,30 @@ echo "<br>Función hashPassword definida correctamente";
 
 // Usuarios (los necesitamos en arreglo para el hasheo de contraseñas)
 $usuarios = [
-    [2100123456, 'Jesús', 'Arroyo', 'jesusarr@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Estudios Regionales
-    [2103456789, 'José', 'Ponce', 'tponce@cucea.udg', '123', 'Masculino', 1, '#00FF00'], //Finanzas
-    [2106789012, 'Blanca', 'Silva', 'bsilva@cucea.udg', '123', 'Femenino', 1, '#0000FF'], //Ciencias Sociales
-    [2110123456, 'Teressa', 'Tarquinio', 'traci@cucea.udg', '123', 'Femenino', 1, '#FF0000'], //PALE
-    [2111234567, 'Jesús', 'Cardoso', 'jesus.cardoso@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //POSGRADOS
-    [2112345678, 'Martín', 'Romero', 'mromeromorett@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Economía
-    [2113456789, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1, '#FF0000'], //RRHH
-    [2114567890, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Métodos
-    [2115678901, 'Carla', 'Aceves', 'carla.aceves@cucea.udg', '123', 'Femenino', 1, '#FF0000'], // Políticas
-    [2116789012, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Admin
-    [2121234567, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Auditoría
-    [2130192837, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Merca
-    [2140596871, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Impuestos
-    [2151234098, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Sistemas
-    [2161098234, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Turismo
-    [2176859401, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Contabilidad
+    [215161264, 'Uriel', 'Valencia', 'uriel.valencia@cucea.udg', '123', 'Masculino', 5, '#FF0000'], //Estudios Regionales
+    [7200315, 'Jesús', 'Arroyo', 'jesusarr@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Estudios Regionales
+    [8504032, 'José', 'Ponce', 'tponce@cucea.udg', '123', 'Masculino', 1, '#00FF00'], //Finanzas
+    [9023615, 'Blanca', 'Silva', 'bsilva@cucea.udg', '123', 'Femenino', 1, '#0000FF'], //Ciencias Sociales
+    [2951480, 'Teressa', 'Tarquinio', 'traci@cucea.udg', '123', 'Femenino', 1, '#FF0000'], //PALE
+    [2111234, 'Jesús', 'Cardoso', 'jesus.cardoso@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //POSGRADOS
+    [8211558, 'Martín', 'Romero', 'mromeromorett@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Economía
+    [8102481, 'Sara', 'Robles', 'srobles@cucea.udg', '123', 'Femenino', 1, '#FF0000'], //RRHH
+    [2946961, 'Guillermo', 'Sierra', 'gsierraj@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Métodos
+    [2946962, 'Carla', 'Aceves', 'carla.aceves@cucea.udg', '123', 'Femenino', 1, '#FF0000'], // Políticas
+    [2633086, 'César', 'Mora', 'cesar.mora@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Admin
+    [9816054, 'Alejandro', 'Campos', 'a.campos@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Auditoría
+    [2212498, 'José', 'Sánchez', 'jsanchez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Merca
+    [2530872, 'Cristian', 'Alcantar', 'cristian.alcantar@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Impuestos
+    [2116812, 'Alejandro', 'López', 'alejandro.lopez@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Sistemas
+    [2519356, 'Carlos', 'Flores', 'carlos.flores@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Turismo
+    [8319855, 'Javier', 'Ramirez', 'javierr@cucea.udg', '123', 'Masculino', 1, '#FF0000'], //Contabilidad
     [2101234567, 'Maria', 'Lopez', 'maria.lopez@cucea.udg', '123', 'Femenino', 2, '#FF0000'], //fake
     [2104567890, 'Denisse', 'Murillo', 'denisse.murillo@cucea.udg', '123', 'Femenino', 2, '#FF0000'],
     [2107890123, 'Aldo', 'Ceja', 'aldo.ceja@cucea.udg', '123', 'Masculino', 2, '#FF0000'], //SA
     [2105678901, 'Sofia', 'Gonzalez', 'sofia.gonzalez@cucea.udg', '123', 'Femenino', 3, '#FF0000'], //fake
     [2102345678, 'Luis', 'Garcia', 'luis.garcia@cucea.udg', '123', 'Masculino', 3, '#FF0000'], //fake
     [2108901234, 'Daniel', 'Sanchez', 'daniel.sanchez@cucea.udg', '123', 'Masculino', 3, '#FF0000'], //fake
-    [2109012345, 'Iliana', 'Aldrete', 'ibaldrete@cucea.udg', '123', 'Femenino', 3, '#FF0000'] //SA
+    [2201739, 'Iliana', 'Aldrete', 'ibaldrete@cucea.udg', '123', 'Femenino', 3, '#FF0000'] //SA
 ];
 
 $stmt = $conexion->prepare("INSERT INTO usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID, IconoColor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -207,22 +191,22 @@ if (mysqli_query($conexion, $sql)) {
 
 // Insertar relación de usuarios con departamentos (jefes de departamento)
 $insert_usuarios_departamentos = "INSERT INTO usuarios_departamentos (Usuario_ID, Departamento_ID) VALUES
-    (2100123456, 1), -- Juan es jefe del Departamento 1 (Estudios Regionales)
-    (2103456789, 2), -- Ana es jefa del Departamento 2 (Finanzas)
-    (2106789012, 3), -- Carlos Hernandez es jefe del Departamento 3 (Ciencias Sociales)
-    (2110123456, 4), -- Pedro es jefe del Departamento 4 (PALE)
-    (2111234567, 5), -- Laura es jefa del Departamento 5 (Posgrados)
-    (2112345678, 6), -- Javier es jefe del Departamento 6 (Economia)
-    (2113456789, 7), -- Sara es jefa del Departamento 7 (Recursos Humanos)
-    (2114567890, 8), -- Guillermo es jefe del Departamento 8 (Metodos Cuantitativos)
-    (2115678901, 9), -- Mariana es jefa del Departamento 9 (Politicas Publicas)
-    (2116789012, 10), -- César es jefe del Departamento 10 (Administracion)
-    (2121234567, 11), -- Alejandro Campos es jefe del Departamento 11 (Auditoria)
-    (2130192837, 12), -- José es jefe del Departamento 12 (Mercadotecnia)
-    (2140596871, 13), -- Cristian es jefe del Departamento 13 (Impuestos)
-    (2151234098, 14), -- Alejandro Lopez es jefe del Departamento 14 (Sistemas de Informacion)
-    (2161098234, 15), -- Carlos Flores es jefe del Departamento 15 (Turismo)
-    (2176859401, 16); -- Javier Ramirez es jefe del Departamento 16 (Contabilidad)";
+    (7200315, 1), -- Jesús Arroyo es jefe del Departamento 1 (Estudios Regionales)
+    (8504032, 2), -- José Ponce es jefa del Departamento 2 (Finanzas)
+    (9023615, 3), -- Blanca Silva es jefe del Departamento 3 (Ciencias Sociales)
+    (2951480, 4), -- Teressa es jefe del Departamento 4 (PALE)
+    (2111234, 5), -- Jesus Cardoso es jefa del Departamento 5 (Posgrados)
+    (8211558, 6), -- Martin Romero es jefe del Departamento 6 (Economia)
+    (8102481, 7), -- Sara Robles es jefa del Departamento 7 (Recursos Humanos)
+    (2946961, 8), -- Guillermo Sierra es jefe del Departamento 8 (Metodos Cuantitativos)
+    (2946962, 9), -- Carla Aceves es jefa del Departamento 9 (Politicas Publicas)
+    (2633086, 10), -- César Mora es jefe del Departamento 10 (Administracion)
+    (9816054, 11), -- Alejandro Campos es jefe del Departamento 11 (Auditoria)
+    (2212498, 12), -- José Sanchez es jefe del Departamento 12 (Mercadotecnia)
+    (2530872, 13), -- Cristian Alcantar es jefe del Departamento 13 (Impuestos)
+    (2116812, 14), -- Alejandro Lopez es jefe del Departamento 14 (Sistemas de Informacion)
+    (2519356, 15), -- Carlos Flores es jefe del Departamento 15 (Turismo)
+    (8319855, 16); -- Javier Ramirez es jefe del Departamento 16 (Contabilidad)";
 
 if (mysqli_query($conexion, $insert_usuarios_departamentos)) {
     echo "<br>Relación de usuarios y departamentos insertada exitosamente";
@@ -340,6 +324,7 @@ $sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     Mensaje TEXT NOT NULL,
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
+    Departamento_ID INT(15),
     Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
@@ -385,7 +370,7 @@ if (mysqli_query($conexion, $sql)) {
 $sql = "CREATE TABLE IF NOT EXISTS solicitudes_propuesta (
     ID_PROP INT AUTO_INCREMENT PRIMARY KEY,
     USUARIO_ID BIGINT(10),
-    OFICIO_NUM_PROP INT(5) UNIQUE,
+    OFICIO_NUM_PROP VARCHAR(15),
     FECHA_SOLICITUD_P DATE,
     PROFESSION_PROFESOR_P VARCHAR(15),
     APELLIDO_P_PROF_P VARCHAR(40),
@@ -474,27 +459,27 @@ if (mysqli_query($conexion, $sql)) {
 
 // Crear tabla Data_Estudios_Regionales
 $sql = "CREATE TABLE IF NOT EXISTS data_estudios_regionales (
-    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -528,81 +513,27 @@ if (mysqli_query($conexion, $sql)) {
 
 // Crear tabla data_Finanzas
 $sql = "CREATE TABLE IF NOT EXISTS data_finanzas (
-    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(80) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
-    NIVEL VARCHAR(25) NULL,
-    NIVEL_TIPO VARCHAR(25) NULL,
-    TIPO VARCHAR(5) NOT NULL,
-    C_MIN VARCHAR(2) NOT NULL,
-    H_TOTALES VARCHAR(2) NOT NULL,
-    ESTATUS VARCHAR(10) NOT NULL,
-    TIPO_CONTRATO VARCHAR(30) NOT NULL,
-    CODIGO_PROFESOR VARCHAR(9) NOT NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NOT NULL,
-    CATEGORIA VARCHAR(40) NOT NULL,
-    DESCARGA VARCHAR(2) NULL,
-    CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
-    TITULAR VARCHAR(2) NOT NULL,
-    HORAS VARCHAR(5) NULL,
-    CODIGO_DEPENDENCIA VARCHAR(4) NULL,
-    L VARCHAR(5) NULL,
-    M VARCHAR(5) NULL,
-    I VARCHAR(5) NULL,
-    J VARCHAR(5) NULL,
-    V VARCHAR(5) NULL,
-    S VARCHAR(5) NULL,
-    D VARCHAR(5) NULL,
-    DIA_PRESENCIAL VARCHAR(10) NULL,
-    DIA_VIRTUAL VARCHAR(10) NULL,
-    MODALIDAD VARCHAR(25) NULL,
-    FECHA_INICIAL VARCHAR(10) NULL,
-    FECHA_FINAL VARCHAR(10) NULL,
-    HORA_INICIAL CHAR(10) NULL,
-    HORA_FINAL CHAR(10) NULL,
-    MODULO VARCHAR(25) NULL,
-    AULA CHAR(10) NULL,
-    CUPO VARCHAR (3) NOT NULL,
-    OBSERVACIONES VARCHAR(150) NULL,
-    EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
-    PAPELERA VARCHAR(15) NULL,
-    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
-)";
-if (mysqli_query($conexion, $sql)) {
-    echo "<br>Tabla data_Finanzas creada exitosamente";
-} else {
-    echo "<br>Error creando tabla data_Finanzas: " . mysqli_error($conexion) . "<br>";
-}
-
-// Crear tabla data_Ciencias_Sociales
-$sql = "CREATE TABLE IF NOT EXISTS data_ciencias_sociales (
-    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
-    Departamento_ID INT NOT NULL,
-    CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -620,7 +551,61 @@ $sql = "CREATE TABLE IF NOT EXISTS data_ciencias_sociales (
     FECHA_FINAL VARCHAR(10) NULL,
     HORA_INICIAL CHAR(10) NULL,
     HORA_FINAL CHAR(10) NULL,
-    MODULO VARCHAR(25) NULL,
+    MODULO VARCHAR(10) NULL,
+    AULA CHAR(10) NULL,
+    CUPO VARCHAR (3) NULL,
+    OBSERVACIONES VARCHAR(150) NULL,
+    EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
+)";
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla data_Finanzas creada exitosamente";
+} else {
+    echo "<br>Error creando tabla data_Finanzas: " . mysqli_error($conexion) . "<br>";
+}
+
+// Crear tabla data_Ciencias_Sociales
+$sql = "CREATE TABLE IF NOT EXISTS data_ciencias_sociales (
+ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    CICLO VARCHAR(10) NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
+    NIVEL VARCHAR(25) NULL,
+    NIVEL_TIPO VARCHAR(25) NULL,
+    TIPO VARCHAR(5) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
+    ESTATUS VARCHAR(10) NULL,
+    TIPO_CONTRATO VARCHAR(30) NULL,
+    CODIGO_PROFESOR VARCHAR(9) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
+    CATEGORIA VARCHAR(40) NULL,
+    DESCARGA VARCHAR(2) NULL,
+    CODIGO_DESCARGA VARCHAR(9) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
+    TITULAR VARCHAR(2) NULL,
+    HORAS VARCHAR(5) NULL,
+    CODIGO_DEPENDENCIA VARCHAR(4) NULL,
+    L VARCHAR(5) NULL,
+    M VARCHAR(5) NULL,
+    I VARCHAR(5) NULL,
+    J VARCHAR(5) NULL,
+    V VARCHAR(5) NULL,
+    S VARCHAR(5) NULL,
+    D VARCHAR(5) NULL,
+    DIA_PRESENCIAL VARCHAR(10) NULL,
+    DIA_VIRTUAL VARCHAR(10) NULL,
+    MODALIDAD VARCHAR(25) NULL,
+    FECHA_INICIAL VARCHAR(10) NULL,
+    FECHA_FINAL VARCHAR(10) NULL,
+    HORA_INICIAL CHAR(10) NULL,
+    HORA_FINAL CHAR(10) NULL,
+    MODULO VARCHAR(10) NULL,
     AULA CHAR(10) NULL,
     CUPO VARCHAR (3) NULL,
     OBSERVACIONES VARCHAR(150) NULL,
@@ -639,24 +624,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_pale (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -693,24 +678,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_posgrados (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -747,24 +732,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_economía (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -801,24 +786,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_recursos_Humanos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -855,24 +840,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_métodos_cuantitativos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -909,24 +894,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_políticas_públicas (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -963,24 +948,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_administración (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -1017,24 +1002,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_auditoría (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -1071,24 +1056,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_mercadotecnia (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -1125,24 +1110,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_impuestos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -1179,24 +1164,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_sistemas_de_información (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -1233,24 +1218,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_turismo (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,
@@ -1287,24 +1272,24 @@ $sql = "CREATE TABLE IF NOT EXISTS data_contabilidad (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
-    CRN VARCHAR(15) NOT NULL,
-    MATERIA VARCHAR(100) NOT NULL,
-    CVE_MATERIA VARCHAR(5) NOT NULL,
-    SECCION VARCHAR(15) NOT NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
     NIVEL VARCHAR(25) NULL,
     NIVEL_TIPO VARCHAR(25) NULL,
     TIPO VARCHAR(5) NULL,
-    C_MIN VARCHAR(2) NULL,
-    H_TOTALES VARCHAR(2) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
     ESTATUS VARCHAR(10) NULL,
     TIPO_CONTRATO VARCHAR(30) NULL,
     CODIGO_PROFESOR VARCHAR(9) NULL,
-    NOMBRE_PROFESOR VARCHAR(60) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
     CATEGORIA VARCHAR(40) NULL,
     DESCARGA VARCHAR(2) NULL,
     CODIGO_DESCARGA VARCHAR(9) NULL,
-    NOMBRE_DESCARGA VARCHAR(60) NULL,
-    NOMBRE_DEFINITIVO VARCHAR(60) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
     TITULAR VARCHAR(2) NULL,
     HORAS VARCHAR(5) NULL,
     CODIGO_DEPENDENCIA VARCHAR(4) NULL,

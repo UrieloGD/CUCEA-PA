@@ -69,7 +69,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
 ?>
 
 <title>Datas Departamentos</title>
-<link rel="stylesheet" href="./CSS/data-departamentos.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/data-departamentos.css?v=<?php echo filemtime('./CSS/data-departamentos.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
@@ -169,8 +169,7 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
     </div>
   </div>
 
-  <script src="./JS/data-departamentos/modalFechaLimite.js"></script>
-  <!-- Script updateFechaLimite -->
+  <script src="./JS/data-departamentos/modalFechaLimite.js?v=<?php echo filemtime('./JS/data-departamentos/modalFechaLimite.js'); ?>"></script>  <!-- Script updateFechaLimite -->
   <!-- Por alguna razon no se puede hacer modular el codigo de abajo -->
   <script>
     document.getElementById('fechaLimiteForm').addEventListener('submit', function(e) {

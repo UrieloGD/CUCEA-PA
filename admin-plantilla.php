@@ -30,7 +30,7 @@ checkMaintenance($current_section);
 ?>
 
 <title>Progreso Plantillas</title>
-<link rel="stylesheet" href="./CSS/admin-plantilla.css?=v1.0" />
+<link rel="stylesheet" href="./CSS/admin-plantilla.css?v=<?php echo filemtime('./CSS/admin-plantilla.css'); ?>">
 
 <div class="cuadro-principal">
     <div class="encabezado">
@@ -123,6 +123,6 @@ checkMaintenance($current_section);
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="./JS/admin-plantilla/uploadPlantilla.js"></script>
-<script src="./JS/admin-plantilla/eliminarPlantilla.js"></script>
-<script src="./JS/admin-plantilla/descargarPlantilla.js"></script>
+<script src="./JS/admin-plantilla/uploadPlantilla.js?v=<?php echo filemtime('./JS/admin-plantilla/uploadPlantilla.js'); ?>"></script>
+<script src="./JS/admin-plantilla/eliminarPlantilla.js?v=<?php echo filemtime('./JS/admin-plantilla/eliminarPlantilla.js'); ?>"></script>
+<script src="./JS/admin-plantilla/descargarPlantilla.js?v=<?php echo filemtime('./JS/admin-plantilla/descargarPlantilla.js'); ?>"></script>

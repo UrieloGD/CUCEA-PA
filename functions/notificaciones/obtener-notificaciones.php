@@ -2,18 +2,23 @@
 session_start();
 include './../../config/db.php';
 
+date_default_timezone_set('America/Mexico_City');
+
 $rol_id = $_SESSION['Rol_ID'];
 $codigo_usuario = $_SESSION['Codigo'];
 
-if ($rol_id == 1) { // Jefe de departamento
-    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
-              e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
-          FROM notificaciones n
-          LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
-          WHERE n.Usuario_ID = $codigo_usuario
-          ORDER BY n.Fecha DESC
-          LIMIT 10";
-} else if ($rol_id == 2) { // Secretaría administrativa
+if ($rol_id == 1 || $rol_id == 4) {
+    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, 
+                            n.Mensaje, n.Vista AS vista, 
+                            e.Nombre, e.Apellido, e.IconoColor,
+                            n.Departamento_ID
+              FROM notificaciones n
+              LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
+              WHERE n.Departamento_ID = " . $_SESSION['Departamento_ID'] . "
+              AND (n.Tipo = 'modificacion_bd' OR n.Tipo = 'eliminacion_bd')
+              ORDER BY n.Fecha DESC
+              LIMIT 10";
+} else if ($rol_id == 0 || $rol_id == 2) { // Administrador y Secretaría administrativa
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
                      d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
                      j.Notificacion_Vista AS vista, 
@@ -36,7 +41,8 @@ if ($rol_id == 1) { // Jefe de departamento
             UNION ALL
             
             SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS Departamentos, 
-                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Vista AS vista, n.Emisor_ID, n.Mensaje
+                e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, 
+                n.Vista AS vista, n.Emisor_ID, n.Mensaje
             FROM notificaciones n
             LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
             WHERE n.Usuario_ID = $codigo_usuario
@@ -58,7 +64,7 @@ $notificaciones = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 foreach ($notificaciones as $notificacion) {
 ?>
-    <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo $notificacion['tipo']; ?>">
+    <div class="contenedor-notificacion <?php echo $notificacion['vista'] ? 'vista' : ''; ?>" data-id="<?php echo $notificacion['id']; ?>" data-tipo="<?php echo strtolower($notificacion['tipo']); ?>">
         <div class="imagen">
             <div class="circulo-notificaciones" style="background-color: <?php echo $notificacion['IconoColor'] ?? '#808080'; ?>">
                 <?php
@@ -70,8 +76,8 @@ foreach ($notificaciones as $notificacion) {
         </div>
         <div class="info-notificacion">
             <div class="descripcion">
-                <?php if ($rol_id == 2) : ?>
-                    <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Secretaría Administrativa'; ?></div>
+                <?php if ($rol_id == 0 || $rol_id == 2) : ?>
+                    <div class="usuario"><?php echo $notificacion['Departamentos'] ?? 'Administración'; ?></div>
                     <div class="descripcion">
                         <?php
                         if ($notificacion['tipo'] == 'justificacion') {

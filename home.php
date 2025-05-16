@@ -14,10 +14,12 @@ checkMaintenance($current_section);
 ?>
 <!-- css del home -->
 <title>Home PA</title>
-<link rel="stylesheet" href="./CSS/home.css" />
+<link rel="stylesheet" href="./CSS/home.css?v=<?php echo filemtime('./CSS/home.css'); ?>" />
+<link rel="stylesheet" href="./CSS/home/modal-eventos.css?v=<?php echo filemtime('./CSS/home/modal-eventos.css'); ?>" />
 
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+  <div class="cuadro-scroll">
   <!-- contenedor que incluye banner, texto de bienvenida y eventos proximos.-->
   <div class="container-banner-bienvenida">
     <!--Cuadro de bienvenida-->
@@ -38,7 +40,7 @@ checkMaintenance($current_section);
       <p>
         <?php
 
-        if ($rol_id == 1) {
+        if ($rol_id == 1 || $rol_id == 4) {
           echo "<br>", $nombre_rol, " - ", $_SESSION['Departamentos'];
         } else {
           echo "<br>", $nombre_rol;
@@ -56,13 +58,13 @@ checkMaintenance($current_section);
       <div class="banner">
         <div class="carrusel">
           <div class="diapositiva">
-            <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
+            <img src="./Img/img-home/carrusel/letras-cucea.webp" alt="Imagen 1">
           </div>
           <div class="diapositiva">
-            <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+            <img src="./Img/img-home/carrusel/banner-titulacion.webp" alt="Imagen 2">
           </div>
           <div class="diapositiva">
-            <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
+            <img src="./Img/img-home/carrusel/aniversario-30.webp" alt="Imagen 3">
           </div>
         </div>
 
@@ -94,7 +96,7 @@ checkMaintenance($current_section);
       <div class="cuadro-ind">
         <?php
         // Redirigir según el rol del usuario
-        if ($rol_id == 1) {
+        if ($rol_id == 1 || $rol_id == 4) {
           // Si el usuario es jefe de departamento, redirigir a subir plantilla
           if (isset($_SESSION['Nombre_Departamento'])) {
             // Obtener el nombre del departamento desde la sesión
@@ -121,7 +123,7 @@ checkMaintenance($current_section);
       <div class="cuadro-ind">
         <?php
         // Redirigir según el rol del usuario
-        if ($rol_id == 1) {
+        if ($rol_id == 1 || $rol_id == 4) {
           // Si el usuario es jefe de departamento, redirigir a la base de datos del departamento correspondiente
           if (isset($_SESSION['Nombre_Departamento'])) {
             // Obtener el nombre del departamento desde la sesión
@@ -149,9 +151,9 @@ checkMaintenance($current_section);
         </a>
       </div>
       <div class="cuadro-ind">
-        <a href="./dashboard-oferta.php">
+        <a href="./calendario.php">
           <div class="overlay">
-            <h4 style="text-shadow: 1px 4px 3px black;">Oferta</h4>
+            <h4 style="text-shadow: 1px 4px 3px black;">Calendario</h4>
           </div>
           <img src="./Img/img-home/oferta.webp" alt="Imagen de fondo de CERI" />
         </a>
@@ -165,11 +167,36 @@ checkMaintenance($current_section);
         </a>
       </div>
       <div class="cuadro-ind">
-        <a href="./guiaPA.php">
-          <div class="overlay">
-            <h4 style="text-shadow: 1px 4px 3px black;">Guía</h4>
-          </div>
-          <img src="./Img/img-home/guia.webp" alt="Imagen de CiberJardin" />
+        <?php
+        // Redirigir según el rol del usuario
+        if ($rol_id == 1 || $rol_id == 4) {
+          // Si el usuario es jefe de departamento, redirigir a subir plantilla
+          if (isset($_SESSION['Nombre_Departamento'])) {
+            // Obtener el nombre del departamento desde la sesión
+            $nombre_departamento = $_SESSION['Nombre_Departamento'];
+            echo "<a href='./profesores.php'>";
+          } else {
+            // Manejar el caso en que no se encuentre asociado a ningún departamento
+            echo "<a href='#'>";
+          }
+        } elseif ($rol_id == 2 || $rol_id == 0) {
+          // Si el usuario es secretaria administrativa, redirigir a plantillasPA
+          echo "<a href='./profesores.php'>";
+        } else {
+          // Otros roles o manejo de errores aquí
+          echo "<a href='./horas-comparacion.php'>";
+        }
+        ?>
+        <div class="overlay">
+          <?php if ($rol_id == 3) {
+            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Revisión de horas</h4>";
+          } else {
+            echo "<h4 style='text-shadow: 1px 4px 3px black;'>Profesores</h4>";
+          }
+          ?>
+          <!-- <h4 style="text-shadow: 1px 4px 3px black;">Profesores</h4> -->
+        </div>
+        <img src="./Img/img-home/plantilla.webp" alt="Imagen de un pasillo arbolado de CUCEA" />
         </a>
       </div>
     </div>
@@ -184,7 +211,7 @@ checkMaintenance($current_section);
     </div>
 
     <div class="accesodirecto-moviles">
-      <?php if ($rol_id == 1) echo '<a href="./plantilla.php">';
+      <?php if ($rol_id == 1 || $rol_id == 4) echo '<a href="./plantilla.php">';
       if ($rol_id == 2) echo '<a href="./admin-plantilla.php">';
       if ($rol_id == 3) echo '<a href="./plantilla-CoordPers.php">';
       ?>
@@ -194,7 +221,7 @@ checkMaintenance($current_section);
       </div>
       <?php echo '</a>';
       ?>
-      <?php if ($rol_id == 1) {
+      <?php if ($rol_id == 1 || $rol_id == 4) {
         echo '<a href="./basesdedatos.php">
               <div class="cuadro-acceso">
                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
@@ -210,18 +237,18 @@ checkMaintenance($current_section);
               </div>
               </a>';
       }
-      if ($rol_id == 3) {
+      if ($rol_id == 3 || $rol_id == 0) {
       ?> <div class="cuadro-acceso" id="cuadro-toggle" onclick="triggerBd()"> <?php
-                                                                              echo '
+          echo '
                 <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-basededatos-b.png">
                 <span>DB</span>
               </div>';
-                                                                            }
-                                                                              ?>
-        <a href="./dashboard-oferta.php">
+        }
+      ?>
+        <a href="./calendario.php">
           <div class="cuadro-acceso" id="cuadro-oferta">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-oferta-b.png">
-            <span>Oferta</span>
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-calendario-b.png">
+            <span>Calendario</span>
           </div>
         </a>
         <a href="./espacios.php">
@@ -230,18 +257,32 @@ checkMaintenance($current_section);
             <span>Espacios</span>
           </div>
         </a>
-        <a href="./guiaPA.php">
+        <?php if ($rol_id == 3 || $rol_id == 0) { 
+          echo 
+          '<a href="./horas-comparacion.php">
           <div class="cuadro-acceso" id="cuadro-guia">
-            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-guia-b.png">
-            <span>Guia</span>
+            <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-horas-b.png">
+            <span>Revisión de horas</span>
           </div>
-        </a>
+          </a>';
+          } else {
+            echo 
+            '<a href="./profesores.php">
+            <div class="cuadro-acceso" id="cuadro-guia">
+              <img src="./Img/Icons/iconos-navbar/iconos-blancos/icono-profesores-b.png">
+              <span>Profesores</span>
+            </div>
+            </a>';
+          }
+        ?>
         </div>
     </div>
-
-    <!-- Script para las funciones del carrusel -->
-    <script src="./JS/home/carrusel.js"></script>
+    
+    <!-- Script para las funciones del modal con la información de los eventos-->
+    <script src="./JS/home/modal-eventos.js?v=<?php echo filemtime('./JS/home/modal-eventos.js'); ?>"></script>
+    <script src="./JS/home/carrusel.js?v=<?php echo filemtime('./JS/home/carrusel.js'); ?>"></script>
     <!-- Script para la funcion del boton de base de datos cuando es responsivo en moviles y es coordinador de personal -->
+    
     <script>
       function triggerBd() {
         var toggleBd = document.getElementById("toggle-bd");

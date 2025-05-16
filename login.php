@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login</title>
-  <link rel="stylesheet" href="./CSS/navbar.css" />
-  <link rel="stylesheet" href="./CSS/login.css" />
+  <link rel="stylesheet" href="./CSS/navbar.css?v=<?php echo filemtime('./CSS/navbar.css'); ?>" />
+  <link rel="stylesheet" href="./CSS/login.css?v=<?php echo filemtime('./CSS/login.css'); ?>" />
   <link rel="icon" href="./Img/Icons/iconos-header/pestaña.png" type="image/png">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>

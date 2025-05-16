@@ -6,9 +6,33 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<style>
+    .checkbox-label {
+        display: flex;
+        align-items: center;
+        font-weight: normal;
+        cursor: pointer;
+        margin-bottom: 10px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .checkbox-label input[type="checkbox"]:disabled+span {
+        cursor: not-allowed;
+    }
+</style>
+
 <!-- Modal para añadir registros -->
 <div id="modal-añadir" class="modal-R">
-    <div class="modal-content">
+    <div class="modal-content-añadirRegistro">
         <span class="close-R" onclick="cerrarFormularioAñadir()">&times;</span>
         <h2>Añadir nuevo registro</h2>
         <hr style="border: 1px solid #0071b0; width: 99%;">
@@ -68,8 +92,8 @@
                         <span class="title-estatus">Status</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="c_min" name="c_min" placeholder="15" oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 2);">
-                        <input type="text" id="h_totales" name="h_totales" placeholder="40" oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 2);">
+                        <input type="text" id="c_min" name="c_min" placeholder="15" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
+                        <input type="text" id="h_totales" name="h_totales" placeholder="40" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">
                         <select id="estatus" name="estatus">
                             <option value="" disabled selected></option>
                             <option value="ACTIVA">ACTIVA</option>
@@ -147,9 +171,9 @@
                         <span class="title-hora_final">Hora final</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="hora_inicial" name="hora_inicial" placeholder="1600" 
-                        minlength="4" maxlength="4" 
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <input type="text" id="hora_inicial" name="hora_inicial" placeholder="1600"
+                            minlength="4" maxlength="4"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         <input type="text" id="hora_final" name="hora_final" placeholder="1855" maxlength="4" minlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="form-row-titles">
@@ -157,14 +181,14 @@
                         <span class="title-aula">Aula</span>
                     </div>
                     <div class="form-row">
-                    <input type="text" id="modulo" name="modulo"
-                        placeholder="CEDC" 
-                        minlength="4" maxlength="5"
-                        oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s]/g, '');">
-                    <input type="text" id="aula" name="aula" 
-                        placeholder="0207" 
-                        minlength="4" maxlength="4"
-                        oninput="this.value = this.value.toUpperCase().replace(/[^a-zA-Z0-9]/g, '');">
+                        <input type="text" id="modulo" name="modulo"
+                            placeholder="CEDC"
+                            minlength="4" maxlength="5"
+                            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s]/g, '');">
+                        <input type="text" id="aula" name="aula"
+                            placeholder="0207"
+                            minlength="4" maxlength="4"
+                            oninput="this.value = this.value.toUpperCase().replace(/[^a-zA-Z0-9]/g, '');">
                     </div>
                     <div class="form-row-titles">
                         <span class="title-cupo">Cupo</span>
@@ -197,8 +221,8 @@
                         <span class="title-nombre_profesor">Nombre completo del profesor</span>
                     </div>
                     <div class="form-row">
-                    <input type="text" id="nombre_profesor" name="nombre_profesor" 
-                            placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ" class="full-width" 
+                        <input type="text" id="nombre_profesor" name="nombre_profesor"
+                            placeholder="ÁNGEL RAFAEL CAMPOS MUÑOZ" class="full-width"
                             oninput="this.value = this.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÜÑ\s]/g, '').slice(0, 60);">
                     </div>
                     <div class="form-row-titles">
@@ -280,9 +304,15 @@
                         <span class="title-codigo_dependencia">Código dependencia</span>
                     </div>
                     <div class="form-row">
-                        <input type="text" id="horas" name="horas" placeholder="2.5" 
-                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').slice(0, 3);">
+                        <input type="text" id="horas" name="horas" placeholder="2.5"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').slice(0, 3);">
                         <input type="text" id="codigo_dependencia" name="codigo_dependencia" placeholder="1110" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 4);">
+                    </div>
+                    <div id="duplicar-tipo-container" class="form-row" style="margin-top: 15px;">
+                        <label for="duplicar-tipo" class="checkbox-label" style="color: #999;">
+                            <input type="checkbox" id="duplicar-tipo" name="duplicar-tipo" disabled>
+                            <span id="duplicar-tipo-text">Seleccione un TIPO (P o T) para habilitar la duplicación de registros</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -295,92 +325,219 @@
 </div>
 
 <script>
-// Función para inicializar Select2 con un placeholder común
-function initSelect2(id) {
-    $(id).select2({ placeholder: 'Seleccione la opción correspondiente...' });
-}
+    // Función para inicializar Select2 con un placeholder común
+    function initSelect2(id) {
+        $(id).select2({
+            placeholder: 'Seleccione la opción correspondiente...'
+        });
+    }
 
-// Inicialización de todos los Select2
-const selectIds = [
-    '#nivel', '#tipo', '#nivel_tipo', '#estatus', '#examen_extraordinario',
-    '#tipo_contrato', '#categoria', '#descarga', '#titular'
-];
+    // Inicialización de todos los Select2
+    const selectIds = [
+        '#nivel', '#tipo', '#nivel_tipo', '#estatus', '#examen_extraordinario',
+        '#tipo_contrato', '#categoria', '#descarga', '#titular'
+    ];
 
-selectIds.forEach(initSelect2);
+    selectIds.forEach(initSelect2);
 
-// Función para cambiar el color del título al hacer focus y blur
-function toggleTitleColor(element, titleClass) {
-    const title = $(element).closest('.form-row').prev('.form-row-titles').find(titleClass);
-    $(element).on('focus', function() { title.css('color', '#007bff'); });
-    $(element).on('blur', function() { title.css('color', ''); });
-}
+    // Función para cambiar el color del título al hacer focus y blur
+    function toggleTitleColor(element, titleClass) {
+        const title = $(element).closest('.form-row').prev('.form-row-titles').find(titleClass);
+        $(element).on('focus', function() {
+            title.css('color', '#007bff');
+        });
+        $(element).on('blur', function() {
+            title.css('color', '');
+        });
+    }
 
-// Función para manejar los eventos focus y blur en select2
-function toggleTitleColorSelect2(element, titleClass) {
-    const title = $(element).closest('.form-row').prev('.form-row-titles').find(titleClass);
-    $(element).on('select2:open', function() { title.css('color', '#007bff'); });
-    $(element).on('select2:close', function() { title.css('color', ''); });
-}
+    // Función para manejar los eventos focus y blur en select2
+    function toggleTitleColorSelect2(element, titleClass) {
+        const title = $(element).closest('.form-row').prev('.form-row-titles').find(titleClass);
+        $(element).on('select2:open', function() {
+            title.css('color', '#007bff');
+        });
+        $(element).on('select2:close', function() {
+            title.css('color', '');
+        });
+    }
 
-// Lista de campos con los títulos correspondientes
-const fields = [
-    { id: '#ciclo', title: '.title-ciclo' },
-    { id: '#crn', title: '.title-crn' },
-    { id: '#cve_materia', title: '.title-cve' },
-    { id: '#materia', title: '.title-materia' },
-    { id: '#seccion', title: '.title-seccion' },
-    { id: '#c_min', title: '.title-c_min' },
-    { id: '#h_totales', title: '.title-h_totales' },
-    { id: '#modalidad', title: '.title-modalidad' },
-    { id: '#fecha_inicial', title: '.title-fecha_inicial' },
-    { id: '#fecha_final', title: '.title-fecha_final' },
-    { id: '#hora_inicial', title: '.title-hora_inicial' },
-    { id: '#hora_final', title: '.title-hora_final' },
-    { id: '#modulo', title: '.title-modulo' },
-    { id: '#aula', title: '.title-aula' },
-    { id: '#cupo', title: '.title-cupo' },
-    { id: '#observaciones', title: '.title-observaciones' },
-    { id: '#codigo_profesor', title: '.title-codigo' },
-    { id: '#nombre_profesor', title: '.title-nombre_profesor' },
-    { id: '#codigo_descarga', title: '.title-codigo_descarga' },
-    { id: '#nombre_descarga', title: '.title-nombre_descarga' },
-    { id: '#nombre_definitivo', title: '.title-nombre_definitivo' },
-    { id: '#horas_totales', title: '.title-horas_totales' },
-    { id: '#horas', title: '.title-horas' },
-    { id: '#codigo_dependencia', title: '.title-codigo_dependencia' }
-];
+    // Lista de campos con los títulos correspondientes
+    const fields = [{
+            id: '#ciclo',
+            title: '.title-ciclo'
+        },
+        {
+            id: '#crn',
+            title: '.title-crn'
+        },
+        {
+            id: '#cve_materia',
+            title: '.title-cve'
+        },
+        {
+            id: '#materia',
+            title: '.title-materia'
+        },
+        {
+            id: '#seccion',
+            title: '.title-seccion'
+        },
+        {
+            id: '#c_min',
+            title: '.title-c_min'
+        },
+        {
+            id: '#h_totales',
+            title: '.title-h_totales'
+        },
+        {
+            id: '#modalidad',
+            title: '.title-modalidad'
+        },
+        {
+            id: '#fecha_inicial',
+            title: '.title-fecha_inicial'
+        },
+        {
+            id: '#fecha_final',
+            title: '.title-fecha_final'
+        },
+        {
+            id: '#hora_inicial',
+            title: '.title-hora_inicial'
+        },
+        {
+            id: '#hora_final',
+            title: '.title-hora_final'
+        },
+        {
+            id: '#modulo',
+            title: '.title-modulo'
+        },
+        {
+            id: '#aula',
+            title: '.title-aula'
+        },
+        {
+            id: '#cupo',
+            title: '.title-cupo'
+        },
+        {
+            id: '#observaciones',
+            title: '.title-observaciones'
+        },
+        {
+            id: '#codigo_profesor',
+            title: '.title-codigo'
+        },
+        {
+            id: '#nombre_profesor',
+            title: '.title-nombre_profesor'
+        },
+        {
+            id: '#codigo_descarga',
+            title: '.title-codigo_descarga'
+        },
+        {
+            id: '#nombre_descarga',
+            title: '.title-nombre_descarga'
+        },
+        {
+            id: '#nombre_definitivo',
+            title: '.title-nombre_definitivo'
+        },
+        {
+            id: '#horas_totales',
+            title: '.title-horas_totales'
+        },
+        {
+            id: '#horas',
+            title: '.title-horas'
+        },
+        {
+            id: '#codigo_dependencia',
+            title: '.title-codigo_dependencia'
+        }
+    ];
 
-// Aplicar cambios de color de título para cada campo
-fields.forEach(field => toggleTitleColor(field.id, field.title));
+    // Aplicar cambios de color de título para cada campo
+    fields.forEach(field => toggleTitleColor(field.id, field.title));
 
-// Aplicar cambios de color de título para cada campo Select2
-const select2Fields = [
-    { id: '#nivel', title: '.title-nivel' },
-    { id: '#tipo', title: '.title-tipo' },
-    { id: '#nivel_tipo', title: '.title-nivel_tipo' },
-    { id: '#estatus', title: '.title-estatus' },
-    { id: '#examen_extraordinario', title: '.title-examen' },
-    { id: '#tipo_contrato', title: '.title-contrato' },
-    { id: '#categoria', title: '.title-categoria' },
-    { id: '#descarga', title: '.title-descarga' },
-    { id: '#titular', title: '.title-titular' }
-];
+    // Aplicar cambios de color de título para cada campo Select2
+    const select2Fields = [{
+            id: '#nivel',
+            title: '.title-nivel'
+        },
+        {
+            id: '#tipo',
+            title: '.title-tipo'
+        },
+        {
+            id: '#nivel_tipo',
+            title: '.title-nivel_tipo'
+        },
+        {
+            id: '#estatus',
+            title: '.title-estatus'
+        },
+        {
+            id: '#examen_extraordinario',
+            title: '.title-examen'
+        },
+        {
+            id: '#tipo_contrato',
+            title: '.title-contrato'
+        },
+        {
+            id: '#categoria',
+            title: '.title-categoria'
+        },
+        {
+            id: '#descarga',
+            title: '.title-descarga'
+        },
+        {
+            id: '#titular',
+            title: '.title-titular'
+        }
+    ];
 
-select2Fields.forEach(field => toggleTitleColorSelect2(field.id, field.title));
+    select2Fields.forEach(field => toggleTitleColorSelect2(field.id, field.title));
 
-// Funciones para los campos de tipo "dia_presencial" y "dia_virtual"
-function toggleDiaPresencialVirtual(id, titleClass, parentSelector) {
-    $(id).on('focus', function() {
-        $(this).closest(parentSelector).prev('.form-row-titles').find(titleClass).css('color', '#007bff');
+    // Funciones para los campos de tipo "dia_presencial" y "dia_virtual"
+    function toggleDiaPresencialVirtual(id, titleClass, parentSelector) {
+        $(id).on('focus', function() {
+            $(this).closest(parentSelector).prev('.form-row-titles').find(titleClass).css('color', '#007bff');
+        });
+        $(id).on('blur', function() {
+            $(this).closest(parentSelector).prev('.form-row-titles').find(titleClass).css('color', '');
+        });
+    }
+
+    // Aplicar cambios de color para los campos "dia_presencial" y "dia_virtual"
+    toggleDiaPresencialVirtual('#dia_presencial', '.title-dia_presencial', '#presencial-virtual');
+    toggleDiaPresencialVirtual('#dia_virtual', '.title-dia_virtual', '#presencial-virtual');
+    toggleDiaPresencialVirtual('#dia_presencial2', '.title-dia_presencial2', '#mixta');
+    toggleDiaPresencialVirtual('#dia_virtual2', '.title-dia_virtual2', '#mixta');
+
+    // Manejo del checkbox para duplicar tipo   
+    $('#tipo').on('select2:select', function() {
+        const tipoSeleccionado = $(this).val();
+        const duplicarCheckbox = document.getElementById('duplicar-tipo');
+        const duplicarLabel = duplicarCheckbox.parentElement;
+        const duplicarTexto = document.getElementById('duplicar-tipo-text');
+
+        if (tipoSeleccionado === 'P' || tipoSeleccionado === 'T') {
+            const tipoOpuesto = tipoSeleccionado === 'P' ? 'Teórico (T)' : 'Práctico (P)';
+            duplicarTexto.textContent = `¿Le gustaría duplicar el formulario con el tipo ${tipoOpuesto}?`;
+            duplicarCheckbox.disabled = false;
+            duplicarLabel.style.color = ''; // Restaurar al color normal del texto
+        } else {
+            duplicarTexto.textContent = 'Seleccione un tipo (P o T) para habilitar la duplicación';
+            duplicarCheckbox.disabled = true;
+            duplicarCheckbox.checked = false;
+            duplicarLabel.style.color = '#999'; // Color gris para indicar que está deshabilitado
+        }
     });
-    $(id).on('blur', function() {
-        $(this).closest(parentSelector).prev('.form-row-titles').find(titleClass).css('color', '');
-    });
-}
-
-// Aplicar cambios de color para los campos "dia_presencial" y "dia_virtual"
-toggleDiaPresencialVirtual('#dia_presencial', '.title-dia_presencial', '#presencial-virtual');
-toggleDiaPresencialVirtual('#dia_virtual', '.title-dia_virtual', '#presencial-virtual');
-toggleDiaPresencialVirtual('#dia_presencial2', '.title-dia_presencial2', '#mixta');
-toggleDiaPresencialVirtual('#dia_virtual2', '.title-dia_virtual2', '#mixta');
 </script>

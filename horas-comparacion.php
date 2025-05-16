@@ -18,7 +18,7 @@
     ?>
 
     <title>Revisión de horas asignadas</title>
-    <link rel="stylesheet" href="./CSS/horas-comparacion.css">
+    <link rel="stylesheet" href="./CSS/horas-comparacion.css?v=<?php echo filemtime('./CSS/horas-comparacion.css'); ?>">
 
     <div class="cuadro-principal">
         <div class="encabezado">
@@ -69,11 +69,17 @@
                         </thead>
                         <tbody class="cuerpo-ultimas-mod">
                             <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <!-- <tr>
                                 <td>23/10/24</td>
                                 <td>13:00</td>
                                 <td>Rafael Castanedo Escobedo</td>
                                 <td>Administracion</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -127,8 +133,8 @@
             </div>
         </div>
 
-        <script src="./JS/horas-comparacion/modal.js"></script>
-        <script src="./JS/horas-comparacion/main.js"></script>
-        <script src="./JS/horas-comparacion/desplegable.js"></script>
+        <script src="./JS/horas-comparacion/modal.js?v=<?php echo filemtime('./JS/horas-comparacion/modal.js'); ?>"></script>
+        <script src="./JS/horas-comparacion/main.js?v=<?php echo filemtime('./JS/horas-comparacion/main.js'); ?>"></script>
+        <script src="./JS/horas-comparacion/desplegable.js?v=<?php echo filemtime('./JS/horas-comparacion/desplegable.js'); ?>"></script>
 
         <?php include("./template/footer.php"); ?>

@@ -1,6 +1,6 @@
 <div id="modal-descargar" class="modal">
     <div class="modal-content-descarga">
-    <span class="close" onclick="cerrarDescargarExcel()">&times;</span>
+        <span class="close" onclick="cerrarDescargarExcel()">&times;</span>
         <h3>Selecciona las columnas a descargar</h3>
         <div id="opciones-columnas">
             <div class="select-all-div">
@@ -198,10 +198,10 @@
         </div>
         <div class="fila-botones">
             <button onclick="descargarExcelSeleccionado()">Descargar seleccion</button>
-            <?php if ($_SESSION['Rol_ID'] == 2): ?>
+            <?php if ($_SESSION['Rol_ID'] == 2 || $_SESSION['Rol_ID'] == 0): ?>
                 <button class="btn-cotejo" onclick="descargarExcelCotejado()">Descargar cotejo</button>
             <?php endif; ?>
             <!-- <button onclick="cerrarPopupColumnas()">Cancelar</button> -->
         </div>
     </div>
-</div>    
+</div>

@@ -6,10 +6,10 @@
 <?php require_once './config/db.php' ?>
 
 <title>Oferta Académica</title>
-<link rel="stylesheet" href="./CSS/dashboard-oferta.css?=v1.0" />
-
+<link rel="stylesheet" href="./CSS/dashboard-oferta.css?v=<?php echo filemtime('./CSS/dashboard-oferta.css'); ?>" />
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
 
     <!--Pestaña azul-->
     <div class="encabezado">

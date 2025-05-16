@@ -135,9 +135,9 @@ function softDeleteRegistros($conexion, $ids)
 </script>
 
 <!-- CSS base -->
-<link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css">
-<link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css">
-<link rel="stylesheet" href="./CSS/coord-pers/modal-anadir-registro.css">
+<link rel="stylesheet" href="./CSS/coord-pers/basesdedatos-Coord.css?v=<?php echo filemtime('./CSS/coord-pers/basesdedatos-Coord.css'); ?>">
+<link rel="stylesheet" href="./CSS/coord-pers/coord-papelera.css?v=<?php echo filemtime('./CSS/coord-pers/coord-papelera.css'); ?>">
+<link rel="stylesheet" href="./CSS/coord-pers/modal-anadir-registro.css?v=<?php echo filemtime('./CSS/coord-pers/modal-anadir-registro.css'); ?>">
 
 <!-- DataTables CSS Core -->
 <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
@@ -150,6 +150,7 @@ function softDeleteRegistros($conexion, $ids)
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
 
 <div class="cuadro-principal">
+    <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
             <!-- <div class="barra-buscador" id="barra-buscador">
@@ -276,7 +277,6 @@ function softDeleteRegistros($conexion, $ids)
                         <th>A PARTIR DE <span class="filter-icon" data-column="65"><i class="fas fa-filter"></i></span></th>
                         <th>FECHA DE INGRESO <span class="filter-icon" data-column="66"><i class="fas fa-filter"></i></span></th>
                         <th>ANTIGÜEDAD <span class="filter-icon" data-column="67"><i class="fas fa-filter"></i></span></th>
-                        <th class="estado-column">ESTADO <span class="filter-icon" data-column="68"><i class="fas fa-filter"></i></span></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -351,22 +351,6 @@ function softDeleteRegistros($conexion, $ids)
                             echo "<td>" . htmlspecialchars($row["A_partir_de"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Fecha_ingreso"] ?? '') . "</td>";
                             echo "<td>" . htmlspecialchars($row["Antiguedad"] ?? '') . "</td>";
-
-                            $total_assigned_hours = getTotalAssignedHours($conexion, $row['Codigo']);
-                            $carga_horaria = intval($row['Carga_horaria']);
-                            $comparison = $total_assigned_hours . "/" . $carga_horaria;
-
-                            if ($total_assigned_hours > $carga_horaria) {
-                                $estado_class = "estado-excedido";
-                            } elseif ($total_assigned_hours < $carga_horaria) {
-                                $estado_class = "estado-pendiente";
-                            } else {
-                                $estado_class = "estado-completo";
-                            }
-
-                            echo "<td class='estado-cell'><span class='estado-indicator " . $estado_class . "'>" . htmlspecialchars($comparison) . "</span></td>";
-
-                            echo "</tr>";
                         }
                     } else {
                         echo "<tr><td colspan='70'>No hay datos disponibles</td></tr>";
@@ -374,6 +358,7 @@ function softDeleteRegistros($conexion, $ids)
                     ?>
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 
@@ -401,12 +386,12 @@ function softDeleteRegistros($conexion, $ids)
     <script src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
 
     <!-- Scripts personalizados-->
-    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js"></script>
-    <script src="./JS/plantilla-CoordPers/anadir-profesor.js"></script>
-    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js"></script>
-    <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js"></script>
+    <script src="./JS/plantilla-CoordPers/tabla-editable-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/tabla-editable-coord.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/eliminar-registro-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/eliminar-registro-coord.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/modal-eliminados-coord-pers.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/anadir-profesor.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/anadir-profesor.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/descargar-data-excel-coord.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/inicializar-tablas-cp.js'); ?>"></script>
 
     <!-- Script para cambiar el encabezado por responsividad -->
     <script>

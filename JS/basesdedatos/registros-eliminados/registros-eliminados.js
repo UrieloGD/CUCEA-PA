@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", (function () {
             // Verificar si la tabla tiene datos
             if (tablaEliminados.data().length > 0) {
               new $.fn.dataTable.FixedColumns(tablaEliminados, {
-                leftColumns: 1, // Fija la columna ID
-                rightColumns: 1, // Fija la columna ACCIONES
+                start: 1, // Fija la columna ID
+                end: 1, // Fija la columna ACCIONES
               });
             }
           }

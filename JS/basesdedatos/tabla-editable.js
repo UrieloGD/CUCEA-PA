@@ -57,7 +57,7 @@ const columnMap = {
 
 const maxLengths = {
   CICLO: 10,
-  CRN: 15,
+  CRN: 10,
   MATERIA: 80,
   CVE_MATERIA: 5,
   SECCION: 5,
@@ -118,9 +118,15 @@ function makeEditable() {
   }
 
   const userRole = document.getElementById("user-role");
-  if (!userRole || (userRole.value !== "1" && userRole.value !== "0" || !puedeEditar)) {
-      hideEditIcons();
-      return;
+  if (
+    !userRole ||
+    (userRole.value !== "1" &&
+      userRole.value !== "4" &&
+      userRole.value !== "0") ||
+    !puedeEditar
+  ) {
+    hideEditIcons();
+    return;
   }
 
   const rows = table.querySelectorAll("tbody tr");
@@ -153,22 +159,22 @@ function makeEditable() {
 
   // Emitir evento de tabla editable solo si puedeEditar es true
   if (puedeEditar) {
-    const editableEvent = new CustomEvent('tableNowEditable', {
-      detail: { table: table }
-  });
-  document.dispatchEvent(editableEvent);
+    const editableEvent = new CustomEvent("tableNowEditable", {
+      detail: { table: table },
+    });
+    document.dispatchEvent(editableEvent);
 
-  // Añadir listener para cuando se haga clic fuera de la tabla
-  document.addEventListener("click", function (e) {
-    if (!table.contains(e.target) && activeCell) {
-      exitEditMode();
-      if (activeCell) {
-        activeCell.classList.remove("selected-cell");
-        activeCell = null;
+    // Añadir listener para cuando se haga clic fuera de la tabla
+    document.addEventListener("click", function (e) {
+      if (!table.contains(e.target) && activeCell) {
+        exitEditMode();
+        if (activeCell) {
+          activeCell.classList.remove("selected-cell");
+          activeCell = null;
         }
       }
     });
-  } 
+  }
 }
 
 // Función de reconocimiento de eventos
@@ -256,11 +262,13 @@ function cutSelectedCell() {
 }
 
 function pasteSelectedCell() {
-  if(!activeCell || !clipboard || !puedeEditar) {
+  if (!activeCell || !clipboard || !puedeEditar) {
     if (!puedeEditar) {
-      showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
-  }
-  return;
+      showFeedbackMessage(
+        "No puedes editar fuera de las fechas de Programación Académica."
+      );
+    }
+    return;
   }
 
   // No se puede hacer la acción de pegar si se esta en modo edición
@@ -718,10 +726,15 @@ function enterEditMode(cell) {
 }
 
 originalEnterEditMode = enterEditMode;
-enterEditMode = function(cell) {
-  if(!cell || (!puedeEditar && userRole.value !== "0")) {
+enterEditMode = function (cell) {
+  if (
+    !cell ||
+    (!puedeEditar && userRole.value !== "0" && userRole.value !== "4")
+  ) {
     if (!puedeEditar) {
-      showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
+      showFeedbackMessage(
+        "No puedes editar fuera de las fechas de Programación Académica."
+      );
     }
     return;
   }
@@ -977,42 +990,50 @@ function updateCell(cell) {
   // Validar el tipo de datos por columna
   switch (columnName) {
     case "CICLO":
-        // Permitir 4 dígitos + letra opcional
-        newText = newText.toUpperCase()
-                          .replace(/[^A-Z0-9]/g, "")
-                          .slice(0, 6);
-        break;
+      // Permitir 4 dígitos + letra opcional
+      newText = newText
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "")
+        .slice(0, 6);
+      break;
     case "CRN":
+      // Permitir hasta 10 dígitos para CRN
+      newText = newText.replace(/\D/g, "").slice(0, 10);
+      break;
     case "C_MIN":
     case "H_TOTALES":
       newText = newText.replace(/\D/g, "").slice(0, 2);
       break;
     case "CODIGO_PROFESOR":
     case "CODIGO_DESCARGA":
-        newText = newText.replace(/\D/g, "").slice(0, 9);
-        break;
+      newText = newText.replace(/\D/g, "").slice(0, 9);
+      break;
     case "HORAS":
       // Permitir: vacío, números, un solo punto decimal
       newText = newText
-          .replace(/[^0-9.]/g, '') // Permite números y puntos
-          .replace(/(\..*)\./g, '$1') // Elimina puntos adicionales
-          .replace(/^\./, '0.'); // Si empieza con punto, añade 0
-      
+        .replace(/[^0-9.]/g, "") // Permite números y puntos
+        .replace(/(\..*)\./g, "$1") // Elimina puntos adicionales
+        .replace(/^\./, "0."); // Si empieza con punto, añade 0
+
       // Limitar a un decimal y 4 caracteres máximo (ej: 99.9)
-      if (newText.includes('.')) {
-          const partes = newText.split('.');
-          newText = partes[0].slice(0, 2) + '.' + (partes[1] ? partes[1].slice(0,1) : '');
+      if (newText.includes(".")) {
+        const partes = newText.split(".");
+        newText =
+          partes[0].slice(0, 2) +
+          "." +
+          (partes[1] ? partes[1].slice(0, 1) : "");
       } else {
-          newText = newText.slice(0, 3);
+        newText = newText.slice(0, 3);
       }
       break;
     case "CODIGO_DEPENDENCIA":
     case "HORA_INICIAL":
     case "HORA_FINAL":
-        // Permitir solo 4 dígitos numéricos
-        newText = newText.replace(/\D/g, "") // Solo números
-                          .slice(0, 4)       // Limitar a 4 dígitos
-        break;
+      // Permitir solo 4 dígitos numéricos
+      newText = newText
+        .replace(/\D/g, "") // Solo números
+        .slice(0, 4); // Limitar a 4 dígitos
+      break;
     case "CUPO":
       newText = newText.replace(/\D/g, ""); // Permitir solo dígitos
       break;
@@ -1059,9 +1080,11 @@ function updateCell(cell) {
 
 // Agrega la funcionalidad para guardad en el historias de deshacer a la función updateCell
 const originalUpdateCell = updateCell;
-updateCell = function(cell) {
+updateCell = function (cell) {
   if (!puedeEditar) {
-    showFeedbackMessage("No puedes editar fuera de las fechas de Programación Académica.");
+    showFeedbackMessage(
+      "No puedes editar fuera de las fechas de Programación Académica."
+    );
     return;
   }
   // Guarda el valor antes de modificarlo
@@ -1245,17 +1268,25 @@ function undoAllChanges() {
 
 function saveAllChanges() {
   if (!puedeEditar) {
-    showFeedbackMessage("No puedes guardar cambios fuera de las fechas de Programación Académica.");
+    showFeedbackMessage(
+      "No puedes guardar cambios fuera de las fechas de Programación Académica."
+    );
     return;
   }
-  // Añadir console.log para verificar el rol del usuario
   const userRole = document.getElementById("user-role").value;
-  if ((userRole !== "0" && !puedeEditar) || (userRole === "0" && !puedeEditar)) {
-      hideEditIcons();
-      return;
+  if (
+    (userRole !== "0" && !puedeEditar) ||
+    (userRole === "0" && !puedeEditar)
+  ) {
+    hideEditIcons();
+    return;
   }
   const departmentId = document.getElementById("departamento_id").value;
   console.log("User Role:", userRole, "Department ID:", departmentId);
+
+  // Para tracking de cambios múltiples
+  const totalChanges = changedCells.size;
+  let completedChanges = 0;
 
   const promises = Array.from(changedCells).map((cell) => {
     const id = cell.parentNode.cells[1].textContent;
@@ -1287,6 +1318,7 @@ function saveAllChanges() {
       })
       .then((data) => {
         console.log("Server response:", data);
+        completedChanges++;
         if (data.error) {
           throw new Error(data.error);
         }
@@ -1309,6 +1341,10 @@ function saveAllChanges() {
           }, 2000);
         }
       });
+
+      if (typeof actualizarNotificaciones === "function") {
+        actualizarNotificaciones();
+      }
 
       console.log("Todos los cambios guardados:", results);
       changedCells.clear();
@@ -1339,8 +1375,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!puedeEditar) {
     hideEditIcons();
   }
-  
-  document.addEventListener("click", function(e) {
+
+  document.addEventListener("click", function (e) {
     const table = document.getElementById("tabla-datos");
     if (!table) return;
 
