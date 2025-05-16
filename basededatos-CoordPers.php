@@ -228,6 +228,7 @@ function softDeleteRegistros($conexion, $ids)
     <script src="./JS/plantilla-CoordPers/descargar-data-excel-coord.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/descargar-data-excel-coord.js'); ?>"></script>
     <script src="./JS/plantilla-CoordPers/inicializar-tablas-cp.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/inicializar-tablas-cp.js'); ?>"></script>
     <script src="./JS/plantilla-CoordPers/barra-busqueda.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/barra-busqueda.js'); ?>"></script>
+    <script src="./JS/plantilla-CoordPers/drag-fill-tabulator.js?v=<?php echo filemtime('./JS/plantilla-CoordPers/drag-fill-tabulator.js'); ?>"></script>
 
     <!-- Script para cambiar el encabezado por responsividad -->
     <script>

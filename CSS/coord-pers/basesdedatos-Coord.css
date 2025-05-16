@@ -2018,10 +2018,11 @@ table.dataTable thead .sorting_desc {
   background-color: white !important;
 }
 
-#tabla-datos-tabulator .tabulator-col.tabulator-frozen.tabulator-frozen-left {
-  background-color: white !important;
-}
+/* #tabla-datos-tabulator .tabulator-col.tabulator-frozen.tabulator-frozen-left {
+  background-color: green !important;
+} */
 
 #tabla-datos-tabulator .tabulator-col.tabulator-frozen {
   background-color: white !important;
+  color: black !important;
 }
