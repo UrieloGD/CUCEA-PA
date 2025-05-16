@@ -11,6 +11,14 @@
     <?php include './template/navbar.php' ?>
     <?php require_once './config/db.php'; ?>
 
+    <?php 
+    $current_section = 'horas-comparacion';
+
+    require_once './functions/mantenimiento/mantenimiento-check.php';
+    
+    checkMaintenance($current_section);
+    ?>
+
     <?php
     // Incluir componentes modularizados
     include './functions/horas-comparacion/departamentos.php';

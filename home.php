@@ -8,7 +8,7 @@ require_once './functions/home/eventos-home.php';
 
 $current_section = 'home';
 
-require_once 'mantenimiento-check.php';
+require_once './functions/mantenimiento/mantenimiento-check.php';
 
 checkMaintenance($current_section);
 ?>

@@ -5,6 +5,12 @@ require_once './template/navbar.php';
 require_once './config/sesiones.php';
 require_once './functions/profesores/funciones-horas.php';
 
+$current_section = 'plantilla';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+
 // Verificar conexión
 if (!$conexion) {
     die("Error de conexión: " . mysqli_connect_error());

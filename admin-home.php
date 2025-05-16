@@ -13,6 +13,14 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 
+<?php 
+$current_section = 'admin-home';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
+
 <?php
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)

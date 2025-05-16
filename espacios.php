@@ -27,6 +27,14 @@ require_once './config/db.php';
 <!-- Conexión a la base de datos -->
 
 <?php
+$current_section = 'espacios';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
+
+<?php
 // Obtener el módulo seleccionado (por defecto CEDA)
 $modulo_seleccionado = isset($_GET['modulo']) ? $_GET['modulo'] : 'CEDA';
 

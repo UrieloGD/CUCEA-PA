@@ -14,6 +14,14 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+
+<?php 
+$current_section = 'personal-solicitud-cambios';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
 <title>Solicitudes de modificaciones</title>
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/personal-solicitud-cambios.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/personal-solicitud-cambios.css'); ?>">
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-baja.css'); ?>">

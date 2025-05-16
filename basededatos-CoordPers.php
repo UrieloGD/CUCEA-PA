@@ -13,6 +13,12 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID
 <?php
 require_once './config/db.php';
 
+$current_section = 'bd-coordpers';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+
 
 // Obtener el total de horas asignadas
 $tabla_departamento = "coord_per_prof";

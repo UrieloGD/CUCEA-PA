@@ -2,6 +2,13 @@
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+<?php
+$current_section = 'guiaPA';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
 <title>Guía PA</title>
 <link rel="stylesheet" href="./CSS/guiaPA.css?v=<?php echo filemtime('./CSS/guiaPA.css'); ?>" /><?php
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto

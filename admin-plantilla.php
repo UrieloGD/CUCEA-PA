@@ -24,7 +24,7 @@ error_reporting(E_ALL);
 // }
 $current_section = 'admin-plantilla';
 
-require_once 'mantenimiento-check.php';
+require_once './functions/mantenimiento/mantenimiento-check.php';
 
 checkMaintenance($current_section);
 ?>

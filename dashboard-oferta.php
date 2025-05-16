@@ -5,6 +5,14 @@
 <!-- Conexión a la base de datos -->
 <?php require_once './config/db.php' ?>
 
+<?php
+$current_section = 'oferta-dash';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
+
 <title>Oferta Académica</title>
 <link rel="stylesheet" href="./CSS/dashboard-oferta.css?v=<?php echo filemtime('./CSS/dashboard-oferta.css'); ?>" />
 <!--Cuadro principal del home-->

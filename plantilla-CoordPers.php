@@ -22,6 +22,13 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+<?php 
+$current_section = 'plantilla-coordpers';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
 <title>Plantilla</title>
 <link rel="stylesheet" href="./CSS/plantilla.css?v=<?php echo filemtime('./CSS/plantilla.css'); ?>" />
 

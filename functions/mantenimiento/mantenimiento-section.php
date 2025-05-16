@@ -8,7 +8,7 @@ if (!isset($message)) $message = 'Esta sección se encuentra temporalmente en ma
 
 ?>
 
-<title>Mantenimiento</title>
+<title>Mantenimiento en curso</title>
 <link rel="stylesheet" href="./CSS/errores/404.css" />
 
 <div class="cuadro-principal">
@@ -24,7 +24,7 @@ if (!isset($message)) $message = 'Esta sección se encuentra temporalmente en ma
         </div>
     </div>
     <div class="container-btn">
-        <button class="boton-inicio">Regresar al inicio</button>
+        <button class="boton-inicio"><a href="home.php">Regresar al inicio</a></button>
     </div>
 </div>
 

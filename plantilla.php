@@ -6,12 +6,6 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID
     header("Location: home.php");
     exit();
 }
-
-$current_section = 'plantilla';
-
-require_once 'mantenimiento-check.php';
-
-checkMaintenance($current_section);
 ?>
 
 <?php
@@ -79,6 +73,13 @@ if ($departamento_id === null) {
 <?php include './template/header.php' ?>
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
+<?php 
+$current_section = 'plantilla';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
 <title>Plantilla</title>
 <link rel="stylesheet" href="./CSS/plantilla.css?v=<?php echo filemtime('./CSS/plantilla.css'); ?>" />
 

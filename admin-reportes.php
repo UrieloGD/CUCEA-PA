@@ -13,6 +13,14 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 
+<?php 
+$current_section = 'admin-reportes';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
+
 <?php
 // Obtener la fecha límite más reciente
 $sql_fecha_limite = "SELECT Fecha_Limite FROM fechas_limite ORDER BY Fecha_Actualizacion DESC LIMIT 1";

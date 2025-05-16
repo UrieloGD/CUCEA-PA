@@ -11,6 +11,13 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
+<?php 
+$current_section = 'basesdedatos';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
 <?php
 
 // ./basesdedatos.php

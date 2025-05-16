@@ -22,7 +22,7 @@ require_once './functions/home/eventos-home.php';
         </div>
     </div>
     <div class="container-btn">
-        <button class="boton-inicio">Regresar al inicio</button>
+        <button class="boton-inicio"><a href="./home.php">Regresar al inicio</a></button>
     </div>
 </div>
 

@@ -22,6 +22,12 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == 'true') {
 // Incluye el header y navbar solo si no es una petición AJAX
 include './template/header.php';
 include './template/navbar.php';
+
+$current_section = 'calendario';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
 ?>
 
 <title>Calendario</title>

@@ -13,6 +13,14 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
 <!-- navbar -->
 <?php include './template/navbar.php' ?>
 
+<?php 
+$current_section = 'admin-usuarios';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
+?>
+
 <title>Añadir Usuarios</title>
 <link rel="stylesheet" href="./CSS/admin-usuarios.css?v=<?php echo filemtime('./CSS/admin-usuarios.css'); ?>">
 

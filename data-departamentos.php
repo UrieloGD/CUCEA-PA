@@ -34,6 +34,12 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
         });
     </script>";
 }
+
+$current_section = 'data-departamentos';
+
+require_once './functions/mantenimiento/mantenimiento-check.php';
+
+checkMaintenance($current_section);
 ?>
 
 <?php
