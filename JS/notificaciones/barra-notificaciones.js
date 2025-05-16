@@ -3,11 +3,27 @@ function actualizarNotificaciones() {
     .then((response) => response.text())
     .then((html) => {
       const sidebar = document.getElementById("mySidebar");
-
-      // Mantener el contenedor de fecha y hora
       const contenedorFechaHora = sidebar.querySelector(
         ".contenedor-fecha-hora"
       );
+
+      // Crear un contenedor temporal para el nuevo contenido
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+
+      // Reemplazar solo la sección de notificaciones
+      const viejoContenido = sidebar.querySelectorAll(
+        ".grupo-fecha, .mensaje-sin-notificaciones"
+      );
+      viejoContenido.forEach((element) => element.remove());
+
+      // Insertar nuevo contenido después del contenedor de fecha/hora
+      tempDiv.childNodes.forEach((node) => {
+        if (node.nodeType === 1) {
+          // Solo elementos HTML
+          sidebar.insertBefore(node, contenedorFechaHora.nextSibling);
+        }
+      });
 
       // Actualizar el contenido de las notificaciones
       sidebar.innerHTML = html;
@@ -199,31 +215,31 @@ document
     event.stopPropagation();
   });
 
-  function descartarNotificacion(event, id, tipo) {
-    event.stopPropagation();
-    
-    const notificacion = event.target.closest('.contenedor-notificacion');
-    
-    // Ocultar inmediatamente la notificación
-    notificacion.style.display = 'none';
-    
-    // Marcar como descartada en la base de datos
-    fetch('./functions/notificaciones/descartar-notificacion.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `id=${id}&tipo=${tipo}`
+function descartarNotificacion(event, id, tipo) {
+  event.stopPropagation();
+
+  const notificacion = event.target.closest(".contenedor-notificacion");
+
+  // Ocultar inmediatamente la notificación
+  notificacion.style.display = "none";
+
+  // Marcar como descartada en la base de datos
+  fetch("./functions/notificaciones/descartar-notificacion.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `id=${id}&tipo=${tipo}`,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (!data.success) {
+        console.error("Error al descartar notificación");
+        notificacion.style.display = "flex";
+      }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (!data.success) {
-            console.error('Error al descartar notificación');
-            notificacion.style.display = 'flex';
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        notificacion.style.display = 'flex';
+    .catch((error) => {
+      console.error("Error:", error);
+      notificacion.style.display = "flex";
     });
 }
