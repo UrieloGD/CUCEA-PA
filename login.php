@@ -12,6 +12,9 @@
 </head>
 
 <body>
+  <?php
+    require_once 'mantenimiento.php';
+  ?>
   <form action="./functions/login/validar.php" method="post">
 
     <div class="flex items-center min-h-screen px-4">
