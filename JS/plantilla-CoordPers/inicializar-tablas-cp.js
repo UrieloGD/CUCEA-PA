@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
       headerSort: false,
       width: 50,
       frozen: true, // Fijar la columna de selección
-      editor: false // Explícitamente no editable
+      editor: true, // Explícitamente no editable
     },
     {
       title: "ID", 
