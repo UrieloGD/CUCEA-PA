@@ -35,6 +35,7 @@ function actualizarNotificaciones() {
         notificacion.addEventListener("click", manejarClicNotificacion);
       });
 
+      // Actualizar el badge inmediatamente después de cargar las notificaciones
       actualizarBadgeNotificaciones();
     })
     .catch((error) =>
@@ -52,7 +53,7 @@ window.actualizarBadgeNotificaciones = function () {
 
   if (notificacionesSinVer.length > 0) {
     badge.style.display = "block";
-    badge.textContent = notificacionesSinVer.length;
+    badge.textContent = "";
   } else {
     badge.style.display = "none";
   }
@@ -235,6 +236,12 @@ function descartarNotificacion(event, id, tipo) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Ejecutar la actualización de notificaciones inmediatamente al cargar la página
+  actualizarNotificaciones();
+
+  // Continuar con las actualizaciones automáticas cada 30 segundos
+  setInterval(actualizarNotificaciones, 30000);
+
   // Añadir event listeners a las notificaciones
   const notificaciones = document.querySelectorAll(".contenedor-notificacion");
   notificaciones.forEach((notificacion) => {
@@ -267,10 +274,6 @@ document.addEventListener("DOMContentLoaded", function () {
       toggleNav();
     });
   }
-
-  actualizarBadgeNotificaciones();
-  // Iniciar la actualización automática cada 30 segundos
-  setInterval(actualizarNotificaciones, 30000);
 });
 
 // Función para cerrar la barra de navegación al hacer clic fuera de ella
