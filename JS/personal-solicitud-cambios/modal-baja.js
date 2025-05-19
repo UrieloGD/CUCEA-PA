@@ -26,6 +26,48 @@ document.addEventListener('DOMContentLoaded', function() {
         'motivo': 50
     };
 
+    // Campos alfabéticos - permitir letras, espacios y caracteres especiales del español
+    const camposAlfabeticos = [
+        'nombres', 'apellido_paterno', 'apellido_materno'
+    ];
+
+    camposAlfabeticos.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                // Primero aplicamos toUpperWithAccents para mantener la conversión a mayúsculas
+                let valor = toUpperWithAccents(e.target.value);
+                
+                // Luego quitamos solo los números
+                // Esto preserva letras, espacios, acentos, ñ, etc.
+                valor = valor.replace(/[0-9]/g, '');
+                
+                e.target.value = valor;
+            });
+        }
+    });
+
+    // Para campos estrictamente numéricos (CRN, CODIGO)
+    const camposEstrictamenteNumericos = [
+        'codigo_prof', 'crn'
+    ];
+
+    camposEstrictamenteNumericos.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                // Solo permitir dígitos
+                e.target.value = e.target.value.replace(/\D/g, '');
+                
+                // Aplicar la longitud máxima correspondiente
+                const maxLength = campo === 'codigo_prof' ? 8 : 7; // 8 para código, 7 para CRN
+                if (e.target.value.length > maxLength) {
+                    e.target.value = e.target.value.slice(0, maxLength);
+                }
+            });
+        }
+    });
+
     // Aplicar límites
     Object.keys(maxLengths).forEach(field => {
         const input = document.getElementById(field);

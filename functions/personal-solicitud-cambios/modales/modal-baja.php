@@ -20,7 +20,7 @@
                     <input type="text" id="apellido_materno" name="apellido_materno">
                 </div>
                 <div class="form-group">
-                    <label for="codigo_prof">Código</label>
+                    <label for="codigo_prof">Código Profesor</label>
                     <input type="text" id="codigo_prof" name="codigo_prof">
                 </div>
                 <div class="form-group">
