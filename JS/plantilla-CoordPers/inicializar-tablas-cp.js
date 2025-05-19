@@ -1,516 +1,421 @@
-// ./JS/basesdedatos/inicializar-tablas.js
-var table;
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM completamente cargado');
+  
+  // Obtener el rol del usuario
+  const userRole = document.getElementById('user-role').value;
+  console.log('Rol del usuario:', userRole);
+  
+  const isEditable = userRole == 3 || userRole == 0;
+  console.log('¿Es editable?', isEditable);
 
-// Inicializar tooltips personalizados
-function initializeCustomTooltips() {
-  if ($("[data-tooltip]").data("tooltip-initialized")) return;
-  const tooltip = document.createElement("div");
-  tooltip.className = "custom-tooltip";
-  document.body.appendChild(tooltip);
+  // Variable para almacenar el término de búsqueda global
+  let searchTerm = "";
 
-  function positionTooltip(element, tooltipElement, content) {
-    const rect = element.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft =
-      window.pageXOffset || document.documentElement.scrollLeft;
+  // Definir todas las columnas para Tabulator
+  const columns = [
+    {
+      // Columna de selección de filas
+      title: "",
+      field: "checkbox",
+      formatter: "rowSelection",
+      titleFormatter: "rowSelection",
+      hozAlign: "center",
+      headerSort: false,
+      width: 50,
+      frozen: true, // Fijar la columna de selección
+      editor: true, // Explícitamente no editable
+    },
+    {
+      title: "ID", 
+      field: "ID", 
+      editor: false, // Siempre no editable, independientemente del rol
+      variableHeight: true, 
+      frozen: true,  // Fijar la columna ID
+    },
+    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true}
+  ];
 
-    tooltipElement.innerHTML = content;
-    tooltipElement.classList.add("show");
+  // Mostrar las columnas en la consola para depuración
+  console.log('Columnas configuradas:', columns);
 
-    let top = rect.top + scrollTop - tooltipElement.offsetHeight - 10;
-    const left =
-      rect.left + scrollLeft + rect.width / 2 - tooltipElement.offsetWidth / 2;
-
-    if (top < scrollTop) {
-      top = rect.bottom + scrollTop + 10;
-      tooltipElement.setAttribute("data-position", "bottom");
-    } else {
-      tooltipElement.setAttribute("data-position", "top");
+  // Mostrar loader
+  console.log('Mostrando loader...');
+  Swal.fire({
+    title: 'Cargando datos...',
+    html: 'Por favor espere mientras se procesan los datos',
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
     }
+  });
 
-    const rightEdge = window.innerWidth + scrollLeft;
-    if (left + tooltipElement.offsetWidth > rightEdge) {
-      tooltipElement.style.left =
-        rightEdge - tooltipElement.offsetWidth - 5 + "px";
-    } else if (left < scrollLeft) {
-      tooltipElement.style.left = scrollLeft + 5 + "px";
-    } else {
-      tooltipElement.style.left = left + "px";
-    }
-
-    tooltipElement.style.top = top + "px";
+  // Verificar si el elemento existe
+  const tableElement = document.getElementById('tabla-datos-tabulator');
+  if (!tableElement) {
+    console.error('Error: No se encontró el elemento con ID "tabla-datos-tabulator"');
+    Swal.fire('Error', 'No se encontró el contenedor de la tabla', 'error');
+    return;
   }
 
-  document.addEventListener("mouseover", function (e) {
-    const target = e.target.closest("[data-tooltip]");
-    if (target) {
-      const content = target.getAttribute("data-tooltip");
-      if (target.classList.contains("celda-choque")) {
-        tooltip.classList.add("tooltip-choque");
-      } else {
-        tooltip.classList.remove("tooltip-choque");
+  console.log('Inicializando Tabulator...');
+  
+  // Inicializar Tabulator con configuración de paginación del lado del servidor
+  const table = new Tabulator("#tabla-datos-tabulator", {
+    ajaxURL: 'http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php',
+    ajaxConfig: "GET",
+    ajaxParams: {},
+    ajaxConfig:{
+      ajaxLoader: false,
+      ajaxLoaderLoading: false,
+    },
+    
+    // IMPORTANTE: Configuración de paginación para comunicación con el servidor
+    ajaxURLGenerator: function(url, config, params) {
+      // Agregar parámetros de paginación, ordenación y búsqueda a la URL
+      let ajaxURL = url + "?";
+      
+      // Parámetros de paginación
+      if (this.options.pagination) {
+        // Verificar si se están mostrando todos los registros
+        if (params.size === true) {
+          ajaxURL += "all=true&";
+        } else {
+          ajaxURL += "page=" + params.page + "&size=" + params.size + "&";
+        }
       }
-      positionTooltip(target, tooltip, content);
-    }
-  });
-
-  document.addEventListener("mouseout", function (e) {
-    const target = e.target.closest("[data-tooltip]");
-    if (target) {
-      tooltip.classList.remove("show");
-    }
-  });
-
-  document.addEventListener("scroll", function () {
-    const activeTooltip = document.querySelector("[data-tooltip]:hover");
-    if (activeTooltip) {
-      const content = activeTooltip.getAttribute("data-tooltip");
-      positionTooltip(activeTooltip, tooltip, content);
-    }
-  });
-  $("[data-tooltip]").data("tooltip-initialized", true);
-}
-
-$(document).ready(function () {
-  localStorage.removeItem("DataTables_tabla-datos");
-  table = $("#tabla-datos").DataTable({
-    scrollY: "620px", // Altura fija para el cuerpo de la tabla
-    scrollCollapse: true, // Permite que la tabla se colapse cuando hay poco contenido
-    scrollX: true, // Scroll horizontal si es necesario
-    fixedHeader: {
-      header: true, // Mantiene el encabezado fijo durante el scroll
-      headerOffset: 0, // Ajusta este valor si tienes una barra de navegación fija en la parte superior
-      footer: false,
-    },
-    dom: '<"top"<"custom-search-container">fB>rt<"bottom"lip>',
-    language: {
-      url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
-      search: "_INPUT_",
-      searchPlaceholder: "Buscar...",
-    },
-    initComplete: function () {
-      // Cerrar Sweet Alert
-      if (typeof Swal !== "undefined") {
-        Swal.close();
+      
+      // Parámetros de ordenación
+      if (params.sort && params.sort.length) {
+        ajaxURL += "sort=" + params.sort[0].field + "&dir=" + params.sort[0].dir + "&";
       }
-
-      // Mostrar la tabla
-      $("#tabla-datos").css("display", "table");
-
-      // Mover la barra de búsqueda
-      $(".dataTables_filter").appendTo(".custom-search-container");
-      $(".dataTables_filter input").addClass("custom-search-input");
-
-      // Configurar tooltips para encabezados
-      this.api()
-        .columns()
-        .every(function () {
-          const headerCell = $(this.header());
-          const headerText = headerCell.text().trim();
-          headerCell.attr("data-tooltip", headerText);
-        });
-
-      // Configurar filtros para columnas
-      this.api()
-        .columns()
-        .every(function (index) {
-          var column = this;
-          var header = $(column.header());
-          var filterIcon = header.find(".filter-icon");
-
-          if (filterIcon.length) {
-            var filterMenu = $('<div class="filter-menu"></div>');
-            var filterContainer = $('<div class="filter-container"></div>');
-            filterContainer.append(filterMenu);
-            $(".datatable-container").append(filterContainer);
-
-            filterMenu.prepend(
-              $('<div class="filter-search-container">').append(
-                $(
-                  '<input type="text" class="filter-search-input" placeholder="Buscar...">'
-                )
-              )
-            );
-
-            filterMenu.find(".filter-search-input").on("input", function () {
-              var searchTerm = $(this).val().toLowerCase();
-              filterMenu.find("label").each(function () {
-                var label = $(this).text().toLowerCase();
-                $(this).toggle(label.includes(searchTerm));
-              });
-            });
-
-            var uniqueValues = column.data().unique().sort().toArray();
-
-            uniqueValues.forEach(function (value) {
-              filterMenu.append(
-                $("<label>")
-                  .append($('<input type="checkbox">').val(value))
-                  .append(" " + value)
-              );
-            });
-
-            filterMenu.append(
-              $('<div class="filter-buttons">')
-                .append($('<button class="apply-filter">Aplicar</button>'))
-                .append($('<button class="clear-filter">Limpiar</button>'))
-            );
-
-            filterIcon.on("click", function (e) {
-              e.stopPropagation();
-              $(".filter-menu").not(filterMenu).hide();
-              filterMenu.toggle();
-            });
-
-            filterMenu.find(".apply-filter").on("click", function () {
-              var selectedValues = filterMenu
-                .find("input:checked")
-                .map(function () {
-                  return (
-                    "^" + $.fn.dataTable.util.escapeRegex(this.value) + "$"
-                  );
-                })
-                .get()
-                .join("|");
-
-              column.search(selectedValues, true, false).draw();
-              filterMenu.hide();
-            });
-
-            filterMenu.find(".clear-filter").on("click", function () {
-              filterMenu.find("input").prop("checked", false);
-              column.search("").draw();
-              filterMenu.hide();
-            });
-          }
-        });
-
-      // Inicializar tooltips personalizados
-      initializeCustomTooltips();
-
-      setTimeout(function () {
-        // Ocultar el botón original
-        $(".dt-buttons").css("display", "none");
-
-        // Crear un contenedor personalizado para nuestro menú
-        var customColvisMenu = $(
-          '<div class="custom-colvis-menu" style="display:none; position:absolute; background:#fff; border:1px solid #ccc; box-shadow:0 2px 4px rgba(0,0,0,0.2); padding:10px; z-index:1000; max-height:400px; overflow-y:auto;"></div>'
-        );
-        $("body").append(customColvisMenu);
-
-        // Crear un botón personalizado con el mismo icono
-        var customButton = $(
-          '<div class="icono-buscador" id="btn-colvis-custom" data-tooltip="Mostrar/ocultar columnas"><i class="fa fa-eye"></i></div>'
-        );
-
-        // Insertar el botón en la ubicación deseada
-        customButton.insertBefore("#icono-filtro");
-
-        // Eliminar el botón no funcional
-        $("#icono-visibilidad, #btn-colvis").remove();
-
-        // Evento para abrir/cerrar el menú personalizado
-        customButton.on("click", function (e) {
-          e.preventDefault();
-          e.stopPropagation();
-
-          // Si el menú está visible, ocultarlo
-          if (customColvisMenu.is(":visible")) {
-            customColvisMenu.hide();
-            return;
-          }
-
-          // Posicionar el menú debajo del botón
-          var buttonPos = $(this).offset();
-          customColvisMenu.css({
-            top: buttonPos.top + $(this).outerHeight() + 5,
-            left: buttonPos.left,
-          });
-
-          // Llenar el menú con las columnas disponibles
-          customColvisMenu.empty();
-
-          // Añadir un título
-          customColvisMenu.append(
-            '<div style="font-weight:bold; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #eee;">Mostrar/Ocultar columnas</div>'
-          );
-
-          // Añadir una opción para cada columna (excepto la primera)
-          table.columns().every(function (index) {
-            if (index > 0) {
-              // Excluir la primera columna
-              var column = this;
-              var isVisible = column.visible();
-              var header = $(column.header()).text().trim();
-
-              var checkbox = $(
-                '<div style="margin:5px 0;">' +
-                  '<label style="display:flex; align-items:center;">' +
-                  '<input type="checkbox" ' +
-                  (isVisible ? "checked" : "") +
-                  "> " +
-                  '<span style="margin-left:5px;">' +
-                  header +
-                  "</span>" +
-                  "</label></div>"
-              );
-
-              checkbox.find("input").data("column-index", index);
-              checkbox.find("input").on("change", function (e) {
-                e.stopPropagation();
-                var colIdx = $(this).data("column-index");
-                var visible = $(this).prop("checked");
-                table.column(colIdx).visible(visible);
-
-                // Redimensionar para corregir anchos después del cambio
-                table.columns.adjust().draw();
-              });
-
-              customColvisMenu.append(checkbox);
-            }
-          });
-
-          // Mostrar el menú
-          customColvisMenu.show();
-
-          // Re-inicializar tooltips si es necesario
-          if (typeof initializeCustomTooltips === "function") {
-            initializeCustomTooltips();
-          }
-        });
-
-        // Cerrar el menú al hacer clic fuera de él
-        $(document).on("click", function (e) {
-          if (
-            !$(e.target).closest(".custom-colvis-menu, #btn-colvis-custom")
-              .length
-          ) {
-            customColvisMenu.hide();
-          }
-        });
-
-        // Cerrar el menú con la tecla ESC
-        $(document).on("keydown", function (e) {
-          if (e.key === "Escape") {
-            customColvisMenu.hide();
-          }
-        });
-      }, 300);
+      
+      // Parámetro de búsqueda global
+      if (searchTerm) {
+        ajaxURL += "search=" + encodeURIComponent(searchTerm) + "&";
+      }
+      
+      // Eliminar el último '&' o '?' si existe
+      ajaxURL = ajaxURL.replace(/[&?]$/, "");
+      
+      console.log("URL generada para AJAX:", ajaxURL);
+      return ajaxURL;
     },
-    pageLength: 15,
-    lengthMenu: [
-      [15, 25, 50, -1],
-      [15, 25, 50, "Todos"],
-    ],
-    responsive: true,
-    stateSave: true,
-    stateDuration: -1,
-    stateSaveCallback: function (settings, data) {
-      localStorage.setItem(
-        "DataTables_" + settings.sInstance,
-        JSON.stringify(data)
-      );
+    
+    columns: columns,
+    layout: "fitData", // Cambiamos a fitData para ajustar al contenido
+    autoColumns: false, // Desactivamos autoColumns para usar nuestra definición
+    responsiveLayout: false, // Desactivar el responsive layout para mantener todas las columnas
+    frozenRowsField: "id",
+    
+    // IMPORTANTE: Configuración de paginación corregida
+    pagination: true,
+    paginationMode: "remote", // Modo de paginación remota
+    paginationSize: 50, // Tamaño de página predeterminado
+    paginationSizeSelector: [20, 50, 100, 300, true], // Opciones de tamaño de página
+    paginationCounter: "rows", // Mostrar contador de filas
+    paginationDataReceived: {
+      "last_page": "last_page",
+      "data": "data",
+      "total": "total"
     },
-    stateLoadCallback: function (settings) {
-      return JSON.parse(
-        localStorage.getItem("DataTables_" + settings.sInstance)
-      );
+    paginationDataSent: {
+      "page": "page",
+      "size": "size"
     },
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////// Errores with
-    ordering: true,
-    info: true,
-    scrollX: true,
-    scrollCollapse: true,
-    columnDefs: [
-      { targets: "_all", defaultContent: "" },
-      { orderable: false, targets: 0 },
-      { reorderable: false, targets: 0 },
-      {
-        targets: [1, 24, 25, 26, 27, 28, 29, 30, 36, 37, 38, 39],
-        createdCell: function (cell, cellData, rowData, rowIndex, colIndex) {
-          var $row = $(cell).closest("tr");
-          var choquesStr = $row.attr("data-choques");
-
-          if (choquesStr && choquesStr !== "null" && choquesStr !== "[]") {
-            try {
-              var choquesData = JSON.parse(choquesStr);
-
-              if (choquesData && choquesData.length > 0) {
-                $(cell).addClass("celda-choque");
-
-                var tooltipMessages = [];
-
-                choquesData.forEach(function (choqueInfo) {
-                  if (choqueInfo.Es_Primero) {
-                    $(cell)
-                      .addClass("choque-primero")
-                      .removeClass("choque-segundo");
-                  } else {
-                    $(cell)
-                      .addClass("choque-segundo")
-                      .removeClass("choque-primero");
-                  }
-
-                  tooltipMessages.push(
-                    "Choque con ID #" +
-                      choqueInfo.ID_Choque +
-                      " del departamento " +
-                      choqueInfo.Departamento
-                  );
-                });
-
-                // Configurar tooltip personalizado
-                $(cell).attr("data-tooltip", tooltipMessages.join("<br>"));
-
-                // Configurar hover
-                $(cell).hover(
-                  function () {
-                    var currentCell = $(this);
-                    choquesData.forEach(function (choqueInfo) {
-                      $("tr").each(function () {
-                        var rowId = $(this).find("td:eq(1)").text().trim();
-                        if (rowId === String(choqueInfo.ID_Choque)) {
-                          $(this)
-                            .find("td")
-                            .each(function () {
-                              var $td = $(this);
-                              $td.addClass("celda-choque-hover");
-                              if (choqueInfo.Es_Primero) {
-                                $td
-                                  .addClass("choque-primero")
-                                  .removeClass("choque-segundo");
-                              } else {
-                                $td
-                                  .addClass("choque-segundo")
-                                  .removeClass("choque-primero");
-                              }
-                            });
-                        }
-                      });
-                    });
-                  },
-                  function () {
-                    $(".celda-choque-hover")
-                      .removeClass("celda-choque-hover")
-                      .removeClass("choque-primero")
-                      .removeClass("choque-segundo");
-                  }
-                );
-              }
-            } catch (e) {
-              console.error("Error al procesar choques:", e);
-              console.error("Data choques:", choquesStr);
-            }
-          }
+    
+    // Configuración para ordenación remota
+    sortMode: "remote",
+    
+    movableColumns: true,
+    height: "620px",
+    placeholder: "No hay datos disponibles",
+    
+    // Configuración para la selección de rangos y portapapeles
+    selectable: true,
+    selectableRange: true, // Habilitar selección de rangos
+    selectableRangeColumns: true, // Permitir selección de columnas completas
+    selectableRangeRows: true, // Permitir selección de filas completas
+    selectableRangeClearCells: true, // Permitir borrado de celdas seleccionadas
+    
+    // Configuración del portapapeles
+    clipboard: true, // Habilitar funcionalidad de portapapeles
+    clipboardCopyStyled: false, // Copiar solo datos sin estilos
+    clipboardCopyConfig: {
+        rowHeaders: false,
+        columnHeaders: false,
+    },
+    clipboardCopyRowRange: "range", // Copiar rangos de celdas
+    clipboardPasteParser: "range", // Analizar datos pegados como rangos
+    clipboardPasteAction: "range", // Pegar datos como rangos
+    
+    // Cambiar el modo de activación de edición para mejor navegación
+    editTriggerEvent: "dblclick", // Solo editar al hacer doble click
+    
+    // Configuración para habilitar desplazamiento horizontal
+    horizontalScroll: true,
+    columnHeaderVertAlign: "middle",
+    
+    // Opciones para el ajuste automático de columnas
+    resizableColumns: true,
+    columnMinWidth: 80,
+    
+    // Recalcular ancho basado en contenido
+    columnCalcLayout: "fitData",
+    
+    langs: {
+      "es": {
+        "pagination": {
+          "first": "Primero",
+          "first_title": "Primera página",
+          "last": "Último",
+          "last_title": "Última página",
+          "prev": "Anterior",
+          "prev_title": "Página anterior", 
+          "next": "Siguiente",
+          "next_title": "Página siguiente",
+          "all": "Todo",
+          "page_size": "Registros por página"
         },
-      },
-    ],
-    order: [[1, "asc"]],
-    colReorder: {
-      columns: ":gt(1)",
-      fixedColumnsLeft: 2,
-      fixedColumnsRight: 0,
+        "headerFilters": {
+          "default": "Filtrar columna...",
+          "columns": {}
+        }
+      }
     },
-    buttons: [
-      {
-        extend: "colvis",
-        text: '<i class="fa fa-eye"></i>',
-        collectionLayout: "fixed columns",
-        columns: ":not(:first-child)",
-        className: "icono-buscador",
-        attr: {
-          "data-tooltip": "Mostrar/ocultar columnas",
-          id: "btn-colvis",
-        },
-        // Override the default button rendering
-        init: function (api, node, config) {
-          $(node).removeClass("dt-button");
-          $(node).find(".dt-down-arrow").remove();
-        },
-      },
-    ],
-  });
-
-  // Mantener fijos los controles de paginación
-  $(window).scroll(function () {
-    var tableBottom =
-      $(".datatable-container").offset().top +
-      $(".datatable-container").height();
-    var scrollPosition = $(window).scrollTop() + $(window).height();
-
-    if (scrollPosition < tableBottom) {
-      // Fijar los controles en la parte inferior
-      $(".dataTables_paginate, .dataTables_info, .dataTables_length")
-        .css("position", "fixed")
-        .css("bottom", "0")
-        .css("background", "#fff")
-        .css("width", $(".datatable-container").width())
-        .css("z-index", "10")
-        .css("padding", "8px 0")
-        .css("box-shadow", "0 -2px 5px rgba(0,0,0,0.1)");
-    } else {
-      // Volver a la posición normal
-      $(".dataTables_paginate, .dataTables_info, .dataTables_length")
-        .css("position", "static")
-        .css("box-shadow", "none");
+    locale: "es",
+    theme: "bulma",
+    virtualDom: true,
+    renderVertical: "virtual",
+    
+    // Callbacks
+    dataLoading: function(data) {
+      console.log('Cargando datos...', data);
+    },
+    dataLoaded: function(data) {
+      console.log('Datos cargados correctamente:', data);
+      Swal.close();
+      
+      // Calcular y ajustar los anchos de columna basados en el contenido
+      adjustColumnWidths();
+      
+      // Asegurar que el scroll horizontal esté disponible
+      const tableHolder = document.querySelector('.tabulator-tableHolder');
+      if (tableHolder) {
+        tableHolder.style.overflowX = 'auto';
+      }
+      
+      // Aplicar clases de Bulma específicas tras cargar los datos
+      applyBulmaClasses();
+    },
+    ajaxError: function(xhr, textStatus, errorThrown) {
+      console.error('Error en la carga AJAX:', {
+        xhr: xhr,
+        textStatus: textStatus,
+        errorThrown: errorThrown
+      });
+      Swal.fire('Error', 'No se pudieron cargar los datos. Detalles: ' + errorThrown, 'error');
+    },
+    tableBuilt: function() {
+      console.log('Tabla construida');
+      
+      // Aplicar clases de Bulma al construir la tabla
+      applyBulmaClasses();
+    },
+    renderStarted: function() {
+      console.log('Renderizado iniciado');
+    },
+    renderComplete: function() {
+      console.log('Renderizado completado');
+      
+      // Ajustar columnas después del renderizado
+      adjustColumnWidths();
+      
+      // Asegurar que las clases de Bulma se aplican después del renderizado
+      applyBulmaClasses();
+    },
+    columnResized: function(column) {
+      // Guardar el ancho personalizado si es necesario
+      console.log(`Columna ${column.getField()} redimensionada a ${column.getWidth()}px`);
+    },
+    pageLoaded: function(pageno) {
+      console.log(`Página ${pageno} cargada correctamente`);
+    },
+    pageSizeChanged: function(size) {
+      console.log(`Tamaño de página cambiado a: ${size}`);
     }
   });
 
-  // Redibujar tabla - mueve esto dentro de document.ready
-  table.columns.adjust().draw();
+  console.log('Tabulator inicializado:', table);
 
-  // Redibujar tabla
-  setTimeout(function () {
-    table.columns.adjust().draw();
-  }, 200);
+  // Función para ajustar los anchos de columna basados en el contenido
+  function adjustColumnWidths() {
+    // Solo ejecutar si la tabla y los datos están disponibles
+    if (!table || !table.getColumns().length) return;
+    
+    console.log('Ajustando anchos de columnas basados en contenido...');
+    
+    // Calcular el ancho necesario para cada columna basado en su contenido
+    table.columnManager.columns.forEach(column => {
+      // Ignorar la columna de checkbox que ya tiene un ancho fijo
+      if (column.getField() === "checkbox") return;
+      
+      let field = column.getField();
+      let title = column.getDefinition().title;
+      
+      // Calcular ancho necesario basado en el título (header) y el contenido más largo
+      let headerLength = title ? title.length : 0;
+      let maxContentLength = 0;
+      
+      // Iterar sobre los datos visibles para encontrar el contenido más largo
+      let visibleData = table.getData();
+      visibleData.forEach(row => {
+        let cellValue = row[field];
+        if (cellValue) {
+          let valueLength = String(cellValue).length;
+          maxContentLength = Math.max(maxContentLength, valueLength);
+        }
+      });
+      
+      // Determinar el ancho necesario (aproximadamente 8px por carácter más un padding)
+      let charWidth = 8; // aproximado para la mayoría de fuentes
+      let padding = 20; // padding adicional
+      let calculatedWidth = Math.max(headerLength, maxContentLength) * charWidth + padding;
+      
+      // Establecer un ancho mínimo y máximo razonable
+      calculatedWidth = Math.max(calculatedWidth, 80); // mínimo 80px
+      calculatedWidth = Math.min(calculatedWidth, 300); // máximo 300px
+      
+      // Aplicar el ancho calculado
+      column.setWidth(calculatedWidth);
+    });
+  }
 
-  // Asegurar de que los botones de DataTables estén inicializados correctamente
-  $(document).on("click", function (e) {
-    if (
-      !$(e.target).closest(".custom-columns-menu, #icono-visibilidad").length
-    ) {
-      $(".custom-columns-menu").remove();
+  // Función para aplicar clases de Bulma a elementos específicos
+  function applyBulmaClasses() {
+    // Aplicar clases de Bulma a los botones de paginación
+    document.querySelectorAll('.tabulator-paginator button').forEach(button => {
+      button.classList.add('button', 'is-small');
+    });
+    
+    // Mejorar el aspecto del selector de tamaño de página
+    const pageSizeSelector = document.querySelector('.tabulator-page-size');
+    if (pageSizeSelector) {
+      pageSizeSelector.classList.add('select', 'is-small');
+      
+      // Envolver el select con un div para aplicar estilo Bulma adecuado
+      if (!pageSizeSelector.parentElement.classList.contains('select')) {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('select', 'is-small');
+        pageSizeSelector.parentNode.insertBefore(wrapper, pageSizeSelector);
+        wrapper.appendChild(pageSizeSelector);
+      }
     }
-  });
-
-  new $.fn.dataTable.FixedColumns(table, {
-    leftColumns: 2,
-    rightColumns: 0,
-  });
-});
-
-// Ajusta las columnas después de la carga completa
-$(window).on("load", function () {
-  if (table && table.columns) {
-    setTimeout(function () {
-      table.columns.adjust().draw();
-    }, 500); // Un pequeño retraso puede ayudar
+    
+    // Aplicar estilo a los inputs de filtro
+    document.querySelectorAll('.tabulator-header-filter input').forEach(input => {
+      input.classList.add('input', 'is-small');
+    });
   }
-});
 
-// Ajusta las columnas si el tamaño de la ventana cambia
-$(window).on("resize", function () {
-  if (table) {
-    table.columns.adjust().draw();
+  // Implementar la búsqueda global cuando se escribe en el input
+  // Implementar la búsqueda global cuando se escribe en el input
+  const searchInput = document.getElementById('input-buscador');
+  if (searchInput) {
+      let searchTimeout;
+      
+      searchInput.addEventListener('input', function(e) {
+          searchTerm = e.target.value;
+          
+          // Clear previous timeout
+          clearTimeout(searchTimeout);
+          
+          // Set new timeout
+          searchTimeout = setTimeout(() => {
+              // Reset to first page and reload data
+              table.setPage(1).then(() => {
+                  table.replaceData();
+              });
+          }, 500); // 500ms debounce time
+      });
   }
-});
 
-// Ocultar los iconos de filtro
-$(".filter-icon").hide();
+  // Hacer la tabla accesible globalmente para depuración
+  window.tabulatorTable = table;
 
-// Función para alternar la visibilidad de los iconos de filtro
-function toggleFilterIcons() {
-  $(".filter-icon").toggle();
-  $("#icono-filtro").toggleClass("active");
-}
-
-// Evento de clic para el botón de filtro
-$("#icono-filtro").on("click", toggleFilterIcons);
-
-// Cerrar menús de filtro al hacer clic fuera
-$(document).on("click", function (e) {
-  if (!$(e.target).closest(".filter-menu, .filter-icon").length) {
-    $(".filter-menu").hide();
+  // Inicializar componentes
+  if (typeof initializeCustomTooltips === 'function') {
+    initializeCustomTooltips();
   }
+  
+  if (typeof setupEventHandlers === 'function') {
+    setupEventHandlers();
+  }
+  
+  console.log('Inicialización completada');
 });
