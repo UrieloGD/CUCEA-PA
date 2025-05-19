@@ -12,59 +12,66 @@ $notificaciones_agrupadas = [];
 // Consultas según el rol del usuario
 if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
     $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, 
-                     n.Mensaje, n.Vista AS vista, 
+                     n.Mensaje, un.Vista AS vista, 
                      e.Nombre, e.Apellido, e.IconoColor,
                      n.Departamento_ID
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
+              LEFT JOIN usuarios_notificaciones un ON n.ID = un.Notificacion_ID AND un.Usuario_ID = $codigo_usuario
               WHERE n.Departamento_ID = " . $_SESSION['Departamento_ID'] . "
               AND (n.Tipo = 'modificacion_bd' OR n.Tipo = 'eliminacion_bd' OR n.Tipo = 'restauracion_bd')
-              AND (n.Oculta = 0 OR n.Oculta IS NULL) 
+              AND (un.Oculta = 0 OR un.Oculta IS NULL) 
               ORDER BY n.Fecha DESC
               LIMIT 10";
 } else if ($rol_id == 0 || $rol_id == 2) { // Administrador y Secretaría administrativa
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
                      d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
-                     j.Notificacion_Vista AS vista, 
+                     un.Vista AS vista, 
                      u.Codigo AS Emisor_ID,
                      NULL AS Mensaje
               FROM justificaciones j
               JOIN departamentos d ON j.Departamento_ID = d.Departamento_ID
               JOIN usuarios u ON j.Codigo_Usuario = u.Codigo
+              LEFT JOIN usuarios_notificaciones un ON j.ID_Justificacion = un.Justificacion_ID AND un.Usuario_ID = $codigo_usuario
               WHERE j.Justificacion_Enviada = 1
-              AND (j.Oculta = 0 OR j.Oculta IS NULL)
+              AND (un.Oculta = 0 OR un.Oculta IS NULL)
               
               UNION ALL
               
-              SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
-                     p.Notificacion_Vista AS vista, u.Codigo AS Emisor_ID,
+              SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, 
+                     d.Departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
+                     un.Vista AS vista, 
+                     u.Codigo AS Emisor_ID,
                      NULL AS Mensaje
               FROM plantilla_dep p
               JOIN departamentos d ON p.Departamento_ID = d.Departamento_ID
               JOIN usuarios u ON p.Usuario_ID = u.Codigo
-              WHERE (p.Oculta = 0 OR p.Oculta IS NULL)
+              LEFT JOIN usuarios_notificaciones un ON p.ID_Archivo_Dep = un.Plantilla_ID AND un.Usuario_ID = $codigo_usuario
+              WHERE (un.Oculta = 0 OR un.Oculta IS NULL)
               
               UNION ALL
               
               SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, 
                      d.Departamentos, 
                      e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, 
-                     n.Vista AS vista, n.Emisor_ID, n.Mensaje
+                     un.Vista AS vista, n.Emisor_ID, n.Mensaje
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
               LEFT JOIN departamentos d ON n.Departamento_ID = d.Departamento_ID
+              LEFT JOIN usuarios_notificaciones un ON n.ID = un.Notificacion_ID AND un.Usuario_ID = $codigo_usuario
               WHERE (n.Usuario_ID = $codigo_usuario OR (n.Usuario_ID IS NULL AND n.Departamento_ID IS NOT NULL))
-              AND (n.Oculta = 0 OR n.Oculta IS NULL)
+              AND (un.Oculta = 0 OR un.Oculta IS NULL)
               
               ORDER BY fecha DESC
               LIMIT 10";
 } else if ($rol_id == 3) { // Coordinacion de Personal
-    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
+    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, un.Vista AS vista,
                      e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
+              LEFT JOIN usuarios_notificaciones un ON n.ID = un.Notificacion_ID AND un.Usuario_ID = $codigo_usuario
               WHERE n.Usuario_ID = $codigo_usuario
-              AND (n.Oculta = 0 OR n.Oculta IS NULL)
+              AND (un.Oculta = 0 OR un.Oculta IS NULL)
               ORDER BY n.Fecha DESC
               LIMIT 10";
 }
@@ -73,6 +80,43 @@ $result = mysqli_query($conexion, $query);
 
 if ($result) {
     $notificaciones = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    // Insertar registros en usuarios_notificaciones para las notificaciones no registradas
+    foreach ($notificaciones as $notificacion) {
+        $id = $notificacion['id'];
+        $tipo = strtolower($notificacion['tipo']);
+
+        // Determinar qué columna usar según el tipo
+        $tipo_columna = '';
+        $id_columna = '';
+
+        if ($tipo == 'justificacion') {
+            $tipo_columna = 'Justificacion_ID';
+            $id_columna = 'Notificacion_ID = NULL, Plantilla_ID = NULL';
+        } elseif ($tipo == 'plantilla') {
+            $tipo_columna = 'Plantilla_ID';
+            $id_columna = 'Notificacion_ID = NULL, Justificacion_ID = NULL';
+        } else {
+            $tipo_columna = 'Notificacion_ID';
+            $id_columna = 'Justificacion_ID = NULL, Plantilla_ID = NULL';
+        }
+
+        // Verificar si ya existe un registro para este usuario y esta notificación
+        $check_query = "SELECT ID FROM usuarios_notificaciones 
+                      WHERE Usuario_ID = $codigo_usuario 
+                      AND $tipo_columna = $id 
+                      AND Tipo = '$tipo'";
+
+        $check_result = mysqli_query($conexion, $check_query);
+
+        if (mysqli_num_rows($check_result) == 0) {
+            // No existe, crear un nuevo registro
+            $insert_query = "INSERT INTO usuarios_notificaciones (Usuario_ID, $tipo_columna, Tipo, Vista, Oculta) 
+                           VALUES ($codigo_usuario, $id, '$tipo', 0, 0)";
+
+            mysqli_query($conexion, $insert_query);
+        }
+    }
 
     // Agrupar notificaciones por fecha
     foreach ($notificaciones as $notificacion) {
