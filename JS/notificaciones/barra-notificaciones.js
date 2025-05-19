@@ -169,25 +169,29 @@ function descartarNotificacion(event, id, tipo) {
   notificacion.style.transition = "opacity 0.3s ease";
 
   setTimeout(() => {
-    notificacion.style.display = "none";
-
-    // Verificar si era la última notificación de su grupo
+    // CORRECCIÓN: No usar display:none sino remover el elemento del DOM
     const grupoFecha = notificacion.closest(".grupo-fecha");
+    notificacion.remove(); // Eliminar la notificación del DOM
+
+    // CORRECCIÓN: Verificar si era la última notificación de su grupo
+    // Ahora contamos correctamente las notificaciones visibles en el grupo
     const notificacionesRestantes = grupoFecha.querySelectorAll(
-      ".contenedor-notificacion[style='display: flex'], .contenedor-notificacion:not([style])"
+      ".contenedor-notificacion"
     );
 
-    if (notificacionesRestantes.length <= 1) {
-      // La única que queda es la que estamos ocultando
+    if (notificacionesRestantes.length === 0) {
+      // Si no quedan notificaciones en el grupo, ocultar el grupo
       grupoFecha.style.display = "none";
     }
 
-    // Verificar si no quedan más notificaciones
-    const todasLasNotificacionesVisibles = document.querySelectorAll(
-      ".contenedor-notificacion:not([style='display: none'])"
+    // CORRECCIÓN: Verificar si no quedan más notificaciones
+    // Contamos todos los grupos de fechas visibles
+    const gruposVisibles = document.querySelectorAll(
+      ".grupo-fecha:not([style*='display: none'])"
     );
-    if (todasLasNotificacionesVisibles.length <= 1) {
-      // Solo queda la que estamos ocultando
+
+    if (gruposVisibles.length === 0) {
+      // Si no quedan grupos visibles, mostrar el mensaje de "No hay notificaciones"
       const sinNotificaciones = document.createElement("div");
       sinNotificaciones.className = "mensaje-sin-notificaciones";
       sinNotificaciones.innerHTML = `
@@ -197,7 +201,13 @@ function descartarNotificacion(event, id, tipo) {
       `;
 
       const sidebar = document.getElementById("mySidebar");
-      sidebar.appendChild(sinNotificaciones);
+      // Asegurarse de que el mensaje no está ya presente
+      const mensajeExistente = sidebar.querySelector(
+        ".mensaje-sin-notificaciones"
+      );
+      if (!mensajeExistente) {
+        sidebar.appendChild(sinNotificaciones);
+      }
     }
   }, 300);
 
@@ -213,16 +223,14 @@ function descartarNotificacion(event, id, tipo) {
     .then((data) => {
       if (!data.success) {
         console.error("Error al descartar notificación:", data.error);
-        notificacion.style.opacity = "1";
-        notificacion.style.display = "flex";
+        actualizarNotificaciones(); // Si hay un error, recargar todas las notificaciones
       } else {
         actualizarBadgeNotificaciones();
       }
     })
     .catch((error) => {
       console.error("Error:", error);
-      notificacion.style.opacity = "1";
-      notificacion.style.display = "flex";
+      actualizarNotificaciones(); // Si hay un error, recargar todas las notificaciones
     });
 }
 
