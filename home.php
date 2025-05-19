@@ -52,13 +52,13 @@ require_once './functions/home/eventos-home.php';
       <div class="banner">
         <div class="carrusel">
           <div class="diapositiva">
-            <img src="./Img/img-home/carrusel-1.webp" alt="Imagen 1">
+            <img src="./Img/img-home/carrusel/letras-cucea.webp" alt="Imagen 1">
           </div>
           <div class="diapositiva">
-            <img src="https://csd.cucea.udg.mx/sites/default/files/2024-10/banner-inicio-csd-proceso-de-titulacion-1920-x-550-px_2.png" alt="Imagen 2">
+            <img src="./Img/img-home/carrusel/banner-titulacion.webp" alt="Imagen 2">
           </div>
           <div class="diapositiva">
-            <img src="https://www.cucea.udg.mx/sites/default/files/styles/slideshow_principal/public/imagenes/banner/rectangle_400.png?itok=hy_C19tR" alt="Imagen 3">
+            <img src="./Img/img-home/carrusel/aniversario-30.webp" alt="Imagen 3">
           </div>
         </div>
 

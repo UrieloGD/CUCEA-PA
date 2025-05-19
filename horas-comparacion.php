@@ -69,11 +69,17 @@
                         </thead>
                         <tbody class="cuerpo-ultimas-mod">
                             <tr>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <!-- <tr>
                                 <td>23/10/24</td>
                                 <td>13:00</td>
                                 <td>Rafael Castanedo Escobedo</td>
                                 <td>Administracion</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>

@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para mayúsculas con acentos
     const toUpperWithAccents = (str) => {
         return str.normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
             .toUpperCase()
             .replace(/¡/g, '¿') // Mantener símbolos en español
             .replace(/!/g, '?');

@@ -12,7 +12,7 @@ $departamentos = [
     ],
     [
         'id' => 2,
-        'nombre' => 'Ciencias Sociales y Jurídicas',
+        'nombre' => 'Ciencias Sociales',
         'imagen' => 'ciencias_s.png',
         'color' => '#0C9DEB',
         'nombre_lineas' => ['Ciencias Sociales', 'y Jurídicas'],
@@ -72,7 +72,7 @@ $departamentos = [
     ],
     [
         'id' => 8,
-        'nombre' => 'Sistemas de la Información',
+        'nombre' => 'Sistemas de Información',
         'imagen' => 'sistemas.png',
         'color' => '#00B567',
         'nombre_lineas' => ['Sistemas de la Información'],
