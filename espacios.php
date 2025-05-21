@@ -3,6 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+require_once './functions/error500/manejo-error.php';
+
 // Verificar que los archivos existan
 $required_files = [
     './config/db.php',

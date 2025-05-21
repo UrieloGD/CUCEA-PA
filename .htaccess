@@ -1,1 +1,16 @@
     ErrorDocument 404 http://localhost:8888/git/CUCEA-PA/404.php
+    ErrorDocument 500 http://localhost:8888/git/CUCEA-PA/500.php
+
+    Options -Indexes
+
+    <IfModule mod_headers.c>
+        Header set X-Content-Type-Options "nosniff"
+        Header set X-XSS-Protection "1; mode=block"
+        Header set X-Frame-Options "SAMEORIGIN"
+    </IfModule>
+
+    <IfModule mod_php7.c>
+        php_flag display_errors off
+        php_value error_reporting 32767
+        php_value error_log logs/php-errors.log
+    </IfModule>

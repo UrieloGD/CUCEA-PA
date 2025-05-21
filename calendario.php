@@ -1,4 +1,5 @@
 <?php
+require_once './functions/error500/manejo-error.php';
 // Iniciar la sesión
 session_start();
 // Conexión a la base de datos

@@ -14,7 +14,7 @@ if (!isset($message)) $message = 'Esta sección se encuentra temporalmente en ma
 <div class="cuadro-principal">
     <div class="container-error">
         <div class="img-error">
-            <img src="./Img/img-errores/mantenimiento.png" alt="Mantenimiento">
+            <img src="./Img/img-mantenimiento/mantenimiento.png" alt="Mantenimiento">
         </div>
         <div class="text-error">
             <p>

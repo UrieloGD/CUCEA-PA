@@ -1,3 +1,4 @@
+<?php require_once './functions/error500/manejo-error.php'; ?>
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -18,7 +19,6 @@ checkMaintenance($current_section);
 <!--Cuadro principal del home-->
 <div class="cuadro-principal">
     <div class="cuadro-scroll">
-
     <!--Pestaña azul-->
     <div class="encabezado">
         <div class="titulo-bd">

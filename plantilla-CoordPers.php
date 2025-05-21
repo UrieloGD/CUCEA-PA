@@ -1,4 +1,5 @@
 <?php
+require_once './functions/error500/manejo-error.php';
 session_start();
 include './config/db.php';
 

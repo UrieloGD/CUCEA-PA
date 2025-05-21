@@ -1,3 +1,4 @@
+<?php require_once './functions/error500/manejo-error.php'; ?>
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->

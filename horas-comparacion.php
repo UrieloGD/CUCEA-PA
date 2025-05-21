@@ -1,4 +1,5 @@
     <?php
+    require_once './functions/error500/manejo-error.php';
     session_start();
 
     if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {

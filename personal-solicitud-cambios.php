@@ -1,4 +1,6 @@
 <?php
+require_once './functions/error500/manejo-error.php';
+
 //personal-solicitud-cambios.php
 session_start();
 date_default_timezone_set('America/Mexico_City');

@@ -1,4 +1,6 @@
 <?php
+require_once './functions/error500/manejo-error.php';
+
 require_once './config/db.php';
 require_once './template/header.php';
 require_once './template/navbar.php';
@@ -229,7 +231,6 @@ try {
     </head>
 
     <body>
-
         <div class="cuadro-principal">
             <div class="encabezado">
                 <div class="encabezado-izquierda" style="display: flex; align-items: center;">

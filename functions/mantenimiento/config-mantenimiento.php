@@ -8,7 +8,7 @@
 $global_maintenance = false; // Si es true, todo el sitio estará en mantenimiento
 
 // IPs que siempre pueden acceder incluso durante el mantenimiento
-$allowedIPs = array('', ''); // '127.0.0.1', '::1' para local
+$allowedIPs = array('127.0.0.1', '::1'); // '127.0.0.1', '::1' para local
 
 // Configuración por secciones
 $section_maintenance = array(

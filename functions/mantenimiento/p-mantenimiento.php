@@ -8,7 +8,7 @@
 
 <body>
     <div class="maintenance-container">
-        <img src="./Img/img-errores/mantenimiento-main.png" alt="Logo de mantenimiento" class="logo">
+        <img src="./Img/img-mantenimiento/mantenimiento-main.png" alt="Logo de mantenimiento" class="logo">
         <h1>Sitio en mantenimiento.</h1>
         <!-- <p>Estamos trabajando para mejorar nuestra plataforma y ofrecerte un mejor servicio. Gracias por tu paciencia.</p>       
         <p>

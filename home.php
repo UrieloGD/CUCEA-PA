@@ -1,5 +1,6 @@
 <!--header -->
 <?php
+require_once './functions/error500/manejo-error.php';
 session_start();
 include './config/db.php';
 include './template/header.php';
@@ -53,6 +54,7 @@ checkMaintenance($current_section);
   </div>
 
   <div class="container-eventos-progreso">
+
     <!-- carrusel-banner -->
     <div class="eventos-banner-alineados">
       <div class="banner">

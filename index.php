@@ -6,8 +6,9 @@
     <title>index</title>
     <meta http-equiv="refresh" content="0; url=https://pa.cucea.udg.mx/login.php">
     <script>
-        window.location.href = "https://pa.cucea.udg.mx/login.php";
+        window.location.href = "http://localhost/git/CUCEA-PA/login.php";
         /* http://localhost/git/CUCEA-PA/login.php */ 
+        /* https://pa.cucea.udg.mx/login.php */
     </script>
 </head>
 

@@ -4,7 +4,7 @@
 */
 
 // Configuración del modo mantenimiento
-$maintenance = true;  // Cambiar a false cuando el mantenimiento haya terminado
+$maintenance = false;  // Cambiar a false cuando el mantenimiento haya terminado
 $allowedIPs = array('127.0.0.1', '::1'); // IPs que pueden acceder durante el mantenimiento  '127.0.0.1', '::1' para local
 
 // Comprobar si la IP del visitante está en la lista de permitidas
