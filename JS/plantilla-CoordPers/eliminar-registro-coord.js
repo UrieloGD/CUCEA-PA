@@ -1,47 +1,16 @@
 function eliminarRegistrosSeleccionados() {
-  var checkboxes = document.querySelectorAll(
-    'input[name="registros_seleccionados[]"]:checked'
-  );
-  var ids = [];
-
-  checkboxes.forEach(function (checkbox) {
-    ids.push(checkbox.value);
-  });
-
+  // Obtener referencia a la tabla Tabulator
+  const table = window.tabulatorTable;
+  
+  // Obtener las filas seleccionadas usando la API de Tabulator
+  const selectedRows = table.getSelectedRows();
+  const ids = selectedRows.map(row => row.getData().ID);
+  
   if (ids.length === 0) {
     Swal.fire({
-      title: "¿Estás seguro?",
-      text: "¿Estás seguro que deseas borrar toda la base de datos?",
+      title: "Advertencia",
+      text: "No hay registros seleccionados. Seleccione al menos un registro para eliminar.",
       icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, borrar todo",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        var xhr = new XMLHttpRequest();
-        xhr.open(
-          "POST",
-          "./functions/coord-personal-plantilla/eliminar-registros-coord.php",
-          true
-        );
-        xhr.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            Swal.fire({
-              title: "¡Éxito!",
-              text: "La base de datos ha sido borrada correctamente.",
-              icon: "success",
-            }).then(() => {
-              location.reload();
-            });
-          }
-        };
-
-        xhr.send("truncate=1");
-      }
     });
     return;
   }
@@ -69,7 +38,8 @@ function eliminarRegistrosSeleccionados() {
             text: "Los registros se han eliminado correctamente.",
             icon: "success",
           }).then(() => {
-            location.reload();
+            // Recargar los datos en la tabla sin recargar toda la página
+            table.setPage(1).then(() => table.replaceData());
           });
         }
       };
