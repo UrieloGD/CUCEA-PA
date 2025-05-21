@@ -185,6 +185,9 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <!-- generar pdfs -->
 <script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja.js'); ?>"></script>
 <script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js'); ?>"></script>
+<script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js'); ?>"></script>
+<!-- Script para manejo de detalles de solicitudes -->
+<script src="./JS/personal-solicitud-cambios/ver-detalles.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/ver-detalles.js'); ?>"></script>
 <!-- JQuerys -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

@@ -126,6 +126,13 @@
         $tipo = strtolower(str_replace(['Solicitud de ', ' '], ['', '-'], $solicitud['tipo']));
         ?>
         
+        <!-- Botón para ver detalles completos -->
+        <button class="boton-ver-detalles" 
+                data-folio="<?= $solicitud['folio'] ?>" 
+                data-tipo="<?= $tipo ?>">
+            <i class="fas fa-eye"></i> Ver detalles
+        </button>
+        
         <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] == 'Pendiente'): ?>
             <button class="boton-generar" 
                     data-folio="<?= $solicitud['folio'] ?>" 

@@ -1,5 +1,4 @@
-// generar-pdf-baja.js y generar-pdf-propuesta.js
-function generarPDFBaja(folio) {
+function generarPDFBajaPropuesta(folio) {
     Swal.fire({
         title: 'Confirmar generación',
         html: `¿Generar PDF?<br><small>El estado cambiará a "En revisión"</small>`,
@@ -26,7 +25,7 @@ function generarPDFBaja(folio) {
                 }
             });    
             $.ajax({
-                url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja.php',
+                url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja_propuesta.php',
                 type: 'POST',
                 data: { folio: folio },
                 dataType: 'json',
@@ -34,7 +33,7 @@ function generarPDFBaja(folio) {
                     Swal.close();
                     if (response.success) {
                         // Descargar automáticamente
-                        window.open(`./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=${response.folio}`, '_blank');
+                        window.open(`./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja_propuesta.php?folio=${response.folio}`, '_blank');
                         
                         // Recargar después de 1s
                         setTimeout(() => {
@@ -57,11 +56,11 @@ function generarPDFBaja(folio) {
             });
         }
     });
-};
+}
 
 window.descargarPDF = function(folio) {
     $.ajax({
-        url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja.php',
+        url: './functions/personal-solicitud-cambios/pdfs/generar_pdf_baja_propuesta.php',
         type: 'POST',
         data: {
             accion: 'descargar',
@@ -70,7 +69,7 @@ window.descargarPDF = function(folio) {
         dataType: 'json',
         success: function(response) {
             if (response.success) {
-                window.open('./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja.php?folio=' + response.folio, '_blank');
+                window.open('./functions/personal-solicitud-cambios/pdfs/descargar_pdf_baja_propuesta.php?folio=' + response.folio, '_blank');
             } else {
                 if (rol_usuario === 3) {
                     alert('El PDF aún no ha sido generado. Por favor, genere primero la solicitud en PDF.');

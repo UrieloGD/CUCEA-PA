@@ -11,13 +11,13 @@ class PROPUESTA_PDF extends TCPDF {
     }
 }
 
-function generarPDFPropuesta($conexion, $folio) {
+function generarPDFBajaPropuesta($conexion, $folio) {
     $sql = "SELECT 
-            sp.*, 
+            sbp.*, 
             d.Nombre_Departamento 
-        FROM solicitudes_propuesta sp 
-        JOIN departamentos d ON sp.Departamento_ID = d.Departamento_ID
-        WHERE sp.OFICIO_NUM_PROP = ?";
+        FROM solicitudes_baja_propuesta sbp 
+        JOIN departamentos d ON sbp.Departamento_ID = d.Departamento_ID
+        WHERE sbp.OFICIO_NUM_BAJA_PROP = ?";
     
     $stmt = mysqli_prepare($conexion, $sql);
     mysqli_stmt_bind_param($stmt, "s", $folio);
@@ -42,7 +42,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $fontSizeHeader = 8;  // Tamaño reducido para headers
         $fontSizeBody = 9;    // Tamaño cuerpo
 
-        $pdf = new PROPUESTA_PDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new PROPUESTA_PDF('P', 'mm', 'A4', true, 'UTF-8', TRUE);
         $pdf->SetMargins(10, 40, 10);
         $pdf->setPrintHeader(false);
         $pdf->AddPage();
@@ -57,7 +57,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->SetX(37);
         $pdf->SetFont('dejavusans', 'B', 11);
-        $pdf->Cell(0, 6, 'SOLICITUD DE PROPUESTA', 0, 1);
+        $pdf->Cell(0, 6, 'SOLICITUD DE BAJA Y PROPOSICION', 0, 1);
         $pdf->SetX(37);
         $pdf->SetFont('dejavusans', '', 9);
         $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);
@@ -71,13 +71,13 @@ function generarPDFPropuesta($conexion, $folio) {
         // Fila de valores
         $pdf->SetX(125);
         $pdf->SetFont('', '');
-        $pdf->Cell(35, 8, $solicitud['OFICIO_NUM_PROP'], $border, 0, 'L');
-        $pdf->Cell(35, 8, date('d/m/Y', strtotime($solicitud['FECHA_SOLICITUD_P'])), $border, 1, 'L');
+        $pdf->Cell(35, 8, $solicitud['OFICIO_NUM_BAJA_PROP'], $border, 0, 'L');
+        $pdf->Cell(35, 8, date('d/m/Y', strtotime($solicitud['FECHA_SOLICITUD_BAJA_PROP'])), $border, 1, 'L');
 
         // Departamento
         $pdf->SetXY(37, 28);
         $pdf->SetFont('dejavusans', 'B', 10);
-        $pdf->Cell(0, 7, strtoupper('CENTRO UNIVERSITARIO DE CIENCIAS ECONÓMICO ADMINISTRATIVAS'), 0, 1, 'L');
+        $pdf->Cell(0, 7, strtoupper('CENTRO UNIVERSITARIO DE CIENCIAS ECONOMICO ADMINISTRATIVAS'), 0, 1, 'L');
         $pdf->SetXY(37, 33);
         // Obtener el nombre del departamento
         $departamento = str_replace('_', ' ', $solicitud['Nombre_Departamento']);
@@ -97,12 +97,13 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->SetFont('dejavusans', '', 9);
         $pdf->Cell(0, 8, 'C. RECTOR GENERAL DE LA UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->Cell(0, 8, 'PRESENTE', 0, 1);
-        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'L');
-        $pdf->Ln(4);        
+        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION", 0, 'L');
+        $pdf->Cell(0, 8, 'IDENTIFICADO CON EL NUMERO ___________________________ DE FECHA ___________________________', 0, 1);
+        $pdf->Cell(0, 8, 'A FAVOR DE', 0, 1);               
         
         // Tabla de profesor actual
-        $header1 = ['PROFESIÓN', 'AP. PATERNO', 'AP. MATERNO', 'NOMBRE(S)', 'CÓDIGO.', 'DÍA', 'MES', 'AÑO'];
-        $widths1 = [22, 30, 25, 48, 20, 15, 15, 15]; // Total: 190mm
+        $header1 = ['PROFESIÓN', 'APELLIDO PATERNO', 'MATERNO', 'NOMBRE(S)', 'CODIGO'];
+        $widths1 = [25, 45, 35, 55, 30]; // Total: 190mm
         $pdf->SetFont('dejavusans', 'B', 8);
 
         // Header primera tabla
@@ -113,36 +114,35 @@ function generarPDFPropuesta($conexion, $folio) {
 
         // Datos primera tabla
         $pdf->SetFont('', '', 8);
-        $pdf->Cell($widths1[0], 8, mb_strtoupper($solicitud['PROFESSION_PROFESOR_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths1[1], 8, mb_strtoupper($solicitud['APELLIDO_P_PROF_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths1[2], 8, mb_strtoupper($solicitud['APELLIDO_M_PROF_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths1[3], 8, mb_strtoupper($solicitud['NOMBRES_PROF_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths1[4], 8, mb_strtoupper($solicitud['CODIGO_PROF_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths1[5], 8, $solicitud['DIA_P'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths1[6], 8, $solicitud['MES_P'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths1[7], 8, $solicitud['ANO_P'] ?? '', $border, 1, 'L');
-        $pdf->Ln(4);
+        $pdf->Cell($widths1[0], 8, mb_strtoupper($solicitud['PROFESSION_PROFESOR_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths1[1], 8, mb_strtoupper($solicitud['APELLIDO_P_PROF_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths1[2], 8, mb_strtoupper($solicitud['APELLIDO_M_PROF_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths1[3], 8, mb_strtoupper($solicitud['NOMBRES_PROF_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths1[4], 8, mb_strtoupper($solicitud['CODIGO_PROF_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Ln(12);
         
         // Segunda tabla (Descripción puesto)
-        $header2 = ['DESCRIPCIÓN DEL PUESTO QUE OCUPA', 'CÓDIGO', 'CLASIFICACIÓN'];
-        $widths2 = [125, 30, 35]; // Total: 190mm
-        $pdf->SetFont('dejavusans', 'B', 9);
+        $header2 = ['NO. PUESTO (T)', 'NO. PUESTO (P)', 'CVE. MATERIA', 'NOMBRE DE LA MATERIA', 'CRN'];
+        $widths2 = [30, 30, 30, 70, 30]; // Ajustado para que sume 180mm
+        $pdf->SetFont('dejavusans', 'B', 8);
         
-        foreach ($header2 as $i => $col) {
-            $pdf->Cell($widths2[$i], 8, $col, $border, 0, 'L');
+        for ($i = 0; $i < count($header2); $i++) {
+            $pdf->Cell($widths2[$i], 8, $header2[$i], $border, 0, 'L');
         }
         $pdf->Ln(8);
 
         // Datos segunda tabla
         $pdf->SetFont('', '', 8);
-        $pdf->Cell($widths2[0], 8, mb_strtoupper($solicitud['DESCRIPCION_PUESTO_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths2[1], 8, $solicitud['CODIGO_PUESTO_P'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths2[2], 8, mb_strtoupper($solicitud['CLASIFICACION_PUESTO_P'] ?? ''), $border, 1, 'L');
-        $pdf->Ln(4);
+        $pdf->Cell($widths2[0], 8, mb_strtoupper($solicitud['NUM_PUESTO_TEORIA_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths2[1], 8, $solicitud['NUM_PUESTO_PRACTICA_BAJA'] ?? '', $border, 0, 'L');
+        $pdf->Cell($widths2[2], 8, mb_strtoupper($solicitud['CVE_MATERIA_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths2[3], 8, mb_strtoupper($solicitud['NOMBRE_MATERIA_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths2[4], 8, mb_strtoupper($solicitud['CRN_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Ln(12);
         
         // Tercera tabla (Detalles del puesto)
-        $header3 = ['HRS SEM.', 'CATEGORIA', 'CARRERA', 'CRN', 'N° PUESTO', 'CARGO A.T.C.'];
-        $widths3 = [20, 45, 60, 20, 20, 25]; // Total: 190mm (ajustado para margen)
+        $header3 = ['HRS/SEM/MES (T)', 'HRS/SEM/MES (P)', 'CARRERA', 'GDO/GPO/TURNO', 'TIPO ASIGNACION'];
+        $widths3 = [30, 30, 70, 30, 30]; // Total: 190mm (ajustado para margen)
         $pdf->SetFont('dejavusans', 'B', 8);
 
         // Configurar autoajuste de texto
@@ -156,17 +156,32 @@ function generarPDFPropuesta($conexion, $folio) {
 
         // Datos tercera tabla
         $pdf->SetFont('', '', 8);
-        $pdf->Cell($widths3[0], 8, $solicitud['HRS_SEMANALES_P'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths3[1], 8, mb_strtoupper($solicitud['CATEGORIA_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths3[2], 8, mb_strtoupper($solicitud['CARRIERA_PROF_P'] ?? ''), $border, 0, 'L');
-        $pdf->Cell($widths3[3], 8, $solicitud['CRN_P'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths3[4], 8, $solicitud['NUM_PUESTO_P'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths3[5], 8, ($solicitud['CARGO_ATC_P'] ? 'SÍ' : 'NO'), $border, 1, 'L');
+        $pdf->Cell($widths3[0], 8, $solicitud['HRS_SEM_MES_TEORIA_BAJA'] ?? '', $border, 0, 'L');
+        $pdf->Cell($widths3[1], 8, mb_strtoupper($solicitud['HRS_SEM_MES_TEORIA_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths3[2], 8, mb_strtoupper($solicitud['CARRERA_BAJA'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths3[3], 8, $solicitud['GDO_PO_TURNO_BAJA'] ?? '', $border, 0, 'L');
+        $pdf->Cell($widths3[4], 8, $solicitud['TIPO_ASIGNACION_BAJA'] ?? '', $border, 0, 'L');
+        $pdf->Ln(12);
+
+        // FILA DE SIN EFECTOS Y MOTIVO
+        $sin_efectos = $solicitud['SIN_EFFECTOS_APARTH_BAJA'] ? date('d/m/Y', strtotime($solicitud['SIN_EFFECTOS_APARTH_BAJA'])) : 'SIN FECHA';
+        $motivo = $solicitud['MOTIVO_BAJA'];
+        
+        // Anchos calculados para 190mm total
+        $pdf->SetFont('', 'B', 8);
+        $pdf->Cell(60, 8, 'QUEDE SIN EFECTOS A PARTIR DE:', 0, 0, 'L');
+        $pdf->SetFont('', '', 8);
+        $pdf->Cell(45, 8, $sin_efectos, $border, 0, 'L');
+
+        $pdf->SetFont('', 'B', 8);
+        $pdf->Cell(25, 8, 'MOTIVO:', 0, 0, 'L');  // Ancho aumentado
+        $pdf->SetFont('', '', 8);
+        $pdf->Cell(60, 8, $motivo, $border, 1, 'L'); // Ancho aumentado
         $pdf->Ln(4);
 
-        // Cuarta tabla (Motivo)
-        $header4 = ['EN SUSTITUCIÓN:', 'CÓDIGO', 'NOMBRE PROFESOR SUSTITUTO', 'CAUSA'];
-        $widths4 = [30, 20, 100, 40]; // Total: 190mm
+        // Cuarta tabla (Descripción puesto)
+        $header4 = ['NO. PUESTO (T)', 'NO. PUESTO (P)', 'A. PATERNO', 'A. MATERNO', 'NOMBRE(S)', 'CODIGO'];
+        $widths4 = [28, 28, 35, 35, 44, 20]; // Total: 190mm
         $pdf->SetFont('dejavusans', 'B', 8);
         
         foreach ($header4 as $i => $col) {
@@ -174,21 +189,37 @@ function generarPDFPropuesta($conexion, $folio) {
         }
         $pdf->Ln(8);
 
-        // Datos cuarta tabla (Ajustar según necesidad real)
+        // Datos cuarta tabla
         $pdf->SetFont('', '', 8);
-        $pdf->Cell($widths4[0], 8, '', $border, 0, 'L'); // Celda vacía para el título
-        $pdf->Cell($widths4[1], 8, $solicitud['CODIGO_PROF_SUST'] ?? '', $border, 0, 'L');
-        $pdf->Cell($widths4[2], 8, mb_strtoupper(
-            ($solicitud['APELLIDO_P_PROF_SUST'] ?? '') . ' ' . 
-            ($solicitud['APELLIDO_M_PROF_SUST'] ?? '') . ' ' . 
-            ($solicitud['NOMBRES_PROF_SUST'] ?? '')),
-            $border, 0, 'L');
-        $pdf->Cell($widths4[3], 8, mb_strtoupper($solicitud['CAUSA_P'] ?? ''), $border, 1, 'L');
-        $pdf->Ln(4);
+        $pdf->Cell($widths4[0], 8, mb_strtoupper($solicitud['NUM_PUESTO_TEORIA_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths4[1], 8, $solicitud['NUM_PUESTO_PRACTICA_PROP'] ?? '', $border, 0, 'L');
+        $pdf->Cell($widths4[2], 8, mb_strtoupper($solicitud['APELLIDO_P_PROF_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths4[3], 8, mb_strtoupper($solicitud['APELLIDO_M_PROF_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths4[4], 8, mb_strtoupper($solicitud['NOMBRES_PROF_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths4[5], 8, mb_strtoupper($solicitud['CODIGO_PROF_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Ln(12);
+
+        // Quinta tabla (Descripción puesto)
+        $header5 = ['HRS/SEM/MES (T)', 'HRS/SEM/MES (P)', 'INTERINO/TEMPORAL/DEFINITIVO', 'TIPO ASIGNACION'];
+        $widths5 = [30, 30, 85, 45]; // Total: 190mm
+        $pdf->SetFont('dejavusans', 'B', 8);
+                
+        foreach ($header5 as $i => $col) {
+            $pdf->Cell($widths5[$i], 8, $col, $border, 0, 'L');
+        }
+        $pdf->Ln(8);
+
+        // Datos quinta tabla
+        $pdf->SetFont('', '', 8);
+        $pdf->Cell($widths5[0], 8, mb_strtoupper($solicitud['HRS_SEM_MES_TEORIA_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths5[1], 8, mb_strtoupper($solicitud['HRS_SEM_MES_PRACTICA_PROP'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths5[2], 8, mb_strtoupper($solicitud['INTERINO_TEMPORAL_DEFINITIVO'] ?? ''), $border, 0, 'L');
+        $pdf->Cell($widths5[3], 8, mb_strtoupper($solicitud['TIPO_ASIGNACION'] ?? ''), $border, 0, 'L');
+        $pdf->Ln(12);
 
         // Periodo de asignación
-        $periodo_desde = $solicitud['PERIODO_ASIG_DESDE_P'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_DESDE_P'])) : 'SIN FECHA';
-        $periodo_hasta = $solicitud['PERIODO_ASIG_HASTA_P'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_HASTA_P'])) : 'SIN FECHA';
+        $periodo_desde = $solicitud['PERIODO_ASIG_DESDE_PROP'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_DESDE_PROP'])) : 'SIN FECHA';
+        $periodo_hasta = $solicitud['PERIODO_ASIG_HASTA_PROP'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_HASTA_PROP'])) : 'SIN FECHA';
         
         // Anchos calculados para 190mm total
         $pdf->SetFont('', 'B', 8);
@@ -203,11 +234,11 @@ function generarPDFPropuesta($conexion, $folio) {
 
         
         // Firmas (igual que baja)
-        $pdf->SetY(-100);
+        $pdf->SetY(-80);
         $pdf->SetFont('dejavusans', 'B', 12);
         $pdf->Cell(0, 8, 'ATENTAMENTE', 0, 1, 'C');
         $pdf->Cell(0, 8, 'PIENSA Y TRABAJA', 0, 1, 'C');
-        $pdf->Ln(25);
+        $pdf->Ln(15);
         
         $pdf->SetX(25);
         $pdf->Cell(70, 8, '____________________________', 0, 0, 'C');
@@ -230,11 +261,11 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf_content = $pdf->Output('', 'S');
 
         // Actualizar base de datos con fecha de modificación
-        $sql_update = "UPDATE solicitudes_propuesta 
+        $sql_update = "UPDATE solicitudes_baja_propuesta 
                     SET PDF_BLOB = ?, 
                         ESTADO_P = 'En revision',
                         FECHA_MODIFICACION_REVISION = CURRENT_TIMESTAMP
-                    WHERE OFICIO_NUM_PROP = ?";
+                    WHERE OFICIO_NUM_BAJA_PROP = ?";
             
         $stmt = mysqli_prepare($conexion, $sql_update);
         $null = NULL;
@@ -263,7 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
     
-    $resultado = generarPDFPropuesta($conexion, $folio);
+    $resultado = generarPDFBajaPropuesta($conexion, $folio);
     echo json_encode($resultado);
 } else {
     echo json_encode(['success' => false, 'message' => 'Método no permitido']);
