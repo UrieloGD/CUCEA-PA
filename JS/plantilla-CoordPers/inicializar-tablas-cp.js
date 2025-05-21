@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Inicializar Tabulator con configuración de paginación del lado del servidor
   const table = new Tabulator("#tabla-datos-tabulator", {
-    ajaxURL: 'http://localhost/CUCEA-PA/functions/coord-personal-plantilla/get_data.php',
+    ajaxURL: './functions/coord-personal-plantilla/datos-tabla-cp.php',
     ajaxConfig: "GET",
     ajaxParams: {},
     ajaxConfig:{
@@ -397,10 +397,24 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Set new timeout
           searchTimeout = setTimeout(() => {
+              // Guardar una referencia al elemento activo actual (el input)
+              const activeElement = document.activeElement;
+              
               // Reset to first page and reload data
-              table.setPage(1).then(() => {
-                  table.replaceData();
-              });
+              table.setPage(1)
+                  .then(() => table.replaceData())
+                  .then(() => {
+                      // Restaurar el foco al elemento que lo tenía antes (el input)
+                      if (activeElement) {
+                          activeElement.focus();
+                          
+                          // Opcionalmente, mantener la posición del cursor
+                          if (activeElement.setSelectionRange && activeElement.value) {
+                              const len = activeElement.value.length;
+                              activeElement.setSelectionRange(len, len); // Coloca el cursor al final calculando la longitud
+                          }
+                      }
+                  });
           }, 500); // 500ms debounce time
       });
   }

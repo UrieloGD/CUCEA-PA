@@ -20,32 +20,27 @@ $dir = isset($_GET['dir']) ? $_GET['dir'] : "asc";
 $search = isset($_GET['search']) ? mysqli_real_escape_string($conexion, $_GET['search']) : "";
 $showAll = isset($_GET['all']) && $_GET['all'] === "true";
 
-// Obtener filtros por columna
-$filters = [];
-foreach ($_GET as $key => $value) {
-    if (strpos($key, 'headerFilter_') === 0 && !empty($value)) {
-        $field = str_replace('headerFilter_', '', $key);
-        $filters[$field] = mysqli_real_escape_string($conexion, $value);
-    }
+// Obtener todas las columnas de la tabla para búsqueda global
+$columnsResult = mysqli_query($conexion, "SHOW COLUMNS FROM $tabla_departamento");
+$allColumns = [];
+while ($column = mysqli_fetch_assoc($columnsResult)) {
+    $allColumns[] = $column['Field'];
 }
 
 // Construir consulta SQL
 $sql = "SELECT * FROM $tabla_departamento WHERE Papelera = 'activo'";
 
-// Búsqueda global
+// Búsqueda global mejorada (en todas las columnas excepto las excluidas)
 if (!empty($search)) {
-    $searchFields = ['ID', 'Datos', 'Codigo', 'Paterno', 'Materno', 'Nombres', 'Nombre_completo'];
+    $excludedColumns = ['ID', 'Papelera']; // Columnas que no queremos incluir
+    $searchFields = array_diff($allColumns, $excludedColumns);
+    
     $conditions = [];
     foreach ($searchFields as $field) {
         $conditions[] = "$field LIKE '%$search%'";
     }
     $sql .= " AND (" . implode(" OR ", $conditions) . ")";
     $showAll = true;
-}
-
-// Filtros por columna
-foreach ($filters as $field => $value) {
-    $sql .= " AND $field LIKE '%$value%'";
 }
 
 // Ordenación
