@@ -143,10 +143,12 @@ document.addEventListener("DOMContentLoaded", (function () {
             text: "Esta acción volverá a mostrar el registro en la tabla principal",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#0071B0",
-            cancelButtonColor: "#d33",
             confirmButtonText: "Sí, restaurar",
             cancelButtonText: "Cancelar",
+            customClass: {
+              confirmButton: "confirmar-registrosRestaurar",
+              cancelButton: "cancelar-registrosRestaurar",
+            }
           });
 
           if (isConfirmed) {

@@ -81,10 +81,13 @@ function validateFile(file) {
   }
 
   if (file.size > CONFIG.maxFileSize) {
-    showError( 
-      "Archivo demasiado grande",
-      "El archivo excede el tamaño máximo permitido de 2MB"
-    );
+    Swal.fire({
+      icon: "error",
+      title: "Archivo demasiado grande",
+      text: "El archivo excede el tamaño máximo permitido de 2MB",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#0071B0",
+    });
     return false;
   }
 
@@ -154,8 +157,11 @@ async function handleSubmit(e) {
         confirmButtonText: 'Reemplazar datos',
         cancelButtonText: 'Cancelar',
         confirmButtonColor: "#0071B0",
-        cancelButtonColor: '#d33',
         width: '600px',
+        customClass: {
+          cancelButton: 'boton-cancelar-SweetAlert',
+          confirmButton: 'boton-aceptar-SweetAlert',
+        }
       });
       
       if (confirmResult.isDismissed) {

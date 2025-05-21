@@ -296,9 +296,11 @@
 /* Botón para cancelar la subida del archivo */
 
 .file-container .cancel-btn {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 1px;
+  color: #0071B0;
   border-radius: 3px;
   padding: 5px 10px;
   cursor: pointer;
@@ -306,7 +308,7 @@
 }
 
 .file-container .cancel-btn:hover {
-  background-color: #c82333;
+  background-color: #D9EDF6;
 }
 
 /* Estilos para mostrar el preview del archivo que se está subiendo */
@@ -526,6 +528,28 @@
   background-color: #007bff; /* Color original del botón */
   cursor: pointer;
 }
+
+.boton-cancelar-SweetAlert {
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #0071B0;
+}
+.boton-cancelar-SweetAlert:hover {
+  background-color: #D9EDF6;
+}
+.boton-aceptar-SweetAlert {
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+}
+.boton-aceptar-SweetAlert:hover { background-color: #00659b; }
+
+/* Estilos para reforzar el Sweet Alert */
+button.swal2-confirm.swal2-styled { background-color: #0071B0!important; }
 
 /* Media Queries para diferentes resoluciones */
 

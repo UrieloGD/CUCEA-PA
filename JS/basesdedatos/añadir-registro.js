@@ -122,6 +122,10 @@ function añadirRegistro() {
             title: "Error",
             text: "Error al procesar la respuesta del servidor",
             icon: "error",
+            confirmButtonText: "OK",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           });
         }
       } else {

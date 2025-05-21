@@ -16,6 +16,10 @@ function eliminarRegistrosSeleccionados() {
       showCancelButton: true,
       confirmButtonText: "Sí, borrar todo",
       cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: 'aceptar-eliminarRegistros',
+        cancelButton: 'cancelar-eliminarRegistros',
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         var xhr = new XMLHttpRequest();
@@ -66,6 +70,10 @@ function eliminarRegistrosSeleccionados() {
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: 'aceptar-eliminarRegistros',
+      cancelButton: 'cancelar-eliminarRegistros',
+    }
   }).then((result) => {
     if (result.isConfirmed) {
       var xhr = new XMLHttpRequest();

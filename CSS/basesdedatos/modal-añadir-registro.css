@@ -277,6 +277,9 @@ select:focus {
   cursor: pointer;
 }
 
+.OK-boton { background-color: #0071B0; }
+.OK-boton:hover { background-color: #00659b; }
+
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .swal2-success-line-long,
   .swal2-success-line-tip {
