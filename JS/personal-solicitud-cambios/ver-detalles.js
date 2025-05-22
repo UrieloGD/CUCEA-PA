@@ -18,6 +18,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Función para limpiar y habilitar un modal para nueva solicitud
+    function limpiarYHabilitarModal(modal) {
+        if (!modal) return;
+        
+        console.log('Limpiando y habilitando modal para nueva solicitud');
+        
+        // Habilitar todos los campos
+        modal.querySelectorAll('input, select, textarea').forEach(elem => {
+            elem.removeAttribute('readonly');
+            elem.removeAttribute('disabled');
+            
+            // Limpiar valores
+            if (elem.tagName === 'SELECT') {
+                elem.selectedIndex = 0;
+            } else if (elem.type === 'checkbox' || elem.type === 'radio') {
+                elem.checked = false;
+            } else {
+                elem.value = '';
+            }
+        });
+        
+        // Mostrar botones de acción
+        const botonesAccion = modal.querySelector('.contenedor-botones-baja') || 
+                            modal.querySelector('.contenedor-botones-propuesta') ||
+                            modal.querySelector('.contenedor-botones-baja-propuesta');
+        if (botonesAccion) {
+            botonesAccion.style.display = 'block';
+        }
+        
+        // Restaurar título original
+        const modalTitle = modal.querySelector('h2');
+        if (modalTitle) {
+            const originalTitles = {
+                'solicitud-modal-baja-academica': 'Nueva solicitud de baja',
+                'solicitud-modal-propuesta-academica': 'Nueva solicitud de propuesta',
+                'solicitud-modal-baja-propuesta': 'Nueva solicitud de baja-propuesta'
+            };
+            modalTitle.innerHTML = originalTitles[modal.id] || 'Nueva solicitud';
+        }
+    }
+    
+    // Exponer función globalmente para que pueda ser usada desde otros scripts
+    window.limpiarYHabilitarModal = limpiarYHabilitarModal;
+    
     // Función para cargar los datos de la solicitud desde el servidor
     function cargarDatosSolicitud(folio, tipo) {
         // Mostrar indicador de carga

@@ -48,12 +48,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnDescartar) {
         btnDescartar.addEventListener('click', () => {
             Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Se descartarán todos los cambios realizados",
+                title: '¿Descartar cambios?',
+                text: "Se perderán todos los datos ingresados",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#0071b0',
-                cancelButtonColor: '#6c757d',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, descartar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {

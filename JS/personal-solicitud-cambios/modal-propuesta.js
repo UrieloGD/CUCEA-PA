@@ -273,17 +273,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnDescartar) {
         btnDescartar.addEventListener('click', () => {
             Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Se descartarán todos los cambios realizados",
+                title: '¿Descartar cambios?',
+                text: "Se perderán todos los datos ingresados",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#0071b0',
+                confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, descartar',
                 cancelButtonText: 'Cancelar'
-            }).then((result) => {
+            }).then(result => {
                 if (result.isConfirmed) {
-                    cerrarModal();
+                    formBaja.reset();
+                    formData = new FormData();
+                    modalBaja.style.display = 'none';
                 }
             });
         });
