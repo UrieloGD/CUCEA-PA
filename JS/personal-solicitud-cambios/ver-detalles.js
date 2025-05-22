@@ -25,11 +25,29 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('Cargando datos para folio:', folio, 'tipo:', tipo);
         
+        // Determinar qué archivo PHP usar según el tipo
+        let url;
+        switch (tipo) {
+            case 'baja':
+                url = './functions/personal-solicitud-cambios/obtener_detalle_solicitud_baja.php';
+                break;
+            case 'propuesta':
+                url = './functions/personal-solicitud-cambios/obtener_detalle_solicitud_propuesta.php';
+                break;
+            case 'baja-propuesta':
+                url = './functions/personal-solicitud-cambios/obtener_detalle_solicitud_baja_propuesta.php';
+                break;
+            default:
+                ocultarCargando();
+                alert('Tipo de solicitud no reconocido');
+                return;
+        }
+        
         // Realizar petición AJAX para obtener los datos
-        fetch(`./functions/personal-solicitud-cambios/obtener_detalle_solicitud.php?folio=${folio}&tipo=${tipo}`)
+        fetch(`${url}?folio=${folio}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Error al cargar los datos');
+                    throw new Error('Error al cargar los datos: ' + response.status);
                 }
                 return response.json();
             })
@@ -45,10 +63,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // Rellenar el modal con los datos
-                rellenarModal(data, tipo);
-                
-                // Abrir el modal correspondiente
-                abrirModal(tipo);
+                try {
+                    rellenarModal(data, tipo);
+                    
+                    // Abrir el modal correspondiente
+                    abrirModal(tipo);
+                } catch (error) {
+                    console.error('Error al rellenar el modal:', error);
+                    alert('Error al mostrar los datos: ' + error.message);
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -134,34 +157,31 @@ document.addEventListener('DOMContentLoaded', function() {
         if (modal) {
             // Mostrar el modal con JavaScript puro
             modal.style.display = 'block';
-            modal.classList.add('show');
             
-            // Si el modal tiene un fondo oscuro (overlay), mostrarlo también
+            // Si hay un botón para cerrar, añadir eventos
+            const closeBtn = modal.querySelector('.close-button');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    cerrarModal(modalId);
+                });
+            }
+            
+            // Si hay un fondo de modal, mostrarlo también
             const modalOverlay = document.querySelector('.modal-overlay');
             if (modalOverlay) {
                 modalOverlay.style.display = 'block';
             }
-            
-            // Opcional: añadir un evento para cerrar el modal al hacer clic en botones de cierre
-            const closeBtns = modal.querySelectorAll('.close-modal, .btn-close, [data-dismiss="modal"]');
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    cerrarModal(modalId);
-                });
-            });
         } else {
             console.error('Modal no encontrado:', modalId);
         }
     }
     
-    // Función para cerrar el modal
     function cerrarModal(modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.style.display = 'none';
-            modal.classList.remove('show');
             
-            // Si hay un overlay, ocultarlo también
+            // Si hay un fondo de modal, ocultarlo también
             const modalOverlay = document.querySelector('.modal-overlay');
             if (modalOverlay) {
                 modalOverlay.style.display = 'none';
@@ -183,205 +203,290 @@ document.addEventListener('DOMContentLoaded', function() {
         switch (tipo) {
             case 'baja':
                 modal = document.getElementById('solicitud-modal-baja-academica');
+                console.log('Modal de baja encontrado:', !!modal);
                 if (!modal) {
                     console.error('Modal de baja académica no encontrado');
                     return;
                 }
-                
-                // Verificar cada selector antes de usarlo
-                const setValueIfExists = (selector, value) => {
-                    const elem = modal.querySelector(selector);
-                    if (elem) {
-                        elem.value = value || '';
-                        console.log(`Elemento ${selector} actualizado con valor:`, value);
-                    } else {
-                        console.warn(`Elemento no encontrado: ${selector}`);
+            
+            // Función auxiliar para establecer el valor de forma segura
+            const setValueSafe = (selector, value) => {
+                const elem = modal.querySelector(selector);
+                console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
+                if (elem) {
+                    elem.value = value || '';
+                } else {
+                    console.error(`Elemento no encontrado: ${selector}`);
+                }
+            };
+            
+            // Actualizar los campos con los IDs correctos según tu HTML
+            setValueSafe('#crn', data.crn);
+            setValueSafe('#descripcion', data.puesto);
+            setValueSafe('#clasificacion', data.clasificacion_b);
+            setValueSafe('#profesion', data.profesion);
+            setValueSafe('#fecha_efectos', formatearFechaParaHTML(data.fecha));
+            setValueSafe('#fecha', formatearFechaParaHTML(data.efecto));
+            setValueSafe('#apellido_paterno', data.profesor_actual.paterno);
+            setValueSafe('#apellido_materno', data.profesor_actual.materno);
+            setValueSafe('#nombres', data.profesor_actual.nombres);
+            setValueSafe('#codigo_prof', data.profesor_actual.codigo);
+            setValueSafe('#motivo', data.motivo);
+            setValueSafe('#oficio_num_baja', data.folio);
+            
+            // Establecer la profesión - Versión mejorada
+            const profesionSelect = modal.querySelector('#profesion');
+            const profesionValue = data.profesor_actual.profession || data.profession || '';
+
+            console.log('Valor de profesión encontrado:', profesionValue);
+
+            if (profesionSelect && profesionValue) {
+                // Primero intentamos buscar una coincidencia exacta
+                for (let i = 0; i < profesionSelect.options.length; i++) {
+                    if (profesionSelect.options[i].value === profesionValue) {
+                        profesionSelect.selectedIndex = i;
+                        console.log('Profesión seleccionada (exacta):', profesionSelect.options[i].value);
+                        break;
                     }
-                };
+                }
                 
-                // Actualizar solo los campos que existen
-                setValueIfExists('#CRN', data.crn);
-                setValueIfExists('#materia-baja', data.materia); // Ajusta los nombres según tus HTML reales
-                setValueIfExists('#puesto-baja', data.puesto);
-                setValueIfExists('#clasificacion-baja', data.clasificacion_b);
-                setValueIfExists('#efecto-baja', data.efecto);
-                setValueIfExists('#apellido-paterno-baja', data.profesor_actual.paterno);
-                setValueIfExists('#apellido-materno-baja', data.profesor_actual.materno);
-                setValueIfExists('#nombres-baja', data.profesor_actual.nombres);
-                setValueIfExists('#codigo-baja', data.profesor_actual.codigo);
-                
-                // Manejar el motivo de forma segura
-                const motivoBaja = modal.querySelector('#motivo-baja');
-                if (motivoBaja && data.motivo) {
-                    // Verificar que motivoBaja.options existe antes de usarlo
-                    if (motivoBaja.options && motivoBaja.options.length > 0) {
-                        let motivoEncontrado = false;
-                        for (let i = 0; i < motivoBaja.options.length; i++) {
-                            if (motivoBaja.options[i].text === data.motivo) {
-                                motivoBaja.selectedIndex = i;
-                                motivoEncontrado = true;
-                                break;
+                // Si no encontramos una coincidencia exacta, intentamos una parcial
+                if (profesionSelect.selectedIndex === 0 || profesionSelect.selectedIndex === -1) {
+                    for (let i = 0; i < profesionSelect.options.length; i++) {
+                        if (profesionSelect.options[i].value && profesionValue &&
+                            (profesionSelect.options[i].value.includes(profesionValue) || 
+                            profesionValue.includes(profesionSelect.options[i].value))) {
+                            profesionSelect.selectedIndex = i;
+                            console.log('Profesión seleccionada (parcial):', profesionSelect.options[i].value);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            break;
+            
+        case 'propuesta':
+            modal = document.getElementById('solicitud-modal-propuesta-academica');
+            console.log('Modal de propuesta encontrado:', !!modal);
+            if (!modal) {
+                console.error('Modal de propuesta académica no encontrado');
+                return;
+            }
+        
+            const setValueSafeP = (selector, value) => {
+                const elem = modal.querySelector(selector);
+                console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
+                if (elem) {
+                    elem.value = value || '';
+                } else {
+                    console.error(`Elemento no encontrado: ${selector}`);
+                }
+            };
+            
+            // Función mejorada para seleccionar opción en desplegable
+            const seleccionarOpcion = (selector, valor) => {
+                const elem = modal.querySelector(selector);
+                if (elem && valor !== undefined && valor !== null && valor !== '') {
+                    console.log(`Intentando seleccionar ${selector} con valor:`, valor);
+                    
+                    // Convertir valor a string para comparaciones
+                    const valorStr = valor.toString();
+                    
+                    // Buscar por valor exacto
+                    for (let i = 0; i < elem.options.length; i++) {
+                        if (elem.options[i].value === valorStr) {
+                            elem.selectedIndex = i;
+                            console.log(`${selector} seleccionado por valor:`, elem.options[i].text);
+                            return;
+                        }
+                    }
+                    
+                    // Para meses, si viene un número, buscar también con cero adelante
+                    if (selector === '#mes_p') {
+                        const valorConCero = valorStr.padStart(2, '0'); // "8" -> "08"
+                        for (let i = 0; i < elem.options.length; i++) {
+                            if (elem.options[i].value === valorConCero) {
+                                elem.selectedIndex = i;
+                                console.log(`${selector} seleccionado con cero:`, elem.options[i].text);
+                                return;
                             }
                         }
                         
-                        // Si el motivo es "otro", mostrar y rellenar el campo de texto
-                        if (data.motivo === "Otro") {
-                            const otroMotivoContainer = modal.querySelector('#otro-motivo-container-baja');
-                            if (otroMotivoContainer) {
-                                otroMotivoContainer.style.display = 'block';
-                                setValueIfExists('#otro-motivo-baja', data.otro_motivo);
+                        // También buscar por nombre del mes
+                        const meses = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                        const nombreMes = meses[parseInt(valorStr)] || '';
+                        
+                        for (let i = 0; i < elem.options.length; i++) {
+                            if (elem.options[i].text.includes(nombreMes) || elem.options[i].value.includes(nombreMes)) {
+                                elem.selectedIndex = i;
+                                console.log(`${selector} seleccionado por nombre:`, elem.options[i].text);
+                                return;
                             }
                         }
-                    } else {
-                        // Si no tiene options, asignar directamente el texto
-                        motivoBaja.value = data.motivo;
                     }
-                }
-                
-                break;
-                
-            case 'propuesta':
-                modal = document.getElementById('solicitud-modal-propuesta-academica');
-                console.log('Modal de propuesta encontrado:', !!modal);
-                if (!modal) {
-                    console.error('Modal de propuesta académica no encontrado');
-                    return;
-                }
-                
-                // Imprimir contenido del modal para depuración
-                console.log('Contenido del modal de propuesta:', modal.outerHTML);
-                
-                // Función auxiliar para establecer el valor de forma segura
-                const setValueSafeP = (selector, value) => {
-                    const elem = modal.querySelector(selector);
-                    console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
-                    if (elem) {
-                        elem.value = value || '';
-                    } else {
-                        console.error(`Elemento no encontrado: ${selector}`);
-                    }
-                };
-                
-                // Rellenar campos de forma segura
-                setValueSafeP('#CRN-p', data.crn);
-                setValueSafeP('#materia-p', data.materia);
-                setValueSafeP('#puesto-p', data.puesto);
-                setValueSafeP('#clasificacion-p', data.clasificacion_p);
-                setValueSafeP('#horas-sem', data.horas_sem);
-                setValueSafeP('#periodo-desde', data.periodo_desde);
-                setValueSafeP('#periodo-hasta', data.periodo_hasta);
-                
-                // Profesor actual
-                setValueSafeP('#apellido-paterno-actual', data.profesor_actual.paterno);
-                setValueSafeP('#apellido-materno-actual', data.profesor_actual.materno);
-                setValueSafeP('#nombres-actual', data.profesor_actual.nombres);
-                setValueSafeP('#codigo-actual', data.profesor_actual.codigo);
-                
-                // Profesor propuesto
-                setValueSafeP('#apellido-paterno-propuesto', data.profesor_propuesto.paterno);
-                setValueSafeP('#apellido-materno-propuesto', data.profesor_propuesto.materno);
-                setValueSafeP('#nombres-propuesto', data.profesor_propuesto.nombres);
-                setValueSafeP('#codigo-propuesto', data.profesor_propuesto.codigo);
-                
-                // Seleccionar el motivo correcto
-                const motivoPropuesta = modal.querySelector('#motivo-p');
-                console.log('Elemento motivo:', !!motivoPropuesta, 'Valor motivo:', data.motivo);
-                if (motivoPropuesta && data.motivo) {
-                    let motivoEncontrado = false;
-                    for (let i = 0; i < motivoPropuesta.options.length; i++) {
-                        if (motivoPropuesta.options[i].text === data.motivo) {
-                            motivoPropuesta.selectedIndex = i;
-                            motivoEncontrado = true;
-                            break;
+                    
+                    // Buscar por texto
+                    for (let i = 0; i < elem.options.length; i++) {
+                        if (elem.options[i].text === valorStr) {
+                            elem.selectedIndex = i;
+                            console.log(`${selector} seleccionado por texto:`, elem.options[i].text);
+                            return;
                         }
                     }
                     
-                    console.log('Motivo encontrado en opciones:', motivoEncontrado);
-                    
-                    // Si el motivo es "otro", mostrar y rellenar el campo de texto
-                    if (data.motivo === "Otro") {
-                        const otroMotivoContainer = modal.querySelector('#otro-motivo-container-p');
-                        console.log('Contenedor otro motivo:', !!otroMotivoContainer);
-                        if (otroMotivoContainer) {
-                            otroMotivoContainer.style.display = 'block';
-                            setValueSafeP('#otro-motivo-p', data.otro_motivo);
-                        }
+                    console.warn(`No se pudo seleccionar ${selector} con valor:`, valor);
+                    console.log('Opciones disponibles:');
+                    for (let i = 0; i < elem.options.length; i++) {
+                        console.log(`  Opción ${i}: value="${elem.options[i].value}" text="${elem.options[i].text}"`);
                     }
                 }
+            };
+            
+            // CAMPOS BÁSICOS
+            setValueSafeP('#oficio_num_prop', data.folio);
+            
+            // Profesor propuesto
+            setValueSafeP('#nombres_p', data.profesor_propuesto.nombres);
+            setValueSafeP('#apellido_paterno_p', data.profesor_propuesto.paterno);
+            setValueSafeP('#apellido_materno_p', data.profesor_propuesto.materno);
+            setValueSafeP('#codigo_prof_p', data.profesor_propuesto.codigo);
+        
+            // CAMPOS DESPLEGABLES
+            seleccionarOpcion('#dia_p', data.dia);
+            seleccionarOpcion('#mes_p', data.mes);  // Ahora maneja mejor los números de mes
+            
+            // CAMPO CARGO ATC
+            seleccionarOpcion('#cargo_atc', data.cargo);
+            
+            // CAMPOS NORMALES (inputs de texto) - CORREGIDO
+            setValueSafeP('#crn_p', data.crn);
+            setValueSafeP('#codigo_puesto_p', data.codigo_puesto);
+            setValueSafeP('#descripcion_p', data.puesto);
+            setValueSafeP('#clasificacion_p', data.clasificacion_p);
+            setValueSafeP('#categoria', data.categoria);
+            setValueSafeP('#carrera', data.carrera);
+            setValueSafeP('#num_puesto', data.num_puesto);
+            setValueSafeP('#hrs_semanales', data.horas_sem);
+            setValueSafeP('#fecha_inicio', formatearFechaParaHTML(data.periodo_desde));
+            setValueSafeP('#fecha_fin', formatearFechaParaHTML(data.periodo_hasta));
+            setValueSafeP('#fecha', formatearFechaParaHTML(data.fecha));
+            
+            // Profesor Sustituto (actual)
+            setValueSafeP('#nombres_sust', data.profesor_actual.nombres);
+            setValueSafeP('#apellido_paterno_sust', data.profesor_actual.paterno);
+            setValueSafeP('#apellido_materno_sust', data.profesor_actual.materno);
+            setValueSafeP('#codigo_prof_sust', data.profesor_actual.codigo);
+            setValueSafeP('#causa', data.motivo);
+            
+            // Seleccionar profesión para profesor propuesto
+            const profesionPropuesto = modal.querySelector('#profesion_p');
+            if (profesionPropuesto) {
+                seleccionarOpcionProfesion(profesionPropuesto, data.profesor_propuesto.profession);
+            }
+            
+        break;
                 
-                break;
-                
-            case 'baja-propuesta':
-                modal = document.getElementById('solicitud-modal-baja-propuesta');
-                console.log('Modal de baja-propuesta encontrado:', !!modal);
-                if (!modal) {
-                    console.error('Modal de baja-propuesta académica no encontrado');
-                    return;
+        case 'baja-propuesta':
+            modal = document.getElementById('solicitud-modal-baja-propuesta');
+            console.log('Modal de baja-propuesta encontrado:', !!modal);
+            if (!modal) {
+                console.error('Modal de baja-propuesta no encontrado');
+                return;
+            }
+            
+            // Función auxiliar para establecer el valor de forma segura
+            const setValueSafeBP = (selector, value) => {
+                const elem = modal.querySelector(selector);
+                console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
+                if (elem) {
+                    elem.value = value || '';
+                } else {
+                    console.error(`Elemento no encontrado: ${selector}`);
                 }
-                
-                // Imprimir contenido del modal para depuración
-                console.log('Contenido del modal de baja-propuesta:', modal.outerHTML);
-                
-                // Función auxiliar para establecer el valor de forma segura
-                const setValueSafeBP = (selector, value) => {
-                    const elem = modal.querySelector(selector);
-                    console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
-                    if (elem) {
-                        elem.value = value || '';
-                    } else {
-                        console.error(`Elemento no encontrado: ${selector}`);
-                    }
-                };
-                
-                // Rellenar campos de forma segura
-                setValueSafeBP('#CRN-bp', data.crn);
-                setValueSafeBP('#materia-bp', data.materia);
-                setValueSafeBP('#clave-bp', data.clave);
-                setValueSafeBP('#SEC-bp', data.sec);
-                
-                // Profesor actual
-                setValueSafeBP('#apellido-paterno-actual-bp', data.profesor_actual.paterno);
-                setValueSafeBP('#apellido-materno-actual-bp', data.profesor_actual.materno);
-                setValueSafeBP('#nombres-actual-bp', data.profesor_actual.nombres);
-                setValueSafeBP('#codigo-actual-bp', data.profesor_actual.codigo);
-                
-                // Profesor propuesto
-                setValueSafeBP('#apellido-paterno-propuesto-bp', data.profesor_propuesto.paterno);
-                setValueSafeBP('#apellido-materno-propuesto-bp', data.profesor_propuesto.materno);
-                setValueSafeBP('#nombres-propuesto-bp', data.profesor_propuesto.nombres);
-                setValueSafeBP('#codigo-propuesto-bp', data.profesor_propuesto.codigo);
-                
-                // Seleccionar el motivo correcto
-                const motivoBajaPropuesta = modal.querySelector('#motivo-bp');
-                console.log('Elemento motivo:', !!motivoBajaPropuesta, 'Valor motivo:', data.motivo);
-                if (motivoBajaPropuesta && data.motivo) {
-                    let motivoEncontrado = false;
-                    for (let i = 0; i < motivoBajaPropuesta.options.length; i++) {
-                        if (motivoBajaPropuesta.options[i].text === data.motivo) {
-                            motivoBajaPropuesta.selectedIndex = i;
-                            motivoEncontrado = true;
-                            break;
+            };
+            
+            // Función para seleccionar opción en desplegable
+            const seleccionarOpcionBP = (selector, valor) => {
+                const elem = modal.querySelector(selector);
+                if (elem && valor !== undefined && valor !== null && valor !== '') {
+                    console.log(`Intentando seleccionar ${selector} con valor:`, valor);
+                    
+                    // Buscar por valor exacto
+                    for (let i = 0; i < elem.options.length; i++) {
+                        if (elem.options[i].value === valor) {
+                            elem.selectedIndex = i;
+                            console.log(`${selector} seleccionado:`, elem.options[i].text);
+                            return;
                         }
                     }
                     
-                    console.log('Motivo encontrado en opciones:', motivoEncontrado);
-                    
-                    // Si el motivo es "otro", mostrar y rellenar el campo de texto
-                    if (data.motivo === "Otro") {
-                        const otroMotivoContainer = modal.querySelector('#otro-motivo-container-bp');
-                        console.log('Contenedor otro motivo:', !!otroMotivoContainer);
-                        if (otroMotivoContainer) {
-                            otroMotivoContainer.style.display = 'block';
-                            setValueSafeBP('#otro-motivo-bp', data.otro_motivo);
+                    // Buscar por texto
+                    for (let i = 0; i < elem.options.length; i++) {
+                        if (elem.options[i].text === valor) {
+                            elem.selectedIndex = i;
+                            console.log(`${selector} seleccionado por texto:`, elem.options[i].text);
+                            return;
                         }
                     }
+                    
+                    console.warn(`No se pudo seleccionar ${selector} con valor:`, valor);
                 }
-                
-                break;
-        }
+            };
+            
+            // DATOS GENERALES
+            setValueSafeBP('#oficio_num_baja_prop', data.folio);
+            setValueSafeBP('#fecha', formatearFechaParaHTML(data.fecha));
+            
+            // DATOS DE BAJA
+            setValueSafeBP('#nombres_baja', data.profesor_actual.nombres);
+            setValueSafeBP('#apellido_paterno_baja', data.profesor_actual.paterno);
+            setValueSafeBP('#apellido_materno_baja', data.profesor_actual.materno);
+            setValueSafeBP('#codigo_prof_baja', data.profesor_actual.codigo);
+            
+            // Profesión del profesor actual
+            seleccionarOpcionBP('#profesion_baja', data.profesor_actual.profession);
+            
+            setValueSafeBP('#num_puesto_teoria_baja', data.num_puesto_teoria_baja);
+            setValueSafeBP('#num_puesto_practica_baja', data.num_puesto_practica_baja);
+            setValueSafeBP('#cve_materia_baja', data.clave);
+            setValueSafeBP('#nombre_materia_baja', data.materia);
+            setValueSafeBP('#crn_baja', data.crn);
+            setValueSafeBP('#hrs_teoria_baja', data.hrs_teoria_baja);
+            setValueSafeBP('#hrs_practica_baja', data.hrs_practica_baja);
+            setValueSafeBP('#carrera_baja', data.carrera_baja);
+            setValueSafeBP('#gdo_gpo_turno_baja', data.sec);
+            setValueSafeBP('#tipo_asignacion_baja', data.tipo_asignacion_baja);
+            setValueSafeBP('#sin_efectos_baja', formatearFechaParaHTML(data.fecha_efectos));
+            setValueSafeBP('#motivo_baja', data.motivo);
+            
+            // DATOS DE PROPUESTA
+            setValueSafeBP('#nombres_prop', data.profesor_propuesto.nombres);
+            setValueSafeBP('#apellido_paterno_prop', data.profesor_propuesto.paterno);
+            setValueSafeBP('#apellido_materno_prop', data.profesor_propuesto.materno);
+            setValueSafeBP('#codigo_prof_prop', data.profesor_propuesto.codigo);
+            setValueSafeBP('#hrs_teoria_prop', data.hrs_teoria_prop);
+            setValueSafeBP('#hrs_practica_prop', data.hrs_practica_prop);
+            setValueSafeBP('#num_puesto_teoria_prop', data.num_puesto_teoria_prop);
+            setValueSafeBP('#num_puesto_practica_prop', data.num_puesto_practica_prop);
+            
+            // Interino/Temporal/Definitivo
+            seleccionarOpcionBP('#inter_temp_def_prop', data.inter_temp_def);
+            
+            setValueSafeBP('#tipo_asignacion_prop', data.tipo_asignacion_prop);
+            setValueSafeBP('#periodo_desde_prop', formatearFechaParaHTML(data.periodo_desde));
+            setValueSafeBP('#periodo_hasta_prop', formatearFechaParaHTML(data.periodo_hasta));
+            
+            console.log('=== DEBUG BAJA-PROPUESTA ===');
+            console.log('Datos completos:', data);
+            
+            break;
+    }
         
         // Desactivar todos los campos para que sean de solo lectura
         if (modal) {
+            console.log('Desactivando campos del modal');
             modal.querySelectorAll('input, select, textarea').forEach(elem => {
                 elem.setAttribute('readonly', 'readonly');
                 if (elem.tagName === 'SELECT') {
@@ -389,17 +494,101 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Ocultar botones de envío
-            const submitBtn = modal.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.style.display = 'none';
+            // Ocultar botones de acción
+            const botonesAccion = modal.querySelector('.contenedor-botones-baja') || 
+                                modal.querySelector('.contenedor-botones-propuesta') ||
+                                modal.querySelector('.contenedor-botones-baja-propuesta');
+            if (botonesAccion) {
+                botonesAccion.style.display = 'none';
             }
             
             // Añadir título de solo visualización
-            const modalTitle = modal.querySelector('.modal-title');
+            const modalTitle = modal.querySelector('h2');
             if (modalTitle) {
-                modalTitle.innerHTML = 'Detalles de la solicitud (Solo visualización)';
+                modalTitle.innerHTML = `Detalles de la solicitud de ${tipo} (Solo visualización)`;
             }
         }
+    }
+
+    function seleccionarOpcionProfesion(selectElement, profesionValue) {
+        if (!selectElement || !profesionValue) return;
+        
+        console.log('Intentando seleccionar profesión:', profesionValue);
+        
+        // Primero buscar coincidencia exacta
+        let encontrado = false;
+        for (let i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === profesionValue) {
+                selectElement.selectedIndex = i;
+                console.log('Profesión seleccionada (exacta):', selectElement.options[i].value);
+                encontrado = true;
+                break;
+            }
+        }
+        
+        // Si no se encuentra coincidencia exacta, buscar coincidencia parcial
+        if (!encontrado) {
+            for (let i = 0; i < selectElement.options.length; i++) {
+                // Si la opción no está vacía y contiene parte del valor o viceversa
+                if (selectElement.options[i].value && 
+                    (selectElement.options[i].value.includes(profesionValue) || 
+                    profesionValue.includes(selectElement.options[i].value))) {
+                    selectElement.selectedIndex = i;
+                    console.log('Profesión seleccionada (parcial):', selectElement.options[i].value);
+                    encontrado = true;
+                    break;
+                }
+            }
+        }
+        
+        // Si no se encuentra ninguna coincidencia, revisar por texto
+        if (!encontrado) {
+            for (let i = 0; i < selectElement.options.length; i++) {
+                if (selectElement.options[i].text === profesionValue) {
+                    selectElement.selectedIndex = i;
+                    console.log('Profesión seleccionada (por texto):', selectElement.options[i].text);
+                    break;
+                }
+            }
+        }
+    }
+    
+    // Función auxiliar para seleccionar una opción de motivo
+    function seleccionarOpcionMotivo(selectElement, motivoValue) {
+        if (!selectElement || !motivoValue) return;
+        
+        console.log('Intentando seleccionar motivo:', motivoValue);
+        
+        // Buscar coincidencia por valor y texto
+        for (let i = 0; i < selectElement.options.length; i++) {
+            if (selectElement.options[i].value === motivoValue || 
+                selectElement.options[i].text === motivoValue) {
+                selectElement.selectedIndex = i;
+                console.log('Motivo seleccionado:', selectElement.options[i].text);
+                return;
+            }
+        }
+        
+        // Si no encuentra coincidencia exacta, buscar coincidencia parcial
+        for (let i = 0; i < selectElement.options.length; i++) {
+            if ((selectElement.options[i].value && selectElement.options[i].value.includes(motivoValue)) || 
+                (selectElement.options[i].text && selectElement.options[i].text.includes(motivoValue))) {
+                selectElement.selectedIndex = i;
+                console.log('Motivo seleccionado (parcial):', selectElement.options[i].text);
+                return;
+            }
+        }
+    }
+
+    // Función para convertir formatos de fecha
+    function formatearFechaParaHTML(fechaString) {
+        // Si la fecha viene en formato dd/mm/yyyy
+        if (fechaString && fechaString.includes('/')) {
+            const partes = fechaString.split('/');
+            if (partes.length === 3) {
+                return `${partes[2]}-${partes[1]}-${partes[0]}`; // Convierte a yyyy-mm-dd para input date
+            }
+        }
+        return fechaString; // Si no está en el formato esperado, devuelve sin cambios
     }
 });

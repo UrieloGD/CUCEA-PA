@@ -28,17 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             if ($row_dept = $result_dept->fetch_assoc()) {
                 $departamento_id = $row_dept['Departamento_ID'];
-                // Actualizar también la sesión para futuros usos
                 $_SESSION['Departamento_ID'] = $departamento_id;
             } else {
-                $departamento_id = 17; // Valor por defecto si no se encuentra
+                $departamento_id = 17;
             }
             
             $stmt_dept->close();
         }
         
         // Obtener datos del formulario para la baja
-        $usuario_id = $_SESSION['Codigo'];
         $nombres_baja = $_POST['nombres_baja'] ?? '';
         $apellido_paterno_baja = $_POST['apellido_paterno_baja'] ?? '';
         $apellido_materno_baja = $_POST['apellido_materno_baja'] ?? '';
@@ -66,12 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $num_puesto_practica_prop = $_POST['num_puesto_practica_prop'] ?? '';
         $hrs_teoria_prop = !empty($_POST['hrs_teoria_prop']) ? intval($_POST['hrs_teoria_prop']) : 0;
         $hrs_practica_prop = !empty($_POST['hrs_practica_prop']) ? intval($_POST['hrs_practica_prop']) : 0;
-        $inter_temp_def_prop = $_POST['inter_temp_def_prop'] ?? '';
+        $inter_temp_def_prop = $_POST['inter_temp_def_prop'] ?? ''; // ESTE CAMPO ESTABA BIEN
         $tipo_asignacion_prop = $_POST['tipo_asignacion_prop'] ?? '';
         $periodo_desde_prop = $_POST['periodo_desde_prop'] ?? '';
         $periodo_hasta_prop = $_POST['periodo_hasta_prop'] ?? '';
 
-        // Este código que genera un folio consecutivo con formato:
+        // Generar folio consecutivo
         $year = date('y');
         $sql_count = "SELECT MAX(SUBSTRING_INDEX(OFICIO_NUM_BAJA_PROP, '/', 1)) as ultimo_numero 
                     FROM solicitudes_baja_propuesta 
@@ -127,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param(
-            "issssssiissiiiisssssssiiiiiisssss",
+            "issssssiissiiissssssssiiiiissssss",
             $usuario_id,                        // i
             $oficio_num,                        // s
             $profesion_baja,                    // s
@@ -142,7 +140,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $crn_baja,                          // i
             $hrs_teoria_baja,                   // i
             $hrs_practica_baja,                 // i
-            $carrera_baja,                      // i
+            $carrera_baja,                      // s
             $gdo_gpo_turno_baja,                // s
             $tipo_asignacion_baja,              // s
             $sin_efectos_baja,                  // s
@@ -155,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $num_puesto_practica_prop,          // i
             $hrs_teoria_prop,                   // i
             $hrs_practica_prop,                 // i
-            $inter_temp_def_prop,               // i
+            $inter_temp_def_prop,               // s
             $tipo_asignacion_prop,              // s
             $periodo_desde_prop,                // s
             $periodo_hasta_prop,                // s
@@ -169,7 +167,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'message' => 'Solicitud guardada',
                 'debug' => [
                     'usuario_id' => $usuario_id,
-                    'departamento_id' => $departamento_id
+                    'departamento_id' => $departamento_id,
+                    'inter_temp_def_prop' => $inter_temp_def_prop // Debug para verificar
                 ]
             ]);
         } else {

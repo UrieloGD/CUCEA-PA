@@ -1,4 +1,3 @@
-// generar-pdf-baja.js y generar-pdf-propuesta.js
 function generarPDFBaja(folio) {
     Swal.fire({
         title: 'Confirmar generación',

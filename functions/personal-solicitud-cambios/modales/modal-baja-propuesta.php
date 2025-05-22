@@ -55,7 +55,7 @@
                 </div>
                 <div class="form-group-baja-propuesta large">
                     <label for="nombre_materia_baja">Nombre de la Materia</label>
-                    <input type="text" id="nombre_materia_baja" name="nombre_materia_baja" maxlength="100" required>
+                    <input type="text" id="nombre_materia_baja" name="nombre_materia_baja" maxlength="100">
                 </div>
                 <div class="form-group-baja-propuesta small">
                     <label for="crn_baja">CRN</label>
