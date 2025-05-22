@@ -67,7 +67,10 @@
         icon: 'error',
         title: 'Error de autenticación',
         text: 'Usuario o contraseña incorrectos',
-        confirmButtonText: 'Aceptar'
+        confirmButtonText: 'Aceptar',
+        customClass: {
+          confirmButton: 'boton-aceptar',
+        }
       });
     }
   });

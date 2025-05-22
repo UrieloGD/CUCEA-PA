@@ -436,14 +436,12 @@
 }
 
 .justification-container {
-  max-width: 800px;
   margin-top: -40;
   padding: 25px;
 }
 
 .access-restricted {
   background-color: #fde8e8;
-  width: 88vw;
   border-radius: 12px;
   padding: 10px;
   margin-bottom: 30px;
@@ -483,11 +481,13 @@
 
 .access-restricted ul {
   text-align: left;
-  padding-left: 35vw;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
 }
 
 #formulario-justificacion textarea {
-  width: 89vw;
+  width: 100%;
   padding: 15px;
   border: 2px solid #ced4da;
   border-radius: 8px;
@@ -505,8 +505,9 @@
   cursor: pointer;
   font-size: 20px;
   transition: background-color 0.3s ease;
-  display: block;  /* Hace que el botón sea un elemento de bloque */
-  margin: 0 40vw;  /* Centra el botón horizontalmente */
+  display: flex;  /* Hace que el botón sea un elemento de bloque */
+  align-self: center;
+  justify-self: center;
   width: fit-content;  /* Ajusta el ancho del botón al contenido */
 }
 

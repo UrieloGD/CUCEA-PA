@@ -280,6 +280,10 @@ Main Button
   border-radius: 10px;
 }
 
+/* Boton Sweet Alert */
+.boton-aceptar { background-color: #0071B0; }
+.boton-aceptar:hover { background-color: #00659b; }
+
 /* Media Queries para arreglar el icono de error al iniciar sesion 'X' */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .swal2-x-mark-line-right,
