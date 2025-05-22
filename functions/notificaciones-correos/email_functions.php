@@ -1,5 +1,6 @@
 <?php
-require './../../vendor/autoload.php';
+$rootDir = dirname(dirname(dirname(__FILE__))); // Sube tres niveles desde el directorio actual
+require_once $rootDir . '/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

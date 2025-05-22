@@ -327,6 +327,7 @@ $sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     Departamento_ID INT(15),
     Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
+    Oculta BOOLEAN DEFAULT 0,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 );";
 
@@ -334,6 +335,29 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Notificaciones creada exitosamente";
 } else {
     echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conexion);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS usuarios_notificaciones (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Usuario_ID BIGINT(10) NOT NULL,
+    Notificacion_ID INT,
+    Justificacion_ID INT,
+    Plantilla_ID INT,
+    Tipo VARCHAR(20) NOT NULL,  -- 'notificacion', 'justificacion', 'plantilla'
+    Vista BOOLEAN DEFAULT 0,
+    Oculta BOOLEAN DEFAULT 0,
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo),
+    FOREIGN KEY (Notificacion_ID) REFERENCES notificaciones(ID),
+    FOREIGN KEY (Justificacion_ID) REFERENCES justificaciones(ID_Justificacion),
+    INDEX idx_usuario_notificacion (Usuario_ID, Notificacion_ID),
+    INDEX idx_usuario_justificacion (Usuario_ID, Justificacion_ID),
+    INDEX idx_usuario_plantilla (Usuario_ID, Plantilla_ID)
+);";
+
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla usuarios_notificaciones creada exitosamente";
+} else {
+    echo "<br>Error creando tabla usuarios_notificaciones: " . mysqli_error($conexion);
 }
 
 // Tabla solicitudes_baja

@@ -11,6 +11,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 <?php include './template/header.php' ?>
 <?php include './template/navbar.php' ?>
+<input type="hidden" id="user-id" value="<?php echo isset($_SESSION['Codigo']) ? $_SESSION['Codigo'] : ''; ?>">
 <?php
 
 // ./basesdedatos.php
@@ -271,166 +272,166 @@ $result = $stmt->get_result();
 
 <div class="cuadro-principal">
     <div class="cuadro-scroll">
-    <div class="encabezado">
-        <div class="encabezado-izquierda">
+        <div class="encabezado">
+            <div class="encabezado-izquierda">
 
-        </div>
-        <div class="encabezado-centro">
-            <h3>Data - <?php echo $departamento_nombre; ?></h3>
-        </div>
-        <div class="encabezado-derecha">
-            <div class="iconos-container">
-                <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
-                    <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
-                        <i class="fa fa-save" aria-hidden="true"></i>
+            </div>
+            <div class="encabezado-centro">
+                <h3>Data - <?php echo $departamento_nombre; ?></h3>
+            </div>
+            <div class="encabezado-derecha">
+                <div class="iconos-container">
+                    <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
+                        <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
+                            <i class="fa fa-save" aria-hidden="true"></i>
+                        </div>
+                        <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
+                            <i class="fa fa-undo" aria-hidden="true"></i>
+                        </div>
+                        <div class="icono-buscador" id="icono-papelera"
+                            data-tooltip="Ver registros eliminados">
+                            <i class="fa fa-trash-restore" aria-hidden="true"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
                     </div>
-                    <div class="icono-buscador" id="icono-deshacer" onclick="undoAllChanges()" data-tooltip="Deshacer cambios">
-                        <i class="fa fa-undo" aria-hidden="true"></i>
+                    <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
                     </div>
-                    <div class="icono-buscador" id="icono-papelera"
-                        data-tooltip="Ver registros eliminados">
-                        <i class="fa fa-trash-restore" aria-hidden="true"></i>
+                    <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
+                        <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
+                            <i class="fa fa-add" aria-hidden="true"></i>
+                        </div>
+                        <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                    <?php endif; ?>
+                    <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()" data-tooltip="Descargar Excel">
+                        <i class="fa fa-download" aria-hidden="true"></i>
                     </div>
-                <?php endif; ?>
-                <div class="icono-buscador" id="icono-visibilidad" data-tooltip="Mostrar/ocultar columnas">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
-                </div>
-                <div class="icono-buscador" id="icono-filtro" data-tooltip="Mostrar/ocultar filtros">
-                    <i class="fa fa-filter" aria-hidden="true"></i>
-                </div>
-                <?php if (($rol == 1 || $rol == 4) && $puede_editar || $rol == 0): ?>
-                    <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
-                        <i class="fa fa-add" aria-hidden="true"></i>
-                    </div>
-                    <div class="icono-buscador" id="icono-borrar-seleccionados" onclick="eliminarRegistrosSeleccionados()" data-tooltip="Eliminar registros seleccionados">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                <?php endif; ?>
-                <div class="icono-buscador" id="icono-descargar" onclick="mostrarDescargarExcel()" data-tooltip="Descargar Excel">
-                    <i class="fa fa-download" aria-hidden="true"></i>
                 </div>
             </div>
         </div>
-    </div>
 
-    <?php
-    // Verificar rol antes de mostrar la tabla editable
-    if ($_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0) {
-        // Deshabilitar edición o mostrar mensaje
-        $tabla_editable = false;
-    }
-    ?>
+        <?php
+        // Verificar rol antes de mostrar la tabla editable
+        if ($_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 0) {
+            // Deshabilitar edición o mostrar mensaje
+            $tabla_editable = false;
+        }
+        ?>
 
-    <div class="datatable-container">
-        <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
-        <table id="tabla-datos" class="display">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>ID <span class="filter-icon" data-column="1"><i class="fas fa-filter"></i></span></th>
-                    <th>CICLO <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
-                    <th>CRN <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
-                    <th>MATERIA <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
-                    <th>CVE MATERIA <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
-                    <th>SECCIÓN <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
-                    <th>NIVEL <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>
-                    <th>NIVEL TIPO <span class="filter-icon" data-column="8"><i class="fas fa-filter"></i></span></th>
-                    <th>TIPO <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
-                    <th>C. MIN <span class="filter-icon" data-column="10"><i class="fas fa-filter"></i></span></th>
-                    <th>H. TOTALES <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
-                    <th>STATUS <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
-                    <th>TIPO CONTRATO <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
-                    <th>CÓDIGO <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
-                    <th>NOMBRE PROFESOR <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
-                    <th>CATEGORIA <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
-                    <th>DESCARGA <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
-                    <th>CÓDIGO DESCARGA <span class="filter-icon" data-column="18"><i class="fas fa-filter"></i></span></th>
-                    <th>NOMBRE DESCARGA <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
-                    <th>NOMBRE DEFINITIVO <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
-                    <th>TITULAR <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
-                    <th>HORAS <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
-                    <th>CÓDIGO DEPENDENCIA <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
-                    <th>L <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
-                    <th>M <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
-                    <th>I <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
-                    <th>J <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
-                    <th>V <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
-                    <th>S <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
-                    <th>D <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
-                    <th>DÍA PRESENCIAL <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
-                    <th>DÍA VIRTUAL <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
-                    <th>MODALIDAD <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
-                    <th>FECHA INICIAL <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
-                    <th>FECHA FINAL <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
-                    <th>HORA INICIAL <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
-                    <th>HORA FINAL <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
-                    <th>MÓDULO <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
-                    <th>AULA <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
-                    <th>CUPO <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
-                    <th>OBSERVACIONES <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
-                    <th>EXTRAORDINARIO <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $row['Departamento'] = $nombre_departamento;
-                        $choques = verificarChoques($row, $departamentos, $conexion);
+        <div class="datatable-container">
+            <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>">
+            <table id="tabla-datos" class="display">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>ID <span class="filter-icon" data-column="1"><i class="fas fa-filter"></i></span></th>
+                        <th>CICLO <span class="filter-icon" data-column="2"><i class="fas fa-filter"></i></span></th>
+                        <th>CRN <span class="filter-icon" data-column="3"><i class="fas fa-filter"></i></span></th>
+                        <th>MATERIA <span class="filter-icon" data-column="4"><i class="fas fa-filter"></i></span></th>
+                        <th>CVE MATERIA <span class="filter-icon" data-column="5"><i class="fas fa-filter"></i></span></th>
+                        <th>SECCIÓN <span class="filter-icon" data-column="6"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL <span class="filter-icon" data-column="7"><i class="fas fa-filter"></i></span></th>
+                        <th>NIVEL TIPO <span class="filter-icon" data-column="8"><i class="fas fa-filter"></i></span></th>
+                        <th>TIPO <span class="filter-icon" data-column="9"><i class="fas fa-filter"></i></span></th>
+                        <th>C. MIN <span class="filter-icon" data-column="10"><i class="fas fa-filter"></i></span></th>
+                        <th>H. TOTALES <span class="filter-icon" data-column="11"><i class="fas fa-filter"></i></span></th>
+                        <th>STATUS <span class="filter-icon" data-column="12"><i class="fas fa-filter"></i></span></th>
+                        <th>TIPO CONTRATO <span class="filter-icon" data-column="13"><i class="fas fa-filter"></i></span></th>
+                        <th>CÓDIGO <span class="filter-icon" data-column="14"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRE PROFESOR <span class="filter-icon" data-column="15"><i class="fas fa-filter"></i></span></th>
+                        <th>CATEGORIA <span class="filter-icon" data-column="16"><i class="fas fa-filter"></i></span></th>
+                        <th>DESCARGA <span class="filter-icon" data-column="17"><i class="fas fa-filter"></i></span></th>
+                        <th>CÓDIGO DESCARGA <span class="filter-icon" data-column="18"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRE DESCARGA <span class="filter-icon" data-column="19"><i class="fas fa-filter"></i></span></th>
+                        <th>NOMBRE DEFINITIVO <span class="filter-icon" data-column="20"><i class="fas fa-filter"></i></span></th>
+                        <th>TITULAR <span class="filter-icon" data-column="21"><i class="fas fa-filter"></i></span></th>
+                        <th>HORAS <span class="filter-icon" data-column="22"><i class="fas fa-filter"></i></span></th>
+                        <th>CÓDIGO DEPENDENCIA <span class="filter-icon" data-column="23"><i class="fas fa-filter"></i></span></th>
+                        <th>L <span class="filter-icon" data-column="24"><i class="fas fa-filter"></i></span></th>
+                        <th>M <span class="filter-icon" data-column="25"><i class="fas fa-filter"></i></span></th>
+                        <th>I <span class="filter-icon" data-column="26"><i class="fas fa-filter"></i></span></th>
+                        <th>J <span class="filter-icon" data-column="27"><i class="fas fa-filter"></i></span></th>
+                        <th>V <span class="filter-icon" data-column="28"><i class="fas fa-filter"></i></span></th>
+                        <th>S <span class="filter-icon" data-column="29"><i class="fas fa-filter"></i></span></th>
+                        <th>D <span class="filter-icon" data-column="30"><i class="fas fa-filter"></i></span></th>
+                        <th>DÍA PRESENCIAL <span class="filter-icon" data-column="31"><i class="fas fa-filter"></i></span></th>
+                        <th>DÍA VIRTUAL <span class="filter-icon" data-column="32"><i class="fas fa-filter"></i></span></th>
+                        <th>MODALIDAD <span class="filter-icon" data-column="33"><i class="fas fa-filter"></i></span></th>
+                        <th>FECHA INICIAL <span class="filter-icon" data-column="34"><i class="fas fa-filter"></i></span></th>
+                        <th>FECHA FINAL <span class="filter-icon" data-column="35"><i class="fas fa-filter"></i></span></th>
+                        <th>HORA INICIAL <span class="filter-icon" data-column="36"><i class="fas fa-filter"></i></span></th>
+                        <th>HORA FINAL <span class="filter-icon" data-column="37"><i class="fas fa-filter"></i></span></th>
+                        <th>MÓDULO <span class="filter-icon" data-column="38"><i class="fas fa-filter"></i></span></th>
+                        <th>AULA <span class="filter-icon" data-column="39"><i class="fas fa-filter"></i></span></th>
+                        <th>CUPO <span class="filter-icon" data-column="40"><i class="fas fa-filter"></i></span></th>
+                        <th>OBSERVACIONES <span class="filter-icon" data-column="41"><i class="fas fa-filter"></i></span></th>
+                        <th>EXTRAORDINARIO <span class="filter-icon" data-column="42"><i class="fas fa-filter"></i></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $row['Departamento'] = $nombre_departamento;
+                            $choques = verificarChoques($row, $departamentos, $conexion);
 
-                        echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" .
-                            (!empty($choques) ? 'tiene-choques' : '') . "'>";
-                        echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
-                        echo "<td>" . htmlspecialchars($row["ID_Plantilla"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CICLO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CRN"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["MATERIA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CVE_MATERIA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["SECCION"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["NIVEL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["NIVEL_TIPO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["TIPO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["C_MIN"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["H_TOTALES"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["ESTATUS"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["TIPO_CONTRATO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CODIGO_PROFESOR"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["NOMBRE_PROFESOR"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CATEGORIA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["DESCARGA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CODIGO_DESCARGA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["NOMBRE_DESCARGA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["NOMBRE_DEFINITIVO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["TITULAR"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["HORAS"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CODIGO_DEPENDENCIA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["L"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["M"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["I"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["J"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["V"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["S"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["D"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["DIA_PRESENCIAL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["DIA_VIRTUAL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["MODALIDAD"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["FECHA_INICIAL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["FECHA_FINAL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["HORA_INICIAL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["HORA_FINAL"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["MODULO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["AULA"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["CUPO"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["OBSERVACIONES"] ?? '') . "</td>";
-                        echo "<td>" . htmlspecialchars($row["EXAMEN_EXTRAORDINARIO"] ?? '') . "</td>";
-                        echo "</tr>";
+                            echo "<tr data-choques='" . htmlspecialchars(json_encode($choques)) . "' class='" .
+                                (!empty($choques) ? 'tiene-choques' : '') . "'>";
+                            echo "<td><input type='checkbox' name='registros_seleccionados[]' value='" . ($row["ID_Plantilla"] ?? '') . "'></td>";
+                            echo "<td>" . htmlspecialchars($row["ID_Plantilla"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CICLO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CRN"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["MATERIA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CVE_MATERIA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["SECCION"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["NIVEL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["NIVEL_TIPO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["TIPO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["C_MIN"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["H_TOTALES"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["ESTATUS"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["TIPO_CONTRATO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CODIGO_PROFESOR"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["NOMBRE_PROFESOR"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CATEGORIA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["DESCARGA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CODIGO_DESCARGA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["NOMBRE_DESCARGA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["NOMBRE_DEFINITIVO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["TITULAR"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["HORAS"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CODIGO_DEPENDENCIA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["L"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["M"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["I"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["J"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["V"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["S"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["D"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["DIA_PRESENCIAL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["DIA_VIRTUAL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["MODALIDAD"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["FECHA_INICIAL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["FECHA_FINAL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["HORA_INICIAL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["HORA_FINAL"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["MODULO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["AULA"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["CUPO"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["OBSERVACIONES"] ?? '') . "</td>";
+                            echo "<td>" . htmlspecialchars($row["EXAMEN_EXTRAORDINARIO"] ?? '') . "</td>";
+                            echo "</tr>";
+                        }
                     }
-                }
-                mysqli_close($conexion);
-                ?>
-            </tbody>
-        </table>
-    </div>
+                    mysqli_close($conexion);
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

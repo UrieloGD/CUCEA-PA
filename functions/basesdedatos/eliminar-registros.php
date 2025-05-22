@@ -23,23 +23,25 @@ $departamento_nombre = $row_departamento['Departamentos'];
 $tabla_departamento = "data_" . $nombre_departamento;
 
 // Función para crear notificación
-function crearNotificacion($conexion, $tipo, $mensaje, $departamento_id, $emisor_id) {
+function crearNotificacion($conexion, $tipo, $mensaje, $departamento_id, $emisor_id)
+{
     $sql = "INSERT INTO notificaciones (Tipo, Mensaje, Departamento_ID, Emisor_ID) 
             VALUES (?, ?, ?, ?)";
-    
+
     $stmt = mysqli_prepare($conexion, $sql);
     mysqli_stmt_bind_param($stmt, "ssii", $tipo, $mensaje, $departamento_id, $emisor_id);
-    
+
     if (!mysqli_stmt_execute($stmt)) {
         error_log("Error al crear notificación: " . mysqli_stmt_error($stmt));
         return false;
     }
-    
+
     return true;
 }
 
 // Función para enviar correo al jefe de departamento
-function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $tipo_accion, $registros_afectados, $emisor_id) {
+function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $tipo_accion, $registros_afectados, $emisor_id)
+{
     // Obtener el correo del jefe de departamento
     $sql_jefe = "SELECT u.Codigo, u.Correo, d.Departamentos 
                  FROM usuarios u 
@@ -54,13 +56,13 @@ function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $tipo_a
 
     if ($jefe) {
         // Obtener información del administrador emisor
-        $sql_emisor = "SELECT Nombre FROM usuarios WHERE Codigo = ?";
+        $sql_emisor = "SELECT Nombre, Apellido FROM usuarios WHERE Codigo = ?";
         $stmt_emisor = mysqli_prepare($conexion, $sql_emisor);
         mysqli_stmt_bind_param($stmt_emisor, "i", $emisor_id);
         mysqli_stmt_execute($stmt_emisor);
         $result_emisor = mysqli_stmt_get_result($stmt_emisor);
         $emisor = mysqli_fetch_assoc($result_emisor);
-        $nombre_emisor = $emisor ? $emisor['Nombre'] : 'Un administrador';
+        $nombre_emisor = $emisor ? $emisor['Nombre'] . ' ' . $emisor['Apellido'] : 'Un administrador';
 
         // Insertar notificación en la tabla Notificaciones para el jefe
         $sql_notificacion = "INSERT INTO notificaciones (Tipo, Mensaje, Usuario_ID, emisor_ID) 
@@ -71,8 +73,8 @@ function enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, $tipo_a
 
         // Información adicional para el correo
         $fecha_accion = date('d/m/Y H:i');
-        $detalles_accion = $tipo_accion === 'truncate' 
-            ? "Se han eliminado todos los registros de la base de datos." 
+        $detalles_accion = $tipo_accion === 'truncate'
+            ? "Se han eliminado todos los registros de la base de datos."
             : "Se han marcado como inactivos $registros_afectados registro" . ($registros_afectados > 1 ? "s" : "") . ".";
 
         // Enviar correo electrónico
@@ -146,11 +148,11 @@ if (isset($_POST['truncate']) && $_POST['truncate'] == '1') {
         if (!mysqli_stmt_execute($stmt_plantilla)) {
             throw new Exception("Error al eliminar registros de plantilla: " . mysqli_stmt_error($stmt_plantilla));
         }
-        
+
         // Crear notificación de eliminación completa
         $mensaje = "Un administrador ha eliminado toda la base de datos del departamento de $departamento_nombre";
         crearNotificacion($conexion, "eliminacion_bd", $mensaje, $departamento_id, $usuario_admin_id);
-        
+
         // Enviar notificación por correo
         enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, 'truncate', 0, $usuario_admin_id);
 
@@ -184,14 +186,14 @@ try {
         }
         mysqli_stmt_close($stmt);
     }
-    
+
     // Crear notificación de eliminación de registros
     $mensaje = "Un administrador ha eliminado $num_registros registro" . ($num_registros > 1 ? "s" : "") . " de la base de datos del departamento de $departamento_nombre";
     crearNotificacion($conexion, "eliminacion_bd", $mensaje, $departamento_id, $usuario_admin_id);
-    
+
     // Enviar notificación por correo
     enviarCorreoNotificacion($conexion, $departamento_id, $mensaje, 'eliminacion', $num_registros, $usuario_admin_id);
-    
+
     mysqli_commit($conexion);
     echo "Registros marcados como inactivos correctamente.";
 } catch (Exception $e) {
@@ -202,4 +204,3 @@ try {
 
 mysqli_close($conexion);
 exit;
-?>
