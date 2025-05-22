@@ -16,6 +16,10 @@ function eliminarRegistrosSeleccionados() {
       showCancelButton: true,
       confirmButtonText: "Sí, borrar todo",
       cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: "eliminar-todo",
+        cancelButton: "cancelar-todo",
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         var xhr = new XMLHttpRequest();
@@ -34,6 +38,9 @@ function eliminarRegistrosSeleccionados() {
               title: "¡Éxito!",
               text: "La base de datos ha sido borrada correctamente.",
               icon: "success",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
             }).then(() => {
               location.reload();
             });
@@ -53,6 +60,10 @@ function eliminarRegistrosSeleccionados() {
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "eliminar-todo",
+      cancelButton: "cancelar-todo",
+    }
   }).then((result) => {
     if (result.isConfirmed) {
       var xhr = new XMLHttpRequest();
@@ -68,6 +79,9 @@ function eliminarRegistrosSeleccionados() {
             title: "¡Éxito!",
             text: "Los registros se han eliminado correctamente.",
             icon: "success",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           }).then(() => {
             location.reload();
           });

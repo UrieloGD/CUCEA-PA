@@ -115,6 +115,9 @@ function añadirRegistro() {
               title: "Error",
               text: respuesta.message,
               icon: "error",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
             });
           }
         } catch (e) {
@@ -133,6 +136,10 @@ function añadirRegistro() {
           title: "Error",
           text: "Error de conexión con el servidor",
           icon: "error",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "OK-boton",
+          }
         });
       }
     }
