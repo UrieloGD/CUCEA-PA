@@ -27,6 +27,7 @@ function descargarArchivo(departamentoId) {
           title: "Plantilla no disponible",
           text: "No se ha asignado una plantilla para este departamento.",
           confirmButtonText: "Entendido",
+          confirmButtonColor: "#0071B0",
         });
       }
     },

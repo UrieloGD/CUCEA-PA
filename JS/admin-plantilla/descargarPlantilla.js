@@ -1,4 +1,20 @@
 function descargarPlantilla(id) {
+  const nombreArchivo = document.getElementById(
+    `nombre-archivo-${id}`
+  ).innerText;
+
+  if (nombreArchivo === "No hay archivo asignado") {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No hay una plantilla asignada para descargar.",
+      customClass: {
+        confirmButton: "OK-boton",
+      }
+    });
+    return;
+  }
+
   $.ajax({
     url: "./functions/admin-plantilla/descargar-plantilla.php",
     method: "GET",
@@ -18,6 +34,9 @@ function descargarPlantilla(id) {
             icon: "error",
             title: "Error",
             text: errorResponse.message,
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           });
         };
         reader.readAsText(data);
@@ -37,6 +56,9 @@ function descargarPlantilla(id) {
         icon: "error",
         title: "Error",
         text: "Hubo un problema al intentar descargar el archivo. Por favor, inténtalo de nuevo más tarde.",
+        customClass: {
+          confirmButton: "OK-boton",
+        }
       });
     },
   });

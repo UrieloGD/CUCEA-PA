@@ -149,10 +149,12 @@ function restaurarRegistro(id) {
         text: "Esta acción devolverá el registro a la tabla principal",
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
         confirmButtonText: 'Sí, restaurar',
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        customClass: {
+            confirmButton: "confirmar-registrosRestaurar",
+            cancelButton: "cancelar-todo",
+        }
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -167,13 +169,34 @@ function restaurarRegistro(id) {
                         if (typeof tablaPrincipal !== 'undefined') {
                             tablaPrincipal.ajax.reload();
                         }
-                        Swal.fire('¡Restaurado!', response.message, 'success');
+                        Swal.fire({
+                            title: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: "OK-boton",
+                            }
+                        });
                     } else {
-                        Swal.fire('Error', response.message, 'error');
+                        Swal.fire({
+                            title: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: "OK-boton",
+                            }
+                        });
                     }
                 },
                 error: function(xhr, status, error) {
-                    Swal.fire('Error', 'Error al conectar con el servidor: ' + error, 'error');
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error al conectar con el servidor: ' + error,
+                        icon: 'error',
+                        customClass: {
+                            confirmButton: "OK-boton",
+                        }
+                    });
                 }
             });
         }

@@ -22,7 +22,10 @@ if (isset($_GET['success']) && $_GET['success'] == '1') {
                 icon: 'success',
                 title: 'Fecha límite actualizada',
                 text: 'La fecha límite se ha actualizado correctamente.',
-                confirmButtonText: 'Aceptar'
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  confirmButton: 'OK-boton',
+                }
             }).then(function() {
                 // Eliminar el parámetro success de la URL
                 if (window.history.replaceState) {

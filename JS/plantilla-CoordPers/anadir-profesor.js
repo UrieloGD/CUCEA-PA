@@ -75,6 +75,9 @@ function añadirRegistro() {
         title: "Error",
         text: `El campo ${field} es requerido`,
         icon: "error",
+        customClass: {
+          confirmButton: "OK-boton",
+        }
       });
       submitButton.disabled = false;
       submitButton.textContent = "Guardar";
@@ -161,6 +164,9 @@ function añadirRegistro() {
             title: "¡Éxito!",
             text: data.message,
             icon: "success",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           }).then(() => {
             cerrarFormularioAñadir();
             location.reload();
@@ -177,6 +183,9 @@ function añadirRegistro() {
         title: "Error",
         text: error.message || "Error al procesar la solicitud",
         icon: "error",
+        customClass: {
+          confirmButton: "OK-boton",
+        }
       });
     })
     .finally(() => {

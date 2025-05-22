@@ -334,6 +334,9 @@ function showError(title, text) {
     icon: "error",
     title,
     text,
+    customClass: {
+      confirmButton: "OK-boton",
+    },
     willClose: () => {
       // Reinicia el estado para permitir nuevas verificaciones
       resetUploadState();
@@ -347,5 +350,8 @@ function showSuccess(title, text) {
     icon: "success",
     title,
     text,
+    customClass: {
+      confirmButton: "OK-boton",
+    }
   });
 }

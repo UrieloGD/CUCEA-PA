@@ -13,10 +13,10 @@ function eliminarRegistrosSeleccionados() {
       showCancelButton: true,
       confirmButtonText: "Sí, borrar todo",
       cancelButtonText: "Cancelar",
-      reverseButtons: true,
       customClass: {
-        confirmButton: "swal2-confirm swal2-styled swal2-danger",
-      },
+        confirmButton: "eliminar-todo",
+        cancelButton: "cancelar-todo",
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         // Mostrar SweetAlert de carga
@@ -53,6 +53,9 @@ function eliminarRegistrosSeleccionados() {
               title: "¡Éxito!",
               text: "La base de datos ha sido borrada correctamente.",
               icon: "success",
+              customClass: {
+                confirmButton: "OK-boton",
+              },
               timer: 2000,
               timerProgressBar: true,
             }).then(() => {
@@ -80,10 +83,10 @@ function eliminarRegistrosSeleccionados() {
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
-    reverseButtons: true,
     customClass: {
-      confirmButton: "swal2-confirm swal2-styled swal2-danger",
-    },
+      confirmButton: "eliminar-todo",
+      cancelButton: "cancelar-todo",
+    }
   }).then((result) => {
     if (result.isConfirmed) {
       // Mostrar SweetAlert de carga
@@ -122,6 +125,9 @@ function eliminarRegistrosSeleccionados() {
             icon: "success",
             timer: 2000,
             timerProgressBar: true,
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           }).then(() => {
             location.reload();
           });

@@ -8,6 +8,11 @@ function deleteEvent(eventId) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Confirmar",
     cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "aceptar-eliminacion",
+      cancelButton: "cancelar-boton",
+    }
+    
   }).then((result) => {
     if (result.isConfirmed) {
       // Mostrar loading con configuración mejorada
@@ -41,11 +46,14 @@ function deleteEvent(eventId) {
         .then((data) => {
           loadingAlert.close(); // Cerrar loading al recibir respuesta
           if (data.success) {
-            Swal.fire(
-              "¡Eliminado!",
-              "El evento ha sido eliminado correctamente",
-              "success"
-            ).then(() => {
+            Swal.fire({
+              title: "¡Eliminado!",
+              text: "El evento ha sido eliminado correctamente",
+              icon: "success",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
+            }).then(() => {
               window.location.reload();
             });
           } else {
@@ -55,11 +63,14 @@ function deleteEvent(eventId) {
         .catch((error) => {
           loadingAlert.close(); // Asegurar cierre del loading en errores
           console.error("Error completo:", error);
-          Swal.fire(
-            "Error",
-            `No se pudo eliminar el evento: ${error.message}`,
-            "error"
-          );
+          Swal.fire({
+            title: "Error",
+            text: `No se pudo eliminar el evento: ${error.message}`,
+            icon: "error",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+          });
         });
     }
   });

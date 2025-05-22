@@ -47,13 +47,13 @@ function updateDropArea(active, text) {
 
 // ============ PROCESAMIENTO DE ARCHIVOS ============ //
 function handleFiles(files) {
-  if (files.length === 0) {
-    showError(
-      "No se ha seleccionado ningún archivo",
-      "Por favor, selecciona un archivo para subir."
-    );
-    return;
-  }
+  // if (files.length === 0) {
+  //   showError(
+  //     "No se ha seleccionado ningún archivo",
+  //     "Por favor, selecciona un archivo para subir."
+  //   );
+  //   return;
+  // }
   // Procesar solo el primer archivo
   processFile(files[0]);
 }
@@ -70,18 +70,24 @@ function validateFile(file) {
   const fileExtension = file.name.split(".").pop().toLowerCase();
 
   if (!CONFIG.validExtensions.includes(fileExtension)) {
-    showError(
-      "Archivo no válido",
-      "Asegúrate de subir solamente archivos con extensión .xls y .xlsx"
-    );
+    Swal.fire({
+      icon: "error",
+      title: "Archivo no válido",
+      text: "Asegúrate de subir solamente archivos con extensión .xls y .xlsx",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#0071B0",
+    });
     return false;
   }
 
   if (file.size > CONFIG.maxFileSize) {
-    showError( 
-      "Archivo demasiado grande",
-      "El archivo excede el tamaño máximo permitido de 2MB"
-    );
+    Swal.fire({
+      icon: "error",
+      title: "Archivo demasiado grande",
+      text: "El archivo excede el tamaño máximo permitido de 2MB",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#0071B0",
+    });
     return false;
   }
 
@@ -106,10 +112,13 @@ async function handleSubmit(e) {
   e.preventDefault();
 
   if (filesToUpload.length === 0) {
-    showError(
-      "No hay archivos para subir",
-      "Por favor, selecciona un archivo para subir."
-    );
+    Swal.fire({
+      icon: "error",
+      title: "No hay archivos para subir",
+      text: "Por favor, selecciona un archivo para subir.",
+      confirmButtonText: "OK",
+      confirmButtonColor: "#0071B0",
+    });
     return;
   }
 
@@ -147,9 +156,12 @@ async function handleSubmit(e) {
         showCancelButton: true,
         confirmButtonText: 'Reemplazar datos',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: "#0071B0",
         width: '600px',
+        customClass: {
+          cancelButton: 'boton-cancelar-SweetAlert',
+          confirmButton: 'boton-aceptar-SweetAlert',
+        }
       });
       
       if (confirmResult.isDismissed) {

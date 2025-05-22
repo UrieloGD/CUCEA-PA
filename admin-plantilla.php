@@ -106,7 +106,7 @@ error_reporting(E_ALL);
                             <input type="hidden" id="nombre_archivo_dep-<?php echo $id; ?>" name="nombre_archivo_dep">
                             <input type="hidden" id="fecha_subida_dep-<?php echo $id; ?>" name="fecha_subida_dep">
                             <button type="submit" class="hidden-button"></button>
-                            <a href="./functions/admin-plantilla/descargar-plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
+                            <a href="#" onclick="descargarPlantilla(<?php echo $id; ?>)" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
                             <a href="#" class="btn" onclick="eliminarPlantilla(<?php echo $id; ?>)"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
                         </div>
                     </td>
