@@ -739,3 +739,53 @@
     gap: 10px;
   }
 }
+
+/* Responsividad de Zoom para navegadores Chromium */
+@media screen and (max-height: 900px) { 
+  .header { 
+    zoom: 90%; 
+  }
+  body .cuadro-principal {
+    zoom: 90%;
+    height: 102vh;
+  }
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 90%;
+  }
+}
+@media screen and (max-height: 768px) { 
+  .header { 
+    zoom: 80%; 
+  }
+  body .cuadro-principal {
+    zoom: 80%;
+    height: 114.5vh;
+  }
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 80%;
+  }
+}
+@media screen and (max-height: 700px) { 
+  .header { 
+    zoom: 65%; 
+  }
+  body .cuadro-principal {
+    zoom: 65%;
+    height: 141.5vh;
+  }
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 65%;
+  }
+}
+@media screen and (max-height: 600px) { 
+  .header { 
+    zoom: 60%; 
+  }
+  body .cuadro-principal {
+    zoom: 60%;
+    height: 152.5vh;
+  }
+  div:where(.swal2-container).swal2-center>.swal2-popup {
+    zoom: 60%;
+  }
+}
