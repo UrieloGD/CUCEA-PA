@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Actualizar número de oficio
     const actualizarNumeroOficio = () => {
-        fetch('./functions/personal-solicitud-cambios/obtener_oficio_baja.php')
+        fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_baja.php')
             .then(response => response.json())
             .then(data => {
                 data.siguiente_numero && 
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             didOpen: () => Swal.showLoading()
         });
         
-        fetch('./functions/personal-solicitud-cambios/procesar_baja.php', {
+        fetch('./functions/personal-solicitud-cambios/procesar/procesar_baja.php', {
             method: 'POST',
             body: new FormData(this)
         })

@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 header('Content-Type: application/json');
 
 try {
-    require_once './../../config/db.php';
+    require_once './../../../config/db.php';
     
     // Obtener el año actual (solo los últimos dos dígitos)
     $anioActual = date('y');

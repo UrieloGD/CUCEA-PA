@@ -73,13 +73,13 @@ document.addEventListener('DOMContentLoaded', function() {
         let url;
         switch (tipo) {
             case 'baja':
-                url = './functions/personal-solicitud-cambios/obtener_detalle_solicitud_baja.php';
+                url = './functions/personal-solicitud-cambios/mostrar-info/obtener_detalle_solicitud_baja.php';
                 break;
             case 'propuesta':
-                url = './functions/personal-solicitud-cambios/obtener_detalle_solicitud_propuesta.php';
+                url = './functions/personal-solicitud-cambios/mostrar-info/obtener_detalle_solicitud_propuesta.php';
                 break;
             case 'baja-propuesta':
-                url = './functions/personal-solicitud-cambios/obtener_detalle_solicitud_baja_propuesta.php';
+                url = './functions/personal-solicitud-cambios/mostrar-info/obtener_detalle_solicitud_baja_propuesta.php';
                 break;
             default:
                 ocultarCargando();

@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Continuar con el envío
             const formData = new FormData(this);
 
-            fetch('./functions/personal-solicitud-cambios/procesar_baja_propuesta.php', {
+            fetch('./functions/personal-solicitud-cambios/procesar/procesar_baja_propuesta.php', {
                 method: 'POST',
                 body: formData
             })
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
             oficioNum.value = "Generando...";
             
             // Solicitar el próximo número de folio al servidor
-            fetch('./functions/personal-solicitud-cambios/obtener_oficio_baja_prop.php')
+            fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_baja_prop.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {

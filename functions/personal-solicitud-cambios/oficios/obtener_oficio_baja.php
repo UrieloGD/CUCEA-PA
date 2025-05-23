@@ -1,6 +1,6 @@
 <?php
 // ./personal-solicitud-cambios/obtener_oficio_baja.php
-require_once './../../config/db.php';
+require_once './../../../config/db.php';
 
 $anio_actual = date('y');
 

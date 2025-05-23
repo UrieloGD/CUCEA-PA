@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 header('Content-Type: application/json'); 
-require_once './../../config/db.php';
+require_once './../../../config/db.php';
 
 if (!isset($_SESSION['Codigo'])) {
     echo json_encode(['error' => 'No autorizado']);
