@@ -42,13 +42,27 @@ function descargarPlantilla(id) {
         reader.readAsText(data);
       } else {
         // Si la respuesta es un archivo, proceder con la descarga
-        const filename = xhr
-          .getResponseHeader("Content-Disposition")
-          .split("filename=")[1];
+        let filename = nombreArchivo; // Usar el nombre del archivo mostrado en la tabla
+        
+        // Intentar obtener el nombre del archivo del header Content-Disposition
+        const contentDisposition = xhr.getResponseHeader("Content-Disposition");
+        if (contentDisposition) {
+          const matches = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+          if (matches && matches[1]) {
+            filename = matches[1].replace(/['"]/g, ''); // Remover comillas
+            filename = filename.replace(/^_+|_+$/g, ''); // Remover guiones bajos al inicio y final
+          }
+        }
+        
         const link = document.createElement("a");
         link.href = window.URL.createObjectURL(data);
         link.download = filename;
         link.click();
+        
+        // Limpiar el objeto URL después de un breve delay
+        setTimeout(() => {
+          window.URL.revokeObjectURL(link.href);
+        }, 100);
       }
     },
     error: function (xhr, status, error) {

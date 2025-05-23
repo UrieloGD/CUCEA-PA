@@ -165,6 +165,7 @@ $insert_departamentos = "INSERT INTO departamentos (Nombre_Departamento, Departa
     ('Sistemas_de_Información', 'Sistemas de Información'),
     ('Turismo', 'Turismo'),
     ('Contabilidad', 'Contabilidad')
+    ('Pruebas', 'Pruebas')
     -- ('Secretaría_Administrativa', 'Secretaría Administrativa')
     ";
 
@@ -1343,6 +1344,60 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla data_Contabilidad creada exitosamente";
 } else {
     echo "<br>Error creando tabla data_Contabilidad: " . mysqli_error($conexion) . "<br>";
+}
+
+// Crear tabla Metodos_Cuantitativos
+$sql = "CREATE TABLE IF NOT EXISTS data_pruebas (
+    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    CICLO VARCHAR(10) NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
+    NIVEL VARCHAR(25) NULL,
+    NIVEL_TIPO VARCHAR(25) NULL,
+    TIPO VARCHAR(5) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
+    ESTATUS VARCHAR(10) NULL,
+    TIPO_CONTRATO VARCHAR(30) NULL,
+    CODIGO_PROFESOR VARCHAR(9) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
+    CATEGORIA VARCHAR(40) NULL,
+    DESCARGA VARCHAR(2) NULL,
+    CODIGO_DESCARGA VARCHAR(9) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
+    TITULAR VARCHAR(2) NULL,
+    HORAS VARCHAR(5) NULL,
+    CODIGO_DEPENDENCIA VARCHAR(4) NULL,
+    L VARCHAR(5) NULL,
+    M VARCHAR(5) NULL,
+    I VARCHAR(5) NULL,
+    J VARCHAR(5) NULL,
+    V VARCHAR(5) NULL,
+    S VARCHAR(5) NULL,
+    D VARCHAR(5) NULL,
+    DIA_PRESENCIAL VARCHAR(10) NULL,
+    DIA_VIRTUAL VARCHAR(10) NULL,
+    MODALIDAD VARCHAR(25) NULL,
+    FECHA_INICIAL VARCHAR(10) NULL,
+    FECHA_FINAL VARCHAR(10) NULL,
+    HORA_INICIAL CHAR(10) NULL,
+    HORA_FINAL CHAR(10) NULL,
+    MODULO VARCHAR(10) NULL,
+    AULA CHAR(10) NULL,
+    CUPO VARCHAR (3) NULL,
+    OBSERVACIONES VARCHAR(150) NULL,
+    EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
+)";
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla data_pruebas creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Pruebas: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Coord_Per_Prof
