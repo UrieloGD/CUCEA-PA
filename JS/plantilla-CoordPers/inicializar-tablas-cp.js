@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM completamente cargado');
-  
+  const saveIcon = document.getElementById("icono-guardar");
+  const undoIcon = document.getElementById("icono-deshacer");
+  console.log('[InicializarTablas] Iconos en DOM:', { saveIcon, undoIcon });
   // Obtener el rol del usuario
   const userRole = document.getElementById('user-role').value;
   console.log('Rol del usuario:', userRole);
@@ -430,6 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (typeof setupEventHandlers === 'function') {
     setupEventHandlers();
   }
-  
+  window.table = table;
+  return table;
   console.log('Inicialización completada');
 });
