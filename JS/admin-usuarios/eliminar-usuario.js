@@ -12,10 +12,12 @@ document.querySelectorAll('.delete').forEach(btn => {
       text: "¿Estás seguro?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
       confirmButtonText: "Confirmar",
       cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: "boton-confirmarEliminacion",
+        cancelButton: "boton-cancelarEliminacion",
+      }
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
@@ -51,11 +53,15 @@ document.querySelectorAll('.delete').forEach(btn => {
         .then(data => {
           console.log("Datos procesados:", data);
           if (data.success) {
-            Swal.fire(
-              "Eliminado",
-              "El usuario ha sido eliminado.",
-              "success"
-            ).then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Eliminado",
+              text: "El usuario ha sido eliminado.",
+              customClass: {
+                popup: "high-z-index",
+                confirmButton: "OK-boton",
+              },
+            }).then(() => {
               row.remove(); // Elimina la fila de la tabla correspondiente al usuario eliminado
             });
           } else {
@@ -65,11 +71,15 @@ document.querySelectorAll('.delete').forEach(btn => {
         .catch(error => {
           // Manejo de errores en la solicitud o en la respuesta
           console.error("Error completo:", error);
-          Swal.fire(
-            "Error",
-            error.message,
-            "error"
-          );
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.message,
+            customClass: {
+              popup: "high-z-index",
+              confirmButton: "OK-boton",
+            },
+          });
         });
       }
     });

@@ -1,3 +1,31 @@
+const containers = document.querySelectorAll(".event-container");
+
+  containers.forEach(container => {
+    const actions = container.querySelector(".event-actions");
+
+    container.addEventListener("click", function (e) {
+      if (e.target.closest(".event-actions")) return;
+      hideAllActions();
+      actions.classList.add("visible");
+    });
+
+    actions.addEventListener("click", function () {
+      actions.classList.remove("visible");
+    });
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".event-container")) {
+      hideAllActions();
+    }
+  });
+
+  function hideAllActions() {
+    document.querySelectorAll(".event-actions.visible").forEach(el => {
+      el.classList.remove("visible");
+    });
+  }
+
 document.addEventListener("DOMContentLoaded", function () {
   const modalCrearEvento = document.getElementById("modalCrearEvento");
   const modalParticipantes = document.getElementById("modalParticipantes");
@@ -114,11 +142,14 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch((error) => {
         console.error("Error:", error);
-        Swal.fire(
-          "Error",
-          "Hubo un problema al cargar los datos del evento.",
-          "error"
-        );
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un problema al cargar los datos del evento.",
+          icon: "error",
+          customClass: {
+            confirmButton: "OK-boton",
+          }
+        });
       });
   }
 
@@ -228,29 +259,38 @@ document.addEventListener("DOMContentLoaded", function () {
         Swal.close(); // Cerrar loading
         console.log("Respuesta del servidor:", data); // Para depuración
         if (data.status === "success") {
-          Swal.fire(
-            "¡Actualizado!",
-            "El evento ha sido actualizado.",
-            "success"
-          ).then(() => {
+          Swal.fire({
+            title: "¡Actualizado!",
+            text: "El evento ha sido actualizado.",
+            icon: "success",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+          }).then(() => {
             location.reload();
           });
         } else {
-          Swal.fire(
-            "Error",
-            "Hubo un problema al actualizar el evento: " + data.message,
-            "error"
-          );
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al actualizar el evento: " + data.message,
+            icon: "error",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+          });
         }
       })
       .catch((error) => {
         Swal.close(); // Cerrar loading
         console.error("Error:", error);
-        Swal.fire(
-          "Error",
-          "Hubo un problema al procesar la respuesta del servidor.",
-          "error"
-        );
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un problema al procesar la respuesta del servidor.",
+          icon: "error",
+          customClass: {
+            confirmButton: "OK-boton",
+          }
+        });
       });
   };
 
@@ -468,29 +508,32 @@ document.addEventListener("DOMContentLoaded", function () {
         Swal.close();
         console.log("Respuesta del servidor:", data);
         if (data.status === "success") {
-          Swal.fire(
-            "¡Guardado!",
-            "El evento ha sido guardado.",
-            "success"
-          ).then(() => {
+          Swal.fire({
+            icon: "success",
+            title: "¡Guardado!",
+            text: "El evento ha sido guardado.",
+            confirmButtonColor: "#0071b0",
+          }).then(() => {
             location.reload();
           });
         } else {
-          Swal.fire(
-            "Error",
-            "Hubo un problema al guardar el evento: " + data.message,
-            "error"
-          );
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un problema al guardar el evento: " + data.message,
+            confirmButtonColor: "#0071b0",
+          });
         }
       })
       .catch((error) => {
         Swal.close();
         console.error("Error:", error);
-        Swal.fire(
-          "Error",
-          "Hubo un problema al procesar la respuesta del servidor.",
-          "error"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al procesar la respuesta del servidor.",
+          confirmButtonColor: "#0071b0",
+        });
       });
   };
 
@@ -534,29 +577,34 @@ document.addEventListener("DOMContentLoaded", function () {
         Swal.close();
         console.log("Respuesta del servidor:", data);
         if (data.status === "success") {
-          Swal.fire(
-            "¡Actualizado!",
-            "El evento ha sido actualizado.",
-            "success"
-          ).then(() => {
+          Swal.fire({
+            title: "¡Actualizado!",
+            text: "El evento ha sido actualizado.",
+            icon: "success",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+          }).then(() => {
             location.reload();
           });
         } else {
-          Swal.fire(
-            "Error",
-            "Hubo un problema al actualizar el evento: " + data.message,
-            "error"
-          );
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Hubo un problema al actualizar el evento: " + data.message,
+            confirmButtonColor: "#0071b0",
+          });
         }
       })
       .catch((error) => {
         Swal.close();
         console.error("Error:", error);
-        Swal.fire(
-          "Error",
-          "Hubo un problema al procesar la respuesta del servidor.",
-          "error"
-        );
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Hubo un problema al procesar la respuesta del servidor.",
+          confirmButtonColor: "#0071b0",
+        });
       });
   };
 });

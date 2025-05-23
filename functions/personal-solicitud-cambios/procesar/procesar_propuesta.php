@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        require_once './../../config/db.php';
+        require_once './../../../config/db.php';
         
         // Verificar si el usuario está autenticado
         if (!isset($_SESSION['Codigo'])) {
@@ -43,8 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha_fin = isset($_POST['fecha_fin']) ? $_POST['fecha_fin'] : '';
     
         // Generar número de oficio único
-        $oficio_num = mt_rand(10000, 99999);
-        
+        $oficio_num = isset($_POST['oficio_num_prop']) ? $_POST['oficio_num_prop'] : '';
+                
         // Verificar la conexión
         if (!$conexion) {
             throw new Exception('Error de conexión a la base de datos: ' . mysqli_connect_error());
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $placeholders_count = substr_count($sql, '?');
-        $types = "iissssiiiisssissiisissssssi"; // Tu cadena de tipos actual
+        $types = "isssssiiiisssissiisissssssi"; // Tu cadena de tipos actual
         $types_count = strlen($types);
         $variables_count = 27; // Ajusta este número al número correcto de variables
 
@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     
-        $stmt->bind_param("iissssiiiisssissiisissssssi",
+        $stmt->bind_param("isssssiiiisssissiisissssssi",
             $usuario_id, $oficio_num, $profesion, $apellido_paterno, $apellido_materno,
             $nombres, $codigo_prof, $dia, $mes, $ano, $descripcion, $codigo_puesto,
             $clasificacion, $hrs_semanales, $categoria, $carrera, $crn, $num_puesto,
@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode([
                 'success' => true,
                 'message' => 'Propuesta guardada exitosamente',
-                'oficio_num' => $oficio_num
+                'oficio_num_prop' => $oficio_num
             ]);
         } else {
             throw new Exception('Error al guardar en la base de datos: ' . $stmt->error);

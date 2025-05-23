@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        require_once './../../config/db.php';
+        require_once './../../../config/db.php';
         
         if (!isset($_SESSION['Codigo'])) {
             throw new Exception('Usuario no autenticado');
@@ -14,6 +14,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Obtener datos del formulario para la baja
         $usuario_id = $_SESSION['Codigo'];
+        
+        // Aquí está la corrección importante:
+        if (isset($_SESSION['Departamento_ID'])) {
+            $departamento_id = $_SESSION['Departamento_ID'];
+        } else {
+            // Si no existe en la sesión, intenta obtenerlo de la base de datos
+            $sql_dept = "SELECT Departamento_ID FROM usuarios WHERE Codigo = ?";
+            $stmt_dept = $conexion->prepare($sql_dept);
+            $stmt_dept->bind_param("i", $usuario_id);
+            $stmt_dept->execute();
+            $result_dept = $stmt_dept->get_result();
+            
+            if ($row_dept = $result_dept->fetch_assoc()) {
+                $departamento_id = $row_dept['Departamento_ID'];
+                $_SESSION['Departamento_ID'] = $departamento_id;
+            } else {
+                $departamento_id = 17;
+            }
+            
+            $stmt_dept->close();
+        }
+        
+        // Obtener datos del formulario para la baja
         $nombres_baja = $_POST['nombres_baja'] ?? '';
         $apellido_paterno_baja = $_POST['apellido_paterno_baja'] ?? '';
         $apellido_materno_baja = $_POST['apellido_materno_baja'] ?? '';
@@ -41,14 +64,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $num_puesto_practica_prop = $_POST['num_puesto_practica_prop'] ?? '';
         $hrs_teoria_prop = !empty($_POST['hrs_teoria_prop']) ? intval($_POST['hrs_teoria_prop']) : 0;
         $hrs_practica_prop = !empty($_POST['hrs_practica_prop']) ? intval($_POST['hrs_practica_prop']) : 0;
-        $inter_temp_def_prop = $_POST['inter_temp_def_prop'] ?? '';
+        $inter_temp_def_prop = $_POST['inter_temp_def_prop'] ?? ''; // ESTE CAMPO ESTABA BIEN
         $tipo_asignacion_prop = $_POST['tipo_asignacion_prop'] ?? '';
         $periodo_desde_prop = $_POST['periodo_desde_prop'] ?? '';
         $periodo_hasta_prop = $_POST['periodo_hasta_prop'] ?? '';
 
-        $oficio_num = mt_rand(10000, 99999);
-        $departamento_id = $_SESSION['Departamento_ID'] ?? 1;
-
+        // Generar folio consecutivo
+        $year = date('y');
+        $sql_count = "SELECT MAX(SUBSTRING_INDEX(OFICIO_NUM_BAJA_PROP, '/', 1)) as ultimo_numero 
+                    FROM solicitudes_baja_propuesta 
+                    WHERE OFICIO_NUM_BAJA_PROP LIKE '%/$year'";
+        $result_count = $conexion->query($sql_count);
+        $row = $result_count->fetch_assoc();
+        $ultimo_numero = $row['ultimo_numero'] ? intval($row['ultimo_numero']) : 0;
+        $nuevo_numero = $ultimo_numero + 1;
+        $oficio_num = sprintf('%04d/%s', $nuevo_numero, $year);
 
         $sql = "INSERT INTO solicitudes_baja_propuesta (
             USUARIO_ID, 
@@ -95,9 +125,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt = $conexion->prepare($sql);
         $stmt->bind_param(
-            "iisssssiissiiiissssssssiiiiisssss",  // 31 tipos para 31 variables
-            $usuario_id,                         // i
-            $oficio_num,                        // i
+            "issssssiissiiissssssssiiiiissssss",
+            $usuario_id,                        // i
+            $oficio_num,                        // s
             $profesion_baja,                    // s
             $apellido_paterno_baja,             // s
             $apellido_materno_baja,             // s
@@ -110,29 +140,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $crn_baja,                          // i
             $hrs_teoria_baja,                   // i
             $hrs_practica_baja,                 // i
-            $carrera_baja,                      // i
-            $gdo_gpo_turno_baja,               // s
-            $tipo_asignacion_baja,             // s
-            $sin_efectos_baja,                 // s
-            $motivo_baja,                      // s
-            $apellido_paterno_prop,            // s
-            $apellido_materno_prop,            // s
-            $nombres_prop,                     // s
-            $codigo_prof_prop,
-            $num_puesto_teoria_prop,
-            $num_puesto_practica_prop,
-            $hrs_teoria_prop,                  // i
-            $hrs_practica_prop,                // i
-            $inter_temp_def_prop,              // i
-            $tipo_asignacion_prop,             // s
-            $periodo_desde_prop,               // s
-            $periodo_hasta_prop,               // s
-            $estado,                           // s
-            $departamento_id                   // s
+            $carrera_baja,                      // s
+            $gdo_gpo_turno_baja,                // s
+            $tipo_asignacion_baja,              // s
+            $sin_efectos_baja,                  // s
+            $motivo_baja,                       // s
+            $apellido_paterno_prop,             // s
+            $apellido_materno_prop,             // s
+            $nombres_prop,                      // s
+            $codigo_prof_prop,                  // i
+            $num_puesto_teoria_prop,            // i
+            $num_puesto_practica_prop,          // i
+            $hrs_teoria_prop,                   // i
+            $hrs_practica_prop,                 // i
+            $inter_temp_def_prop,               // s
+            $tipo_asignacion_prop,              // s
+            $periodo_desde_prop,                // s
+            $periodo_hasta_prop,                // s
+            $estado,                            // s
+            $departamento_id                    // s
         );
 
         if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Solicitud guardada']);
+            echo json_encode([
+                'success' => true, 
+                'message' => 'Solicitud guardada',
+                'debug' => [
+                    'usuario_id' => $usuario_id,
+                    'departamento_id' => $departamento_id,
+                    'inter_temp_def_prop' => $inter_temp_def_prop // Debug para verificar
+                ]
+            ]);
         } else {
             throw new Exception('Error en la base de datos: ' . $stmt->error);
         }

@@ -12,6 +12,18 @@ document.querySelector(".close").onclick = function () {
 };
 
 function añadirRegistro() {
+  // Mostrar SweetAlert de espera inicial
+  Swal.fire({
+    title: "Procesando...",
+    text: "Añadiendo registro, por favor espere.",
+    icon: "info",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    willOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
   var form = document.getElementById("form-añadir-registro");
   var datos = new FormData(form);
 
@@ -35,6 +47,18 @@ function añadirRegistro() {
               duplicarCheckbox.checked &&
               (tipoSeleccionado === "P" || tipoSeleccionado === "T")
             ) {
+              // Actualizar el SweetAlert para indicar que se está procesando el registro duplicado
+              Swal.update({
+                title: "Procesando...",
+                text: "Primer registro añadido. Añadiendo registro duplicado, por favor espere.",
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                  Swal.showLoading();
+                },
+              });
+
               // Crear un nuevo FormData para el registro duplicado
               var datosDuplicados = new FormData(form);
               datosDuplicados.append("departamento_id", departamento_id);
@@ -56,14 +80,23 @@ function añadirRegistro() {
                     try {
                       var respuesta2 = JSON.parse(xhr2.responseText);
                       if (respuesta2.success) {
-                        Swal.fire({
-                          title: "¡Éxito!",
-                          text: "Ambos registros fueron añadidos correctamente.",
-                          icon: "success",
-                        }).then(() => {
-                          cerrarFormularioAñadir();
-                          location.reload();
+                        // Actualizar el SweetAlert para indicar que se están enviando notificaciones
+                        Swal.update({
+                          title: "Procesando...",
+                          text: "Ambos registros añadidos.",
                         });
+
+                        // Simular un breve retraso para que el usuario vea el mensaje de notificaciones
+                        setTimeout(() => {
+                          Swal.fire({
+                            title: "¡Éxito!",
+                            text: "Ambos registros fueron añadidos correctamente.",
+                            icon: "success",
+                          }).then(() => {
+                            cerrarFormularioAñadir();
+                            location.reload();
+                          });
+                        }, 1000);
                       } else {
                         Swal.fire({
                           title: "Advertencia",
@@ -100,21 +133,33 @@ function añadirRegistro() {
               };
               xhr2.send(datosDuplicados);
             } else {
-              // Si no hay duplicación, mostrar mensaje normal
-              Swal.fire({
-                title: "¡Éxito!",
-                text: respuesta.message,
-                icon: "success",
-              }).then(() => {
-                cerrarFormularioAñadir();
-                location.reload();
+              // Si no hay duplicación, actualizar el SweetAlert para indicar que se están enviando notificaciones
+              Swal.update({
+                title: "Procesando...",
+                text: "Registro añadido.",
               });
+
+              // Simular un breve retraso para que el usuario vea el mensaje de notificaciones
+              setTimeout(() => {
+                // Si no hay duplicación, mostrar mensaje normal
+                Swal.fire({
+                  title: "¡Éxito!",
+                  text: respuesta.message,
+                  icon: "success",
+                }).then(() => {
+                  cerrarFormularioAñadir();
+                  location.reload();
+                });
+              }, 1000);
             }
           } else {
             Swal.fire({
               title: "Error",
               text: respuesta.message,
               icon: "error",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
             });
           }
         } catch (e) {
@@ -122,6 +167,10 @@ function añadirRegistro() {
             title: "Error",
             text: "Error al procesar la respuesta del servidor",
             icon: "error",
+            confirmButtonText: "OK",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           });
         }
       } else {
@@ -129,6 +178,10 @@ function añadirRegistro() {
           title: "Error",
           text: "Error de conexión con el servidor",
           icon: "error",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: "OK-boton",
+          }
         });
       }
     }

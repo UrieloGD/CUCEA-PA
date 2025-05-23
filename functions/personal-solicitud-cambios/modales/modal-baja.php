@@ -20,7 +20,7 @@
                     <input type="text" id="apellido_materno" name="apellido_materno">
                 </div>
                 <div class="form-group">
-                    <label for="codigo_prof">Código</label>
+                    <label for="codigo_prof">Código Profesor</label>
                     <input type="text" id="codigo_prof" name="codigo_prof">
                 </div>
                 <div class="form-group">
@@ -66,8 +66,8 @@
                     <input type="date" id="fecha_efectos" name="fecha_efectos">
                 </div>
                 <div class="form-group">
-                    <label for="oficio_num">Oficio Num.</label>
-                    <input type="text" id="oficio_num" name="oficio_num" readonly class="form-control">
+                    <label for="oficio_num_baja">Oficio Num.</label>
+                    <input type="text" id="oficio_num_baja" name="oficio_num_baja" readonly class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha D/M/A</label>

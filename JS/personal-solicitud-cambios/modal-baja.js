@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Límites máximos para inputs
     const maxLengths = {
-        'oficio_num': 15,
+        'oficio_num_baja': 15,
         'profesion': 15,
         'apellido_paterno': 40,
         'apellido_materno': 40,
@@ -26,6 +26,48 @@ document.addEventListener('DOMContentLoaded', function() {
         'motivo': 50
     };
 
+    // Campos alfabéticos - permitir letras, espacios y caracteres especiales del español
+    const camposAlfabeticos = [
+        'nombres', 'apellido_paterno', 'apellido_materno'
+    ];
+
+    camposAlfabeticos.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                // Primero aplicamos toUpperWithAccents para mantener la conversión a mayúsculas
+                let valor = toUpperWithAccents(e.target.value);
+                
+                // Luego quitamos solo los números
+                // Esto preserva letras, espacios, acentos, ñ, etc.
+                valor = valor.replace(/[0-9]/g, '');
+                
+                e.target.value = valor;
+            });
+        }
+    });
+
+    // Para campos estrictamente numéricos (CRN, CODIGO)
+    const camposEstrictamenteNumericos = [
+        'codigo_prof', 'crn'
+    ];
+
+    camposEstrictamenteNumericos.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                // Solo permitir dígitos
+                e.target.value = e.target.value.replace(/\D/g, '');
+                
+                // Aplicar la longitud máxima correspondiente
+                const maxLength = campo === 'codigo_prof' ? 8 : 7; // 8 para código, 7 para CRN
+                if (e.target.value.length > maxLength) {
+                    e.target.value = e.target.value.slice(0, maxLength);
+                }
+            });
+        }
+    });
+
     // Aplicar límites
     Object.keys(maxLengths).forEach(field => {
         const input = document.getElementById(field);
@@ -34,11 +76,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Actualizar número de oficio
     const actualizarNumeroOficio = () => {
-        fetch('./functions/personal-solicitud-cambios/obtener_oficio_baja.php')
+        fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_baja.php')
             .then(response => response.json())
             .then(data => {
                 data.siguiente_numero && 
-                    (document.getElementById('oficio_num').value = data.siguiente_numero);
+                    (document.getElementById('oficio_num_baja').value = data.siguiente_numero);
             });
     };
 
@@ -78,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             didOpen: () => Swal.showLoading()
         });
         
-        fetch('./functions/personal-solicitud-cambios/procesar_baja.php', {
+        fetch('./functions/personal-solicitud-cambios/procesar/procesar_baja.php', {
             method: 'POST',
             body: new FormData(this)
         })

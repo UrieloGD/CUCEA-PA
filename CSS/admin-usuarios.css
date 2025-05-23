@@ -317,6 +317,28 @@ input[readonly], select[readonly] {
   z-index: 9999 !important;
 }
 
+/* Estilos de los Sweet Alert */
+.OK-boton { background-color: #0071B0; }
+.OK-boton:hover { background-color: #00659b; }
+
+.boton-confirmarEliminacion { 
+  background-color: #D70A16;
+  border-color: #D70A16;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+} 
+.boton-confirmarEliminacion:hover { background-color: #b00814; }
+.boton-cancelarEliminacion {
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #0071B0;
+} 
+.boton-cancelarEliminacion:hover { background-color: #D9EDF6; }
+
 /* Media queries para hacer el diseño responsivo */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {

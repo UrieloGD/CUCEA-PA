@@ -165,6 +165,7 @@ $insert_departamentos = "INSERT INTO departamentos (Nombre_Departamento, Departa
     ('Sistemas_de_Información', 'Sistemas de Información'),
     ('Turismo', 'Turismo'),
     ('Contabilidad', 'Contabilidad')
+    ('Pruebas', 'Pruebas')
     -- ('Secretaría_Administrativa', 'Secretaría Administrativa')
     ";
 
@@ -325,7 +326,6 @@ $sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
     Departamento_ID INT(15),
-    Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 );";
@@ -334,6 +334,29 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla Notificaciones creada exitosamente";
 } else {
     echo "<br>Error creando tabla Notificaciones: " . mysqli_error($conexion);
+}
+
+$sql = "CREATE TABLE IF NOT EXISTS usuarios_notificaciones (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Usuario_ID BIGINT(10) NOT NULL,
+    Notificacion_ID INT,
+    Justificacion_ID INT,
+    Plantilla_ID INT,
+    Tipo VARCHAR(20) NOT NULL,
+    Vista BOOLEAN DEFAULT 0,
+    Oculta BOOLEAN DEFAULT 0,
+    FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo),
+    FOREIGN KEY (Notificacion_ID) REFERENCES notificaciones(ID),
+    FOREIGN KEY (Justificacion_ID) REFERENCES justificaciones(ID_Justificacion),
+    INDEX idx_usuario_notificacion (Usuario_ID, Notificacion_ID),
+    INDEX idx_usuario_justificacion (Usuario_ID, Justificacion_ID),
+    INDEX idx_usuario_plantilla (Usuario_ID, Plantilla_ID)
+);";
+
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla usuarios_notificaciones creada exitosamente";
+} else {
+    echo "<br>Error creando tabla usuarios_notificaciones: " . mysqli_error($conexion);
 }
 
 // Tabla solicitudes_baja
@@ -413,40 +436,42 @@ if (mysqli_query($conexion, $sql)) {
 $sql = "CREATE TABLE IF NOT EXISTS solicitudes_baja_propuesta (
     ID_BAJA_PROP INT AUTO_INCREMENT PRIMARY KEY,
     USUARIO_ID BIGINT(10),
-    OFICIO_NUM_BAJA_PROP INT(5) UNIQUE,
+    Departamento_ID INT,
+    OFICIO_NUM_BAJA_PROP VARCHAR(15) UNIQUE,
     FECHA_SOLICITUD_BAJA_PROP DATE,
     PROFESSION_PROFESOR_BAJA VARCHAR(15),
     APELLIDO_P_PROF_BAJA VARCHAR(40),
     APELLIDO_M_PROF_BAJA VARCHAR(40),
     NOMBRES_PROF_BAJA VARCHAR(60),
     CODIGO_PROF_BAJA INT(10),
-    NUM_PUESTO_TEORIA_BAJA INT(10),
-    NUM_PUESTO_PRACTICA_BAJA INT(10),
+    NUM_PUESTO_TEORIA_BAJA VARCHAR(15),
+    NUM_PUESTO_PRACTICA_BAJA VARCHAR(15),
     CVE_MATERIA_BAJA VARCHAR(10),
     NOMBRE_MATERIA_BAJA VARCHAR(100),
     CRN_BAJA INT(7),
-    HRS_SEM_MES_TEORIA_BAJA INT(5),
-    HRS_SEM_MES_PRACTICA_BAJA INT(5),
+    HRS_SEM_MES_TEORIA_BAJA VARCHAR(15),
+    HRS_SEM_MES_PRACTICA_BAJA VARCHAR(15),
     CARRERA_BAJA VARCHAR(50),
     GDO_GPO_TURNO_BAJA VARCHAR(20),
     TIPO_ASIGNACION_BAJA VARCHAR(10),
     SIN_EFFECTOS_APARTH_BAJA DATE,
     MOTIVO_BAJA VARCHAR(50),
-    NUM_PUESTO_TEORIA_PROP INT(10),
-    NUM_PUESTO_PRACTICA_PROP INT(10),
+    NUM_PUESTO_TEORIA_PROP VARCHAR(15),
+    NUM_PUESTO_PRACTICA_PROP VARCHAR(15),
     APELLIDO_P_PROF_PROP VARCHAR(40),
     APELLIDO_M_PROF_PROP VARCHAR(40),
     NOMBRES_PROF_PROP VARCHAR(60),
     CODIGO_PROF_PROP INT(10),
-    HRS_SEM_MES_TEORIA_PROP INT(5),
-    HRS_SEM_MES_PRACTICA_PROP INT(5),
+    HRS_SEM_MES_TEORIA_PROP VARCHAR(15),
+    HRS_SEM_MES_PRACTICA_PROP VARCHAR(15),
     INTER_TEMP_DEF_PROP VARCHAR(30),
     TIPO_ASIGNACION_PROP VARCHAR(10),
     PERIODO_ASIG_DESDE_PROP DATE,
     PERIODO_ASIG_HASTA_PROP DATE,
     ESTADO_P VARCHAR(15),
     HORA_CREACION TIME,
-    Departamento_ID INT,
+    PDF_BLOB LONGBLOB,
+    FECHA_MODIFICACION_REVISION TIMESTAMP,
     FOREIGN KEY (USUARIO_ID) REFERENCES usuarios(Codigo),
     FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
 );";
@@ -782,7 +807,7 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Crear tabla Recursos_Humanos
-$sql = "CREATE TABLE IF NOT EXISTS data_recursos_Humanos (
+$sql = "CREATE TABLE IF NOT EXISTS data_recursos_humanos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
@@ -1319,6 +1344,60 @@ if (mysqli_query($conexion, $sql)) {
     echo "<br>Tabla data_Contabilidad creada exitosamente";
 } else {
     echo "<br>Error creando tabla data_Contabilidad: " . mysqli_error($conexion) . "<br>";
+}
+
+// Crear tabla Metodos_Cuantitativos
+$sql = "CREATE TABLE IF NOT EXISTS data_pruebas (
+    ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
+    Departamento_ID INT NOT NULL,
+    CICLO VARCHAR(10) NULL,
+    CRN VARCHAR(15) NULL,
+    MATERIA VARCHAR(150) NULL,
+    CVE_MATERIA VARCHAR(5) NULL,
+    SECCION VARCHAR(30) NULL,
+    NIVEL VARCHAR(25) NULL,
+    NIVEL_TIPO VARCHAR(25) NULL,
+    TIPO VARCHAR(5) NULL,
+    C_MIN VARCHAR(5) NULL,
+    H_TOTALES VARCHAR(5) NULL,
+    ESTATUS VARCHAR(10) NULL,
+    TIPO_CONTRATO VARCHAR(30) NULL,
+    CODIGO_PROFESOR VARCHAR(9) NULL,
+    NOMBRE_PROFESOR VARCHAR(80) NULL,
+    CATEGORIA VARCHAR(40) NULL,
+    DESCARGA VARCHAR(2) NULL,
+    CODIGO_DESCARGA VARCHAR(9) NULL,
+    NOMBRE_DESCARGA VARCHAR(80) NULL,
+    NOMBRE_DEFINITIVO VARCHAR(80) NULL,
+    TITULAR VARCHAR(2) NULL,
+    HORAS VARCHAR(5) NULL,
+    CODIGO_DEPENDENCIA VARCHAR(4) NULL,
+    L VARCHAR(5) NULL,
+    M VARCHAR(5) NULL,
+    I VARCHAR(5) NULL,
+    J VARCHAR(5) NULL,
+    V VARCHAR(5) NULL,
+    S VARCHAR(5) NULL,
+    D VARCHAR(5) NULL,
+    DIA_PRESENCIAL VARCHAR(10) NULL,
+    DIA_VIRTUAL VARCHAR(10) NULL,
+    MODALIDAD VARCHAR(25) NULL,
+    FECHA_INICIAL VARCHAR(10) NULL,
+    FECHA_FINAL VARCHAR(10) NULL,
+    HORA_INICIAL CHAR(10) NULL,
+    HORA_FINAL CHAR(10) NULL,
+    MODULO VARCHAR(10) NULL,
+    AULA CHAR(10) NULL,
+    CUPO VARCHAR (3) NULL,
+    OBSERVACIONES VARCHAR(150) NULL,
+    EXAMEN_EXTRAORDINARIO VARCHAR (2) NULL,
+    PAPELERA VARCHAR(15) NULL,
+    FOREIGN KEY (Departamento_ID) REFERENCES departamentos(Departamento_ID)
+)";
+if (mysqli_query($conexion, $sql)) {
+    echo "<br>Tabla data_pruebas creada exitosamente";
+} else {
+    echo "<br>Error creando tabla Pruebas: " . mysqli_error($conexion) . "<br>";
 }
 
 // Crear tabla Coord_Per_Prof

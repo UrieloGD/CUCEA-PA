@@ -5,11 +5,12 @@ require_once './../../../library/tcpdf.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+mysqli_set_charset($conexion, "utf8mb4");
 
 class BAJA_PDF extends TCPDF {
     public function Footer() {
         $this->SetY(-15);
-        $this->SetFont('helvetica', 'I', 8);
+        $this->SetFont('dejavusans', 'I', 8);
         $this->Cell(0, 10, 'Página '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), 0, false, 'C');
     }
 }
@@ -46,31 +47,36 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     try {
     // Configurar PDF
     $pdf = new BAJA_PDF('P', 'mm', 'A4', true, 'UTF-8', false);
-    $pdf->SetMargins(10, 40, 10); // Margen superior aumentado
+    $pdf->SetMargins(10, 40, 10);
+    $pdf->setFontSubsetting(true);
+    $pdf->SetFont('dejavusans', '', 9); // Asegura que la fuente sea DejaVu Sans
+    $pdf->setTextShadow(array('enabled'=>false));
     $pdf->setPrintHeader(false);
     $pdf->AddPage();
 
     $border = 1; // Borde completo para todas las celdas
     $pdf->SetFillColor(255, 255, 255); // Fondo blanco para celdas
+    $pdf->setCellHeightRatio(1.25);
+    $pdf->setFontSpacing(0.0);
     
     // Logo y encabezado
     $logoPath = './../../../Img/logos/LogoUDG-Color.png';
     $pdf->Image($logoPath, 12, 10, 20, 0, 'PNG');
 
     // Encabezado institucional
-    $pdf->SetFont('helvetica', 'B', 12);
+    $pdf->SetFont('dejavusans', 'B', 12);
     $pdf->SetXY(37, 10);
     $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
     $pdf->SetX(37);
-    $pdf->SetFont('helvetica', 'B', 11);
+    $pdf->SetFont('dejavusans', 'B', 11);
     $pdf->Cell(0, 6, 'SOLICITUD DE BAJA', 0, 1);
     $pdf->SetX(37);
-    $pdf->SetFont('helvetica', '', 9);
+    $pdf->SetFont('dejavusans', '', 9);
     $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);
 
     // Oficio y fecha
     $pdf->SetXY(125, 10);
-    $pdf->SetFont('helvetica', 'B', 10);
+    $pdf->SetFont('dejavusans', 'B', 10);
     // Fila de títulos
     $pdf->Cell(35, 8, 'OFICIO NUM', $border, 0, 'L');
     $pdf->Cell(35, 8, 'FECHA', $border, 1, 'L');
@@ -82,18 +88,22 @@ function generarPDFyActualizarEstado($conexion, $folio) {
 
     // Departamento
     $pdf->SetXY(37, 28);
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->Cell(0, 7, strtoupper('CENTRO UNIVERSITARIO DE CIENCIAS ECONÓMICO ADMINISTRATIVAS'), 0, 1, 'L');
+    $pdf->SetFont('dejavusans', 'B', 10);
+    $pdf->Cell(0, 7, strtoupper('CENTRO UNIVERSITARIO DE CIENCIAS ECONOMICO ADMINISTRATIVAS'), 0, 1, 'L');
     $pdf->SetXY(37, 33);
+    // Obtener el nombre del departamento
     $departamento = str_replace('_', ' ', $solicitud['Nombre_Departamento']);
-    $pdf->Cell(0, 7, strtoupper('DEPARTAMENTO DE ' . $departamento), 0, 1, 'L');
+    // Convertir a mayúsculas
+    $departamento = mb_strtoupper($departamento, 'UTF-8');
+    $departamento = html_entity_decode($departamento, ENT_QUOTES, 'UTF-8');
+    $pdf->Cell(0, 7, 'DEPARTAMENTO DE ' . $departamento, 0, 1, 'L');
     
     // Línea divisoria
     $pdf->Line(11, 45, 199, 45);
     
     // Destinatario
     $pdf->SetY(50);
-    $pdf->SetFont('helvetica', '', 10);
+    $pdf->SetFont('dejavusans', '', 9);
     $pdf->Cell(0, 8, 'C. RECTOR GENERAL DE LA UNIVERSIDAD DE GUADALAJARA', 0, 1);
     $pdf->Cell(0, 8, 'PRESENTE', 0, 1);
     
@@ -105,10 +115,10 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->Ln(3);
     
     // Tabla de profesor (100% ancho)
-    $header = ['PROFESIÓN', 'APELLIDO PATERNO', 'MATERNO', 'NOMBRE(S)', 'CODIGO'];
+    $header = ['PROFESION', 'APELLIDO PATERNO', 'MATERNO', 'NOMBRE(S)', 'CODIGO'];
     $widths = [25, 45, 35, 55, 30];
     // Header con bordes
-    $pdf->SetFont('helvetica', 'B', 10);
+    $pdf->SetFont('dejavusans', 'B', 9);
     foreach ($header as $i => $col) {
         $pdf->Cell($widths[$i], 8, $col, $border, 0, 'L');
     }
@@ -117,11 +127,11 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     // Datos
     $pdf->SetFont('', '');
     $data = [
-        mb_strtoupper($solicitud['PROFESSION_PROFESOR_B'], 'UTF-8'),
-        mb_strtoupper($solicitud['APELLIDO_P_PROF_B'], 'UTF-8'),
-        mb_strtoupper($solicitud['APELLIDO_M_PROF_B'], 'UTF-8'),
-        mb_strtoupper($solicitud['NOMBRES_PROF_B'], 'UTF-8'),
-        mb_strtoupper($solicitud['CODIGO_PROF_B'], 'UTF-8')
+        mb_convert_encoding($solicitud['PROFESSION_PROFESOR_B'], 'UTF-8', 'auto'),
+        mb_convert_encoding($solicitud['APELLIDO_P_PROF_B'], 'UTF-8', 'auto'),
+        mb_convert_encoding($solicitud['APELLIDO_M_PROF_B'], 'UTF-8', 'auto'),
+        mb_convert_encoding($solicitud['NOMBRES_PROF_B'], 'UTF-8', 'auto'),
+        mb_convert_encoding($solicitud['CODIGO_PROF_B'], 'UTF-8', 'auto')
     ];
 
     $pdf->SetFont('', '');  // Asegurar fuente normal
@@ -131,9 +141,9 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->Ln(15);
     
     // Tabla descripción (50%-25%-25%)
-    $pdf->SetFont('helvetica', 'B', 10);
+    $pdf->SetFont('dejavusans', 'B', 9);
     $pdf->Cell(105, 8, 'DESCRIPCIÓN DEL PUESTO QUE OCUPA', $border, 0, 'L');
-    $pdf->Cell(40, 8, 'CRN',$border, 0, 'L');
+    $pdf->Cell(40, 8, 'CRN', $border, 0, 'L');
     $pdf->Cell(45, 8, 'CLASIFICACIÓN', $border, 1, 'L');
     
     $pdf->SetFont('', '');
@@ -143,11 +153,11 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->Ln(10);
     
     // Efectos y motivo en línea
-    $pdf->SetFont('helvetica', 'B', 10);
+    $pdf->SetFont('dejavusans', 'B', 9);
     $pdf->Cell(70, 8, 'QUEDE SIN EFECTOS A PARTIR DE:', 0, 0, 'L');    $pdf->SetFont('', '');
     $pdf->Cell(45, 7, date('d/m/Y', strtotime($solicitud['SIN_EFFECTOS_DESDE_B'])), $border, 0, 'L');
 
-    $pdf->SetFont('helvetica', 'B', 10);
+    $pdf->SetFont('dejavusans', 'B', 9);
     $pdf->Cell(25, 8, 'MOTIVO:', 0, 0, 'L');
     $pdf->SetFont('', '');
     $pdf->Cell(50, 7, mb_strtoupper($solicitud['MOTIVO_B'], 'UTF-8'), $border, 1, 'L');
@@ -155,7 +165,7 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     
     // Firmas más arriba
     $pdf->SetY(-100);
-    $pdf->SetFont('helvetica', 'B', 12);
+    $pdf->SetFont('dejavusans', 'B', 12);
     $pdf->Cell(0, 8, 'ATENTAMENTE', 0, 1, 'C');
     $pdf->Cell(0, 8, 'PIENSA Y TRABAJA', 0, 1, 'C');
     $pdf->Ln(25);
@@ -171,7 +181,7 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     $pdf->SetFont('', 'B', 10);
     $pdf->Cell(70, 8, 'LIC. DENISSE MURILLO GONZALEZ', 0, 0, 'C');
     $pdf->SetX(110);
-    $pdf->Cell(70, 8, 'MTRO. LUIS GUSTAVO PADILLA MONTES', 0, 1, 'C');
+    $pdf->Cell(70, 8, 'DRA. MARA NADIEZHDA ROBLES VILLASEÑOR', 0, 1, 'C');
     
     // Cargos
     $pdf->SetX(25);
@@ -186,7 +196,8 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     // Actualizar base de datos
     $sql_update = "UPDATE solicitudes_baja 
                 SET PDF_BLOB = ?, 
-                    ESTADO_B = 'En revision'                    
+                    ESTADO_B = 'En revision',
+                    FECHA_MODIFICACION_REVISION = CURRENT_TIMESTAMP                  
                 WHERE OFICIO_NUM_BAJA = ?";
         
         $stmt = mysqli_prepare($conexion, $sql_update);

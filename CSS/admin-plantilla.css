@@ -204,6 +204,35 @@ td .btn-container .btn {
   margin-left: auto !important;
 }
 
+.OK-boton { background-color: #0071B0; }
+.OK-boton:hover { background-color: #00659b; }
+
+.boton-aceptar-SA { 
+  background-color: #0071B0;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+} 
+.boton-aceptar-SA:hover { background-color: #00659b; }
+.boton-cancelar-SA {
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #0071B0;
+} 
+.boton-cancelar-SA:hover { background-color: #D9EDF6; }
+.aceptar-eliminar-SA { 
+  background-color: #D70A16;
+  border-color: #D70A16;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+} 
+.aceptar-eliminar-SA:hover { background-color: #b00814; }
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {

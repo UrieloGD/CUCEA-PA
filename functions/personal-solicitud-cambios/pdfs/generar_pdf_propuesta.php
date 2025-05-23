@@ -6,7 +6,7 @@ require_once './../../../library/tcpdf.php';
 class PROPUESTA_PDF extends TCPDF {
     public function Footer() {
         $this->SetY(-15);
-        $this->SetFont('helvetica', 'I', 8);
+        $this->SetFont('dejavusans', 'I', 8);
         $this->Cell(0, 10, 'Página '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), 0, 0, 'C');
     }
 }
@@ -52,19 +52,19 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Image($logoPath, 12, 10, 20, 0, 'PNG');
 
         // Encabezado institucional
-        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->SetFont('dejavusans', 'B', 12);
         $pdf->SetXY(37, 10);
         $pdf->Cell(0, 6, 'UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->SetX(37);
-        $pdf->SetFont('helvetica', 'B', 11);
+        $pdf->SetFont('dejavusans', 'B', 11);
         $pdf->Cell(0, 6, 'SOLICITUD DE PROPUESTA', 0, 1);
         $pdf->SetX(37);
-        $pdf->SetFont('helvetica', '', 9);
+        $pdf->SetFont('dejavusans', '', 9);
         $pdf->Cell(0, 6, 'DEPENDENCIA', 0, 1);
 
         // Oficio y fecha
         $pdf->SetXY(125, 10);
-        $pdf->SetFont('helvetica', 'B', 10);
+        $pdf->SetFont('dejavusans', 'B', 10);
         // Fila de títulos
         $pdf->Cell(35, 8, 'OFICIO NUM', $border, 0, 'L');
         $pdf->Cell(35, 8, 'FECHA', $border, 1, 'L');
@@ -76,27 +76,34 @@ function generarPDFPropuesta($conexion, $folio) {
 
         // Departamento
         $pdf->SetXY(37, 28);
-        $pdf->SetFont('helvetica', 'B', 10);
+        $pdf->SetFont('dejavusans', 'B', 10);
         $pdf->Cell(0, 7, strtoupper('CENTRO UNIVERSITARIO DE CIENCIAS ECONÓMICO ADMINISTRATIVAS'), 0, 1, 'L');
         $pdf->SetXY(37, 33);
+        // Obtener el nombre del departamento
         $departamento = str_replace('_', ' ', $solicitud['Nombre_Departamento']);
-        $pdf->Cell(0, 7, strtoupper('DEPARTAMENTO DE ' . $departamento), 0, 1, 'L');
+        // Convertir a mayúsculas
+        $departamento = mb_strtoupper($departamento, 'UTF-8');
+        // Eliminar acentos y caracteres especiales
+        $buscar = ['Á', 'É', 'Í', 'Ó', 'Ú', 'Ü', 'Ñ'];
+        $reemplazar = ['A', 'E', 'I', 'O', 'U', 'U', 'N'];
+        $departamento = str_replace($buscar, $reemplazar, $departamento);
+        $pdf->Cell(0, 7, 'DEPARTAMENTO DE ' . $departamento, 0, 1, 'L');
         
         // Línea divisoria
         $pdf->Line(11, 45, 199, 45);
         
         // Contenido principal
         $pdf->SetY(50);
-        $pdf->SetFont('helvetica', '', 10);
+        $pdf->SetFont('dejavusans', '', 9);
         $pdf->Cell(0, 8, 'C. RECTOR GENERAL DE LA UNIVERSIDAD DE GUADALAJARA', 0, 1);
         $pdf->Cell(0, 8, 'PRESENTE', 0, 1);
-        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'J');
+        $pdf->MultiCell(0, 8, "POR ESTE CONDUCTO ME PERMITO SOLICITAR DE USTED QUE EL NOMBRAMIENTO/CONTRATO/ASIGNACION IDENTIFICADO CON", 0, 'L');
         $pdf->Ln(4);        
         
         // Tabla de profesor actual
         $header1 = ['PROFESIÓN', 'AP. PATERNO', 'AP. MATERNO', 'NOMBRE(S)', 'CÓDIGO.', 'DÍA', 'MES', 'AÑO'];
         $widths1 = [22, 30, 25, 48, 20, 15, 15, 15]; // Total: 190mm
-        $pdf->SetFont('helvetica', 'B', 9);
+        $pdf->SetFont('dejavusans', 'B', 8);
 
         // Header primera tabla
         foreach ($header1 as $i => $col) {
@@ -119,7 +126,7 @@ function generarPDFPropuesta($conexion, $folio) {
         // Segunda tabla (Descripción puesto)
         $header2 = ['DESCRIPCIÓN DEL PUESTO QUE OCUPA', 'CÓDIGO', 'CLASIFICACIÓN'];
         $widths2 = [125, 30, 35]; // Total: 190mm
-        $pdf->SetFont('helvetica', 'B', 9);
+        $pdf->SetFont('dejavusans', 'B', 9);
         
         foreach ($header2 as $i => $col) {
             $pdf->Cell($widths2[$i], 8, $col, $border, 0, 'L');
@@ -136,10 +143,10 @@ function generarPDFPropuesta($conexion, $folio) {
         // Tercera tabla (Detalles del puesto)
         $header3 = ['HRS SEM.', 'CATEGORIA', 'CARRERA', 'CRN', 'N° PUESTO', 'CARGO A.T.C.'];
         $widths3 = [20, 45, 60, 20, 20, 25]; // Total: 190mm (ajustado para margen)
-        $pdf->SetFont('helvetica', 'B', 9);
+        $pdf->SetFont('dejavusans', 'B', 8);
 
         // Configurar autoajuste de texto
-        $pdf->SetFont('helvetica', 'B', 9);
+        $pdf->SetFont('dejavusans', 'B', 8);
         $pdf->setCellHeightRatio(1.5); // Espaciado entre líneas
         
         foreach ($header3 as $i => $col) {
@@ -160,7 +167,7 @@ function generarPDFPropuesta($conexion, $folio) {
         // Cuarta tabla (Motivo)
         $header4 = ['EN SUSTITUCIÓN:', 'CÓDIGO', 'NOMBRE PROFESOR SUSTITUTO', 'CAUSA'];
         $widths4 = [30, 20, 100, 40]; // Total: 190mm
-        $pdf->SetFont('helvetica', 'B', 9);
+        $pdf->SetFont('dejavusans', 'B', 8);
         
         foreach ($header4 as $i => $col) {
             $pdf->Cell($widths4[$i], 8, $col, $border, 0, 'L');
@@ -168,7 +175,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->Ln(8);
 
         // Datos cuarta tabla (Ajustar según necesidad real)
-        $pdf->SetFont('', '', 9);
+        $pdf->SetFont('', '', 8);
         $pdf->Cell($widths4[0], 8, '', $border, 0, 'L'); // Celda vacía para el título
         $pdf->Cell($widths4[1], 8, $solicitud['CODIGO_PROF_SUST'] ?? '', $border, 0, 'L');
         $pdf->Cell($widths4[2], 8, mb_strtoupper(
@@ -184,20 +191,20 @@ function generarPDFPropuesta($conexion, $folio) {
         $periodo_hasta = $solicitud['PERIODO_ASIG_HASTA_P'] ? date('d/m/Y', strtotime($solicitud['PERIODO_ASIG_HASTA_P'])) : 'SIN FECHA';
         
         // Anchos calculados para 190mm total
-        $pdf->SetFont('', 'B', 9);
-        $pdf->Cell(65, 8, 'PERIODO DE ASIGNACIÓN DESDE:', 0, 0, 'L');
-        $pdf->SetFont('', '', 9);
-        $pdf->Cell(50, 8, $periodo_desde, $border, 0, 'L');
+        $pdf->SetFont('', 'B', 8);
+        $pdf->Cell(60, 8, 'PERIODO DE ASIGNACIÓN DESDE:', 0, 0, 'L');
+        $pdf->SetFont('', '', 8);
+        $pdf->Cell(45, 8, $periodo_desde, $border, 0, 'L');
 
-        $pdf->SetFont('', 'B', 9);
-        $pdf->Cell(30, 8, 'HASTA:', 0, 0, 'L');  // Ancho aumentado
-        $pdf->SetFont('', '', 9);
-        $pdf->Cell(35, 8, $periodo_hasta, $border, 1, 'L'); // Ancho aumentado
+        $pdf->SetFont('', 'B', 8);
+        $pdf->Cell(25, 8, 'HASTA:', 0, 0, 'L');  // Ancho aumentado
+        $pdf->SetFont('', '', 8);
+        $pdf->Cell(60, 8, $periodo_hasta, $border, 1, 'L'); // Ancho aumentado
 
         
         // Firmas (igual que baja)
         $pdf->SetY(-100);
-        $pdf->SetFont('helvetica', 'B', 12);
+        $pdf->SetFont('dejavusans', 'B', 12);
         $pdf->Cell(0, 8, 'ATENTAMENTE', 0, 1, 'C');
         $pdf->Cell(0, 8, 'PIENSA Y TRABAJA', 0, 1, 'C');
         $pdf->Ln(25);
@@ -211,7 +218,7 @@ function generarPDFPropuesta($conexion, $folio) {
         $pdf->SetFont('', 'B', 10);
         $pdf->Cell(70, 8, 'LIC. DENISSE MURILLO GONZALEZ', 0, 0, 'C');
         $pdf->SetX(110);
-        $pdf->Cell(70, 8, 'MTRO. LUIS GUSTAVO PADILLA MONTES', 0, 1, 'C');
+        $pdf->Cell(70, 8, 'DRA. MARA NADIEZHDA ROBLES VILLASEÑOR', 0, 1, 'C');
         
         $pdf->SetX(25);
         $pdf->SetFont('', '', 9);

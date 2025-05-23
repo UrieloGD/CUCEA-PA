@@ -8,6 +8,9 @@ function eliminarPlantilla(id) {
       icon: "error",
       title: "Error",
       text: "No hay una plantilla asignada para eliminar.",
+      customClass: {
+        confirmButton: "OK-boton",
+      }
     });
     return;
   }
@@ -21,6 +24,10 @@ function eliminarPlantilla(id) {
     cancelButtonColor: "#d33",
     confirmButtonText: "Sí, eliminarlo!",
     cancelButtonText: "Cancelar",
+    customClass: {
+      cancelButton: "boton-cancelar-SA",
+      confirmButton: "aceptar-eliminar-SA",
+    }
   }).then((result) => {
     if (result.isConfirmed) {
       // Llamada a la función para eliminar la plantilla
@@ -30,28 +37,37 @@ function eliminarPlantilla(id) {
         .then((response) => response.text())
         .then((data) => {
           if (data.includes("success")) {
-            Swal.fire(
-              "Eliminado!",
-              "La plantilla ha sido eliminada.",
-              "success"
-            ).then(() => {
+            Swal.fire({
+              title: "Eliminado!",
+              text: "La plantilla ha sido eliminada.",
+              icon: "success",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
+            }).then(() => {
               location.reload();
             });
           } else {
-            Swal.fire(
-              "Error",
-              "Ocurrió un error al eliminar la plantilla.",
-              "error"
-            );
+            Swal.fire({
+              title: "Error",
+              text: "Ocurrió un error al eliminar la plantilla.",
+              icon: "error",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
+            });
           }
         })
         .catch((error) => {
           console.error("Error:", error);
-          Swal.fire(
-            "Error",
-            "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
-            "error"
-          );
+          Swal.fire({
+            title: "Error",
+            text: "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+            icon: "error",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+          });
         });
     }
   });

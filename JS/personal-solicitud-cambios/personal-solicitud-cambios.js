@@ -69,6 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
         function openModal(modal) {
             if (!modal) return;
             
+            // Limpiar y habilitar el modal antes de abrirlo
+            if (typeof window.limpiarYHabilitarModal === 'function') {
+                window.limpiarYHabilitarModal(modal);
+            }
+            
             modal.style.display = 'block';
             const closeButton = modal.querySelector('.close-button');
             const modalContent = modal.querySelector('.modal-content-propuesta') || 
@@ -79,13 +84,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     modal.style.display = 'none';
                 });
             }
-
+        
             if (modalContent) {
                 modalContent.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
             }
-
+        
             window.addEventListener('click', function closeOutside(e) {
                 if (e.target === modal) {
                     modal.style.display = 'none';

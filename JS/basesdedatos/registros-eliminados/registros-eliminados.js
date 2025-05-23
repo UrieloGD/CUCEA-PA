@@ -1,15 +1,17 @@
 // ./JS/basesdedatos/registros-eliminados/registros-eliminados.js
 let tablaEliminados = null;
 
-document.addEventListener("DOMContentLoaded", (function () {
+document.addEventListener(
+  "DOMContentLoaded",
+  (function () {
     const departamentoId = document.getElementById("departamento_id").value;
-    const modal = document.getElementById('modalRegistrosEliminados');
+    const modal = document.getElementById("modalRegistrosEliminados");
 
     // Función para inicializar/recargar la tabla
     const inicializarTabla = () => {
-        if (tablaEliminados !== null) {
-            tablaEliminados.destroy();
-        }
+      if (tablaEliminados !== null) {
+        tablaEliminados.destroy();
+      }
 
       tablaEliminados = $("#tabla-eliminados").DataTable({
         ajax: {
@@ -143,10 +145,12 @@ document.addEventListener("DOMContentLoaded", (function () {
             text: "Esta acción volverá a mostrar el registro en la tabla principal",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#0071B0",
-            cancelButtonColor: "#d33",
             confirmButtonText: "Sí, restaurar",
             cancelButtonText: "Cancelar",
+            customClass: {
+              confirmButton: "confirmar-registrosRestaurar",
+              cancelButton: "cancelar-registrosRestaurar",
+            }
           });
 
           if (isConfirmed) {
@@ -167,29 +171,38 @@ document.addEventListener("DOMContentLoaded", (function () {
                 }
               );
 
-              // Para depuración, capturamos primero el texto
+              // Mejorado el manejo de errores en la respuesta del servidor
               const textoRespuesta = await respuesta.text();
               console.log("Respuesta del servidor:", textoRespuesta);
 
+              // Si la respuesta no es JSON válido, mostrar el error
+              let resultado;
               try {
-                const resultado = JSON.parse(textoRespuesta);
-
-                if (resultado.success) {
-                  tablaEliminados.ajax.reload();
-                  Swal.fire({
-                    icon: "success",
-                    title: "¡Restaurado!",
-                    text: resultado.message,
-                    timer: 1500,
-                    showConfirmButton: false,
-                  }).then(() => {
-                    location.reload(); // Recargar la página principal
-                  });
-                } else {
-                  throw new Error(resultado.message || "Error desconocido");
-                }
+                resultado = JSON.parse(textoRespuesta);
               } catch (parseError) {
-                throw new Error("Error al procesar la respuesta del servidor");
+                console.error("Error al parsear JSON:", parseError);
+                // Si la respuesta contiene HTML (posible error PHP), extraer mensaje de error
+                const errorMsg = textoRespuesta.includes("Fatal error:")
+                  ? "Error PHP: " +
+                    textoRespuesta.split("Fatal error:")[1].split("<")[0].trim()
+                  : "Error al procesar la respuesta del servidor";
+
+                throw new Error(errorMsg);
+              }
+
+              if (resultado.success) {
+                tablaEliminados.ajax.reload();
+                Swal.fire({
+                  icon: "success",
+                  title: "¡Restaurado!",
+                  text: resultado.message,
+                  timer: 1500,
+                  showConfirmButton: false,
+                }).then(() => {
+                  location.reload(); // Recargar la página principal
+                });
+              } else {
+                throw new Error(resultado.message || "Error desconocido");
               }
             } catch (error) {
               Swal.fire({
