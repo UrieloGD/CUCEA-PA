@@ -196,7 +196,8 @@ function generarPDFyActualizarEstado($conexion, $folio) {
     // Actualizar base de datos
     $sql_update = "UPDATE solicitudes_baja 
                 SET PDF_BLOB = ?, 
-                    ESTADO_B = 'En revision'                    
+                    ESTADO_B = 'En revision',
+                    FECHA_MODIFICACION_REVISION = CURRENT_TIMESTAMP                  
                 WHERE OFICIO_NUM_BAJA = ?";
         
         $stmt = mysqli_prepare($conexion, $sql_update);

@@ -325,9 +325,7 @@ $sql = "CREATE TABLE IF NOT EXISTS notificaciones (
     Fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     Usuario_ID BIGINT(10),
     Departamento_ID INT(15),
-    Vista BOOLEAN DEFAULT 0,
     Emisor_ID INT,
-    Oculta BOOLEAN DEFAULT 0,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo)
 );";
 
@@ -343,7 +341,7 @@ $sql = "CREATE TABLE IF NOT EXISTS usuarios_notificaciones (
     Notificacion_ID INT,
     Justificacion_ID INT,
     Plantilla_ID INT,
-    Tipo VARCHAR(20) NOT NULL,  -- 'notificacion', 'justificacion', 'plantilla'
+    Tipo VARCHAR(20) NOT NULL,
     Vista BOOLEAN DEFAULT 0,
     Oculta BOOLEAN DEFAULT 0,
     FOREIGN KEY (Usuario_ID) REFERENCES usuarios(Codigo),
@@ -808,7 +806,7 @@ if (mysqli_query($conexion, $sql)) {
 }
 
 // Crear tabla Recursos_Humanos
-$sql = "CREATE TABLE IF NOT EXISTS data_recursos_Humanos (
+$sql = "CREATE TABLE IF NOT EXISTS data_recursos_humanos (
     ID_Plantilla INT PRIMARY KEY AUTO_INCREMENT,
     Departamento_ID INT NOT NULL,
     CICLO VARCHAR(10) NULL,
