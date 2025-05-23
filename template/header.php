@@ -10,46 +10,59 @@ if ($rol_id == 0 || $rol_id == 1 || $rol_id == 2 || $rol_id == 3 || $rol_id == 4
   if ($rol_id == 0 || $rol_id == 2) { // Secretaría Administrativa y Administrador
     $query = "SELECT 'justificacion' AS tipo, j.ID_Justificacion AS id, j.Fecha_Justificacion AS fecha, 
                      d.departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
-                     j.Notificacion_Vista AS vista, 
+                     COALESCE(uj.Vista, 0) AS vista, 
                      u.Codigo AS Emisor_ID,
                      NULL AS Mensaje
             FROM justificaciones j
             JOIN departamentos d ON j.Departamento_ID = d.Departamento_ID
             JOIN usuarios u ON j.Codigo_Usuario = u.Codigo
+            LEFT JOIN usuarios_notificaciones uj ON j.ID_Justificacion = uj.Justificacion_ID 
+                AND uj.Usuario_ID = $codigo_usuario AND uj.Tipo = 'justificacion'
             WHERE j.Justificacion_Enviada = 1
             
             UNION ALL
             
             SELECT 'plantilla' AS tipo, p.ID_Archivo_Dep AS id, p.Fecha_Subida_Dep AS fecha, d.departamentos, u.Nombre, u.Apellido, u.IconoColor, u.Codigo AS Usuario_ID,
-                   p.Notificacion_Vista AS vista, u.Codigo AS Emisor_ID,
+                   COALESCE(up.Vista, 0) AS vista, u.Codigo AS Emisor_ID,
                    NULL AS Mensaje
             FROM plantilla_dep p
             JOIN departamentos d ON p.Departamento_ID = d.Departamento_ID
             JOIN usuarios u ON p.Usuario_ID = u.Codigo
+            LEFT JOIN usuarios_notificaciones up ON p.ID_Archivo_Dep = up.Plantilla_ID 
+                AND up.Usuario_ID = $codigo_usuario AND up.Tipo = 'plantilla'
             
             UNION ALL
             
             SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, '' AS departamentos, 
-                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Vista AS vista, n.Emisor_ID, n.Mensaje
+                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, 
+                   COALESCE(un.Vista, 0) AS vista, n.Emisor_ID, n.Mensaje
             FROM notificaciones n
             LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
+            LEFT JOIN usuarios_notificaciones un ON n.ID = un.Notificacion_ID 
+                AND un.Usuario_ID = $codigo_usuario AND un.Tipo = n.Tipo
             WHERE n.Usuario_ID = $codigo_usuario
             
             ORDER BY fecha DESC
             LIMIT 10";
   } else if ($rol_id == 1 || $rol_id == 4) { // Jefe de departamento
-    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
+    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, 
+                  COALESCE(un.Vista, 0) AS vista,
                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
+              LEFT JOIN usuarios_notificaciones un ON n.ID = un.Notificacion_ID 
+                  AND un.Usuario_ID = " . $_SESSION['Codigo'] . " AND un.Tipo = n.Tipo
               WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
               ORDER BY n.Fecha DESC
               LIMIT 10";
   } else if ($rol_id == 3) { // Coordinacion de Personal
-    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, n.Vista AS vista,
+    $query = "SELECT n.Tipo AS tipo, n.ID AS id, n.Fecha AS fecha, n.Mensaje, 
+                  COALESCE(un.Vista, 0) AS vista,
                   e.Nombre, e.Apellido, e.IconoColor, n.Usuario_ID, n.Emisor_ID
               FROM notificaciones n
               LEFT JOIN usuarios e ON n.Emisor_ID = e.Codigo
+              LEFT JOIN usuarios_notificaciones un ON n.ID = un.Notificacion_ID 
+                  AND un.Usuario_ID = " . $_SESSION['Codigo'] . " AND un.Tipo = n.Tipo
               WHERE n.Usuario_ID = " . $_SESSION['Codigo'] . "
               ORDER BY n.Fecha DESC
               LIMIT 10";
