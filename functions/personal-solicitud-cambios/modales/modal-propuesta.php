@@ -145,7 +145,7 @@
                 </div>
                 <div class="form-group-propuesta">
                     <label for="oficio_num_prop">Oficio Num.</label>
-                    <input type="text" id="oficio_num_prop" name="oficio_num_prop" readonly>
+                    <input type="text" id="oficio_num_prop" name="oficio_num_prop" readonly disabled>
                 </div>
                 <div class="form-group-propuesta laboratorio">
                     <label for="fecha">Fecha D/M/A</label>

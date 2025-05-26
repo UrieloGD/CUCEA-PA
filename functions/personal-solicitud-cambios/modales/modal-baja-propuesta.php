@@ -161,7 +161,7 @@
                 </div>
                 <div class="form-group-baja-propuesta">
                     <label for="oficio_num_baja_prop">Oficio Num.</label>
-                    <input type="text" id="oficio_num_baja_prop" name="oficio_num_baja_prop" maxlength="15" readonly>
+                    <input type="text" id="oficio_num_baja_prop" name="oficio_num_baja_prop" maxlength="15" readonly disabled>
                 </div>
                 <div class="form-group-baja-propuesta">
                     <label for="fecha">Fecha D/M/A</label>
