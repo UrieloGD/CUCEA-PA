@@ -92,9 +92,13 @@ mysqli_close($conexion);
 
 <title>Data - <?php echo $departamento_nombre; ?></title>
 
-<!-- Include Tabulator CSS and JS -->
+<?php include './functions/basesdedatos/modal-descargar-excel/modal-descargar-excel.php'; ?>
+
+<!-- Incluir Tabulator CSS y JS -->
 <link href="https://cdn.jsdelivr.net/npm/tabulator-tables@5.5.2/dist/css/tabulator.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+
+<!-- Tema BULMA para Tabulator-->
 <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator_bulma.min.css" rel="stylesheet">
 
 <!-- Custom CSS for the table -->
@@ -154,10 +158,6 @@ mysqli_close($conexion);
     <div id="tabla-datos"></div>
 </div>
 
-<!-- Include JavaScript files -->
-<script src="./JS/basesdedatos/tabulator-edit-manager.js?v=<?php echo time(); ?>"></script>
-<script src="./JS/basesdedatos/tabulator-config.js?v=<?php echo time(); ?>"></script>
-
 <script>
     // Inicializar la tabla cuando el DOM esté listo
     document.addEventListener("DOMContentLoaded", function() {
@@ -172,5 +172,10 @@ mysqli_close($conexion);
         setupTableEvents(table);
     });
 </script>
+
+<!-- Archivos JavaScript -->
+<script src="./JS/basesdedatos/descargar-data-excel.js?v=<?php echo time(); ?>"></script>
+<script src="./JS/basesdedatos/tabulator-edit-manager.js?v=<?php echo time(); ?>"></script>
+<script src="./JS/basesdedatos/tabulator-config.js?v=<?php echo time(); ?>"></script>
 
 <?php include("./template/footer.php"); ?>
