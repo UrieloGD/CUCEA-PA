@@ -342,6 +342,38 @@
     transition: background-color 0.5s ease;
 }
 
+.tabulator .tabulator-header .tabulator-col.tabulator-range-selected {
+  background-color: #0071B0 !important;
+  color: white !important;
+}
+
+#tabla-datos .tabulator-cell.tabulator-range-selected {
+  background-color: #D9EDF6 !important;
+  color: black !important;
+}
+
+#tabla-datos .tabulator-cell.tabulator-frozen.tabulator-frozen-left {
+  background-color: white !important;
+}
+
+#tabla-datos .tabulator-cell.tabulator-range-row-header.tabulator-frozen {
+  background-color: white !important;
+}
+
+/* Color para el borde de selección */
+#tabla-datos .tabulator-cell.tabulator-range-selected-top {
+  border-top: 2px solid #0071B0 !important;
+}
+#tabla-datos .tabulator-cell.tabulator-range-selected-left {
+  border-left: 2px solid #0071B0 !important;
+}
+
+/* Color de fondo de las columnas congeladas */
+#tabla-datos .tabulator-col.tabulator-frozen {
+  background-color: white !important;
+  color: black !important;
+}
+
 /* css pop up de columnas de descarga excel */
 
 .modal {
