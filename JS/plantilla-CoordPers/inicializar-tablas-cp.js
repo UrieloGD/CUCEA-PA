@@ -274,6 +274,10 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Aplicar clases de Bulma específicas tras cargar los datos
       applyBulmaClasses();
+      // Respaldar datos originales después de cargar
+      if (window.editManager) {
+        window.editManager.backupOriginalData();
+  }
     },
     ajaxError: function(xhr, textStatus, errorThrown) {
       console.error('Error en la carga AJAX:', {
