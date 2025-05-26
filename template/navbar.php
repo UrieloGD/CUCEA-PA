@@ -75,7 +75,7 @@ function generateColorForUser($userId)
     <nav id="navbar">
         <ul class="navbar-items flexbox-col">
             <li class="navbar-logo flexbox-left">
-                <a class="navbar-item-inner flexbox" href="#">
+                <a class="navbar-item-inner flexbox" href="./home.php">
                     <div class="ajuste-logo">
                         <img src="./Img/logos/LogoPA-Vertical.png" width="37" height="75" alt="LogoPA-Vertical">
                     </div>

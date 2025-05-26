@@ -1259,70 +1259,138 @@ function undoAllChanges() {
 }
 
 function saveAllChanges() {
-  const promises = [];
-  changedCells.forEach((cell) => {
-    const row = cell.closest("tr");
-    const id = row.getAttribute("data-id");
-    const columnName = getColumnName(cell);
-    const newValue = cell.textContent;
+  // Asegurar que los elementos existen
+  const userRoleElement = document.getElementById("user-role");
+  const userIdElement = document.getElementById("user-id");
 
-    console.log(
-      "Guardando cambios - ID:",
-      id,
-      "Columna:",
-      columnName,
-      "Valor:",
-      newValue
-    );
+  if (!userRoleElement || !userIdElement) {
+    console.error("Elementos críticos no encontrados en el DOM");
+    Swal.fire({
+      icon: "error",
+      title: "Error de configuración",
+      text: "Error de configuración del sistema. Recarga la página.",
+    });
+    return;
+  }
+
+  // Mostrar SweetAlert de carga desde el inicio
+  Swal.fire({
+    title: "Procesando cambios",
+    html: "Por favor espere mientras se guardan los cambios...",
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  const userRole = userRoleElement.value;
+  const usuarioAdminId = userIdElement.value;
+  const isMultiple = changedCells.size > 1;
+
+  const promises = Array.from(changedCells).map((cell) => {
+    const row = cell.closest("tr");
+    const id = row?.dataset?.id; // Optional chaining
+    const columnName = getColumnName(cell);
+    const newValue = cell.textContent.trim();
 
     if (!id) {
-      console.error("No se pudo obtener el ID para la fila:", row);
-      return;
+      console.error("ID no encontrado en:", row);
+      return Promise.reject("Fila sin ID válido");
     }
 
-    promises.push(
-      fetch("./functions/coord-personal-plantilla/actualizar-celda-coord.php", {
+    return fetch(
+      "./functions/coord-personal-plantilla/actualizar-celda-coord.php",
+      {
         method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `id=${encodeURIComponent(id)}&column=${encodeURIComponent(
-          columnName
-        )}&value=${encodeURIComponent(newValue)}`,
-      }).then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          id: id,
+          column: columnName,
+          value: newValue,
+          multiple: changedCells.size > 1, // Envía true/false
+        }),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
         return response.json();
       })
-    );
+      .then((data) => {
+        if (!data.success) throw new Error(data.error || "Error desconocido");
+        return { cell, data };
+      });
   });
 
   Promise.all(promises)
     .then((results) => {
-      results.forEach((data, index) => {
-        const cell = Array.from(changedCells)[index];
-        if (data.success) {
-          cell.style.backgroundColor = "#90EE90";
-          cell.removeAttribute("data-original-value");
-          setTimeout(() => {
-            cell.style.backgroundColor = "";
-          }, 2000);
-        } else {
-          cell.style.backgroundColor = "#FFB6C1";
-          if (data.oldValue !== undefined) {
-            cell.textContent = data.oldValue;
-          }
-          console.error("Error al actualizar:", data.error);
-          alert(`Error al actualizar: ${data.error}`);
-        }
+      const successfulChanges = results.filter((r) => !r.data.error).length;
+
+      // Actualizar mensaje del SweetAlert mientras se procesan las notificaciones
+      Swal.update({
+        title: "Procesando cambios",
+        html: "Por favor espere mientras se guardan los cambios...",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
+
+      // Notificación agrupada
+      let notificationPromise = Promise.resolve();
+      if (successfulChanges > 1) {
+        notificationPromise = fetch(
+          "./functions/coord-personal-plantilla/notificacion-multiple-coord.php",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({
+              user_id: usuarioAdminId,
+              count: successfulChanges,
+            }),
+          }
+        ).then((response) => {
+          if (!response.ok) throw new Error("Error al enviar notificaciones");
+          return response.json();
+        });
+      }
+
+      return notificationPromise.then(() => results);
+    })
+    .then((results) => {
+      // Actualizar UI
+      results.forEach(({ cell, data }) => {
+        cell.style.backgroundColor = data.success ? "#90EE90" : "#FFB6C1";
+        if (data.success) cell.removeAttribute("data-original-value");
+      });
+
+      setTimeout(() => {
+        results.forEach(({ cell }) => (cell.style.backgroundColor = ""));
+      }, 2000);
+
       changedCells.clear();
       hideEditIcons();
+
+      // Ocultar el SweetAlert de carga y mostrar mensaje de éxito
+      Swal.fire({
+        icon: "success",
+        title: `Cambios realizados`,
+        text: `Se guardaron los cambios correctamente`,
+        showConfirmButton: true,
+        timer: 2000,
+        timerProgressBar: true,
+      });
     })
     .catch((error) => {
-      console.error("Error:", error);
-      alert(`Error de red o del servidor: ${error.message}`);
+      console.error("Error en guardado:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al guardar",
+        text: error.message || "Error desconocido",
+      });
     });
 }
 

@@ -48,9 +48,9 @@ checkMaintenance($current_section);
                 <th style="text-align: center;">Último cambio</th>
                 <th style="text-align: center;">Acciones</th>
             </tr>
-
             <?php
             $departamentos = [
+                0 => "Pruebas",
                 1 => "Estudios Regionales",
                 2 => "Finanzas",
                 3 => "Ciencias Sociales",
@@ -71,7 +71,19 @@ checkMaintenance($current_section);
 
             asort($departamentos);
 
+            // Filtrar departamentos según el rol del usuario
+            if ($_SESSION['Rol_ID'] != 0) {
+                // Si no es rol 0, remover el departamento 0
+                unset($departamentos[0]);
+            }
+
             $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM plantilla_sa";
+
+            // Si no es rol 0, agregar condición WHERE para excluir departamento 0
+            if ($_SESSION['Rol_ID'] != 0) {
+                $sql .= " WHERE Departamento_ID != 0";
+            }
+
             $result = mysqli_query($conexion, $sql);
 
             $departamentosConArchivos = [];
@@ -112,7 +124,7 @@ checkMaintenance($current_section);
                             <input type="hidden" id="nombre_archivo_dep-<?php echo $id; ?>" name="nombre_archivo_dep">
                             <input type="hidden" id="fecha_subida_dep-<?php echo $id; ?>" name="fecha_subida_dep">
                             <button type="submit" class="hidden-button"></button>
-                            <a href="./functions/admin-plantilla/descargar-plantilla.php?departamento_id=<?php echo $id; ?>" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
+                            <a href="#" onclick="descargarPlantilla(<?php echo $id; ?>)" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
                             <a href="#" class="btn" onclick="eliminarPlantilla(<?php echo $id; ?>)"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
                         </div>
                     </td>

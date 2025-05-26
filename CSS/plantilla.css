@@ -296,9 +296,11 @@
 /* Botón para cancelar la subida del archivo */
 
 .file-container .cancel-btn {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 1px;
+  color: #0071B0;
   border-radius: 3px;
   padding: 5px 10px;
   cursor: pointer;
@@ -306,7 +308,7 @@
 }
 
 .file-container .cancel-btn:hover {
-  background-color: #c82333;
+  background-color: #D9EDF6;
 }
 
 /* Estilos para mostrar el preview del archivo que se está subiendo */
@@ -434,14 +436,12 @@
 }
 
 .justification-container {
-  max-width: 800px;
   margin-top: -40;
   padding: 25px;
 }
 
 .access-restricted {
   background-color: #fde8e8;
-  width: 88vw;
   border-radius: 12px;
   padding: 10px;
   margin-bottom: 30px;
@@ -481,11 +481,13 @@
 
 .access-restricted ul {
   text-align: left;
-  padding-left: 35vw;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
 }
 
 #formulario-justificacion textarea {
-  width: 89vw;
+  width: 100%;
   padding: 15px;
   border: 2px solid #ced4da;
   border-radius: 8px;
@@ -503,8 +505,9 @@
   cursor: pointer;
   font-size: 20px;
   transition: background-color 0.3s ease;
-  display: block;  /* Hace que el botón sea un elemento de bloque */
-  margin: 0 40vw;  /* Centra el botón horizontalmente */
+  display: flex;  /* Hace que el botón sea un elemento de bloque */
+  align-self: center;
+  justify-self: center;
   width: fit-content;  /* Ajusta el ancho del botón al contenido */
 }
 
@@ -526,6 +529,28 @@
   background-color: #007bff; /* Color original del botón */
   cursor: pointer;
 }
+
+.boton-cancelar-SweetAlert {
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #0071B0;
+}
+.boton-cancelar-SweetAlert:hover {
+  background-color: #D9EDF6;
+}
+.boton-aceptar-SweetAlert {
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+}
+.boton-aceptar-SweetAlert:hover { background-color: #00659b; }
+
+/* Estilos para reforzar el Sweet Alert */
+button.swal2-confirm.swal2-styled { background-color: #0071B0!important; }
 
 /* Media Queries para diferentes resoluciones */
 

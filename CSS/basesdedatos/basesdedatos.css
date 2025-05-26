@@ -907,6 +907,25 @@ th[data-tooltip] {
   overflow: visible !important;
 }
 
+/* Estilos custom para el Sweet Alert */
+.aceptar-eliminarRegistros { 
+  background-color: #D70A16;
+  border-color: #D70A16;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+} 
+.aceptar-eliminarRegistros:hover { background-color: #b00814; }
+.cancelar-eliminarRegistros {
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #0071B0;
+} 
+.cancelar-eliminarRegistros:hover { background-color: #D9EDF6; }
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {

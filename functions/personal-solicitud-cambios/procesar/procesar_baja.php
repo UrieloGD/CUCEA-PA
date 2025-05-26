@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 
 try {
     // Verificar si el archivo existe
-    $db_path = './../../config/db.php';
+    $db_path = './../../../config/db.php';
     if (!file_exists($db_path)) {
         throw new Exception("El archivo de configuración de la base de datos no existe");
     }

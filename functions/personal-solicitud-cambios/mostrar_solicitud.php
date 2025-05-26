@@ -47,14 +47,41 @@
 
 <!-- Información detallada -->
 <div class="contenedor-informacion" id="contenedor-informacion-<?php echo $index; ?>">
+    <div class="titulo-info">
+        <p>Información </p>
+    </div>
     <div class="info">
         <div class="contenedor-izquierdo">
+            <?php if($solicitud['tipo'] == 'Solicitud de baja-propuesta'): ?>
+                <p class="materia"><strong>Nombre de materia:</strong> <?php echo $solicitud['materia']; ?></p>
+            <?php else: ?>
+                <p class="puesto">Puesto: <p id="info-puesto"><?php echo $solicitud['puesto']; ?></p></p>
+            <?php endif; ?>
             <p class="CRN">CRN: <p id="info-CRN"><?php echo $solicitud['crn']; ?></p></p>
-            <p class="materia">Materia: <p id="info-materia"><?php echo $solicitud['materia']; ?></p></p>
         </div>
         <div class="contenedor-centro">
-            <p class="clave">Clave: <p id="info-clave"><?php echo isset($solicitud['clave']) ? $solicitud['clave'] : ''; ?></p></p>
             <p class="folio">Folio de solicitud: <p id="info-folio"><?php echo $solicitud['folio']; ?></p></p>
+            <?php if($solicitud['tipo'] == 'Solicitud de baja'): ?>
+                <p class="efecto">Sin efectos desde: <p id="info-efecto"><?php echo $solicitud['efecto']; ?></p></p>
+            <?php endif; ?>
+            <?php if($solicitud['tipo'] == 'Solicitud de baja-propuesta'): ?>
+                <p class="clave">Clave: <p id="info-clave"><?php echo isset($solicitud['clave']) ? $solicitud['clave'] : ''; ?></p></p>
+            <?php endif; ?>
+            <?php if($solicitud['tipo'] == 'Solicitud de propuesta'): ?>
+                <p class="clasificacion_p">Clasificación: <p id="info-clasificacion_p"><?php echo isset($solicitud['clasificacion_p']) ? $solicitud['clasificacion_p'] : ''; ?></p></p>
+            <?php endif; ?>
+        </div>
+        <div class="contenedor-derecha">
+            <?php if($solicitud['tipo'] == 'Solicitud de baja'): ?>
+                <p class="clasificacion_b">Clasificación: <p id="info-clasificacion_b"><?php echo $solicitud['clasificacion_b']; ?></p></p>
+            <?php endif; ?>
+            <?php if($solicitud['tipo'] == 'Solicitud de propuesta'): ?>
+                <p class="horas_sem">Horas Semanales: <p id="info-horas_sem"><?php echo isset($solicitud['horas_sem']) ? $solicitud['horas_sem'] : ''; ?></p></p>
+            <?php endif; ?>
+            <?php if($solicitud['tipo'] == 'Solicitud de propuesta'): ?>
+                <p class="periodo_desde">Periodo asignado desde - hasta: <p id="info-periodo_desde"><?php echo isset($solicitud['periodo_desde']) ? $solicitud['periodo_desde'] : '' ;
+                 ?></p></p>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -69,7 +96,7 @@
         </div>
         <div class="contenedor-centro">
             <p class="nombres">Nombre(s): <p id="info-nombres"><?php echo $solicitud['profesor_actual']['nombres']; ?></p></p>
-            <p class="codigo">Código: <p id="info-codigo"><?php echo $solicitud['profesor_actual']['codigo']; ?></p></p>
+            <p class="codigo">Código Profesor: <p id="info-codigo"><?php echo $solicitud['profesor_actual']['codigo']; ?></p></p>
         </div>
         <div class="contenedor-derecho">
             <p class="motivo">Motivo: <p id="info-motivo"><?php echo $solicitud['motivo']; ?></p></p>
@@ -88,7 +115,7 @@
         </div>
         <div class="contenedor-derecho">
             <p class="nombres">Nombre(s): <p id="info-nombres-propuesto"><?php echo $solicitud['profesor_propuesto']['nombres']; ?></p></p>
-            <p class="codigo">Código: <p id="info-codigo-propuesto"><?php echo $solicitud['profesor_propuesto']['codigo']; ?></p></p>
+            <p class="codigo">Código Profesor: <p id="info-codigo-propuesto"><?php echo $solicitud['profesor_propuesto']['codigo']; ?></p></p>
         </div>
     </div>
     <?php endif; ?>
@@ -98,6 +125,13 @@
         // Determinar el tipo de solicitud normalizado
         $tipo = strtolower(str_replace(['Solicitud de ', ' '], ['', '-'], $solicitud['tipo']));
         ?>
+        
+        <!-- Botón para ver detalles completos -->
+        <button class="boton-ver-detalles" 
+                data-folio="<?= $solicitud['folio'] ?>" 
+                data-tipo="<?= $tipo ?>">
+            <i class="fas fa-eye"></i> Ver detalles
+        </button>
         
         <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] == 'Pendiente'): ?>
             <button class="boton-generar" 

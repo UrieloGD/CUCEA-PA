@@ -249,6 +249,9 @@ td:nth-child(2) {
   cursor: pointer;
 }
 
+button.swal2-confirm.swal2-styled { background-color: #0071B0; }
+button.swal2-confirm.swal2-styled:hover { background-color: #00659b; }
+
 @keyframes progress-bar-animation {
   0% {
     background-position: 0 0;

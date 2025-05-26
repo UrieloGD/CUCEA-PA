@@ -457,7 +457,7 @@
   background: #555;
 }
 
-/* Estilos del contenedor de la materia, en el contenedor desplegable */
+/* Estilos del contenedor de la puesto, en el contenedor desplegable */
 .info {
   display: flex;
   flex-direction: row;
@@ -477,7 +477,7 @@
   border-radius: 10px;
 }
 .CRN,
-.materia,
+.puesto,
 .clave,
 .SEC,
 .folio,
@@ -485,11 +485,17 @@
 .materno,
 .nombres,
 .codigo,
+.efecto,
+.periodo_hasta,
+.periodo_desde,
+.clasificacion_p,
+.clasificacion_b,
+.horas_sem,
 .motivo {
   font-weight: bold;
 }
 #info-CRN,
-#info-materia,
+#info-puesto,
 #info-clave,
 #info-SEC,
 #info-folio,
@@ -498,6 +504,14 @@
 #info-nombres,
 #info-codigo,
 #info-motivo,
+#info-codigo,
+#info-materia,
+#info-efecto,
+#info-periodo_hasta,
+#info-periodo_desde,
+#info-clasificacion_p,
+#info-clasificacion_b,
+#info-horas_sem,
 #info-paterno-propuesto,
 #info-materno-propuesto,
 #info-nombres-propuesto,
@@ -582,6 +596,59 @@
   margin: 1em auto !important;
 }
 
+/* Estilos para el botón Ver detalles */
+.boton-ver-detalles {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.boton-ver-detalles i {
+  margin-right: 5px;
+}
+
+.boton-ver-detalles:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el overlay de carga */
+#cargando-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  color: white;
+}
+
+.spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
@@ -655,7 +722,7 @@
     font-size: 0.8rem;
   }
   #info-CRN,
-  #info-materia,
+  #info-puesto,
   #info-clave,
   #info-SEC,
   #info-folio,

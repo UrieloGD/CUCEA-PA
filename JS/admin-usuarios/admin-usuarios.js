@@ -191,6 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
               text: result.message,
               customClass: {
                 popup: "high-z-index",
+                confirmButton: "OK-boton",
               },
             }).then(() => {
               reloadPage();
@@ -202,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
               text: result.message,
               customClass: {
                 popup: "high-z-index",
+                confirmButton: "OK-boton",
               },
             });
           }
@@ -237,6 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
               text: result.message,
               customClass: {
                 popup: "high-z-index",
+                confirmButton: "OK-boton",
               },
             }).then(() => {
               reloadPage();
@@ -248,6 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
               text: result.message,
               customClass: {
                 popup: "high-z-index",
+                confirmButton: "OK-boton",
               },
             });
           }
@@ -260,6 +264,7 @@ document.addEventListener("DOMContentLoaded", function () {
             text: "Hubo un problema al procesar la solicitud: " + error.message,
             customClass: {
               popup: "high-z-index",
+              confirmButton: "OK-boton",
             },
           });
         });

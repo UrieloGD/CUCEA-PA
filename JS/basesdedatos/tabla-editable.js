@@ -99,20 +99,14 @@ const maxLengths = {
   EXAMEN_EXTRAORDINARIO: 2,
 };
 
-// Variables globales para control de estado
 let activeCell = null;
 let editMode = false;
 
-// Función principal para hacer editable la tabla
 function makeEditable() {
-  // Añadir estilos CSS para las celdas seleccionadas
   addExcelStyleCSS();
-
-  // Verificar el rol del usuario antes de hacer la tabla editable
   const table = document.getElementById("tabla-datos");
   if (!table) return;
 
-  // Verificar si la tabla tiene el atributo data-editable="false"
   if (table.getAttribute("data-editable") === "false") {
     return;
   }
@@ -130,21 +124,12 @@ function makeEditable() {
   }
 
   const rows = table.querySelectorAll("tbody tr");
-
-  // Procesar cada celda de la tabla
   rows.forEach((row) => {
     const cells = row.querySelectorAll("td");
     cells.forEach((cell, cellIndex) => {
-      // Omitir la segunda columna (índice 1) que generalmente es la de ID
-      // También omitir celdas que contienen inputs para borrar filas
       if (cellIndex !== 1 && !cell.querySelector("input")) {
-        // Guardar el valor original
         cell.setAttribute("data-original-value", cell.textContent.trim());
-
-        // Añadir clase para marcar como procesada
         cell.classList.add("excel-behavior-applied");
-
-        // Solo agregar eventos si puedeEditar es true
         if (puedeEditar) {
           cell.addEventListener("click", handleCellClick);
           cell.addEventListener("dblclick", handleCellDblClick);
@@ -157,14 +142,13 @@ function makeEditable() {
     });
   });
 
-  // Emitir evento de tabla editable solo si puedeEditar es true
   if (puedeEditar) {
     const editableEvent = new CustomEvent("tableNowEditable", {
       detail: { table: table },
     });
     document.dispatchEvent(editableEvent);
 
-    // Añadir listener para cuando se haga clic fuera de la tabla
+    // Añadir listener para clics fuera de la tabla
     document.addEventListener("click", function (e) {
       if (!table.contains(e.target) && activeCell) {
         exitEditMode();
@@ -1268,11 +1252,15 @@ function undoAllChanges() {
 
 function saveAllChanges() {
   if (!puedeEditar) {
-    showFeedbackMessage(
-      "No puedes guardar cambios fuera de las fechas de Programación Académica."
-    );
+    Swal.fire({
+      icon: "warning",
+      title: "Acceso restringido",
+      text: "No puedes guardar cambios fuera de las fechas de Programación Académica.",
+      confirmButtonText: "Entendido",
+    });
     return;
   }
+
   const userRole = document.getElementById("user-role").value;
   if (
     (userRole !== "0" && !puedeEditar) ||
@@ -1281,21 +1269,39 @@ function saveAllChanges() {
     hideEditIcons();
     return;
   }
-  const departmentId = document.getElementById("departamento_id").value;
-  console.log("User Role:", userRole, "Department ID:", departmentId);
 
-  // Para tracking de cambios múltiples
-  const totalChanges = changedCells.size;
-  let completedChanges = 0;
+  // Verificar que haya cambios para guardar
+  if (changedCells.size === 0) {
+    Swal.fire({
+      icon: "info",
+      title: "Sin cambios",
+      text: "No hay cambios pendientes para guardar.",
+      confirmButtonText: "Entendido",
+    });
+    return;
+  }
+
+  // Mostrar SweetAlert de carga desde el inicio
+  Swal.fire({
+    title: "Guardando cambios",
+    html: `Procesando cambios. Por favor espere...`,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  const departmentId = document.getElementById("departamento_id").value;
+  const usuarioAdminId = document.getElementById("user-id").value;
 
   const promises = Array.from(changedCells).map((cell) => {
     const id = cell.parentNode.cells[1].textContent;
     const column = getColumnName(cell);
     let value = cell.textContent;
+
     // Limpieza básica de datos
     value = value.replace(/[^\x00-\x7F]/g, "");
-    // Añadir info para debug
-    console.log("Saving - ID:", id, "Column:", column, "Value:", value);
+
     return fetch("./functions/basesdedatos/actualizar-celda.php", {
       method: "POST",
       headers: {
@@ -1306,35 +1312,67 @@ function saveAllChanges() {
         column,
         value,
         user_role: userRole,
-        department_id: departmentId, // Enviar el departamento_id actual
+        department_id: departmentId,
+        multiple: changedCells.size > 1,
       }),
     })
       .then((response) => {
-        console.log("Response status:", response.status);
-        if (!response.ok) {
+        if (!response.ok)
           throw new Error(`HTTP error! status: ${response.status}`);
-        }
         return response.json();
       })
       .then((data) => {
-        console.log("Server response:", data);
-        completedChanges++;
-        if (data.error) {
-          throw new Error(data.error);
-        }
+        if (data.error) throw new Error(data.error);
         return { cell, data };
       });
   });
 
   Promise.all(promises)
     .then((results) => {
+      const successfulChanges = results.filter((r) => r.data.success).length;
+
+      // Actualizar mensaje del SweetAlert mientras se procesan las notificaciones
+      if (successfulChanges > 1) {
+        Swal.fire({
+          title: "Guardando cambios",
+          html: `Procesando cambios. Por favor espere...`,
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      }
+
+      // Notificación agrupada si hay múltiples cambios exitosos
+      let notificationPromise = Promise.resolve();
+      if (successfulChanges > 1) {
+        notificationPromise = fetch(
+          "./functions/basesdedatos/notificacion-multiple.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+              department_id: departmentId,
+              user_id: usuarioAdminId,
+              count: successfulChanges,
+            }),
+          }
+        ).then((response) => {
+          if (!response.ok) throw new Error("Error al enviar notificaciones");
+          return response.json();
+        });
+      }
+
+      return notificationPromise.then(() => results);
+    })
+    .then((results) => {
+      // Actualizar UI y valores originales
       results.forEach(({ cell, data }) => {
         if (data.success) {
-          // Actualizar el valor original
           cell.setAttribute("data-original-value", cell.textContent.trim());
-
-          // Mostrar confirmación visual
-          cell.style.backgroundColor = "#90EE90";
+          cell.style.backgroundColor = "#90EE90"; // Verde claro para éxito
           setTimeout(() => {
             cell.style.transition = "background-color 0.5s ease";
             cell.style.backgroundColor = "";
@@ -1346,24 +1384,27 @@ function saveAllChanges() {
         actualizarNotificaciones();
       }
 
-      console.log("Todos los cambios guardados:", results);
       changedCells.clear();
       hideEditIcons();
+
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        icon: "success",
+        title: "¡Cambios guardados!",
+        text: `Se guardaron los cambios correctamente.`,
+        confirmButtonText: "¡Excelente!",
+        timer: 2000,
+        timerProgressBar: true,
+      });
     })
     .catch((error) => {
       console.error("Error saving changes:", error);
-      if (typeof Swal !== "undefined") {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text:
-            "No tienes los permisos necesarios para realizar cambios en la base de datos. Error: " +
-            error.message,
-          confirmButtonText: "Entendido",
-        });
-      } else {
-        alert("Error al guardar los cambios: " + error.message);
-      }
+      Swal.fire({
+        icon: "error",
+        title: "Error al guardar",
+        text: error.message || "Ocurrió un error al procesar los cambios.",
+        confirmButtonText: "Entendido",
+      });
     });
 }
 

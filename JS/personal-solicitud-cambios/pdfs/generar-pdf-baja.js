@@ -1,4 +1,3 @@
-// generar-pdf-baja.js y generar-pdf-propuesta.js
 function generarPDFBaja(folio) {
     Swal.fire({
         title: 'Confirmar generación',
@@ -6,6 +5,7 @@ function generarPDFBaja(folio) {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Generar',
+        confirmButtonColor: '#0071B0',
         cancelButtonText: 'Cancelar',
         allowOutsideClick: false
     }).then((result) => {

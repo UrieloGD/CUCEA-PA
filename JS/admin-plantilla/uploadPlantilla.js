@@ -9,6 +9,7 @@ function subirArchivo(id) {
     showCancelButton: true,
     confirmButtonText: "Guardar",
     cancelButtonText: "Cancelar",
+    
     preConfirm: (file) => {
       if (file) {
         const inputFileElement = document.querySelector(`#input-file-${id}`);
@@ -27,11 +28,22 @@ function subirArchivo(id) {
         actualizarFechaSubida(id);
       }
     },
+    customClass: {
+      cancelButton: 'boton-cancelar-SA',
+      confirmButton: 'boton-aceptar-SA',
+    }
   }).then((result) => {
     if (result.isConfirmed) {
       const inputFileElement = document.querySelector(`#input-file-${id}`);
       if (!inputFileElement || !inputFileElement.files[0]) {
-        Swal.fire("Error", "No se ha seleccionado un archivo.", "error");
+        Swal.fire({
+            title: "Error",
+            text: "No se ha seleccionado un archivo.",
+            icon: "error",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+        });
         return;
       }
 
@@ -73,7 +85,10 @@ function subirArchivo(id) {
               title: "¡Éxito!",
               text: "El archivo se ha subido correctamente.",
               icon: "success",
-              showConfirmButton: true
+              showConfirmButton: true,
+              customClass: {
+                confirmButton: "OK-boton",
+              }
             }).then(() => {
               location.reload();
             });
@@ -81,7 +96,10 @@ function subirArchivo(id) {
             Swal.fire({
               title: "Error",
               text: "Ocurrió un error al subir el archivo. Por favor, inténtalo de nuevo.",
-              icon: "error"
+              icon: "error",
+              customClass: {
+                confirmButton: "OK-boton",
+              }
             });
           }
         })
@@ -90,7 +108,10 @@ function subirArchivo(id) {
           Swal.fire({
             title: "Error",
             text: "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
-            icon: "error"
+            icon: "error",
+            customClass: {
+              confirmButton: "OK-boton",
+            }
           });
         });
     }

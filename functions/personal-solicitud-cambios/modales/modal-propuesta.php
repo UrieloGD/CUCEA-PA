@@ -144,8 +144,8 @@
                     <input type="date" id="fecha_fin" name="fecha_fin">
                 </div>
                 <div class="form-group-propuesta">
-                    <label for="oficio_num">Oficio Num.</label>
-                    <input type="text" id="oficio_num" name="oficio_num" readonly>
+                    <label for="oficio_num_prop">Oficio Num.</label>
+                    <input type="text" id="oficio_num_prop" name="oficio_num_prop" readonly>
                 </div>
                 <div class="form-group-propuesta laboratorio">
                     <label for="fecha">Fecha D/M/A</label>

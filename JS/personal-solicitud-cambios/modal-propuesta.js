@@ -86,6 +86,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Llamar a la función para llenar los selectores al cargar la página
     llenarSelectoresFecha();
 
+    const generarNumeroOficio = () => {
+        const oficioInput = document.getElementById('oficio_num_prop');
+        if (oficioInput) {
+            const añoActual = new Date().getFullYear();
+            const añoCorto = añoActual.toString().slice(-2);
+            
+            fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_propuesta.php')
+                .then(response => {
+                    if (!response.ok) throw new Error('Error en la red');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        let numeroSecuencial = parseInt(data.ultimo_numero) + 1;
+                        const numeroFormateado = numeroSecuencial.toString().padStart(4, '0');
+                        oficioInput.value = `${numeroFormateado}/${añoCorto}`;
+                        console.log('Número generado:', oficioInput.value); // Depuración
+                    } else {
+                        throw new Error(data.message || 'Error en el servidor');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Valor por defecto si falla la consulta
+                    const numeroFormateado = '0001';
+                    oficioInput.value = `${numeroFormateado}/${añoCorto}`;
+                });
+        }
+    };
+
     // NUEVAS FUNCIONES DE VALIDACIÓN Y TRANSFORMACIÓN
 
     // Definir restricciones según el esquema de la base de datos
@@ -159,6 +189,56 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // Función para mayúsculas con acentos (igual que en modal-baja.js)
+    const toUpperWithAccents = (str) => {
+        return str.normalize('NFD')
+            .toUpperCase()
+            .replace(/¡/g, '¿') // Mantener símbolos en español
+            .replace(/!/g, '?');
+    };
+
+     // Campos alfabéticos - permitir letras, espacios y caracteres especiales del español
+     const camposAlfabeticos = [
+        'nombres_p', 'apellido_paterno_p', 'apellido_materno_p', 'nombres_sust', 'apellido_paterno_sust', 'apellido_materno_sust', 'causa'
+    ];
+
+    camposAlfabeticos.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                // Primero aplicamos toUpperWithAccents para mantener la conversión a mayúsculas
+                let valor = toUpperWithAccents(e.target.value);
+                
+                // Luego quitamos solo los números
+                // Esto preserva letras, espacios, acentos, ñ, etc.
+                valor = valor.replace(/[0-9]/g, '');
+                
+                e.target.value = valor;
+            });
+        }
+    });
+
+    // Para campos estrictamente numéricos (CRN, CODIGO)
+    const camposEstrictamenteNumericos = [
+        'codigo_prof_p', 'crn_p', 'codigo_prof_sust' 
+    ];
+
+    camposEstrictamenteNumericos.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.addEventListener('input', (e) => {
+                // Solo permitir dígitos
+                e.target.value = e.target.value.replace(/\D/g, '');
+                
+                // Aplicar la longitud máxima correspondiente
+                const maxLength = campo === 'codigo_prof_p' ? 8 : 7; // 8 para código, 7 para CRN
+                if (e.target.value.length > maxLength) {
+                    e.target.value = e.target.value.slice(0, maxLength);
+                }
+            });
+        }
+    });
+
     // Aplicar restricciones a todos los campos del formulario
     if (formPropuesta) {
         const inputs = formPropuesta.querySelectorAll('input[type="text"], input[type="number"], select');
@@ -193,21 +273,32 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnDescartar) {
         btnDescartar.addEventListener('click', () => {
             Swal.fire({
-                title: '¿Estás seguro?',
-                text: "Se descartarán todos los cambios realizados",
+                title: '¿Descartar cambios?',
+                text: "Se perderán todos los datos ingresados",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#0071b0',
+                confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Sí, descartar',
                 cancelButtonText: 'Cancelar'
-            }).then((result) => {
+            }).then(result => {
                 if (result.isConfirmed) {
-                    cerrarModal();
+                    formBaja.reset();
+                    formData = new FormData();
+                    modalBaja.style.display = 'none';
                 }
             });
         });
     }
+
+    // Función para abrir el modal y generar el número de oficio
+    window.abrirModalPropuesta = function() {
+        if (modalPropuesta) {
+            modalPropuesta.style.display = 'block';
+            generarNumeroOficio(); // Asegurar que esta línea está presente
+            console.log("Modal abierto, número de oficio generado"); // Para depuración
+        }
+    };
 
     // Manejo del formulario (mantenemos la lógica existente)
     if (formPropuesta) {
@@ -232,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const formData = new FormData(this);
 
-            fetch('./functions/personal-solicitud-cambios/procesar_propuesta.php', {
+            fetch('./functions/personal-solicitud-cambios/procesar/procesar_propuesta.php', {
                 method: 'POST',
                 body: formData
             })
