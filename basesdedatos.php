@@ -95,8 +95,8 @@ mysqli_close($conexion);
 
 
 <!-- Incluir Tabulator CSS y JS -->
-<link href="https://cdn.jsdelivr.net/npm/tabulator-tables@5.5.2/dist/css/tabulator.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tabulator-tables/dist/js/tabulator.min.js"></script>
 
 <!-- Tema BULMA para Tabulator-->
 <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator_bulma.min.css" rel="stylesheet">
@@ -180,7 +180,7 @@ mysqli_close($conexion);
         // Inicializar Tabulator
         const table = initializeTabulator(tableData);
 
-        // Configurar eventos de los iconos
+        // Configurar eventos de los iconos (esto ahora incluye la búsqueda)
         setupTableEvents(table);
     });
 </script>

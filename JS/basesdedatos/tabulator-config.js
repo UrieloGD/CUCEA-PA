@@ -376,6 +376,44 @@ function initializeTabulator(data) {
   // Initialize Tabulator with the dataset from PHP
   var table = new Tabulator("#tabla-datos", {
     data: data,
+    //enable range selection
+    selectableRange: 1,
+    selectableRangeColumns: true,
+    selectableRangeRows: true,
+    selectableRangeClearCells: true,
+
+    //change edit trigger mode to make cell navigation smoother
+    editTriggerEvent: "dblclick",
+
+    //configure clipboard to allow copy and paste of range format data
+    clipboard: true,
+    clipboardCopyStyled: false,
+    clipboardCopyConfig: {
+      rowHeaders: false,
+      columnHeaders: false,
+    },
+    clipboardCopyRowRange: "range",
+    clipboardPasteParser: "range",
+    clipboardPasteAction: "range",
+
+    // rowHeader: {
+    //   resizable: false,
+    //   frozen: true,
+    //   width: 40,
+    //   hozAlign: "center",
+    //   formatter: "rownum",
+    //   cssClass: "range-header-col",
+    //   editor: false,
+    // },
+
+    //setup cells to work as a spreadsheet
+    columnDefaults: {
+      headerSort: false,
+      headerHozAlign: "center",
+      editor: "input",
+      resizable: "header",
+      width: 100,
+    },
     columns: columns,
     layout: "fitDataFill",
     pagination: "local",
@@ -410,15 +448,105 @@ function initializeTabulator(data) {
   return table;
 }
 
-// Función para configurar eventos de los iconos
+// Función para configurar la búsqueda global
+function setupGlobalSearch(table) {
+  const searchInput = document.getElementById("input-buscador");
+  const searchIcon = document.getElementById("icono-buscador");
+
+  if (searchInput) {
+    // Configurar el evento de búsqueda con debounce
+    let searchTimeout;
+
+    searchInput.addEventListener("input", function () {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        const searchTerm = this.value.trim();
+
+        if (searchTerm === "") {
+          // Si no hay término de búsqueda, limpiar filtros
+          table.clearFilter();
+        } else {
+          // Aplicar múltiples filtros para buscar en las columnas principales
+          const searchFilters = [
+            { field: "Departamento_ID", type: "like", value: searchTerm },
+            { field: "CICLO", type: "like", value: searchTerm },
+            { field: "CRN", type: "like", value: searchTerm },
+            { field: "MATERIA", type: "like", value: searchTerm },
+            { field: "CVE_MATERIA", type: "like", value: searchTerm },
+            { field: "SECCION", type: "like", value: searchTerm },
+            { field: "NIVEL", type: "like", value: searchTerm },
+            { field: "NIVEL_TIPO", type: "like", value: searchTerm },
+            { field: "TIPO", type: "like", value: searchTerm },
+            { field: "C_MIN", type: "like", value: searchTerm },
+            { field: "H_TOTALES", type: "like", value: searchTerm },
+            { field: "ESTATUS", type: "like", value: searchTerm },
+            { field: "TIPO_CONTRATO", type: "like", value: searchTerm },
+            { field: "CODIGO_PROFESOR", type: "like", value: searchTerm },
+            { field: "NOMBRE_PROFESOR", type: "like", value: searchTerm },
+            { field: "CATEGORIA", type: "like", value: searchTerm },
+            { field: "DESCARGA", type: "like", value: searchTerm },
+            { field: "CODIGO_DESCARGA", type: "like", value: searchTerm },
+            { field: "NOMBRE_DESCARGA", type: "like", value: searchTerm },
+            { field: "NOMBRE_DEFINITIVO", type: "like", value: searchTerm },
+            { field: "TITULAR", type: "like", value: searchTerm },
+            { field: "HORAS", type: "like", value: searchTerm },
+            { field: "CODIGO_DEPENDENCIA", type: "like", value: searchTerm },
+            { field: "L", type: "like", value: searchTerm },
+            { field: "M", type: "like", value: searchTerm },
+            { field: "I", type: "like", value: searchTerm },
+            { field: "J", type: "like", value: searchTerm },
+            { field: "V", type: "like", value: searchTerm },
+            { field: "S", type: "like", value: searchTerm },
+            { field: "D", type: "like", value: searchTerm },
+            { field: "DIA_PRESENCIAL", type: "like", value: searchTerm },
+            { field: "DIA_VIRTUAL", type: "like", value: searchTerm },
+            { field: "MODALIDAD", type: "like", value: searchTerm },
+            { field: "FECHA_INICIAL", type: "like", value: searchTerm },
+            { field: "FECHA_FINAL", type: "like", value: searchTerm },
+            { field: "HORA_INICIAL", type: "like", value: searchTerm },
+            { field: "HORA_FINAL", type: "like", value: searchTerm },
+            { field: "MODULO", type: "like", value: searchTerm },
+            { field: "AULA", type: "like", value: searchTerm },
+            { field: "CUPO", type: "like", value: searchTerm },
+            { field: "OBSERVACIONES", type: "like", value: searchTerm },
+            { field: "EXAMEN_EXTRAORDINARIO", type: "like", value: searchTerm },
+          ];
+
+          table.setFilter([searchFilters]);
+        }
+      }, 300); // Esperar 300ms después de que el usuario deje de escribir
+    });
+
+    // Limpiar búsqueda al hacer clic en el icono
+    searchIcon.addEventListener("click", function () {
+      searchInput.value = "";
+      table.clearFilter();
+      searchInput.focus();
+    });
+
+    // Limpiar búsqueda con ESC
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        this.value = "";
+        table.clearFilter();
+      }
+    });
+  }
+}
+
+// REEMPLAZAR COMPLETAMENTE la función setupTableEvents existente con esta:
 function setupTableEvents(table) {
+  // Configurar la búsqueda global PRIMERO
+  setupGlobalSearch(table);
+
   // Export table data to Excel function
   document
     .getElementById("icono-descargar")
     .addEventListener("click", function () {
-      const departmentName = document
-        .querySelector(".encabezado-centro h3")
-        .textContent.replace("Data - ", "");
+      const departmentName =
+        document
+          .querySelector(".encabezado-centro h3")
+          ?.textContent.replace("Data - ", "") || "datos";
       table.download("xlsx", `data_${departmentName}.xlsx`, {
         sheetName: "Data Departamento",
       });
