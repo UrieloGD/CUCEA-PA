@@ -92,7 +92,7 @@ mysqli_close($conexion);
 
 <title>Data - <?php echo $departamento_nombre; ?></title>
 
-<?php include './functions/basesdedatos/modal-descargar-excel/modal-descargar-excel.php'; ?>
+
 
 <!-- Incluir Tabulator CSS y JS -->
 <link href="https://cdn.jsdelivr.net/npm/tabulator-tables@5.5.2/dist/css/tabulator.min.css" rel="stylesheet">
@@ -101,22 +101,29 @@ mysqli_close($conexion);
 <!-- Tema BULMA para Tabulator-->
 <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator_bulma.min.css" rel="stylesheet">
 
+<!-- SweetAlert2 para notificaciones -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- jQuery (si no está incluido en otro lugar) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <!-- Custom CSS for the table -->
 <link rel="stylesheet" href="./CSS/basesdedatos/basesdedatos.css?v=<?php echo filemtime('./CSS/basesdedatos/basesdedatos.css'); ?>" />
+<link rel="stylesheet" href="./CSS/basesdedatos/modal-añadir-registro.css?v=<?php echo filemtime('./CSS/basesdedatos/modal-añadir-registro.css'); ?>" />
 
 <div class="cuadro-principal">
     <div class="encabezado">
         <div class="encabezado-izquierda" style="display: flex; align-items: center;">
-            <!-- <div class="barra-buscador" id="barra-buscador">
+            <div class="barra-buscador" id="barra-buscador">
                 <div class="icono-buscador" id="icono-buscador">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </div>
                 <input type="text" id="input-buscador" placeholder="Buscar...">
-            </div> -->
+            </div>
         </div>
-        <div class="encabezado-centro">
+        <!-- <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
-        </div>
+        </div> -->
         <div class="encabezado-derecha">
             <div class="iconos-container">
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
@@ -150,6 +157,11 @@ mysqli_close($conexion);
         </div>
     </div>
 
+    <?php include './functions/basesdedatos/modal-descargar-excel/modal-descargar-excel.php'; ?>
+
+    <!-- Incluir el modal para añadir registros -->
+    <?php include './functions/basesdedatos/modal-añadir-registro/modal-añadir-registro.php'; ?>
+
     <!-- Inputs ocultos para pasar datos a JavaScript -->
     <input type="hidden" id="departamento_id" value="<?php echo $departamento_id; ?>" data-user-role="<?php echo $rol; ?>">
     <input type="hidden" id="user-role" value="<?php echo $rol; ?>">
@@ -177,5 +189,8 @@ mysqli_close($conexion);
 <script src="./JS/basesdedatos/descargar-data-excel.js?v=<?php echo time(); ?>"></script>
 <script src="./JS/basesdedatos/tabulator-edit-manager.js?v=<?php echo time(); ?>"></script>
 <script src="./JS/basesdedatos/tabulator-config.js?v=<?php echo time(); ?>"></script>
+
+<!-- Incluir el JavaScript del modal de añadir registro -->
+<script src="./JS/basesdedatos/añadir-registro.js?v=<?php echo time(); ?>"></script>
 
 <?php include("./template/footer.php"); ?>

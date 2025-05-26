@@ -414,7 +414,7 @@ class TabulatorEditManager {
 
   undoAllChanges() {
     if (this.changedCells.size === 0) {
-      this.showFeedbackMessage("No hay cambios para deshacer.");
+      this.showFeedbackMessage("Cambios deshechos.");
       return;
     }
 

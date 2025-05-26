@@ -47,8 +47,9 @@ if ($stmt === false) {
 }
 
 // Vincular parámetros
-$stmt->bind_param("issssssssssssssssssssssssssssssssssssssssss", 
-    $departamento_id, 
+$stmt->bind_param(
+    "issssssssssssssssssssssssssssssssssssssssss",
+    $departamento_id,
     $_POST['ciclo'],
     $_POST['crn'],
     $_POST['materia'],
