@@ -124,17 +124,32 @@ select:focus {
   font-size: 1rem;
 }
 
-/* Estilos para campos readonly */
+.readonly-field {
+  background-color: #f5f5f5 !important;
+  color: #666 !important;
+  cursor: not-allowed !important;
+  pointer-events: none; /* Evita cualquier interacción */
+}
+
+.readonly-field:focus {
+  box-shadow: none !important;
+  border-color: #ddd !important;
+  outline: none !important;
+}
+
+/* Para campos readonly */
 input[readonly] {
   background-color: #f5f5f5;
   color: #666;
   cursor: not-allowed;
   border-color: #ddd;
+  pointer-events: none; /* Evita clicks y selección */
 }
 
 input[readonly]:focus {
   border-color: #ddd;
   box-shadow: none;
+  outline: none;
 }
 
 /* Media queries para responsividad */

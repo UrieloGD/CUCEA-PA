@@ -29,13 +29,25 @@ document.addEventListener('DOMContentLoaded', function() {
             elem.removeAttribute('readonly');
             elem.removeAttribute('disabled');
             
-            // Limpiar valores
-            if (elem.tagName === 'SELECT') {
-                elem.selectedIndex = 0;
-            } else if (elem.type === 'checkbox' || elem.type === 'radio') {
-                elem.checked = false;
-            } else {
-                elem.value = '';
+            // Limpiar valores EXCEPTO los campos que deben auto-generarse
+            if (elem.id !== 'oficio_num_baja' && elem.id !== 'fecha' && elem.id !== 'fecha_sql') {
+                if (elem.tagName === 'SELECT') {
+                    elem.selectedIndex = 0;
+                } else if (elem.type === 'checkbox' || elem.type === 'radio') {
+                    elem.checked = false;
+                } else {
+                    elem.value = '';
+                }
+            }
+        });
+        
+        // Restaurar campos readonly específicos que deben mantenerse
+        const camposReadonly = ['oficio_num_baja', 'fecha'];
+        camposReadonly.forEach(campo => {
+            const input = modal.querySelector(`#${campo}`);
+            if (input) {
+                input.setAttribute('readonly', true);
+                input.classList.add('readonly-field');
             }
         });
         
@@ -57,8 +69,60 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             modalTitle.innerHTML = originalTitles[modal.id] || 'Nueva solicitud';
         }
+        
+        // IMPORTANTE: Forzar la actualización de número de oficio y fecha para modal de baja
+        if (modal.id === 'solicitud-modal-baja-academica') {
+            // Llamar a las funciones del modal-baja.js si están disponibles
+            setTimeout(() => {
+                // Intentar ejecutar la función de actualización de oficio
+                if (typeof window.actualizarNumeroOficioBaja === 'function') {
+                    window.actualizarNumeroOficioBaja();
+                } else {
+                    // Si no está disponible, hacer la llamada directamente
+                    fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_baja.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.siguiente_numero) {
+                                const oficioBaja = modal.querySelector('#oficio_num_baja');
+                                if (oficioBaja) {
+                                    oficioBaja.value = data.siguiente_numero;
+                                }
+                            }
+                            // Establecer fecha actual
+                            establecerFechaActualModal(modal);
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener número de oficio:', error);
+                            establecerFechaActualModal(modal);
+                        });
+                }
+            }, 100);
+        }
     }
-    
+
+    function establecerFechaActualModal(modal) {
+        const fechaInputDisplay = modal.querySelector('#fecha');
+        const fechaInputSQL = modal.querySelector('#fecha_sql');
+        
+        if (fechaInputDisplay) {
+            const fechaActual = new Date();
+            
+            // Formato para mostrar al usuario (DD/MM/YYYY)
+            const dia = fechaActual.getDate().toString().padStart(2, '0');
+            const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            const año = fechaActual.getFullYear();
+            const fechaFormateada = `${dia}/${mes}/${año}`;
+            
+            // Formato SQL para enviar al servidor (YYYY-MM-DD)
+            const fechaSQL = fechaActual.toISOString().split('T')[0];
+            
+            fechaInputDisplay.value = fechaFormateada;
+            if (fechaInputSQL) {
+                fechaInputSQL.value = fechaSQL;
+            }
+        }
+    }
+
     // Exponer función globalmente para que pueda ser usada desde otros scripts
     window.limpiarYHabilitarModal = limpiarYHabilitarModal;
     
@@ -232,6 +296,58 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    // Función para convertir fecha a formato DD/MM/AAAA para visualización
+    function formatearFechaParaDD_MM_AAAA(fechaString) {
+        if (!fechaString) return '';
+        
+        // Si ya viene en formato DD/MM/AAAA, devolverla tal como está
+        if (fechaString.includes('/')) {
+            return fechaString;
+        }
+        
+        // Si viene en formato YYYY-MM-DD, convertir a DD/MM/AAAA
+        if (fechaString.includes('-')) {
+            const partes = fechaString.split('-');
+            if (partes.length === 3) {
+                return `${partes[2]}/${partes[1]}/${partes[0]}`;
+            }
+        }
+        
+        return fechaString;
+    }
+
+    // Función para convertir fecha a formato SQL (YYYY-MM-DD)
+    function formatearFechaParaSQL(fechaString) {
+        if (!fechaString) return '';
+        
+        // Si ya viene en formato YYYY-MM-DD, devolverla tal como está
+        if (fechaString.match(/^\d{4}-\d{2}-\d{2}$/)) {
+            return fechaString;
+        }
+        
+        // Si viene en formato DD/MM/AAAA, convertir a YYYY-MM-DD
+        if (fechaString.includes('/')) {
+            const partes = fechaString.split('/');
+            if (partes.length === 3) {
+                return `${partes[2]}-${partes[1]}-${partes[0]}`;
+            }
+        }
+        
+        return fechaString;
+    }
+
+    // Mantener la función original para campos de tipo date
+    function formatearFechaParaHTML(fechaString) {
+        // Si la fecha viene en formato dd/mm/yyyy, convertir a yyyy-mm-dd para input date
+        if (fechaString && fechaString.includes('/')) {
+            const partes = fechaString.split('/');
+            if (partes.length === 3) {
+                return `${partes[2]}-${partes[1]}-${partes[0]}`;
+            }
+        }
+        return fechaString;
+    }
     
     // Función para llenar el modal con los datos correspondientes
     function rellenarModal(data, tipo) {
@@ -269,9 +385,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setValueSafe('#descripcion', data.puesto);
             setValueSafe('#clasificacion', data.clasificacion_b);
             setValueSafe('#profesion', data.profesion);
-            setValueSafe('#fecha_efectos', formatearFechaParaHTML(data.fecha));
-            setValueSafe('#fecha', formatearFechaParaHTML(data.efecto));
-            setValueSafe('#apellido_paterno', data.profesor_actual.paterno);
+            setValueSafe('#fecha_efectos', formatearFechaParaHTML(data.fecha_efectos || data.efecto));
+            setValueSafe('#fecha', formatearFechaParaDD_MM_AAAA(data.fecha));
+            setValueSafe('#fecha_sql', formatearFechaParaSQL(data.fecha));            setValueSafe('#apellido_paterno', data.profesor_actual.paterno);
             setValueSafe('#apellido_materno', data.profesor_actual.materno);
             setValueSafe('#nombres', data.profesor_actual.nombres);
             setValueSafe('#codigo_prof', data.profesor_actual.codigo);

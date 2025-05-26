@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.target.value = e.target.value.replace(/\D/g, '');
                 
                 // Aplicar la longitud máxima correspondiente
-                const maxLength = campo === 'codigo_prof' ? 8 : 7; // 8 para código, 7 para CRN
+                const maxLength = campo === 'codigo_prof' ? 9 : 8; // 8 para código, 7 para CRN
                 if (e.target.value.length > maxLength) {
                     e.target.value = e.target.value.slice(0, maxLength);
                 }
@@ -74,13 +74,75 @@ document.addEventListener('DOMContentLoaded', function() {
         input && input.setAttribute('maxlength', maxLengths[field]);
     });
 
-    // Actualizar número de oficio
+    // Función para establecer fecha actual en formato DD/MM/AAAA
+    const establecerFechaActual = (forzar = false) => {
+        const fechaInputDisplay = document.getElementById('fecha'); // Campo de visualización
+        const fechaInputSQL = document.getElementById('fecha_sql'); // Campo oculto
+        
+        // No establecer fecha si el campo ya tiene un valor (excepto si se fuerza)
+        if (!forzar && fechaInputDisplay && fechaInputDisplay.value && fechaInputDisplay.value.trim() !== '') {
+            return; // Ya tiene un valor, no lo sobrescribir
+        }
+        
+        if (fechaInputDisplay) {
+            const fechaActual = new Date();
+            
+            // Formato para mostrar al usuario (DD/MM/YYYY)
+            const dia = fechaActual.getDate().toString().padStart(2, '0');
+            const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+            const año = fechaActual.getFullYear();
+            const fechaFormateada = `${dia}/${mes}/${año}`;
+            
+            // Formato SQL para enviar al servidor (YYYY-MM-DD)
+            const fechaSQL = fechaActual.toISOString().split('T')[0];
+            
+            // Establecer la fecha en ambos campos
+            fechaInputDisplay.value = fechaFormateada;
+            if (fechaInputSQL) {
+                fechaInputSQL.value = fechaSQL;
+            }
+        }
+    };
+    
+    // Campos que deben ser readonly y no modificables  
+    const camposReadonly = ['oficio_num_baja', 'fecha']; // Solo estos dos campos
+
+    camposReadonly.forEach(campo => {
+        const input = document.getElementById(campo);
+        if (input) {
+            input.setAttribute('readonly', true);
+            input.classList.add('readonly-field');
+            
+            // Prevenir cualquier intento de modificación
+            input.addEventListener('keydown', (e) => {
+                e.preventDefault();
+            });
+            
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+            });
+        }
+    });
+
+    // Actualizar número de oficio y fecha
     const actualizarNumeroOficio = () => {
         fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_baja.php')
             .then(response => response.json())
             .then(data => {
-                data.siguiente_numero && 
-                    (document.getElementById('oficio_num_baja').value = data.siguiente_numero);
+                if (data.siguiente_numero) {
+                    document.getElementById('oficio_num_baja').value = data.siguiente_numero;
+                }
+                // Establecer la fecha DESPUÉS de que se complete la carga del número de oficio
+                setTimeout(() => {
+                    establecerFechaActual();
+                }, 100);
+            })
+            .catch(error => {
+                console.error('Error al obtener número de oficio:', error);
+                // Aún así establecer la fecha
+                setTimeout(() => {
+                    establecerFechaActual();
+                }, 100);
             });
     };
 
@@ -99,8 +161,28 @@ document.addEventListener('DOMContentLoaded', function() {
         mutations.forEach(mutation => {
             if (mutation.attributeName === 'style' && 
                 modalBaja.style.display === 'block') {
-                actualizarNumeroOficio();
-                restaurarDatosFormulario();
+                
+                // Verificar si es modo visualización o nueva solicitud
+                const esVisualizacion = modalBaja.querySelector('h2') && 
+                                    modalBaja.querySelector('h2').textContent.includes('Solo visualización');
+                
+                if (!esVisualizacion) {
+                    // Es una nueva solicitud
+                    actualizarNumeroOficio();
+                    restaurarDatosFormulario();
+                    
+                    // Asegurar que campos readonly estén configurados
+                    setTimeout(() => {
+                        const camposReadonly = ['oficio_num_baja', 'fecha'];
+                        camposReadonly.forEach(campo => {
+                            const input = document.getElementById(campo);
+                            if (input) {
+                                input.setAttribute('readonly', true);
+                                input.classList.add('readonly-field');
+                            }
+                        });
+                    }, 50);
+                }
             }
         });
     });
@@ -177,10 +259,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Convertir a mayúsculas con acentos al escribir
-    document.querySelectorAll('.modal-content input[type="text"]').forEach(input => {
-        input.addEventListener('input', function(e) {
-            this.value = toUpperWithAccents(this.value);
-        });
+    document.querySelectorAll('.modal-content input[type="text"]:not(.readonly-field):not([type="date"])').forEach(input => {
+        // Excluir también campos específicos por ID
+        if (input.id !== 'fecha_efectos' && input.id !== 'fecha') {
+            input.addEventListener('input', function(e) {
+                this.value = toUpperWithAccents(this.value);
+            });
+        }
     });
 
     // Manejar clic fuera del modal
@@ -190,4 +275,27 @@ document.addEventListener('DOMContentLoaded', function() {
             modalBaja.style.display = 'none';
         }
     });
+
+    // Exponer funciones globalmente para uso desde otros scripts
+    window.actualizarNumeroOficioBaja = actualizarNumeroOficio;
+    window.establecerFechaActualBaja = () => establecerFechaActual(true); // Forzar establecimiento
+
+    // Función para reinicializar modal para nueva solicitud
+    window.reinicializarModalBaja = () => {
+        // Limpiar formData
+        formData = new FormData();
+        
+        // Actualizar número de oficio y fecha
+        actualizarNumeroOficio();
+        
+        // Asegurar que los campos readonly estén configurados correctamente
+        const camposReadonly = ['oficio_num_baja', 'fecha'];
+        camposReadonly.forEach(campo => {
+            const input = document.getElementById(campo);
+            if (input) {
+                input.setAttribute('readonly', true);
+                input.classList.add('readonly-field');
+            }
+        });
+    };
 });
