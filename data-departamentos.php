@@ -47,9 +47,13 @@ $row_fecha_limite = mysqli_fetch_assoc($result_fecha_limite);
 $fecha_limite = $row_fecha_limite ? $row_fecha_limite['Fecha_Limite'] : "2025-03-10";
 
 // Obtener los departamentos que han subido un archivo (solo la fecha más reciente por departamento)
-$sql_departamentos_subidos = "SELECT Departamento_ID, MAX(Fecha_Subida_Dep) AS Fecha_Subida_Dep
-                              FROM plantilla_dep
-                              GROUP BY Departamento_ID";
+$condicion_subidos = ($_SESSION['Rol_ID'] == 0) ? "" : "WHERE d.Departamento_ID != 0";
+
+$sql_departamentos_subidos = "SELECT pd.Departamento_ID, MAX(pd.Fecha_Subida_Dep) AS Fecha_Subida_Dep
+                              FROM plantilla_dep pd
+                              INNER JOIN departamentos d ON pd.Departamento_ID = d.Departamento_ID
+                              $condicion_subidos
+                              GROUP BY pd.Departamento_ID";
 $result_departamentos_subidos = mysqli_query($conexion, $sql_departamentos_subidos);
 $departamentos_subidos = array();
 while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
@@ -58,9 +62,8 @@ while ($row = mysqli_fetch_assoc($result_departamentos_subidos)) {
   }
 }
 
-// Obtener el total de departamentos
-$sql_total_departamentos = "SELECT COUNT(*) AS total FROM departamentos";
-$result_total_departamentos = mysqli_query($conexion, $sql_total_departamentos);
+// Obtener el total de departamentos (excluyendo el de pruebas)
+$sql_total_departamentos = "SELECT COUNT(*) AS total FROM departamentos WHERE Departamento_ID != 0";$result_total_departamentos = mysqli_query($conexion, $sql_total_departamentos);
 $row_total_departamentos = mysqli_fetch_assoc($result_total_departamentos);
 $total_departamentos = $row_total_departamentos['total'];
 
@@ -110,9 +113,13 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
       <tr>
         <?php
         // Consulta para obtener los departamentos y la fecha de subida más reciente
+        // Solo el administrador (Rol_ID 0) puede ver el departamento de pruebas (ID 0)
+        $condicion_departamento = ($_SESSION['Rol_ID'] == 0) ? "" : "WHERE d.Departamento_ID != 0";
+
         $sql_departamentos = "SELECT d.Departamento_ID, d.Departamentos, MAX(p.Fecha_Subida_Dep) AS Fecha_Subida_Dep
           FROM departamentos d
           LEFT JOIN plantilla_dep p ON d.Departamento_ID = p.Departamento_ID
+          $condicion_departamento
           GROUP BY d.Departamento_ID, d.Departamentos
           ORDER BY d.Departamentos";
         $result_departamentos = mysqli_query($conexion, $sql_departamentos);

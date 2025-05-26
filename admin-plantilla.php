@@ -42,9 +42,9 @@ error_reporting(E_ALL);
                 <th style="text-align: center;">Último cambio</th>
                 <th style="text-align: center;">Acciones</th>
             </tr>
-
             <?php
             $departamentos = [
+                0 => "Pruebas",
                 1 => "Estudios Regionales",
                 2 => "Finanzas",
                 3 => "Ciencias Sociales",
@@ -65,7 +65,19 @@ error_reporting(E_ALL);
 
             asort($departamentos);
 
+            // Filtrar departamentos según el rol del usuario
+            if ($_SESSION['Rol_ID'] != 0) {
+                // Si no es rol 0, remover el departamento 0
+                unset($departamentos[0]);
+            }
+
             $sql = "SELECT Departamento_ID, Nombre_Archivo_Dep, Fecha_Subida_Dep FROM plantilla_sa";
+
+            // Si no es rol 0, agregar condición WHERE para excluir departamento 0
+            if ($_SESSION['Rol_ID'] != 0) {
+                $sql .= " WHERE Departamento_ID != 0";
+            }
+
             $result = mysqli_query($conexion, $sql);
 
             $departamentosConArchivos = [];

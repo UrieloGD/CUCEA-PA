@@ -249,7 +249,7 @@ function generarPDFBajaPropuesta($conexion, $folio) {
         $pdf->SetFont('', 'B', 10);
         $pdf->Cell(70, 8, 'LIC. DENISSE MURILLO GONZALEZ', 0, 0, 'C');
         $pdf->SetX(110);
-        $pdf->Cell(70, 8, 'MTRO. LUIS GUSTAVO PADILLA MONTES', 0, 1, 'C');
+        $pdf->Cell(70, 8, 'DRA. MARA NADIEZHDA ROBLES VILLASEÑOR', 0, 1, 'C');
         
         $pdf->SetX(25);
         $pdf->SetFont('', '', 9);

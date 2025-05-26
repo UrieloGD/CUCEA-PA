@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        require_once './../../config/db.php';
+        require_once './../../../config/db.php';
         
         if (!isset($_SESSION['Codigo'])) {
             throw new Exception('Usuario no autenticado');

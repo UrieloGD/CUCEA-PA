@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const añoActual = new Date().getFullYear();
             const añoCorto = añoActual.toString().slice(-2);
             
-            fetch('./functions/personal-solicitud-cambios/obtener_oficio_propuesta.php')
+            fetch('./functions/personal-solicitud-cambios/oficios/obtener_oficio_propuesta.php')
                 .then(response => {
                     if (!response.ok) throw new Error('Error en la red');
                     return response.json();
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const formData = new FormData(this);
 
-            fetch('./functions/personal-solicitud-cambios/procesar_propuesta.php', {
+            fetch('./functions/personal-solicitud-cambios/procesar/procesar_propuesta.php', {
                 method: 'POST',
                 body: formData
             })
