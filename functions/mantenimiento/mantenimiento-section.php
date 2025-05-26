@@ -2,7 +2,7 @@
 // Página de mantenimiento para secciones
 // Esta página se muestra cuando una sección está en mantenimiento
 
-// Si no están definidas, establecer valores por defecto
+// Si no están definidas, establece valores por defecto
 if (!isset($section)) $section = 'esta sección';
 if (!isset($message)) $message = 'Esta sección se encuentra temporalmente en mantenimiento. disculpe las molestias.';
 
