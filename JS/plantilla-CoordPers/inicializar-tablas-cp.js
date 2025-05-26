@@ -1,22 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM completamente cargado');
+  
+  // === CONFIGURACIÓN INICIAL ===
   const saveIcon = document.getElementById("icono-guardar");
   const undoIcon = document.getElementById("icono-deshacer");
-  console.log('[InicializarTablas] Iconos en DOM:', { saveIcon, undoIcon });
-  // Obtener el rol del usuario
   const userRole = document.getElementById('user-role').value;
-  console.log('Rol del usuario:', userRole);
-  
   const isEditable = userRole == 3 || userRole == 0;
-  console.log('¿Es editable?', isEditable);
+  
+  console.log('[InicializarTablas] Iconos en DOM:', { saveIcon, undoIcon });
+  console.log('Rol del usuario:', userRole, '¿Es editable?', isEditable);
 
   // Variable para almacenar el término de búsqueda global
   let searchTerm = "";
 
-  // Definir todas las columnas para Tabulator
+  // === DEFINICIÓN DE COLUMNAS ===
   const columns = [
     {
-      // Columna de selección de filas
       title: "",
       field: "checkbox",
       formatter: "rowSelection",
@@ -24,15 +23,15 @@ document.addEventListener('DOMContentLoaded', function() {
       hozAlign: "center",
       headerSort: false,
       width: 50,
-      frozen: true, // Fijar la columna de selección
-      editor: true, // Explícitamente no editable
+      frozen: true,
+      editor: true,
     },
     {
       title: "ID", 
       field: "ID", 
-      editor: false, // Siempre no editable, independientemente del rol
+      editor: false,
       variableHeight: true, 
-      frozen: true,  // Fijar la columna ID
+      frozen: true,
     },
     {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true},
@@ -63,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
     {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true},
+    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true},
@@ -72,8 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
     {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true},
@@ -100,24 +99,130 @@ document.addEventListener('DOMContentLoaded', function() {
     {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true},
     {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true}
   ];
+  
+  // Función para generar URL AJAX con parámetros
+  function generateAjaxURL(url, config, params) {
+    let ajaxURL = url + "?";
+    
+    // Parámetros de paginación
+    if (params.size === true) {
+      ajaxURL += "all=true&";
+    } else {
+      ajaxURL += `page=${params.page}&size=${params.size}&`;
+    }
+    
+    // Parámetros de ordenación
+    if (params.sort && params.sort.length) {
+      ajaxURL += `sort=${params.sort[0].field}&dir=${params.sort[0].dir}&`;
+    }
+    
+    // Parámetro de búsqueda global
+    if (searchTerm) {
+      ajaxURL += `search=${encodeURIComponent(searchTerm)}&`;
+    }
+    
+    // Limpiar URL
+    ajaxURL = ajaxURL.replace(/[&?]$/, "");
+    console.log("URL generada para AJAX:", ajaxURL);
+    return ajaxURL;
+  }
 
-  // Mostrar las columnas en la consola para depuración
-  console.log('Columnas configuradas:', columns);
+  // Función para aplicar clases de Bulma
+  function applyBulmaClasses() {
+    // Botones de paginación
+    document.querySelectorAll('.tabulator-paginator button').forEach(button => {
+      button.classList.add('button', 'is-small');
+    });
+    
+    // Selector de tamaño de página
+    const pageSizeSelector = document.querySelector('.tabulator-page-size');
+    if (pageSizeSelector && !pageSizeSelector.parentElement.classList.contains('select')) {
+      const wrapper = document.createElement('div');
+      wrapper.classList.add('select', 'is-small');
+      pageSizeSelector.parentNode.insertBefore(wrapper, pageSizeSelector);
+      wrapper.appendChild(pageSizeSelector);
+    }
+    
+    // Inputs de filtro
+    document.querySelectorAll('.tabulator-header-filter input').forEach(input => {
+      input.classList.add('input', 'is-small');
+    });
+  }
 
-  // Mostrar loader
-  console.log('Mostrando loader...');
+  // Función para ajustar anchos de columna
+  function adjustColumnWidths() {
+    if (!table || !table.getColumns().length) return;
+    
+    console.log('Ajustando anchos de columnas basados en contenido...');
+    
+    table.columnManager.columns.forEach(column => {
+      if (column.getField() === "checkbox") return;
+      
+      const field = column.getField();
+      const title = column.getDefinition().title;
+      const headerLength = title ? title.length : 0;
+      
+      let maxContentLength = 0;
+      const visibleData = table.getData();
+      
+      visibleData.forEach(row => {
+        const cellValue = row[field];
+        if (cellValue) {
+          maxContentLength = Math.max(maxContentLength, String(cellValue).length);
+        }
+      });
+      
+      // Calcular ancho (8px por carácter + padding)
+      const charWidth = 8;
+      const padding = 20;
+      let calculatedWidth = Math.max(headerLength, maxContentLength) * charWidth + padding;
+      
+      // Establecer límites
+      calculatedWidth = Math.max(calculatedWidth, 80);
+      calculatedWidth = Math.min(calculatedWidth, 300);
+      
+      column.setWidth(calculatedWidth);
+    });
+  }
+
+  // === CONFIGURACIÓN DE BÚSQUEDA ===
+  const searchInput = document.getElementById('input-buscador');
+  if (searchInput) {
+    let searchTimeout;
+    
+    searchInput.addEventListener('input', function(e) {
+      searchTerm = e.target.value;
+      clearTimeout(searchTimeout);
+      
+      searchTimeout = setTimeout(() => {
+        const activeElement = document.activeElement;
+        
+        table.setPage(1)
+          .then(() => table.replaceData())
+          .then(() => {
+            if (activeElement) {
+              activeElement.focus();
+              if (activeElement.setSelectionRange && activeElement.value) {
+                const len = activeElement.value.length;
+                activeElement.setSelectionRange(len, len);
+              }
+            }
+          });
+      }, 500);
+    });
+  }
+
+  // === MOSTRAR LOADER ===
   Swal.fire({
     title: 'Cargando datos...',
     html: 'Por favor espere mientras se procesan los datos',
     allowOutsideClick: false,
     allowEscapeKey: false,
     showConfirmButton: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
+    didOpen: () => Swal.showLoading()
   });
 
-  // Verificar si el elemento existe
+  // === VERIFICAR ELEMENTO DE LA TABLA ===
   const tableElement = document.getElementById('tabla-datos-tabulator');
   if (!tableElement) {
     console.error('Error: No se encontró el elemento con ID "tabla-datos-tabulator"');
@@ -125,62 +230,26 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  console.log('Inicializando Tabulator...');
-  
-  // Inicializar Tabulator con configuración de paginación del lado del servidor
+  // === INICIALIZACIÓN DE TABULATOR ===
   const table = new Tabulator("#tabla-datos-tabulator", {
+    // Configuración AJAX
     ajaxURL: './functions/coord-personal-plantilla/datos-tabla-cp.php',
     ajaxConfig: "GET",
     ajaxParams: {},
-    ajaxConfig:{
-      ajaxLoader: false,
-      ajaxLoaderLoading: false,
-    },
+    ajaxURLGenerator: generateAjaxURL,
     
-    // IMPORTANTE: Configuración de paginación para comunicación con el servidor
-    ajaxURLGenerator: function(url, config, params) {
-      // Agregar parámetros de paginación, ordenación y búsqueda a la URL
-      let ajaxURL = url + "?";
-      
-      // Parámetros de paginación
-      if (this.options.pagination) {
-        // Verificar si se están mostrando todos los registros
-        if (params.size === true) {
-          ajaxURL += "all=true&";
-        } else {
-          ajaxURL += "page=" + params.page + "&size=" + params.size + "&";
-        }
-      }
-      
-      // Parámetros de ordenación
-      if (params.sort && params.sort.length) {
-        ajaxURL += "sort=" + params.sort[0].field + "&dir=" + params.sort[0].dir + "&";
-      }
-      
-      // Parámetro de búsqueda global
-      if (searchTerm) {
-        ajaxURL += "search=" + encodeURIComponent(searchTerm) + "&";
-      }
-      
-      // Eliminar el último '&' o '?' si existe
-      ajaxURL = ajaxURL.replace(/[&?]$/, "");
-      
-      console.log("URL generada para AJAX:", ajaxURL);
-      return ajaxURL;
-    },
-    
+    // Configuración de columnas y layout
     columns: columns,
-    layout: "fitData", // Cambiamos a fitData para ajustar al contenido
-    autoColumns: false, // Desactivamos autoColumns para usar nuestra definición
-    responsiveLayout: false, // Desactivar el responsive layout para mantener todas las columnas
-    frozenRowsField: "id",
+    layout: "fitData",
+    autoColumns: false,
+    responsiveLayout: false,
     
-    // IMPORTANTE: Configuración de paginación corregida
+    // Configuración de paginación
     pagination: true,
-    paginationMode: "remote", // Modo de paginación remota
-    paginationSize: 50, // Tamaño de página predeterminado
-    paginationSizeSelector: [20, 50, 100, 300, true], // Opciones de tamaño de página
-    paginationCounter: "rows", // Mostrar contador de filas
+    paginationMode: "remote",
+    paginationSize: 50,
+    paginationSizeSelector: [20, 50, 100, 300, true],
+    paginationCounter: "rows",
     paginationDataReceived: {
       "last_page": "last_page",
       "data": "data",
@@ -191,45 +260,36 @@ document.addEventListener('DOMContentLoaded', function() {
       "size": "size"
     },
     
-    // Configuración para ordenación remota
+    // Configuración general
     sortMode: "remote",
-    
     movableColumns: true,
     height: "620px",
     placeholder: "No hay datos disponibles",
     
-    // Configuración para la selección de rangos y portapapeles
+    // Configuración de selección y portapapeles (Ctrl+C, Ctrl+V)
     selectable: true,
-    selectableRange: true, // Habilitar selección de rangos
-    selectableRangeColumns: true, // Permitir selección de columnas completas
-    selectableRangeRows: true, // Permitir selección de filas completas
-    selectableRangeClearCells: true, // Permitir borrado de celdas seleccionadas
-    
-    // Configuración del portapapeles
-    clipboard: true, // Habilitar funcionalidad de portapapeles
-    clipboardCopyStyled: false, // Copiar solo datos sin estilos
+    selectableRange: true,
+    selectableRangeColumns: true,
+    selectableRangeRows: true,
+    selectableRangeClearCells: true,
+    clipboard: true,
+    clipboardCopyStyled: false,
     clipboardCopyConfig: {
-        rowHeaders: false,
-        columnHeaders: false,
+      rowHeaders: false,
+      columnHeaders: false,
     },
-    clipboardCopyRowRange: "range", // Copiar rangos de celdas
-    clipboardPasteParser: "range", // Analizar datos pegados como rangos
-    clipboardPasteAction: "range", // Pegar datos como rangos
+    clipboardCopyRowRange: "range",
+    clipboardPasteParser: "range",
+    clipboardPasteAction: "range",
+    editTriggerEvent: "dblclick",
     
-    // Cambiar el modo de activación de edición para mejor navegación
-    editTriggerEvent: "dblclick", // Solo editar al hacer doble click
-    
-    // Configuración para habilitar desplazamiento horizontal
+    // Configuración de scroll y columnas
     horizontalScroll: true,
-    columnHeaderVertAlign: "middle",
-    
-    // Opciones para el ajuste automático de columnas
     resizableColumns: true,
     columnMinWidth: 80,
-    
-    // Recalcular ancho basado en contenido
     columnCalcLayout: "fitData",
     
+    // Localización
     langs: {
       "es": {
         "pagination": {
@@ -255,63 +315,53 @@ document.addEventListener('DOMContentLoaded', function() {
     virtualDom: true,
     renderVertical: "virtual",
     
-    // Callbacks
-    dataLoading: function(data) {
-      console.log('Cargando datos...', data);
-    },
     dataLoaded: function(data) {
       console.log('Datos cargados correctamente:', data);
       Swal.close();
-      
-      // Calcular y ajustar los anchos de columna basados en el contenido
       adjustColumnWidths();
       
-      // Asegurar que el scroll horizontal esté disponible
+      // Configurar scroll horizontal
       const tableHolder = document.querySelector('.tabulator-tableHolder');
       if (tableHolder) {
         tableHolder.style.overflowX = 'auto';
       }
       
-      // Aplicar clases de Bulma específicas tras cargar los datos
       applyBulmaClasses();
-      // Respaldar datos originales después de cargar
+      
+      // Respaldar datos originales
       if (window.editManager) {
         window.editManager.backupOriginalData();
-  }
+      }
     },
+    
     ajaxError: function(xhr, textStatus, errorThrown) {
-      console.error('Error en la carga AJAX:', {
-        xhr: xhr,
-        textStatus: textStatus,
-        errorThrown: errorThrown
-      });
+      console.error('Error en la carga AJAX:', { xhr, textStatus, errorThrown });
       Swal.fire('Error', 'No se pudieron cargar los datos. Detalles: ' + errorThrown, 'error');
     },
+    
     tableBuilt: function() {
       console.log('Tabla construida');
-      
-      // Aplicar clases de Bulma al construir la tabla
       applyBulmaClasses();
     },
+    
     renderStarted: function() {
       console.log('Renderizado iniciado');
     },
+    
     renderComplete: function() {
       console.log('Renderizado completado');
-      
-      // Ajustar columnas después del renderizado
       adjustColumnWidths();
-      
-      // Asegurar que las clases de Bulma se aplican después del renderizado
       applyBulmaClasses();
     },
+    
     columnResized: function(column) {
-      // Guardar el ancho personalizado si es necesario
       console.log(`Columna ${column.getField()} redimensionada a ${column.getWidth()}px`);
     },
+    
     pageLoaded: function(pageno) {
       console.log(`Página ${pageno} cargada correctamente`);
     },
+    
     pageSizeChanged: function(size) {
       console.log(`Tamaño de página cambiado a: ${size}`);
     }
@@ -319,124 +369,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   console.log('Tabulator inicializado:', table);
 
-  // Función para ajustar los anchos de columna basados en el contenido
-  function adjustColumnWidths() {
-    // Solo ejecutar si la tabla y los datos están disponibles
-    if (!table || !table.getColumns().length) return;
-    
-    console.log('Ajustando anchos de columnas basados en contenido...');
-    
-    // Calcular el ancho necesario para cada columna basado en su contenido
-    table.columnManager.columns.forEach(column => {
-      // Ignorar la columna de checkbox que ya tiene un ancho fijo
-      if (column.getField() === "checkbox") return;
-      
-      let field = column.getField();
-      let title = column.getDefinition().title;
-      
-      // Calcular ancho necesario basado en el título (header) y el contenido más largo
-      let headerLength = title ? title.length : 0;
-      let maxContentLength = 0;
-      
-      // Iterar sobre los datos visibles para encontrar el contenido más largo
-      let visibleData = table.getData();
-      visibleData.forEach(row => {
-        let cellValue = row[field];
-        if (cellValue) {
-          let valueLength = String(cellValue).length;
-          maxContentLength = Math.max(maxContentLength, valueLength);
-        }
-      });
-      
-      // Determinar el ancho necesario (aproximadamente 8px por carácter más un padding)
-      let charWidth = 8; // aproximado para la mayoría de fuentes
-      let padding = 20; // padding adicional
-      let calculatedWidth = Math.max(headerLength, maxContentLength) * charWidth + padding;
-      
-      // Establecer un ancho mínimo y máximo razonable
-      calculatedWidth = Math.max(calculatedWidth, 80); // mínimo 80px
-      calculatedWidth = Math.min(calculatedWidth, 300); // máximo 300px
-      
-      // Aplicar el ancho calculado
-      column.setWidth(calculatedWidth);
-    });
-  }
-
-  // Función para aplicar clases de Bulma a elementos específicos
-  function applyBulmaClasses() {
-    // Aplicar clases de Bulma a los botones de paginación
-    document.querySelectorAll('.tabulator-paginator button').forEach(button => {
-      button.classList.add('button', 'is-small');
-    });
-    
-    // Mejorar el aspecto del selector de tamaño de página
-    const pageSizeSelector = document.querySelector('.tabulator-page-size');
-    if (pageSizeSelector) {
-      pageSizeSelector.classList.add('select', 'is-small');
-      
-      // Envolver el select con un div para aplicar estilo Bulma adecuado
-      if (!pageSizeSelector.parentElement.classList.contains('select')) {
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('select', 'is-small');
-        pageSizeSelector.parentNode.insertBefore(wrapper, pageSizeSelector);
-        wrapper.appendChild(pageSizeSelector);
-      }
-    }
-    
-    // Aplicar estilo a los inputs de filtro
-    document.querySelectorAll('.tabulator-header-filter input').forEach(input => {
-      input.classList.add('input', 'is-small');
-    });
-  }
-
-  // Implementar la búsqueda global cuando se escribe en el input
-  // Implementar la búsqueda global cuando se escribe en el input
-  const searchInput = document.getElementById('input-buscador');
-  if (searchInput) {
-      let searchTimeout;
-      
-      searchInput.addEventListener('input', function(e) {
-          searchTerm = e.target.value;
-          
-          // Clear previous timeout
-          clearTimeout(searchTimeout);
-          
-          // Set new timeout
-          searchTimeout = setTimeout(() => {
-              // Guardar una referencia al elemento activo actual (el input)
-              const activeElement = document.activeElement;
-              
-              // Reset to first page and reload data
-              table.setPage(1)
-                  .then(() => table.replaceData())
-                  .then(() => {
-                      // Restaurar el foco al elemento que lo tenía antes (el input)
-                      if (activeElement) {
-                          activeElement.focus();
-                          
-                          // Opcionalmente, mantener la posición del cursor
-                          if (activeElement.setSelectionRange && activeElement.value) {
-                              const len = activeElement.value.length;
-                              activeElement.setSelectionRange(len, len); // Coloca el cursor al final calculando la longitud
-                          }
-                      }
-                  });
-          }, 500); // 500ms debounce time
-      });
-  }
-
-  // Hacer la tabla accesible globalmente para depuración
+  // === VARIABLES GLOBALES ===
   window.tabulatorTable = table;
-
-  // Inicializar componentes
-  if (typeof initializeCustomTooltips === 'function') {
-    initializeCustomTooltips();
-  }
-  
-  if (typeof setupEventHandlers === 'function') {
-    setupEventHandlers();
-  }
   window.table = table;
+  
   return table;
-  console.log('Inicialización completada');
 });
