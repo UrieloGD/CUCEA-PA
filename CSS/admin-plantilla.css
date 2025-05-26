@@ -233,9 +233,13 @@ td .btn-container .btn {
 } 
 .aceptar-eliminar-SA:hover { background-color: #b00814; }
 
+.btn {
+  position: relative;
+}
+
 /* Estilos del tooltip */
 .tooltip-texto-buttons {
-  position: fixed;
+  position: absolute;
   visibility: hidden;
   width: 125px;
   padding: 4px 12px;
@@ -262,7 +266,7 @@ a.btn:hover .tooltip-texto-buttons {
 
 .fa-caret-down {
   visibility: hidden;
-  position: fixed;
+  position: absolute;
   color: rgba(33, 37, 41, 0.95);
   font-size: 1rem;
   margin: -15 0 0 10;

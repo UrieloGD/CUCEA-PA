@@ -59,6 +59,24 @@ try {
     }
     $check_stmt->close();
 
+    // Verificar si el correo ya existe, evitar duplicaciones en creacion de usuario y al modificar
+    $check_sql2 = "SELECT Correo FROM usuarios WHERE Correo = ?";
+    $check_correo = $conexion->prepare($check_sql2);
+    if ($check_correo === false) {
+        throw new Exception("Error en la preparación de la consulta: " . $conexion->error);
+    }
+    $check_correo->bind_param("s", $correo);
+    if (!$check_correo->execute()) {
+        throw new Exception("Error al ejecutar la consulta: " . $check_correo->error);
+    }
+    $check_result2 = $check_correo->get_result();
+
+    if ($check_result2->num_rows > 0) {
+        echo json_encode(["success" => false, "message" => "El correo registrado ya existe"]);
+        exit();
+    }
+    $check_correo->close();
+
     // Insertar el usuario en la tabla Usuarios
     $sql = "INSERT INTO usuarios (Codigo, Nombre, Apellido, Correo, Pass, Genero, Rol_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);

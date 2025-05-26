@@ -97,9 +97,12 @@ function manejarClicNotificacion(event) {
     );
     actualizarBadgeNotificaciones();
 
-    // Si es una notificación de plantilla, podrías redirigir al usuario a la página de plantillas
+    // Condicionales para el redireccionamiento de las notificaciones
     if (notificacion.dataset.tipo === "plantilla") {
-      window.location.href = "./plantilla.php";
+      window.location.href = "./data-departamentos.php";
+    }
+    if (notificacion.dataset.tipo === "justificacion") {
+      window.location.href = "./admin-reportes.php";
     }
   }
 }
