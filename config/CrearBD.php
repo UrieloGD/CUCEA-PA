@@ -164,7 +164,7 @@ $insert_departamentos = "INSERT INTO departamentos (Nombre_Departamento, Departa
     ('Impuestos', 'Impuestos'),
     ('Sistemas_de_Información', 'Sistemas de Información'),
     ('Turismo', 'Turismo'),
-    ('Contabilidad', 'Contabilidad')
+    ('Contabilidad', 'Contabilidad'),
     ('Pruebas', 'Pruebas')
     -- ('Secretaría_Administrativa', 'Secretaría Administrativa')
     ";
