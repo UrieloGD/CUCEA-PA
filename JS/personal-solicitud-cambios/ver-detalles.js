@@ -154,10 +154,28 @@ document.addEventListener('DOMContentLoaded', function() {
         // Realizar petición AJAX para obtener los datos
         fetch(`${url}?folio=${folio}`)
             .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
                 if (!response.ok) {
-                    throw new Error('Error al cargar los datos: ' + response.status);
+                    throw new Error('Error HTTP: ' + response.status);
                 }
-                return response.json();
+                
+                // Obtener el texto primero para debugging
+                return response.text();
+            })
+            .then(text => {
+                console.log('Raw response:', text);
+                
+                // Intentar parsear como JSON
+                try {
+                    const data = JSON.parse(text);
+                    return data;
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                    console.error('Response text:', text);
+                    throw new Error('La respuesta no es JSON válido: ' + text.substring(0, 100));
+                }
             })
             .then(data => {
                 // Ocultar indicador de carga
@@ -182,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Error completo:', error);
                 ocultarCargando();
                 alert('Hubo un error al cargar los datos: ' + error.message);
             });
@@ -369,8 +387,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
             
-            // Función auxiliar para establecer el valor de forma segura
-            const setValueSafe = (selector, value) => {
+             // Función auxiliar para establecer el valor de forma segura
+             const setValueSafe = (selector, value) => {
                 const elem = modal.querySelector(selector);
                 console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
                 if (elem) {
@@ -387,7 +405,8 @@ document.addEventListener('DOMContentLoaded', function() {
             setValueSafe('#profesion', data.profesion);
             setValueSafe('#fecha_efectos', formatearFechaParaHTML(data.fecha_efectos || data.efecto));
             setValueSafe('#fecha', formatearFechaParaDD_MM_AAAA(data.fecha));
-            setValueSafe('#fecha_sql', formatearFechaParaSQL(data.fecha));            setValueSafe('#apellido_paterno', data.profesor_actual.paterno);
+            setValueSafe('#fecha_sql', formatearFechaParaSQL(data.fecha));
+            setValueSafe('#apellido_paterno', data.profesor_actual.paterno);
             setValueSafe('#apellido_materno', data.profesor_actual.materno);
             setValueSafe('#nombres', data.profesor_actual.nombres);
             setValueSafe('#codigo_prof', data.profesor_actual.codigo);
@@ -423,6 +442,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
             }
+            
+            // NUEVO: Configurar archivo adjunto para visualización
+            configurarArchivoAdjuntoVisualizacion(modal, data);
             
             break;
             
@@ -545,7 +567,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (profesionPropuesto) {
                 seleccionarOpcionProfesion(profesionPropuesto, data.profesor_propuesto.profession);
             }
-            
+            // Configurar archivo adjunto para visualización
+            configurarArchivoAdjuntoVisualizacion(modal, data);
         break;
                 
         case 'baja-propuesta':
@@ -640,7 +663,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('=== DEBUG BAJA-PROPUESTA ===');
             console.log('Datos completos:', data);
-            
+            // Configurar archivo adjunto para visualización
+            configurarArchivoAdjuntoVisualizacion(modal, data);
             break;
     }
         
@@ -711,6 +735,133 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
+    }
+
+    // Función para generar HTML del archivo adjunto clickeable
+    function generarHTMLArchivoAdjunto(nombreArchivo, rutaArchivo) {
+        if (!nombreArchivo || !rutaArchivo) {
+            return `
+                <div class="archivo-no-disponible">
+                    <i class="fa fa-exclamation-circle"></i>
+                    <span>No se adjuntó ningún archivo a esta solicitud</span>
+                </div>
+            `;
+        }
+        
+        // Determinar el tipo de archivo y su icono
+        const extension = nombreArchivo.split('.').pop().toLowerCase();
+        let icono = 'fa-file';
+        let tipoArchivo = 'Archivo';
+        
+        switch (extension) {
+            case 'pdf':
+                icono = 'fa-file-pdf-o';
+                tipoArchivo = 'PDF';
+                break;
+            case 'jpg':
+            case 'jpeg':
+            case 'png':
+            case 'gif':
+                icono = 'fa-file-image-o';
+                tipoArchivo = 'Imagen';
+                break;
+            default:
+                icono = 'fa-file';
+                tipoArchivo = 'Archivo';
+        }
+        
+        // Generar un ID único para este archivo
+        const uniqueId = 'archivo-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        
+        // Usar un ID único en lugar de onclick inline
+        const html = `
+            <div class="archivo-adjunto-preview" id="${uniqueId}" title="Clic para abrir/descargar" style="cursor: pointer;">
+                <div class="archivo-icono">
+                    <i class="fa ${icono}"></i>
+                </div>
+                <div class="archivo-info">
+                    <div class="archivo-nombre">${nombreArchivo}</div>
+                    <div class="archivo-tipo">${tipoArchivo}</div>
+                </div>
+                <div class="archivo-accion">
+                    <i class="fa fa-external-link"></i>
+                </div>
+            </div>
+        `;
+        
+        // Usar setTimeout para agregar el event listener después de que el HTML se inserte
+        setTimeout(() => {
+            const elemento = document.getElementById(uniqueId);
+            if (elemento) {
+                elemento.addEventListener('click', function() {
+                    abrirArchivoAdjunto(rutaArchivo, nombreArchivo);
+                });
+            }
+        }, 100);
+        
+        return html;
+    }
+
+    // Función para abrir/descargar archivo adjunto
+    function abrirArchivoAdjunto(rutaArchivo, nombreArchivo) {
+        try {
+            // Crear un enlace temporal para descargar el archivo
+            const enlace = document.createElement('a');
+            enlace.href = rutaArchivo;
+            enlace.target = '_blank'; // Abrir en nueva pestaña
+            enlace.download = nombreArchivo; // Sugerir nombre de descarga
+            
+            // Agregar al DOM temporalmente y hacer clic
+            document.body.appendChild(enlace);
+            enlace.click();
+            document.body.removeChild(enlace);
+            
+            console.log('Abriendo archivo:', nombreArchivo, 'desde:', rutaArchivo);
+        } catch (error) {
+            console.error('Error al abrir archivo:', error);
+            alert('Error al abrir el archivo. Por favor, inténtelo nuevamente.');
+        }
+    }
+
+    // Modifica la función configurarArchivoAdjuntoVisualizacion en tu JavaScript
+    function configurarArchivoAdjuntoVisualizacion(modal, data) {
+        const nuevoArchivoSection = modal.querySelector('#nuevo-archivo-section');
+        const existingArchivoSection = modal.querySelector('#existing-archivo-section');
+        
+        if (!nuevoArchivoSection || !existingArchivoSection) {
+            console.warn('Secciones de archivo no encontradas en el modal');
+            return;
+        }
+        
+        // Ocultar la sección de subida de archivos
+        nuevoArchivoSection.style.display = 'none';
+        
+        // Mostrar la sección de archivos existentes
+        existingArchivoSection.style.display = 'block';
+        
+        console.log('=== DEBUG ARCHIVO ADJUNTO ===');
+        console.log('tiene_archivo:', data.tiene_archivo);
+        console.log('archivo_nombre:', data.archivo_nombre);
+        console.log('archivo_ruta:', data.archivo_ruta);
+        
+        // Generar contenido del archivo adjunto
+        const archivoContenido = modal.querySelector('#archivo-adjunto-contenido');
+        if (archivoContenido) {
+            // Usar los campos correctos que vienen del PHP
+            const nombreArchivo = data.archivo_nombre;
+            const rutaArchivo = data.archivo_ruta;
+            const tieneArchivo = data.tiene_archivo;
+            
+            console.log('Procesando archivo:', { nombreArchivo, rutaArchivo, tieneArchivo });
+            
+            if (tieneArchivo && nombreArchivo && rutaArchivo) {
+                archivoContenido.innerHTML = generarHTMLArchivoAdjunto(nombreArchivo, rutaArchivo);
+            } else {
+                archivoContenido.innerHTML = generarHTMLArchivoAdjunto(null, null);
+            }
+        }
+        
+        console.log('=== FIN DEBUG ARCHIVO ADJUNTO ===');
     }
     
     // Función auxiliar para seleccionar una opción de motivo

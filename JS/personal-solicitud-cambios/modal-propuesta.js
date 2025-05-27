@@ -317,7 +317,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }).then(result => {
                 if (result.isConfirmed) {
                     formData = new FormData();
-                    modalBaja.style.display = 'none';
                 }
             });
         });
