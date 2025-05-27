@@ -2027,3 +2027,22 @@ table.dataTable thead .sorting_desc {
   color: black !important;
 }
 
+.tabulator-row.tabulator-selected .tabulator-cell .tabulator-editable {
+  background-color: transparent !important;
+}
+
+/* Elimina el fondo de las filas seleccionadas */
+.tabulator-row.tabulator-selected {
+  background-color: transparent !important;
+}
+
+/* Elimina el efecto hover (opcional) */
+.tabulator-row.tabulator-selectable:hover {
+  background-color: inherit !important;
+}
+
+/* Elimina el color en celdas individuales */
+.tabulator-row.tabulator-selected .tabulator-cell {
+  background-color: transparent !important;
+}
+

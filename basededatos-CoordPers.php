@@ -163,6 +163,14 @@ function softDeleteRegistros($conexion, $ids)
         </div>
         <div class="encabezado-derecha">
             <div class="iconos-container">
+                <!-- Deshacer (Ctrl + Z) -->
+                <div class="icono-buscador" id="history-undo" data-tooltip="Deshacer (Ctrl+Z)">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
+                <!-- Rehacer (Ctrl + Y o Ctrl + Shift + Z) -->
+                <div class="icono-buscador" id="history-redo" data-tooltip="Rehacer (Ctrl+Y)">
+                    <i class="fa fa-redo" aria-hidden="true"></i>
+                </div>
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                     <i class="fa fa-save" aria-hidden="true"></i>
                 </div>

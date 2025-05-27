@@ -13,18 +13,198 @@ document.addEventListener('DOMContentLoaded', function() {
   // Variable para almacenar el término de búsqueda global
   let searchTerm = "";
 
+  // Función para actualizar el checkbox maestro
+  function updateHeaderCheckbox() {
+    const headerCheckbox = document.getElementById('header-checkbox');
+    if (!headerCheckbox) return;
+    
+    const selectedRows = table.getSelectedRows();
+    const totalRows = table.getRows().length;
+    
+    if (selectedRows.length === 0) {
+      headerCheckbox.checked = false;
+      headerCheckbox.indeterminate = false;
+    } else if (selectedRows.length === totalRows) {
+      headerCheckbox.checked = true;
+      headerCheckbox.indeterminate = false;
+    } else {
+      headerCheckbox.checked = false;
+      headerCheckbox.indeterminate = true;
+    }
+  }
+
+  // === DEFINICIÓN DE MENÚS CONTEXTUALES ===
+  // Menú contextual para filas (click derecho)
+  var rowMenu = [
+    {
+      label: "<i class='fas fa-user-edit'></i> Editar Nombre",
+      action: function(e, row) {
+        // Ejemplo: editar el campo "Nombres"
+        row.getCell("Nombres").edit();
+      }
+    },
+    {
+      label: "<i class='fas fa-check-square'></i> Seleccionar Fila",
+      action: function(e, row) {
+        row.select();
+      }
+    },
+    {
+      separator: true
+    },
+    {
+      label: "Acciones Administrativas",
+      menu: [
+        {
+          label: "<i class='fas fa-trash-alt'></i> Eliminar Fila",
+          action: function(e, row) {
+            eliminarFilaIndividual(row);
+          },
+          disabled: !isEditable // Deshabilitar si no tiene permisos
+        },
+        {
+          label: "<i class='fas fa-copy'></i> Copiar Datos",
+          action: function(e, row) {
+            const data = row.getData();
+            navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+            Swal.fire({
+              title: "Copiado",
+              text: "Datos de la fila copiados al portapapeles",
+              icon: "success",
+              timer: 1500,
+              showConfirmButton: false
+            });
+          }
+        }
+      ]
+    }
+  ];
+
+  // Menú para cabeceras de columna (toggle de visibilidad)
+  var headerMenu = function() {
+  var menu = [];
+  var columns = this.getColumns();
+
+  for(let column of columns){
+    const fieldName = column.getField();
+    if(fieldName === "checkbox" || fieldName === "ID") continue; // Prohibido ocultar checkbox e ID
+
+    // Crear icono usando Font Awesome
+    let icon = document.createElement("i");
+    icon.classList.add("fas");
+    icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+    // Construir etiqueta
+    let label = document.createElement("span");
+    let title = document.createElement("span");
+
+    title.textContent = " " + column.getDefinition().title;
+
+    label.appendChild(icon);
+    label.appendChild(title);
+
+    // Crear elemento de menú
+    menu.push({
+      label: label,
+      action: function(e) {
+        e.stopPropagation(); // Prevenir cierre del menú
+        column.toggle(); // Alternar visibilidad
+
+        // Actualizar icono
+        if(column.isVisible()) {
+          icon.classList.remove("fa-square");
+          icon.classList.add("fa-check-square");
+        } else {
+          icon.classList.remove("fa-check-square");
+          icon.classList.add("fa-square");
+        }
+      }
+    });
+  }
+
+  return menu;
+};
+
+  // Función para eliminar fila individual
+  function eliminarFilaIndividual(row) {
+    Swal.fire({
+      title: "¿Eliminar registro?",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const id = row.getData().ID;
+        fetch("./functions/coord-personal-plantilla/eliminar-registros-coord.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: "ids=" + id
+        })
+        .then(response => response.text())
+        .then(() => {
+          row.delete();
+          Swal.fire("Eliminado", "El registro ha sido eliminado", "success");
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          Swal.fire("Error", "No se pudo eliminar el registro", "error");
+        });
+      }
+    });
+  }
+
   // === DEFINICIÓN DE COLUMNAS ===
   const columns = [
     {
       title: "",
       field: "checkbox",
-      formatter: "rowSelection",
-      titleFormatter: "rowSelection",
+      formatter: function(cell) {
+        // Checkbox personalizado que refleja el estado real
+        const row = cell.getRow();
+        return `<input type="checkbox" ${row.isSelected() ? "checked" : ""}>`;
+      },
+      titleFormatter: function() {
+        // Checkbox maestro personalizado
+        return '<input type="checkbox" id="header-checkbox">';
+      },
       hozAlign: "center",
       headerSort: false,
       width: 50,
       frozen: true,
-      editor: true,
+      cellClick: function(e, cell) {
+        // Activa/desactiva solo con click en el checkbox
+        if (e.target.tagName === "INPUT") {
+          const row = cell.getRow();
+          
+          // Sincronizar checkbox con selección de Tabulator
+          if (e.target.checked) {
+            row.select();
+          } else {
+            row.deselect();
+          }
+          
+          // Actualizar checkbox maestro
+          updateHeaderCheckbox();
+          e.stopPropagation();
+        }
+      },
+      headerClick: function(e, column) {
+        // Maneja checkbox maestro
+        if (e.target.tagName === "INPUT") {
+          const checkbox = e.target;
+          if (checkbox.checked) {
+            table.selectRow(); // Selecciona todas las filas
+          } else {
+            table.deselectRow(); // Deselecciona todas las filas
+          }
+          // Los checkboxes individuales se actualizarán automáticamente
+          // gracias al evento rowSelectionChanged
+        }
+      },
     },
     {
       title: "ID", 
@@ -33,71 +213,71 @@ document.addEventListener('DOMContentLoaded', function() {
       variableHeight: true, 
       frozen: true,
     },
-    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true},
-    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true}
+    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
+    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu}
   ];
   
   // Función para generar URL AJAX con parámetros
@@ -244,6 +424,8 @@ document.addEventListener('DOMContentLoaded', function() {
     autoColumns: false,
     responsiveLayout: false,
     
+    history: true,
+
     // Configuración de paginación
     pagination: true,
     paginationMode: "remote",
@@ -266,12 +448,17 @@ document.addEventListener('DOMContentLoaded', function() {
     height: "620px",
     placeholder: "No hay datos disponibles",
     
-    // Configuración de selección y portapapeles (Ctrl+C, Ctrl+V)
+    // ====== CONFIGURACIÓN DE SELECCIÓN MEJORADA ======
+    // Habilitar selección de filas (para checkboxes)
     selectable: true,
-    selectableRange: true,
-    selectableRangeColumns: true,
-    selectableRangeRows: true,
-    selectableRangeClearCells: true,
+    
+    // Configuración del portapapeles y selección de celdas
+    selectableRange: true, // ¡Importante! Habilitar selección de rangos
+    selectableRangeColumns: true, // Permitir selección por columnas
+    selectableRangeRows: true, // Permitir selección por filas
+    selectableRangeClearCells: true, // Permitir limpiar celdas
+    
+    // Configuración del portapapeles (Ctrl+C, Ctrl+V)
     clipboard: true,
     clipboardCopyStyled: false,
     clipboardCopyConfig: {
@@ -281,6 +468,8 @@ document.addEventListener('DOMContentLoaded', function() {
     clipboardCopyRowRange: "range",
     clipboardPasteParser: "range",
     clipboardPasteAction: "range",
+    
+    // Configuración de edición
     editTriggerEvent: "dblclick",
     
     // Configuración de scroll y columnas
@@ -314,6 +503,53 @@ document.addEventListener('DOMContentLoaded', function() {
     theme: "bulma",
     virtualDom: true,
     renderVertical: "virtual",
+    
+    // ====== EVENTOS MEJORADOS ======
+    rowSelectionChanged: function(data, rows) {
+      console.log("Filas seleccionadas:", rows.length);
+      
+      // Actualizar checkboxes individuales
+      table.getRows().forEach(row => {
+        const checkbox = row.getElement().querySelector('input[type="checkbox"]');
+        if (checkbox) {
+          checkbox.checked = row.isSelected();
+        }
+      });
+      
+      // Actualizar checkbox maestro
+      updateHeaderCheckbox();
+    },
+    
+    // Controlar el comportamiento del click en filas
+    rowClick: function(e, row) {
+      // Solo permitir selección si se hace click en el checkbox
+      // Para el resto de la fila, permitir selección de celdas
+      const isCheckboxColumn = e.target.closest('[tabulator-field="checkbox"]');
+      
+      if (isCheckboxColumn) {
+        // Si es la columna checkbox, no hacer nada aquí
+        // (se maneja en cellClick)
+        return false;
+      }
+      
+      // Para otras columnas, permitir comportamiento normal
+      // (selección de celdas, edición, etc.)
+      return true;
+    },
+    
+    // Evento para manejar selección de celdas
+    cellClick: function(e, cell) {
+      const column = cell.getColumn();
+      
+      // Si es la columna checkbox, manejar selección de fila
+      if (column.getField() === "checkbox") {
+        // Ya se maneja en la definición de la columna
+        return;
+      }
+      
+      // Para otras columnas, permitir selección normal de celdas
+      // No interferir con la funcionalidad de clipboard/range selection
+    },
     
     dataLoaded: function(data) {
       console.log('Datos cargados correctamente:', data);
@@ -369,9 +605,181 @@ document.addEventListener('DOMContentLoaded', function() {
 
   console.log('Tabulator inicializado:', table);
 
+  setupUndoRedoEvents(table);
+
   // === VARIABLES GLOBALES ===
   window.tabulatorTable = table;
   window.table = table;
   
   return table;
 });
+
+// Función para configurar los eventos de Undo/Redo
+function setupUndoRedoEvents(table) {
+  // Ocultar los botones de undo/redo
+  const undoButton = document.getElementById("history-undo");
+  const redoButton = document.getElementById("history-redo");
+  if (undoButton) undoButton.style.display = "none";
+  if (redoButton) redoButton.style.display = "none";
+
+  // Enfocar tabla después de editar y en eventos clave
+  function focusTable() {
+    setTimeout(() => {
+      const tableElement = table.getElement();
+      if (document.activeElement !== tableElement) {
+        tableElement.focus({ preventScroll: true });
+      }
+    }, 10);
+  }
+
+  // Eventos de edición y clicks
+  table.on("cellEdited", focusTable);
+  table.on("rowClick", focusTable);
+  table.on("cellClick", focusTable);
+
+  // Manejador de teclado robusto
+  document.addEventListener("keydown", function(e) {
+    if (e.ctrlKey && !e.altKey && !e.metaKey) {
+      const key = e.key?.toLowerCase(); // Manejo seguro para navegadores antiguos
+      
+      // Undo: Ctrl + Z (sin Shift)
+      if (key === "z" && !e.shiftKey) {
+        e.preventDefault();
+        console.log("Undo accionado");
+        table.undo();
+        return;
+      }
+      
+      // Redo: Ctrl + Shift + Z o Ctrl + Y
+      if ((key === "y") || (key === "z" && e.shiftKey)) {
+        e.preventDefault();
+        console.log("Redo accionado");
+        table.redo();
+        return;
+      }
+    }
+  });
+
+  // Feedback de historial en consola
+  table.on("historyUndo", () => console.log("Undo realizado - Historial:", table.getHistoryUndoSize()));
+  table.on("historyRedo", () => console.log("Redo realizado - Historial:", table.getHistoryRedoSize()));
+}
+
+// === FUNCIÓN DE ELIMINACIÓN DE REGISTROS MEJORADA ===
+function eliminarRegistrosSeleccionados() {
+  // Obtener referencia a la tabla Tabulator
+  const table = window.tabulatorTable;
+  
+  if (!table) {
+    console.error('No se encontró la referencia a la tabla Tabulator');
+    Swal.fire({
+      title: "Error",
+      text: "No se pudo acceder a la tabla. Recarga la página e intenta de nuevo.",
+      icon: "error",
+    });
+    return;
+  }
+  
+  // Obtener las filas seleccionadas usando la API de Tabulator
+  const selectedRows = table.getSelectedRows();
+  const ids = selectedRows.map(row => row.getData().ID);
+  
+  console.log("Filas seleccionadas:", selectedRows.length);
+  console.log("IDs a eliminar:", ids);
+  
+  if (ids.length === 0) {
+    Swal.fire({
+      title: "Advertencia",
+      text: "No hay registros seleccionados. Seleccione al menos un registro para eliminar.",
+      icon: "warning",
+    });
+    return;
+  }
+
+  // Mensaje dinámico basado en la cantidad
+  const mensaje = ids.length === 1 
+    ? "Se eliminará 1 registro" 
+    : `Se eliminarán ${ids.length} registros`;
+
+  Swal.fire({
+    title: "¿Desea continuar?",
+    text: mensaje,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Mostrar loading mientras se procesa
+      Swal.fire({
+        title: 'Eliminando registros...',
+        html: 'Por favor espere',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      var xhr = new XMLHttpRequest();
+      xhr.open(
+        "POST",
+        "./functions/coord-personal-plantilla/eliminar-registros-coord.php",
+        true
+      );
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            try {
+              // Intentar parsear respuesta JSON si es aplicable
+              const response = xhr.responseText;
+              console.log('Respuesta del servidor:', response);
+              
+              const mensajeExito = ids.length === 1 
+                ? "1 registro eliminado correctamente." 
+                : `${ids.length} registros eliminados correctamente.`;
+
+              Swal.fire({
+                title: "¡Éxito!",
+                text: mensajeExito,
+                icon: "success",
+              }).then(() => {
+                // Limpiar selecciones
+                table.deselectRow();
+                
+                // Recargar los datos en la tabla sin recargar toda la página
+                table.setPage(1).then(() => table.replaceData());
+              });
+            } catch (error) {
+              console.error('Error al procesar respuesta:', error);
+              Swal.fire({
+                title: "Error",
+                text: "Hubo un problema al procesar la respuesta del servidor.",
+                icon: "error",
+              });
+            }
+          } else {
+            console.error('Error HTTP:', xhr.status, xhr.statusText);
+            Swal.fire({
+              title: "Error",
+              text: `Error del servidor: ${xhr.status} - ${xhr.statusText}`,
+              icon: "error",
+            });
+          }
+        }
+      };
+
+      xhr.onerror = function() {
+        console.error('Error de red al eliminar registros');
+        Swal.fire({
+          title: "Error de conexión",
+          text: "No se pudo conectar con el servidor. Verifica tu conexión a internet.",
+          icon: "error",
+        });
+      };
+
+      xhr.send("ids=" + encodeURIComponent(ids.join(",")));
+    }
+  });
+}
