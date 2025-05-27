@@ -97,6 +97,12 @@ var headerMenu = function () {
   var columns = this.getColumns();
 
   for (let column of columns) {
+    // NUEVO: Excluir las columnas checkbox e ID_Plantilla del menú
+    const field = column.getField();
+    if (field === "checkbox" || field === "ID_Plantilla") {
+      continue; // Saltar estas columnas
+    }
+
     //create checkbox element using font awesome icons
     let icon = document.createElement("i");
     icon.classList.add("fas");
@@ -129,12 +135,63 @@ var headerMenu = function () {
           icon.classList.remove("fa-check-square");
           icon.classList.add("fa-square");
         }
+
+        // NUEVO: Guardar el estado de visibilidad en el almacenamiento local
+        saveColumnVisibility();
       },
     });
   }
 
   return menu;
 };
+
+// NUEVA FUNCIÓN: Guardar la visibilidad de las columnas
+function saveColumnVisibility() {
+  if (window.table) {
+    const columnVisibility = {};
+    const columns = window.table.getColumns();
+
+    columns.forEach((column) => {
+      const field = column.getField();
+      if (field && field !== "checkbox") {
+        // Excluir la columna de checkbox
+        columnVisibility[field] = column.isVisible();
+      }
+    });
+
+    localStorage.setItem(
+      "tabulator_column_visibility",
+      JSON.stringify(columnVisibility)
+    );
+    console.log("Visibilidad de columnas guardada:", columnVisibility);
+  }
+}
+
+// NUEVA FUNCIÓN: Restaurar la visibilidad de las columnas
+function restoreColumnVisibility(table) {
+  try {
+    const savedVisibility = localStorage.getItem("tabulator_column_visibility");
+    if (savedVisibility) {
+      const columnVisibility = JSON.parse(savedVisibility);
+
+      // Aplicar la visibilidad guardada a cada columna
+      Object.entries(columnVisibility).forEach(([field, isVisible]) => {
+        const column = table.getColumn(field);
+        if (column) {
+          if (isVisible && !column.isVisible()) {
+            column.show();
+          } else if (!isVisible && column.isVisible()) {
+            column.hide();
+          }
+        }
+      });
+
+      console.log("Visibilidad de columnas restaurada:", columnVisibility);
+    }
+  } catch (error) {
+    console.error("Error al restaurar la visibilidad de columnas:", error);
+  }
+}
 
 // Definir las columnas de tabulator
 const columns = [
@@ -582,6 +639,123 @@ function initializeTabulator(data) {
   window.table = table;
 
   return table;
+}
+
+function initializeTabulator(data) {
+  // Initialize Tabulator with the dataset from PHP
+  var table = new Tabulator("#tabla-datos", {
+    data: data,
+
+    // Añadir persistencia
+    persistence: {
+      sort: true,
+      filter: true,
+      columns: true,
+    },
+    persistenceID: "examplePerststance",
+
+    rowContextMenu: rowMenu,
+
+    // Habilitar el historial de cambios
+    history: true,
+
+    // Habilitar la seección por rango
+    selectableRange: 1,
+    selectableRangeColumns: true,
+    selectableRangeRows: true,
+    selectableRangeClearCells: true,
+
+    // Hacer que la selección se haga con doble click
+    editTriggerEvent: "dblclick",
+
+    // Configuraciones para habilitar copy-paste
+    clipboard: true,
+    clipboardCopyStyled: false,
+    clipboardCopyConfig: {
+      rowHeaders: false,
+      columnHeaders: false,
+    },
+    clipboardCopyRowRange: "range",
+    clipboardPasteParser: "range",
+    clipboardPasteAction: "range",
+
+    // Configurar celdas para que funcionen como spreadsheets
+    columnDefaults: {
+      headerSort: false,
+      headerHozAlign: "left",
+      editor: "input",
+      resizable: "header",
+      width: 100,
+    },
+    columns: columns,
+    layout: "fitDataFill",
+    pagination: "local",
+    paginationSize: 25,
+    paginationSizeSelector: [15, 25, 50, 100],
+    movableColumns: true,
+    resizableColumns: true,
+    selectable: true,
+    selectableRangeMode: "click",
+    height: "700px",
+    placeholder: "No hay datos disponibles",
+    printAsHtml: true,
+    printStyled: true,
+    headerFilterLiveFilterDelay: 300,
+
+    // Importante: hacer la tabla editable
+    cellEditable: function (cell) {
+      // Verificar permisos de edición
+      const userRole = document.getElementById("user-role")?.value;
+      const puedeEditar = window.puedeEditar !== false;
+
+      // Solo permitir edición a roles autorizados y si puedeEditar es true
+      return (
+        puedeEditar &&
+        (userRole === "0" || userRole === "1" || userRole === "4")
+      );
+    },
+  });
+
+  // NUEVO: Restaurar la visibilidad de columnas después de que la tabla esté completamente construida
+  table.on("tableBuilt", function () {
+    // Esperar un poco para asegurar que la tabla esté completamente renderizada
+    setTimeout(() => {
+      restoreColumnVisibility(table);
+    }, 100);
+  });
+
+  // NUEVO: Guardar cambios de visibilidad cuando se use el toggle nativo de Tabulator
+  table.on("columnVisibilityChanged", function (column, visible) {
+    setTimeout(saveColumnVisibility, 50); // Pequeño delay para asegurar que el cambio se haya aplicado
+  });
+
+  // Hacer la tabla accesible globalmente
+  window.table = table;
+
+  return table;
+}
+
+// NUEVA FUNCIÓN: Limpiar la persistencia de columnas (útil para debugging o reset)
+function clearColumnVisibilityStorage() {
+  localStorage.removeItem("tabulator_column_visibility");
+  console.log("Persistencia de visibilidad de columnas limpiada");
+}
+
+// NUEVA FUNCIÓN: Obtener el estado actual de visibilidad (útil para debugging)
+function getCurrentColumnVisibility() {
+  if (window.table) {
+    const columns = window.table.getColumns();
+    const visibility = {};
+    columns.forEach((column) => {
+      const field = column.getField();
+      if (field && field !== "checkbox") {
+        visibility[field] = column.isVisible();
+      }
+    });
+    console.log("Estado actual de visibilidad:", visibility);
+    return visibility;
+  }
+  return null;
 }
 
 // Función para configurar los eventos de Undo/Redo
