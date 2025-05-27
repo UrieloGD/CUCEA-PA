@@ -57,6 +57,85 @@ var dateEditor = function (cell, onRendered, success, cancel) {
   return input;
 };
 
+//define row context menu contents
+var rowMenu = [
+  {
+    label: "<i class='fas fa-user'></i> Change Name",
+    action: function (e, row) {
+      row.update({ name: "Steve Bobberson" });
+    },
+  },
+  {
+    label: "<i class='fas fa-check-square'></i> Select Row",
+    action: function (e, row) {
+      row.select();
+    },
+  },
+  {
+    separator: true,
+  },
+  {
+    label: "Admin Functions",
+    menu: [
+      {
+        label: "<i class='fas fa-trash'></i> Delete Row",
+        action: function (e, row) {
+          row.delete();
+        },
+      },
+      {
+        label: "<i class='fas fa-ban'></i> Disabled Option",
+        disabled: true,
+      },
+    ],
+  },
+];
+
+//define column header menu as column visibility toggle
+var headerMenu = function () {
+  var menu = [];
+  var columns = this.getColumns();
+
+  for (let column of columns) {
+    //create checkbox element using font awesome icons
+    let icon = document.createElement("i");
+    icon.classList.add("fas");
+    icon.classList.add(column.isVisible() ? "fa-check-square" : "fa-square");
+
+    //build label
+    let label = document.createElement("span");
+    let title = document.createElement("span");
+
+    title.textContent = " " + column.getDefinition().title;
+
+    label.appendChild(icon);
+    label.appendChild(title);
+
+    //create menu item
+    menu.push({
+      label: label,
+      action: function (e) {
+        //prevent menu closing
+        e.stopPropagation();
+
+        //toggle current column visibility
+        column.toggle();
+
+        //change menu item icon
+        if (column.isVisible()) {
+          icon.classList.remove("fa-square");
+          icon.classList.add("fa-check-square");
+        } else {
+          icon.classList.remove("fa-check-square");
+          icon.classList.add("fa-square");
+        }
+      },
+    });
+  }
+
+  return menu;
+};
+
 // Definir las columnas de tabulator
 const columns = [
   {
@@ -74,6 +153,7 @@ const columns = [
   {
     title: "ID",
     field: "ID_Plantilla",
+    // headerMenu: headerMenu,
     sorter: "number",
     //headerFilter: true,
     width: 80,
@@ -82,6 +162,7 @@ const columns = [
   {
     title: "CICLO",
     field: "CICLO",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -89,6 +170,7 @@ const columns = [
   {
     title: "CRN",
     field: "CRN",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -96,6 +178,7 @@ const columns = [
   {
     title: "MATERIA",
     field: "MATERIA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true,
     width: 250,
@@ -104,6 +187,7 @@ const columns = [
   {
     title: "CVE MATERIA",
     field: "CVE_MATERIA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -111,6 +195,7 @@ const columns = [
   {
     title: "SECCIÓN",
     field: "SECCION",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -118,6 +203,7 @@ const columns = [
   {
     title: "NIVEL",
     field: "NIVEL",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -125,6 +211,7 @@ const columns = [
   {
     title: "NIVEL TIPO",
     field: "NIVEL_TIPO",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -132,6 +219,7 @@ const columns = [
   {
     title: "TIPO",
     field: "TIPO",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -139,6 +227,7 @@ const columns = [
   {
     title: "C. MIN",
     field: "C_MIN",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -147,6 +236,7 @@ const columns = [
   {
     title: "H. TOTALES",
     field: "H_TOTALES",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -154,6 +244,7 @@ const columns = [
   {
     title: "STATUS",
     field: "ESTATUS",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -161,6 +252,7 @@ const columns = [
   {
     title: "TIPO CONTRATO",
     field: "TIPO_CONTRATO",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -168,6 +260,7 @@ const columns = [
   {
     title: "CÓDIGO",
     field: "CODIGO_PROFESOR",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -175,6 +268,7 @@ const columns = [
   {
     title: "NOMBRE PROFESOR",
     field: "NOMBRE_PROFESOR",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true,
     width: 200,
@@ -183,6 +277,7 @@ const columns = [
   {
     title: "CATEGORIA",
     field: "CATEGORIA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -190,6 +285,7 @@ const columns = [
   {
     title: "DESCARGA",
     field: "DESCARGA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -197,6 +293,7 @@ const columns = [
   {
     title: "CÓDIGO DESCARGA",
     field: "CODIGO_DESCARGA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -204,6 +301,7 @@ const columns = [
   {
     title: "NOMBRE DESCARGA",
     field: "NOMBRE_DESCARGA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -211,6 +309,7 @@ const columns = [
   {
     title: "NOMBRE DEFINITIVO",
     field: "NOMBRE_DEFINITIVO",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -218,6 +317,7 @@ const columns = [
   {
     title: "TITULAR",
     field: "TITULAR",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -225,6 +325,7 @@ const columns = [
   {
     title: "HORAS",
     field: "HORAS",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -232,6 +333,7 @@ const columns = [
   {
     title: "CÓDIGO DEPENDENCIA",
     field: "CODIGO_DEPENDENCIA",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -239,6 +341,7 @@ const columns = [
   {
     title: "L",
     field: "L",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -246,6 +349,7 @@ const columns = [
   {
     title: "M",
     field: "M",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -253,6 +357,7 @@ const columns = [
   {
     title: "I",
     field: "I",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -260,6 +365,7 @@ const columns = [
   {
     title: "J",
     field: "J",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -267,6 +373,7 @@ const columns = [
   {
     title: "V",
     field: "V",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -274,6 +381,7 @@ const columns = [
   {
     title: "S",
     field: "S",
+    headerMenu: headerMenu,
     sorter: "string",
     //headerFilter: true
     editor: "input",
@@ -281,6 +389,7 @@ const columns = [
   {
     title: "D",
     field: "D",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -288,6 +397,7 @@ const columns = [
   {
     title: "DÍA PRESENCIAL",
     field: "DIA_PRESENCIAL",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -295,6 +405,7 @@ const columns = [
   {
     title: "DÍA VIRTUAL",
     field: "DIA_VIRTUAL",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -302,6 +413,7 @@ const columns = [
   {
     title: "MODALIDAD",
     field: "MODALIDAD",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -309,6 +421,7 @@ const columns = [
   {
     title: "FECHA INICIAL",
     field: "FECHA_INICIAL",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -316,6 +429,7 @@ const columns = [
   {
     title: "FECHA FINAL",
     field: "FECHA_FINAL",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -323,6 +437,7 @@ const columns = [
   {
     title: "HORA INICIAL",
     field: "HORA_INICIAL",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -330,6 +445,7 @@ const columns = [
   {
     title: "HORA FINAL",
     field: "HORA_FINAL",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -337,6 +453,7 @@ const columns = [
   {
     title: "MÓDULO",
     field: "MODULO",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -344,6 +461,7 @@ const columns = [
   {
     title: "AULA",
     field: "AULA",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -351,6 +469,7 @@ const columns = [
   {
     title: "CUPO",
     field: "CUPO",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -358,6 +477,7 @@ const columns = [
   {
     title: "OBSERVACIONES",
     field: "OBSERVACIONES",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -365,6 +485,7 @@ const columns = [
   {
     title: "EXTRAORDINARIO",
     field: "EXAMEN_EXTRAORDINARIO",
+    headerMenu: headerMenu,
     sorter: "string",
     // headerFilter: true
     editor: "input",
@@ -377,7 +498,17 @@ function initializeTabulator(data) {
   var table = new Tabulator("#tabla-datos", {
     data: data,
 
-    // HABILITAR EL HISTORIAL - ESTO ES LO IMPORTANTE
+    // Añadir persistencia
+    persistence: {
+      sort: true,
+      filter: true,
+      columns: true,
+    },
+    persistenceID: "examplePerststance",
+
+    rowContextMenu: rowMenu,
+
+    // Habilitar el historial de cambios
     history: true,
 
     // Habilitar la seección por rango
@@ -413,7 +544,7 @@ function initializeTabulator(data) {
     // Configurar celdas para que funcionen como spreadsheets
     columnDefaults: {
       headerSort: false,
-      headerHozAlign: "center",
+      headerHozAlign: "left",
       editor: "input",
       resizable: "header",
       width: 100,
@@ -562,12 +693,12 @@ function setupGlobalSearch(table) {
       }, 300); // Esperar 300ms después de que el usuario deje de escribir
     });
 
-    // Limpiar búsqueda al hacer clic en el icono
-    searchIcon.addEventListener("click", function () {
-      searchInput.value = "";
-      table.clearFilter();
-      searchInput.focus();
-    });
+    // // Limpiar búsqueda al hacer clic en el icono de buscar
+    // searchIcon.addEventListener("click", function () {
+    //   searchInput.value = "";
+    //   table.clearFilter();
+    //   searchInput.focus();
+    // });
 
     // Limpiar búsqueda con ESC
     searchInput.addEventListener("keydown", function (e) {
@@ -579,7 +710,6 @@ function setupGlobalSearch(table) {
   }
 }
 
-// REEMPLAZAR COMPLETAMENTE la función setupTableEvents existente con esta:
 function setupTableEvents(table) {
   // Configurar la búsqueda global PRIMERO
   setupGlobalSearch(table);

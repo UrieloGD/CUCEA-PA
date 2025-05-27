@@ -151,7 +151,7 @@ mysqli_close($conexion);
                     <i class="fa fa-redo" aria-hidden="true"></i>
                 </div>
 
-                <div id="#tabla-datos"></div>
+                <!-- <div id="#tabla-datos"></div> -->
                 <!-- <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </div> -->
