@@ -124,7 +124,7 @@ mysqli_close($conexion);
         <!-- <div class="encabezado-centro">
             <h3>Data - <?php echo $departamento_nombre; ?></h3>
         </div> -->
-        <div class="encabezado-derecha">
+        <div class="encabezado-derecha" id="#tabla-datos">
             <div class="iconos-container">
                 <div class="icono-buscador" id="icono-guardar" onclick="saveAllChanges()" data-tooltip="Guardar cambios">
                     <i class="fa fa-save" aria-hidden="true"></i>
@@ -144,6 +144,14 @@ mysqli_close($conexion);
                 <div class="icono-buscador" id="icono-añadir" onclick="mostrarFormularioAñadir()" data-tooltip="Añadir nuevo registro">
                     <i class="fa fa-add" aria-hidden="true"></i>
                 </div>
+                <div class="icono-buscador" id="history-undo" data-tooltip="Deshacer (Ctrl+Z)">
+                    <i class="fa fa-undo" aria-hidden="true"></i>
+                </div>
+                <div class="icono-buscador" id="history-redo" data-tooltip="Rehacer (Ctrl+Y)">
+                    <i class="fa fa-redo" aria-hidden="true"></i>
+                </div>
+
+                <div id="#tabla-datos"></div>
                 <!-- <div class="icono-buscador" id="icono-editar" onclick="editarRegistrosSeleccionados()">
                     <i class="fa fa-pencil" aria-hidden="true"></i>
                 </div> -->

@@ -376,16 +376,20 @@ function initializeTabulator(data) {
   // Initialize Tabulator with the dataset from PHP
   var table = new Tabulator("#tabla-datos", {
     data: data,
-    //enable range selection
+
+    // HABILITAR EL HISTORIAL - ESTO ES LO IMPORTANTE
+    history: true,
+
+    // Habilitar la seección por rango
     selectableRange: 1,
     selectableRangeColumns: true,
     selectableRangeRows: true,
     selectableRangeClearCells: true,
 
-    //change edit trigger mode to make cell navigation smoother
+    // Hacer que la selección se haga con doble click
     editTriggerEvent: "dblclick",
 
-    //configure clipboard to allow copy and paste of range format data
+    // Configuraciones para habilitar copy-paste
     clipboard: true,
     clipboardCopyStyled: false,
     clipboardCopyConfig: {
@@ -406,7 +410,7 @@ function initializeTabulator(data) {
     //   editor: false,
     // },
 
-    //setup cells to work as a spreadsheet
+    // Configurar celdas para que funcionen como spreadsheets
     columnDefaults: {
       headerSort: false,
       headerHozAlign: "center",
@@ -428,6 +432,7 @@ function initializeTabulator(data) {
     printAsHtml: true,
     printStyled: true,
     headerFilterLiveFilterDelay: 300,
+
     // Importante: hacer la tabla editable
     cellEditable: function (cell) {
       // Verificar permisos de edición
@@ -446,6 +451,46 @@ function initializeTabulator(data) {
   window.table = table;
 
   return table;
+}
+
+// Función para configurar los eventos de Undo/Redo
+function setupUndoRedoEvents(table) {
+  // Ocultar los botones de undo/redo si existen
+  const undoButton = document.getElementById("history-undo");
+  const redoButton = document.getElementById("history-redo");
+
+  if (undoButton) {
+    undoButton.style.display = "none";
+  }
+  if (redoButton) {
+    redoButton.style.display = "none";
+  }
+
+  // Atajos de teclado para Undo/Redo
+  document.addEventListener("keydown", function (e) {
+    // Ctrl+Z para Undo
+    if (e.ctrlKey && e.key === "z" && !e.shiftKey) {
+      e.preventDefault();
+      table.undo();
+    }
+    // Ctrl+Y o Ctrl+Shift+Z para Redo
+    if (
+      (e.ctrlKey && e.key === "y") ||
+      (e.ctrlKey && e.shiftKey && e.key === "Z")
+    ) {
+      e.preventDefault();
+      table.redo();
+    }
+  });
+
+  // Eventos de historial para feedback en consola
+  table.on("historyUndo", function () {
+    console.log("Undo realizado");
+  });
+
+  table.on("historyRedo", function () {
+    console.log("Redo realizado");
+  });
 }
 
 // Función para configurar la búsqueda global
@@ -538,6 +583,9 @@ function setupGlobalSearch(table) {
 function setupTableEvents(table) {
   // Configurar la búsqueda global PRIMERO
   setupGlobalSearch(table);
+
+  // Configurar eventos de Undo/Redo
+  setupUndoRedoEvents(table);
 
   // Export table data to Excel function
   document
