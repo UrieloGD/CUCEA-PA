@@ -1,7 +1,7 @@
     <!-- Modal para añadir registros -->
     <div id="modal-añadir" class="modal">
         <div class="modal-content-aRegistro">
-            <span class="close-modal-anadir" onclick="cerrarFormularioAñadir()">&times;</span>
+            <span class="close-modal-anadir" onclick="cerrarFormularioAñadir()"><i class="fa fa-times" aria-hidden="true"></i></span>
             <h2>Registrar nuevo profesor</h2>
             <hr style="border: 1px solid #0071b0; width: 99%;">
             <form id="form-añadir-registro">

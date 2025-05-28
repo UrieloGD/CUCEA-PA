@@ -27,25 +27,26 @@
 }
 
 /* Botón de cerrar */
-.close-button-propuesta {
+.close-button {
   position: absolute;
   right: 20px;
   top: 20px;
-  font-size: 24px;
+  font-size: 16px;
   cursor: pointer;
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #f0f0f0;
+  background-color: #B3D3EB;
+  color: #0071B0;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  z-index: 1000;
 }
 
 .close-button:hover {
-  background: #e0e0e0;
+  background-color: #0071b0!important;
+  color: #ffffff;
 }
 
 .form-row-propuesta {

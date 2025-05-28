@@ -3,7 +3,7 @@
 <div id="eventModal" class="modal">
     <div class="modal-content-visualizarEvento">
         <div class="modal-header">
-            <span class="close">&times;</span>
+            <span class="close"><i class="fa fa-times" aria-hidden="true"></i></span>
             <h2 id="eventTitle"></h2>
         </div>
         <div class="modal-body">
@@ -25,7 +25,7 @@
 <div id="eventsModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
-            <span class="close">&times;</span>
+            <span class="close"><i class="fa fa-times" aria-hidden="true"></i></span>
             <h2 class="modal-title"></h2>
         </div>
         <div class="modal-body"></div>

@@ -326,7 +326,7 @@ mb_internal_encoding('UTF-8');
                 </table>
             </div>
         </div>
-        <span class="close" onclick="cerrarModalDetalle()">&times;</span>
+        <span class="close" onclick="cerrarModalDetalle()"><i class="fa fa-times" aria-hidden="true"></i></span>
     </div>
 
     <!-- Sección de Búsqueda -->

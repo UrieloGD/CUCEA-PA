@@ -1,6 +1,8 @@
 <div id="solicitud-modal-propuesta-academica" class="modal-propuesta">
     <div class="modal-content-propuesta">
-        <button class="close-button">&times;</button>
+        <button class="close-button">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
         <form id="form-propuesta" method="POST" action="procesar_propuesta.php">
             <h2>Propuesta de Profesor</h2>
             

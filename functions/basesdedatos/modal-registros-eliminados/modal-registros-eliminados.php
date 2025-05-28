@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalRegistrosEliminadosTitle">Registros eliminados</h5>
-                    <button class="closeButton" type="button" onclick="cerrarRegistrosEliminados()">&times;</button>
+                    <button class="closeButton" type="button" onclick="cerrarRegistrosEliminados()"><i class="fa fa-times" aria-hidden="true"></i></button>
                 </div>
                 <div class="modal-body">
                     <table id="tabla-eliminados" class="display" style="width:100%">

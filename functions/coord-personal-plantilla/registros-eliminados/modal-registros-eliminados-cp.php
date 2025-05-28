@@ -5,7 +5,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalRegistrosEliminadosTitle">Registros eliminados</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
                     </button>
                 </div>
                 <div class="modal-body">

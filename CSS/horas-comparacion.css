@@ -65,8 +65,9 @@
 
 .cuadro-resumen {
   display: flex;
+  position: relative;
   flex-direction: column;
-  height: 703px;
+  height: fit-content;
   width: 25vw;
   margin-left: 2.5vw;
   margin-top: 33.3px;
@@ -81,7 +82,7 @@
 .titulo-resumen {
   display: inline-flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   width: 75%;
   height: 80px;
@@ -115,6 +116,7 @@
   width: 60%;
   height: 52%;
   padding-bottom: 20px;
+  gap: 28.5px;
 }
 
 .titulo-total-general,
@@ -183,11 +185,10 @@
   align-items: center;
   margin: 0 auto;
   width: 95%;
-  height: 220px;
+  height: fit-content;
 }
 
 .tabla-ultimas-mod {
-  display: block;
   margin: 0 auto;
   width: 100%;
   border-collapse: collapse;
@@ -999,7 +1000,6 @@ td[style*="white-space: pre-line"] {
   .cuadro-resumen {
     flex-wrap: nowrap;
     width: 85vw;
-    height: 500px;
   }
   .total-general-hrs_container {
     flex-direction: column;
@@ -1009,9 +1009,10 @@ td[style*="white-space: pre-line"] {
   }
   .ultimas-mod_container {
     flex-direction: column;
-    position: relative;
-    left: 150px;
-    bottom: 350px;
+    position: absolute;
+    right: 30px;
+    top: 85px;
+    gap: 25px;
     width: 60%;
   }
   .cuerpo-ultimas-mod td {
@@ -1035,7 +1036,6 @@ td[style*="white-space: pre-line"] {
   .cuadro-resumen {
     flex-wrap: nowrap;
     width: 85vw;
-    height: 500px;
   }
   .total-general-hrs_container {
     flex-direction: column;
@@ -1045,9 +1045,10 @@ td[style*="white-space: pre-line"] {
   }
   .ultimas-mod_container {
     flex-direction: column;
-    position: relative;
-    left: 150px;
-    bottom: 350px;
+    position: absolute;
+    right: 60px;
+    top: 85px;
+    gap: 25px;
     width: 60%;
   }
   .cuerpo-ultimas-mod td {
@@ -1072,7 +1073,6 @@ td[style*="white-space: pre-line"] {
   .cuadro-resumen {
     flex-wrap: nowrap;
     width: 83.5vw;
-    height: 500px;
   }
   .total-general-hrs_container {
     flex-direction: column;
@@ -1082,10 +1082,11 @@ td[style*="white-space: pre-line"] {
   }
   .ultimas-mod_container {
     flex-direction: column;
-    position: relative;
-    left: 150px;
-    bottom: 350px;
-    width: 55%;
+    position: absolute;
+    right: 10;
+    top: 85px;
+    gap: 25px;
+    width: 60%;
   }
   .cuerpo-ultimas-mod td {
     height: 50px;
@@ -1117,7 +1118,7 @@ td[style*="white-space: pre-line"] {
     align-items: center;
     margin: 0 auto;
     width: 95%;
-    height: 220px;
+    height: fit-content;
   }
   
   .tabla-ultimas-mod {

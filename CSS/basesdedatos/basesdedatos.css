@@ -362,10 +362,11 @@ th {
 }
 
 .modal-content-descarga {
+  position: relative;
   background-color: #fefefe;
-  margin: 3% auto;
   left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%);
   padding: 30px;
   border: 1px solid #888;
   width: 45vw;
@@ -1412,17 +1413,28 @@ div.dataTables_wrapper {
   background-color: #f9f9f9;
 }
 
-.close {
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+.close-descargarExcel {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 16px;
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: 0.2s ease-in-out;
 }
 
-.close:hover {
-  color: #0071b0;
+.close-descargarExcel:hover {
+  background-color: #0071b0!important;
+  color: #ffffff;
+  transform: rotate(180deg) scale(1.2);
 }
 
 /* Estilos para el modal */

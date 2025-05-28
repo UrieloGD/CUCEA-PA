@@ -243,18 +243,26 @@
 }
 
 /* Estilos para el botón de cerrar */
-.close {
-    position: relative;
+.close-D {
+    position: absolute;
     right: 20px;
-    font-size: 28px;
+    top: 20px;
+    font-size: 16px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #B3D3EB;
+    color: #0071B0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
 }
 
-.close-D {
-    position: relative;
-    left: 1180px;
-    font-size: 28px;
-    cursor: pointer;
+.close-D:hover {
+  background-color: #0071b0!important;
+  color: #ffffff;
 }
 
 /* Asegurarse que la tabla se mantenga visible */

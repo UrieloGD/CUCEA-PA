@@ -489,32 +489,48 @@
 }
 
 .close {
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-  right: 40px;
-  top: -15px;
+  position: absolute !important;
+  right: 60px !important;
+  top: 15px !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 50% !important;
+  background-color: #B3D3EB !important;
+  color: #0071B0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
 }
 
 .close:hover {
-  color: #333;
+  background-color: #0071b0!important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
 }
 
 .close-materias {
-    position: relative;
-    bottom: 20px;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    align-items: center;
-    text-align: center;
-    vertical-align: middle;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
 }
 
 .close-materias:hover {
-    color: #333;
+  background-color: #0071b0!important;
+  color: #ffffff;
 }
 
 .fixed-elements {
