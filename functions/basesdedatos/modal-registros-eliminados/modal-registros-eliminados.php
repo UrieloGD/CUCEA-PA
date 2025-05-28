@@ -1,3 +1,6 @@
+<?php 
+require_once './functions/error500/manejo-error.php';
+?>
 <!-- Modal para registros eliminados -->
 <div class="modal fade" id="modalRegistrosEliminados" tabindex="-1" role="dialog" aria-labelledby="modalRegistrosEliminadosTitle">
         <div class="modal-dialog modal-xl" role="document">

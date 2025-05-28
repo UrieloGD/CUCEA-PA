@@ -2,6 +2,9 @@
 require_once './functions/error500/manejo-error.php';
 session_start();
 
+try {
+    
+
 // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
 if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID'] != 0) {
     header("Location: home.php");
@@ -165,4 +168,15 @@ if ($result_fecha_limite && mysqli_num_rows($result_fecha_limite) > 0) {
     updateCircleProgress(<?php echo round($porcentaje_avance); ?>);
 </script>
 
-<?php include './template/footer.php' ?>
+<?php 
+include './template/footer.php';
+
+} catch (Exception $e) {
+  // Log del error (opcional)
+  error_log("Error en admin-home.php: " . $e->getMessage());
+  
+  // Redirigir a página de error 500
+  header("Location: ./500.php");
+  exit();
+}
+?>

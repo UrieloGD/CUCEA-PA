@@ -28,7 +28,8 @@ $section_maintenance = array(
     'horas-comparacion' => false,
     'personal-solicitud-cambios' => false,
     'guiaPA' => false,
-    'oferta-dash' => false
+    'oferta-dash' => false,
+    'profesores' => false
 );
 
 // Configuración de mensajes personalizados por sección 

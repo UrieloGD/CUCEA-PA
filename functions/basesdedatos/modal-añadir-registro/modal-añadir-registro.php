@@ -1,3 +1,6 @@
+<?php 
+require_once './functions/error500/manejo-error.php';
+?>
 <!-- jQuery (requerido para Select2) -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css">

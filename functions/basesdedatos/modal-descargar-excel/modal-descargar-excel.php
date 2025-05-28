@@ -1,3 +1,6 @@
+<?php 
+require_once './functions/error500/manejo-error.php';
+?>
 <div id="modal-descargar" class="modal">
     <div class="modal-content-descarga">
         <span class="close" onclick="cerrarDescargarExcel()">&times;</span>

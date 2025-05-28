@@ -2,6 +2,9 @@
 <?php
 require_once './functions/error500/manejo-error.php';
 session_start();
+
+try {
+
 include './config/db.php';
 include './template/header.php';
 include './template/navbar.php';
@@ -305,4 +308,13 @@ checkMaintenance($current_section);
       }
     </script>
 
-    <?php include './template/footer.php' ?>
+    <?php include './template/footer.php'; ?>
+<?php
+} catch (Exception $e) {
+  // Log del error (opcional)
+  error_log("Error en home.php: " . $e->getMessage());
+  
+  // Redirigir a página de error 500
+  header("Location: ./500.php");
+  exit();
+}?>

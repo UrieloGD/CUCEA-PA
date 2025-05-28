@@ -1,4 +1,7 @@
-    <!-- Modal para añadir registros -->
+<?php 
+require_once './functions/error500/manejo-error.php';
+?>
+<!-- Modal para añadir registros -->
     <div id="modal-añadir" class="modal">
         <div class="modal-content-aRegistro">
             <span class="close-modal-anadir" onclick="cerrarFormularioAñadir()">&times;</span>

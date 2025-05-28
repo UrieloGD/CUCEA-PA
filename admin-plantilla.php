@@ -2,7 +2,9 @@
 require_once './functions/error500/manejo-error.php';
 session_start();
 
-// Verificar si el usuario está autenticado y tiene el Rol_ID correcto
+try {
+
+    // Verificar si el usuario está autenticado y tiene el Rol_ID correcto
 if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID'] != 0) {
     header("Location: home.php");
     exit();
@@ -139,3 +141,14 @@ checkMaintenance($current_section);
 <script src="./JS/admin-plantilla/uploadPlantilla.js?v=<?php echo filemtime('./JS/admin-plantilla/uploadPlantilla.js'); ?>"></script>
 <script src="./JS/admin-plantilla/eliminarPlantilla.js?v=<?php echo filemtime('./JS/admin-plantilla/eliminarPlantilla.js'); ?>"></script>
 <script src="./JS/admin-plantilla/descargarPlantilla.js?v=<?php echo filemtime('./JS/admin-plantilla/descargarPlantilla.js'); ?>"></script>
+
+<?php  
+} catch (Exception $e) {
+  // Log del error (opcional)
+  error_log("Error en admin-plantilla.php: " . $e->getMessage());
+  
+  // Redirigir a página de error 500
+  header("Location: ./500.php");
+  exit();
+}
+?>

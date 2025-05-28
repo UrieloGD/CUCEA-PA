@@ -1,4 +1,8 @@
-<?php require_once './functions/error500/manejo-error.php'; ?>
+<?php require_once './functions/error500/manejo-error.php'; 
+
+try {
+?>
+  
 <!--header -->
 <?php include './template/header.php' ?>
 <!-- navbar -->
@@ -41,4 +45,13 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] !=0) {
 
      <!-- <script src="./JS/pestañas-plantilla.js"></script> -->
 
-     <?php include("./template/footer.php"); ?>
+     <?php include("./template/footer.php"); 
+} catch (Exception $e) {
+  // Log del error (opcional)
+  error_log("Error en guiaPA.php: " . $e->getMessage());
+  
+  // Redirigir a página de error 500
+  header("Location: ./500.php");
+  exit();
+}
+?>

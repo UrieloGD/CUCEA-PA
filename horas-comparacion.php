@@ -1,7 +1,8 @@
-    <?php
-    require_once './functions/error500/manejo-error.php';
-    session_start();
+<?php
+require_once './functions/error500/manejo-error.php';
+session_start();
 
+try {
     if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_ID'] != 0) {
         header("Location: home.php");
         exit();
@@ -16,7 +17,7 @@
     $current_section = 'horas-comparacion';
 
     require_once './functions/mantenimiento/mantenimiento-check.php';
-    
+
     checkMaintenance($current_section);
     ?>
 
@@ -146,4 +147,14 @@
         <script src="./JS/horas-comparacion/main.js?v=<?php echo filemtime('./JS/horas-comparacion/main.js'); ?>"></script>
         <script src="./JS/horas-comparacion/desplegable.js?v=<?php echo filemtime('./JS/horas-comparacion/desplegable.js'); ?>"></script>
 
-        <?php include("./template/footer.php"); ?>
+        <?php include("./template/footer.php"); 
+  
+} catch (Exception $e) {
+  // Log del error (opcional)
+  error_log("Error en horas-comparacion.php: " . $e->getMessage());
+  
+  // Redirigir a página de error 500
+  header("Location: ./500.php");
+  exit();
+}
+?>

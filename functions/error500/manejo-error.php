@@ -75,7 +75,7 @@ $environment = 'development'; // Cambiar a 'development' durante pruebas
 if($environment === 'production'){
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
-    ini_set('error_log', __DIR__ . '/logs/php-errors.log');
+    ini_set('error_log', __DIR__ . '/logs/php_errors.log');
 } else {
     ini_set('display_errors', 1);
 }

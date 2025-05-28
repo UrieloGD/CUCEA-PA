@@ -1,0 +1,16 @@
+[28-May-2025 12:39:33 America/Mexico_City] Error de base de datos: Variable de conexión no definida
+[28-May-2025 12:39:33 America/Mexico_City] Excepción no capturada: Call to a member function prepare() on null
+[28-May-2025 12:39:41 America/Mexico_City] Error de base de datos: Variable de conexión no definida
+[28-May-2025 12:39:41 America/Mexico_City] Excepción no capturada: Call to a member function prepare() on null
+[28-May-2025 12:40:47 America/Mexico_City] Error de base de datos: Variable de conexión no definida
+[28-May-2025 12:40:47 America/Mexico_City] Excepción no capturada: Call to a member function prepare() on null
+[28-May-2025 12:40:51 America/Mexico_City] Error de base de datos: Variable de conexión no definida
+[28-May-2025 12:40:51 America/Mexico_City] Excepción no capturada: Call to a member function prepare() on null
+[28-May-2025 13:35:43 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:35:56 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:35:58 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:36:00 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:36:00 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:36:01 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:36:04 America/Mexico_City] Excepción no capturada: Prueba de error 500
+[28-May-2025 13:36:06 America/Mexico_City] Excepción no capturada: Prueba de error 500
