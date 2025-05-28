@@ -12,11 +12,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($tipo == 'justificacion') {
         $tipo_columna = 'Justificacion_ID';
-    } elseif ($tipo == 'plantilla') {
+    } 
+    else if ($tipo == 'plantilla') {
         $tipo_columna = 'Plantilla_ID';
-    } else {
+    } 
+    else {
         $tipo_columna = 'Notificacion_ID';
-    }
+    } 
 
     // Comprobar si existe un registro para este usuario y esta notificación
     $check_sql = "SELECT ID FROM usuarios_notificaciones 

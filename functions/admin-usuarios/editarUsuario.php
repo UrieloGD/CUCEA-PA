@@ -66,6 +66,17 @@ try {
             throw new Exception("El código de usuario ya existe");
         }
 
+        // Verificar si el correo ya existe (excepto para el usuario actual)
+        $check_sql2 = "SELECT Correo FROM usuarios WHERE Correo = ? AND Correo != ?";
+        $check_correo = $conexion->prepare($check_sql2);
+        $check_correo->bind_param("si", $correo, $userId);
+        $check_correo->execute();
+        $check_result2 = $check_correo->get_result();
+
+        if ($check_result2->num_rows > 0) {
+            throw new Exception("El correo registrado ya existe");
+        }
+
         // Obtener el rol actual del usuario
         $sql_get_rol = "SELECT r.Nombre_Rol 
                        FROM usuarios u 
