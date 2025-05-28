@@ -1,17 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Script ver-detalles.js cargado');
     
     // Verificar si los botones existen
     const botones = document.querySelectorAll('.boton-ver-detalles');
-    console.log('Botones encontrados:', botones.length);
     
     // Seleccionar todos los botones "Ver detalles"
     document.querySelectorAll('.boton-ver-detalles').forEach(btn => {
         btn.addEventListener('click', function() {
             const folio = this.dataset.folio;
             const tipo = this.dataset.tipo;
-            
-            console.log('Botón clickeado - Folio:', folio, 'Tipo:', tipo);
             
             // Cargar datos de la solicitud y abrir el modal correspondiente
             cargarDatosSolicitud(folio, tipo);
@@ -21,8 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para limpiar y habilitar un modal para nueva solicitud
     function limpiarYHabilitarModal(modal) {
         if (!modal) return;
-        
-        console.log('Limpiando y habilitando modal para nueva solicitud');
         
         // Habilitar todos los campos
         modal.querySelectorAll('input, select, textarea').forEach(elem => {
@@ -81,8 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     archivoPreview.innerHTML = '';
                 }
             }
-            
-            console.log('Secciones de archivo limpiadas para nueva solicitud');
         }
         
         // **NUEVO: Limpiar y restaurar secciones de archivo adjunto**
@@ -129,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             establecerFechaActualModal(modal);
                         })
                         .catch(error => {
-                            console.error('Error al obtener número de oficio:', error);
                             establecerFechaActualModal(modal);
                         });
                 }
@@ -168,8 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mostrar indicador de carga
         mostrarCargando();
         
-        console.log('Cargando datos para folio:', folio, 'tipo:', tipo);
-        
         // Determinar qué archivo PHP usar según el tipo
         let url;
         switch (tipo) {
@@ -191,9 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Realizar petición AJAX para obtener los datos
         fetch(`${url}?folio=${encodeURIComponent(folio)}`)
             .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                
                 if (!response.ok) {
                     throw new Error('Error HTTP: ' + response.status);
                 }
@@ -202,9 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.text();
             })
             .then(text => {
-                console.log('Raw response length:', text.length);
-                console.log('Raw response (first 200 chars):', text.substring(0, 200));
-                
                 // Verificar si la respuesta está vacía
                 if (!text || text.trim() === '') {
                     throw new Error('La respuesta del servidor está vacía');
@@ -215,16 +198,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     const data = JSON.parse(text);
                     return data;
                 } catch (e) {
-                    console.error('Error parsing JSON:', e);
-                    console.error('Response text:', text);
                     throw new Error('La respuesta no es JSON válido. Servidor devolvió: ' + text.substring(0, 100));
                 }
             })
             .then(data => {
                 // Ocultar indicador de carga
                 ocultarCargando();
-                
-                console.log('Datos recibidos:', data);
                 
                 // Comprobar si hay error en la respuesta
                 if (data.error) {
@@ -238,12 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Abrir el modal correspondiente
                     abrirModal(tipo);
                 } catch (error) {
-                    console.error('Error al rellenar el modal:', error);
                     alert('Error al mostrar los datos: ' + error.message);
                 }
             })
             .catch(error => {
-                console.error('Error completo:', error);
                 ocultarCargando();
                 alert('Hubo un error al cargar los datos: ' + error.message);
             });
@@ -316,11 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalId = 'solicitud-modal-baja-propuesta';
                 break;
             default:
-                console.error('Tipo de modal no reconocido:', tipo);
                 return;
         }
-        
-        console.log('Intentando abrir modal con ID:', modalId);
         
         const modal = document.getElementById(modalId);
         if (modal) {
@@ -340,8 +314,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (modalOverlay) {
                 modalOverlay.style.display = 'block';
             }
-        } else {
-            console.error('Modal no encontrado:', modalId);
         }
     }
     
@@ -412,9 +384,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Función para llenar el modal con los datos correspondientes
     function rellenarModal(data, tipo) {
-        console.log('Rellenando modal de tipo:', tipo);
-        console.log('Datos a rellenar:', data);
-        
         let modal;
         
         // Asegurarnos de que objetos anidados existan para evitar errores
@@ -424,20 +393,15 @@ document.addEventListener('DOMContentLoaded', function() {
         switch (tipo) {
             case 'baja':
                 modal = document.getElementById('solicitud-modal-baja-academica');
-                console.log('Modal de baja encontrado:', !!modal);
                 if (!modal) {
-                    console.error('Modal de baja académica no encontrado');
                     return;
                 }
             
              // Función auxiliar para establecer el valor de forma segura
              const setValueSafe = (selector, value) => {
                 const elem = modal.querySelector(selector);
-                console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
                 if (elem) {
                     elem.value = value || '';
-                } else {
-                    console.error(`Elemento no encontrado: ${selector}`);
                 }
             };
             
@@ -460,14 +424,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const profesionSelect = modal.querySelector('#profesion');
             const profesionValue = data.profesor_actual.profession || data.profession || '';
 
-            console.log('Valor de profesión encontrado:', profesionValue);
-
             if (profesionSelect && profesionValue) {
                 // Primero intentamos buscar una coincidencia exacta
                 for (let i = 0; i < profesionSelect.options.length; i++) {
                     if (profesionSelect.options[i].value === profesionValue) {
                         profesionSelect.selectedIndex = i;
-                        console.log('Profesión seleccionada (exacta):', profesionSelect.options[i].value);
                         break;
                     }
                 }
@@ -479,7 +440,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             (profesionSelect.options[i].value.includes(profesionValue) || 
                             profesionValue.includes(profesionSelect.options[i].value))) {
                             profesionSelect.selectedIndex = i;
-                            console.log('Profesión seleccionada (parcial):', profesionSelect.options[i].value);
                             break;
                         }
                     }
@@ -493,19 +453,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
         case 'propuesta':
             modal = document.getElementById('solicitud-modal-propuesta-academica');
-            console.log('Modal de propuesta encontrado:', !!modal);
             if (!modal) {
-                console.error('Modal de propuesta académica no encontrado');
                 return;
             }
         
             const setValueSafeP = (selector, value) => {
                 const elem = modal.querySelector(selector);
-                console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
                 if (elem) {
                     elem.value = value || '';
-                } else {
-                    console.error(`Elemento no encontrado: ${selector}`);
                 }
             };
             
@@ -513,8 +468,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const seleccionarOpcion = (selector, valor) => {
                 const elem = modal.querySelector(selector);
                 if (elem && valor !== undefined && valor !== null && valor !== '') {
-                    console.log(`Intentando seleccionar ${selector} con valor:`, valor);
-                    
                     // Convertir valor a string para comparaciones
                     const valorStr = valor.toString();
                     
@@ -522,7 +475,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     for (let i = 0; i < elem.options.length; i++) {
                         if (elem.options[i].value === valorStr) {
                             elem.selectedIndex = i;
-                            console.log(`${selector} seleccionado por valor:`, elem.options[i].text);
                             return;
                         }
                     }
@@ -533,7 +485,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         for (let i = 0; i < elem.options.length; i++) {
                             if (elem.options[i].value === valorConCero) {
                                 elem.selectedIndex = i;
-                                console.log(`${selector} seleccionado con cero:`, elem.options[i].text);
                                 return;
                             }
                         }
@@ -546,7 +497,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         for (let i = 0; i < elem.options.length; i++) {
                             if (elem.options[i].text.includes(nombreMes) || elem.options[i].value.includes(nombreMes)) {
                                 elem.selectedIndex = i;
-                                console.log(`${selector} seleccionado por nombre:`, elem.options[i].text);
                                 return;
                             }
                         }
@@ -556,15 +506,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     for (let i = 0; i < elem.options.length; i++) {
                         if (elem.options[i].text === valorStr) {
                             elem.selectedIndex = i;
-                            console.log(`${selector} seleccionado por texto:`, elem.options[i].text);
                             return;
                         }
-                    }
-                    
-                    console.warn(`No se pudo seleccionar ${selector} con valor:`, valor);
-                    console.log('Opciones disponibles:');
-                    for (let i = 0; i < elem.options.length; i++) {
-                        console.log(`  Opción ${i}: value="${elem.options[i].value}" text="${elem.options[i].text}"`);
                     }
                 }
             };
@@ -616,20 +559,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 
         case 'baja-propuesta':
             modal = document.getElementById('solicitud-modal-baja-propuesta');
-            console.log('Modal de baja-propuesta encontrado:', !!modal);
             if (!modal) {
-                console.error('Modal de baja-propuesta no encontrado');
                 return;
             }
             
             // Función auxiliar para establecer el valor de forma segura
             const setValueSafeBP = (selector, value) => {
                 const elem = modal.querySelector(selector);
-                console.log(`Elemento ${selector}:`, !!elem, 'Valor:', value);
                 if (elem) {
                     elem.value = value || '';
-                } else {
-                    console.error(`Elemento no encontrado: ${selector}`);
                 }
             };
             
@@ -637,13 +575,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const seleccionarOpcionBP = (selector, valor) => {
                 const elem = modal.querySelector(selector);
                 if (elem && valor !== undefined && valor !== null && valor !== '') {
-                    console.log(`Intentando seleccionar ${selector} con valor:`, valor);
-                    
                     // Buscar por valor exacto
                     for (let i = 0; i < elem.options.length; i++) {
                         if (elem.options[i].value === valor) {
                             elem.selectedIndex = i;
-                            console.log(`${selector} seleccionado:`, elem.options[i].text);
                             return;
                         }
                     }
@@ -652,12 +587,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     for (let i = 0; i < elem.options.length; i++) {
                         if (elem.options[i].text === valor) {
                             elem.selectedIndex = i;
-                            console.log(`${selector} seleccionado por texto:`, elem.options[i].text);
                             return;
                         }
                     }
-                    
-                    console.warn(`No se pudo seleccionar ${selector} con valor:`, valor);
                 }
             };
             
@@ -704,8 +636,6 @@ document.addEventListener('DOMContentLoaded', function() {
             setValueSafeBP('#periodo_desde_prop', formatearFechaParaHTML(data.periodo_desde));
             setValueSafeBP('#periodo_hasta_prop', formatearFechaParaHTML(data.periodo_hasta));
             
-            console.log('=== DEBUG BAJA-PROPUESTA ===');
-            console.log('Datos completos:', data);
             // Configurar archivo adjunto para visualización
             configurarArchivoAdjuntoVisualizacion(modal, data);
             break;
@@ -713,7 +643,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Desactivar todos los campos para que sean de solo lectura
         if (modal) {
-            console.log('Desactivando campos del modal');
             modal.querySelectorAll('input, select, textarea').forEach(elem => {
                 elem.setAttribute('readonly', 'readonly');
                 if (elem.tagName === 'SELECT') {
@@ -740,14 +669,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function seleccionarOpcionProfesion(selectElement, profesionValue) {
         if (!selectElement || !profesionValue) return;
         
-        console.log('Intentando seleccionar profesión:', profesionValue);
-        
         // Primero buscar coincidencia exacta
         let encontrado = false;
         for (let i = 0; i < selectElement.options.length; i++) {
             if (selectElement.options[i].value === profesionValue) {
                 selectElement.selectedIndex = i;
-                console.log('Profesión seleccionada (exacta):', selectElement.options[i].value);
                 encontrado = true;
                 break;
             }
@@ -761,7 +687,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     (selectElement.options[i].value.includes(profesionValue) || 
                     profesionValue.includes(selectElement.options[i].value))) {
                     selectElement.selectedIndex = i;
-                    console.log('Profesión seleccionada (parcial):', selectElement.options[i].value);
                     encontrado = true;
                     break;
                 }
@@ -773,7 +698,6 @@ document.addEventListener('DOMContentLoaded', function() {
             for (let i = 0; i < selectElement.options.length; i++) {
                 if (selectElement.options[i].text === profesionValue) {
                     selectElement.selectedIndex = i;
-                    console.log('Profesión seleccionada (por texto):', selectElement.options[i].text);
                     break;
                 }
             }
@@ -858,10 +782,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(enlace);
             enlace.click();
             document.body.removeChild(enlace);
-            
-            console.log('Abriendo archivo:', nombreArchivo, 'desde:', rutaArchivo);
         } catch (error) {
-            console.error('Error al abrir archivo:', error);
             alert('Error al abrir el archivo. Por favor, inténtelo nuevamente.');
         }
     }
@@ -872,7 +793,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const existingArchivoSection = modal.querySelector('#existing-archivo-section');
         
         if (!nuevoArchivoSection || !existingArchivoSection) {
-            console.warn('Secciones de archivo no encontradas en el modal');
             return;
         }
         
@@ -882,11 +802,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Mostrar la sección de archivos existentes
         existingArchivoSection.style.display = 'block';
         
-        console.log('=== DEBUG ARCHIVO ADJUNTO ===');
-        console.log('tiene_archivo:', data.tiene_archivo);
-        console.log('archivo_nombre:', data.archivo_nombre);
-        console.log('archivo_ruta:', data.archivo_ruta);
-        
         // Generar contenido del archivo adjunto
         const archivoContenido = modal.querySelector('#archivo-adjunto-contenido');
         if (archivoContenido) {
@@ -895,30 +810,23 @@ document.addEventListener('DOMContentLoaded', function() {
             const rutaArchivo = data.archivo_ruta;
             const tieneArchivo = data.tiene_archivo;
             
-            console.log('Procesando archivo:', { nombreArchivo, rutaArchivo, tieneArchivo });
-            
             if (tieneArchivo && nombreArchivo && rutaArchivo) {
                 archivoContenido.innerHTML = generarHTMLArchivoAdjunto(nombreArchivo, rutaArchivo);
             } else {
                 archivoContenido.innerHTML = generarHTMLArchivoAdjunto(null, null);
             }
         }
-        
-        console.log('=== FIN DEBUG ARCHIVO ADJUNTO ===');
     }
-    
+
     // Función auxiliar para seleccionar una opción de motivo
     function seleccionarOpcionMotivo(selectElement, motivoValue) {
         if (!selectElement || !motivoValue) return;
-        
-        console.log('Intentando seleccionar motivo:', motivoValue);
         
         // Buscar coincidencia por valor y texto
         for (let i = 0; i < selectElement.options.length; i++) {
             if (selectElement.options[i].value === motivoValue || 
                 selectElement.options[i].text === motivoValue) {
                 selectElement.selectedIndex = i;
-                console.log('Motivo seleccionado:', selectElement.options[i].text);
                 return;
             }
         }
@@ -928,7 +836,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if ((selectElement.options[i].value && selectElement.options[i].value.includes(motivoValue)) || 
                 (selectElement.options[i].text && selectElement.options[i].text.includes(motivoValue))) {
                 selectElement.selectedIndex = i;
-                console.log('Motivo seleccionado (parcial):', selectElement.options[i].text);
                 return;
             }
         }

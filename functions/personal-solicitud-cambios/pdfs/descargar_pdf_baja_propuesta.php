@@ -23,7 +23,7 @@ if (isset($_GET['folio'])) {
     if ($pdfBlob) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="Solicitud_Baja_Prupuesta_' . $folio . '.pdf"');
+        header('Content-Disposition: attachment; filename="Solicitud_Baja_Propuesta_' . $folio . '.pdf"');
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
