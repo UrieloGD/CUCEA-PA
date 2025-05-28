@@ -1,6 +1,5 @@
 <?php
 require_once './functions/error500/manejo-error.php';
-
 //personal-solicitud-cambios.php
 session_start();
 date_default_timezone_set('America/Mexico_City');
@@ -31,6 +30,10 @@ checkMaintenance($current_section);
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja-propuesta.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-baja-propuesta.css'); ?>">
 
 <div class="cuadro-principal">
+<?php 
+            // Solo para pruebas
+            throw new Exception("Prueba de error 500"); 
+        ?>
     <div class="cuadro-scroll">
     <div class="encabezado">
         <div class="titulo-bd">

@@ -1,4 +1,10 @@
 <?php
+// Establecer el código de respuesta HTTP 500
+http_response_code(500);
+
+// Evitar que se indexe esta página en buscadores
+header('X-Robots-Tag: noindex, nofollow');
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
