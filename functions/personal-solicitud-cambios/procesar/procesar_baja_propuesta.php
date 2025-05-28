@@ -11,15 +11,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!isset($_SESSION['Codigo'])) {
             throw new Exception('Usuario no autenticado');
         }
+
+        // Inicializar variables de archivo
+        $archivo_adjunto_validacion = null;
+        $nombre_archivo_validacion = null;
+        $tipo_archivo_validacion = null;
+        $tamaño_archivo_validacion = null;
+
+        // Procesar archivo adjunto si se subió uno
+        if (isset($_FILES['archivo_adjunto']) && $_FILES['archivo_adjunto']['error'] === UPLOAD_ERR_OK) {
+            $archivo = $_FILES['archivo_adjunto'];
+            
+            // Validar tipo de archivo
+            $tipos_permitidos = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $tipo_real = finfo_file($finfo, $archivo['tmp_name']);
+            finfo_close($finfo);
+            
+            if (!in_array($tipo_real, $tipos_permitidos)) {
+                throw new Exception('Tipo de archivo no permitido. Solo se permiten PDF e imágenes.');
+            }
+            
+            // Validar tamaño (5MB máximo)
+            if ($archivo['size'] > 5 * 1024 * 1024) {
+                throw new Exception('El archivo es demasiado grande. Máximo 5MB.');
+            }
+            
+            // Leer el archivo
+            $archivo_adjunto_validacion = file_get_contents($archivo['tmp_name']);
+            $nombre_archivo_validacion = $archivo['name'];
+            $tipo_archivo_validacion = $tipo_real;
+            $tamaño_archivo_validacion = $archivo['size'];
+            
+            // Verificar que se leyó correctamente
+            if ($archivo_adjunto_validacion === false) {
+                throw new Exception('Error al leer el archivo');
+            }
+        }
         
         // Obtener datos del formulario para la baja
         $usuario_id = $_SESSION['Codigo'];
         
-        // Aquí está la corrección importante:
         if (isset($_SESSION['Departamento_ID'])) {
             $departamento_id = $_SESSION['Departamento_ID'];
         } else {
-            // Si no existe en la sesión, intenta obtenerlo de la base de datos
             $sql_dept = "SELECT Departamento_ID FROM usuarios WHERE Codigo = ?";
             $stmt_dept = $conexion->prepare($sql_dept);
             $stmt_dept->bind_param("i", $usuario_id);
@@ -36,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt_dept->close();
         }
         
-        // Obtener datos del formulario para la baja
+        // Obtener datos del formulario
         $nombres_baja = $_POST['nombres_baja'] ?? '';
         $apellido_paterno_baja = $_POST['apellido_paterno_baja'] ?? '';
         $apellido_materno_baja = $_POST['apellido_materno_baja'] ?? '';
@@ -55,7 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sin_efectos_baja = $_POST['sin_efectos_baja'] ?? '';
         $motivo_baja = $_POST['motivo_baja'] ?? '';
 
-        // Obtener datos del formulario para la propuesta
         $nombres_prop = $_POST['nombres_prop'] ?? '';
         $apellido_paterno_prop = $_POST['apellido_paterno_prop'] ?? '';
         $apellido_materno_prop = $_POST['apellido_materno_prop'] ?? '';
@@ -64,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $num_puesto_practica_prop = $_POST['num_puesto_practica_prop'] ?? '';
         $hrs_teoria_prop = !empty($_POST['hrs_teoria_prop']) ? intval($_POST['hrs_teoria_prop']) : 0;
         $hrs_practica_prop = !empty($_POST['hrs_practica_prop']) ? intval($_POST['hrs_practica_prop']) : 0;
-        $inter_temp_def_prop = $_POST['inter_temp_def_prop'] ?? ''; // ESTE CAMPO ESTABA BIEN
+        $inter_temp_def_prop = $_POST['inter_temp_def_prop'] ?? '';
         $tipo_asignacion_prop = $_POST['tipo_asignacion_prop'] ?? '';
         $periodo_desde_prop = $_POST['periodo_desde_prop'] ?? '';
         $periodo_hasta_prop = $_POST['periodo_hasta_prop'] ?? '';
@@ -115,60 +149,78 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             PERIODO_ASIG_HASTA_PROP,
             ESTADO_P,
             HORA_CREACION,
-            Departamento_ID
+            Departamento_ID,
+            ARCHIVO_ADJUNTO_VALIDACION,
+            NOMBRE_ARCHIVO_VALIDACION,
+            TIPO_ARCHIVO_VALIDACION,
+            TAMAÑO_ARCHIVO_VALIDACION
         ) VALUES (
             ?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
-            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURTIME(), ?
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURTIME(), ?, ?, ?, ?, ?
         )";
         
         $estado = 'Pendiente';
         
         $stmt = $conexion->prepare($sql);
+        
+        // Usar siempre el mismo bind_param con todos los parámetros
         $stmt->bind_param(
-            "issssssiissiiissssssssiiiiissssss",
-            $usuario_id,                        // i
-            $oficio_num,                        // s
-            $profesion_baja,                    // s
-            $apellido_paterno_baja,             // s
-            $apellido_materno_baja,             // s
-            $nombres_baja,                      // s
-            $codigo_prof_baja,                  // s
-            $num_puesto_teoria_baja,            // i
-            $num_puesto_practica_baja,          // i
-            $cve_materia_baja,                  // s
-            $nombre_materia_baja,               // s
-            $crn_baja,                          // i
-            $hrs_teoria_baja,                   // i
-            $hrs_practica_baja,                 // i
-            $carrera_baja,                      // s
-            $gdo_gpo_turno_baja,                // s
-            $tipo_asignacion_baja,              // s
-            $sin_efectos_baja,                  // s
-            $motivo_baja,                       // s
-            $apellido_paterno_prop,             // s
-            $apellido_materno_prop,             // s
-            $nombres_prop,                      // s
-            $codigo_prof_prop,                  // i
-            $num_puesto_teoria_prop,            // i
-            $num_puesto_practica_prop,          // i
-            $hrs_teoria_prop,                   // i
-            $hrs_practica_prop,                 // i
-            $inter_temp_def_prop,               // s
-            $tipo_asignacion_prop,              // s
-            $periodo_desde_prop,                // s
-            $periodo_hasta_prop,                // s
-            $estado,                            // s
-            $departamento_id                    // s
+            "isssssiiissiiissssssssiiiiisssssisssi", // 37 parámetros
+            $usuario_id,                        // 1
+            $oficio_num,                        // 2
+            $profesion_baja,                    // 3
+            $apellido_paterno_baja,             // 4
+            $apellido_materno_baja,             // 5
+            $nombres_baja,                      // 6
+            $codigo_prof_baja,                  // 7
+            $num_puesto_teoria_baja,            // 8
+            $num_puesto_practica_baja,          // 9
+            $cve_materia_baja,                  // 10
+            $nombre_materia_baja,               // 11
+            $crn_baja,                          // 12
+            $hrs_teoria_baja,                   // 13
+            $hrs_practica_baja,                 // 14
+            $carrera_baja,                      // 15
+            $gdo_gpo_turno_baja,                // 16
+            $tipo_asignacion_baja,              // 17
+            $sin_efectos_baja,                  // 18
+            $motivo_baja,                       // 19
+            $apellido_paterno_prop,             // 20
+            $apellido_materno_prop,             // 21
+            $nombres_prop,                      // 22
+            $codigo_prof_prop,                  // 23
+            $num_puesto_teoria_prop,            // 24
+            $num_puesto_practica_prop,          // 25
+            $hrs_teoria_prop,                   // 26
+            $hrs_practica_prop,                 // 27
+            $inter_temp_def_prop,               // 28
+            $tipo_asignacion_prop,              // 29
+            $periodo_desde_prop,                // 30
+            $periodo_hasta_prop,                // 31
+            $estado,                            // 32
+            $departamento_id,                   // 33
+            $archivo_adjunto_validacion,        // 34
+            $nombre_archivo_validacion,         // 35
+            $tipo_archivo_validacion,           // 36
+            $tamaño_archivo_validacion          // 37
         );
 
+        // Si hay archivo adjunto, usar send_long_data para enviarlo
+        if ($archivo_adjunto_validacion !== null) {
+            $stmt->send_long_data(33, $archivo_adjunto_validacion); // índice 33 (parámetro 34)
+        }
+        
         if ($stmt->execute()) {
             echo json_encode([
                 'success' => true, 
-                'message' => 'Solicitud guardada',
+                'message' => 'Solicitud de baja-propuesta guardada correctamente',
                 'debug' => [
                     'usuario_id' => $usuario_id,
                     'departamento_id' => $departamento_id,
-                    'inter_temp_def_prop' => $inter_temp_def_prop // Debug para verificar
+                    'archivo_size' => $tamaño_archivo_validacion,
+                    'archivo_nombre' => $nombre_archivo_validacion,
+                    'archivo_tipo' => $tipo_archivo_validacion,
+                    'oficio_num' => $oficio_num
                 ]
             ]);
         } else {

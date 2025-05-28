@@ -50,6 +50,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 input.classList.add('readonly-field');
             }
         });
+
+        // **NUEVA FUNCIÓN: Limpiar secciones de archivo adjunto**
+        function limpiarSeccionesArchivo(modal) {
+            const nuevoArchivoSection = modal.querySelector('#nuevo-archivo-section');
+            const existingArchivoSection = modal.querySelector('#existing-archivo-section');
+            
+            // Restaurar visibilidad original de las secciones
+            if (nuevoArchivoSection) {
+                nuevoArchivoSection.style.display = 'block'; // Mostrar sección de subida
+            }
+            
+            if (existingArchivoSection) {
+                existingArchivoSection.style.display = 'none'; // Ocultar sección de archivos existentes
+            }
+            
+            // Limpiar contenido de archivo adjunto existente
+            const archivoContenido = modal.querySelector('#archivo-adjunto-contenido');
+            if (archivoContenido) {
+                archivoContenido.innerHTML = '';
+            }
+            
+            // Limpiar input de archivo si existe
+            const inputArchivo = modal.querySelector('input[type="file"]');
+            if (inputArchivo) {
+                inputArchivo.value = '';
+                // También limpiar cualquier preview o información del archivo
+                const archivoPreview = modal.querySelector('.archivo-preview');
+                if (archivoPreview) {
+                    archivoPreview.innerHTML = '';
+                }
+            }
+            
+            console.log('Secciones de archivo limpiadas para nueva solicitud');
+        }
+        
+        // **NUEVO: Limpiar y restaurar secciones de archivo adjunto**
+        limpiarSeccionesArchivo(modal);
         
         // Mostrar botones de acción
         const botonesAccion = modal.querySelector('.contenedor-botones-baja') || 

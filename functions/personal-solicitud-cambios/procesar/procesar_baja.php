@@ -1,36 +1,31 @@
 <?php
+ob_start();
 session_start();
 date_default_timezone_set('America/Mexico_City');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-error_log("Iniciando procesar_baja.php");
 
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+
+ob_clean();
 header('Content-Type: application/json');
 
 try {
-    // Verificar si el archivo existe
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        throw new Exception('Método no permitido');
+    }
+
     $db_path = './../../../config/db.php';
     if (!file_exists($db_path)) {
         throw new Exception("El archivo de configuración de la base de datos no existe");
     }
 
     require_once $db_path;
-    error_log("Archivo de configuración cargado");
 
-    // Verificar variables de sesión
     if (!isset($_SESSION['Codigo']) || !isset($_SESSION['Departamento_ID'])) {
         throw new Exception("Variables de sesión no encontradas");
     }
 
-    error_log("POST data recibida: " . print_r($_POST, true));
-    error_log("FILES data recibida: " . print_r($_FILES, true));
-
-    if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        throw new Exception('Método no permitido');
-    }
-
-    // Validar que todos los campos necesarios estén presentes
+    // Validar campos requeridos
     $campos_requeridos = [
         'fecha', 'profesion', 'apellido_paterno', 'apellido_materno', 
         'nombres', 'codigo_prof', 'descripcion', 'crn', 'clasificacion', 
@@ -43,21 +38,20 @@ try {
         }
     }
 
-    // Variables para el archivo adjunto (NUEVO CAMPO SEPARADO)
-    $archivo_adjunto_validacion = null;
-    $nombre_archivo_validacion = null;
-    $tipo_archivo_validacion = null;
-    $tamaño_archivo_validacion = null;
+    // Variables para archivo (inicializar como NULL)
+    $archivo_adjunto = NULL;
+    $nombre_archivo = NULL;
+    $tipo_archivo = NULL;
+    $tamaño_archivo = NULL;
+    $archivo_procesado = false;
 
-    // Procesar archivo adjunto si existe
+    // Procesar archivo si existe
     if (isset($_FILES['archivo_adjunto']) && $_FILES['archivo_adjunto']['error'] === UPLOAD_ERR_OK) {
         $archivo = $_FILES['archivo_adjunto'];
         
-        // Procesar archivo adjunto si existe
-    if (isset($_FILES['archivo_adjunto']) && $_FILES['archivo_adjunto']['error'] === UPLOAD_ERR_OK) {
-        $archivo = $_FILES['archivo_adjunto'];
+        error_log("Procesando archivo: " . $archivo['name'] . " (" . $archivo['size'] . " bytes)");
         
-        // Validaciones del archivo (mantener igual)
+        // Validaciones
         $tipos_permitidos = [
             'application/pdf', 
             'image/jpeg', 
@@ -65,51 +59,34 @@ try {
             'image/png', 
             'image/gif'
         ];
-        $tamaño_maximo = 5 * 1024 * 1024; // 5MB en bytes
+        $tamaño_maximo = 5 * 1024 * 1024; // 5MB
         
-        // Validar tipo de archivo usando finfo para mayor seguridad
+        // Usar finfo para detectar tipo real
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $tipo_real = finfo_file($finfo, $archivo['tmp_name']);
         finfo_close($finfo);
         
-        if (!in_array($tipo_real, $tipos_permitidos) && !in_array($archivo['type'], $tipos_permitidos)) {
-            throw new Exception('Tipo de archivo no permitido. Solo se aceptan PDF, JPG, PNG y GIF.');
+        if (!in_array($tipo_real, $tipos_permitidos)) {
+            throw new Exception('Tipo de archivo no permitido. Detectado: ' . $tipo_real);
         }
         
         if ($archivo['size'] > $tamaño_maximo) {
-            throw new Exception('El archivo es demasiado grande. Tamaño máximo: 5MB.');
+            throw new Exception('Archivo demasiado grande. Máximo: 5MB');
         }
         
-        if (!is_uploaded_file($archivo['tmp_name'])) {
-            throw new Exception('Error en la subida del archivo.');
+        // Leer archivo como base64 para evitar problemas con caracteres binarios
+        $contenido_archivo = file_get_contents($archivo['tmp_name']);
+        if ($contenido_archivo === false) {
+            throw new Exception('Error al leer el archivo');
         }
         
-        // CORRECCIÓN: Leer el archivo como binario
-        $archivo_adjunto_validacion = file_get_contents($archivo['tmp_name']);
-        if ($archivo_adjunto_validacion === false) {
-            throw new Exception('Error al leer el archivo.');
-        }
+        $archivo_adjunto = base64_encode($contenido_archivo);
+        $nombre_archivo = $archivo['name'];
+        $tipo_archivo = $tipo_real;
+        $tamaño_archivo = $archivo['size'];
+        $archivo_procesado = true;
         
-        $nombre_archivo_validacion = $archivo['name'];
-        $tipo_archivo_validacion = $tipo_real; // Usar el tipo real detectado por finfo
-        $tamaño_archivo_validacion = $archivo['size'];
-        
-        error_log("Archivo procesado: " . $nombre_archivo_validacion . " (" . $tipo_archivo_validacion . ", " . $tamaño_archivo_validacion . " bytes)");
-        
-    } else if (isset($_FILES['archivo_adjunto']) && $_FILES['archivo_adjunto']['error'] !== UPLOAD_ERR_NO_FILE) {
-        // Manejar errores de subida
-        $error_messages = [
-            UPLOAD_ERR_INI_SIZE => 'El archivo excede el tamaño máximo permitido por el servidor.',
-            UPLOAD_ERR_FORM_SIZE => 'El archivo excede el tamaño máximo del formulario.',
-            UPLOAD_ERR_PARTIAL => 'El archivo se subió parcialmente.',
-            UPLOAD_ERR_NO_TMP_DIR => 'Falta el directorio temporal.',
-            UPLOAD_ERR_CANT_WRITE => 'Error al escribir el archivo en el disco.',
-            UPLOAD_ERR_EXTENSION => 'Una extensión PHP detuvo la subida del archivo.'
-        ];
-        
-        $error_code = $_FILES['archivo_adjunto']['error'];
-        $error_message = isset($error_messages[$error_code]) ? $error_messages[$error_code] : 'Error desconocido en la subida del archivo.';
-        throw new Exception($error_message);
+        error_log("Archivo procesado exitosamente: " . strlen($archivo_adjunto) . " caracteres en base64");
     }
 
     // Generar número de oficio
@@ -121,6 +98,10 @@ try {
                    ORDER BY ID_BAJA DESC LIMIT 1";
     
     $stmt = $conexion->prepare($sql_ultimo);
+    if (!$stmt) {
+        throw new Exception("Error al preparar consulta de número: " . $conexion->error);
+    }
+    
     $pattern = "SA/CP/%/$anio_actual";
     $stmt->bind_param("s", $pattern);
     $stmt->execute();
@@ -128,40 +109,28 @@ try {
 
     if ($result->num_rows > 0) {
         $ultimo = $result->fetch_assoc()['OFICIO_NUM_BAJA'];
-        preg_match('/SA\/CP\/(\d{4})\/'.$anio_actual.'/', $ultimo, $matches);
-        $ultimo_numero = intval($matches[1]);
-        $siguiente_numero = str_pad($ultimo_numero + 1, 4, '0', STR_PAD_LEFT);
+        if (preg_match('/SA\/CP\/(\d{4})\/'.$anio_actual.'/', $ultimo, $matches)) {
+            $ultimo_numero = intval($matches[1]);
+            $siguiente_numero = str_pad($ultimo_numero + 1, 4, '0', STR_PAD_LEFT);
+        }
     }
 
     $oficio_num = "SA/CP/$siguiente_numero/$anio_actual";
 
-    // Preparar la inserción - SOLO agregamos los nuevos campos, mantenemos todos los existentes
+    // Preparar inserción CON campos de archivo
     $sql = "INSERT INTO solicitudes_baja (
-        USUARIO_ID, 
-        Departamento_ID, 
-        OFICIO_NUM_BAJA, 
-        FECHA_SOLICITUD_B, 
-        HORA_CREACION, 
-        PROFESSION_PROFESOR_B,
-        APELLIDO_P_PROF_B, 
-        APELLIDO_M_PROF_B, 
-        NOMBRES_PROF_B,
-        CODIGO_PROF_B, 
-        DESCRIPCION_PUESTO_B, 
-        CRN_B,
-        CLASIFICACION_BAJA_B, 
-        SIN_EFFECTOS_DESDE_B, 
-        MOTIVO_B, 
-        ESTADO_B,
-        ARCHIVO_ADJUNTO_VALIDACION,
-        NOMBRE_ARCHIVO_VALIDACION,
-        TIPO_ARCHIVO_VALIDACION,
-        TAMAÑO_ARCHIVO_VALIDACION
+        USUARIO_ID, Departamento_ID, OFICIO_NUM_BAJA, FECHA_SOLICITUD_B, 
+        HORA_CREACION, PROFESSION_PROFESOR_B, APELLIDO_P_PROF_B, 
+        APELLIDO_M_PROF_B, NOMBRES_PROF_B, CODIGO_PROF_B, 
+        DESCRIPCION_PUESTO_B, CRN_B, CLASIFICACION_BAJA_B, 
+        SIN_EFFECTOS_DESDE_B, MOTIVO_B, ESTADO_B,
+        ARCHIVO_ADJUNTO_VALIDACION, NOMBRE_ARCHIVO_VALIDACION,
+        TIPO_ARCHIVO_VALIDACION, TAMAÑO_ARCHIVO_VALIDACION
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conexion->prepare($sql);
     if (!$stmt) {
-        throw new Exception("Error en la preparación de la consulta: " . $conexion->error);
+        throw new Exception("Error al preparar consulta: " . $conexion->error);
     }
 
     $estado = 'Pendiente';
@@ -169,60 +138,59 @@ try {
     $usuario_id = $_SESSION['Codigo'];
     $departamento_id = $_SESSION['Departamento_ID'];
 
-    // CORRECCIÓN: Usar 'b' para datos binarios (BLOB)
-    $stmt->bind_param("iisssssssisssssssbsi",
-        $usuario_id,                        // i - int
-        $departamento_id,                   // i - int  
-        $oficio_num,                        // s - string
-        $_POST['fecha'],                    // s - string (date)
-        $hora_actual,                       // s - string (time)
-        $_POST['profesion'],                // s - string
-        $_POST['apellido_paterno'],         // s - string
-        $_POST['apellido_materno'],         // s - string
-        $_POST['nombres'],                  // s - string
-        $_POST['codigo_prof'],              // s - string
-        $_POST['descripcion'],              // s - string
-        $_POST['crn'],                      // i - int
-        $_POST['clasificacion'],            // s - string
-        $_POST['fecha_efectos'],            // s - string (date)
-        $_POST['motivo'],                   // s - string
-        $estado,                            // s - string
-        $archivo_adjunto_validacion,        // b - BLOB (CORREGIDO)
-        $nombre_archivo_validacion,         // s - string
-        $tipo_archivo_validacion,           // s - string
-        $tamaño_archivo_validacion          // i - int
+    // Todos los parámetros como string para evitar problemas
+    $stmt->bind_param("iisssssssisssssssssi",
+        $usuario_id,                    // i
+        $departamento_id,               // i
+        $oficio_num,                    // s
+        $_POST['fecha'],                // s
+        $hora_actual,                   // s
+        $_POST['profesion'],            // s
+        $_POST['apellido_paterno'],     // s
+        $_POST['apellido_materno'],     // s
+        $_POST['nombres'],              // s
+        $_POST['codigo_prof'],          // s
+        $_POST['descripcion'],          // s
+        $_POST['crn'],                  // s
+        $_POST['clasificacion'],        // s
+        $_POST['fecha_efectos'],        // s
+        $_POST['motivo'],               // s
+        $estado,                        // s
+        $archivo_adjunto,               // s (base64)
+        $nombre_archivo,                // s
+        $tipo_archivo,                  // s
+        $tamaño_archivo                 // i
     );
 
-    // CORRECCIÓN: Enviar datos largos para el BLOB
-    if ($archivo_adjunto_validacion !== null) {
-        $stmt->send_long_data(16, $archivo_adjunto_validacion); // 16 es el índice del BLOB
-    }
-
     if (!$stmt->execute()) {
-        throw new Exception("Error al ejecutar la consulta: " . $stmt->error);
+        throw new Exception("Error al ejecutar consulta: " . $stmt->error);
     }
 
+    // Respuesta exitosa
     $response = [
         'status' => 'success',
-        'message' => 'Solicitud guardada exitosamente',
+        'message' => 'Solicitud de baja guardada exitosamente',
         'oficio_num' => $oficio_num
     ];
 
-    // Agregar información del archivo si se subió
-    if ($archivo_adjunto_validacion !== null) {
+    // Agregar información del archivo si se procesó
+    if ($archivo_procesado) {
         $response['archivo_info'] = [
-            'nombre' => $nombre_archivo_validacion,
-            'tipo' => $tipo_archivo_validacion,
-            'tamaño' => $tamaño_archivo_validacion,
-            'guardado_en' => 'base_de_datos_campo_separado'
+            'nombre' => $nombre_archivo,
+            'tipo' => $tipo_archivo,
+            'tamaño' => $tamaño_archivo . ' bytes'
         ];
         $response['message'] .= ' (con archivo adjunto)';
     }
 
+    error_log("Solicitud guardada exitosamente. ID: " . $conexion->insert_id);
+
     echo json_encode($response);
 
 } catch (Exception $e) {
+    ob_clean();
     error_log("Error en procesar_baja.php: " . $e->getMessage());
+    
     echo json_encode([
         'status' => 'error',
         'message' => $e->getMessage()

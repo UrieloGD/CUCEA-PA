@@ -171,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             echo json_encode([
                 'success' => true,
-                'message' => 'Propuesta guardada exitosamente',
+                'message' => 'Solicitud de propuesta guardada exitosamente',
                 'oficio_num_prop' => $oficio_num
             ]);
         } else {

@@ -23,9 +23,12 @@ try {
         case 'propuesta':
             $sql = "SELECT ARCHIVO_ADJUNTO_VALIDACION, NOMBRE_ARCHIVO_VALIDACION, TIPO_ARCHIVO_VALIDACION 
                     FROM solicitudes_propuesta 
-                    WHERE OFICIO_NUM_PROP = ?";            break;
+                    WHERE OFICIO_NUM_PROP = ?";            
+            break;
         case 'baja-propuesta':
-            // Agregar consulta para baja-propuesta si es necesario
+            $sql = "SELECT ARCHIVO_ADJUNTO_VALIDACION, NOMBRE_ARCHIVO_VALIDACION, TIPO_ARCHIVO_VALIDACION 
+                    FROM solicitudes_baja_propuesta 
+                    WHERE OFICIO_NUM_BAJA_PROP = ?";                        
             break;
         default:
             http_response_code(400);
