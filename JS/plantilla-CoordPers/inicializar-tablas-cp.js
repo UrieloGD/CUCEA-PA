@@ -1,3 +1,421 @@
+// === FUNCIONALIDAD MEJORADA PARA MOSTRAR/OCULTAR FILTROS ===
+function setupFilterToggle(table) {
+  console.log('[setupFilterToggle] ===== INICIANDO CONFIGURACIÓN =====');
+  console.log('[setupFilterToggle] Tabla recibida:', table);
+  console.log('[setupFilterToggle] Tipo de tabla:', typeof table);
+  console.log('[setupFilterToggle] Constructor:', table?.constructor?.name);
+  
+  const filterIcon = document.getElementById('icono-filtro');
+  let filtersVisible = true; // Los filtros están visibles por defecto
+  
+  console.log('[setupFilterToggle] Elemento icono-filtro encontrado:', filterIcon);
+  console.log('[setupFilterToggle] Estado inicial filtersVisible:', filtersVisible);
+  
+  if (!filterIcon) {
+    console.error('[setupFilterToggle] ❌ No se encontró el elemento con ID "icono-filtro"');
+    return;
+  }
+
+  // Verificar que el DOM esté listo
+  function waitForDOMReady(callback, maxAttempts = 10, currentAttempt = 0) {
+    console.log(`[waitForDOMReady] Intento ${currentAttempt + 1}/${maxAttempts}`);
+    
+    const headerFilters = document.querySelectorAll('.tabulator-header-filter');
+    const headerCells = document.querySelectorAll('.tabulator-col');
+    
+    console.log(`[waitForDOMReady] Filtros encontrados: ${headerFilters.length}`);
+    console.log(`[waitForDOMReady] Celdas encontradas: ${headerCells.length}`);
+    
+    if (headerFilters.length > 0 && headerCells.length > 0) {
+      console.log('[waitForDOMReady] ✅ DOM listo, ejecutando callback');
+      callback();
+    } else if (currentAttempt < maxAttempts) {
+      console.log(`[waitForDOMReady] ⏳ DOM no listo, reintentando en 250ms...`);
+      setTimeout(() => waitForDOMReady(callback, maxAttempts, currentAttempt + 1), 250);
+    } else {
+      console.error('[waitForDOMReady] ❌ Timeout: DOM no se cargó después de todos los intentos');
+    }
+  }
+
+  // Función para ocultar todos los filtros de encabezado
+  function hideHeaderFilters() {
+    console.log('[hideHeaderFilters] ===== INICIANDO OCULTACIÓN =====');
+    
+    const headerFilters = document.querySelectorAll('.tabulator-header-filter');
+    console.log('[hideHeaderFilters] Filtros encontrados:', headerFilters.length);
+    
+    if (headerFilters.length === 0) {
+      console.warn('[hideHeaderFilters] ⚠️ No se encontraron filtros de encabezado');
+      
+      // Búsquedas alternativas para debugging
+      const alternatives = [
+        document.querySelectorAll('[tabulator-field] .tabulator-header-filter'),
+        document.querySelectorAll('.tabulator-header .tabulator-header-filter'),
+        document.querySelectorAll('.tabulator-col .tabulator-header-filter')
+      ];
+      
+      alternatives.forEach((alt, index) => {
+        console.log(`[hideHeaderFilters] Búsqueda alternativa ${index + 1}:`, alt.length);
+      });
+      
+      return;
+    }
+    
+    let hiddenCount = 0;
+    headerFilters.forEach((filter, index) => {
+      console.log(`[hideHeaderFilters] Procesando filtro ${index + 1}:`, filter);
+      console.log(`[hideHeaderFilters] Estado previo del filtro ${index + 1}:`, {
+        display: filter.style.display,
+        visibility: filter.style.visibility,
+        height: filter.style.height
+      });
+      
+      filter.style.display = 'none';
+      filter.style.visibility = 'hidden';
+      filter.style.height = '0px';
+      filter.style.overflow = 'hidden';
+      hiddenCount++;
+      
+      console.log(`[hideHeaderFilters] ✅ Filtro ${index + 1} ocultado`);
+    });
+    
+    console.log(`[hideHeaderFilters] Total filtros ocultados: ${hiddenCount}`);
+    
+    // Ajustar altura de las celdas de encabezado
+    const headerCells = document.querySelectorAll('.tabulator-col');
+    console.log('[hideHeaderFilters] Celdas de encabezado encontradas:', headerCells.length);
+    
+    let adjustedCells = 0;
+    headerCells.forEach((cell, index) => {
+      const filterElement = cell.querySelector('.tabulator-header-filter');
+      if (filterElement) {
+        console.log(`[hideHeaderFilters] Ajustando altura de celda ${index + 1}`);
+        const originalHeight = cell.style.height;
+        cell.style.height = 'auto';
+        cell.setAttribute('data-original-height', originalHeight);
+        adjustedCells++;
+      }
+    });
+    
+    console.log(`[hideHeaderFilters] Celdas ajustadas: ${adjustedCells}`);
+    
+    filtersVisible = false;
+    
+    // Actualizar tooltip y icono
+    filterIcon.setAttribute('data-tooltip', 'Mostrar filtros');
+    filterIcon.classList.add('filters-hidden');
+    
+    console.log('[hideHeaderFilters] ✅ Estado actualizado - filtersVisible:', filtersVisible);
+    console.log('[hideHeaderFilters] ===== OCULTACIÓN COMPLETADA =====');
+  }
+
+  // Función para mostrar todos los filtros de encabezado
+  function showHeaderFilters() {
+    console.log('[showHeaderFilters] ===== INICIANDO VISUALIZACIÓN =====');
+    
+    const headerFilters = document.querySelectorAll('.tabulator-header-filter');
+    console.log('[showHeaderFilters] Filtros encontrados:', headerFilters.length);
+    
+    if (headerFilters.length === 0) {
+      console.warn('[showHeaderFilters] ⚠️ No se encontraron filtros de encabezado');
+      return;
+    }
+    
+    let shownCount = 0;
+    headerFilters.forEach((filter, index) => {
+      console.log(`[showHeaderFilters] Procesando filtro ${index + 1}:`, filter);
+      console.log(`[showHeaderFilters] Estado previo del filtro ${index + 1}:`, {
+        display: filter.style.display,
+        visibility: filter.style.visibility,
+        height: filter.style.height
+      });
+      
+      filter.style.display = 'block';
+      filter.style.visibility = 'visible';
+      filter.style.height = 'auto';
+      filter.style.overflow = 'visible';
+      shownCount++;
+      
+      console.log(`[showHeaderFilters] ✅ Filtro ${index + 1} mostrado`);
+    });
+    
+    console.log(`[showHeaderFilters] Total filtros mostrados: ${shownCount}`);
+    
+    // Restaurar altura de las celdas de encabezado
+    const headerCells = document.querySelectorAll('.tabulator-col');
+    console.log('[showHeaderFilters] Celdas de encabezado encontradas:', headerCells.length);
+    
+    let restoredCells = 0;
+    headerCells.forEach((cell, index) => {
+      const filterElement = cell.querySelector('.tabulator-header-filter');
+      if (filterElement) {
+        console.log(`[showHeaderFilters] Restaurando altura de celda ${index + 1}`);
+        const originalHeight = cell.getAttribute('data-original-height');
+        if (originalHeight) {
+          cell.style.height = originalHeight;
+        } else {
+          cell.style.height = 'auto';
+        }
+        restoredCells++;
+      }
+    });
+    
+    console.log(`[showHeaderFilters] Celdas restauradas: ${restoredCells}`);
+    
+    filtersVisible = true;
+    
+    // Actualizar tooltip y icono
+    filterIcon.setAttribute('data-tooltip', 'Ocultar filtros');
+    filterIcon.classList.remove('filters-hidden');
+    
+    console.log('[showHeaderFilters] ✅ Estado actualizado - filtersVisible:', filtersVisible);
+    console.log('[showHeaderFilters] ===== VISUALIZACIÓN COMPLETADA =====');
+  }
+
+  // Función para alternar visibilidad de filtros
+  function toggleHeaderFilters() {
+    console.log('[toggleHeaderFilters] ===== ALTERNANDO FILTROS =====');
+    console.log('[toggleHeaderFilters] Estado actual filtersVisible:', filtersVisible);
+    
+    if (filtersVisible) {
+      console.log('[toggleHeaderFilters] 👁️ Ocultando filtros...');
+      hideHeaderFilters();
+    } else {
+      console.log('[toggleHeaderFilters] 👁️ Mostrando filtros...');
+      showHeaderFilters();
+    }
+    
+    console.log('[toggleHeaderFilters] ===== ALTERNANCIA COMPLETADA =====');
+  }
+
+  // Event listener para el botón de filtro
+  function setupEventListener() {
+    console.log('[setupEventListener] Configurando event listener...');
+    
+    // Remover listeners previos si existen
+    const oldListener = filterIcon.getAttribute('data-listener-attached');
+    if (oldListener === 'true') {
+      console.log('[setupEventListener] Removiendo listener previo...');
+      filterIcon.removeEventListener('click', window.filterToggleHandler);
+    }
+    
+    // Crear nuevo handler
+    window.filterToggleHandler = function(e) {
+      console.log('[Event Listener] ===== CLICK DETECTADO =====');
+      console.log('[Event Listener] Event:', e);
+      console.log('[Event Listener] Target:', e.target);
+      console.log('[Event Listener] Current target:', e.currentTarget);
+      
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('[Event Listener] Ejecutando toggle...');
+      toggleHeaderFilters();
+    };
+    
+    filterIcon.addEventListener('click', window.filterToggleHandler);
+    filterIcon.setAttribute('data-listener-attached', 'true');
+    
+    console.log('[setupEventListener] ✅ Event listener configurado');
+  }
+
+  // Función para aplicar estilos CSS dinámicamente
+  function addFilterToggleStyles() {
+    console.log('[addFilterToggleStyles] Aplicando estilos CSS...');
+    
+    // Verificar si ya existe el estilo
+    if (document.getElementById('filter-toggle-styles')) {
+      console.log('[addFilterToggleStyles] ℹ️ Estilos ya existen, omitiendo...');
+      return;
+    }
+
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'filter-toggle-styles';
+    styleSheet.textContent = `
+      /* Estilos para el icono de filtro */
+      #icono-filtro {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        user-select: none;
+      }
+      
+      #icono-filtro:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+      
+      #icono-filtro.filters-hidden {
+        opacity: 0.6;
+      }
+      
+      #icono-filtro.filters-hidden i {
+        color: #999 !important;
+      }
+      
+      /* Transiciones suaves para los filtros */
+      .tabulator-header-filter {
+        transition: all 0.3s ease-in-out;
+      }
+      
+      /* Estilos para cuando los filtros están ocultos */
+      .tabulator-header-filter[style*="display: none"] {
+        opacity: 0;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden;
+        border: none !important;
+      }
+      
+      /* Mejorar la visualización del estado del botón */
+      #icono-filtro.filters-hidden::after {
+        content: " (ocultos)";
+        font-size: 0.8em;
+        color: #999;
+      }
+    `;
+    
+    document.head.appendChild(styleSheet);
+    console.log('[addFilterToggleStyles] ✅ Estilos CSS aplicados correctamente');
+  }
+
+  // Función para manejar la reconstrucción de la tabla
+  function handleTableEvents() {
+    console.log('[handleTableEvents] Configurando eventos de tabla...');
+    
+    if (!table || typeof table.on !== 'function') {
+      console.error('[handleTableEvents] ❌ Tabla no válida o no tiene método .on()');
+      return;
+    }
+    
+    // Eventos de renderizado
+    const events = ['renderComplete', 'dataLoaded', 'pageLoaded'];
+    
+    events.forEach(eventName => {
+      table.on(eventName, function() {
+        console.log(`[Event ${eventName}] Tabla ${eventName.toLowerCase()}`);
+        if (!filtersVisible) {
+          console.log(`[Event ${eventName}] Filtros deben estar ocultos, aplicando ocultación...`);
+          setTimeout(() => {
+            console.log(`[Event ${eventName}] Ejecutando hideHeaderFilters después de timeout`);
+            hideHeaderFilters();
+          }, 100);
+        }
+      });
+    });
+    
+    console.log('[handleTableEvents] ✅ Eventos configurados:', events);
+  }
+
+  // Función de debugging para inspeccionar el DOM
+  function debugDOMState() {
+    console.log('=== DEBUG DOM STATE ===');
+    console.log('Elemento tabla:', document.getElementById('tabla-datos-tabulator'));
+    console.log('Filtros de encabezado:', document.querySelectorAll('.tabulator-header-filter'));
+    console.log('Celdas de encabezado:', document.querySelectorAll('.tabulator-col'));
+    console.log('Estructura de tabla:', document.querySelector('.tabulator'));
+    console.log('Icono filtro:', document.getElementById('icono-filtro'));
+    console.log('========================');
+  }
+
+  // Función principal de inicialización
+  function initializeFilterToggle() {
+    console.log('[initializeFilterToggle] ===== INICIALIZANDO SISTEMA =====');
+    
+    // Debugging inicial
+    debugDOMState();
+    
+    // Aplicar estilos
+    addFilterToggleStyles();
+    
+    // Configurar eventos de tabla
+    handleTableEvents();
+    
+    // Configurar event listener
+    setupEventListener();
+    
+    // Asignar funciones globales
+    console.log('[initializeFilterToggle] Asignando funciones globales...');
+    
+    window.toggleTableFilters = function() {
+      console.log('[Global] toggleTableFilters llamado');
+      toggleHeaderFilters();
+    };
+    
+    window.hideTableFilters = function() {
+      console.log('[Global] hideTableFilters llamado');
+      hideHeaderFilters();
+    };
+    
+    window.showTableFilters = function() {
+      console.log('[Global] showTableFilters llamado');
+      showHeaderFilters();
+    };
+    
+    // Función de debugging accesible globalmente
+    window.debugFilterToggle = function() {
+      console.log('=== DEBUG FILTER TOGGLE STATE ===');
+      console.log('filtersVisible:', filtersVisible);
+      console.log('filterIcon:', filterIcon);
+      console.log('table:', table);
+      console.log('Funciones globales disponibles:', {
+        toggleTableFilters: typeof window.toggleTableFilters,
+        hideTableFilters: typeof window.hideTableFilters,
+        showTableFilters: typeof window.showTableFilters
+      });
+      debugDOMState();
+      console.log('==================================');
+    };
+    
+    console.log('[initializeFilterToggle] ✅ Funciones globales asignadas');
+    console.log('[initializeFilterToggle] Verificando asignación:');
+    console.log('- toggleTableFilters:', typeof window.toggleTableFilters);
+    console.log('- hideTableFilters:', typeof window.hideTableFilters);
+    console.log('- showTableFilters:', typeof window.showTableFilters);
+    console.log('- debugFilterToggle:', typeof window.debugFilterToggle);
+    
+    console.log('[setupFilterToggle] ✅ Sistema de toggle de filtros inicializado correctamente');
+    console.log('[setupFilterToggle] ===== CONFIGURACIÓN COMPLETADA =====');
+  }
+
+  // Esperar a que el DOM esté listo antes de inicializar
+  waitForDOMReady(initializeFilterToggle);
+}
+
+// === FUNCIÓN DE TESTING MANUAL ===
+function manualFilterToggle() {
+  console.log('=== MANUAL TOGGLE TEST ===');
+  
+  const table = window.tabulatorTable || window.table;
+  console.log('Tabla disponible:', table);
+  
+  const filterIcon = document.getElementById('icono-filtro');
+  console.log('Icono filtro:', filterIcon);
+  
+  const headerFilters = document.querySelectorAll('.tabulator-header-filter');
+  console.log('Filtros de encabezado:', headerFilters);
+  
+  console.log('Función setupFilterToggle:', typeof setupFilterToggle);
+  
+  if (table && filterIcon && headerFilters.length > 0) {
+    console.log('✅ Condiciones cumplidas, ejecutando setupFilterToggle...');
+    setupFilterToggle(table);
+  } else {
+    console.log('❌ Condiciones no cumplidas');
+  }
+  
+  console.log('Funciones globales después del setup:');
+  console.log('toggleTableFilters:', typeof window.toggleTableFilters);
+  console.log('hideTableFilters:', typeof window.hideTableFilters);
+  console.log('showTableFilters:', typeof window.showTableFilters);
+  
+  console.log('===========================');
+}
+
+// Hacer disponible la función de debug manual
+window.manualFilterToggle = manualFilterToggle;
+
+
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM completamente cargado');
   
@@ -9,9 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   console.log('[InicializarTablas] Iconos en DOM:', { saveIcon, undoIcon });
   console.log('Rol del usuario:', userRole, '¿Es editable?', isEditable);
-
-  // Variable para almacenar el término de búsqueda global
-  let searchTerm = "";
 
   // Función para actualizar el checkbox maestro
   function updateHeaderCheckbox() {
@@ -32,53 +447,6 @@ document.addEventListener('DOMContentLoaded', function() {
       headerCheckbox.indeterminate = true;
     }
   }
-
-  // === DEFINICIÓN DE MENÚS CONTEXTUALES ===
-  // Menú contextual para filas (click derecho)
-  var rowMenu = [
-    {
-      label: "<i class='fas fa-user-edit'></i> Editar Nombre",
-      action: function(e, row) {
-        // Ejemplo: editar el campo "Nombres"
-        row.getCell("Nombres").edit();
-      }
-    },
-    {
-      label: "<i class='fas fa-check-square'></i> Seleccionar Fila",
-      action: function(e, row) {
-        row.select();
-      }
-    },
-    {
-      separator: true
-    },
-    {
-      label: "Acciones Administrativas",
-      menu: [
-        {
-          label: "<i class='fas fa-trash-alt'></i> Eliminar Fila",
-          action: function(e, row) {
-            eliminarFilaIndividual(row);
-          },
-          disabled: !isEditable // Deshabilitar si no tiene permisos
-        },
-        {
-          label: "<i class='fas fa-copy'></i> Copiar Datos",
-          action: function(e, row) {
-            const data = row.getData();
-            navigator.clipboard.writeText(JSON.stringify(data, null, 2));
-            Swal.fire({
-              title: "Copiado",
-              text: "Datos de la fila copiados al portapapeles",
-              icon: "success",
-              timer: 1500,
-              showConfirmButton: false
-            });
-          }
-        }
-      ]
-    }
-  ];
 
   // Menú para cabeceras de columna (toggle de visibilidad)
   var headerMenu = function() {
@@ -213,71 +581,71 @@ document.addEventListener('DOMContentLoaded', function() {
       variableHeight: true, 
       frozen: true,
     },
-    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu},
-    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu}
+    {title: "DATOS", field: "Datos", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar en Datos"},
+    {title: "CODIGO", field: "Codigo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Código"},
+    {title: "PATERNO", field: "Paterno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Apellido Paterno"},
+    {title: "MATERNO", field: "Materno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Apellido Materno"},
+    {title: "NOMBRES", field: "Nombres", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Nombres"},
+    {title: "NOMBRE COMPLETO", field: "Nombre_completo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Nombre Completo"},
+    {title: "DEPARTAMENTO", field: "Departamento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Departamento"},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Categoría Actual"},
+    {title: "CATEGORIA ACTUAL", field: "Categoria_actual_dos", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Categoría Actual (2)"},
+    {title: "HORAS FRENTE A GRUPO", field: "Horas_frente_grupo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Horas Frente a Grupo"},
+    {title: "DIVISION", field: "Division", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar División"},
+    {title: "TIPO DE PLAZA", field: "Tipo_plaza", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Tipo de Plaza"},
+    {title: "CAT.ACT.", field: "Cat_act", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Cat. Actual"},
+    {title: "CARGA HORARIA", field: "Carga_horaria", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Carga Horaria"},
+    {title: "HORAS DEFINITIVAS", field: "Horas_definitivas", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Horas Definitivas"},
+    {title: "UDG VIRTUAL CIT OTRO CENTRO", field: "Udg_virtual_CIT", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar UDG Virtual/CIT"},
+    {title: "HORARIO", field: "Horario", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Horario"},
+    {title: "TURNO", field: "Turno", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Turno"},
+    {title: "INVESTIGADOR POR NOMBRAMIENTO O CAMBIO DE FUNCION", field: "Investigacion_nombramiento_cambio_funcion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Investigador"},
+    {title: "S.N.I.", field: "SNI", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar SNI"},
+    {title: "SNI DESDE", field: "SNI_desde", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar SNI Desde"},
+    {title: "CAMBIO DEDICACION DE PLAZA DOCENTE A INVESTIGADOR", field: "Cambio_dedicacion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Cambio de Dedicación"},
+    {title: "TELEFONO PARTICULAR", field: "Telefono_particular", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Teléfono Particular"},
+    {title: "TELEFONO OFICINA O CELULAR", field: "Telefono_oficina", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Teléfono Oficina/Celular"},
+    {title: "DOMICILIO", field: "Domicilio", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Domicilio"},
+    {title: "COLONIA", field: "Colonia", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Colonia"},
+    {title: "C.P.", field: "CP", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Código Postal"},
+    {title: "CIUDAD", field: "Ciudad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Ciudad"},
+    {title: "ESTADO", field: "Estado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Estado"},
+    {title: "CORREO ELECTRONICO", field: "Correo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Correo Electrónico"},
+    {title: "CORREOS OFICIALES", field: "Correos_oficiales", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Correos Oficiales"},
+    {title: "NO. AFIL. I.M.S.S.", field: "No_imss", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar N° IMSS"},
+    {title: "C.U.R.P.", field: "CURP", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar CURP"},
+    {title: "RFC", field: "RFC", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar RFC"},
+    {title: "LUGAR DE NACIMIENTO", field: "Lugar_nacimiento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Lugar de Nacimiento"},
+    {title: "ESTADO CIVIL", field: "Estado_civil", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Estado Civil"},
+    {title: "TIPO DE SANGRE", field: "Tipo_sangre", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Tipo de Sangre"},
+    {title: "FECHA NAC.", field: "Fecha_nacimiento", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Fecha de Nacimiento"},
+    {title: "EDAD", field: "Edad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Edad"},
+    {title: "NACIONALIDAD", field: "Nacionalidad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Nacionalidad"},
+    {title: "ULTIMO GRADO", field: "Ultimo_grado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Último Grado"},
+    {title: "PROGRAMA", field: "Programa", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Programa"},
+    {title: "NIVEL", field: "Nivel", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Nivel"},
+    {title: "INSTITUCION", field: "Institucion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Institución"},
+    {title: "ESTADO/PAIS", field: "Estado_pais", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Estado/País"},
+    {title: "AÑO", field: "Año", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Año"},
+    {title: "GDO EXP", field: "Gdo_exp", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Grado Expedido"},
+    {title: "OTRO GRADO", field: "Otro_grado", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Grado"},
+    {title: "PROGRAMA", field: "Otro_programa", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Programa"},
+    {title: "NIVEL", field: "Otro_nivel", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Nivel"},
+    {title: "INSTITUCION", field: "Otro_institucion", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otra Institución"},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Estado/País"},
+    {title: "AÑO", field: "Otro_año", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Año"},
+    {title: "GDO EXP", field: "Otro_gdo_exp", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Grado Expedido"},
+    {title: "OTRO GRADO", field: "Otro_grado_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Grado Alternativo"},
+    {title: "PROGRAMA", field: "Otro_programa_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Programa Alternativo"},
+    {title: "NIVEL", field: "Otro_nivel_altenrativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Nivel Alternativo"},
+    {title: "INSTITUCION", field: "Otro_institucion_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otra Institución Alternativa"},
+    {title: "ESTADO/PAIS", field: "Otro_estado_pais_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Estado/País Alternativo"},
+    {title: "AÑO", field: "Otro_año_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Año Alternativo"},
+    {title: "GDO EXP", field: "Otro_gdo_exp_alternativo", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Otro Grado Expedido Alternativo"},
+    {title: "PROESDE 24-25", field: "Proesde_24_25", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar PROESDE 24-25"},
+    {title: "A PARTIR DE", field: "A_partir_de", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar 'A Partir De'"},
+    {title: "FECHA DE INGRESO", field: "Fecha_ingreso", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Fecha de Ingreso"},
+    {title: "ANTIGÜEDAD", field: "Antiguedad", editor: isEditable ? "input" : false, variableHeight: true, headerMenu: headerMenu, headerFilter: "input", headerFilterPlaceholder: "Buscar Antigüedad"}
   ];
   
   // Función para generar URL AJAX con parámetros
@@ -286,26 +654,27 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Parámetros de paginación
     if (params.size === true) {
-      ajaxURL += "all=true&";
+        ajaxURL += "all=true&";
     } else {
-      ajaxURL += `page=${params.page}&size=${params.size}&`;
+        ajaxURL += `page=${params.page}&size=${params.size}&`;
     }
     
     // Parámetros de ordenación
     if (params.sort && params.sort.length) {
-      ajaxURL += `sort=${params.sort[0].field}&dir=${params.sort[0].dir}&`;
+        ajaxURL += `sort=${params.sort[0].field}&dir=${params.sort[0].dir}&`;
     }
     
-    // Parámetro de búsqueda global
+    // Parámetro de búsqueda global (obtener del módulo de búsqueda si existe)
+    const searchTerm = window.tableSearchInstance?.getSearchTerm();
     if (searchTerm) {
-      ajaxURL += `search=${encodeURIComponent(searchTerm)}&`;
+        ajaxURL += `search=${encodeURIComponent(searchTerm)}&`;
     }
     
     // Limpiar URL
     ajaxURL = ajaxURL.replace(/[&?]$/, "");
     console.log("URL generada para AJAX:", ajaxURL);
     return ajaxURL;
-  }
+}
 
   // Función para aplicar clases de Bulma
   function applyBulmaClasses() {
@@ -362,33 +731,6 @@ document.addEventListener('DOMContentLoaded', function() {
       calculatedWidth = Math.min(calculatedWidth, 300);
       
       column.setWidth(calculatedWidth);
-    });
-  }
-
-  // === CONFIGURACIÓN DE BÚSQUEDA ===
-  const searchInput = document.getElementById('input-buscador');
-  if (searchInput) {
-    let searchTimeout;
-    
-    searchInput.addEventListener('input', function(e) {
-      searchTerm = e.target.value;
-      clearTimeout(searchTimeout);
-      
-      searchTimeout = setTimeout(() => {
-        const activeElement = document.activeElement;
-        
-        table.setPage(1)
-          .then(() => table.replaceData())
-          .then(() => {
-            if (activeElement) {
-              activeElement.focus();
-              if (activeElement.setSelectionRange && activeElement.value) {
-                const len = activeElement.value.length;
-                activeElement.setSelectionRange(len, len);
-              }
-            }
-          });
-      }, 500);
     });
   }
 
@@ -553,6 +895,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     dataLoaded: function(data) {
       console.log('Datos cargados correctamente:', data);
+      console.log('[dataLoaded] Cantidad de registros:', data ? data.length : 0);
+
       Swal.close();
       adjustColumnWidths();
       
@@ -568,6 +912,13 @@ document.addEventListener('DOMContentLoaded', function() {
       if (window.editManager) {
         window.editManager.backupOriginalData();
       }
+
+      // === LLAMAR A setupFilterToggle AQUÍ ===
+      console.log('[dataLoaded] Iniciando configuración de filtros...');
+      console.log('[dataLoaded] Tabla disponible:', this);
+      
+      // Usar setTimeout para asegurar que el DOM esté completamente renderizado
+      setupFilterToggle
     },
     
     ajaxError: function(xhr, textStatus, errorThrown) {
@@ -610,7 +961,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // === VARIABLES GLOBALES ===
   window.tabulatorTable = table;
   window.table = table;
-  
+  tableSearchInstance = setupTableSearch(table);
+  window.tableSearchInstance = setupTableSearch(table); // Instancia global para búsqueda
   return table;
 });
 
