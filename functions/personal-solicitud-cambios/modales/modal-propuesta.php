@@ -153,6 +153,35 @@
                 </div>
             </div>
 
+            <!-- Sexta fila - Archivos adjuntos -->
+            <div class="form-row-propuesta">
+                <div class="form-group-propuesta large archivo-adjunto-container">
+                    <!-- Input para nuevos archivos -->
+                    <div id="nuevo-archivo-section">
+                        <label for="archivo_adjunto">Archivo adjunto (PDF o Imagen)</label>
+                        <input type="file" id="archivo_adjunto" name="archivo_adjunto" accept=".pdf,.jpg,.jpeg,.png,.gif">
+                        <small class="file-info">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5MB</small>
+                        <div id="preview-container-propuesta" class="preview-container" style="display: none;">
+                            <div class="preview-header">
+                                <span id="file-name-propuesta"></span>
+                                <button type="button" id="remove-file-propuesta" class="remove-file-btn">&times;</button>
+                            </div>
+                            <div id="file-preview-propuesta"></div>
+                        </div>
+                    </div>
+
+                    <!-- Visualización de archivo existente -->
+                    <div id="existing-archivo-section" class="archivo-adjunto" style="display: none;">
+                        <label>Archivo adjunto:</label>
+                        <div id="archivo-adjunto-contenido" class="preview-container">
+                            <!-- Contenido dinámico se insertará aquí -->
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="archivo_nombre_existente_propuesta" name="archivo_nombre_existente">
+                </div>
+            </div>
+
             <!-- Botones de acción -->
             <div class="contenedor-botones-baja">
                 <button type="submit" class="btn-guardar" id="btn-guardar">

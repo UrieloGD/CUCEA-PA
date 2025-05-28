@@ -21,8 +21,9 @@ try {
                     WHERE OFICIO_NUM_BAJA = ?";
             break;
         case 'propuesta':
-            // Agregar consulta para propuesta si es necesario
-            break;
+            $sql = "SELECT ARCHIVO_ADJUNTO_VALIDACION, NOMBRE_ARCHIVO_VALIDACION, TIPO_ARCHIVO_VALIDACION 
+                    FROM solicitudes_propuesta 
+                    WHERE OFICIO_NUM_PROP = ?";            break;
         case 'baja-propuesta':
             // Agregar consulta para baja-propuesta si es necesario
             break;

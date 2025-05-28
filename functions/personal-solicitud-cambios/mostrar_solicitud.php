@@ -128,8 +128,8 @@
         
         <!-- Botón para ver detalles completos -->
         <button class="boton-ver-detalles" 
-                data-folio="<?= $solicitud['folio'] ?>" 
-                data-tipo="<?= $tipo ?>">
+            data-folio="<?php echo $solicitud['folio']; ?>" 
+            data-tipo="<?php echo $tipo; ?>">
             <i class="fas fa-eye"></i> Ver detalles
         </button>
         

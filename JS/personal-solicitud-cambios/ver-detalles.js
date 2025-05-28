@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Realizar petición AJAX para obtener los datos
-        fetch(`${url}?folio=${folio}`)
+        fetch(`${url}?folio=${encodeURIComponent(folio)}`)
             .then(response => {
                 console.log('Response status:', response.status);
                 console.log('Response headers:', response.headers);
@@ -161,11 +161,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     throw new Error('Error HTTP: ' + response.status);
                 }
                 
-                // Obtener el texto primero para debugging
+                // Verificar si la respuesta tiene contenido
                 return response.text();
             })
             .then(text => {
-                console.log('Raw response:', text);
+                console.log('Raw response length:', text.length);
+                console.log('Raw response (first 200 chars):', text.substring(0, 200));
+                
+                // Verificar si la respuesta está vacía
+                if (!text || text.trim() === '') {
+                    throw new Error('La respuesta del servidor está vacía');
+                }
                 
                 // Intentar parsear como JSON
                 try {
@@ -174,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } catch (e) {
                     console.error('Error parsing JSON:', e);
                     console.error('Response text:', text);
-                    throw new Error('La respuesta no es JSON válido: ' + text.substring(0, 100));
+                    throw new Error('La respuesta no es JSON válido. Servidor devolvió: ' + text.substring(0, 100));
                 }
             })
             .then(data => {
