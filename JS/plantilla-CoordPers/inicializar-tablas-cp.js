@@ -1,421 +1,3 @@
-// === FUNCIONALIDAD MEJORADA PARA MOSTRAR/OCULTAR FILTROS ===
-function setupFilterToggle(table) {
-  console.log('[setupFilterToggle] ===== INICIANDO CONFIGURACIÓN =====');
-  console.log('[setupFilterToggle] Tabla recibida:', table);
-  console.log('[setupFilterToggle] Tipo de tabla:', typeof table);
-  console.log('[setupFilterToggle] Constructor:', table?.constructor?.name);
-  
-  const filterIcon = document.getElementById('icono-filtro');
-  let filtersVisible = true; // Los filtros están visibles por defecto
-  
-  console.log('[setupFilterToggle] Elemento icono-filtro encontrado:', filterIcon);
-  console.log('[setupFilterToggle] Estado inicial filtersVisible:', filtersVisible);
-  
-  if (!filterIcon) {
-    console.error('[setupFilterToggle] ❌ No se encontró el elemento con ID "icono-filtro"');
-    return;
-  }
-
-  // Verificar que el DOM esté listo
-  function waitForDOMReady(callback, maxAttempts = 10, currentAttempt = 0) {
-    console.log(`[waitForDOMReady] Intento ${currentAttempt + 1}/${maxAttempts}`);
-    
-    const headerFilters = document.querySelectorAll('.tabulator-header-filter');
-    const headerCells = document.querySelectorAll('.tabulator-col');
-    
-    console.log(`[waitForDOMReady] Filtros encontrados: ${headerFilters.length}`);
-    console.log(`[waitForDOMReady] Celdas encontradas: ${headerCells.length}`);
-    
-    if (headerFilters.length > 0 && headerCells.length > 0) {
-      console.log('[waitForDOMReady] ✅ DOM listo, ejecutando callback');
-      callback();
-    } else if (currentAttempt < maxAttempts) {
-      console.log(`[waitForDOMReady] ⏳ DOM no listo, reintentando en 250ms...`);
-      setTimeout(() => waitForDOMReady(callback, maxAttempts, currentAttempt + 1), 250);
-    } else {
-      console.error('[waitForDOMReady] ❌ Timeout: DOM no se cargó después de todos los intentos');
-    }
-  }
-
-  // Función para ocultar todos los filtros de encabezado
-  function hideHeaderFilters() {
-    console.log('[hideHeaderFilters] ===== INICIANDO OCULTACIÓN =====');
-    
-    const headerFilters = document.querySelectorAll('.tabulator-header-filter');
-    console.log('[hideHeaderFilters] Filtros encontrados:', headerFilters.length);
-    
-    if (headerFilters.length === 0) {
-      console.warn('[hideHeaderFilters] ⚠️ No se encontraron filtros de encabezado');
-      
-      // Búsquedas alternativas para debugging
-      const alternatives = [
-        document.querySelectorAll('[tabulator-field] .tabulator-header-filter'),
-        document.querySelectorAll('.tabulator-header .tabulator-header-filter'),
-        document.querySelectorAll('.tabulator-col .tabulator-header-filter')
-      ];
-      
-      alternatives.forEach((alt, index) => {
-        console.log(`[hideHeaderFilters] Búsqueda alternativa ${index + 1}:`, alt.length);
-      });
-      
-      return;
-    }
-    
-    let hiddenCount = 0;
-    headerFilters.forEach((filter, index) => {
-      console.log(`[hideHeaderFilters] Procesando filtro ${index + 1}:`, filter);
-      console.log(`[hideHeaderFilters] Estado previo del filtro ${index + 1}:`, {
-        display: filter.style.display,
-        visibility: filter.style.visibility,
-        height: filter.style.height
-      });
-      
-      filter.style.display = 'none';
-      filter.style.visibility = 'hidden';
-      filter.style.height = '0px';
-      filter.style.overflow = 'hidden';
-      hiddenCount++;
-      
-      console.log(`[hideHeaderFilters] ✅ Filtro ${index + 1} ocultado`);
-    });
-    
-    console.log(`[hideHeaderFilters] Total filtros ocultados: ${hiddenCount}`);
-    
-    // Ajustar altura de las celdas de encabezado
-    const headerCells = document.querySelectorAll('.tabulator-col');
-    console.log('[hideHeaderFilters] Celdas de encabezado encontradas:', headerCells.length);
-    
-    let adjustedCells = 0;
-    headerCells.forEach((cell, index) => {
-      const filterElement = cell.querySelector('.tabulator-header-filter');
-      if (filterElement) {
-        console.log(`[hideHeaderFilters] Ajustando altura de celda ${index + 1}`);
-        const originalHeight = cell.style.height;
-        cell.style.height = 'auto';
-        cell.setAttribute('data-original-height', originalHeight);
-        adjustedCells++;
-      }
-    });
-    
-    console.log(`[hideHeaderFilters] Celdas ajustadas: ${adjustedCells}`);
-    
-    filtersVisible = false;
-    
-    // Actualizar tooltip y icono
-    filterIcon.setAttribute('data-tooltip', 'Mostrar filtros');
-    filterIcon.classList.add('filters-hidden');
-    
-    console.log('[hideHeaderFilters] ✅ Estado actualizado - filtersVisible:', filtersVisible);
-    console.log('[hideHeaderFilters] ===== OCULTACIÓN COMPLETADA =====');
-  }
-
-  // Función para mostrar todos los filtros de encabezado
-  function showHeaderFilters() {
-    console.log('[showHeaderFilters] ===== INICIANDO VISUALIZACIÓN =====');
-    
-    const headerFilters = document.querySelectorAll('.tabulator-header-filter');
-    console.log('[showHeaderFilters] Filtros encontrados:', headerFilters.length);
-    
-    if (headerFilters.length === 0) {
-      console.warn('[showHeaderFilters] ⚠️ No se encontraron filtros de encabezado');
-      return;
-    }
-    
-    let shownCount = 0;
-    headerFilters.forEach((filter, index) => {
-      console.log(`[showHeaderFilters] Procesando filtro ${index + 1}:`, filter);
-      console.log(`[showHeaderFilters] Estado previo del filtro ${index + 1}:`, {
-        display: filter.style.display,
-        visibility: filter.style.visibility,
-        height: filter.style.height
-      });
-      
-      filter.style.display = 'block';
-      filter.style.visibility = 'visible';
-      filter.style.height = 'auto';
-      filter.style.overflow = 'visible';
-      shownCount++;
-      
-      console.log(`[showHeaderFilters] ✅ Filtro ${index + 1} mostrado`);
-    });
-    
-    console.log(`[showHeaderFilters] Total filtros mostrados: ${shownCount}`);
-    
-    // Restaurar altura de las celdas de encabezado
-    const headerCells = document.querySelectorAll('.tabulator-col');
-    console.log('[showHeaderFilters] Celdas de encabezado encontradas:', headerCells.length);
-    
-    let restoredCells = 0;
-    headerCells.forEach((cell, index) => {
-      const filterElement = cell.querySelector('.tabulator-header-filter');
-      if (filterElement) {
-        console.log(`[showHeaderFilters] Restaurando altura de celda ${index + 1}`);
-        const originalHeight = cell.getAttribute('data-original-height');
-        if (originalHeight) {
-          cell.style.height = originalHeight;
-        } else {
-          cell.style.height = 'auto';
-        }
-        restoredCells++;
-      }
-    });
-    
-    console.log(`[showHeaderFilters] Celdas restauradas: ${restoredCells}`);
-    
-    filtersVisible = true;
-    
-    // Actualizar tooltip y icono
-    filterIcon.setAttribute('data-tooltip', 'Ocultar filtros');
-    filterIcon.classList.remove('filters-hidden');
-    
-    console.log('[showHeaderFilters] ✅ Estado actualizado - filtersVisible:', filtersVisible);
-    console.log('[showHeaderFilters] ===== VISUALIZACIÓN COMPLETADA =====');
-  }
-
-  // Función para alternar visibilidad de filtros
-  function toggleHeaderFilters() {
-    console.log('[toggleHeaderFilters] ===== ALTERNANDO FILTROS =====');
-    console.log('[toggleHeaderFilters] Estado actual filtersVisible:', filtersVisible);
-    
-    if (filtersVisible) {
-      console.log('[toggleHeaderFilters] 👁️ Ocultando filtros...');
-      hideHeaderFilters();
-    } else {
-      console.log('[toggleHeaderFilters] 👁️ Mostrando filtros...');
-      showHeaderFilters();
-    }
-    
-    console.log('[toggleHeaderFilters] ===== ALTERNANCIA COMPLETADA =====');
-  }
-
-  // Event listener para el botón de filtro
-  function setupEventListener() {
-    console.log('[setupEventListener] Configurando event listener...');
-    
-    // Remover listeners previos si existen
-    const oldListener = filterIcon.getAttribute('data-listener-attached');
-    if (oldListener === 'true') {
-      console.log('[setupEventListener] Removiendo listener previo...');
-      filterIcon.removeEventListener('click', window.filterToggleHandler);
-    }
-    
-    // Crear nuevo handler
-    window.filterToggleHandler = function(e) {
-      console.log('[Event Listener] ===== CLICK DETECTADO =====');
-      console.log('[Event Listener] Event:', e);
-      console.log('[Event Listener] Target:', e.target);
-      console.log('[Event Listener] Current target:', e.currentTarget);
-      
-      e.preventDefault();
-      e.stopPropagation();
-      
-      console.log('[Event Listener] Ejecutando toggle...');
-      toggleHeaderFilters();
-    };
-    
-    filterIcon.addEventListener('click', window.filterToggleHandler);
-    filterIcon.setAttribute('data-listener-attached', 'true');
-    
-    console.log('[setupEventListener] ✅ Event listener configurado');
-  }
-
-  // Función para aplicar estilos CSS dinámicamente
-  function addFilterToggleStyles() {
-    console.log('[addFilterToggleStyles] Aplicando estilos CSS...');
-    
-    // Verificar si ya existe el estilo
-    if (document.getElementById('filter-toggle-styles')) {
-      console.log('[addFilterToggleStyles] ℹ️ Estilos ya existen, omitiendo...');
-      return;
-    }
-
-    const styleSheet = document.createElement('style');
-    styleSheet.id = 'filter-toggle-styles';
-    styleSheet.textContent = `
-      /* Estilos para el icono de filtro */
-      #icono-filtro {
-        cursor: pointer;
-        transition: all 0.3s ease;
-        user-select: none;
-      }
-      
-      #icono-filtro:hover {
-        transform: scale(1.1);
-        opacity: 0.8;
-      }
-      
-      #icono-filtro.filters-hidden {
-        opacity: 0.6;
-      }
-      
-      #icono-filtro.filters-hidden i {
-        color: #999 !important;
-      }
-      
-      /* Transiciones suaves para los filtros */
-      .tabulator-header-filter {
-        transition: all 0.3s ease-in-out;
-      }
-      
-      /* Estilos para cuando los filtros están ocultos */
-      .tabulator-header-filter[style*="display: none"] {
-        opacity: 0;
-        height: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow: hidden;
-        border: none !important;
-      }
-      
-      /* Mejorar la visualización del estado del botón */
-      #icono-filtro.filters-hidden::after {
-        content: " (ocultos)";
-        font-size: 0.8em;
-        color: #999;
-      }
-    `;
-    
-    document.head.appendChild(styleSheet);
-    console.log('[addFilterToggleStyles] ✅ Estilos CSS aplicados correctamente');
-  }
-
-  // Función para manejar la reconstrucción de la tabla
-  function handleTableEvents() {
-    console.log('[handleTableEvents] Configurando eventos de tabla...');
-    
-    if (!table || typeof table.on !== 'function') {
-      console.error('[handleTableEvents] ❌ Tabla no válida o no tiene método .on()');
-      return;
-    }
-    
-    // Eventos de renderizado
-    const events = ['renderComplete', 'dataLoaded', 'pageLoaded'];
-    
-    events.forEach(eventName => {
-      table.on(eventName, function() {
-        console.log(`[Event ${eventName}] Tabla ${eventName.toLowerCase()}`);
-        if (!filtersVisible) {
-          console.log(`[Event ${eventName}] Filtros deben estar ocultos, aplicando ocultación...`);
-          setTimeout(() => {
-            console.log(`[Event ${eventName}] Ejecutando hideHeaderFilters después de timeout`);
-            hideHeaderFilters();
-          }, 100);
-        }
-      });
-    });
-    
-    console.log('[handleTableEvents] ✅ Eventos configurados:', events);
-  }
-
-  // Función de debugging para inspeccionar el DOM
-  function debugDOMState() {
-    console.log('=== DEBUG DOM STATE ===');
-    console.log('Elemento tabla:', document.getElementById('tabla-datos-tabulator'));
-    console.log('Filtros de encabezado:', document.querySelectorAll('.tabulator-header-filter'));
-    console.log('Celdas de encabezado:', document.querySelectorAll('.tabulator-col'));
-    console.log('Estructura de tabla:', document.querySelector('.tabulator'));
-    console.log('Icono filtro:', document.getElementById('icono-filtro'));
-    console.log('========================');
-  }
-
-  // Función principal de inicialización
-  function initializeFilterToggle() {
-    console.log('[initializeFilterToggle] ===== INICIALIZANDO SISTEMA =====');
-    
-    // Debugging inicial
-    debugDOMState();
-    
-    // Aplicar estilos
-    addFilterToggleStyles();
-    
-    // Configurar eventos de tabla
-    handleTableEvents();
-    
-    // Configurar event listener
-    setupEventListener();
-    
-    // Asignar funciones globales
-    console.log('[initializeFilterToggle] Asignando funciones globales...');
-    
-    window.toggleTableFilters = function() {
-      console.log('[Global] toggleTableFilters llamado');
-      toggleHeaderFilters();
-    };
-    
-    window.hideTableFilters = function() {
-      console.log('[Global] hideTableFilters llamado');
-      hideHeaderFilters();
-    };
-    
-    window.showTableFilters = function() {
-      console.log('[Global] showTableFilters llamado');
-      showHeaderFilters();
-    };
-    
-    // Función de debugging accesible globalmente
-    window.debugFilterToggle = function() {
-      console.log('=== DEBUG FILTER TOGGLE STATE ===');
-      console.log('filtersVisible:', filtersVisible);
-      console.log('filterIcon:', filterIcon);
-      console.log('table:', table);
-      console.log('Funciones globales disponibles:', {
-        toggleTableFilters: typeof window.toggleTableFilters,
-        hideTableFilters: typeof window.hideTableFilters,
-        showTableFilters: typeof window.showTableFilters
-      });
-      debugDOMState();
-      console.log('==================================');
-    };
-    
-    console.log('[initializeFilterToggle] ✅ Funciones globales asignadas');
-    console.log('[initializeFilterToggle] Verificando asignación:');
-    console.log('- toggleTableFilters:', typeof window.toggleTableFilters);
-    console.log('- hideTableFilters:', typeof window.hideTableFilters);
-    console.log('- showTableFilters:', typeof window.showTableFilters);
-    console.log('- debugFilterToggle:', typeof window.debugFilterToggle);
-    
-    console.log('[setupFilterToggle] ✅ Sistema de toggle de filtros inicializado correctamente');
-    console.log('[setupFilterToggle] ===== CONFIGURACIÓN COMPLETADA =====');
-  }
-
-  // Esperar a que el DOM esté listo antes de inicializar
-  waitForDOMReady(initializeFilterToggle);
-}
-
-// === FUNCIÓN DE TESTING MANUAL ===
-function manualFilterToggle() {
-  console.log('=== MANUAL TOGGLE TEST ===');
-  
-  const table = window.tabulatorTable || window.table;
-  console.log('Tabla disponible:', table);
-  
-  const filterIcon = document.getElementById('icono-filtro');
-  console.log('Icono filtro:', filterIcon);
-  
-  const headerFilters = document.querySelectorAll('.tabulator-header-filter');
-  console.log('Filtros de encabezado:', headerFilters);
-  
-  console.log('Función setupFilterToggle:', typeof setupFilterToggle);
-  
-  if (table && filterIcon && headerFilters.length > 0) {
-    console.log('✅ Condiciones cumplidas, ejecutando setupFilterToggle...');
-    setupFilterToggle(table);
-  } else {
-    console.log('❌ Condiciones no cumplidas');
-  }
-  
-  console.log('Funciones globales después del setup:');
-  console.log('toggleTableFilters:', typeof window.toggleTableFilters);
-  console.log('hideTableFilters:', typeof window.hideTableFilters);
-  console.log('showTableFilters:', typeof window.showTableFilters);
-  
-  console.log('===========================');
-}
-
-// Hacer disponible la función de debug manual
-window.manualFilterToggle = manualFilterToggle;
-
-
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM completamente cargado');
   
@@ -492,38 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   return menu;
 };
-
-  // Función para eliminar fila individual
-  function eliminarFilaIndividual(row) {
-    Swal.fire({
-      title: "¿Eliminar registro?",
-      text: "Esta acción no se puede deshacer",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const id = row.getData().ID;
-        fetch("./functions/coord-personal-plantilla/eliminar-registros-coord.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: "ids=" + id
-        })
-        .then(response => response.text())
-        .then(() => {
-          row.delete();
-          Swal.fire("Eliminado", "El registro ha sido eliminado", "success");
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          Swal.fire("Error", "No se pudo eliminar el registro", "error");
-        });
-      }
-    });
-  }
 
   // === DEFINICIÓN DE COLUMNAS ===
   const columns = [
@@ -701,8 +251,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // Función para ajustar anchos de columna
   function adjustColumnWidths() {
     if (!table || !table.getColumns().length) return;
-    
-    console.log('Ajustando anchos de columnas basados en contenido...');
     
     table.columnManager.columns.forEach(column => {
       if (column.getField() === "checkbox") return;
@@ -913,12 +461,16 @@ document.addEventListener('DOMContentLoaded', function() {
         window.editManager.backupOriginalData();
       }
 
-      // === LLAMAR A setupFilterToggle AQUÍ ===
+      // Configuración de filtros - LLAMADA COMPLETA
       console.log('[dataLoaded] Iniciando configuración de filtros...');
-      console.log('[dataLoaded] Tabla disponible:', this);
+      setupFilterToggle(this, false); // Pasar la referencia de la tabla
       
-      // Usar setTimeout para asegurar que el DOM esté completamente renderizado
-      setupFilterToggle
+      // Ocultar filtros inmediatamente después de configurarlos
+      setTimeout(() => {
+        if (window.hideTableFilters) {
+          window.hideTableFilters();
+        }
+      }, 100);
     },
     
     ajaxError: function(xhr, textStatus, errorThrown) {
@@ -953,6 +505,9 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(`Tamaño de página cambiado a: ${size}`);
     }
   });
+
+  // === CONFIGURACIÓN DE FILTROS ===
+  setupFilterToggle(this, false); // Filtros ocultos inicialmente
 
   console.log('Tabulator inicializado:', table);
 
@@ -1017,7 +572,7 @@ function setupUndoRedoEvents(table) {
   table.on("historyRedo", () => console.log("Redo realizado - Historial:", table.getHistoryRedoSize()));
 }
 
-// === FUNCIÓN DE ELIMINACIÓN DE REGISTROS MEJORADA ===
+// === FUNCIÓN DE ELIMINACIÓN DE REGISTROS UNIFICADA ===
 function eliminarRegistrosSeleccionados() {
   // Obtener referencia a la tabla Tabulator
   const table = window.tabulatorTable;
@@ -1039,15 +594,80 @@ function eliminarRegistrosSeleccionados() {
   console.log("Filas seleccionadas:", selectedRows.length);
   console.log("IDs a eliminar:", ids);
   
+  // === LÓGICA COMBINADA: Sin selecciones = Opción de borrar toda la BD ===
   if (ids.length === 0) {
     Swal.fire({
-      title: "Advertencia",
-      text: "No hay registros seleccionados. Seleccione al menos un registro para eliminar.",
+      title: "¿Está seguro?",
+      text: "¿Está seguro que deseas borrar toda la base de datos?",
       icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, borrar todo",
+      cancelButtonText: "Cancelar",
+      customClass: {
+        confirmButton: "eliminar-todo",
+        cancelButton: "cancelar-todo",
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Mostrar SweetAlert de carga
+        Swal.fire({
+          title: "Eliminando base de datos",
+          html: "Este proceso puede tardar varios segundos, por favor espere...",
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+
+        // Solicitud AJAX para truncar toda la base de datos
+        fetch(
+          "./functions/coord-personal-plantilla/eliminar-registros-coord.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: "truncate=1",
+          }
+        )
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Error HTTP: ${response.status}`);
+            }
+            return response.text();
+          })
+          .then(() => {
+            Swal.fire({
+              title: "¡Éxito!",
+              text: "La base de datos ha sido borrada correctamente.",
+              icon: "success",
+              customClass: {
+                confirmButton: "OK-boton",
+              },
+              timer: 2000,
+              timerProgressBar: true,
+            }).then(() => {
+              // Limpiar selecciones y recargar datos
+              table.deselectRow();
+              table.setPage(1).then(() => table.replaceData());
+            });
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire({
+              title: "Error",
+              text: "Ocurrió un error al eliminar los datos. Por favor intenta de nuevo.",
+              icon: "error",
+            });
+          });
+      }
     });
-    return;
+    return; // Importante: salir de la función aquí
   }
 
+  // === LÓGICA PARA ELIMINAR REGISTROS SELECCIONADOS ===
   // Mensaje dinámico basado en la cantidad
   const mensaje = ids.length === 1 
     ? "Se eliminará 1 registro" 
@@ -1060,78 +680,71 @@ function eliminarRegistrosSeleccionados() {
     showCancelButton: true,
     confirmButtonText: "Sí, eliminar",
     cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "eliminar-todo",
+      cancelButton: "cancelar-todo",
+    }
   }).then((result) => {
     if (result.isConfirmed) {
-      // Mostrar loading mientras se procesa
+      // Mostrar SweetAlert de carga
       Swal.fire({
-        title: 'Eliminando registros...',
-        html: 'Por favor espere',
+        title: "Eliminando registros",
+        html: `Procesando la eliminación de ${ids.length} registro(s)...`,
         allowOutsideClick: false,
         allowEscapeKey: false,
         showConfirmButton: false,
-        didOpen: () => Swal.showLoading()
+        didOpen: () => {
+          Swal.showLoading();
+        },
       });
 
-      var xhr = new XMLHttpRequest();
-      xhr.open(
-        "POST",
+      // Solicitud AJAX con fetch para eliminar registros específicos
+      fetch(
         "./functions/coord-personal-plantilla/eliminar-registros-coord.php",
-        true
-      );
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            try {
-              // Intentar parsear respuesta JSON si es aplicable
-              const response = xhr.responseText;
-              console.log('Respuesta del servidor:', response);
-              
-              const mensajeExito = ids.length === 1 
-                ? "1 registro eliminado correctamente." 
-                : `${ids.length} registros eliminados correctamente.`;
-
-              Swal.fire({
-                title: "¡Éxito!",
-                text: mensajeExito,
-                icon: "success",
-              }).then(() => {
-                // Limpiar selecciones
-                table.deselectRow();
-                
-                // Recargar los datos en la tabla sin recargar toda la página
-                table.setPage(1).then(() => table.replaceData());
-              });
-            } catch (error) {
-              console.error('Error al procesar respuesta:', error);
-              Swal.fire({
-                title: "Error",
-                text: "Hubo un problema al procesar la respuesta del servidor.",
-                icon: "error",
-              });
-            }
-          } else {
-            console.error('Error HTTP:', xhr.status, xhr.statusText);
-            Swal.fire({
-              title: "Error",
-              text: `Error del servidor: ${xhr.status} - ${xhr.statusText}`,
-              icon: "error",
-            });
-          }
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `ids=${encodeURIComponent(ids.join(","))}`,
         }
-      };
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+          }
+          return response.text();
+        })
+        .then((response) => {
+          console.log('Respuesta del servidor:', response);
+          
+          const mensajeExito = ids.length === 1 
+            ? "1 registro eliminado correctamente." 
+            : `${ids.length} registros eliminados correctamente.`;
 
-      xhr.onerror = function() {
-        console.error('Error de red al eliminar registros');
-        Swal.fire({
-          title: "Error de conexión",
-          text: "No se pudo conectar con el servidor. Verifica tu conexión a internet.",
-          icon: "error",
+          Swal.fire({
+            title: "¡Éxito!",
+            text: mensajeExito,
+            icon: "success",
+            timer: 2000,
+            timerProgressBar: true,
+            customClass: {
+              confirmButton: "OK-boton",
+            }
+          }).then(() => {
+            // Limpiar selecciones y recargar datos
+            table.deselectRow();
+            table.setPage(1).then(() => table.replaceData());
+          });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          Swal.fire({
+            title: "Error",
+            text: "Ocurrió un error al eliminar los registros. Por favor intenta de nuevo.",
+            icon: "error",
+          });
         });
-      };
-
-      xhr.send("ids=" + encodeURIComponent(ids.join(",")));
     }
   });
 }
