@@ -69,13 +69,45 @@
                 </div>
                 <div class="form-group">
                     <label for="oficio_num_baja">Oficio Num.</label>
-                    <input type="text" id="oficio_num_baja" name="oficio_num_baja" readonly class="form-control">
+                    <input type="text" id="oficio_num_baja" name="oficio_num_baja" readonly class="form-control readonly-field">
                 </div>
                 <div class="form-group">
                     <label for="fecha">Fecha D/M/A</label>
-                    <input type="date" id="fecha" name="fecha" readonly value="<?php echo date('Y-m-d'); ?>">
-                    </div>
+                    <input type="text" id="fecha" name="fecha_display" readonly class="form-control readonly-field">
+                    <input type="hidden" id="fecha_sql" name="fecha">
+                </div>
             </div>
+
+            <!-- Cuarta fila - Archivo adjunto -->
+            <div class="form-row">
+                <div class="form-group large archivo-adjunto-container">
+                    <!-- Input para nuevos archivos -->
+                    <div id="nuevo-archivo-section">
+                        <label for="archivo_adjunto">Archivo adjunto (PDF o Imagen)</label>
+                        <input type="file" id="archivo_adjunto" name="archivo_adjunto" accept=".pdf,.jpg,.jpeg,.png,.gif">
+                        <small class="file-info">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5MB</small>
+                        <div id="preview-container" class="preview-container" style="display: none;">
+                            <div class="preview-header">
+                                <span id="file-name"></span>
+                                <button type="button" id="remove-file" class="remove-file-btn">&times;</button>
+                            </div>
+                            <div id="file-preview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Visualización de archivo existente -->
+                    <div id="existing-archivo-section" class="archivo-adjunto" style="display: none;">
+                        <label>Archivo adjunto:</label>
+                        <div id="archivo-adjunto-contenido" class="preview-container">
+                            <!-- Contenido dinámico se insertará aquí -->
+                        </div>
+                    </div>
+                    
+                    <!-- Campo oculto para el nombre del archivo existente -->
+                    <input type="hidden" id="archivo_nombre_existente" name="archivo_nombre_existente">
+                </div>
+            </div>
+
             <!-- Botones de acción al final del modal -->
             <div class="contenedor-botones-baja">
                 <button type="submit" class="btn-guardar" id="btn-guardar">
@@ -90,4 +122,3 @@
         </form>
     </div>
 </div>
-

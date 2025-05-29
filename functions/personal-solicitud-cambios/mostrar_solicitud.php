@@ -128,18 +128,40 @@
         
         <!-- Botón para ver detalles completos -->
         <button class="boton-ver-detalles" 
-                data-folio="<?= $solicitud['folio'] ?>" 
-                data-tipo="<?= $tipo ?>">
+            data-folio="<?php echo $solicitud['folio']; ?>" 
+            data-tipo="<?php echo $tipo; ?>">
             <i class="fas fa-eye"></i> Ver detalles
         </button>
         
-        <?php if ($_SESSION['Rol_ID'] == 3 && $solicitud['estado'] == 'Pendiente'): ?>
-            <button class="boton-generar" 
-                    data-folio="<?= $solicitud['folio'] ?>" 
-                    data-tipo="<?= $tipo ?>">
-                <i class="fas fa-file-pdf"></i> Generar PDF
-            </button>
-        
+        <?php if ($_SESSION['Rol_ID'] == 3): ?>
+            <?php if ($solicitud['estado'] == 'Pendiente'): ?>
+                <button class="boton-generar" 
+                        data-folio="<?= $solicitud['folio'] ?>" 
+                        data-tipo="<?= $tipo ?>">
+                    <i class="fas fa-file-pdf"></i> Generar PDF
+                </button>
+            
+            <?php elseif ($solicitud['estado'] == 'En revision'): ?>
+                <button class="boton-descargar" 
+                        data-folio="<?= $solicitud['folio'] ?>" 
+                        data-tipo="<?= $tipo ?>">
+                    <i class="fas fa-download"></i> Descargar PDF
+                </button>
+                
+                <!-- Botones de aceptar/rechazar para rol 3 -->
+                <button class="boton-aceptar" 
+                        data-folio="<?= $solicitud['folio'] ?>" 
+                        data-tipo="<?= $tipo ?>">
+                    <i class="fas fa-check"></i> Aceptar
+                </button>
+                
+                <button class="boton-rechazar" 
+                        data-folio="<?= $solicitud['folio'] ?>" 
+                        data-tipo="<?= $tipo ?>">
+                    <i class="fas fa-times"></i> Rechazar
+                </button>
+            <?php endif; ?>
+            
         <?php elseif ($solicitud['estado'] == 'En revision'): ?>
             <button class="boton-descargar" 
                     data-folio="<?= $solicitud['folio'] ?>" 
@@ -154,3 +176,6 @@
         <?php endif; ?>
     </div>
 </div>
+
+
+<? include('./modales/modal-comentarios.php'); ?>

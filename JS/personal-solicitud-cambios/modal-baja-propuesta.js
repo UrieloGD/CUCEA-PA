@@ -239,6 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalBajaPropuesta.style.display === 'block') {
                 // Actualizar número de oficio cuando se abre el modal
                 actualizarNumeroOficio();
+                bloquearCampoOficio(); // Agregar esta línea
                 restaurarDatosFormulario();
             }
         });
@@ -340,13 +341,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setupAutoComplete();
 
-    // Generar número de oficio automáticamente
-    const setupOficioNum = () => {
+    // Función para asegurar que el campo oficio permanezca bloqueado
+    const bloquearCampoOficio = () => {
         const oficioNum = document.getElementById('oficio_num_baja_prop');
         if (oficioNum) {
-            // Hacer que el campo sea de solo lectura
-            oficioNum.readOnly = true;
+            // Hacer el campo readonly y disabled
+            oficioNum.setAttribute('readonly', true);
+            oficioNum.setAttribute('disabled', true);
+            
+            // Prevenir cualquier intento de modificación
+            oficioNum.addEventListener('keydown', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            oficioNum.addEventListener('keypress', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            oficioNum.addEventListener('input', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            oficioNum.addEventListener('paste', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Prevenir cambios por JavaScript externo
+            oficioNum.addEventListener('focus', () => {
+                oficioNum.blur();
+            });
         }
+    };
+
+    // Generar número de oficio automáticamente (versión mejorada)
+    const setupOficioNum = () => {
+        bloquearCampoOficio(); // Aplicar bloqueo inmediatamente
     };
 
     const actualizarNumeroOficio = () => {
@@ -365,10 +398,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         oficioNum.value = "";
                         console.error('Error al obtener el folio:', data.message);
                     }
+                    // Asegurar que el campo permanezca bloqueado después de actualizar
+                    bloquearCampoOficio();
                 })
                 .catch(error => {
                     oficioNum.value = "";
                     console.error('Error de comunicación:', error);
+                    // Asegurar que el campo permanezca bloqueado incluso si hay error
+                    bloquearCampoOficio();
                 });
         }
     };

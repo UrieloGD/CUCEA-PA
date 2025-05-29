@@ -1,5 +1,13 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Limpiar cualquier output previo
+if (ob_get_level()) {
+    ob_clean();
+}
+
 header('Content-Type: application/json'); 
 require_once './../../../config/db.php';
 
@@ -58,11 +66,17 @@ try {
             bp.TIPO_ASIGNACION_PROP as tipo_asignacion_prop,
             bp.PERIODO_ASIG_DESDE_PROP as periodo_desde,
             bp.PERIODO_ASIG_HASTA_PROP as periodo_hasta,
-            bp.SIN_EFFECTOS_APARTH_BAJA as fecha_efectos
-        FROM 
-            solicitudes_baja_propuesta bp
-        WHERE 
-            bp.OFICIO_NUM_BAJA_PROP = ?";
+            bp.SIN_EFFECTOS_APARTH_BAJA as fecha_efectos,
+            bp.NOMBRE_ARCHIVO_VALIDACION as archivo_nombre,
+            bp.TIPO_ARCHIVO_VALIDACION as archivo_tipo,
+            bp.TAMAÑO_ARCHIVO_VALIDACION as archivo_tamaño,
+            CASE 
+                WHEN bp.ARCHIVO_ADJUNTO_VALIDACION IS NOT NULL 
+                THEN 1
+                ELSE 0
+            END as tiene_archivo
+            FROM solicitudes_baja_propuesta bp 
+            WHERE bp.OFICIO_NUM_BAJA_PROP = ?";
     
     $stmt = $conexion->prepare($sql);
     if (!$stmt) {
@@ -85,6 +99,13 @@ try {
     }
     
     $solicitud = $result->fetch_assoc();
+
+    // Generar ruta del archivo si existe
+    $archivo_ruta = '';
+    if ($solicitud['tiene_archivo'] && $solicitud['archivo_nombre']) {
+        // Crear ruta para descargar el archivo
+        $archivo_ruta = './functions/personal-solicitud-cambios/descargar_archivo.php?folio=' . urlencode($folio) . '&tipo=baja-propuesta';
+    }
     
     // Formatear la respuesta con nombres que coincidan con el JavaScript
     $respuesta = [
@@ -118,6 +139,13 @@ try {
         'inter_temp_def' => $solicitud['inter_temp_def'] ?? '',
         'tipo_asignacion_prop' => $solicitud['tipo_asignacion_prop'] ?? '',
         
+        // Datos del archivo
+        'archivo_nombre' => $solicitud['archivo_nombre'] ?? '',
+        'archivo_tipo' => $solicitud['archivo_tipo'] ?? '',
+        'archivo_tamaño' => $solicitud['archivo_tamaño'] ?? 0,
+        'tiene_archivo' => $solicitud['tiene_archivo'] ?? 0,
+        'archivo_ruta' => $archivo_ruta,
+        
         'profesor_actual' => [
             'paterno' => $solicitud['profesor_actual_paterno'] ?? '',
             'materno' => $solicitud['profesor_actual_materno'] ?? '',
@@ -134,17 +162,22 @@ try {
     ];
 
     // Asegurar que no hay salida previa
-    if (ob_get_length()) ob_clean();
+    if (ob_get_length()) {
+        ob_clean();
+    }
     
-    // Enviar la respuesta JSON
     echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);
     
 } catch (Exception $e) {
-    // Si hay algún error, devolver el mensaje de error
-    if (ob_get_length()) ob_clean();
+    if (ob_get_length()) {
+        ob_clean();
+    }
+    
     http_response_code(500);
     echo json_encode(['error' => 'Error interno: ' . $e->getMessage()]);
 }
 
+$stmt->close();
+$conexion->close();
 exit();
 ?>

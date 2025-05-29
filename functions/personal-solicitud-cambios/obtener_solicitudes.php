@@ -1,4 +1,3 @@
-<!--./functions/personal-solicitud_cambios/obtener_solicitudes.php -->
 <?php
 date_default_timezone_set('America/Mexico_City');
 function obtenerSolicitudes($conexion) {
@@ -9,8 +8,8 @@ function obtenerSolicitudes($conexion) {
     // Inicializar la variable filtro_departamento
     $filtro_departamento = "";
     
-    // Si el usuario NO es de Coordinación de personal (rol 3)
-    if ($rol_usuario != 3) {
+    // Si el usuario NO es de Coordinación de personal (rol 3) NI administrador (rol 0)
+    if ($rol_usuario != 3 && $rol_usuario != 0) {
         // Obtener el departamento del usuario desde usuarios_departamentos
         $sql_dept = "SELECT Departamento_ID FROM usuarios_departamentos WHERE Usuario_ID = ?";
         $stmt = mysqli_prepare($conexion, $sql_dept);
@@ -26,7 +25,7 @@ function obtenerSolicitudes($conexion) {
         $departamento_id = $dept_row['Departamento_ID'];
         $filtro_departamento = " WHERE sb.Departamento_ID = $departamento_id";
     }
-    // Si es rol 3 (Coordinación de personal), no se aplica filtro de departamento
+    // Si es rol 3 (Coordinación de personal) o rol 0 (Administrador), no se aplica filtro de departamento
     else {
         $filtro_departamento = ""; // No filtramos por departamento
     }
@@ -78,8 +77,8 @@ function obtenerSolicitudes($conexion) {
                  FROM solicitudes_propuesta sp 
                  JOIN departamentos d ON sp.Departamento_ID = d.Departamento_ID";
     
-    // Para solicitudes de propuesta, cambiamos el filtro si es necesario
-    if ($rol_usuario != 3) {
+    // Para solicitudes de propuesta, aplicamos el filtro solo si no es rol 3 ni rol 0
+    if ($rol_usuario != 3 && $rol_usuario != 0) {
         $sql_prop .= " WHERE sp.Departamento_ID = $departamento_id";
     }
     
@@ -128,8 +127,8 @@ function obtenerSolicitudes($conexion) {
                       FROM solicitudes_baja_propuesta sbp 
                       JOIN departamentos d ON sbp.Departamento_ID = d.Departamento_ID";
     
-    // Para solicitudes de baja-propuesta, aplicamos el filtro si es necesario
-    if ($rol_usuario != 3) {
+    // Para solicitudes de baja-propuesta, aplicamos el filtro solo si no es rol 3 ni rol 0
+    if ($rol_usuario != 3 && $rol_usuario != 0) {
         $sql_baja_prop .= " WHERE sbp.Departamento_ID = $departamento_id";
     }
     

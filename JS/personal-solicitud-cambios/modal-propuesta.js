@@ -82,9 +82,46 @@ document.addEventListener('DOMContentLoaded', function() {
             anoSelect.value = añoActual.toString();
         }
     };
+    
+    // Función para asegurar que el campo oficio permanezca bloqueado
+    const bloquearCampoOficio = () => {
+        const oficioInput = document.getElementById('oficio_num_prop');
+        if (oficioInput) {
+            // Hacer el campo readonly y disabled
+            oficioInput.setAttribute('readonly', true);
+            oficioInput.setAttribute('disabled', true);
+            
+            // Prevenir cualquier intento de modificación
+            oficioInput.addEventListener('keydown', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            oficioInput.addEventListener('keypress', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            oficioInput.addEventListener('input', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            oficioInput.addEventListener('paste', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Prevenir cambios por JavaScript externo
+            oficioInput.addEventListener('focus', () => {
+                oficioInput.blur();
+            });
+        }
+    };
 
     // Llamar a la función para llenar los selectores al cargar la página
     llenarSelectoresFecha();
+    bloquearCampoOficio();
 
     const generarNumeroOficio = () => {
         const oficioInput = document.getElementById('oficio_num_prop');
@@ -102,21 +139,17 @@ document.addEventListener('DOMContentLoaded', function() {
                         let numeroSecuencial = parseInt(data.ultimo_numero) + 1;
                         const numeroFormateado = numeroSecuencial.toString().padStart(4, '0');
                         oficioInput.value = `${numeroFormateado}/${añoCorto}`;
-                        console.log('Número generado:', oficioInput.value); // Depuración
                     } else {
                         throw new Error(data.message || 'Error en el servidor');
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
                     // Valor por defecto si falla la consulta
                     const numeroFormateado = '0001';
                     oficioInput.value = `${numeroFormateado}/${añoCorto}`;
                 });
         }
     };
-
-    // NUEVAS FUNCIONES DE VALIDACIÓN Y TRANSFORMACIÓN
 
     // Definir restricciones según el esquema de la base de datos
     const campoRestricciones = {
@@ -283,9 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelButtonText: 'Cancelar'
             }).then(result => {
                 if (result.isConfirmed) {
-                    formBaja.reset();
                     formData = new FormData();
-                    modalBaja.style.display = 'none';
                 }
             });
         });
@@ -295,8 +326,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.abrirModalPropuesta = function() {
         if (modalPropuesta) {
             modalPropuesta.style.display = 'block';
-            generarNumeroOficio(); // Asegurar que esta línea está presente
-            console.log("Modal abierto, número de oficio generado"); // Para depuración
+            generarNumeroOficio();
+            bloquearCampoOficio(); // Agregar esta línea
         }
     };
 
