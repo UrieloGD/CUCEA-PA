@@ -384,6 +384,9 @@ th {
   margin-bottom: 20px;
 }
 
+.OK-boton { background-color: #0071B0; }
+.OK-boton:hover { background-color: #00659b; }
+
 .column-selector {
   position: relative;
 }

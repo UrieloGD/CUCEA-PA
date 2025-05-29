@@ -121,7 +121,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
   <!-- Formulario para agregar/editar usuario -->
   <div id="nuevoUsuarioModal" class="modal" data-mode="add">
     <div class="modal-contenido">
-      <span class="cerrar">&times;</span>
+      <span class="cerrar"><i class="fa fa-times" aria-hidden="true"></i></span>
       <h2 id="modalTitle">Agregar nuevo usuario</h2>
       <form id="nuevoUsuarioForm">
         <!-- Campo oculto para el ID de usuario en edición -->

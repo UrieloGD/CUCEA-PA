@@ -101,7 +101,7 @@
         <!-- Modal -->
         <div id="modalPersonal" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
+                <span class="close">  <i class="fa fa-times" aria-hidden="true"></i></span>
                 <h2 id="modalTitle">Personal del Departamento</h2>
 
                 <!-- Agregar barra de búsqueda -->

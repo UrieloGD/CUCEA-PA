@@ -329,17 +329,28 @@ textarea {
 }
 
 .close {
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 16px;
   cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: 0.2s ease-in-out;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+  background-color: #0071b0!important;
+  color: #ffffff;
+  transform: rotate(180deg) scale(1.2);
 }
 
 .table-container {
@@ -389,21 +400,6 @@ th {
 #confirmarParticipantes {
   margin-top: 20px; /* Añade espacio encima del botón */
   align-self: center; /* Centra el botón horizontalmente */
-}
-
-.close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: #aaa;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close:hover, .close:focus {
-  color: black;
-  text-decoration: none;
 }
 
 .boton-agregar-participantes {

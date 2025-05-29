@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     const modalBajaPropuesta = document.getElementById('solicitud-modal-baja-propuesta');
     const formBajaPropuesta = document.getElementById('form-baja-propuesta');
-    const closeButton = modalBajaPropuesta?.querySelector('.close-button');
+    const closeButton = modalBajaPropuesta?.querySelector('.close-button-baja-propuesta');
     const btnDescartar = modalBajaPropuesta?.querySelector('#btn-descartar-baja-propuesta');
     let formData = new FormData();
 
