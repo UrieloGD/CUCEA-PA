@@ -7,7 +7,7 @@ require_once './functions/error500/manejo-error.php';
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalRegistrosEliminadosTitle">Registros eliminados</h5>
-                    <button class="close" type="button" onclick="cerrarRegistrosEliminados()">&times;</button>
+                    <button class="closeButton" type="button" onclick="cerrarRegistrosEliminados()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <table id="tabla-eliminados" class="display" style="width:100%">

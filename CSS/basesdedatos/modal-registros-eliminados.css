@@ -39,7 +39,7 @@ div.dataTables_wrapper {
   }
   
   /* Estilo para el botón de cerrar del modal de registros eliminados */
-  .close {
+  .closeButton {
     position: absolute;
     right: 20px;
     top: 20px;
@@ -58,7 +58,7 @@ div.dataTables_wrapper {
   }
   
   /* Estilo para el botón de cerrar del modal de registros eliminados al pasar el cursor sobre él */
-  .close:hover {
+  .closeButton:hover {
     background-color: #f3f4f6;
   }
   

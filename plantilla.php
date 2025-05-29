@@ -30,13 +30,6 @@ try {
 
     // Incluir los archivos
     require_once './config/db.php';
-
-    // Mantenimiento
-    $current_section = 'plantilla';
-
-    require_once './functions/mantenimiento/mantenimiento-check.php';
-
-    checkMaintenance($current_section);
     ?>
 
     <?php

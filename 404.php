@@ -12,7 +12,12 @@ require_once './functions/home/eventos-home.php';
 <div class="cuadro-principal">
     <div class="container-error">
         <div class="img-error">
-            <img src="./Img/img-errores/404.png" alt="Error 404">
+            <div>
+                <img src="./Img/img-errores/404.png" alt="Error 404" class="shake-vertical">
+            </div>
+            <div>
+                <img src="./Img/img-errores/404-sombra.png" alt="Error 404" class="scale-up-hor-center">
+            </div>
         </div>
         <div class="text-error">
             <p>
@@ -22,7 +27,7 @@ require_once './functions/home/eventos-home.php';
         </div>
     </div>
     <div class="container-btn">
-        <button class="boton-inicio"><a href="./home.php">Regresar al inicio</a></button>
+        <button class="boton-inicio"><a href="home.php">Regresar al inicio</a></button>
     </div>
 </div>
 

@@ -119,6 +119,8 @@ checkMaintenance($current_section);
                     <td style="text-align: center; ">
                         <div class="btn-container">
                             <button class="btn" onclick="subirArchivo(<?php echo $id; ?>)">
+                                <span class="tooltip-texto-buttons">Subir plantilla</span>
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
                                 <img src="./Img/Icons/iconos-plantillasAdmin/icono-subir-plantilla.png" alt="Subir Archivo">
                             </button>
                             <input type="file" id="input-file-<?php echo $id; ?>" class="hidden-input" name="file" onchange="handleFileChange(event, <?php echo $id; ?>)">
@@ -126,8 +128,16 @@ checkMaintenance($current_section);
                             <input type="hidden" id="nombre_archivo_dep-<?php echo $id; ?>" name="nombre_archivo_dep">
                             <input type="hidden" id="fecha_subida_dep-<?php echo $id; ?>" name="fecha_subida_dep">
                             <button type="submit" class="hidden-button"></button>
-                            <a href="#" onclick="descargarPlantilla(<?php echo $id; ?>)" class="btn"><img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png"></a>
-                            <a href="#" class="btn" onclick="eliminarPlantilla(<?php echo $id; ?>)"><img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png"></a>
+                            <a href="#" class="btn" onclick="descargarPlantilla(<?php echo $id; ?>)">
+                                <span class="tooltip-texto-buttons">Descargar plantilla</span>
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <img src="./Img/Icons/iconos-plantillasAdmin/icono-descargar-plantilla.png">
+                            </a>
+                            <a href="#" class="btn" onclick="eliminarPlantilla(<?php echo $id; ?>)">
+                                <span class="tooltip-texto-buttons">Eliminar plantilla</span>
+                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                <img src="./Img/Icons/iconos-plantillasAdmin/icono-eliminar-plantilla.png">
+                            </a>
                         </div>
                     </td>
                 </tr>

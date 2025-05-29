@@ -1,72 +1,72 @@
 .modal-baja-propuesta {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999; /* Mayor z-index para asegurar que esté por encima */
-  }
-  
-  .modal-content-baja-propuesta {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 90%;
-    margin: 0 auto;
-    max-width: 1200px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    max-height: 75vh; /* Para evitar que se salga de la pantalla */
-    overflow-y: auto; /* Permite scroll si el contenido es muy largo */
-  }
-  
-  /* Botón de cerrar */
-  .close-button-baja-propuesta {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    font-size: 24px;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: #f0f0f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    z-index: 1000;
-  }
-  
-  .close-button:hover {
-    background: #e0e0e0;
-  }
-  
-  .form-row-baja-propuesta {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .form-group-baja-propuesta {
-    flex: 1;
-    min-width: 180px; /* Ancho mínimo antes de envolver */
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group-baja-propuesta.large {
-    flex: 1.8 !important;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Mayor z-index para asegurar que esté por encima */
+}
 
-  /* .form-group-baja-propuesta.compact {
+.modal-content-baja-propuesta {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 1200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  max-height: 75vh; /* Para evitar que se salga de la pantalla */
+  overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+}
+
+/* Botón de cerrar */
+.close-button-baja-propuesta {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  z-index: 1000;
+}
+
+.close-button:hover {
+  background: #e0e0e0;
+}
+
+.form-row-baja-propuesta {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group-baja-propuesta {
+  flex: 1;
+  min-width: 180px; /* Ancho mínimo antes de envolver */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-baja-propuesta.large {
+  flex: 1.8 !important;
+}
+
+/* .form-group-baja-propuesta.compact {
     flex: 0.6 !important;
     min-width: 130px !important;
   } */
@@ -74,109 +74,210 @@
   .form-group-baja-propuesta.small {
     flex: 0.4 !important;
   } */
-  
-  .form-group-baja-propuesta.smaller {
-    /* flex: 0.2 !important; */
-    min-width: 100px !important;
-    margin-top: 0px;
-  }
-  
-  label {
-    color: #666;
-    margin-bottom: 0.5rem;
-  }
-  
-  input,
-  select {
+
+.form-group-baja-propuesta.smaller {
+  /* flex: 0.2 !important; */
+  min-width: 100px !important;
+  margin-top: 0px;
+}
+
+label {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+#oficio_num_baja_prop {
+  background-color: #f5f5f5 !important;
+  cursor: not-allowed !important;
+  user-select: none !important;
+  pointer-events: none !important;
+}
+
+#oficio_num_baja_prop:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Estilos de botones del final (Cancelar o guardar) */
+.contenedor-botones-baja-propuesta {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.contenedor-botones-baja-propuesta button {
+  margin: 0 7px;
+  border-radius: 10px;
+  border-style: none;
+  padding: 1vh 2.5vw 1vh;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #0071b0;
+  border-color: #0071b0;
+  cursor: pointer;
+  box-shadow: 0px 2px 2px rgb(185, 174, 174);
+}
+
+/* Estilos específicos para el modal de baja-propuesta */
+#solicitud-modal-baja-propuesta-academica .form-row-baja-propuesta {
+  margin-bottom: 2rem;
+}
+
+#solicitud-modal-baja-propuesta-academica .form-group-baja-propuesta label {
+  font-weight: 500;
+}
+
+/* Estilos adicionales para el modal de baja-propuesta */
+#solicitud-modal-baja-propuesta-academica h3 {
+  color: #666;
+  margin: 2rem 0 1rem;
+  font-size: 1.1rem;
+}
+
+/* Estilos para inputs readonly */
+input[readonly] {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+/* Ajustes para inputs tipo date */
+input[type="date"] {
+  padding: 0.4rem;
+}
+
+/* Estilos para archivos adjuntos en modo visualización */
+.archivo-adjunto-preview {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.archivo-adjunto-preview:hover {
+  border-color: #3085d6;
+  background-color: #f0f8ff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.archivo-icono {
+  margin-right: 12px;
+  font-size: 24px;
+  color: #666;
+}
+
+.archivo-icono .fa-file-pdf-o {
+  color: #d32f2f;
+}
+
+.archivo-icono .fa-file-image-o {
+  color: #388e3c;
+}
+
+.archivo-info {
+  flex: 1;
+}
+
+.archivo-nombre {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.archivo-tipo {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.archivo-accion {
+  margin-left: 12px;
+  color: #3085d6;
+  font-size: 16px;
+}
+
+.archivo-no-disponible {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  color: #666;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.archivo-no-disponible .fa {
+  margin-right: 8px;
+  color: #999;
+}
+
+/* Responsividad para el campo de archivo */
+@media (max-width: 768px) {
+  .preview-container {
     padding: 0.5rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
   }
-  
-  input:focus,
-  select:focus {
-    outline: none;
-    border-color: #007bff;
+
+  .preview-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
-  
-  /* Estilos de botones del final (Cancelar o guardar) */
-  .contenedor-botones-baja-propuesta {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
+
+  .remove-file-btn {
+    align-self: flex-end;
   }
-  
-  .contenedor-botones-baja-propuesta button {
-    margin: 0 7px;
-    border-radius: 10px;
-    border-style: none;
-    padding: 1vh 2.5vw 1vh;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
-    background-color: #0071b0;
-    border-color: #0071b0;
-    cursor: pointer;
-    box-shadow: 0px 2px 2px rgb(185, 174, 174);
-  }
-  
-  /* Estilos específicos para el modal de baja-propuesta */
-  #solicitud-modal-baja-propuesta-academica .form-row-baja-propuesta {
-      margin-bottom: 2rem;
-  }
-  
-  #solicitud-modal-baja-propuesta-academica .form-group-baja-propuesta label {
-      font-weight: 500;
-  }
-  
-  /* Estilos adicionales para el modal de baja-propuesta */
-  #solicitud-modal-baja-propuesta-academica h3 {
-      color: #666;
-      margin: 2rem 0 1rem;
-      font-size: 1.1rem;
-  }
-  
-  /* Estilos para inputs readonly */
-  input[readonly] {
-      background-color: #f8f9fa;
-      cursor: not-allowed;
-  }
-  
-  /* Ajustes para inputs tipo date */
-  input[type="date"] {
-      padding: 0.4rem;
-  }
+}
 
 /* Media queries para responsividad */
-  @media screen and (max-width: 768px) {
-    .modal-content-baja-propuesta {
-      width: 80%;
-    }
+@media screen and (max-width: 768px) {
+  .modal-content-baja-propuesta {
+    width: 80%;
   }
+}
 
 /* Responsividad de Zoom para navegadores Chromium */
-@media screen and (max-height: 900px) { 
+@media screen and (max-height: 900px) {
   .modal-content-baja-propuesta {
     max-height: 85vh;
     zoom: 90%;
   }
 }
-@media screen and (max-height: 768px) { 
+@media screen and (max-height: 768px) {
   .modal-content-baja-propuesta {
     max-height: 95vh;
     zoom: 80%;
   }
 }
-@media screen and (max-height: 700px) { 
+@media screen and (max-height: 700px) {
   .modal-content-baja-propuesta {
     max-height: 117vh;
     zoom: 65%;
   }
 }
-@media screen and (max-height: 600px) { 
+@media screen and (max-height: 600px) {
   .modal-content-baja-propuesta {
     max-height: 110vh;
     zoom: 60%;

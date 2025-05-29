@@ -233,6 +233,50 @@ td .btn-container .btn {
 } 
 .aceptar-eliminar-SA:hover { background-color: #b00814; }
 
+.btn {
+  position: relative;
+}
+
+/* Estilos del tooltip */
+.tooltip-texto-buttons {
+  position: absolute;
+  visibility: hidden;
+  width: 125px;
+  padding: 4px 12px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+  background-color: rgba(33, 37, 41, 0.95);
+  border-left: 4px solid #0071b0;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 9998;
+  pointer-events: none;
+  white-space: nowrap;
+  word-wrap: nowrap;
+  text-align: center;
+  align-self: flex-start;
+  margin: -35 0 0 -60;
+}
+
+button.btn:hover .tooltip-texto-buttons,
+a.btn:hover .tooltip-texto-buttons {
+  visibility: visible;
+}
+
+.fa-caret-down {
+  visibility: hidden;
+  position: absolute;
+  color: rgba(33, 37, 41, 0.95);
+  font-size: 1rem;
+  margin: -15 0 0 10;
+}
+
+button.btn:hover .fa-caret-down,
+a.btn:hover .fa-caret-down {
+  visibility: visible;
+}
+
 /* Media Queries para diferentes resoluciones */
 @media screen and (max-width: 1600px) and (min-width: 1401px) {
   .cuadro-principal {
@@ -354,5 +398,12 @@ td .btn-container .btn {
   .swal2-success-line-tip,
   .swal2-success-line-long {
     font-size: 1rem;
+  }
+
+  .fa-caret-down {
+    margin: -15 0 0 -5;
+  }
+  .tooltip-texto-buttons {
+    margin: -35 0 0 -80;
   }
 }

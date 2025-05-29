@@ -2,7 +2,7 @@
 session_start();
 require_once './../../../config/db.php';
 
-if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 3)) {
+if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 0 && $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 3)) {
     die(json_encode(['success' => false, 'message' => 'No autorizado']));
 }
 

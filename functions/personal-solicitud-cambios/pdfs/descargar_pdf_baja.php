@@ -5,8 +5,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once './../../../config/db.php'; 
 
-// Verificar autenticación y roles
-if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 3)) {
+// Verificar autenticación y roles (incluir rol 0 para administrador)
+if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 0 && $_SESSION['Rol_ID'] != 1 && $_SESSION['Rol_ID'] != 3)) {
     die(json_encode(['success' => false, 'message' => 'No autorizado']));
 }
 

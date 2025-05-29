@@ -71,7 +71,7 @@ set_exception_handler("customExceptionHandler");
 register_shutdown_function("shutdownHandler");
 
 // Configura el display_errors para entornos
-$environment = 'development'; // Cambiar a 'development' durante pruebas
+$environment = 'production'; // Cambiar a 'development' durante pruebas
 if($environment === 'production'){
     ini_set('display_errors', 0);
     ini_set('log_errors', 1);
