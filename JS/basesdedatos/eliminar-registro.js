@@ -55,6 +55,9 @@ function eliminarRegistrosSeleccionados() {
                 icon: "success",
                 timer: 2000,
                 timerProgressBar: true,
+                customClass: {
+                  confirmButton: 'OK-boton',
+                }
               }).then(() => {
                 location.reload();
               });
@@ -64,6 +67,9 @@ function eliminarRegistrosSeleccionados() {
                 title: "Error",
                 text: "Hubo un problema al borrar la base de datos.",
                 icon: "error",
+                customClass: {
+                  confirmButton: 'OK-boton',
+                }
               });
             }
           }
@@ -116,6 +122,7 @@ function eliminarRegistrosSeleccionados() {
             title: "¡Éxito!",
             text: "Los registros se han eliminado correctamente.",
             icon: "success",
+            confirmButtonColor: "#0071B0",
             timer: 2000,
             timerProgressBar: true,
           }).then(() => {
@@ -127,6 +134,7 @@ function eliminarRegistrosSeleccionados() {
             title: "Error",
             text: "Hubo un problema al eliminar los registros.",
             icon: "error",
+            confirmButtonColor: "#0071B0",
           });
         }
       };

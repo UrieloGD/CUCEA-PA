@@ -1,7 +1,9 @@
 <!-- modal solicitud baja - modal-baja.php -->
 <div id="solicitud-modal-baja-academica" class="modal">
     <div class="modal-content">
-        <button class="close-button">&times;</button>
+        <button class="close-button">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
         <form id="form-baja" method="POST" action="procesar_baja.php">
             <h2>Profesor con efecto a baja</h2>
         

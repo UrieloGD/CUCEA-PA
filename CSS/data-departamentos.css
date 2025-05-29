@@ -227,9 +227,10 @@ td:nth-child(2) {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
-  position: relative;
-  top: 150;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: 20px;
   border: 1px solid #888;
   width: 70%;
@@ -238,17 +239,28 @@ td:nth-child(2) {
 }
 
 .close {
-  color: #0071b0;
-  float: right;
-  font-size: 38px;
-  font-weight: bold;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: 0.2s ease-in-out;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+  background-color: #0071b0!important;
+  color: #ffffff;
+  transform: rotate(180deg) scale(1.2);
 }
 
 button.swal2-confirm.swal2-styled { background-color: #0071B0; }
@@ -377,7 +389,6 @@ button.swal2-confirm.swal2-styled:hover { background-color: #00659b; }
 @media screen and (max-width: 580px) {
   #fechaLimiteForm .btn-guardar {
     position: relative;
-
     margin: 15 auto;
     align-items: center;
     justify-content: center;

@@ -282,8 +282,8 @@ if (isset($_POST['codigo_profesor'])) {
         // Renderizar la interfaz
         include 'vista-profesor-materias.php';
     } else {
-        echo '<span class="close-D" onclick=\'cerrarModalDetalle()\'>&times;</span>';
-        echo '<div class="alert alert-info">No se encontró información para este profesor.</div>';
+        echo '<span class="close-D" onclick=\'cerrarModalDetalle()\'><i class="fa fa-times" aria-hidden="true"></i></span>';
+        echo '<div class="alert alert-info" style="margin-top: 35px;">No se encontró información para este profesor.</div>';
     }
 }
 ?>

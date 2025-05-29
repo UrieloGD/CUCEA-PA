@@ -1,6 +1,6 @@
 <div id="modal-descargar" class="modal">
     <div class="modal-content-descarga">
-    <span class="close-modal-desc" onclick="cerrarDescargarExcel()">&times;</span>
+    <span class="close-modal-desc" onclick="cerrarDescargarExcel()"><i class="fa fa-times" aria-hidden="true"></i></span>
         <h3>Selecciona las columnas a descargar</h3>
         <div class="select-first">
                 <input class="input-check" type="checkbox" id="select-all-main">

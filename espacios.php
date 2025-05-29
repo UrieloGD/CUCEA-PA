@@ -72,7 +72,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 
     <!-- Cuadros de texto y desplegables -->
     <div class="filtros">
-
+        <div class="filtro tiempo-real-container">
+            <label for="tiempo-real">Tiempo Real</label>
+            <div class="toggle-switch">
+                <input type="checkbox" id="tiempo-real" name="tiempo-real">
+                <label for="tiempo-real"></label>
+            </div>
+        </div>
         <div class="filtro">
             <label for="modulo">Módulo</label>
             <select id="modulo" name="modulo"><?php
@@ -121,13 +127,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                 }
                 ?>
             </select>
-        </div>
-        <div class="filtro tiempo-real-container">
-            <label for="tiempo-real">Tiempo Real</label>
-            <div class="toggle-switch">
-                <input type="checkbox" id="tiempo-real" name="tiempo-real">
-                <label for="tiempo-real"></label>
-            </div>
         </div>
         <div id="filtrar-container">
             <button id="filtrar">Filtrar</button>
@@ -296,7 +295,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         <div class="modal-content-caracteristicasEspacios">
             <div class="modal-header">
                 <h2 id="modalTitle">Características del espacio</h2>
-                <span class="close">&times;</span>
+                <span class="close"><i class="fa fa-times" aria-hidden="true"></i></span>
                 <hr style="border: 1px solid #0071b0; width: 100%;">
                 <div class="espacio-info">
                     <div class="espacio-columna-movil">

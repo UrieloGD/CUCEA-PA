@@ -169,7 +169,9 @@ $porcentaje_avance = ($departamentos_entregados / $total_departamentos) * 100;
   <!-- Modal para cambiar fecha límite -->
   <div id="modalFechaLimite" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
+      <span class="close" onclick="closeModal()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </span>
       <h2>Cambiar Fecha Límite</h2>
       <form id="fechaLimiteForm" action="./functions/data-departamentos/updateFechaLimite.php" method="post">
         <label for="fecha_limite">Nueva Fecha Límite:</label>

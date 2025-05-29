@@ -664,17 +664,29 @@
 }
 
 .close {
-    color: white;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 16px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #B3D3EB;
+    color: #0071B0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: 0.2s ease-in-out;
 }
 
 .close:hover,
 .close:focus {
-    color: #e8eaed;
-    text-decoration: none;
+    background-color: #0071b0!important;
+    color: #ffffff;
+    transform: rotate(180deg) scale(1.2);
+    border: 2px solid #ffffff;
 }
 
 .event-time {

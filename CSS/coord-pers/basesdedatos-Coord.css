@@ -1313,37 +1313,47 @@ table.dataTable thead .sorting_desc {
   position: absolute;
   right: 20px;
   top: 20px;
-  width: 32px;
-  height: 32px;
-  background: none;
-  border: none;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 34px;
-  color: #6b7280;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+.close-modal-desc:hover {
+  background-color: #0071b0!important;
+  color: #ffffff;
+  transform: rotate(180deg) scale(1.2);
 }
 
 /* Estilo para el botón de cerrar del modal de añadir formulario */
 .close-modal-anadir {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-    color: #6b7280;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+.close-modal-anadir:hover {
+  background-color: #0071b0!important;
+  color: #ffffff;
+  transform: rotate(180deg) scale(1.2);
 }
 
 /* Media Queries para diferentes resoluciones */

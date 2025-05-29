@@ -84,6 +84,7 @@ function añadirRegistro() {
                         Swal.update({
                           title: "Procesando...",
                           text: "Ambos registros añadidos.",
+                          confirmButtonColor: "#0071B0",
                         });
 
                         // Simular un breve retraso para que el usuario vea el mensaje de notificaciones
@@ -92,6 +93,7 @@ function añadirRegistro() {
                             title: "¡Éxito!",
                             text: "Ambos registros fueron añadidos correctamente.",
                             icon: "success",
+                            confirmButtonColor: "#0071B0",
                           }).then(() => {
                             cerrarFormularioAñadir();
                             location.reload();
@@ -104,6 +106,7 @@ function añadirRegistro() {
                             "El primer registro se añadió correctamente, pero hubo un error al añadir el registro duplicado: " +
                             respuesta2.message,
                           icon: "warning",
+                          confirmButtonColor: "#0071B0",
                         }).then(() => {
                           cerrarFormularioAñadir();
                           location.reload();
@@ -114,6 +117,7 @@ function añadirRegistro() {
                         title: "Advertencia",
                         text: "El primer registro se añadió correctamente, pero hubo un error al procesar la respuesta para el registro duplicado.",
                         icon: "warning",
+                        confirmButtonColor: "#0071B0",
                       }).then(() => {
                         cerrarFormularioAñadir();
                         location.reload();
@@ -124,6 +128,7 @@ function añadirRegistro() {
                       title: "Advertencia",
                       text: "El primer registro se añadió correctamente, pero hubo un error de conexión al intentar añadir el registro duplicado.",
                       icon: "warning",
+                      confirmButtonColor: "#0071B0",
                     }).then(() => {
                       cerrarFormularioAñadir();
                       location.reload();
@@ -137,6 +142,7 @@ function añadirRegistro() {
               Swal.update({
                 title: "Procesando...",
                 text: "Registro añadido.",
+                confirmButtonColor: "#0071B0",
               });
 
               // Simular un breve retraso para que el usuario vea el mensaje de notificaciones
@@ -146,6 +152,7 @@ function añadirRegistro() {
                   title: "¡Éxito!",
                   text: respuesta.message,
                   icon: "success",
+                  confirmButtonColor: "#0071B0",
                 }).then(() => {
                   cerrarFormularioAñadir();
                   location.reload();

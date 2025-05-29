@@ -227,7 +227,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     <div class="modal-content">
         <div class="modal-header">
             <h2 style="margin-bottom: 0;">Crear nuevo evento</h2>
-            <span class="close">&times;</span>
+            <span class="close"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
         <hr style="border: 2px solid #0071b0; width: 99%;">
         <form id="formCrearEvento">
@@ -300,7 +300,7 @@ if (!isset($_SESSION['Codigo']) || $_SESSION['Rol_ID'] != 2 && $_SESSION['Rol_ID
     <div class="modal-content">
         <div class="modal-header">
             <h2 style="margin-bottom: 0;">Editar evento</h2>
-            <span class="close">&times;</span>
+            <span class="close"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
         <hr style="border: 2px solid #0071b0; width: 99%;">
         <form id="formEditarEvento">

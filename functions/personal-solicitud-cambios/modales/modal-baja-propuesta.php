@@ -1,7 +1,9 @@
 <!-- modal-baja-propuesta.php -->
 <div id="solicitud-modal-baja-propuesta" class="modal-baja-propuesta">
     <div class="modal-content-baja-propuesta">
-        <button class="close-button">&times;</button>
+        <button class="close-button-baja-propuesta">
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </button>
         <form id="form-baja-propuesta" method="POST">
             <h2>Solicitud de Baja-Propuesta</h2>
             

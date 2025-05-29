@@ -83,7 +83,7 @@
 .filtro:not(.tiempo-real-container) {
   display: flex;
   flex-direction: column;
-  margin: 0 0 15px 10px;
+  margin: 0 15px 15px 10px;
   width: 10%;
 }
 
@@ -695,19 +695,28 @@
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: -80px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #B3D3EB;
+  color: #0071B0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: 0.2s ease-in-out;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  background-color: #0071b0!important;
+  color: #ffffff;
+  transform: rotate(180deg) scale(1.2);
 }
 
 /* Estilos superiores del  modal */
@@ -951,6 +960,7 @@ textarea {
     bottom: 322px; /* Ajusta para el tercer piso */
   }
   .filtro:not(.tiempo-real-container) {
+    margin: 0 0 15px 10px;
     width: 20%;
   }
   .filtros {

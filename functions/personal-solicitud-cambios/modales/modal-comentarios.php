@@ -3,7 +3,7 @@
     <div class="modal-content-rechazo">
         <div class="modal-header">
             <h3>Motivo de rechazo</h3>
-            <span class="close-rechazo">&times;</span>
+            <span class="close-rechazo"><i class="fa fa-times" aria-hidden="true"></i></span>
         </div>
         <div class="modal-body">
             <p>Por favor, especifica el motivo por el cual se rechaza esta solicitud:</p>
