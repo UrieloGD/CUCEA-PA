@@ -1,0 +1,176 @@
+/* Contenedor principal de filtros */
+.filtros-container {
+    border: 1px solid #e1e5e9;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Grid de filtros */
+.filtros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    align-items: end;
+    padding: 7px;
+}
+
+/* Grupo individual de filtro */
+.filtro-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filtro-grupo label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+/* Estilos para los selects */
+.filtro-select {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    min-height: 42px;
+}
+
+.filtro-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.filtro-select:hover {
+    border-color: #bbb;
+}
+
+/* Grupo de acciones */
+.filtro-acciones {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Botones de filtro */
+.btn-filtro {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    white-space: nowrap;
+}
+
+.btn-aplicar {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-aplicar:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-limpiar {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-limpiar:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+
+.btn-filtro:active {
+    transform: translateY(0);
+}
+
+/* Contador de resultados */
+.contador-resultados {
+    padding-top: 10px;
+    border-top: 1px solid #e1e5e9;
+}
+
+#contador-solicitudes {
+    color: #666;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+/* Estilos para filtros */
+.solicitud-oculta {
+    display: none !important;
+}
+
+.solicitud-visible {
+    display: flex;
+}
+
+.solicitud-completa {
+    margin: 0 auto;
+    width: 95%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filtros-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filtro-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn-filtro {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 1200px) {
+    .filtros-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Estado activo de filtros */
+.filtros-activos .filtros-container {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+}
+
+.filtros-activos #contador-solicitudes {
+    color: #007bff;
+    font-weight: 600;
+}

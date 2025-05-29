@@ -19,14 +19,79 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-baja.css'); ?>">
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-propuesta.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-propuesta.css'); ?>">
 <link rel="stylesheet" href="./CSS/personal-solicitud-cambios/modal-baja-propuesta.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/modal-baja-propuesta.css'); ?>">
+<link rel="stylesheet" href="./CSS/personal-solicitud-cambios/filtros.css?v=<?php echo filemtime('./CSS/personal-solicitud-cambios/filtros.css'); ?>">
 
 <div class="cuadro-principal">
+
+    <!-- Sección de filtros -->
+    <div class="filtros-container">
+        <div class="filtros-grid">
+            <!-- Filtro por tipo -->
+            <div class="filtro-grupo">
+                <label for="filtro-tipo">Tipo de solicitud</label>
+                <select id="filtro-tipo" class="filtro-select">
+                    <option value="">Todos los tipos</option>
+                    <option value="Solicitud de baja">Solicitud de baja</option>
+                    <option value="Solicitud de propuesta">Solicitud de propuesta</option>
+                    <option value="Solicitud de baja-propuesta">Solicitud de baja-propuesta</option>
+                </select>
+            </div>
+
+            <!-- Filtro por fecha -->
+            <div class="filtro-grupo">
+                <label for="filtro-fecha">Período</label>
+                <select id="filtro-fecha" class="filtro-select">
+                    <option value="">Todas las fechas</option>
+                    <option value="hoy">Hoy</option>
+                    <option value="7dias">Últimos 7 días</option>
+                    <option value="1mes">Último mes</option>
+                    <option value="3meses">Últimos 3 meses</option>
+                </select>
+            </div>
+
+            <!-- Filtro por estado -->
+            <div class="filtro-grupo">
+                <label for="filtro-estado">Estado</label>
+                <select id="filtro-estado" class="filtro-select">
+                    <option value="">Todos los estados</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En revision">En revisión</option>
+                    <option value="Aprobado">Aprobado</option>
+                    <option value="Rechazado">Rechazado</option>
+                </select>
+            </div>
+
+            <!-- Filtro por departamento (solo visible para rol 3 y 0) -->
+            <?php if ($_SESSION['Rol_ID'] == 3 || $_SESSION['Rol_ID'] == 0) { ?>
+            <div class="filtro-grupo">
+                <label for="filtro-departamento">Departamento</label>
+                <select id="filtro-departamento" class="filtro-select">
+                    <option value="">Todos los departamentos</option>
+                    <?php
+                    // Obtener departamentos para el select
+                    $sql_depts = "SELECT Departamento_ID, Departamentos FROM departamentos ORDER BY Departamentos";
+                    $result_depts = mysqli_query($conexion, $sql_depts);
+                    while($dept = mysqli_fetch_assoc($result_depts)) {
+                        echo "<option value='{$dept['Departamento_ID']}'>{$dept['Departamentos']}</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+            <?php } ?>
+        </div>
+
+        <!-- Contador de resultados -->
+        <div class="contador-resultados">
+            <span id="contador-solicitudes">Mostrando todas las solicitudes</span>
+        </div>
+    </div>
+
     <div class="cuadro-scroll">
-    <div class="encabezado">
+    <!-- <div class="encabezado">
         <div class="titulo-bd">
             <h3>Solicitudes de modificaciones</h3>
         </div>
-    </div>
+    </div> -->
 
     <div class="solicitudes-scroll-container">
         <div class="solicitud-contenedor-principal">
@@ -188,6 +253,8 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <script src="./JS/personal-solicitud-cambios/pdfs/generar-pdf-baja-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/pdfs/generar-pdf-propuesta.js'); ?>"></script>
 <!-- Script para manejo de detalles de solicitudes -->
 <script src="./JS/personal-solicitud-cambios/ver-detalles.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/ver-detalles.js'); ?>"></script>
+<!-- Filtros -->
+<script src="./JS/personal-solicitud-cambios/filtros.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/filtros.js'); ?>"></script>
 <!-- JQuerys -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 

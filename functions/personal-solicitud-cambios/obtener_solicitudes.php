@@ -54,6 +54,7 @@ function obtenerSolicitudes($conexion) {
         $solicitudes[] = array(
             'tipo' => 'Solicitud de baja',
             'departamento' => $row['Nombre_Departamento'],
+            'departamento_id' => $row['Departamento_ID'], // ← LÍNEA AGREGADA
             'fecha' => $row['FECHA_SOLICITUD_B'],
             'hora' => $row['HORA_CREACION'],
             'estado' => $row['ESTADO_B'],
@@ -96,6 +97,7 @@ function obtenerSolicitudes($conexion) {
         $solicitudes[] = array(
             'tipo' => 'Solicitud de propuesta',
             'departamento' => $row['Nombre_Departamento'],
+            'departamento_id' => $row['Departamento_ID'], // ← LÍNEA AGREGADA
             'fecha' => $row['FECHA_SOLICITUD_P'],
             'hora' => $row['HORA_CREACION'],
             'estado' => $row['ESTADO_P'],
@@ -146,6 +148,7 @@ function obtenerSolicitudes($conexion) {
         $solicitudes[] = array(
             'tipo' => 'Solicitud de baja-propuesta',
             'departamento' => $row['Nombre_Departamento'],
+            'departamento_id' => $row['Departamento_ID'], // ← LÍNEA AGREGADA
             'fecha' => $row['FECHA_SOLICITUD_BAJA_PROP'],
             'hora' => $row['HORA_CREACION'],
             'estado' => $row['ESTADO_P'],
