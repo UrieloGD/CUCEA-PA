@@ -18,6 +18,7 @@
   width: 90%;
   margin: 0 auto;
   max-width: 1200px;
+  min-height: 800px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -51,6 +52,10 @@
   transform: rotate(180deg) scale(1.2);
 }
 
+.titulo-con-margin {
+  margin: 0 0 50 0;
+}
+
 .form-row {
   display: flex;
   flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
@@ -75,6 +80,7 @@
 
 label {
   color: #666;
+  font-weight: bold;
   margin-bottom: 0.5rem;
   white-space: nowrap;
 }
@@ -82,7 +88,7 @@ label {
 input,
 select {
   padding: 0.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid #4E4E4E;
   border-radius: 4px;
   font-size: 1rem;
 }
@@ -90,33 +96,20 @@ select {
 input:focus,
 select:focus {
   outline: none;
-  border-color: #007bff;
+  border-width: 2px;
+  border-color: #0071b0;
 }
 
 /* Estilos de botones del final (Cancelar o guardar) */
 .contenedor-botones-baja {
-  display: flex;
+  display: flex !important;
   text-align: center;
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
 }
 
-.contenedor-botones-baja button {
-  margin: 0 7px;
-  border-radius: 10px;
-  border-style: none;
-  padding: 1vh 2.5vw 1vh;
-  font-size: 1rem;
-  font-weight: bold;
-  color: white;
-  background-color: #0071b0;
-  border-color: #0071b0;
-  cursor: pointer;
-  box-shadow: 0px 2px 2px rgb(185, 174, 174);
-}
-
-.boton-guardar,
+/* .boton-guardar,
 .boton-descartar {
   padding: 0.5rem 1rem;
   border: none;
@@ -126,6 +119,40 @@ select:focus {
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
+} */
+
+.btn-guardar,
+.btn-descartar {
+  padding: 12px 50px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.btn-guardar {
+  background-color: #0071B0;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #ffffff;
+  transition: 0.2s ease-in-out;
+}
+.btn-descartar {
+  background-color: #ffffff;
+  border-color: #0071B0;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 7px;
+  color: #0071B0;
+  transition: 0.2s ease-in-out;
+}
+
+.btn-guardar:hover {
+  background-color: #00659b;
+}
+.btn-descartar:hover {
+  background-color: #D9EDF6;
 }
 
 .readonly-field {
@@ -154,6 +181,76 @@ input[readonly]:focus {
   border-color: #ddd;
   box-shadow: none;
   outline: none;
+}
+
+.separador-titulo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 3px;
+  margin: 0 0 10 0;
+}
+
+#nuevo-archivo-section {
+  display: flex!important;
+  flex-direction: column;
+}
+
+.margen-dashed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 130px;
+  gap: 5px;
+  border-radius: 7px;
+  border-width: 2px;
+  border-style: dashed;
+  border-color: #3D3D3D;
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.margen-dashed .fa-upload {
+  color: #0071B0;
+  font-size: 3rem;
+  transition: 0.2s ease-in-out;
+}
+
+.margen-dashed span {
+  color: #3D3D3D;
+  transition: 0.2s ease-in-out;
+}
+
+.file-info {
+  margin: 5 0 0 0;
+  color: #3D3D3D;
+}
+
+#archivo_adjunto {
+  height: 130px;
+  width: 100%;
+  opacity: 0;
+  position: absolute;
+  cursor: pointer;
+}
+
+.margen-dashed:hover {
+  background-color: #B3D3EB;
+}
+
+.margen-dashed:hover .fa-upload {
+  transform: translateY(-7px);
+}
+.margen-dashed:hover span {
+  transform: scale(1.1);
+}
+
+.titulo-info-modal {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0071b0;
 }
 
 /* Estilos para archivos adjuntos en modo visualización */

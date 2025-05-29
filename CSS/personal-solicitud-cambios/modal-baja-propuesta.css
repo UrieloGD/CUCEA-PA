@@ -18,6 +18,7 @@
   width: 90%;
   margin: 0 auto;
   max-width: 1200px;
+  min-height: 800px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -92,7 +93,7 @@ label {
 input,
 select {
   padding: 0.5rem;
-  border: 1px solid #ddd;
+  border: 1px solid #4E4E4E;
   border-radius: 4px;
   font-size: 1rem;
 }
@@ -100,7 +101,8 @@ select {
 input:focus,
 select:focus {
   outline: none;
-  border-color: #007bff;
+  border-width: 2px;
+  border-color: #0071b0;
 }
 
 #oficio_num_baja_prop {

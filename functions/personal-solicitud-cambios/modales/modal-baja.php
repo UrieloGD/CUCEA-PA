@@ -5,7 +5,13 @@
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
         <form id="form-baja" method="POST" action="procesar_baja.php">
-            <h2>Profesor con efecto a baja</h2>
+            <h2 class="titulo-con-margin">Profesor con efecto a baja</h2>
+
+            <!-- Primer titulo -->
+            <div class="separador-titulo">
+                <span class="titulo-info-modal">Información de baja</span>
+                <hr style="border: 1px solid #0071b0; width: 100%;">
+            </div>
         
             <!-- Primera fila -->
             <div class="form-row">
@@ -22,8 +28,24 @@
                     <input type="text" id="apellido_materno" name="apellido_materno">
                 </div>
                 <div class="form-group">
-                    <label for="codigo_prof">Código Profesor</label>
+                    <label for="codigo_prof">Código de Profesor</label>
                     <input type="text" id="codigo_prof" name="codigo_prof">
+                </div>
+            </div>
+
+            <!-- Segunda fila -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="clasificacion">Clasificación</label>
+                    <input type="text" id="clasificacion" name="clasificacion">
+                </div>
+                <div class="form-group">
+                    <label for="motivo">Motivo</label>
+                    <input type="text" id="motivo" name="motivo">
+                </div>
+                <div class="form-group small">
+                    <label for="crn">CRN</label>
+                    <input type="text" id="crn" name="crn">
                 </div>
                 <div class="form-group">
                     <label for="profesion">Profesión</label>
@@ -41,32 +63,20 @@
                 </div>
             </div>
 
-            <!-- Segunda fila -->
+            <!-- Tercera fila -->
             <div class="form-row">
-                <div class="form-group large">
+                <div class="form-group">
                     <label for="descripcion">Descripción del puesto que ocupa</label>
                     <input type="text" id="descripcion" name="descripcion">
                 </div>
                 <div class="form-group">
-                    <label for="clasificacion">Clasificación</label>
-                    <input type="text" id="clasificacion" name="clasificacion">
-                </div>
-                <div class="form-group">
-                    <label for="motivo">Motivo</label>
-                    <input type="text" id="motivo" name="motivo">
-                </div>
-                <div class="form-group small">
-                    <label for="crn">CRN</label>
-                    <input type="text" id="crn" name="crn">
-                </div>
-            </div>
-
-            <!-- Tercera fila -->
-            <div class="form-row">
-                <div class="form-group">
                     <label for="fecha_efectos">Queda sin efectos a partir de</label>
                     <input type="date" id="fecha_efectos" name="fecha_efectos">
                 </div>
+            </div>
+
+            <!-- Cuarta fila -->
+            <div class="form-row">
                 <div class="form-group">
                     <label for="oficio_num_baja">Oficio Num.</label>
                     <input type="text" id="oficio_num_baja" name="oficio_num_baja" readonly class="form-control readonly-field">
@@ -78,13 +88,22 @@
                 </div>
             </div>
 
-            <!-- Cuarta fila - Archivo adjunto -->
+            <!-- Segundo titulo -->
+            <div class="separador-titulo">
+                <span class="titulo-info-modal">Subir archivos</span>
+                <hr style="border: 1px solid #0071b0; width: 100%;">
+            </div>
+
+            <!-- Quinta fila - Archivo adjunto -->
             <div class="form-row">
                 <div class="form-group large archivo-adjunto-container">
                     <!-- Input para nuevos archivos -->
                     <div id="nuevo-archivo-section">
-                        <label for="archivo_adjunto">Archivo adjunto (PDF o Imagen)</label>
-                        <input type="file" id="archivo_adjunto" name="archivo_adjunto" accept=".pdf,.jpg,.jpeg,.png,.gif">
+                        <div class="margen-dashed">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            <span>Escoja el archivo desde su dispositivo o arrastre y suelte dentro de la linea punteada.</span>
+                            <input type="file" id="archivo_adjunto" name="archivo_adjunto" accept=".pdf,.jpg,.jpeg,.png,.gif">
+                        </div>
                         <small class="file-info">Formatos permitidos: PDF, JPG, PNG. Tamaño máximo: 5MB</small>
                         <div id="preview-container" class="preview-container" style="display: none;">
                             <div class="preview-header">
@@ -110,14 +129,8 @@
 
             <!-- Botones de acción al final del modal -->
             <div class="contenedor-botones-baja">
-                <button type="submit" class="btn-guardar" id="btn-guardar">
-                    <i class="fa fa-check-circle"></i>
-                    Guardar
-                </button>
-                <button type="button" class="btn-descartar" id="btn-descartar">
-                    <i class="fa fa-times-circle"></i>
-                    Descartar
-                </button>
+                <button type="submit" class="btn-guardar" id="btn-guardar">Guardar</button>
+                <button type="button" class="btn-descartar" id="btn-descartar">Cancelar</button>
             </div>
         </form>
     </div>
