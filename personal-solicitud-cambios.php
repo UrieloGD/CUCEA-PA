@@ -134,11 +134,6 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
     </div>
 </div>
 
-<!-- Modal Solicitudes Baja -->
-<?php include './functions/personal-solicitud-cambios/modales/modal-baja.php' ?>
-<?php include './functions/personal-solicitud-cambios/modales/modal-propuesta.php' ?>
-<?php include './functions/personal-solicitud-cambios/modales/modal-baja-propuesta.php' ?>
-
 <!-- No funciona este script DOM si lo colocamos en el personal-solicitud-cambios.js -->
 <script>
     // Definir rol_usuario para que esté disponible en todos los scripts
@@ -243,6 +238,9 @@ if (!isset($_SESSION['Codigo']) || ($_SESSION['Rol_ID'] != 3 && $_SESSION['Rol_I
 <!-- JS Principal -->
 <script src="./JS/personal-solicitud-cambios/personal-solicitud-cambios.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/personal-solicitud-cambios.js'); ?>"></script>
 <!-- modales -->
+<?php include './functions/personal-solicitud-cambios/modales/modal-baja.php' ?>
+<?php include './functions/personal-solicitud-cambios/modales/modal-propuesta.php' ?>
+<?php include './functions/personal-solicitud-cambios/modales/modal-baja-propuesta.php' ?>
 <script src="./JS/personal-solicitud-cambios/modal-baja.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/modal-baja.js'); ?>"></script>
 <script src="./JS/personal-solicitud-cambios/modal-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/modal-propuesta.js'); ?>"></script>
 <script src="./JS/personal-solicitud-cambios/modal-baja-propuesta.js?v=<?php echo filemtime('./JS/personal-solicitud-cambios/modal-baja-propuesta.js'); ?>"></script>
